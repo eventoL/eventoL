@@ -1,0 +1,28 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load i18n %}
+{% block page-header %}{% trans "Login" noop %}{% endblock %}
+{% block page-name %}{% trans "Login" noop %}{% endblock %}
+
+{% block pre-form %}
+	{% if next %}
+		{% if next == "/app/talk/proposal/" %}
+			<p>{% trans "In order to submit a talk proposal, you must <a href='/app/registration/collaborator'>register as a collaborator</a> or <a href='/app/registration/installer'>register as an installer</a> first" %}</p>
+		{% elif next == "/app/installation" %}
+			<p>{% trans "In order to submit an installation, you must <a href='/app/registration/installer'>register as an installer</a> first" %}</p>
+		{% endif %}
+	{% endif %}
+{% endblock %}
+
+{% block form-id %}"login"{% endblock %}
+
+{% block form-name %}{% trans "Login" noop %}{% endblock %}
+
+{% block form-action %}"{% url 'django.contrib.auth.views.login' %}"{% endblock %}
+
+{% block extra-fields %}
+{% if next %}
+	<input type="hidden" name="next" value="{{ next }}" />
+{% else %}
+	<input type="hidden" name="next" value="/" />
+{% endif %}
+{% endblock %}

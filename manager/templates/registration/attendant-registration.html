@@ -1,0 +1,26 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block page-header %}{% trans "Attendant Registration" %}{% endblock %}
+
+{% block page-name %}{% trans "Attendant Registration" %}{% endblock %}
+
+{% block form-id %}"registration"{% endblock %}
+
+{% block form-name %}{% trans "Attendant Registration" %}{% endblock %}
+
+{% block form-action %}"/app/registration"{% endblock %}
+
+{% block other-script %}
+<script src="{% static "manager/js/jquery.chained.remote.min.js" %}"></script>
+<script>
+	$(function() {
+		$("#id_state").remoteChained("#id_country", "/api/states");
+		$("#id_city").remoteChained("#id_state", "/api/cities");
+		$("#id_sede").remoteChained("#id_city", "/api/sedes");
+		$("#id_country").trigger("change");
+	});
+</script>
+	{% block other-script2 %}{% endblock %}
+{% endblock %}

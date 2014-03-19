@@ -1,0 +1,321 @@
+/* 
+Custom CSS for...
+'Modern Business' HTML Theme by Start Bootstrap
+
+All Start Bootstrap themes are licensed under Apache 2.0. 
+For more info and more free Bootstrap 3 HTML themes, visit http://startbootstrap.com!
+*/
+
+/* Global Styles */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  padding-top: 50px;
+ /* body padding for fixed top nav */
+}
+
+.img-home-portfolio,
+.img-customer,
+.portfolio-item {
+  margin-bottom: 30px;
+}
+
+.tab-pane {
+  margin-top: 15px;
+}
+
+/* Page Sections */
+.section,
+.section-colored {
+  padding: 50px 0;
+}
+
+.section-colored {
+  background-color: #ff9933;
+ /* change this to change the background color of a colored section */
+}
+
+.sidebar {
+  margin-top: 40px;
+}
+
+.sidebar ul {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #cccccc;
+}
+
+/* Half Page Height Carousel Customization */
+.carousel {
+  height: 50%;
+}
+
+.item,
+.active,
+.carousel-inner {
+  height: 100%;
+}
+
+.fill {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+
+/* Social Icons Styles */
+.list-social-icons {
+  margin-bottom: 45px;
+}
+
+.tooltip-social a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.facebook-link a:hover {
+  color: #3b5998;
+}
+
+.linkedin-link a:hover {
+  color: #007fb1;
+}
+
+.twitter-link a:hover {
+  color: #39a9e0;
+}
+
+.google-plus-link a:hover {
+  color: #d14836;
+}
+
+/* Service Page Styles */
+.service-icon {
+  font-size: 50px;
+}
+
+/* 404 Page Styles */
+.error-404 {
+  font-size: 8em;
+}
+
+/* Pricing Page Styles */
+.price {
+  font-size: 4em;
+}
+
+.price-cents {
+  vertical-align: super;
+  font-size: 50%;
+}
+
+.price-month {
+  font-size: 35%;
+  font-style: italic;
+}
+
+/* Footer Styles */
+footer {
+  margin: 50px 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+
+  .carousel {
+    height: 70%;
+ /* increases the carousel height so it looks good on phones */
+  }
+}
+
+
+/* FLISOL */
+.navbar-custom {
+  background-color: #ff9933;
+  border-color: #ff8812;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#ffb366), to(#ff9933));
+  background-image: -webkit-linear-gradient(top, #ffb366, 0%, #ff9933, 100%);
+  background-image: -moz-linear-gradient(top, #ffb366 0%, #ff9933 100%);
+  background-image: linear-gradient(to bottom, #ffb366 0%, #ff9933 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffb366', endColorstr='#ffff9933', GradientType=0);
+}
+.navbar-brand {
+  padding: 5px 15px;
+}
+.logo {
+  height: 45px;
+  width: 300px;
+}
+
+@media (max-width:300px) { 
+	.logo {
+	  height: 45px;
+	  width: 300px;
+	}
+}
+.navbar-custom .navbar-brand {
+  color: #000000;
+}
+.navbar-custom .navbar-brand:hover,
+.navbar-custom .navbar-brand:focus {
+  color: #000000;
+  background-color: transparent;
+}
+.navbar-custom .navbar-text {
+  color: #000000;
+}
+.navbar-custom .navbar-nav > li:last-child > a {
+  border-right: 1px solid #ff8812;
+}
+.navbar-custom .navbar-nav > li > a {
+  color: #000000;
+  border-left: 1px solid #ff8812;
+}
+.navbar-custom .navbar-nav > li > a:hover,
+.navbar-custom .navbar-nav > li > a:focus {
+  color: #f0f0f0;
+  background-color: transparent;
+}
+.navbar-custom .navbar-nav > .active > a,
+.navbar-custom .navbar-nav > .active > a:hover,
+.navbar-custom .navbar-nav > .active > a:focus {
+  color: #f0f0f0;
+  background-color: #ff8812;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#ff8812), to(#ffa245));
+  background-image: -webkit-linear-gradient(top, #ff8812, 0%, #ffa245, 100%);
+  background-image: -moz-linear-gradient(top, #ff8812 0%, #ffa245 100%);
+  background-image: linear-gradient(to bottom, #ff8812 0%, #ffa245 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff8812', endColorstr='#ffffa245', GradientType=0);
+}
+.navbar-custom .navbar-nav > .disabled > a,
+.navbar-custom .navbar-nav > .disabled > a:hover,
+.navbar-custom .navbar-nav > .disabled > a:focus {
+  color: #cccccc;
+  background-color: transparent;
+}
+.navbar-custom .navbar-toggle {
+  border-color: #dddddd;
+}
+.navbar-custom .navbar-toggle:hover,
+.navbar-custom .navbar-toggle:focus {
+  background-color: #dddddd;
+}
+.navbar-custom .navbar-toggle .icon-bar {
+  background-color: #cccccc;
+}
+.navbar-custom .navbar-collapse,
+.navbar-custom .navbar-form {
+  border-color: #ff870f;
+}
+.navbar-custom .navbar-nav > .dropdown > a:hover .caret,
+.navbar-custom .navbar-nav > .dropdown > a:focus .caret {
+  border-top-color: #f0f0f0;
+  border-bottom-color: #f0f0f0;
+}
+.navbar-custom .navbar-nav > .open > a,
+.navbar-custom .navbar-nav > .open > a:hover,
+.navbar-custom .navbar-nav > .open > a:focus {
+  background-color: #ff8812;
+  color: #f0f0f0;
+}
+.navbar-custom .navbar-nav > .open > a .caret,
+.navbar-custom .navbar-nav > .open > a:hover .caret,
+.navbar-custom .navbar-nav > .open > a:focus .caret {
+  border-top-color: #f0f0f0;
+  border-bottom-color: #f0f0f0;
+}
+.navbar-custom .navbar-nav > .dropdown > a .caret {
+  border-top-color: #000000;
+  border-bottom-color: #000000;
+}
+@media (max-width: 767) {
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a {
+    color: #000000;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #f0f0f0;
+    background-color: transparent;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #f0f0f0;
+    background-color: #ff8812;
+  }
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-custom .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #cccccc;
+    background-color: transparent;
+  }
+}
+.navbar-custom .navbar-link {
+  color: #000000;
+}
+.navbar-custom .navbar-link:hover {
+  color: #f0f0f0;
+}
+
+.logos {
+  background: #f1f1f1;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+@media (max-width: 100px) {
+  .logos {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+.logos > .container {
+  display: table;
+}
+.logos > .container > div {
+  display: table-cell;
+  text-align: center;
+}
+@media (max-width: 100px) {
+  .logos {
+    display: none;
+  }
+}
+.logos img {
+  max-height: 100px;
+}
+.carousel-caption {
+  position: relative;
+  left: 0%;
+  right: 0%;
+  bottom: 0px;
+  z-index: 10;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  color: #000;
+  text-shadow: none;
+  & .btn {
+    text-shadow: none; // No shadow for button elements in carousel-caption
+  }
+}
+
+.carousel {
+    position: relative;
+}
+
+.controllers {
+    position: absolute;
+    top: 0px;
+}
+
+.carousel-control.left, 
+.carousel-control.right {
+    background-image: none;
+}
+.carousel > .carousel-inner > .item > .holder >.img-responsive {
+  max-height: 370px;
+}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load render_table from django_tables2 %}
+{% block page-header %}{% trans "Talks Schedule" %}{% endblock %}
+{% block page-name %}{% trans "Talks Schedule" %}{% endblock %}
+
+{% block content %}
+	{% if not tables %}
+		<p>{% trans "The talks schedule will be available on April, 15th" %}</p>
+	{% else %}		
+		{% for talktype, table in tables.items %}
+		<h2>{% trans talktype %}s</h2>
+		<hr />
+			{% render_table table %}
+		{% endfor %}
+	{% endif %}
+{% endblock %}

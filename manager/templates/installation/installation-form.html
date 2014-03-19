@@ -1,0 +1,12 @@
+{% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block page-header %}{% trans "Submit an Installation" %}{% endblock %}
+{% block page-name %}{% trans "Submit an Installation" %}{% endblock %}
+
+{% block form-id %}"installation-form"{% endblock %}
+
+{% block form-name %}{% trans "Submit an Installation" %}{% endblock %}
+
+{% block form-action %}"/app/installation"{% endblock %}

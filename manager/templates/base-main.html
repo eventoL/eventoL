@@ -1,0 +1,111 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="es-AR">
+	<head>
+	{% block head %}
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
+	
+	    <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
+	
+	    <!-- Bootstrap core CSS -->
+	    <link href="{% static "manager/css/bootstrap.min.css" %}" rel="stylesheet">
+	
+	    <!-- Add custom CSS here -->
+	    
+	    <link href="{% static "manager/css/modern-business.css" %}" rel="stylesheet">
+	    <link href="{% static "manager/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
+	    {% block other-head %}{% endblock %}
+	{% endblock %}
+	</head>
+	<body>
+		{% block navbar %}
+			<nav class="navbar-custom navbar-fixed-top" role="navigation">
+		        <div class="container">
+		            <div class="navbar-header">
+		                <!-- You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it) -->
+		                <a class="navbar-brand" href="/"><img class="logo" src="{% static "manager/img/flisol-top-bar.png" %}" alt="Flisol Logo"></img></a>
+		                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+		                    <span class="sr-only">Toggle navigation</span>
+		                    <span class="icon-bar"></span>
+		                    <span class="icon-bar"></span>
+		                    <span class="icon-bar"></span>
+		                </button>
+		            </div>
+		
+		            <!-- Collect the nav links, forms, and other content for toggling -->
+		            <div class="collapse navbar-collapse navbar-ex1-collapse">
+		                <ul class="nav navbar-nav navbar-right">
+		                    <li><a href="/app/registration">{% trans "Registration" %}</a>
+		                    </li>
+		                    <li><a href="/app/schedule">{% trans "Talks" %}</a>
+		                    </li>
+		                    <li><a href="/app/talk/proposal">{% trans "Submit your talk!" %}</a>
+		                    </li>
+		                    <li class="dropdown">
+		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "About FLISoL" %} <i class="fa fa-toggle-down"></i></a>
+		                        <ul class="dropdown-menu">
+		                            <li><a href="/FAQ"><i class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
+		                            </li>
+		                            <li><a href="/event"><i class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
+		                            </li>
+		                            <li><a href="//flisol.info"><i class="fa fa-info-circle"></i> {% trans "More Info" %}</a>
+		                            </li>
+		                        </ul>
+		                    </li>
+		                    <li class="dropdown">
+		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Collaborators" %} <i class="fa fa-toggle-down"></i></a>
+		                        <ul class="dropdown-menu">
+		                        	{% if not user.is_authenticated %}
+		                            <li><a href="/accounts/login"><i class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
+		                            </li>
+		                            {% else %}
+		                            <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>
+		                            </li>
+		                            <li><a href="/app/installation"><i class="fa fa-laptop"></i> {% trans "Submit an installation" %}</a>
+		                            </li>
+		                            {% endif %}
+		                            <li><a href="/app/registration/collaborator"><i class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}</a>
+		                            </li>
+		                            <li><a href="/app/registration/installer"><i class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
+		                            </li>
+		                        </ul>
+		                    </li>
+		                    <li class="dropdown">
+		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Follow Us!" %} <i class="fa fa-toggle-down"></i></a>
+		                        <ul class="dropdown-menu">
+		                        	<li><a href="//webchat.freenode.net/"><i class="fa fa-comments"></i> #flisol-caba</a>
+		                            </li>
+		                            <li><a href="//listas.usla.org.ar/cgi-bin/mailman/listinfo/eventoslibrescaba"><i class="fa fa-group"></i> Lista de Organización</a>
+		                            </li>
+		                            <li><a href="//wiki.cafelug.org.ar/index.php/Flisol/2014"><i class="fa fa-puzzle-piece"></i> Wiki de Organización</a>
+		                            </li>
+		                            <li><a href="//twitter.com/FlisolCABA"><i class="fa fa-twitter-square"></i> @FlisolCaba</a>
+		                            </li>
+		                            <li><a href="//www.facebook.com/Flisol.caba"><i class="fa fa-facebook-square"></i> FLISol CABA</a>
+		                            </li>
+		                            <li><a href="/app/contact"><i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
+		                            </li>
+		                        </ul>
+		                    </li>
+		                </ul>
+		            </div>
+		            <!-- /.navbar-collapse -->
+		        </div>
+		        <!-- /.container -->
+		    </nav>
+		{% endblock %}
+	
+		{% block main-content %}{% endblock %}
+		
+		{% block script %}
+			<script src="{% static "manager/js/jquery-1.10.2.js" %}"></script>
+			<script src="{% static "manager/js/bootstrap.min.js" %}"></script>
+    		<script src="{% static "manager/js/modern-business.js" %}"></script>
+			{% block other-script %}{% endblock %}
+		{% endblock %}
+	</body>
+</html>
