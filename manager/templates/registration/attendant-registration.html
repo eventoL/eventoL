@@ -16,9 +16,9 @@
 <script src="{% static "manager/js/jquery.chained.remote.min.js" %}"></script>
 <script>
 	$(function() {
-		$("#id_state").remoteChained("#id_country", "/api/states");
-		$("#id_city").remoteChained("#id_state", "/api/cities");
-		$("#id_sede").remoteChained("#id_city", "/api/sedes");
+		$("#id_state").remoteChained("#id_country", "/app/api/states");
+		$("#id_city").remoteChained("#id_state", "/app/api/cities");
+		$("#id_sede").remoteChained("#id_city", "/app/api/sedes");
 		$("#id_country").trigger("change");
 	});
 </script>
