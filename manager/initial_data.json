@@ -509,7 +509,191 @@
     "fields": {
       "name": "Otro",
       "version": "Otro",
-      "type": "Otro",
+      "type": "Otro"
     }
   },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Ubuntu",
+      "version": "12.04",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Ubuntu",
+      "version": "12.10",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Ubuntu",
+      "version": "13.04",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Ubuntu",
+      "version": "13.10",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Ubuntu",
+      "version": "14.04",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Debian",
+      "version": "6 - Squeeze - 32bits",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Debian",
+      "version": "6 - Squeeze - 64bits",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Debian",
+      "version": "7 - Wheezy/Stable",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Debian",
+      "version": "Jessie/Testing",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Debian",
+      "version": "Sid/Unstable",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Fedora",
+      "version": "20 - Heisenbug",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Fedora",
+      "version": "19 - Schrodinger's Cat",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Linux Mint",
+      "version": "16 - Petra",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Linux Mint",
+      "version": "15 - Olivia",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Linux Mint",
+      "version": "LMDE (Rolling Release)",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Huayra",
+      "version": "1.0",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Huayra",
+      "version": "1.1",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Trisquel",
+      "version": "6.0",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Trisquel",
+      "version": "5.5",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "CentOS",
+      "version": "6.5",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "CentOS",
+      "version": "5.10",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Puppy Linux",
+      "version": "5.6.1",
+      "type": "OS"
+    }
+  },
+  {
+    "model": "manager.Software",
+    "fields": {
+      "name": "Puppy Linux",
+      "version": "5.5",
+      "type": "OS"
+    }
+  }
 ]
