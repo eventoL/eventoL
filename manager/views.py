@@ -6,6 +6,8 @@ from django.shortcuts import render, get_object_or_404
 import itertools
 
 import django_tables2 as tables
+import autocomplete_light
+autocomplete_light.autodiscover()
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm

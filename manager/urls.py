@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^talk/proposal/$', views.talk_proposal, name='talk_proposal'),
     url(r'^talk/confirm$', TemplateView.as_view(template_name='talks/confirm.html'), name='talk_confirm'),
     url(r'^schedule$', views.talks, name='talks'),
+    url(r'^autocomplete/', include('autocomplete_light.urls')),
 )

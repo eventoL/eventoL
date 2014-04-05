@@ -5,8 +5,9 @@ from django.views.generic.base import TemplateView, RedirectView
 from manager import views
 from django.conf.urls.static import static
 from eventoL import settings
+import autocomplete_light
 
-
+autocomplete_light.autodiscover()
 admin.autodiscover()
 
 urlpatterns = patterns('',

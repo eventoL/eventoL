@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django_tables2',
     'easy_thumbnails',
     'image_cropping',
+    'autocomplete_light',
     'manager',
 )
 

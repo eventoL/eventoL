@@ -1,4 +1,6 @@
 # encoding: UTF-8
+import autocomplete_light
+autocomplete_light.autodiscover()
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -28,12 +30,17 @@ class RegistrationForm(DeferredForm):
         model = Attendant
         fields = ['name', 'surname', 'nickname', 'email', 'country', 'state', 'city', 'sede']
 
+class AttendantAutocomplete(autocomplete_light.AutocompleteModelBase):
+    search_fields = ['name', 'surname', 'nickname', 'email']
+    
+autocomplete_light.register(Attendant, AttendantAutocomplete)
 
-class InstallationForm(ModelForm):
+class InstallationForm(autocomplete_light.ModelForm):
 
     class Meta:
         model = Installation
-        exclude = ['installer', 'hardware']
+        exclude = ('installer', 'hardware')
+        autocomplete_fields = ('attendant',)
 
 
 class HardwareForm(ModelForm):
