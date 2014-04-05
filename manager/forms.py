@@ -16,7 +16,7 @@ from manager.models import Attendant, Installation, Hardware, Organizer, \
 
 
 class RegistrationForm(DeferredForm):
-    country = ChoiceField(label=_('Country'), choices=[(sede.country.code, sede.country.name) for sede in Sede.objects.all().prefetch_related('country')], required=False)
+    country = ChoiceField(label=_('Country'), choices=[(sede.country.code, sede.country.name) for sede in Sede.objects.all().prefetch_related('country').distinct()], required=False)
     state = CharField(label=_('State'), required=False, widget=widgets.Select())
     city = CharField(label=_('City'), required=False, widget=widgets.Select())
 
