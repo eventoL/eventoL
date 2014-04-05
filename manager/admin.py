@@ -7,8 +7,13 @@ from image_cropping.admin import ImageCroppingMixin
 
 class TalkProposalAdmin(ImageCroppingMixin, admin.ModelAdmin):
     pass
+
+class SedeAdmin(admin.ModelAdmin):
+    raw_id_fields = ('city', 'district',)
+
+
 admin.site.register(Building)
-admin.site.register(Sede)
+admin.site.register(Sede, SedeAdmin)
 admin.site.register(Attendant)
 admin.site.register(Organizer)
 admin.site.register(HardwareManufacturer)
