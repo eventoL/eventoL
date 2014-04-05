@@ -12,7 +12,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendant, Installation, Hardware, Organizer, \
-    Installer, Sede, TalkProposal
+    Installer, Sede, TalkProposal, HardwareManufacturer
 
 
 class RegistrationForm(DeferredForm):
@@ -30,10 +30,17 @@ class RegistrationForm(DeferredForm):
         model = Attendant
         fields = ['name', 'surname', 'nickname', 'email', 'country', 'state', 'city', 'sede']
 
+
 class AttendantAutocomplete(autocomplete_light.AutocompleteModelBase):
     search_fields = ['name', 'surname', 'nickname', 'email']
     
+
+class HardwareManufacturerAutocomplete(autocomplete_light.AutocompleteModelBase):
+    search_fields = ('name',)
+    
+
 autocomplete_light.register(Attendant, AttendantAutocomplete)
+autocomplete_light.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
 
 class InstallationForm(autocomplete_light.ModelForm):
 
@@ -43,10 +50,11 @@ class InstallationForm(autocomplete_light.ModelForm):
         autocomplete_fields = ('attendant',)
 
 
-class HardwareForm(ModelForm):
+class HardwareForm(autocomplete_light.ModelForm):
 
     class Meta:
         model = Hardware
+        autocomplete_fields = ('manufacturer',)
 
 
 class CollaboratorRegistrationForm(ModelForm):

@@ -6,3 +6,4 @@ django-tables2
 pil
 easy-thumbnails
 django-image-cropping
+django-autocomplete-light
