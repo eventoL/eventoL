@@ -119,7 +119,7 @@ class TalkType(models.Model):
 
 
 class TalkProposal(models.Model):
-    title = models.CharField(_('Name'), max_length=600)
+    title = models.CharField(_('Title'), max_length=600)
     speakers_email = models.CharField(_('Speakers Emails'), max_length=600, help_text=_("Comma separated speaker's emails"))
     labels = models.CharField(_('Labels'), max_length=200, help_text=_('Comma separated tags. i.e. Linux, Free Software, Debian'))
     abstract = models.TextField(_('Abstract'), help_text=_('Short idea of the talk (Two or three sentences)'))
