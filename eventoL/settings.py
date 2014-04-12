@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'image_cropping',
     'autocomplete_light',
+    'south',
     'manager',
 )
 

@@ -7,3 +7,4 @@ pil
 easy-thumbnails
 django-image-cropping
 django-autocomplete-light
+south

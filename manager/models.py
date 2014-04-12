@@ -6,6 +6,10 @@ from django.utils.translation import ugettext_noop as _noop
 from image_cropping import ImageRatioField
 from image_cropping.fields import ImageCropField
 
+from south.modelsinspector import add_introspection_rules
+add_introspection_rules([], ["^django\.contrib\.gis\.db\.models\.fields\.PointField"])
+
+
 class Building(Place):
     address = models.CharField(max_length=200)
 

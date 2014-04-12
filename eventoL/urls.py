@@ -19,6 +19,8 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'registration/login.html'}),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^FAQ$', TemplateView.as_view(template_name='FAQ.html'), name="FAQ"),
-    #Hack to preserve an old distributed url
+    #Hacks to preserve an old distributed url
     url(r'^proponer-charla$', RedirectView.as_view(url='/app/talk/proposal/', permanent=True)),
+    url(r'^page/informacion-del-festival$', RedirectView.as_view(url='/event', permanent=True)),
+    url(r'^registracion$', RedirectView.as_view(url='/app/registration', permanent=True)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
