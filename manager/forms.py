@@ -28,7 +28,7 @@ class RegistrationForm(DeferredForm):
 
     class Meta:
         model = Attendant
-        fields = ['name', 'surname', 'nickname', 'email', 'country', 'state', 'city', 'sede']
+        fields = ['name', 'surname', 'nickname', 'email', 'country', 'state', 'city', 'sede', 'is_going_to_install', 'additional_info']
 
 
 class AttendantAutocomplete(autocomplete_light.AutocompleteModelBase):

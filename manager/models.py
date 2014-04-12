@@ -37,6 +37,8 @@ class Attendant(models.Model):
     email = models.EmailField(_('Email'), max_length=200)
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), help_text=_('Sede you are going to attend'))
     assisted = models.BooleanField(_('Assisted'), default=False)
+    is_going_to_install = models.BooleanField(_('Is going to install?'), default=False, help_text=_('Are you going to bring a PC for installing it?'))
+    additional_info = models.TextField(_('Additional Info'), blank=True, null=True, help_text=_('i.e. Wath kind of PC are you bringing'))
 
     def __unicode__(self):
         return self.email
