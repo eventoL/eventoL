@@ -10,7 +10,7 @@
 			<p class="bg-danger">
 				<ul>
 				{% for error in errors %}
-					<li>{{ error }}</li>
+					<li>{% trans error %}</li>
 				{% endfor %}
 				</ul>
 			</p>
@@ -18,11 +18,15 @@
 			
 			{% for form in forms %}
 				{% for field in form.visible_fields %}
-					<div class="form-group {{ field.html_name }} {% if field.errors %}error{% endif %}">
+					<div class="form-group {{ field.html_name }} {% if field.errors %}has-error has-feedback{% endif %}">
 						<label class="col-md-4 control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
 						<div class="col-md-4">
 							{{ field | addcss:"form-control"}}
-							{% if field.errors %}<span class="help-inline">{{ field.errors.as_text }}</span>{% endif %}
+							{% if field.errors %}
+						<span class="glyphicon fa fa-minus-square form-control-feedback"></span>
+						<span class="help-inline">{{ field.errors.as_text }}</span>
+						{% endif %}
+						{% if field.help_text %}<p class="help-block">{{ field.help_text }}</p>{% endif %}
 						</div>
 					</div>
 				{% endfor %}
