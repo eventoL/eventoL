@@ -355,7 +355,7 @@ msgstr "Preguntas Frecuentes"
 #: manager/templates/registration/success.html:3
 #: manager/templates/registration/success.html:4
 msgid "Registration"
-msgstr "Registración"
+msgstr "Registro de Asistentes"
 
 #: manager/templates/base-main.html:44
 msgid "Talks"
@@ -533,7 +533,7 @@ msgstr "Ahora puede <a href=\"/accounts/login\">iniciar sesión</a>"
 #: manager/templates/talks/proposal/image-cropping.html:9
 #: manager/templates/talks/proposal/image-cropping.html:13
 msgid "Talk Proposal"
-msgstr "Porponer charla"
+msgstr "Proponer charla"
 
 #: manager/templates/talks/confirm.html:3
 msgid "Thank you for submitting your talk :D"
