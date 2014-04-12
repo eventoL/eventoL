@@ -12,12 +12,12 @@
 	    <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
 	
 	    <!-- Bootstrap core CSS -->
-	    <link href="{% static "manager/css/bootstrap.min.css" %}" rel="stylesheet">
+	    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 	
 	    <!-- Add custom CSS here -->
 	    
 	    <link href="{% static "manager/css/modern-business.css" %}" rel="stylesheet">
-	    <link href="{% static "manager/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
+	    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 	    {% block other-head %}{% endblock %}
 	{% endblock %}
 	</head>
@@ -102,8 +102,8 @@
 		{% block main-content %}{% endblock %}
 		
 		{% block script %}
-			<script src="{% static "manager/js/jquery-1.10.2.js" %}"></script>
-			<script src="{% static "manager/js/bootstrap.min.js" %}"></script>
+			<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+			<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     		<script src="{% static "manager/js/modern-business.js" %}"></script>
 			{% block other-script %}{% endblock %}
 		{% endblock %}

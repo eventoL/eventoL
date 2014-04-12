@@ -4,5 +4,5 @@
 Por favor, confirme su registro haciendo click en el siguiente enlace
 o copie y pegue el mismo en la barra de direcciones de su navegador:
 
-<a href="http://localhost:8000/confirm/{{token}}" />
+http://flisolcaba.usla.org.ar/confirm/{{token}}
 {% endblocktrans %}
