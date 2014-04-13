@@ -61,6 +61,7 @@ class Organizer(models.Model):
     assignation = models.CharField(_('Assignation'), max_length=200, blank=True, null=True, help_text=_('Assignations given to the user (i.e. Talks, Coffee...)'))
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True, help_text=_('Any additional info you consider relevant'))
     assisted = models.BooleanField(_('Assisted'), default=False)
+    time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_('Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...')) 
 
     def __unicode__(self):
         return str(self.user)

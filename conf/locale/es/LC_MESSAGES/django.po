@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-12 23:11+0000\n"
+"POT-Creation-Date: 2014-04-13 00:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,8 +53,8 @@ msgstr "Lugar"
 msgid "Specific place (building) where the event is taking place"
 msgstr "Lugar específico (edificio) donde se va a llevar a cabo el evento"
 
-#: manager/models.py:30 manager/models.py:74 manager/models.py:101
-#: manager/models.py:145 manager/models.py:177
+#: manager/models.py:30 manager/models.py:75 manager/models.py:102
+#: manager/models.py:146 manager/models.py:178
 msgid "Name"
 msgstr "Nombre"
 
@@ -92,7 +92,7 @@ msgstr "Asistió"
 
 #: manager/models.py:44
 msgid "Is going to install?"
-msgstr "Vas a llevar una máquina para instlar?"
+msgstr "Vas a llevar una máquina para instalar?"
 
 #: manager/models.py:44
 msgid "Are you going to bring a PC for installing it?"
@@ -106,7 +106,7 @@ msgstr "Información Adicional"
 msgid "i.e. Wath kind of PC are you bringing"
 msgstr "x. ej: Qué tipo de PC vas a llevar para instalar"
 
-#: manager/models.py:51 manager/models.py:127
+#: manager/models.py:51 manager/models.py:128
 msgid "Attendant"
 msgstr "Asistente"
 
@@ -151,210 +151,220 @@ msgstr "Encargos que se le han hecho al usuario (por ej. Charlas, Café, etc.)"
 msgid "Any additional info you consider relevant"
 msgstr "Cualquier información adicional que considere relevante"
 
-#: manager/models.py:69
+#: manager/models.py:64
+msgid "Time Availability"
+msgstr "Disponibilidad Horaria"
+
+#: manager/models.py:64
+msgid ""
+"Time gap in which you can help during the event. i.e. \"All the event\", "
+"\"Morning\", \"Afternoon\"..."
+msgstr "Horario en el que va a poder asistir al evento. por ej: \"Todo el evento\", \"Mañana\", \"Tarde\"..."
+
+#: manager/models.py:70
 msgid "Organizer"
 msgstr "Colaborador"
 
-#: manager/models.py:70
+#: manager/models.py:71
 #, fuzzy
 msgid "Organizers"
 msgstr "Colaboradores"
 
-#: manager/models.py:80
+#: manager/models.py:81
 #, fuzzy
 msgid "Hardware Manufacturer"
 msgstr "Fabricante/Marca"
 
-#: manager/models.py:81
+#: manager/models.py:82
 #, fuzzy
 msgid "Hardware Manufacturers"
 msgstr "Fabricantes/Marcas"
 
-#: manager/models.py:85 manager/models.py:103 manager/models.py:163
+#: manager/models.py:86 manager/models.py:104 manager/models.py:164
 msgid "Type"
 msgstr "Tipo"
 
-#: manager/models.py:85
+#: manager/models.py:86
 msgid "Mobile"
 msgstr "Dispositivo movil"
 
-#: manager/models.py:86
+#: manager/models.py:87
 msgid "Notebook"
 msgstr "Notebook"
 
-#: manager/models.py:87
+#: manager/models.py:88
 msgid "Netbook"
 msgstr "Netbook"
 
-#: manager/models.py:88
+#: manager/models.py:89
 msgid "Tablet"
 msgstr "Tablet"
 
-#: manager/models.py:89
+#: manager/models.py:90
 msgid "Desktop"
 msgstr "PC de escritorio"
 
-#: manager/models.py:90 manager/models.py:106
+#: manager/models.py:91 manager/models.py:107
 msgid "Other"
 msgstr "Otro"
 
-#: manager/models.py:92
+#: manager/models.py:93
 msgid "Manufacturer"
 msgstr "Fabricante/Marca"
 
-#: manager/models.py:93
+#: manager/models.py:94
 msgid "Model"
 msgstr "Modelo"
 
-#: manager/models.py:94
+#: manager/models.py:95
 msgid "Serial"
 msgstr "Número de serie"
 
-#: manager/models.py:102
+#: manager/models.py:103
 msgid "Version"
 msgstr "Versión"
 
-#: manager/models.py:103
+#: manager/models.py:104
 msgid "Operative System"
 msgstr "Sistema Operativo"
 
-#: manager/models.py:104
+#: manager/models.py:105
 msgid "Application"
 msgstr "Aplicación"
 
-#: manager/models.py:105
+#: manager/models.py:106
 msgid "Support and Problem Fixing"
 msgstr "Soporte o resolución de problemas"
 
-#: manager/models.py:114
+#: manager/models.py:115
 msgid "Level"
 msgstr "Nivel"
 
-#: manager/models.py:114
+#: manager/models.py:115
 msgid "Beginner"
 msgstr "Principiante"
 
-#: manager/models.py:115
+#: manager/models.py:116
 msgid "Medium"
 msgstr "Medio"
 
-#: manager/models.py:116
+#: manager/models.py:117
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: manager/models.py:117
+#: manager/models.py:118
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
-#: manager/models.py:118
+#: manager/models.py:119
 msgid "Linux Knowledge level for an installation"
 msgstr "Conocimiento de Linux para realizar un instalación"
 
-#: manager/models.py:119 manager/models.py:129
+#: manager/models.py:120 manager/models.py:130
 msgid "Software"
 msgstr "Software"
 
-#: manager/models.py:119
+#: manager/models.py:120
 msgid "Select all the software you can install. Hold Ctrl key to select many"
 msgstr "Seleccione todo el software que sepa instalar."
 
-#: manager/models.py:122 manager/models.py:130
+#: manager/models.py:123 manager/models.py:131
 msgid "Installer"
 msgstr "Instalador"
 
-#: manager/models.py:123
+#: manager/models.py:124
 #, fuzzy
 msgid "Installers"
 msgstr "Instaladores"
 
-#: manager/models.py:127
+#: manager/models.py:128
 msgid "The owner of the installed hardware"
 msgstr "El dueño de la máquina instalada"
 
-#: manager/models.py:128
+#: manager/models.py:129
 msgid "Hardware"
 msgstr "Hardware"
 
-#: manager/models.py:131
+#: manager/models.py:132
 msgid "Notes"
 msgstr "Notas"
 
-#: manager/models.py:131
+#: manager/models.py:132
 msgid "Any information or trouble you found and consider relevant to document"
 msgstr ""
 "Cualquier información o problema que haya encontrado durante la instalación "
 "y considere relevante documentar"
 
-#: manager/models.py:137
+#: manager/models.py:138
 #, fuzzy
 msgid "Installation"
 msgstr "Instalación"
 
-#: manager/models.py:138
+#: manager/models.py:139
 #, fuzzy
 msgid "Installations"
 msgstr "Instalaciones"
 
-#: manager/models.py:151 manager/models.py:192
+#: manager/models.py:152 manager/models.py:193
 msgid "Talk Type"
 msgstr "Tipo de charla"
 
-#: manager/models.py:152
+#: manager/models.py:153
 #, fuzzy
 msgid "Talk Types"
 msgstr "Tipo de charla"
 
-#: manager/models.py:156
+#: manager/models.py:157
 msgid "Title"
 msgstr "Título"
 
-#: manager/models.py:157
+#: manager/models.py:158
 msgid "Speakers Emails"
 msgstr "Correo electrónico de los disertantes"
 
-#: manager/models.py:157
+#: manager/models.py:158
 msgid "Comma separated speaker's emails"
 msgstr "(Separados por coma) Correo electrónico de los disertantes"
 
-#: manager/models.py:158
+#: manager/models.py:159
 msgid "Labels"
 msgstr "Etiquetas/Tags, separados por coma"
 
-#: manager/models.py:158
+#: manager/models.py:159
 msgid "Comma separated tags. i.e. Linux, Free Software, Debian"
 msgstr "(Separadas por coma) por ej. Linux, Software Libre, Debian..."
 
-#: manager/models.py:159
+#: manager/models.py:160
 msgid "Abstract"
 msgstr "Resumen"
 
-#: manager/models.py:159
+#: manager/models.py:160
 msgid "Short idea of the talk (Two or three sentences)"
 msgstr "Dos o tres oraciones que den la idea de la charla"
 
-#: manager/models.py:160
+#: manager/models.py:161
 msgid "Long Description"
 msgstr "Descripción completa"
 
-#: manager/models.py:161
+#: manager/models.py:162
 msgid "Sede you are proposing the talk to"
 msgstr "Sede para la que se está proponiendo la charla"
 
-#: manager/models.py:162
+#: manager/models.py:163
 msgid "Presentation"
 msgstr "Presentación"
 
-#: manager/models.py:162
+#: manager/models.py:163
 msgid ""
 "Any material you are going to use for the talk (optional, but recommended)"
 msgstr ""
 "Materia multimedia que vaya a usar para la charla (opcional pero recomendado)"
 
-#: manager/models.py:164
+#: manager/models.py:165
 msgid "Home Page Image"
 msgstr "Imagen"
 
-#: manager/models.py:164
+#: manager/models.py:165
 msgid ""
 "Image that is going to appear in the home page of this web for promoting the "
 "talk (optional)"
@@ -362,15 +372,15 @@ msgstr ""
 "Imagen que aparecerá en la página principal de esta web promocionando la "
 "charla (opcional)"
 
-#: manager/models.py:165
+#: manager/models.py:166
 msgid "Cropping"
 msgstr "Recorte"
 
-#: manager/models.py:165
+#: manager/models.py:166
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr "La imagen debe ser de 700x450 px. Puede recortarla aquí."
 
-#: manager/models.py:171 manager/templates/talks/confirm.html:3
+#: manager/models.py:172 manager/templates/talks/confirm.html:3
 #: manager/templates/talks/confirm.html:4
 #: manager/templates/talks/proposal.html:7
 #: manager/templates/talks/proposal.html:9
@@ -381,73 +391,73 @@ msgstr "La imagen debe ser de 700x450 px. Puede recortarla aquí."
 msgid "Talk Proposal"
 msgstr "Proponer charla"
 
-#: manager/models.py:172
+#: manager/models.py:173
 #, fuzzy
 msgid "Talk Proposals"
 msgstr "Proponer charla"
 
-#: manager/models.py:177
+#: manager/models.py:178
 msgid "i.e. Classroom 256"
 msgstr "por ej. Aula 256"
 
-#: manager/models.py:178
+#: manager/models.py:179
 msgid "For talk type"
 msgstr "Para el tipo de charla"
 
-#: manager/models.py:178 manager/models.py:192
+#: manager/models.py:179 manager/models.py:193
 msgid "The type of talk the room is going to be used for."
 msgstr "El tipo de charla para el cual se va a utilizar la sala"
 
-#: manager/models.py:184 manager/models.py:204
+#: manager/models.py:185 manager/models.py:205
 msgid "Room"
 msgstr "Sala"
 
-#: manager/models.py:185
+#: manager/models.py:186
 #, fuzzy
 msgid "Rooms"
 msgstr "Salas"
 
-#: manager/models.py:189
+#: manager/models.py:190
 msgid "Start Date"
 msgstr "Fecha de inicio"
 
-#: manager/models.py:190
+#: manager/models.py:191
 msgid "End Date"
 msgstr "Fecha de finalización"
 
-#: manager/models.py:198
+#: manager/models.py:199
 #, fuzzy
 msgid "Talk Time"
 msgstr "Horario de Charla"
 
-#: manager/models.py:199
+#: manager/models.py:200
 #, fuzzy
 msgid "Talk Times"
 msgstr "Horarios de charla"
 
-#: manager/models.py:203
+#: manager/models.py:204
 msgid "Speakers"
 msgstr "Disertantes"
 
-#: manager/models.py:205
+#: manager/models.py:206
 msgid "Hour"
 msgstr "Hora"
 
-#: manager/models.py:208
+#: manager/models.py:209
 #, fuzzy
 msgid "Talk"
 msgstr "Charla"
 
-#: manager/models.py:209 manager/templates/base-main.html:44
+#: manager/models.py:210 manager/templates/base-main.html:44
 msgid "Talks"
 msgstr "Charlas"
 
-#: manager/models.py:216
+#: manager/models.py:217
 #, fuzzy
 msgid "Event Info"
 msgstr "Información del evento"
 
-#: manager/models.py:217
+#: manager/models.py:218
 #, fuzzy
 msgid "Envent Info (s)"
 msgstr "Información(es) de los eventos"

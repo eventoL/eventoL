@@ -33,11 +33,11 @@ class RegistrationForm(DeferredForm):
 
 class AttendantAutocomplete(autocomplete_light.AutocompleteModelBase):
     search_fields = ['name', 'surname', 'nickname', 'email']
-    
+
 
 class HardwareManufacturerAutocomplete(autocomplete_light.AutocompleteModelBase):
     search_fields = ('name',)
-    
+
 
 autocomplete_light.register(Attendant, AttendantAutocomplete)
 autocomplete_light.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
@@ -72,6 +72,10 @@ class InstallerRegistrationForm(ModelForm):
 
 
 class UserRegistrationForm(UserCreationForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
 
     class Meta:
         model = User
