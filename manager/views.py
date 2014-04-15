@@ -1,20 +1,26 @@
 # encoding: UTF-8
+import autocomplete_light
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.utils.safestring import mark_safe
+from django.views.generic.detail import DetailView
 import itertools
+from django.utils.translation import ugettext as _
 
 import django_tables2 as tables
-import autocomplete_light
-autocomplete_light.autodiscover()
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
-    TalkProposalForm, TalkProposalImageCroppingForm
+    TalkProposalForm, TalkProposalImageCroppingForm, \
+    AttendantSearchByCollaboratorForm
 from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkTime, TalkType, TalkProposal
+    TalkTime, TalkType, TalkProposal, Sede
 from manager.security import add_installer_perms
-from django.core.urlresolvers import reverse
+
+
+autocomplete_light.autodiscover()
 
 
 def home(request):
@@ -134,30 +140,54 @@ def image_cropping(request, image_id):
 def talks(request):
 
     class TalksTable(tables.Table):
-        hour = tables.Column()
+        hour = tables.Column(verbose_name=_('Hour'), orderable=False)
 
 
     if Talk.objects.all().count() == 0:
         return render(request, "talks/schedule.html", {'tables': None})
 
     tabless = {}
-    for talk_type in TalkType.objects.all():
-        rooms = Room.objects.filter(for_type=talk_type)
-        talks = []
-        attrs = dict((room.name, tables.Column()) for room in rooms)
-        attrs['Meta'] = type('Meta', (), dict(attrs={"class":"table", "orderable":"False", }))
-        klass = type('DynamicTable', (TalksTable,), attrs)
-
-        hours = TalkTime.objects.filter(talk_type=talk_type)
-
-        for hour in hours:
-            talkss = Talk.objects.filter(hour=hour)
-            talk = {'hour': hour}
-            for t in talkss:
-                talk[t.room.name] = t.title
-            talks.append(talk)
-
-        table = klass(talks)
-        tabless[talk_type.name] = table
+    for sede in Sede.objects.all():
+        for talk_type in TalkType.objects.all():
+            rooms = Room.objects.filter(for_type=talk_type, sede=sede)
+            talks = []
+            attrs = dict((room.name, tables.Column(orderable=False)) for room in rooms)
+            attrs['Meta'] = type('Meta', (), dict(attrs={"class":"table", "orderable":"False", }))
+            klass = type('DynamicTable', (TalksTable,), attrs)
+    
+            hours = TalkTime.objects.filter(talk_type=talk_type, sede=sede)
+            
+            for hour in hours:
+                talkss = Talk.objects.filter(hour=hour, sede=sede)
+                talk = {'hour': hour}
+                for t in talkss:
+                    
+                    talk_link = '<a href="' + reverse('talk_detail', args=[t.pk]) + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
+                    for speaker in t.speakers.all():
+                        talk_cell = mark_safe(talk_link + (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name))))
+                    
+                    talk[t.room.name] =  talk_cell
+                talks.append(talk)
+    
+            table = klass(talks)
+            if len(talks) > 0:
+                sede_key = ''.join((str(sede.date.day), '/', str(sede.date.month), ' - ', sede.name,)) 
+                if sede_key not in tabless:
+                    tabless[sede_key] = {}
+                tabless[sede_key][talk_type.name] = table
 
     return render(request, "talks/schedule.html", {'tables': tabless})
+
+
+def attendant_search(request):
+    form = AttendantSearchByCollaboratorForm(request.POST or None)
+    #if request.POST:
+        #if form.is_valid():
+        #    proposal = form.save()
+    #        return HttpResponseRedirect(reverse('image_cropping', args=(proposal.pk,)))
+
+    return render(request, 'registration/attendant/by_collaborator.html', {'form': form, })
+
+class TalkDetailView(DetailView):
+    model = Talk
+    template_name = 'talks/detail.html'

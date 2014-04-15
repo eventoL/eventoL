@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-13 00:42+0000\n"
+"POT-Creation-Date: 2014-04-15 21:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: manager/forms.py:19 manager/models.py:25
+#: manager/forms.py:36 manager/models.py:25
 msgid "Country"
 msgstr "País"
 
-#: manager/forms.py:20 manager/models.py:26
+#: manager/forms.py:37 manager/models.py:26
 msgid "State"
 msgstr "Provincia/Estado"
 
-#: manager/forms.py:21 manager/models.py:27
+#: manager/forms.py:38 manager/models.py:27
 msgid "City"
 msgstr "Ciudad"
 
-#: manager/forms.py:24
+#: manager/forms.py:41
 msgid "FLISoL Registration Confirmation"
 msgstr "Confirmación de registro a FLISoL"
 
@@ -113,7 +113,7 @@ msgstr "Asistente"
 #: manager/models.py:52
 #, fuzzy
 msgid "Attendants"
-msgstr "Asistente"
+msgstr "Asistentes"
 
 #: manager/models.py:56
 msgid "User"
@@ -159,7 +159,9 @@ msgstr "Disponibilidad Horaria"
 msgid ""
 "Time gap in which you can help during the event. i.e. \"All the event\", "
 "\"Morning\", \"Afternoon\"..."
-msgstr "Horario en el que va a poder asistir al evento. por ej: \"Todo el evento\", \"Mañana\", \"Tarde\"..."
+msgstr ""
+"Horario en el que va a poder asistir al evento. por ej: \"Todo el evento\", "
+"\"Mañana\", \"Tarde\"..."
 
 #: manager/models.py:70
 msgid "Organizer"
@@ -181,6 +183,7 @@ msgid "Hardware Manufacturers"
 msgstr "Fabricantes/Marcas"
 
 #: manager/models.py:86 manager/models.py:104 manager/models.py:164
+#: manager/templates/talks/detail.html:17
 msgid "Type"
 msgstr "Tipo"
 
@@ -312,7 +315,7 @@ msgstr "Tipo de charla"
 #: manager/models.py:153
 #, fuzzy
 msgid "Talk Types"
-msgstr "Tipo de charla"
+msgstr "Tipos de charla"
 
 #: manager/models.py:157
 msgid "Title"
@@ -326,15 +329,15 @@ msgstr "Correo electrónico de los disertantes"
 msgid "Comma separated speaker's emails"
 msgstr "(Separados por coma) Correo electrónico de los disertantes"
 
-#: manager/models.py:159
+#: manager/models.py:159 manager/templates/talks/detail.html:14
 msgid "Labels"
-msgstr "Etiquetas/Tags, separados por coma"
+msgstr "Etiquetas/Tags"
 
 #: manager/models.py:159
 msgid "Comma separated tags. i.e. Linux, Free Software, Debian"
 msgstr "(Separadas por coma) por ej. Linux, Software Libre, Debian..."
 
-#: manager/models.py:160
+#: manager/models.py:160 manager/templates/talks/detail.html:15
 msgid "Abstract"
 msgstr "Resumen"
 
@@ -342,7 +345,7 @@ msgstr "Resumen"
 msgid "Short idea of the talk (Two or three sentences)"
 msgstr "Dos o tres oraciones que den la idea de la charla"
 
-#: manager/models.py:161
+#: manager/models.py:161 manager/templates/talks/detail.html:16
 msgid "Long Description"
 msgstr "Descripción completa"
 
@@ -394,7 +397,7 @@ msgstr "Proponer charla"
 #: manager/models.py:173
 #, fuzzy
 msgid "Talk Proposals"
-msgstr "Proponer charla"
+msgstr "Propuestas de charla"
 
 #: manager/models.py:178
 msgid "i.e. Classroom 256"
@@ -439,18 +442,18 @@ msgstr "Horarios de charla"
 msgid "Speakers"
 msgstr "Disertantes"
 
-#: manager/models.py:206
+#: manager/models.py:206 manager/views.py:143
 msgid "Hour"
 msgstr "Hora"
 
-#: manager/models.py:209
+#: manager/models.py:209 manager/templates/talks/detail.html:5
 #, fuzzy
 msgid "Talk"
 msgstr "Charla"
 
 #: manager/models.py:210 manager/templates/base-main.html:44
 msgid "Talks"
-msgstr "Charlas"
+msgstr "Cronograma de charlas"
 
 #: manager/models.py:217
 #, fuzzy
@@ -531,7 +534,7 @@ msgstr "Seguinos!"
 msgid "Contact Us!"
 msgstr "Contactanos!"
 
-#: manager/templates/base-main.html:110
+#: manager/templates/base-main.html:138
 msgid "You have the power!"
 msgstr ""
 
@@ -587,6 +590,9 @@ msgstr ""
 #: manager/templates/registration/attendant-registration.html:5
 #: manager/templates/registration/attendant-registration.html:7
 #: manager/templates/registration/attendant-registration.html:11
+#: manager/templates/registration/attendant/by_collaborator.html:5
+#: manager/templates/registration/attendant/by_collaborator.html:7
+#: manager/templates/registration/attendant/by_collaborator.html:11
 msgid "Attendant Registration"
 msgstr "Registro de Asistentes"
 

@@ -193,7 +193,7 @@ class TalkTime(models.Model):
     talk_type = models.ForeignKey(TalkType, verbose_name=_('Talk Type'), help_text=_('The type of talk the room is going to be used for.'))
 
     def __unicode__(self):
-        return "%s:%s - %s:%s" % (self.start_date.hour, self.start_date.minute, self.end_date.hour, self.end_date.minute)
+        return "%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
     
     class Meta:
         verbose_name = _('Talk Time')

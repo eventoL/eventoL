@@ -7,11 +7,26 @@
 {% block content %}
 	{% if not tables %}
 		<p>{% trans "The talks schedule will be available on April, 15th" %}</p>
-	{% else %}		
-		{% for talktype, table in tables.items %}
-		<h2>{% trans talktype %}s</h2>
-		<hr />
-			{% render_table table %}
+	{% else %}
+		{% for sede, tabless in tables.items %}
+		<h3>{{sede}}</h3>
+		<hr>		
+			{% for talktype, table in tabless.items %}
+			{% if talktype == 'Taller' %} 
+				<h4>Talleres</h4>
+			{% else %}
+				<h4>{{talktype}}s</h4>
+			{%endif%}
+			<hr />
+				{% render_table table %}
+			{% endfor %}
 		{% endfor %}
 	{% endif %}
+	
+	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="True">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 {% endblock %}

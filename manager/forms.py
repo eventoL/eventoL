@@ -1,5 +1,6 @@
 # encoding: UTF-8
 import autocomplete_light
+from django import forms
 autocomplete_light.autodiscover()
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -13,6 +14,22 @@ from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendant, Installation, Hardware, Organizer, \
     Installer, Sede, TalkProposal, HardwareManufacturer
+
+
+class AttendantAutocomplete(autocomplete_light.AutocompleteModelBase):
+    search_fields = ('name', 'surname', 'nickname', 'email')
+
+
+class HardwareManufacturerAutocomplete(autocomplete_light.AutocompleteModelBase):
+    search_fields = ('name',)
+
+
+autocomplete_light.register(Attendant, AttendantAutocomplete)
+autocomplete_light.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
+
+
+class AttendantSearchByCollaboratorForm(forms.Form):
+    attendant = autocomplete_light.ModelChoiceField('AttendantAutocomplete')
 
 
 class RegistrationForm(DeferredForm):
@@ -30,17 +47,6 @@ class RegistrationForm(DeferredForm):
         model = Attendant
         fields = ['name', 'surname', 'nickname', 'email', 'country', 'state', 'city', 'sede', 'is_going_to_install', 'additional_info']
 
-
-class AttendantAutocomplete(autocomplete_light.AutocompleteModelBase):
-    search_fields = ['name', 'surname', 'nickname', 'email']
-
-
-class HardwareManufacturerAutocomplete(autocomplete_light.AutocompleteModelBase):
-    search_fields = ('name',)
-
-
-autocomplete_light.register(Attendant, AttendantAutocomplete)
-autocomplete_light.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
 
 class InstallationForm(autocomplete_light.ModelForm):
 
