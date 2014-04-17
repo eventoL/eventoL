@@ -19,7 +19,7 @@
 			
 			{% for field in form.visible_fields %}
 				<div class="form-group {{ field.html_name }} {% if field.errors %}has-error has-feedback{% endif %}">
-					<label class="col-md-4 control-label">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+					<label class="col-md-4 control-label">{% trans field.label %}{% if field.field.required %} *{% endif %}</label>
 					<div class="col-md-4">
 						{% if field.name == 'cropping' %}
 							{{ field }}

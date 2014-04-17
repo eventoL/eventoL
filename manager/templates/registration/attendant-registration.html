@@ -19,7 +19,6 @@
 		$("#id_state").remoteChained("#id_country", "/app/api/states");
 		$("#id_city").remoteChained("#id_state", "/app/api/cities");
 		$("#id_sede").remoteChained("#id_city", "/app/api/sedes");
-		$("#id_country").trigger("change");
 	});
 </script>
 	{% block other-script2 %}{% endblock %}

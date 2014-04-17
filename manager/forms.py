@@ -33,7 +33,7 @@ class AttendantSearchByCollaboratorForm(forms.Form):
 
 
 class RegistrationForm(DeferredForm):
-    country = ChoiceField(label=_('Country'), choices=[(sede.country.code, sede.country.name) for sede in Sede.objects.all().prefetch_related('country').distinct()], required=False)
+    country = ChoiceField(label=_('Country'), choices=sorted(set([(sede.country.code, sede.country.name) for sede in Sede.objects.distinct().prefetch_related('country')] + [('', '-------------')])), required=False)
     state = CharField(label=_('State'), required=False, widget=widgets.Select())
     city = CharField(label=_('City'), required=False, widget=widgets.Select())
 
@@ -93,6 +93,7 @@ class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
         exclude = ('cropping',)
+
 
 class TalkProposalImageCroppingForm(ModelForm):
 

@@ -26,6 +26,7 @@ def sedes(request):
     city = request.GET.get('city', '')
     places = Sede.objects.filter(city__name_std=city)
     response_data = {}
+    response_data[''] = '----------------'
     for place in places:
         response_data[place.id] = place.name
     return HttpResponse(json.dumps(response_data), content_type="application/json")
