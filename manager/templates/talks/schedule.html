@@ -30,3 +30,11 @@
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 {% endblock %}
+
+{% block other-script %}
+<script>
+	$('body').on('hidden.bs.modal', '.modal', function () {
+		$(this).removeData('bs.modal');
+	});
+</script>
+{% endblock %}
