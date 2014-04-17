@@ -24,7 +24,8 @@ autocomplete_light.autodiscover()
 
 
 def home(request):
-    return render(request, 'index.html', {'talk_proposals': TalkProposal.objects.all()})
+    return render(request, 'index.html', 
+                  {'talk_proposals': TalkProposal.objects.exclude(home_image__isnull=True).exclude(home_image__exact='')})
 
 
 def collaborator_registration(request):
@@ -155,7 +156,7 @@ def talks(request):
             attrs['Meta'] = type('Meta', (), dict(attrs={"class":"table", "orderable":"False", }))
             klass = type('DynamicTable', (TalksTable,), attrs)
     
-            hours = TalkTime.objects.filter(talk_type=talk_type, sede=sede)
+            hours = TalkTime.objects.filter(talk_type=talk_type, sede=sede).order_by('start_date')
             
             for hour in hours:
                 talkss = Talk.objects.filter(hour=hour, sede=sede)
@@ -164,9 +165,9 @@ def talks(request):
                     
                     talk_link = '<a href="' + reverse('talk_detail', args=[t.pk]) + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
                     for speaker in t.speakers.all():
-                        talk_cell = mark_safe(talk_link + (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name))))
+                        talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))
                     
-                    talk[t.room.name] =  talk_cell
+                    talk[t.room.name] =  mark_safe(talk_link)
                 talks.append(talk)
     
             table = klass(talks)
