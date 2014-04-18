@@ -38,7 +38,7 @@ class Attendant(models.Model):
     name = models.CharField(_('First Name'), max_length=200, blank=True, null=True)
     surname = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
     nickname = models.CharField(_('Nickname'), max_length=200, blank=True, null=True)
-    email = models.EmailField(_('Email'), max_length=200, unique=True)
+    email = models.EmailField(_('Email'), max_length=200)
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), help_text=_('Sede you are going to attend'))
     assisted = models.BooleanField(_('Assisted'), default=False)
     is_going_to_install = models.BooleanField(_('Is going to install?'), default=False, help_text=_('Are you going to bring a PC for installing it?'))
@@ -50,6 +50,7 @@ class Attendant(models.Model):
     class Meta:
         verbose_name = _('Attendant')
         verbose_name_plural = _('Attendants')
+        unique_together = ('email', 'sede',)
 
 
 class Organizer(models.Model):
@@ -164,6 +165,7 @@ class TalkProposal(models.Model):
     type = models.ForeignKey(TalkType, verbose_name=_('Type'))
     home_image = ImageCropField(upload_to='talks_thumbnails', verbose_name=_('Home Page Image'), blank=True, null=True, help_text=_('Image that is going to appear in the home page of this web for promoting the talk (optional)'))
     cropping = ImageRatioField('home_image', '700x450', size_warning=True, verbose_name=_('Cropping'), help_text=_('The image must be 700x450 px. You can crop it here.'))
+    dummy_talk = models.BooleanField(_('Dummy Talk?'))
 
     def __unicode__(self):
         return self.title

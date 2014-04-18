@@ -24,8 +24,19 @@ autocomplete_light.autodiscover()
 
 
 def home(request):
-    return render(request, 'index.html', 
-                  {'talk_proposals': TalkProposal.objects.exclude(home_image__isnull=True).exclude(home_image__exact='')})
+    talk_proposals = TalkProposal.objects.exclude(home_image__isnull=True).exclude(home_image__exact='').exclude(dummy_talk=True)
+    
+    #Seguro hay una mejor forma de hacerlo
+    #estoy saliendo de un apuro :P
+    titles = []
+    filtered = []
+    for t in talk_proposals:
+        if t.title not in titles:
+            filtered.append(t)
+            titles.append(t.title)
+        
+    
+    return render(request, 'index.html', {'talk_proposals': filtered})
 
 
 def collaborator_registration(request):
@@ -165,7 +176,8 @@ def talks(request):
                     
                     talk_link = '<a href="' + reverse('talk_detail', args=[t.pk]) + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
                     for speaker in t.speakers.all():
-                        talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))
+                        if not speaker.user.first_name == '':
+                            talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))
                     
                     talk[t.room.name] =  mark_safe(talk_link)
                 talks.append(talk)
