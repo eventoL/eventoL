@@ -14,9 +14,9 @@ import django_tables2 as tables
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, \
-    AttendantSearchByCollaboratorForm
+    AttendantSearchForm, AttendantRegistrationByCollaboratorForm
 from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkTime, TalkType, TalkProposal, Sede
+    TalkTime, TalkType, TalkProposal, Sede, Attendant
 from manager.security import add_installer_perms
 
 
@@ -191,15 +191,36 @@ def talks(request):
 
     return render(request, "talks/schedule.html", {'tables': tabless})
 
-
+@login_required
+@permission_required('manager.add_attendant', raise_exception=True)
 def attendant_search(request):
-    form = AttendantSearchByCollaboratorForm(request.POST or None)
-    #if request.POST:
-        #if form.is_valid():
-        #    proposal = form.save()
-    #        return HttpResponseRedirect(reverse('image_cropping', args=(proposal.pk,)))
+    form = AttendantSearchForm(request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            attendant_email = form.cleaned_data['attendant']
+            sede = form.cleaned_data['sede']
+            if attendant_email is not None:
+                attendant = Attendant.objects.get(email=attendant_email, sede__pk=sede)
+                attendant.assisted = True
+                attendant.save()
+                return HttpResponseRedirect('/app/registration/attendant/assisted')
+            else:
+                return HttpResponseRedirect('/app/registration/attendant/by-collaborator')
 
-    return render(request, 'registration/attendant/by_collaborator.html', {'form': form, })
+    return render(request, 'registration/attendant/search.html', {'form': form, })
+
+@login_required
+@permission_required('manager.add_attendant', raise_exception=True)
+def attendant_registration_by_collaborator(request):
+    form = AttendantRegistrationByCollaboratorForm(request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            attendant = form.save()
+            attendant.assisted = True
+            attendant.save()
+            return HttpResponseRedirect('/app/registration/attendant/assisted')
+
+    return render(request, 'registration/attendant/by-collaborator.html', {'form': form})
 
 class TalkDetailView(DetailView):
     model = Talk

@@ -1,6 +1,7 @@
 # encoding: UTF-8
 import autocomplete_light
 from django import forms
+from django.db.models.query_utils import Q
 autocomplete_light.autodiscover()
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -24,13 +25,32 @@ class HardwareManufacturerAutocomplete(autocomplete_light.AutocompleteModelBase)
     search_fields = ('name',)
 
 
+class AttendantBySedeAutocomplete(autocomplete_light.AutocompleteModelBase):
+    autocomplete_js_attributes = {'placeholder': _('Search Attendant')}
+
+    def choices_for_request(self):
+        q = self.request.GET.get('q', '')
+        sede_id = self.request.GET.get('sede_id', None)
+
+        choices = []
+
+        if sede_id:
+            choices = self.choices.all()
+            choices = choices.filter(sede__pk=sede_id)
+            if q:
+                choices = choices.filter(Q(name__icontains=q) | Q(surname__icontains=q) | Q(nickname__icontains=q) | Q(email__icontains=q))
+
+        return self.order_choices(choices)[0:self.limit_choices]
+
 autocomplete_light.register(Attendant, AttendantAutocomplete)
 autocomplete_light.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
+autocomplete_light.register(Attendant, AttendantBySedeAutocomplete)
 
-
-class AttendantSearchByCollaboratorForm(forms.Form):
-    attendant = autocomplete_light.ModelChoiceField('AttendantAutocomplete')
-
+class AttendantSearchForm(forms.Form):
+    
+    sede = ChoiceField(label=_('Sede'), choices=sorted(set([(sede.pk, sede.name) for sede in Sede.objects.distinct()] + [('', '-------------')])))
+    attendant = autocomplete_light.ModelChoiceField('AttendantBySedeAutocomplete', required=False)
+    
 
 class RegistrationForm(DeferredForm):
     country = ChoiceField(label=_('Country'), choices=sorted(set([(sede.country.code, sede.country.name) for sede in Sede.objects.distinct().prefetch_related('country')] + [('', '-------------')])), required=False)
@@ -47,6 +67,12 @@ class RegistrationForm(DeferredForm):
         model = Attendant
         fields = ['name', 'surname', 'nickname', 'email', 'country', 'state', 'city', 'sede', 'is_going_to_install', 'additional_info']
 
+
+class AttendantRegistrationByCollaboratorForm(forms.ModelForm):
+    
+    class Meta:
+        model = Attendant
+        fields = ('name', 'surname', 'nickname', 'email', 'sede', 'is_going_to_install', 'additional_info')
 
 class InstallationForm(autocomplete_light.ModelForm):
 
