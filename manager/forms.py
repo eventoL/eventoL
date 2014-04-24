@@ -2,12 +2,14 @@
 import autocomplete_light
 from django import forms
 from django.db.models.query_utils import Q
+from django.utils.safestring import mark_safe
 autocomplete_light.autodiscover()
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.forms import widgets
-from django.forms.fields import ChoiceField, CharField
+from django.forms.fields import ChoiceField, CharField, BooleanField, \
+    MultipleChoiceField
 from django.forms.models import ModelForm
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
@@ -47,10 +49,10 @@ autocomplete_light.register(HardwareManufacturer, HardwareManufacturerAutocomple
 autocomplete_light.register(Attendant, AttendantBySedeAutocomplete)
 
 class AttendantSearchForm(forms.Form):
-    
+
     sede = ChoiceField(label=_('Sede'), choices=sorted(set([(sede.pk, sede.name) for sede in Sede.objects.distinct()] + [('', '-------------')])))
     attendant = autocomplete_light.ModelChoiceField('AttendantBySedeAutocomplete', required=False)
-    
+
 
 class RegistrationForm(DeferredForm):
     country = ChoiceField(label=_('Country'), choices=sorted(set([(sede.country.code, sede.country.name) for sede in Sede.objects.distinct().prefetch_related('country')] + [('', '-------------')])), required=False)
@@ -69,7 +71,7 @@ class RegistrationForm(DeferredForm):
 
 
 class AttendantRegistrationByCollaboratorForm(forms.ModelForm):
-    
+
     class Meta:
         model = Attendant
         fields = ('name', 'surname', 'nickname', 'email', 'sede', 'is_going_to_install', 'additional_info')
@@ -97,7 +99,11 @@ class CollaboratorRegistrationForm(ModelForm):
 
 
 class InstallerRegistrationForm(ModelForm):
-
+    
+    read_guidelines = forms.MultipleChoiceField(label='', required=True,
+        widget=forms.CheckboxSelectMultiple, 
+        choices=((1, mark_safe(u'Afirmo que he leido la <a href="//wiki.cafelug.org.ar/index.php/Flisol/2014/Guía_del_buen_instalador" target="_blank">Sagrada Guía del Buen Instalador')),)) 
+    
     class Meta:
         model = Installer
         exclude = ['user', 'is_coordinator', 'assisted']

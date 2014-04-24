@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load addcss %}
+{% load filters %}
 {% load i18n %}
 {% block content %}
 	{% block pre-form %}{% endblock %}
@@ -21,11 +21,11 @@
 				<div class="form-group {{ field.html_name }} {% if field.errors %}has-error has-feedback{% endif %}">
 					<label class="col-md-4 control-label">{% trans field.label %}{% if field.field.required %} *{% endif %}</label>
 					<div class="col-md-4">
-						{% if field.name == 'cropping' %}
-							{{ field }}
-						{% else %}
-							{{ field | addcss:"form-control" }}
-						{% endif %}
+						{% if field.name == 'cropping' or field|is_checkbox %}
+								{{ field }}
+							{% else %}
+								{{ field | addcss:"form-control" }}
+							{% endif %}
 						{% if field.errors %}
 						<span class="glyphicon fa fa-minus-square form-control-feedback"></span>
 						<span class="help-inline">{{ field.errors.as_text }}</span>
