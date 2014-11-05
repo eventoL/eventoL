@@ -19,6 +19,12 @@ Actually supports:
 - Submit an installation with hardware and software info.
 - Full internationalization and localization support.
 
+Status
+-------
+
+[![Requirements Status](https://requires.io/github/FedeG/eventoL/requirements.svg?branch=master)](https://requires.io/github/FedeG/eventoL/requirements/?branch=master)
+
+
 TODO (this month)
 -----------------
 - After-event statistics.
