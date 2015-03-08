@@ -15,7 +15,7 @@ class Building(Place):
 
     def __unicode__(self):
         return self.name
-    
+
     class Meta:
         verbose_name = _('Building')
         verbose_name_plural = _('Buildings')
@@ -46,7 +46,7 @@ class Attendant(models.Model):
 
     def __unicode__(self):
         return self.email
-    
+
     class Meta:
         verbose_name = _('Attendant')
         verbose_name_plural = _('Attendants')
@@ -62,11 +62,11 @@ class Organizer(models.Model):
     assignation = models.CharField(_('Assignation'), max_length=200, blank=True, null=True, help_text=_('Assignations given to the user (i.e. Talks, Coffee...)'))
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True, help_text=_('Any additional info you consider relevant'))
     assisted = models.BooleanField(_('Assisted'), default=False)
-    time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_('Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...')) 
+    time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_('Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...'))
 
     def __unicode__(self):
         return str(self.user)
-    
+
     class Meta:
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
@@ -77,7 +77,7 @@ class HardwareManufacturer(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
     class Meta:
         verbose_name = _('Hardware Manufacturer')
         verbose_name_plural = _('Hardware Manufacturers')
@@ -119,7 +119,7 @@ class Installer(Organizer):
                                       ('4', _('Super Hacker')),),
                              max_length=200, help_text=_('Linux Knowledge level for an installation'))
     software = models.ManyToManyField(Software, verbose_name=_('Software'), blank=True, null=True, help_text=_('Select all the software you can install. Hold Ctrl key to select many'))
-    
+
     class Meta:
         verbose_name = _('Installer')
         verbose_name_plural = _('Installers')
@@ -134,7 +134,7 @@ class Installation(models.Model):
 
     def __unicode__(self):
         return "%s, %s, %s" % (self.attendant, self.hardware, self.software)
-    
+
     class Meta:
         verbose_name = _('Installation')
         verbose_name_plural = _('Installations')
@@ -148,7 +148,7 @@ class TalkType(models.Model):
 
     def __unicode__(self):
         return self.name
-    
+
     class Meta:
         verbose_name = _('Talk Type')
         verbose_name_plural = _('Talk Types')
@@ -165,11 +165,11 @@ class TalkProposal(models.Model):
     type = models.ForeignKey(TalkType, verbose_name=_('Type'))
     home_image = ImageCropField(upload_to='talks_thumbnails', verbose_name=_('Home Page Image'), blank=True, null=True, help_text=_('Image that is going to appear in the home page of this web for promoting the talk (optional)'))
     cropping = ImageRatioField('home_image', '700x450', size_warning=True, verbose_name=_('Cropping'), help_text=_('The image must be 700x450 px. You can crop it here.'))
-    dummy_talk = models.BooleanField(_('Dummy Talk?'))
+    dummy_talk = models.BooleanField(_('Dummy Talk?'), default=False)
 
     def __unicode__(self):
         return self.title
-    
+
     class Meta:
         verbose_name = _('Talk Proposal')
         verbose_name_plural = _('Talk Proposals')
@@ -182,7 +182,7 @@ class Room(models.Model):
 
     def __unicode__(self):
         return "%s - %s" % (self.sede.name, self.name)
-    
+
     class Meta:
         verbose_name = _('Room')
         verbose_name_plural = _('Rooms')
@@ -196,7 +196,7 @@ class TalkTime(models.Model):
 
     def __unicode__(self):
         return "%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
-    
+
     class Meta:
         verbose_name = _('Talk Time')
         verbose_name_plural = _('Talk Times')
@@ -206,7 +206,7 @@ class Talk(TalkProposal):
     speakers = models.ManyToManyField(Organizer, related_name='speakers', verbose_name=_('Speakers'))
     room = models.ForeignKey(Room, verbose_name=_('Room'))
     hour = models.ForeignKey(TalkTime, verbose_name=_('Hour'))
-    
+
     class Meta:
         verbose_name = _('Talk')
         verbose_name_plural = _('Talks')
@@ -214,7 +214,7 @@ class Talk(TalkProposal):
 class EventInfo(models.Model):
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'))
     html = models.TextField()
-    
+
     class Meta:
         verbose_name = _('Event Info')
         verbose_name_plural = _('Envent Info (s)')

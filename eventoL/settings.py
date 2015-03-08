@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'image_cropping',
     'autocomplete_light',
-    'south',
     'manager',
 )
 
@@ -72,9 +71,9 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',  # 'django.db.backends.postgresql_psycopg2',
         'NAME': 'flisol',
         'USER': 'flisol',
-        'PASSWORD': 'YOUR PASSWORD',
+        'PASSWORD': 'flisol',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5433',
     }
 }
 
@@ -114,7 +113,7 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 
 CITIES_FILES = {
     'city': {
-       'filename': 'allCountries.zip',
+       'filename': 'AR.zip',
        'urls':     ['http://download.geonames.org/export/dump/' + '{filename}']
     },
 }
