@@ -1,9 +1,8 @@
 psycopg2
 django
-django-generic-confirmation
 django-cities
 django-tables2
-pil
+Pillow
 easy-thumbnails
 django-image-cropping
 django-autocomplete-light
