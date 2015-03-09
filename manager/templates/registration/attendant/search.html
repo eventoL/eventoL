@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block other-head %}
-	{% include 'autocomplete_light/static.html' %}
+    {% include 'autocomplete_light/static.html' %}
 {% endblock %}
 
 {% block page-header %}{% trans "Attendant Registration" %}{% endblock %}
@@ -11,14 +11,21 @@
 {% block page-name %}{% trans "Attendant Registration" %}{% endblock %}
 
 {% block pre-form %}
-	<div class="alert alert-warning alert-dismissable">
-	  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-	  <span class="fa fa-info-circle fa-5x"></span>
-	  <ul>
-	  <li>Buscar a un asistente para una sede, en caso que el asistente se haya registrado. Si no aparece como sugerido en la lista, es porque no terminó correctamente el proceso de registro.</li>
-	  <li>Si aparece sugerido en la lista, quiere decir que se registró correctamente. En ese caso, seleccionarlo y presionar "<strong>Marcar como Presente</strong>". Esto hará que se marque como "Presente" (o sea, que asisitió al evento).</li>
-	  <li>Si no aparece sugerido, hacer click en "<strong>Registrar Nuevo Asistente</strong>" y cargar los datos del mismo.</li>
-	</div>
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <span class="fa fa-info-circle fa-5x"></span>
+        <ul>
+            <li>Buscar a un asistente para una sede, en caso que el asistente se haya registrado. Si no aparece como
+                sugerido en la lista, es porque no terminó correctamente el proceso de registro.
+            </li>
+            <li>Si aparece sugerido en la lista, quiere decir que se registró correctamente. En ese caso, seleccionarlo
+                y presionar "<strong>Marcar como Presente</strong>". Esto hará que se marque como "Presente" (o sea, que
+                asisitió al evento).
+            </li>
+            <li>Si no aparece sugerido, hacer click en "<strong>Registrar Nuevo Asistente</strong>" y cargar los datos
+                del mismo.
+            </li>
+    </div>
 {% endblock %}
 
 {% block form-id %}"registration"{% endblock %}
@@ -28,36 +35,37 @@
 {% block form-action %}"/app/registration/attendant/search"{% endblock %}
 
 {% block buttons %}
-	<div class="form-group">
-  		<label class="col-md-4 control-label" for="button1id"></label>
-  		<div class="col-md-8">
-    		<button id="button1id" name="button1id" class="btn btn-danger">Registrar Nuevo Asistente</button>
-    		<button id="button2id" name="button2id" class="btn btn-success">Marcar como Presente</button>
-  		</div>
-	</div>
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="button1id"></label>
+
+        <div class="col-md-8">
+            <button id="button1id" name="button1id" class="btn btn-danger">Registrar Nuevo Asistente</button>
+            <button id="button2id" name="button2id" class="btn btn-success">Marcar como Presente</button>
+        </div>
+    </div>
 {% endblock %}
 
 {% block other-script %}
-<script>
-	$(document).ready(function() {
-    $('body').on('change', 'select[name$=sede]', function() {
-        var sedeSelectElement = $(this);
-        var attendantSelectElement = $('#' + $(this).attr('id').replace('sede', 'attendant'));
-        var attendantWidgetElement = attendantSelectElement.parents('.autocomplete-light-widget');
+    <script>
+        $(document).ready(function () {
+            $('body').on('change', 'select[name$=sede]', function () {
+                var sedeSelectElement = $(this);
+                var attendantSelectElement = $('#' + $(this).attr('id').replace('sede', 'attendant'));
+                var attendantWidgetElement = attendantSelectElement.parents('.autocomplete-light-widget');
 
-        // When the Sede select changes
-        value = $(this).val();
+                // When the Sede select changes
+                value = $(this).val();
 
-        if (value) {
-            // If value is contains something, add it to autocomplete.data
-            attendantWidgetElement.yourlabsWidget().autocomplete.data = {
-                'sede_id': value[0],
-            };
-        } else {
-            // If value is empty, empty autocomplete.data
-            attendantWidgetElement.yourlabsWidget().autocomplete.data = {}
-        }
-    })
-});
-</script>
+                if (value) {
+                    // If value is contains something, add it to autocomplete.data
+                    attendantWidgetElement.yourlabsWidget().autocomplete.data = {
+                        'sede_id': value[0],
+                    };
+                } else {
+                    // If value is empty, empty autocomplete.data
+                    attendantWidgetElement.yourlabsWidget().autocomplete.data = {}
+                }
+            })
+        });
+    </script>
 {% endblock %}

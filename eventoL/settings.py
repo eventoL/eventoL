@@ -11,6 +11,7 @@ import django.conf.global_settings as DEFAULT_SETTINGS
 from easy_thumbnails.conf import Settings as thumbnail_settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -78,8 +79,8 @@ DATABASES = {
 }
 
 THUMBNAIL_PROCESSORS = (
-    'image_cropping.thumbnail_processors.crop_corners',
-) + thumbnail_settings.THUMBNAIL_PROCESSORS
+                           'image_cropping.thumbnail_processors.crop_corners',
+                       ) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -89,8 +90,8 @@ LANGUAGE_CODE = 'en-US'
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
 
 LANGUAGES = (
-  ('es', 'Spanish'),
-  ('en', 'English'),
+    ('es', 'Spanish'),
+    ('en', 'English'),
 )
 
 TIME_ZONE = 'UTC'
@@ -113,8 +114,8 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
 
 CITIES_FILES = {
     'city': {
-       'filename': 'AR.zip',
-       'urls':     ['http://download.geonames.org/export/dump/' + '{filename}']
+        'filename': 'AR.zip',
+        'urls': ['http://download.geonames.org/export/dump/' + '{filename}']
     },
 }
 
@@ -137,8 +138,8 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
-            },
         },
+    },
     'loggers': {
         'cities': {
             'handlers': ['log_to_stdout'],

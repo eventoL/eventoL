@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    $('body').on('change', '.autocomplete-light-widget select[name$=sede]', function() {
+$(document).ready(function () {
+    $('body').on('change', '.autocomplete-light-widget select[name$=sede]', function () {
         var sedeSelectElement = $(this);
         var attendantSelectElement = $('#' + $(this).attr('id').replace('sede', 'attendant'));
         var attendantWidgetElement = attendantSelectElement.parents('.autocomplete-light-widget');
@@ -16,9 +16,5 @@ $(document).ready(function() {
             // If value is empty, empty autocomplete.data
             attendantWidgetElement.yourlabsWidget().autocomplete.data = {}
         }
-
-        // example debug statements, that does not replace using breakbpoints and a proper debugger but can hel
-        console.log($(this), 'changed to', value);
-        console.log(attendantWidgetElement, 'data is', attendantWidgetElement.yourlabsWidget().autocomplete.data)
     })
 });
