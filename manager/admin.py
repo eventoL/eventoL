@@ -1,12 +1,14 @@
 from django.contrib import admin
 from manager.models import Building, Sede, Attendant, \
-                            Organizer, HardwareManufacturer, \
-                            Hardware, Software, Installer, Installation, \
+    Organizer, HardwareManufacturer, \
+    Hardware, Software, Installer, Installation, \
     TalkProposal, Talk, TalkType, Room, TalkTime
 from image_cropping.admin import ImageCroppingMixin
 
+
 class TalkProposalAdmin(ImageCroppingMixin, admin.ModelAdmin):
     pass
+
 
 class SedeAdmin(admin.ModelAdmin):
     raw_id_fields = ('city', 'district',)

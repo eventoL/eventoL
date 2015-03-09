@@ -2,141 +2,157 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="es-AR">
-	<head>
-	{% block head %}
-	    <meta charset="utf-8">
-	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <meta name="description" content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
-	
-	    <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
-		<link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png" rel="image_src" />
-	    <!-- Bootstrap core CSS -->
-	    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	
-	    <!-- Add custom CSS here -->
-	    
-	    <link href="{% static "manager/css/modern-business.css" %}" rel="stylesheet">
-	    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-	    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-	    {% block other-head %}{% endblock %}
-	{% endblock %}
-	</head>
-	<body>
-		{% block navbar %}
-			<nav class="navbar-custom navbar-fixed-top" role="navigation">
-		        <div class="container">
-		            <div class="navbar-header">
-		                <!-- You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it) -->
-		                <a class="navbar-brand" href="/"><img class="logo" src="{% static "manager/img/flisol-top-bar.png" %}" alt="Flisol Logo"></img></a>
-		                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-		                    <span class="sr-only">Toggle navigation</span>
-		                    <span class="icon-bar"></span>
-		                    <span class="icon-bar"></span>
-		                    <span class="icon-bar"></span>
-		                </button>
-		            </div>
-		
-		            <!-- Collect the nav links, forms, and other content for toggling -->
-		            <div class="collapse navbar-collapse navbar-ex1-collapse">
-		                <ul class="nav navbar-nav navbar-right">
-		                    <li><a href="/app/registration">{% trans "Registration" %}</a>
-		                    </li>
-		                    <li><a href="/app/schedule">{% trans "Talks Schedule" %}</a>
-		                    </li>
-		                    <li><a href="/app/talk/proposal">{% trans "Submit your talk!" %}</a>
-		                    </li>
-		                    <li class="dropdown">
-		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "About FLISoL" %} <i class="fa fa-toggle-down"></i></a>
-		                        <ul class="dropdown-menu">
-		                            <li><a href="/FAQ"><i class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
-		                            </li>
-		                            <li><a href="/event"><i class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
-		                            </li>
-		                            <li><a href="//flisol.info" target="_blank"><i class="fa fa-info-circle"></i> {% trans "More Info" %}</a>
-		                            </li>
-		                        </ul>
-		                    </li>
-		                    <li class="dropdown">
-		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Collaborators" %} <i class="fa fa-toggle-down"></i></a>
-		                        <ul class="dropdown-menu">
-		                        	{% if not user.is_authenticated %}
-		                            <li><a href="/accounts/login"><i class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
-		                            </li>
-		                            {% else %}
-		                            <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>
-		                            </li>
-		                            <li><a href="/app/installation"><i class="fa fa-laptop"></i> {% trans "Submit an installation" %}</a>
-		                            </li>
-		                            <li><a href="/app/registration/attendant/search"><i class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}</a>
-		                            </li>
-		                            {% endif %}
-		                            <li><a href="/app/registration/collaborator"><i class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}</a>
-		                            </li>
-		                            <li><a href="/app/registration/installer"><i class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
-		                            </li>
-		                        </ul>
-		                    </li>
-		                    <li class="dropdown">
-		                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Follow Us!" %} <i class="fa fa-toggle-down"></i></a>
-		                        <ul class="dropdown-menu">
-		                        	<li><a href="//webchat.freenode.net/"><i class="fa fa-comments"></i> #flisol-caba</a>
-		                            </li>
-		                            <li><a href="//listas.usla.org.ar/cgi-bin/mailman/listinfo/eventoslibrescaba"><i class="fa fa-group"></i> Lista de Organización</a>
-		                            </li>
-		                            <li><a href="//wiki.cafelug.org.ar/index.php/Flisol/2014"><i class="fa fa-puzzle-piece"></i> Wiki de Organización</a>
-		                            </li>
-		                            <li><a href="//twitter.com/FlisolCABA"><i class="fa fa-twitter-square"></i> @FlisolCaba</a>
-		                            </li>
-		                            <li><a href="//www.facebook.com/Flisol.caba"><i class="fa fa-facebook-square"></i> FLISol CABA</a>
-		                            </li>
-		                            <li><a href="/app/contact"><i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
-		                            </li>
-		                        </ul>
-		                    </li>
-		                </ul>
-		            </div>
-		            <!-- /.navbar-collapse -->
-		        </div>
-		        <!-- /.container -->
-		    </nav>
-		{% endblock %}
-	
-		{% block main-content %}{% endblock %}
-		
-		<!-- logos -->
-	    <section class="logos">
-	        <div class="container">
-	            <div><img src="{% static "manager/img/logos/cafelug.png" %}" alt="CaFeLUG" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/gnutn.png" %}" alt="GNUTN" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/solar.png" %}" alt="SoLAr" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/agenda_digital.png" %}" alt="Agenda Digital" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/ieee.png" %}" alt="IEE" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/usla.png" %}" alt="USLA" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/kde-ar.png" %}" alt="KDE-ar" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/comunidad-fedora.png" %}" alt="Comunidad Fedora" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/ubuntuar.png" %}" alt="ubuntu-ar" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/via libre.gif" %}" alt="Fundación Vía Libre" class="img-responsive">
-	            </div>
-	            <div><img src="{% static "manager/img/logos/LogoHacklab.png" %}" alt="Hacklab Barracas" class="img-responsive">
-	            </div>
-	        </div>
-	    </section>
-		
-		{% block script %}
-			<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    		<script src="{% static "manager/js/modern-business.js" %}"></script>
-			{% block other-script %}{% endblock %}
-		{% endblock %}
-		<div align="right"><a href="//github.com/reyiyo/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}</a>
-	</body>
+<head>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description"
+              content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
+
+        <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
+        <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
+              rel="image_src"/>
+        <!-- Bootstrap core CSS -->
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Add custom CSS here -->
+
+        <link href="{% static "manager/css/modern-business.css" %}" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        {% block other-head %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+{% block navbar %}
+    <nav class="navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it) -->
+                <a class="navbar-brand" href="/"><img class="logo" src="{% static "manager/img/flisol-top-bar.png" %}"
+                                                      alt="Flisol Logo"></img></a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/app/registration">{% trans "Registration" %}</a>
+                    </li>
+                    <li><a href="/app/schedule">{% trans "Talks Schedule" %}</a>
+                    </li>
+                    <li><a href="/app/talk/proposal">{% trans "Submit your talk!" %}</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "About FLISoL" %} <i
+                                class="fa fa-toggle-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/FAQ"><i class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
+                            </li>
+                            <li><a href="/event"><i class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
+                            </li>
+                            <li><a href="//flisol.info" target="_blank"><i
+                                    class="fa fa-info-circle"></i> {% trans "More Info" %}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Collaborators" %} <i
+                                class="fa fa-toggle-down"></i></a>
+                        <ul class="dropdown-menu">
+                            {% if not user.is_authenticated %}
+                                <li><a href="/accounts/login"><i class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
+                                </li>
+                            {% else %}
+                                <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>
+                                </li>
+                                <li><a href="/app/installation"><i
+                                        class="fa fa-laptop"></i> {% trans "Submit an installation" %}</a>
+                                </li>
+                                <li><a href="/app/registration/attendant/search"><i
+                                        class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}</a>
+                                </li>
+                            {% endif %}
+                            <li><a href="/app/registration/collaborator"><i
+                                    class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}</a>
+                            </li>
+                            <li><a href="/app/registration/installer"><i
+                                    class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Follow Us!" %} <i
+                                class="fa fa-toggle-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="//webchat.freenode.net/"><i class="fa fa-comments"></i> #flisol-caba</a>
+                            </li>
+                            <li><a href="//listas.usla.org.ar/cgi-bin/mailman/listinfo/eventoslibrescaba"><i
+                                    class="fa fa-group"></i> Lista de Organización</a>
+                            </li>
+                            <li><a href="//wiki.cafelug.org.ar/index.php/Flisol/2014"><i class="fa fa-puzzle-piece"></i>
+                                Wiki de Organización</a>
+                            </li>
+                            <li><a href="//twitter.com/FlisolCABA"><i class="fa fa-twitter-square"></i> @FlisolCaba</a>
+                            </li>
+                            <li><a href="//www.facebook.com/Flisol.caba"><i class="fa fa-facebook-square"></i> FLISol
+                                CABA</a>
+                            </li>
+                            <li><a href="/app/contact"><i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+{% endblock %}
+
+{% block main-content %}{% endblock %}
+
+<!-- logos -->
+<section class="logos">
+    <div class="container">
+        <div><img src="{% static "manager/img/logos/cafelug.png" %}" alt="CaFeLUG" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/gnutn.png" %}" alt="GNUTN" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/solar.png" %}" alt="SoLAr" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/agenda_digital.png" %}" alt="Agenda Digital" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/ieee.png" %}" alt="IEE" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/usla.png" %}" alt="USLA" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/kde-ar.png" %}" alt="KDE-ar" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/comunidad-fedora.png" %}" alt="Comunidad Fedora"
+                  class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/ubuntuar.png" %}" alt="ubuntu-ar" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/via libre.gif" %}" alt="Fundación Vía Libre" class="img-responsive">
+        </div>
+        <div><img src="{% static "manager/img/logos/LogoHacklab.png" %}" alt="Hacklab Barracas" class="img-responsive">
+        </div>
+    </div>
+</section>
+
+{% block script %}
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="{% static "manager/js/modern-business.js" %}"></script>
+    {% block other-script %}{% endblock %}
+{% endblock %}
+<div align="right"><a href="//github.com/reyiyo/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}
+</a>
+</body>
 </html>

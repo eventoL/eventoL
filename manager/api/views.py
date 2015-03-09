@@ -13,6 +13,7 @@ def states(request):
         response_data[region.code] = region.name_std
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
+
 def cities(request):
     region = request.GET.get('state', '')
     sedes = Sede.objects.filter(state__code=region).prefetch_related('city')
@@ -21,6 +22,7 @@ def cities(request):
     for city in citiess:
         response_data[city.name_std] = city.name_std
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
 
 def sedes(request):
     city = request.GET.get('city', '')

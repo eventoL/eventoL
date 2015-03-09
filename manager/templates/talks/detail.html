@@ -1,19 +1,23 @@
 {% load i18n %}
 {% load cropping %}
 <div class="modal-header">
-	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<h4 class="modal-title">{% trans "Talk" %}: {{talk.title}}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">{% trans "Talk" %}: {{ talk.title }}</h4>
 </div>
 <div class="modal-body row">
-		<div class="col-md-6">
-			{% if talk.home_image %}
-			<img class="img-responsive" src="{% cropped_thumbnail talk cropping %}" alt="{{talk.title }}" width="100%" heigth="100%" >
-			{%endif%}
-		</div>
-		<div class="col-md-6">
-			<p><strong>{% trans "Labels" %}:</strong> {{talk.labels|lower}}</p>
-			<p><strong>{% trans "Abstract" %}:</strong> {{talk.abstract}}</p>
-			<p><strong>{% trans "Long Description" %}:</strong> {{talk.long_description}}</p>
-			<p><strong>{% trans "Type" %}:</strong> {{talk.type}}</p>
-		</div>
+    <div class="col-md-6">
+        {% if talk.home_image %}
+            <img class="img-responsive" src="{% cropped_thumbnail talk cropping %}" alt="{{ talk.title }}" width="100%"
+                 heigth="100%">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <p><strong>{% trans "Labels" %}:</strong> {{ talk.labels|lower }}</p>
+
+        <p><strong>{% trans "Abstract" %}:</strong> {{ talk.abstract }}</p>
+
+        <p><strong>{% trans "Long Description" %}:</strong> {{ talk.long_description }}</p>
+
+        <p><strong>{% trans "Type" %}:</strong> {{ talk.type }}</p>
+    </div>
 </div>
