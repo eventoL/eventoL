@@ -13,8 +13,9 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^$', views.home, name="index"),
-    url(r'^app/', include('manager.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^app/', include('manager.urls'), name='app'),
+    url(r'^admin/', include(admin.site.urls), name='admin'),
+    url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
     url(r'^event$', TemplateView.as_view(template_name='event/info.html'), name="event_info"),
     url(r'^confirm/', include('generic_confirmation.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'registration/login.html'}),
