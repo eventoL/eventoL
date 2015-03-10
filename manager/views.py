@@ -24,8 +24,13 @@ autocomplete_light.autodiscover()
 
 
 def home(request):
-    talk_proposals = TalkProposal.objects.exclude(home_image__isnull=True).exclude(home_image__exact='').exclude(
-        dummy_talk=True)
+    talk_proposals = TalkProposal.objects.exclude(
+        home_image__isnull=True
+    ).exclude(
+        home_image__exact=''
+    ).exclude(
+        dummy_talk=True
+    )
 
     # Seguro hay una mejor forma de hacerlo
     # estoy saliendo de un apuro :P
@@ -55,11 +60,17 @@ def collaborator_registration(request):
                     return HttpResponseRedirect('/app/registration/success')
             except:
                 User.delete(user)
-        errors = list(itertools.chain.from_iterable([error for error in [form.non_field_errors() for form in forms]]))
+        errors = get_forms_errors(forms)
 
-    return render(request, 'registration/collaborator-registration.html', {'forms': forms,
-                                                                           'errors': errors,
-                                                                           'multipart': False, })
+    return render(request,
+                  'registration/collaborator-registration.html',
+                  {'forms': forms, 'errors': errors, 'multipart': False, }
+    )
+
+def get_forms_errors(forms):
+    field_errors = [form.non_field_errors() for form in forms]
+    errors = [error for error in field_errors]
+    return list(itertools.chain.from_iterable(errors))
 
 
 def installer_registration(request):
@@ -80,11 +91,12 @@ def installer_registration(request):
             except:
                 if user is not None: User.delete(user)
                 if installer is not None: Installer.delete(installer)
-        errors = list(itertools.chain.from_iterable([error for error in [form.non_field_errors() for form in forms]]))
+        errors = get_forms_errors(forms)
 
-    return render(request, 'registration/installer-registration.html', {'forms': forms,
-                                                                        'errors': errors,
-                                                                        'multipart': False, })
+    return render(request,
+                  'registration/installer-registration.html',
+                  {'forms': forms, 'errors': errors, 'multipart': False, }
+    )
 
 
 @login_required
@@ -101,17 +113,20 @@ def installation(request):
                 if installation_form.is_valid():
                     installation = installation_form.save()
                     installation.hardware = hardware
-                    installer = Installer.objects.filter(user__username=request.user.username)[0]
+                    installer = Installer.objects.filter(
+                        user__username=request.user.username
+                    )[0]
                     installation.installer = installer
                     installation.save()
                     return HttpResponseRedirect('/app/installation/success')
             except:
                 if hardware is not None: Hardware.delete(hardware)
                 if installation is not None: Installation.delete(installation)
-        errors = list(itertools.chain.from_iterable([error for error in [form.non_field_errors() for form in forms]]))
-    return render(request, 'installation/installation-form.html', {'forms': forms,
-                                                                   'errors': errors,
-                                                                   'multipart': False, })
+        errors = get_forms_errors(forms)
+    return render(request,
+                  'installation/installation-form.html',
+                  {'forms': forms, 'errors': errors, 'multipart': False, }
+    )
 
 
 def registration(request):
