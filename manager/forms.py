@@ -54,6 +54,11 @@ autocomplete.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
 autocomplete.register(Attendant, AttendantBySedeAutocomplete)
 
 
+def organize_choices(choices_list):
+    choices_list += [('', '-------------')]
+    return sorted(set(choices_list))
+
+
 class AttendantSearchForm(forms.Form):
     sedes = Sede.objects.distinct()
     sede = ChoiceField(
@@ -150,8 +155,3 @@ class TalkProposalImageCroppingForm(ModelForm):
     class Meta:
         model = TalkProposal
         fields = ('home_image', 'cropping',)
-
-
-def organize_choices(choices_list):
-    choices_list += [('', '-------------')]
-    return sorted(set(choices_list))

@@ -44,6 +44,12 @@ def home(request):
     return render(request, 'index.html', {'talk_proposals': filtered})
 
 
+def get_forms_errors(forms):
+    field_errors = [form.non_field_errors() for form in forms]
+    errors = [error for error in field_errors]
+    return list(itertools.chain.from_iterable(errors))
+
+
 def collaborator_registration(request):
     user_form = UserRegistrationForm(request.POST or None)
     collaborator_form = CollaboratorRegistrationForm(request.POST or None)
@@ -66,11 +72,6 @@ def collaborator_registration(request):
                   'registration/collaborator-registration.html',
                   {'forms': forms, 'errors': errors, 'multipart': False, }
     )
-
-def get_forms_errors(forms):
-    field_errors = [form.non_field_errors() for form in forms]
-    errors = [error for error in field_errors]
-    return list(itertools.chain.from_iterable(errors))
 
 
 def installer_registration(request):
