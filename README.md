@@ -19,6 +19,12 @@ Actually supports:
 - Submit an installation with hardware and software info.
 - Full internationalization and localization support.
 
+Status
+-------
+
+[![Requirements Status](https://requires.io/github/FedeG/eventoL/requirements.svg?branch=master)](https://requires.io/github/FedeG/eventoL/requirements/?branch=master)
+
+
 TODO (this month)
 -----------------
 - After-event statistics.
@@ -73,7 +79,6 @@ $ git clone https://github.com/arneb/django-generic-confirmation.git
 $ cd django-generic-confirmation
 $ python setup.py install
 
-
 ## Install other requirements
 
 $ pip install -r requirements.txt
@@ -86,9 +91,15 @@ $ python manage.py makemigrations manager
 
 $ python manage.py migrate
 
+$ python manage.py collectstatic
+
 ## Importing all cities for django-cities (geolocalization)
 
 $ python manage.py cities --import=all --force #This may take a long time!
+
+## Django syncdb
+
+$ python manage.py syncdb
 
 ```
 And change in settings.py URLS, PATHS, DATABASE and EMAIL related settings with your specific configuration.
