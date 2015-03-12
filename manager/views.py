@@ -24,13 +24,10 @@ autocomplete_light.autodiscover()
 
 
 def home(request):
-    talk_proposals = TalkProposal.objects.exclude(
-        home_image__isnull=True
-    ).exclude(
-        home_image__exact=''
-    ).exclude(
-        dummy_talk=True
-    )
+    talk_proposals = TalkProposal.objects\
+        .exclude(home_image__isnull=True)\
+        .exclude(home_image__exact='')\
+        .exclude(dummy_talk=True)
 
     # Seguro hay una mejor forma de hacerlo
     # estoy saliendo de un apuro :P
