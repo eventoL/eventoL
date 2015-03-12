@@ -11,7 +11,8 @@ autocomplete_light.autodiscover()
 admin.autodiscover()
 
 urlpatterns = patterns('',
-                       url(r'^$', views.home, name="index"),
+                       url(r'^$', views.index, name="index"),
+                       url(r'^home/$', views.home, name="home"),
                        url(r'^app/', include('manager.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^event$', TemplateView.as_view(template_name='event/info.html'), name="event_info"),

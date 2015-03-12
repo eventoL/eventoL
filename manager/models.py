@@ -32,6 +32,10 @@ class Sede(models.Model):
         return "%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
 
 
+    def get_geo_info(self):
+        return {"lat": self.city.location.y, "lon": self.city.location.x, "name": self.name, "url": '#'}
+
+
 class Attendant(models.Model):
     name = models.CharField(_('First Name'), max_length=200, blank=True, null=True)
     surname = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
