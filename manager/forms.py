@@ -78,7 +78,7 @@ class RegistrationForm(DeferredForm):
     state = CharField(label=_('State'), required=False, widget=widgets.Select())
     city = CharField(label=_('City'), required=False, widget=widgets.Select())
 
-    def send_notification(self, instance=None, *args):
+    def send_notification(self, instance=None):
         send_mail(_("FLISoL Registration Confirmation"),
                   render_to_string(
                       "mail/registration_confirmation.txt",
