@@ -54,7 +54,7 @@ autocomplete.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
 autocomplete.register(Attendant, AttendantBySedeAutocomplete)
 
 
-def organize_choices(choices_list):
+def sorted_choices(choices_list):
     choices_list += [('', '-------------')]
     return sorted(set(choices_list))
 
@@ -63,7 +63,7 @@ class AttendantSearchForm(forms.Form):
     sedes = Sede.objects.distinct()
     sede = ChoiceField(
         label=_('Sede'),
-        choices=organize_choices([(sede.pk, sede.name) for sede in sedes])
+        choices=sorted_choices([(sede.pk, sede.name) for sede in sedes])
     )
     attendant = autocomplete.ModelChoiceField('AttendantBySedeAutocomplete', required=False)
 
@@ -72,7 +72,7 @@ class RegistrationForm(DeferredForm):
     sedes = Sede.objects.distinct().prefetch_related('country')
     country = ChoiceField(
         label=_('Country'),
-        choices=organize_choices([(sede.country.code, sede.country.name) for sede in sedes]),
+        choices=sorted_choices([(sede.country.code, sede.country.name) for sede in sedes]),
         required=False
     )
     state = CharField(label=_('State'), required=False, widget=widgets.Select())
