@@ -22,7 +22,7 @@ Actually supports:
 Status
 -------
 
-[![Requirements Status](https://requires.io/github/FedeG/eventoL/requirements.svg?branch=master)](https://requires.io/github/FedeG/eventoL/requirements/?branch=master)
+[![Requirements Status](https://requires.io/github/reyiyo/eventoL/requirements.svg?branch=master)](https://requires.io/github/reyiyo/eventoL/requirements/?branch=master)
 
 
 TODO (this month)
