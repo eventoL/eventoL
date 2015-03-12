@@ -1,5 +1,8 @@
+import re
+
 from cities.models import Country, Region, City, District, Place
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
@@ -27,10 +30,14 @@ class Sede(models.Model):
                               help_text=_('Specific place (building) where the event is taking place'))
     name = models.CharField(_('Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
+    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'))
 
     def __unicode__(self):
         return "%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
 
+    def clean(self):
+        if not re.match("[\w\d]+", self.url):
+            raise ValidationError({'url': _('URL can only contain letters or numbers')})
 
     def get_geo_info(self):
         return {"lat": self.city.location.y, "lon": self.city.location.x, "name": self.name, "url": '#'}
@@ -125,7 +132,8 @@ class Installer(Organizer):
                                                   ('2', _('Medium')),
                                                   ('3', _('Advanced')),
                                                   ('4', _('Super Hacker')),),
-                             max_length=200, help_text=_('Linux Knowledge level for an installation'))
+                             max_length=200,
+                             help_text=_('Linux Knowledge level for an installation'))
     software = models.ManyToManyField(Software, verbose_name=_('Software'), blank=True, null=True, help_text=_(
         'Select all the software you can install. Hold Ctrl key to select many'))
 
@@ -180,7 +188,8 @@ class TalkProposal(models.Model):
     type = models.ForeignKey(TalkType, verbose_name=_('Type'))
     home_image = ImageCropField(upload_to='talks_thumbnails', verbose_name=_('Home Page Image'), blank=True, null=True,
                                 help_text=_(
-                                    'Image that is going to appear in the home page of this web for promoting the talk (optional)'))
+                                    'Image that is going to appear in the home page of this web for promoting the '
+                                    'talk (optional)'))
     cropping = ImageRatioField('home_image', '700x450', size_warning=True, verbose_name=_('Cropping'),
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
     dummy_talk = models.BooleanField(_('Dummy Talk?'), default=False)
