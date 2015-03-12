@@ -19,17 +19,17 @@ Actually supports:
 - Submit an installation with hardware and software info.
 - Full internationalization and localization support.
 
-TODO (this month)
------------------
-- After-event statistics.
-- RESTFull API to provide event related data to other apps.
-- User Manuals
-- Code some tests
+Status
+-------
+
+[![Requirements Status](https://requires.io/github/reyiyo/eventoL/requirements.svg?branch=master)](https://requires.io/github/reyiyo/eventoL/requirements/?branch=master)
+
 
 Future
 -------
 - Actually it has many hardcoded parts that are specific to FLISoL. The idea is to make a generic app for any kind of conference or install fest.
 - ADMIN interface for the different roles in the event.
+
 
 Installation
 --------------
@@ -67,16 +67,7 @@ postgres# CREATE DATABASE flisol OWNER flisol TEMPLATE template_postgis ENCODING
 
 #Python/Django
 
-## Install django-generic-confirmation
-
-$ git clone https://github.com/arneb/django-generic-confirmation.git
-$ cd django-generic-confirmation
-$ python setup.py install
-
-
-## Install other requirements
-
-$ pip install -r requirements.txt
+$ pip install -U -r requirements.txt --allow-external django-generic-confirmation --allow-unverified django-generic-confirmation
 
 ## Django migrate
 
@@ -86,9 +77,15 @@ $ python manage.py makemigrations manager
 
 $ python manage.py migrate
 
+$ python manage.py collectstatic
+
 ## Importing all cities for django-cities (geolocalization)
 
 $ python manage.py cities --import=all --force #This may take a long time!
+
+## Django syncdb
+
+$ python manage.py syncdb
 
 ```
 And change in settings.py URLS, PATHS, DATABASE and EMAIL related settings with your specific configuration.

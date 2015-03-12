@@ -23,9 +23,11 @@ from manager.security import add_installer_perms
 autocomplete_light.autodiscover()
 
 
-def index(request):
-    talk_proposals = TalkProposal.objects.exclude(home_image__isnull=True).exclude(home_image__exact='').exclude(
-        dummy_talk=True)
+def home(request):
+    talk_proposals = TalkProposal.objects\
+        .exclude(home_image__isnull=True)\
+        .exclude(home_image__exact='')\
+        .exclude(dummy_talk=True)
 
     # Seguro hay una mejor forma de hacerlo
     # estoy saliendo de un apuro :P
@@ -39,8 +41,10 @@ def index(request):
     return render(request, 'index.html', {'talk_proposals': filtered})
 
 
-def home(request):
-    return render(request, 'home.html')
+def get_forms_errors(forms):
+    field_errors = [form.non_field_errors() for form in forms]
+    errors = [error for error in field_errors]
+    return list(itertools.chain.from_iterable(errors))
 
 
 def collaborator_registration(request):
@@ -59,11 +63,12 @@ def collaborator_registration(request):
                     return HttpResponseRedirect('/app/registration/success')
             except:
                 User.delete(user)
-        errors = list(itertools.chain.from_iterable([error for error in [form.non_field_errors() for form in forms]]))
+        errors = get_forms_errors(forms)
 
-    return render(request, 'registration/collaborator-registration.html', {'forms': forms,
-                                                                           'errors': errors,
-                                                                           'multipart': False, })
+    return render(request,
+                  'registration/collaborator-registration.html',
+                  {'forms': forms, 'errors': errors, 'multipart': False, }
+    )
 
 
 def installer_registration(request):
@@ -84,11 +89,12 @@ def installer_registration(request):
             except:
                 if user is not None: User.delete(user)
                 if installer is not None: Installer.delete(installer)
-        errors = list(itertools.chain.from_iterable([error for error in [form.non_field_errors() for form in forms]]))
+        errors = get_forms_errors(forms)
 
-    return render(request, 'registration/installer-registration.html', {'forms': forms,
-                                                                        'errors': errors,
-                                                                        'multipart': False, })
+    return render(request,
+                  'registration/installer-registration.html',
+                  {'forms': forms, 'errors': errors, 'multipart': False, }
+    )
 
 
 @login_required
@@ -105,17 +111,20 @@ def installation(request):
                 if installation_form.is_valid():
                     installation = installation_form.save()
                     installation.hardware = hardware
-                    installer = Installer.objects.filter(user__username=request.user.username)[0]
+                    installer = Installer.objects.filter(
+                        user__username=request.user.username
+                    )[0]
                     installation.installer = installer
                     installation.save()
                     return HttpResponseRedirect('/app/installation/success')
             except:
                 if hardware is not None: Hardware.delete(hardware)
                 if installation is not None: Installation.delete(installation)
-        errors = list(itertools.chain.from_iterable([error for error in [form.non_field_errors() for form in forms]]))
-    return render(request, 'installation/installation-form.html', {'forms': forms,
-                                                                   'errors': errors,
-                                                                   'multipart': False, })
+        errors = get_forms_errors(forms)
+    return render(request,
+                  'installation/installation-form.html',
+                  {'forms': forms, 'errors': errors, 'multipart': False, }
+    )
 
 
 def registration(request):
@@ -171,18 +180,18 @@ def talks(request):
             klass = type('DynamicTable', (TalksTable,), attrs)
 
             hours = TalkTime.objects.filter(talk_type=talk_type, sede=sede).order_by('start_date')
-
+            
             for hour in hours:
                 talkss = Talk.objects.filter(hour=hour, sede=sede)
                 talk = {'hour': hour}
                 for t in talkss:
-
+                    
                     talk_link = '<a href="' + reverse('talk_detail', args=[
                         t.pk]) + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
                     for speaker in t.speakers.all():
                         if not speaker.user.first_name == '':
                             talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))
-
+                    
                     talk[t.room.name] = mark_safe(talk_link)
                 talks.append(talk)
 
