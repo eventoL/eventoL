@@ -25,17 +25,11 @@ Status
 [![Requirements Status](https://requires.io/github/reyiyo/eventoL/requirements.svg?branch=master)](https://requires.io/github/reyiyo/eventoL/requirements/?branch=master)
 
 
-TODO (this month)
------------------
-- After-event statistics.
-- RESTFull API to provide event related data to other apps.
-- User Manuals
-- Code some tests
-
 Future
 -------
 - Actually it has many hardcoded parts that are specific to FLISoL. The idea is to make a generic app for any kind of conference or install fest.
 - ADMIN interface for the different roles in the event.
+
 
 Installation
 --------------
@@ -73,15 +67,7 @@ postgres# CREATE DATABASE flisol OWNER flisol TEMPLATE template_postgis ENCODING
 
 #Python/Django
 
-## Install django-generic-confirmation
-
-$ git clone https://github.com/arneb/django-generic-confirmation.git
-$ cd django-generic-confirmation
-$ python setup.py install
-
-## Install other requirements
-
-$ pip install -r requirements.txt
+$ pip install -U -r requirements.txt --allow-external django-generic-confirmation --allow-unverified django-generic-confirmation
 
 ## Django migrate
 
