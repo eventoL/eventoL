@@ -23,10 +23,10 @@ from manager.security import add_installer_perms
 autocomplete_light.autodiscover()
 
 
-def home(request):
-    talk_proposals = TalkProposal.objects\
-        .exclude(home_image__isnull=True)\
-        .exclude(home_image__exact='')\
+def index(request):
+    talk_proposals = TalkProposal.objects \
+        .exclude(home_image__isnull=True) \
+        .exclude(home_image__exact='') \
         .exclude(dummy_talk=True)
 
     # Seguro hay una mejor forma de hacerlo
@@ -39,6 +39,10 @@ def home(request):
             titles.append(t.title)
 
     return render(request, 'index.html', {'talk_proposals': filtered})
+
+
+def home(request):
+    return render(request, 'home.html')
 
 
 def get_forms_errors(forms):
@@ -87,8 +91,10 @@ def installer_registration(request):
                     installer.save()
                     return HttpResponseRedirect('/app/registration/success')
             except:
-                if user is not None: User.delete(user)
-                if installer is not None: Installer.delete(installer)
+                if user is not None:
+                    User.delete(user)
+                if installer is not None:
+                    Installer.delete(installer)
         errors = get_forms_errors(forms)
 
     return render(request,
@@ -118,8 +124,10 @@ def installation(request):
                     installation.save()
                     return HttpResponseRedirect('/app/installation/success')
             except:
-                if hardware is not None: Hardware.delete(hardware)
-                if installation is not None: Installation.delete(installation)
+                if hardware is not None:
+                    Hardware.delete(hardware)
+                if installation is not None:
+                    Installation.delete(installation)
         errors = get_forms_errors(forms)
     return render(request,
                   'installation/installation-form.html',
