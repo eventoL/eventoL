@@ -9,7 +9,7 @@
 
 {% block form-name %}{% trans "Submit an Installation" %}{% endblock %}
 
-{% block form-action %}"/app/installation"{% endblock %}
+{% block form-action %}"/app/{{ sede_url }}/installation"{% endblock %}
 
 {% block other-script %}
     {% include 'autocomplete_light/static.html' %}

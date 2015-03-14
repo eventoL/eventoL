@@ -43,11 +43,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/app/registration">{% trans "Registration" %}</a>
+                    <li><a href="/app/{{ sede_url }}/registration">{% trans "Registration" %}</a>
                     </li>
-                    <li><a href="/app/schedule">{% trans "Talks Schedule" %}</a>
+                    <li><a href="/app/{{ sede_url }}/schedule">{% trans "Talks Schedule" %}</a>
                     </li>
-                    <li><a href="/app/talk/proposal">{% trans "Submit your talk!" %}</a>
+                    <li><a href="/app/{{ sede_url }}/talk/proposal">{% trans "Submit your talk!" %}</a>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "About FLISoL" %} <i
@@ -72,17 +72,17 @@
                             {% else %}
                                 <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>
                                 </li>
-                                <li><a href="/app/installation"><i
+                                <li><a href="/app/{{ sede_url }}/installation"><i
                                         class="fa fa-laptop"></i> {% trans "Submit an installation" %}</a>
                                 </li>
-                                <li><a href="/app/registration/attendant/search"><i
+                                <li><a href="/app/{{ sede_url }}/registration/attendant/search"><i
                                         class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}</a>
                                 </li>
                             {% endif %}
-                            <li><a href="/app/registration/collaborator"><i
+                            <li><a href="/app/{{ sede_url }}/registration/collaborator"><i
                                     class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}</a>
                             </li>
-                            <li><a href="/app/registration/installer"><i
+                            <li><a href="/app/{{ sede_url }}/registration/installer"><i
                                     class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
                             </li>
                         </ul>
@@ -104,7 +104,7 @@
                             <li><a href="//www.facebook.com/Flisol.caba"><i class="fa fa-facebook-square"></i> FLISol
                                 CABA</a>
                             </li>
-                            <li><a href="/app/contact"><i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
+                            <li><a href="/app/{{ sede_url }}/contact"><i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
                             </li>
                         </ul>
                     </li>

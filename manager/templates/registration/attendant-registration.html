@@ -10,7 +10,7 @@
 
 {% block form-name %}{% trans "Attendant Registration" %}{% endblock %}
 
-{% block form-action %}"/app/registration"{% endblock %}
+{% block form-action %}"/app/{{ sede_url }}/registration"{% endblock %}
 
 {% block other-script %}
     <script src="{% static "manager/js/jquery.chained.remote.min.js" %}"></script>

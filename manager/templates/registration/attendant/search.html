@@ -32,7 +32,7 @@
 
 {% block form-name %}{% trans "Attendant Registration" %}{% endblock %}
 
-{% block form-action %}"/app/registration/attendant/search"{% endblock %}
+{% block form-action %}"/app/{{ sede_url }}/registration/attendant/search"{% endblock %}
 
 {% block buttons %}
     <div class="form-group">
@@ -47,25 +47,14 @@
 
 {% block other-script %}
     <script>
-        $(document).ready(function () {
-            $('body').on('change', 'select[name$=sede]', function () {
-                var sedeSelectElement = $(this);
-                var attendantSelectElement = $('#' + $(this).attr('id').replace('sede', 'attendant'));
-                var attendantWidgetElement = attendantSelectElement.parents('.autocomplete-light-widget');
+        $(document).ready(function() {
 
-                // When the Sede select changes
-                value = $(this).val();
+            var attendeeAutocomplete = $('.autocomplete-light-widget');
+            var sede = "{{ sede_url }}";
 
-                if (value) {
-                    // If value is contains something, add it to autocomplete.data
-                    attendantWidgetElement.yourlabsWidget().autocomplete.data = {
-                        'sede_id': value[0],
-                    };
-                } else {
-                    // If value is empty, empty autocomplete.data
-                    attendantWidgetElement.yourlabsWidget().autocomplete.data = {}
-                }
-            })
+            attendeeAutocomplete.yourlabsWidget().autocomplete.data = {
+                'sede_url': sede
+            };
         });
     </script>
 {% endblock %}

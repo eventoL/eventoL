@@ -7,7 +7,7 @@ from manager.models import Installation
 def create_installers_group():
     content_type = ContentType.objects.get_for_model(Installation)
     create_installation = Permission.objects.get(codename='add_installation',
-                                                 name='Can add installation',
+                                                 name='Can add Installation',
                                                  content_type=content_type)
     installers = Group.objects.create(name='Installers')
     installers.permissions.add(create_installation)
@@ -16,7 +16,6 @@ def create_installers_group():
 
 
 def add_installer_perms(user):
-    group = None
     try:
         group = Group.objects.get(name='Installers')
     except Group.DoesNotExist:

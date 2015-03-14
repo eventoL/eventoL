@@ -10,15 +10,13 @@ autocomplete.autodiscover()
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.forms import widgets
-from django.forms.fields import ChoiceField, CharField
 from django.forms.models import ModelForm
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendant, Installation, Hardware, Organizer, \
-    Installer, Sede, TalkProposal, HardwareManufacturer
+    Installer, TalkProposal, HardwareManufacturer
 
 
 class AttendantAutocomplete(autocomplete.AutocompleteModelBase):
@@ -34,13 +32,13 @@ class AttendantBySedeAutocomplete(autocomplete.AutocompleteModelBase):
 
     def choices_for_request(self):
         q = self.request.GET.get('q', '')
-        sede_id = self.request.GET.get('sede_id', None)
+        sede_url = self.request.GET.get('sede_url', None)
 
         choices = []
 
-        if sede_id:
+        if sede_url:
             choices = self.choices.all()
-            choices = choices.filter(sede__pk=sede_id)
+            choices = choices.filter(sede__url=sede_url)
             if q:
                 choices = choices.filter(
                     Q(name__icontains=q) | Q(surname__icontains=q) | Q(
@@ -60,39 +58,23 @@ def sorted_choices(choices_list):
 
 
 class AttendantSearchForm(forms.Form):
-    sedes = Sede.objects.distinct()
-    sede = ChoiceField(
-        label=_('Sede'),
-        choices=sorted_choices([(sede.pk, sede.name) for sede in sedes])
-    )
     attendant = autocomplete.ModelChoiceField('AttendantBySedeAutocomplete', required=False)
 
 
 class RegistrationForm(DeferredForm):
-    sedes = Sede.objects.distinct().prefetch_related('country')
-    country = ChoiceField(
-        label=_('Country'),
-        choices=sorted_choices([(sede.country.code, sede.country.name) for sede in sedes]),
-        required=False
-    )
-    state = CharField(label=_('State'), required=False, widget=widgets.Select())
-    city = CharField(label=_('City'), required=False, widget=widgets.Select())
-
-    def send_notification(self, instance=None):
+    def send_notification(self, user=None, instance=None):
         send_mail(_("FLISoL Registration Confirmation"),
                   render_to_string(
                       "mail/registration_confirmation.txt",
-                      {'token': instance.token, 'form': self}
-                  ),
+                      {'token': instance.token, 'form': self}),
                   'reyiyo@gmail.com',
                   recipient_list=[self.cleaned_data['email'], ],
-                  fail_silently=False
-        )
+                  fail_silently=False)
 
     class Meta:
         model = Attendant
-        fields = ['name', 'surname', 'nickname', 'email', 'country', 'state',
-                  'city', 'sede', 'is_going_to_install', 'additional_info']
+        fields = ['name', 'surname', 'nickname', 'email', 'sede', 'is_going_to_install', 'additional_info']
+        widgets = {'sede': forms.HiddenInput()}
 
 
 class AttendantRegistrationByCollaboratorForm(forms.ModelForm):
@@ -100,6 +82,7 @@ class AttendantRegistrationByCollaboratorForm(forms.ModelForm):
         model = Attendant
         fields = ('name', 'surname', 'nickname', 'email', 'sede',
                   'is_going_to_install', 'additional_info')
+        widgets = {'sede': forms.HiddenInput()}
 
 
 class InstallationForm(autocomplete.ModelForm):
@@ -119,6 +102,7 @@ class CollaboratorRegistrationForm(ModelForm):
     class Meta:
         model = Organizer
         exclude = ['user', 'is_coordinator', 'assisted']
+        widgets = {'sede': forms.HiddenInput()}
 
 
 class InstallerRegistrationForm(ModelForm):
@@ -133,6 +117,7 @@ class InstallerRegistrationForm(ModelForm):
     class Meta:
         model = Installer
         exclude = ['user', 'is_coordinator', 'assisted']
+        widgets = {'sede': forms.HiddenInput()}
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -149,6 +134,7 @@ class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
         exclude = ('cropping',)
+        widgets = {'sede': forms.HiddenInput()}
 
 
 class TalkProposalImageCroppingForm(ModelForm):
