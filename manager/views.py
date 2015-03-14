@@ -1,4 +1,6 @@
 # encoding: UTF-8
+import itertools
+
 import autocomplete_light
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
@@ -7,10 +9,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
-import itertools
 from django.utils.translation import ugettext as _
-
 import django_tables2 as tables
+
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, \
@@ -23,9 +24,11 @@ from manager.security import add_installer_perms
 autocomplete_light.autodiscover()
 
 
-def index(request):
-    talk_proposals = TalkProposal.objects.exclude(home_image__isnull=True).exclude(home_image__exact='').exclude(
-        dummy_talk=True)
+def index(request, sede_url):
+    talk_proposals = TalkProposal.objects.filter(sede__url=sede_url) \
+        .exclude(home_image__isnull=True) \
+        .exclude(home_image__exact='') \
+        .exclude(dummy_talk=True)
 
     # Seguro hay una mejor forma de hacerlo
     # estoy saliendo de un apuro :P
@@ -36,9 +39,7 @@ def index(request):
             filtered.append(t)
             titles.append(t.title)
 
-    # FIXME CABA está hardcodeado porque en el futuro esta vendría a ser la página principal de
-    # la sede y no la principal de todo
-    return render(request, 'index.html', {'talk_proposals': filtered, 'sede_url': 'CABA'})
+    return render(request, 'index.html', {'talk_proposals': filtered, 'sede_url': sede_url})
 
 
 def home(request):
@@ -167,7 +168,7 @@ def talk_proposal(request, sede_url):
             proposal = form.save()
             return HttpResponseRedirect(reverse('image_cropping', args=(sede_url, proposal.pk)))
 
-    return render(request, 'talks/proposal.html', {'form': form, })
+    return render(request, 'talks/proposal.html', {'form': form, 'sede_url': sede_url})
 
 
 @login_required
@@ -189,7 +190,7 @@ def talks(request, sede_url):
 
 
     if Talk.objects.all().count() == 0:
-        return render(request, "talks/schedule.html", {'tables': None})
+        return render(request, "talks/schedule.html", {'tables': None, 'sede_url': sede_url})
 
     tabless = {}
     for sede in Sede.objects.all():
@@ -207,8 +208,8 @@ def talks(request, sede_url):
                 talk = {'hour': hour}
                 for t in talkss:
                     
-                    talk_link = '<a href="' + reverse('talk_detail', args=[
-                        t.pk]) + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
+                    talk_link = '<a href="' + reverse('talk_detail', args=[t.pk]) \
+                                + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
                     for speaker in t.speakers.all():
                         if not speaker.user.first_name == '':
                             talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))

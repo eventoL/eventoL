@@ -3,6 +3,7 @@ import re
 from cities.models import Country, Region, City, District, Place
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
@@ -41,7 +42,10 @@ class Sede(models.Model):
         super(Sede, self).save(*args, **kwargs)
 
     def get_geo_info(self):
-        return {"lat": self.city.location.y, "lon": self.city.location.x, "name": self.name, "url": '#'}
+        return {"lat": self.city.location.y,
+                "lon": self.city.location.x,
+                "name": self.name,
+                "url": reverse('index', args=(self.url,))}
 
 
 class Attendant(models.Model):

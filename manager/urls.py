@@ -4,8 +4,10 @@ from django.views.generic import TemplateView
 from manager import views
 from manager.views import TalkDetailView
 
+
 sede_patterns = patterns(
     '',
+    url(r'^$', views.index, name="index"),
     url(r'^registration$', views.registration, name='registration'),
     url(r'^registration/confirm$', TemplateView.as_view(template_name='registration/confirm.html'),
         name="confirm_registration"),
