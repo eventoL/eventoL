@@ -74,7 +74,8 @@ class RegistrationForm(DeferredForm):
     class Meta:
         model = Attendant
         fields = ['name', 'surname', 'nickname', 'email', 'sede', 'is_going_to_install', 'additional_info']
-        widgets = {'sede': forms.HiddenInput()}
+        widgets = {'sede': forms.HiddenInput(),
+                   'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
 class AttendantRegistrationByCollaboratorForm(forms.ModelForm):

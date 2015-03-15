@@ -1,0 +1,27 @@
+{% load filters %}
+{% load i18n %}
+<div class="form-group {{ field.html_name }} {% if field.errors %}has-error has-feedback{% endif %}">
+    {% if not field|is_checkbox %}
+        <label class="control-label" for="field.id_for_label">
+            {% trans field.label %}{% if field.field.required %} *{% endif %}
+        </label>
+    {% endif %}
+
+    {% if field.name == 'cropping' %}
+        {{ field }}
+    {% elif field|is_checkbox %}
+        <div class="checkbox">
+            <label>
+                <input type="checkbox">
+                {% trans field.label %}{% if field.field.required %} *{% endif %}
+            </label>
+        </div>
+    {% else %}
+        {{ field | addcss:"form-control" }}
+    {% endif %}
+    {% if field.errors %}
+        <span class="fa fa-minus-square form-control-feedback"></span>
+        <span class="help-inline">{{ field.errors.as_text }}</span>
+    {% endif %}
+    {% if field.help_text %}<p class="help-block">{{ field.help_text }}</p>{% endif %}
+</div>
