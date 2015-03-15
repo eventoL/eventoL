@@ -4,4 +4,4 @@ manufacturers autocomplete
 Label suggestion
 Moderator approves collaborators (to avoid spam)
 user manual
-attendant registration by collaborator
+attendee registration by collaborator

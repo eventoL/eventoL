@@ -72,7 +72,7 @@ class Contact(models.Model):
         return "%s - %s" % (self.type.name, self.text)
 
 
-class Attendant(models.Model):
+class Attendee(models.Model):
     name = models.CharField(_('First Name'), max_length=200, blank=True, null=True)
     surname = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
     nickname = models.CharField(_('Nickname'), max_length=200, blank=True, null=True)
@@ -88,8 +88,8 @@ class Attendant(models.Model):
         return self.email
 
     class Meta:
-        verbose_name = _('Attendant')
-        verbose_name_plural = _('Attendants')
+        verbose_name = _('Attendee')
+        verbose_name_plural = _('Attendees')
         unique_together = ('email', 'sede',)
 
 
@@ -180,7 +180,7 @@ class Installer(Organizer):
 class Installation(models.Model):
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'), blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'), blank=True, null=True)
-    attendant = models.ForeignKey(Attendant, verbose_name=_('Attendant'),
+    attendee = models.ForeignKey(Attendee, verbose_name=_('Attendee'),
                                   help_text=_('The owner of the installed hardware'))
     installer = models.ForeignKey(Installer, verbose_name=_('Installer'), related_name='installed_by', blank=True,
                                   null=True)
@@ -188,7 +188,7 @@ class Installation(models.Model):
                              help_text=_('Any information or trouble you found and consider relevant to document'))
 
     def __unicode__(self):
-        return "%s, %s, %s" % (self.attendant, self.hardware, self.software)
+        return "%s, %s, %s" % (self.attendee, self.hardware, self.software)
 
     class Meta:
         verbose_name = _('Installation')

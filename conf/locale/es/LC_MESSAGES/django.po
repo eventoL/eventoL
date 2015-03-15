@@ -19,7 +19,7 @@ msgstr ""
 
 #: manager/forms.py:29
 #, fuzzy
-msgid "Search Attendant"
+msgid "Search Attendee"
 msgstr "Buscar Asistente"
 
 #: manager/forms.py:51
@@ -116,12 +116,12 @@ msgid "i.e. Wath kind of PC are you bringing"
 msgstr "x. ej: Qué tipo de PC vas a llevar para instalar"
 
 #: manager/models.py:51 manager/models.py:129
-msgid "Attendant"
+msgid "Attendee"
 msgstr "Asistente"
 
 #: manager/models.py:52
 #, fuzzy
-msgid "Attendants"
+msgid "Attendees"
 msgstr "Asistentes"
 
 #: manager/models.py:57
@@ -600,16 +600,16 @@ msgstr ""
 "\n"
 "http://flisolcaba.usla.org.ar/confirm/%(token)s\n"
 
-#: manager/templates/registration/attendant-registration.html:5
-#: manager/templates/registration/attendant-registration.html:7
-#: manager/templates/registration/attendant-registration.html:11
-#: manager/templates/registration/attendant/by-collaborator.html:5
-#: manager/templates/registration/attendant/by-collaborator.html:7
-#: manager/templates/registration/attendant/by-collaborator.html:11
-#: manager/templates/registration/attendant/search.html:9
-#: manager/templates/registration/attendant/search.html:11
-#: manager/templates/registration/attendant/search.html:26
-msgid "Attendant Registration"
+#: manager/templates/registration/attendee-registration.html:5
+#: manager/templates/registration/attendee-registration.html:7
+#: manager/templates/registration/attendee-registration.html:11
+#: manager/templates/registration/attendee/by-collaborator.html:5
+#: manager/templates/registration/attendee/by-collaborator.html:7
+#: manager/templates/registration/attendee/by-collaborator.html:11
+#: manager/templates/registration/attendee/search.html:9
+#: manager/templates/registration/attendee/search.html:11
+#: manager/templates/registration/attendee/search.html:26
+msgid "Attendee Registration"
 msgstr "Registro de Asistentes"
 
 #: manager/templates/registration/collaborator-registration.html:3
@@ -668,15 +668,15 @@ msgstr "Se ha registrado satisfactoriamente!"
 msgid "You can now <a href=\"/accounts/login\">login</a>"
 msgstr "Ahora puede <a href=\"/accounts/login\">iniciar sesión</a>"
 
-#: manager/templates/registration/attendant/assisted.html:3
-#: manager/templates/registration/attendant/assisted.html:4
+#: manager/templates/registration/attendee/assisted.html:3
+#: manager/templates/registration/attendee/assisted.html:4
 #, fuzzy
-msgid "Attendant Registered"
+msgid "Attendee Registered"
 msgstr "Registro de Asistentes"
 
-#: manager/templates/registration/attendant/assisted.html:6
+#: manager/templates/registration/attendee/assisted.html:6
 #, fuzzy
-msgid "The attendant has been registered successfully. Happy Hacking!"
+msgid "The attendee has been registered successfully. Happy Hacking!"
 msgstr "La instalación se ha registrado satisfactoriamente. Happy Hacking!"
 
 #: manager/templates/talks/confirm.html:3
