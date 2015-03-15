@@ -31,7 +31,8 @@ class Sede(models.Model):
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
     place = models.ForeignKey(Building, verbose_name=_('Place'),
                               help_text=_('Specific place (building) where the event is taking place'))
-    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True)
+    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,
+                           db_index=True)
 
     def __unicode__(self):
         return "%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
