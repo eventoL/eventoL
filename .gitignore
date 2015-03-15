@@ -42,3 +42,4 @@ nosetests.xml
 #My files
 eventoL/my_settings.py
 deploy.txt
+media/talks_thumbnails/

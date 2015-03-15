@@ -59,7 +59,7 @@
                     <p>El FLISoL se realiza en muchas ciudades a la vez. Encontrá tu sede más cercana acá.</p>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-pencil"></i> <a href="/app/registration">Anotate!</a></h3>
+                    <h3><i class="fa fa-pencil"></i> <a href="/app/{{ sede_url }}/registration">Anotate!</a></h3>
 
                     <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
                         traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
@@ -87,7 +87,7 @@
                         {% for talk_proposal in talk_proposals %}
                             <div class="item {% if forloop.first %}active{% endif %}">
                                 <div class="holder col-sm-6">
-                                    <img class="img-responsive" src="{% cropped_thumbnail talk_proposal cropping %}"
+                                    <img class="img-responsive" src="{% cropped_thumbnail talk_proposal "cropping" %}"
                                          alt="{{ talk_proposal.title }}" width="100%" heigth="100%">
                                 </div>
                                 <div class="col-sm-6">
@@ -207,7 +207,7 @@
 
 {% block other-script %}
     <script>
-        $(window).bind("load resize slid.bs.carousel", function () {
+        $(window).bind("load resize slid.bs.carousel", function() {
             var imageHeight = $(".active .holder").height();
             $(".controllers").height(imageHeight);
         });

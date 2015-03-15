@@ -1,5 +1,9 @@
+import re
+
 from cities.models import Country, Region, City, District, Place
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
@@ -27,9 +31,21 @@ class Sede(models.Model):
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
     place = models.ForeignKey(Building, verbose_name=_('Place'),
                               help_text=_('Specific place (building) where the event is taking place'))
+    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True)
 
     def __unicode__(self):
         return "%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
+
+    def save(self, *args, **kwargs):
+        if not re.match("^[a-zA-Z0-9-_]+$", self.url):
+            raise ValidationError({'url': _('URL can only contain letters or numbers')})
+        super(Sede, self).save(*args, **kwargs)
+
+    def get_geo_info(self):
+        return {"lat": self.city.location.y,
+                "lon": self.city.location.x,
+                "name": self.name,
+                "url": reverse('index', args=(self.url,))}
 
 
 class Attendant(models.Model):
@@ -184,7 +200,8 @@ class TalkProposal(models.Model):
         'Any material you are going to use for the talk (optional, but recommended)'))
     home_image = ImageCropField(upload_to='talks_thumbnails', verbose_name=_('Home Page Image'), blank=True, null=True,
                                 help_text=_(
-                                    'Image that is going to appear in the home page of this web for promoting the talk (optional)'))
+                                    'Image that is going to appear in the home page of this web for promoting the '
+                                    'talk (optional)'))
     cropping = ImageRatioField('home_image', '700x450', size_warning=True, verbose_name=_('Cropping'),
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
 

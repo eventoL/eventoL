@@ -32,3 +32,8 @@ def sedes(request):
     for place in places:
         response_data[place.id] = place.name
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def sedes_geo(request):
+    response_data = [sede.get_geo_info() for sede in Sede.objects.distinct()]
+    return HttpResponse(json.dumps(response_data), content_type="application/json")

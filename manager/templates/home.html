@@ -1,0 +1,78 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description"
+          content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
+
+    <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
+    <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
+          rel="image_src"/>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
+    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body onLoad="javascript:init();">
+<div id="map" class="leaflet-container leaflet-fade-anim" tabindex="0" style="position: relative;"></div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+
+<script language="javascript">
+    function init() {
+
+        var map = new L.Map('map');
+
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' +
+            ' contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+            maxZoom    : 18
+        }).addTo(map);
+        map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
+
+
+        var argentina = new L.LatLng(-29.08, -63.98);
+        map.setView(argentina, 3);
+
+
+        $.get("/app/api/sedes_geo", function(data) {
+
+            data.forEach(function(sede) {
+                var markerLocation = new L.LatLng(sede.lat, sede.lon);
+                var marker = new L.Marker(markerLocation);
+                var popupText = '<a href="' + sede.url + '">' + sede.name + '</a>';
+                console.log(sede);
+                console.log(sede.url);
+                console.log(popupText);
+                map.addLayer(marker);
+                marker.bindPopup(popupText);
+            });
+
+        });
+
+        var imageUrl = 'http://flisol.info/Logo?action=AttachFile&do=get&target=FLISoL-2015.png';
+        var imageBounds = [[-4.91, -102.13], [-45.58, -20.21]];
+
+        L.imageOverlay(imageUrl, imageBounds)
+                .addTo(map)
+                .setOpacity(0.4);
+
+    }
+</script>
+
+</body>
+</html>

@@ -1,4 +1,6 @@
 # encoding: UTF-8
+import itertools
+
 import autocomplete_light
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
@@ -7,26 +9,25 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
-import itertools
 from django.utils.translation import ugettext as _
-
 import django_tables2 as tables
+
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, \
     AttendantSearchForm, AttendantRegistrationByCollaboratorForm
 from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkTime, TalkType, TalkProposal, Sede, Attendant
+    TalkTime, TalkType, TalkProposal, Sede, Attendant, Organizer
 from manager.security import add_installer_perms
 
 
 autocomplete_light.autodiscover()
 
 
-def home(request):
-    talk_proposals = TalkProposal.objects\
-        .exclude(home_image__isnull=True)\
-        .exclude(home_image__exact='')\
+def index(request, sede_url):
+    talk_proposals = TalkProposal.objects.filter(sede__url=sede_url) \
+        .exclude(home_image__isnull=True) \
+        .exclude(home_image__exact='') \
         .exclude(dummy_talk=True)
 
     # Seguro hay una mejor forma de hacerlo
@@ -38,7 +39,11 @@ def home(request):
             filtered.append(t)
             titles.append(t.title)
 
-    return render(request, 'index.html', {'talk_proposals': filtered})
+    return render(request, 'index.html', {'talk_proposals': filtered, 'sede_url': sede_url})
+
+
+def home(request):
+    return render(request, 'home.html')
 
 
 def get_forms_errors(forms):
@@ -47,11 +52,18 @@ def get_forms_errors(forms):
     return list(itertools.chain.from_iterable(errors))
 
 
-def collaborator_registration(request):
+def collaborator_registration(request, sede_url):
     user_form = UserRegistrationForm(request.POST or None)
-    collaborator_form = CollaboratorRegistrationForm(request.POST or None)
+    if request.POST:
+        collaborator_form = CollaboratorRegistrationForm(request.POST)
+    else:
+        sede = Sede.objects.get(url=sede_url)
+        organizer = Organizer(sede=sede)
+        collaborator_form = CollaboratorRegistrationForm(instance=organizer)
+
     forms = [user_form, collaborator_form]
     errors = []
+
     if request.POST:
         if user_form.is_valid():
             user = user_form.save()
@@ -60,20 +72,25 @@ def collaborator_registration(request):
                     collaborator = collaborator_form.save()
                     collaborator.user = user
                     collaborator.save()
-                    return HttpResponseRedirect('/app/registration/success')
+                    return HttpResponseRedirect('/app/' + sede_url + '/registration/success')
             except:
                 User.delete(user)
         errors = get_forms_errors(forms)
 
     return render(request,
                   'registration/collaborator-registration.html',
-                  {'forms': forms, 'errors': errors, 'multipart': False, }
-    )
+                  {'forms': forms, 'errors': errors, 'multipart': False, 'sede_url': sede_url})
 
 
-def installer_registration(request):
+def installer_registration(request, sede_url):
     user_form = UserRegistrationForm(request.POST or None)
-    installer_form = InstallerRegistrationForm(request.POST or None)
+    if request.POST:
+        installer_form = InstallerRegistrationForm(request.POST)
+    else:
+        sede = Sede.objects.get(url=sede_url)
+        installer = Installer(sede=sede)
+        installer_form = InstallerRegistrationForm(instance=installer)
+
     forms = [user_form, installer_form]
     errors = []
     if request.POST:
@@ -85,21 +102,22 @@ def installer_registration(request):
                     user = add_installer_perms(user)
                     installer.user = user
                     installer.save()
-                    return HttpResponseRedirect('/app/registration/success')
-            except:
-                if user is not None: User.delete(user)
-                if installer is not None: Installer.delete(installer)
+                    return HttpResponseRedirect('/app/' + sede_url + '/registration/success')
+            except Exception as e:
+                if user is not None:
+                    User.delete(user)
+                if installer is not None:
+                    Installer.delete(installer)
         errors = get_forms_errors(forms)
 
     return render(request,
                   'registration/installer-registration.html',
-                  {'forms': forms, 'errors': errors, 'multipart': False, }
-    )
+                  {'forms': forms, 'errors': errors, 'multipart': False, 'sede_url': sede_url})
 
 
 @login_required
 @permission_required('manager.add_installation', raise_exception=True)
-def installation(request):
+def installation(request, sede_url):
     installation_form = InstallationForm(request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
     forms = [installation_form, hardware_form]
@@ -111,64 +129,68 @@ def installation(request):
                 if installation_form.is_valid():
                     installation = installation_form.save()
                     installation.hardware = hardware
-                    installer = Installer.objects.filter(
-                        user__username=request.user.username
-                    )[0]
+                    installer = Installer.objects.filter(user__username=request.user.username)[0]
                     installation.installer = installer
                     installation.save()
-                    return HttpResponseRedirect('/app/installation/success')
+                    return HttpResponseRedirect('/app/' + sede_url + '/installation/success')
             except:
-                if hardware is not None: Hardware.delete(hardware)
-                if installation is not None: Installation.delete(installation)
+                if hardware is not None:
+                    Hardware.delete(hardware)
+                if installation is not None:
+                    Installation.delete(installation)
         errors = get_forms_errors(forms)
     return render(request,
                   'installation/installation-form.html',
-                  {'forms': forms, 'errors': errors, 'multipart': False, }
-    )
+                  {'forms': forms, 'errors': errors, 'multipart': False, 'sede_url': sede_url})
 
 
-def registration(request):
+def registration(request, sede_url):
     form = RegistrationForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/app/registration/confirm')
+            return HttpResponseRedirect('/app/' + sede_url + '/registration/confirm')
     else:
-        form = RegistrationForm()
+        sede = Sede.objects.get(url=sede_url)
+        attendant = Attendant(sede=sede)
+        form = RegistrationForm(instance=attendant)
 
-    return render(request, 'registration/attendant-registration.html', {'form': form})
+    return render(request, 'registration/attendant-registration.html', {'form': form, 'sede_url': sede_url})
 
 
 @login_required
-def talk_proposal(request):
-    form = TalkProposalForm(request.POST or None, request.FILES or None)
+def talk_proposal(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    proposal = TalkProposal(sede=sede)
+    form = TalkProposalForm(request.POST or None, request.FILES or None, instance=proposal)
     if request.POST:
         if form.is_valid():
             proposal = form.save()
-            return HttpResponseRedirect(reverse('image_cropping', args=(proposal.pk,)))
+            return HttpResponseRedirect(reverse('image_cropping', args=(sede_url, proposal.pk)))
 
-    return render(request, 'talks/proposal.html', {'form': form, })
+    return render(request, 'talks/proposal.html', {'form': form, 'sede_url': sede_url})
 
 
 @login_required
-def image_cropping(request, image_id):
+def image_cropping(request, sede_url, image_id):
     proposal = get_object_or_404(TalkProposal, pk=image_id)
     form = TalkProposalImageCroppingForm(request.POST or None, request.FILES, instance=proposal)
     if request.POST:
-        if not proposal.cropping:
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect('/app/talk/confirm')
-    return render(request, 'talks/proposal/image-cropping.html', {'form': form})
+        # FIXME No me acuerdo por qué este if: if not proposal.cropping:
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/app/' + sede_url + '/talk/confirm')
+    return render(request, 'talks/proposal/image-cropping.html', {'form': form, 'sede_url': sede_url})
 
 
-def talks(request):
+# FIXME: Esto es lo que hay que tirar y hacer de nuevo :)
+def talks(request, sede_url):
     class TalksTable(tables.Table):
         hour = tables.Column(verbose_name=_('Hour'), orderable=False)
 
 
     if Talk.objects.all().count() == 0:
-        return render(request, "talks/schedule.html", {'tables': None})
+        return render(request, "talks/schedule.html", {'tables': None, 'sede_url': sede_url})
 
     tabless = {}
     for sede in Sede.objects.all():
@@ -186,8 +208,8 @@ def talks(request):
                 talk = {'hour': hour}
                 for t in talkss:
                     
-                    talk_link = '<a href="' + reverse('talk_detail', args=[
-                        t.pk]) + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
+                    talk_link = '<a href="' + reverse('talk_detail', args=[t.pk]) \
+                                + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
                     for speaker in t.speakers.all():
                         if not speaker.user.first_name == '':
                             talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))
@@ -202,40 +224,41 @@ def talks(request):
                     tabless[sede_key] = {}
                 tabless[sede_key][talk_type.name] = table
 
-    return render(request, "talks/schedule.html", {'tables': tabless})
+    return render(request, "talks/schedule.html", {'tables': tabless, 'sede_url': sede_url})
 
 
 @login_required
 @permission_required('manager.add_attendant', raise_exception=True)
-def attendant_search(request):
+def attendant_search(request, sede_url):
     form = AttendantSearchForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             attendant_email = form.cleaned_data['attendant']
-            sede = form.cleaned_data['sede']
             if attendant_email is not None:
-                attendant = Attendant.objects.get(email=attendant_email, sede__pk=sede)
+                attendant = Attendant.objects.get(email=attendant_email, sede__url=sede_url)
                 attendant.assisted = True
                 attendant.save()
-                return HttpResponseRedirect('/app/registration/attendant/assisted')
+                return HttpResponseRedirect('/app/' + sede_url + '/registration/attendant/assisted')
             else:
-                return HttpResponseRedirect('/app/registration/attendant/by-collaborator')
+                return HttpResponseRedirect('/app/' + sede_url + '/registration/attendant/by-collaborator')
 
-    return render(request, 'registration/attendant/search.html', {'form': form, })
+    return render(request, 'registration/attendant/search.html', {'form': form, 'sede_url': sede_url})
 
 
 @login_required
 @permission_required('manager.add_attendant', raise_exception=True)
-def attendant_registration_by_collaborator(request):
-    form = AttendantRegistrationByCollaboratorForm(request.POST or None)
+def attendant_registration_by_collaborator(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    attendee = Attendant(sede=sede)
+    form = AttendantRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
         if form.is_valid():
-            attendant = form.save()
-            attendant.assisted = True
-            attendant.save()
-            return HttpResponseRedirect('/app/registration/attendant/assisted')
+            attendee = form.save()
+            attendee.assisted = True
+            attendee.save()
+            return HttpResponseRedirect('/app/' + sede_url + '/registration/attendant/assisted')
 
-    return render(request, 'registration/attendant/by-collaborator.html', {'form': form})
+    return render(request, 'registration/attendant/by-collaborator.html', {'form': form, 'sede_url': sede_url})
 
 
 class TalkDetailView(DetailView):

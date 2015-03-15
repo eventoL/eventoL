@@ -12,7 +12,7 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'^$', views.home, name="index"),
+    url(r'^$', views.home, name="home"),
     url(r'^app/', include('manager.urls'), name='app'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
