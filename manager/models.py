@@ -48,6 +48,29 @@ class Sede(models.Model):
                 "url": reverse('index', args=(self.url,))}
 
 
+class ContactType(models.Model):
+    """
+    For example:
+        Name: Facebook
+        Icon Class: fa-facebook-square
+    """
+    name = models.CharField(_('Name'), unique=True, max_length=200)
+    icon_class = models.CharField(_('Icon Class'), max_length=200)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Contact(models.Model):
+    type = models.ForeignKey(ContactType, verbose_name=_('Contact Type'))
+    url = models.URLField(_noop('URL'))
+    text = models.CharField(_('Text'), max_length=200)
+    sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), related_name='contacts')
+
+    def __unicode__(self):
+        return "%s - %s" % (self.type.name, self.text)
+
+
 class Attendant(models.Model):
     name = models.CharField(_('First Name'), max_length=200, blank=True, null=True)
     surname = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
@@ -191,7 +214,8 @@ class TalkProposal(models.Model):
     long_description = models.TextField(_('Long Description'))
     dummy_talk = models.BooleanField(_('Dummy Talk?'), default=False)
     abstract = models.TextField(_('Abstract'), help_text=_('Short idea of the talk (Two or three sentences)'))
-    sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), help_text=_('Sede you are proposing the talk to'))
+    sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), help_text=_('Sede you are proposing the talk to'),
+                             related_name='talk_proposals')
     speakers_email = models.CharField(_('Speakers Emails'), max_length=600,
                                       help_text=_("Comma separated speaker's emails"))
     labels = models.CharField(_('Labels'), max_length=200,

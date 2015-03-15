@@ -25,21 +25,16 @@ autocomplete_light.autodiscover()
 
 
 def index(request, sede_url):
-    talk_proposals = TalkProposal.objects.filter(sede__url=sede_url) \
-        .exclude(home_image__isnull=True) \
+    sede = Sede.objects.get(url=sede_url)
+
+    talk_proposals = sede.talk_proposals.exclude(home_image__isnull=True) \
         .exclude(home_image__exact='') \
-        .exclude(dummy_talk=True)
+        .exclude(dummy_talk=True) \
+        .distinct()
 
-    # Seguro hay una mejor forma de hacerlo
-    # estoy saliendo de un apuro :P
-    titles = []
-    filtered = []
-    for t in talk_proposals:
-        if t.title not in titles:
-            filtered.append(t)
-            titles.append(t.title)
-
-    return render(request, 'index.html', {'talk_proposals': filtered, 'sede_url': sede_url})
+    return render(request, 'index.html', {'talk_proposals': talk_proposals,
+                                          'contacts': sede.contacts.all(),
+                                          'sede_url': sede_url})
 
 
 def home(request):

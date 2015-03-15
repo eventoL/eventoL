@@ -695,5 +695,54 @@
       "version": "5.5",
       "type": "OS"
     }
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Email",
+      "icon_class": "fa-envelope"
+    }
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "IRC/Chat",
+      "icon_class": "fa-comments"
+    }
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Lista de Correo",
+      "icon_class": "fa-group"
+    }
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Wiki",
+      "icon_class": "fa-puzzle-piece"
+    }
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Twitter",
+      "icon_class": "fa-twitter-square"
+    }
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Facebook",
+      "icon_class": "fa-facebook-square"
+    }
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Google+",
+      "icon_class": "fa-google-plus-square"
+    }
   }
 ]

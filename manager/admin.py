@@ -2,7 +2,7 @@ from django.contrib.gis import admin
 from manager.models import (Building, Sede, Attendant, Organizer,
                             HardwareManufacturer, Hardware, Software,
                             Installer, Installation, TalkProposal, Talk,
-                            TalkType, Room, TalkTime)
+                            TalkType, Room, TalkTime, ContactType, Contact)
 from image_cropping.admin import ImageCroppingMixin
 
 
@@ -28,3 +28,5 @@ admin.site.register(TalkProposal, TalkProposalAdmin)
 admin.site.register(Room)
 admin.site.register(TalkTime)
 admin.site.register(Talk)
+admin.site.register(ContactType)
+admin.site.register(Contact)
