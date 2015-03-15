@@ -2,7 +2,7 @@
 {% load i18n %}
 <div class="form-group {{ field.html_name }} {% if field.errors %}has-error has-feedback{% endif %}">
     {% if not field|is_checkbox %}
-        <label class="control-label" for="field.id_for_label">
+        <label class="control-label" for="{{ field.id_for_label }}">
             {% trans field.label %}{% if field.field.required %} *{% endif %}
         </label>
     {% endif %}
@@ -15,6 +15,11 @@
                 <input type="checkbox">
                 {% trans field.label %}{% if field.field.required %} *{% endif %}
             </label>
+        </div>
+    {% elif field|is_fileinput %}
+        <div>
+            <input type="text" readonly="" class="form-control floating-label" placeholder="{% trans 'Browse...' %}">
+            {{ field }}
         </div>
     {% else %}
         {{ field | addcss:"form-control" }}

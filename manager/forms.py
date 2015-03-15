@@ -135,7 +135,9 @@ class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
         exclude = ('cropping',)
-        widgets = {'sede': forms.HiddenInput()}
+        widgets = {'sede': forms.HiddenInput(),
+                   'long_description': forms.Textarea(attrs={'rows': 3}),
+                   'abstract': forms.Textarea(attrs={'rows': 3})}
 
 
 class TalkProposalImageCroppingForm(ModelForm):
