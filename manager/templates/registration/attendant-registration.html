@@ -10,16 +10,4 @@
 
 {% block form-name %}{% trans "Attendant Registration" %}{% endblock %}
 
-{% block form-action %}"/app/{{ sede_url }}/registration"{% endblock %}
-
-{% block other-script %}
-    <script src="{% static "manager/js/jquery.chained.remote.min.js" %}"></script>
-    <script>
-        $(function () {
-            $("#id_state").remoteChained("#id_country", "/app/api/states");
-            $("#id_city").remoteChained("#id_state", "/app/api/cities");
-            $("#id_sede").remoteChained("#id_city", "/app/api/sedes");
-        });
-    </script>
-    {% block other-script2 %}{% endblock %}
-{% endblock %}
+{% block form-action %}"/sede/{{ sede_url }}/registration"{% endblock %}

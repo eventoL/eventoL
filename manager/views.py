@@ -72,7 +72,7 @@ def collaborator_registration(request, sede_url):
                     collaborator = collaborator_form.save()
                     collaborator.user = user
                     collaborator.save()
-                    return HttpResponseRedirect('/app/' + sede_url + '/registration/success')
+                    return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
             except:
                 User.delete(user)
         errors = get_forms_errors(forms)
@@ -102,7 +102,7 @@ def installer_registration(request, sede_url):
                     user = add_installer_perms(user)
                     installer.user = user
                     installer.save()
-                    return HttpResponseRedirect('/app/' + sede_url + '/registration/success')
+                    return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
             except Exception as e:
                 if user is not None:
                     User.delete(user)
@@ -132,7 +132,7 @@ def installation(request, sede_url):
                     installer = Installer.objects.filter(user__username=request.user.username)[0]
                     installation.installer = installer
                     installation.save()
-                    return HttpResponseRedirect('/app/' + sede_url + '/installation/success')
+                    return HttpResponseRedirect('/sede/' + sede_url + '/installation/success')
             except:
                 if hardware is not None:
                     Hardware.delete(hardware)
@@ -149,7 +149,7 @@ def registration(request, sede_url):
     if request.POST:
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/app/' + sede_url + '/registration/confirm')
+            return HttpResponseRedirect('/sede/' + sede_url + '/registration/confirm')
     else:
         sede = Sede.objects.get(url=sede_url)
         attendant = Attendant(sede=sede)
@@ -179,7 +179,7 @@ def image_cropping(request, sede_url, image_id):
         # FIXME No me acuerdo por qué este if: if not proposal.cropping:
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/app/' + sede_url + '/talk/confirm')
+            return HttpResponseRedirect('/sede/' + sede_url + '/talk/confirm')
     return render(request, 'talks/proposal/image-cropping.html', {'form': form, 'sede_url': sede_url})
 
 
@@ -238,9 +238,9 @@ def attendant_search(request, sede_url):
                 attendant = Attendant.objects.get(email=attendant_email, sede__url=sede_url)
                 attendant.assisted = True
                 attendant.save()
-                return HttpResponseRedirect('/app/' + sede_url + '/registration/attendant/assisted')
+                return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendant/assisted')
             else:
-                return HttpResponseRedirect('/app/' + sede_url + '/registration/attendant/by-collaborator')
+                return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendant/by-collaborator')
 
     return render(request, 'registration/attendant/search.html', {'form': form, 'sede_url': sede_url})
 
@@ -256,7 +256,7 @@ def attendant_registration_by_collaborator(request, sede_url):
             attendee = form.save()
             attendee.assisted = True
             attendee.save()
-            return HttpResponseRedirect('/app/' + sede_url + '/registration/attendant/assisted')
+            return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendant/assisted')
 
     return render(request, 'registration/attendant/by-collaborator.html', {'form': form, 'sede_url': sede_url})
 

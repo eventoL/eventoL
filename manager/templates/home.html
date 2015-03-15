@@ -49,7 +49,7 @@
         map.setView(argentina, 3);
 
 
-        $.get("/app/api/sedes_geo", function(data) {
+        $.get("/api/sedes_geo", function(data) {
 
             data.forEach(function(sede) {
                 var markerLocation = new L.LatLng(sede.lat, sede.lon);

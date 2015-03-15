@@ -13,7 +13,8 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^$', views.home, name="home"),
-    url(r'^app/', include('manager.urls'), name='app'),
+    url(r'^api/', include('manager.api.urls')),
+    url(r'^sede/', include('manager.urls'), name='sede'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
     url(r'^event$', TemplateView.as_view(template_name='event/info.html'), name="event_info"),
@@ -23,8 +24,8 @@ urlpatterns = patterns(
     url(r'^FAQ$', TemplateView.as_view(template_name='FAQ.html'), name="FAQ"),
 
     # Hacks to preserve an old distributed url
-    url(r'^proponer-charla$', RedirectView.as_view(url='/app/talk/proposal/', permanent=True)),
+    url(r'^proponer-charla$', RedirectView.as_view(url='/sede/talk/proposal/', permanent=True)),
     url(r'^page/informacion-del-festival$', RedirectView.as_view(url='/event', permanent=True)),
-    url(r'^registracion$', RedirectView.as_view(url='/app/registration', permanent=True)),
+    url(r'^registracion$', RedirectView.as_view(url='/sede/registration', permanent=True)),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

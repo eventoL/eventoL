@@ -5,10 +5,10 @@
 
 {% block pre-form %}
     {% if next %}
-        {% if next == "/app/talk/proposal/" %}
-            <p>{% trans "In order to submit a talk proposal, you must <a href='/app/registration/collaborator'>register as a collaborator</a> or <a href='/app/registration/installer'>register as an installer</a> first" %}</p>
-        {% elif next == "/app/installation" %}
-            <p>{% trans "In order to submit an installation, you must <a href='/app/registration/installer'>register as an installer</a> first" %}</p>
+        {% if next == "/sede/{{ sede_url }}/talk/proposal/" %}
+            <p>{% trans "In order to submit a talk proposal, you must <a href='/sede/{{ sede_url }}/registration/collaborator'>register as a collaborator</a> or <a href='/sede/{{ sede_url }}/registration/installer'>register as an installer</a> first" %}</p>
+        {% elif next == "/sede/{{ sede_url }}/installation" %}
+            <p>{% trans "In order to submit an installation, you must <a href='/sede/{{ sede_url }}/registration/installer'>register as an installer</a> first" %}</p>
         {% endif %}
     {% endif %}
 {% endblock %}
