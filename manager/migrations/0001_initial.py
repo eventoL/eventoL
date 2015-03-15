@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Attendant',
+            name='Attendee',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200, null=True, verbose_name='First Name', blank=True)),
@@ -27,8 +27,8 @@ class Migration(migrations.Migration):
                 ('additional_info', models.TextField(help_text='i.e. Wath kind of PC are you bringing', null=True, verbose_name='Additional Info', blank=True)),
             ],
             options={
-                'verbose_name': 'Attendant',
-                'verbose_name_plural': 'Attendants',
+                'verbose_name': 'Attendee',
+                'verbose_name_plural': 'Attendees',
             },
             bases=(models.Model,),
         ),
@@ -88,7 +88,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('notes', models.TextField(help_text='Any information or trouble you found and consider relevant to document', null=True, verbose_name='Notes', blank=True)),
-                ('attendant', models.ForeignKey(verbose_name='Attendant', to='manager.Attendant', help_text='The owner of the installed hardware')),
+                ('attendee', models.ForeignKey(verbose_name='Attendee', to='manager.Attendee', help_text='The owner of the installed hardware')),
                 ('hardware', models.ForeignKey(verbose_name='Hardware', blank=True, to='manager.Hardware', null=True)),
             ],
             options={
@@ -315,13 +315,13 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='attendant',
+            model_name='attendee',
             name='sede',
             field=models.ForeignKey(verbose_name=b'Sede', to='manager.Sede', help_text='Sede you are going to attend'),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(
-            name='attendant',
+            name='attendee',
             unique_together=set([('email', 'sede')]),
         ),
     ]
