@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'image_cropping',
     'autocomplete_light',
+    'compressor',
     'manager',
 )
 
@@ -163,3 +164,14 @@ EMAIL_HOST_USER = 'YOUR USERNAME'
 EMAIL_HOST_PASSWORD = 'YOUR PASSWORD'
 EMAIL_USE_TLS = True
 LOGIN_URL = '/accounts/login/'
+
+COMPRESS_PRECOMPILERS = (
+    ('text/less', 'lessc {infile} {outfile}'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+COMPRESS_ENABLED = False

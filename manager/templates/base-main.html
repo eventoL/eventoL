@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load compress %}
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="es-AR">
@@ -13,35 +14,57 @@
         <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
         <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
               rel="image_src"/>
-        <!-- Bootstrap core CSS -->
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Add custom CSS here -->
-
-        <link href="{% static "manager/css/modern-business.css" %}" rel="stylesheet">
+        {% if debug %}
+            <link rel="stylesheet" type="text/less" media="all"
+                  href="{% static "manager/css/flisol-bootstrap.less" %}"/>
+            <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
+            <script src="{% static 'manager/bower_components/less/dist/less.min.js' %}"></script>
+        {% else %}
+            {% compress css %}
+                <link rel="stylesheet" type="text/less" media="all"
+                      href="{% static "manager/css/flisol-bootstrap.less" %}"/>
+                <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
+            {% endcompress %}
+        {% endif %}
+        <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
+        <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
+              rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         {% block other-head %}{% endblock %}
+
+        <style>
+            .logos {
+                max-width: 100px;
+                display: table;
+            }
+
+            .logos > div {
+                display: table-cell;
+            }
+
+            .logos img {
+                max-height: 100px;
+            }
+        </style>
     {% endblock %}
 </head>
 <body>
 {% block navbar %}
-    <nav class="navbar-custom navbar-fixed-top" role="navigation">
+    <div class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
-                <!-- You'll want to use a responsive image option so this logo looks good on devices - I recommend using something like retina.js (do a quick Google search for it and you'll find it) -->
-                <a class="navbar-brand" href="/"><img class="logo" src="{% static "manager/img/flisol-top-bar.png" %}"
-                                                      alt="Flisol Logo"></img></a>
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                    <span class="sr-only">Toggle navigation</span>
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target=".navbar-responsive-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <a class="pull-left" href="javascript:void(0)"><img src="{% static "manager/img/flisol-top-bar.png" %}"
+                                                                    alt="Flisol Logo"></a>
             </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/sede/{{ sede_url }}/registration">{% trans "Registration" %}</a>
                     </li>
@@ -50,8 +73,8 @@
                     <li><a href="/sede/{{ sede_url }}/talk/proposal">{% trans "Submit your talk!" %}</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "About FLISoL" %} <i
-                                class="fa fa-toggle-down"></i></a>
+                        <a href="#" data-target="#" class="dropdown-toggle"
+                           data-toggle="dropdown">{% trans "About FLISoL" %} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="/FAQ"><i class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
                             </li>
@@ -63,8 +86,8 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Collaborators" %} <i
-                                class="fa fa-toggle-down"></i></a>
+                        <a href="#" data-target="#" class="dropdown-toggle"
+                           data-toggle="dropdown">{% trans "Collaborators" %} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             {% if not user.is_authenticated %}
                                 <li><a href="/accounts/login"><i class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
@@ -88,8 +111,8 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Follow Us!" %} <i
-                                class="fa fa-toggle-down"></i></a>
+                        <a href="#" data-target="#" class="dropdown-toggle"
+                           data-toggle="dropdown">{% trans "Follow Us!" %} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             {% for contact in contacts %}
                                 <li><a href="{{ contact.url }}" target="_blank">
@@ -100,49 +123,44 @@
                     </li>
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container -->
-    </nav>
+    </div>
 {% endblock %}
 
 {% block main-content %}{% endblock %}
 
 <!-- logos -->
-<section class="logos">
-    <div class="container">
-        <div><img src="{% static "manager/img/logos/cafelug.png" %}" alt="CaFeLUG" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/gnutn.png" %}" alt="GNUTN" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/solar.png" %}" alt="SoLAr" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/agenda_digital.png" %}" alt="Agenda Digital" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/ieee.png" %}" alt="IEE" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/usla.png" %}" alt="USLA" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/kde-ar.png" %}" alt="KDE-ar" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/comunidad-fedora.png" %}" alt="Comunidad Fedora"
-                  class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/ubuntuar.png" %}" alt="ubuntu-ar" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/via libre.gif" %}" alt="Fundación Vía Libre" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/LogoHacklab.png" %}" alt="Hacklab Barracas" class="img-responsive">
-        </div>
+<div class="well">
+    <div class="logos">
+        <div><img src="{% static "manager/img/logos/cafelug.png" %}" alt="CaFeLUG"></div>
+        <div><img src="{% static "manager/img/logos/gnutn.png" %}" alt="GNUTN"></div>
+        <div><img src="{% static "manager/img/logos/solar.png" %}" alt="SoLAr"></div>
+        <div><img src="{% static "manager/img/logos/agenda_digital.png" %}" alt="Agenda Digital"></div>
+        <div><img src="{% static "manager/img/logos/ieee.png" %}" alt="IEE"></div>
+        <div><img src="{% static "manager/img/logos/usla.png" %}" alt="USLA"></div>
+        <div><img src="{% static "manager/img/logos/kde-ar.png" %}" alt="KDE-ar"></div>
+        <div><img src="{% static "manager/img/logos/comunidad-fedora.png" %}" alt="Comunidad Fedora"></div>
+        <div><img src="{% static "manager/img/logos/ubuntuar.png" %}" alt="ubuntu-ar"></div>
+        <div><img src="{% static "manager/img/logos/via libre.gif" %}" alt="Fundación Vía Libre"></div>
+        <div><img src="{% static "manager/img/logos/LogoHacklab.png" %}" alt="Hacklab Barracas"></div>
     </div>
-</section>
+</div>
 
 {% block script %}
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script src="{% static "manager/js/modern-business.js" %}"></script>
+    <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
+    <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
+
+    <script>
+        $(document).ready(function() {
+            // This command is used to initialize some elements and make them work properly
+            $.material.init();
+        });
+    </script>
     {% block other-script %}{% endblock %}
 {% endblock %}
-<div align="right"><a href="//github.com/reyiyo/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}
+<div align="right"><a href="//github.com/reyiyo/eventoL"><i
+        class="fa fa-github"></i> {% trans "You have the power!" %}
 </a>
 </body>
 </html>
