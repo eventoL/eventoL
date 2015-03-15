@@ -171,3 +171,5 @@ OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
     'jpeg': '/usr/bin/jpegoptim {filename}',
     'jpg': '/usr/bin/jpegoptim {filename}'
 }
+
+GRAPPELLI_ADMIN_TITLE = 'Flisol 2015'
