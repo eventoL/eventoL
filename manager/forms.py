@@ -83,7 +83,8 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
         model = Attendee
         fields = ('name', 'surname', 'nickname', 'email', 'sede',
                   'is_going_to_install', 'additional_info')
-        widgets = {'sede': forms.HiddenInput()}
+        widgets = {'sede': forms.HiddenInput(),
+                   'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
 class InstallationForm(autocomplete.ModelForm):
