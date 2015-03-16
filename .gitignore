@@ -43,3 +43,4 @@ nosetests.xml
 eventoL/my_settings.py
 deploy.txt
 media/talks_thumbnails/
+manager/static/manager/bower_components/

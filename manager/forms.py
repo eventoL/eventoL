@@ -74,7 +74,8 @@ class RegistrationForm(DeferredForm):
     class Meta:
         model = Attendee
         fields = ['name', 'surname', 'nickname', 'email', 'sede', 'is_going_to_install', 'additional_info']
-        widgets = {'sede': forms.HiddenInput()}
+        widgets = {'sede': forms.HiddenInput(),
+                   'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
@@ -82,7 +83,8 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
         model = Attendee
         fields = ('name', 'surname', 'nickname', 'email', 'sede',
                   'is_going_to_install', 'additional_info')
-        widgets = {'sede': forms.HiddenInput()}
+        widgets = {'sede': forms.HiddenInput(),
+                   'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
 class InstallationForm(autocomplete.ModelForm):
@@ -108,11 +110,9 @@ class CollaboratorRegistrationForm(ModelForm):
 class InstallerRegistrationForm(ModelForm):
     text = u'Afirmo que he leido la ' \
            u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2014/Guía_del_' \
-           u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador'
-    read_guidelines = forms.MultipleChoiceField(
-        label='', required=True, widget=forms.CheckboxSelectMultiple,
-        choices=((1, mark_safe(text)),)
-    )
+           u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
+    read_guidelines = forms.BooleanField(
+        label=mark_safe(text), required=True)
 
     class Meta:
         model = Installer
@@ -134,7 +134,9 @@ class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
         exclude = ('cropping',)
-        widgets = {'sede': forms.HiddenInput()}
+        widgets = {'sede': forms.HiddenInput(),
+                   'long_description': forms.Textarea(attrs={'rows': 3}),
+                   'abstract': forms.Textarea(attrs={'rows': 3})}
 
 
 class TalkProposalImageCroppingForm(ModelForm):
