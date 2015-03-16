@@ -2,7 +2,7 @@
 import itertools
 
 import autocomplete_light
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -11,6 +11,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.utils.translation import ugettext as _
 import django_tables2 as tables
+from manager import security
 
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
@@ -161,6 +162,7 @@ def become_installer(request, sede_url):
 
 @login_required
 @permission_required('manager.add_installation', raise_exception=True)
+@user_passes_test(security.is_installer)
 def installation(request, sede_url):
     installation_form = InstallationForm(request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
