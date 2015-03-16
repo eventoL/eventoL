@@ -26,9 +26,9 @@ class Building(Place):
 class Sede(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('Country'))
     state = models.ForeignKey(Region, verbose_name=_('State'))
-    footer = RichTextField(default='', verbose_name=_('Footer'), help_text=_('Footer HTML'))
-    event_information = RichTextField(default='', verbose_name=_('Event Information'),
-                                      help_text=_('Event Information HTML'))
+    footer = RichTextField(verbose_name=_('Footer'), help_text=_('Footer HTML'), blank=True, null=True)
+    event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
+                                      blank=True, null=True)
     city = models.ForeignKey(City, verbose_name=_('City'))
     district = models.ForeignKey(District, verbose_name=_('District'), blank=True, null=True)
     name = models.CharField(_('Name'), max_length=200)
@@ -165,23 +165,6 @@ class Software(models.Model):
 
 
 class Installer(Organizer):
-    installer_choices = (
-        ('1', _('Beginner')),
-        ('2', _('Medium')),
-        ('3', _('Advanced')),
-        ('4', _('Super Hacker'))
-    )
-    level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
-                             help_text=_('Linux Knowledge level for an installation'))
-    software = models.ManyToManyField(Software, verbose_name=_('Software'), blank=True, null=True, help_text=_(
-        'Select all the software you can install. Hold Ctrl key to select many'))
-
-    class Meta:
-        verbose_name = _('Installer')
-        verbose_name_plural = _('Installers')
-
-
-class InstallerFromOrganizer(models.Model):
     installer_choices = (
         ('1', _('Beginner')),
         ('2', _('Medium')),
