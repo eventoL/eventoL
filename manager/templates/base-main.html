@@ -30,23 +30,7 @@
         <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
               rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-        <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         {% block other-head %}{% endblock %}
-
-        <style>
-            .logos {
-                max-width: 100px;
-                display: table;
-            }
-
-            .logos > div {
-                display: table-cell;
-            }
-
-            .logos img {
-                max-height: 100px;
-            }
-        </style>
     {% endblock %}
 </head>
 <body>
@@ -142,20 +126,19 @@
 </div>
 
 {% block script %}
+    <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
-
+    {% block other-script %}{% endblock %}
     <script>
         $(document).ready(function() {
             // This command is used to initialize some elements and make them work properly
             $.material.init();
         });
     </script>
-    {% block other-script %}{% endblock %}
 {% endblock %}
-<div align="right"><a href="//github.com/reyiyo/eventoL"><i
-        class="fa fa-github"></i> {% trans "You have the power!" %}
+<div align="right"><a href="//github.com/reyiyo/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}
 </a>
 </body>
 </html>
