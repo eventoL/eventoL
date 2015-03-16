@@ -109,11 +109,9 @@ class CollaboratorRegistrationForm(ModelForm):
 class InstallerRegistrationForm(ModelForm):
     text = u'Afirmo que he leido la ' \
            u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2014/Guía_del_' \
-           u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador'
-    read_guidelines = forms.MultipleChoiceField(
-        label='', required=True, widget=forms.CheckboxSelectMultiple,
-        choices=((1, mark_safe(text)),)
-    )
+           u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
+    read_guidelines = forms.BooleanField(
+        label=mark_safe(text), required=True)
 
     class Meta:
         model = Installer
