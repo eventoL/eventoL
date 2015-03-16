@@ -12,7 +12,7 @@
     {% elif field|is_checkbox %}
         <div class="checkbox">
             <label>
-                <input type="checkbox">
+                {{ field }}
                 {% trans field.label %}{% if field.field.required %} *{% endif %}
             </label>
         </div>
