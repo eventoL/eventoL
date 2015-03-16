@@ -76,9 +76,9 @@
                         <a href="#" data-target="#" class="dropdown-toggle"
                            data-toggle="dropdown">{% trans "About FLISoL" %} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/FAQ"><i class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
+                            <li><a href="/sede/{{ sede_url }}/FAQ"><i class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
                             </li>
-                            <li><a href="/event"><i class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
+                            <li><a href="/sede/{{ sede_url }}/event"><i class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
                             </li>
                             <li><a href="//flisol.info" target="_blank"><i
                                     class="fa fa-info-circle"></i> {% trans "More Info" %}</a>
@@ -100,6 +100,9 @@
                                 </li>
                                 <li><a href="/sede/{{ sede_url }}/registration/attendee/search"><i
                                         class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}</a>
+                                </li>
+                                <li><a href="/sede/{{ sede_url }}/registration/become_installer"><i
+                                        class="fa fa-linux"></i> {% trans "Become installer" %}</a>
                                 </li>
                             {% endif %}
                             <li><a href="/sede/{{ sede_url }}/registration/collaborator"><i
@@ -131,19 +134,7 @@
 
 <!-- logos -->
 <div class="well">
-    <div class="logos">
-        <div><img src="{% static "manager/img/logos/cafelug.png" %}" alt="CaFeLUG"></div>
-        <div><img src="{% static "manager/img/logos/gnutn.png" %}" alt="GNUTN"></div>
-        <div><img src="{% static "manager/img/logos/solar.png" %}" alt="SoLAr"></div>
-        <div><img src="{% static "manager/img/logos/agenda_digital.png" %}" alt="Agenda Digital"></div>
-        <div><img src="{% static "manager/img/logos/ieee.png" %}" alt="IEE"></div>
-        <div><img src="{% static "manager/img/logos/usla.png" %}" alt="USLA"></div>
-        <div><img src="{% static "manager/img/logos/kde-ar.png" %}" alt="KDE-ar"></div>
-        <div><img src="{% static "manager/img/logos/comunidad-fedora.png" %}" alt="Comunidad Fedora"></div>
-        <div><img src="{% static "manager/img/logos/ubuntuar.png" %}" alt="ubuntu-ar"></div>
-        <div><img src="{% static "manager/img/logos/via libre.gif" %}" alt="Fundación Vía Libre"></div>
-        <div><img src="{% static "manager/img/logos/LogoHacklab.png" %}" alt="Hacklab Barracas"></div>
-    </div>
+     {{ footer | safe }}
 </div>
 
 {% block script %}

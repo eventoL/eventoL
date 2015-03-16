@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 import re
 
 from cities.models import Country, Region, City, District, Place
@@ -25,6 +26,9 @@ class Building(Place):
 class Sede(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('Country'))
     state = models.ForeignKey(Region, verbose_name=_('State'))
+    footer = RichTextField(verbose_name=_('Footer'), help_text=_('Footer HTML'), blank=True, null=True)
+    event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
+                                      blank=True, null=True)
     city = models.ForeignKey(City, verbose_name=_('City'))
     district = models.ForeignKey(District, verbose_name=_('District'), blank=True, null=True)
     name = models.CharField(_('Name'), max_length=200)
@@ -181,7 +185,7 @@ class Installation(models.Model):
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'), blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'), blank=True, null=True)
     attendee = models.ForeignKey(Attendee, verbose_name=_('Attendee'),
-                                  help_text=_('The owner of the installed hardware'))
+                                 help_text=_('The owner of the installed hardware'))
     installer = models.ForeignKey(Installer, verbose_name=_('Installer'), related_name='installed_by', blank=True,
                                   null=True)
     notes = models.TextField(_('Notes'), blank=True, null=True,

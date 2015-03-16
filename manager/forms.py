@@ -111,12 +111,23 @@ class InstallerRegistrationForm(ModelForm):
     text = u'Afirmo que he leido la ' \
            u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2014/Guía_del_' \
            u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
-    read_guidelines = forms.BooleanField(
-        label=mark_safe(text), required=True)
+    read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 
     class Meta:
         model = Installer
         exclude = ['user', 'is_coordinator', 'assisted']
+        widgets = {'sede': forms.HiddenInput()}
+
+
+class InstallerRegistrationFromCollaboratorForm(ModelForm):
+    text = u'Afirmo que he leido la ' \
+           u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2014/Guía_del_' \
+           u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
+    read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
+
+    class Meta:
+        model = Installer
+        fields = ['level', 'software']
         widgets = {'sede': forms.HiddenInput()}
 
 

@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'grappelli',
+    'ckeditor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -185,3 +186,11 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 COMPRESS_ENABLED = False
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full'
+    },
+}
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
