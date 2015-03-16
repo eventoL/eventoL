@@ -15,9 +15,9 @@ import django_tables2 as tables
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, \
-    AttendantSearchForm, AttendantRegistrationByCollaboratorForm
+    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm
 from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkTime, TalkType, TalkProposal, Sede, Attendant, Organizer
+    TalkTime, TalkType, TalkProposal, Sede, Attendee, Organizer
 from manager.security import add_installer_perms
 
 
@@ -147,10 +147,10 @@ def registration(request, sede_url):
             return HttpResponseRedirect('/sede/' + sede_url + '/registration/confirm')
     else:
         sede = Sede.objects.get(url=sede_url)
-        attendant = Attendant(sede=sede)
-        form = RegistrationForm(instance=attendant)
+        attendee = Attendee(sede=sede)
+        form = RegistrationForm(instance=attendee)
 
-    return render(request, 'registration/attendant-registration.html', {'form': form, 'sede_url': sede_url})
+    return render(request, 'registration/attendee-registration.html', {'form': form, 'sede_url': sede_url})
 
 
 @login_required
@@ -223,37 +223,37 @@ def talks(request, sede_url):
 
 
 @login_required
-@permission_required('manager.add_attendant', raise_exception=True)
-def attendant_search(request, sede_url):
-    form = AttendantSearchForm(request.POST or None)
+@permission_required('manager.add_attendee', raise_exception=True)
+def attendee_search(request, sede_url):
+    form = AttendeeSearchForm(request.POST or None)
     if request.POST:
         if form.is_valid():
-            attendant_email = form.cleaned_data['attendant']
-            if attendant_email is not None:
-                attendant = Attendant.objects.get(email=attendant_email, sede__url=sede_url)
-                attendant.assisted = True
-                attendant.save()
-                return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendant/assisted')
+            attendee_email = form.cleaned_data['attendee']
+            if attendee_email is not None:
+                attendee = Attendee.objects.get(email=attendee_email, sede__url=sede_url)
+                attendee.assisted = True
+                attendee.save()
+                return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/assisted')
             else:
-                return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendant/by-collaborator')
+                return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/by-collaborator')
 
-    return render(request, 'registration/attendant/search.html', {'form': form, 'sede_url': sede_url})
+    return render(request, 'registration/attendee/search.html', {'form': form, 'sede_url': sede_url})
 
 
 @login_required
-@permission_required('manager.add_attendant', raise_exception=True)
-def attendant_registration_by_collaborator(request, sede_url):
+@permission_required('manager.add_attendee', raise_exception=True)
+def attendee_registration_by_collaborator(request, sede_url):
     sede = Sede.objects.get(url=sede_url)
-    attendee = Attendant(sede=sede)
-    form = AttendantRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
+    attendee = Attendee(sede=sede)
+    form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
         if form.is_valid():
             attendee = form.save()
             attendee.assisted = True
             attendee.save()
-            return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendant/assisted')
+            return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/assisted')
 
-    return render(request, 'registration/attendant/by-collaborator.html', {'form': form, 'sede_url': sede_url})
+    return render(request, 'registration/attendee/by-collaborator.html', {'form': form, 'sede_url': sede_url})
 
 
 class TalkDetailView(DetailView):

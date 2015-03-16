@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import django.conf.global_settings as DEFAULT_SETTINGS
 from easy_thumbnails.conf import Settings as thumbnail_settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from easy_thumbnails.optimize.conf import OptimizeSettings
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -46,6 +47,7 @@ INSTALLED_APPS = (
     'generic_confirmation',
     'django_tables2',
     'easy_thumbnails',
+    'easy_thumbnails.optimize',
     'image_cropping',
     'autocomplete_light',
     'compressor',
@@ -77,7 +79,7 @@ DATABASES = {
         'USER': 'flisol',
         'PASSWORD': 'flisol',
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     }
 }
 
@@ -164,6 +166,14 @@ EMAIL_HOST_USER = 'YOUR USERNAME'
 EMAIL_HOST_PASSWORD = 'YOUR PASSWORD'
 EMAIL_USE_TLS = True
 LOGIN_URL = '/accounts/login/'
+
+OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
+    'png': '/usr/bin/optipng {filename}',
+    'jpeg': '/usr/bin/jpegoptim {filename}',
+    'jpg': '/usr/bin/jpegoptim {filename}'
+}
+
+GRAPPELLI_ADMIN_TITLE = 'Flisol 2015'
 
 COMPRESS_PRECOMPILERS = (
     ('text/less', 'lessc {infile} {outfile}'),

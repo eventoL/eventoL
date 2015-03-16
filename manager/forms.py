@@ -15,11 +15,11 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
-from manager.models import Attendant, Installation, Hardware, Organizer, \
+from manager.models import Attendee, Installation, Hardware, Organizer, \
     Installer, TalkProposal, HardwareManufacturer
 
 
-class AttendantAutocomplete(autocomplete.AutocompleteModelBase):
+class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
     search_fields = ('name', 'surname', 'nickname', 'email')
 
 
@@ -27,8 +27,8 @@ class HardwareManufacturerAutocomplete(autocomplete.AutocompleteModelBase):
     search_fields = ('name',)
 
 
-class AttendantBySedeAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _('Search Attendant')}
+class AttendeeBySedeAutocomplete(autocomplete.AutocompleteModelBase):
+    autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
 
     def choices_for_request(self):
         q = self.request.GET.get('q', '')
@@ -47,9 +47,9 @@ class AttendantBySedeAutocomplete(autocomplete.AutocompleteModelBase):
         return self.order_choices(choices)[0:self.limit_choices]
 
 
-autocomplete.register(Attendant, AttendantAutocomplete)
+autocomplete.register(Attendee, AttendeeAutocomplete)
 autocomplete.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
-autocomplete.register(Attendant, AttendantBySedeAutocomplete)
+autocomplete.register(Attendee, AttendeeBySedeAutocomplete)
 
 
 def sorted_choices(choices_list):
@@ -57,8 +57,8 @@ def sorted_choices(choices_list):
     return sorted(set(choices_list))
 
 
-class AttendantSearchForm(forms.Form):
-    attendant = autocomplete.ModelChoiceField('AttendantBySedeAutocomplete', required=False)
+class AttendeeSearchForm(forms.Form):
+    attendee = autocomplete.ModelChoiceField('AttendeeBySedeAutocomplete', required=False)
 
 
 class RegistrationForm(DeferredForm):
@@ -72,15 +72,15 @@ class RegistrationForm(DeferredForm):
                   fail_silently=False)
 
     class Meta:
-        model = Attendant
+        model = Attendee
         fields = ['name', 'surname', 'nickname', 'email', 'sede', 'is_going_to_install', 'additional_info']
         widgets = {'sede': forms.HiddenInput(),
                    'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
-class AttendantRegistrationByCollaboratorForm(forms.ModelForm):
+class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
     class Meta:
-        model = Attendant
+        model = Attendee
         fields = ('name', 'surname', 'nickname', 'email', 'sede',
                   'is_going_to_install', 'additional_info')
         widgets = {'sede': forms.HiddenInput()}
@@ -90,7 +90,7 @@ class InstallationForm(autocomplete.ModelForm):
     class Meta:
         model = Installation
         exclude = ('installer', 'hardware')
-        autocomplete_fields = ('attendant',)
+        autocomplete_fields = ('attendee',)
 
 
 class HardwareForm(autocomplete.ModelForm):
