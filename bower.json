@@ -1,0 +1,26 @@
+{
+  "name": "eventoL",
+  "version": "0.0.0",
+  "homepage": "https://github.com/reyiyo/eventoL",
+  "authors": [
+    "Sergio Orbe <sergioo@exo.com.ar>"
+  ],
+  "license": "GPL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-material-design": "~0.2.2",
+    "bootstrap": "~3.3.2",
+    "roboto-fontface": "~0.3.0"
+  },
+  "devDependencies": {
+    "less": "~2.4.0"
+  }
+}

@@ -2,56 +2,54 @@
 {% load filters %}
 {% load i18n %}
 {% block content %}
-    <form id={% block form-id %}{% endblock %} class="form-horizontal"
-          {% if multipart %}enctype="multipart/form-data"{% endif %} method="post" action=
-            {% block form-action %}{% endblock %}>
-        {% csrf_token %}
-        <fieldset>
+    {% block pre-form %}{% endblock %}
+    <div class="well">
+        <div class="row">
+            <form id=
+                          {% block form-id %}{% endblock %} {% if multipart %}enctype="multipart/form-data"{% endif %}
+                  method="post" action={% block form-action %}{% endblock %}>
+                {% csrf_token %}
 
-            {% if errors|length > 0 %}
-                <p class="bg-danger">
-                <ul>
-                    {% for error in errors %}
-                        <li>{% trans error %}</li>
-                    {% endfor %}
-                </ul>
-                </p>
-            {% endif %}
-
-            {% for form in forms %}
-                {% for field in form.visible_fields %}
-                    <div class="form-group {{ field.html_name }} {% if field.errors %}has-error has-feedback{% endif %}">
-                        <label class="col-md-4 control-label">
-                            {{ field.label }}{% if field.field.required %} *{% endif %}</label>
-
-                        <div class="col-md-4">
-                            {% if field.name == 'cropping' or field|is_checkbox %}
-                                {{ field }}
-                            {% else %}
-                                {{ field | addcss:"form-control" }}
-                            {% endif %}
-                            {% if field.errors %}
-                                <span class="glyphicon fa fa-minus-square form-control-feedback"></span>
-                                <span class="help-inline">{{ field.errors.as_text }}</span>
-                            {% endif %}
-                            {% if field.help_text %}<p class="help-block">{{ field.help_text }}</p>{% endif %}
-                        </div>
+                {% if errors|length > 0 %}
+                    <div class="alert alert-dismissable alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <ul>
+                            {% for error in errors %}
+                                <li>{% trans error %}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
+                {% endif %}
+
+                {% for form in forms %}
+                    <div class="col-lg-6 col-md-6">
+                        {% for field in form.visible_fields %}
+                            {% if not forloop.counter0|is_odd %}
+                                {% include "form_field.html" with field=field only %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        {% for field in form.visible_fields %}
+                            {% if forloop.counter0|is_odd %}
+                                {% include "form_field.html" with field=field only %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% for field in form.hidden_fields %}
+                        {{ field }}
+                    {% endfor %}
                 {% endfor %}
-                {% for field in form.hidden_fields %}
-                    {{ field }}
-                {% endfor %}
-            {% endfor %}
 
-            {% block extra-fields %}{% endblock %}
+                {% block extra-fields %}{% endblock %}
 
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="singlebutton"></label>
-
-                <div class="col-md-4">
-                    <input class="btn btn-primary btn-large" type="submit" value="{% trans "Submit" %}"/>
-                </div>
-            </div>
-        </fieldset>
-    </form>
+                {% block buttons %}
+                    <div class="form-group">
+                        <button type="submit"
+                                class="btn btn-primary btn-raised pull-right">{% trans "Submit" %}</button>
+                    </div>
+                {% endblock %}
+            </form>
+        </div>
+    </div>
 {% endblock %}
