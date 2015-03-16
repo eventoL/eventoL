@@ -16,7 +16,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendee, Installation, Hardware, Organizer, \
-    Installer, TalkProposal, HardwareManufacturer, InstallerFromOrganizer
+    Installer, TalkProposal, HardwareManufacturer
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
@@ -126,8 +126,8 @@ class InstallerRegistrationFromCollaboratorForm(ModelForm):
     read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 
     class Meta:
-        model = InstallerFromOrganizer
-        exclude = ['user', 'is_coordinator', 'assisted']
+        model = Installer
+        fields = ['level', 'software']
         widgets = {'sede': forms.HiddenInput()}
 
 

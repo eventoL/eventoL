@@ -17,7 +17,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm
 from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkTime, TalkType, TalkProposal, Sede, Attendee, Organizer, InstallerFromOrganizer
+    TalkTime, TalkType, TalkProposal, Sede, Attendee, Organizer
 from manager.security import add_installer_perms
 
 
@@ -134,15 +134,15 @@ def become_installer(request, sede_url):
     errors = []
     installer = None
     if request.POST:
-        installer_form = InstallerRegistrationFromCollaboratorForm(request.POST)
+        user = User.objects.get_by_natural_key(request.user.username)
+        installer_form = InstallerRegistrationFromCollaboratorForm(request.POST, instance=user)
     else:
-        installer = InstallerFromOrganizer()
+        installer = Installer()
         installer_form = InstallerRegistrationFromCollaboratorForm(instance=installer)
 
     forms = [installer_form]
     if request.POST:
         try:
-            user = User.objects.get_by_natural_key(request.user.username)
             if installer_form.is_valid():
                 installer = installer_form.save()
                 user = add_installer_perms(user)
