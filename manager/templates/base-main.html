@@ -55,7 +55,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="/FAQ"><i class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
                             </li>
-                            <li><a href="/event"><i class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
+                            <li><a href="/sede/{{ sede_url }}/event"><i class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
                             </li>
                             <li><a href="//flisol.info" target="_blank"><i
                                     class="fa fa-info-circle"></i> {% trans "More Info" %}</a>
@@ -110,31 +110,7 @@
 
 <!-- logos -->
 <section class="logos">
-    <div class="container">
-        <div><img src="{% static "manager/img/logos/cafelug.png" %}" alt="CaFeLUG" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/gnutn.png" %}" alt="GNUTN" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/solar.png" %}" alt="SoLAr" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/agenda_digital.png" %}" alt="Agenda Digital" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/ieee.png" %}" alt="IEE" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/usla.png" %}" alt="USLA" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/kde-ar.png" %}" alt="KDE-ar" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/comunidad-fedora.png" %}" alt="Comunidad Fedora"
-                  class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/ubuntuar.png" %}" alt="ubuntu-ar" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/via libre.gif" %}" alt="Fundación Vía Libre" class="img-responsive">
-        </div>
-        <div><img src="{% static "manager/img/logos/LogoHacklab.png" %}" alt="Hacklab Barracas" class="img-responsive">
-        </div>
-    </div>
+     {{ footer | safe }}
 </section>
 
 {% block script %}
