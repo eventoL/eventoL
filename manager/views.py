@@ -2,6 +2,7 @@
 import itertools
 
 import autocomplete_light
+import datetime
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -191,13 +192,15 @@ def installation(request, sede_url):
 
 
 def registration(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    if sede.date < datetime.date.today():
+        return render(request, 'registration/closed-registration.html', update_sede_info(sede_url))
     form = RegistrationForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/sede/' + sede_url + '/registration/confirm')
     else:
-        sede = Sede.objects.get(url=sede_url)
         attendee = Attendee(sede=sede)
         form = RegistrationForm(instance=attendee)
 
