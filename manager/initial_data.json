@@ -744,5 +744,80 @@
       "name": "Google+",
       "icon_class": "fa-google-plus-square"
     }
+  },
+  {
+    "model": "manager.TalkType",
+    "fields": {
+      "name": "Charla"
+    }
+  },
+  {
+    "model": "manager.TalkType",
+    "fields": {
+      "name": "Taller"
+    }
+  },
+  {
+    "fields": {
+      "alt_names": [1],
+      "address": "Medrano 951",
+      "name": "UTN",
+      "slug": "UTN"
+    },
+    "model": "manager.building",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "city": 3435910,
+      "name": "CABA",
+      "district": 71,
+      "footer": "<h1 style=\"text-align: center;\"><span style=\"font-size:36px\"><span style=\"font-family:comic sans ms,cursive\"><strong>El footer</strong></span></span></h1>\r\n",
+      "url": "CABA",
+      "country": 3865483,
+      "state": 3435907,
+      "place": 1,
+      "event_information": "<p>saraza</p>\r\n",
+      "date": "2015-04-25"
+    },
+    "model": "manager.sede",
+    "pk": 1
+  },
+  {
+    "fields": {"name": "Charla"},
+    "model": "manager.talktype",
+    "pk": 1
+  },
+  {
+    "fields": {"name": "Taller"},
+    "model": "manager.talktype",
+    "pk": 2
+  },
+  {
+    "fields": {"name": "Debate"},
+    "model": "manager.talktype",
+    "pk": 5
+  },
+  {
+    "fields": {"name": "Otro"},
+    "model": "manager.talktype",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "title": "Tu vieja",
+      "presentation": "",
+      "abstract": "Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies.",
+      "labels": "Linux, Debian, Free Software",
+      "home_image": "talks_thumbnails/tesla_hGOI6M5.png",
+      "sede": 1,
+      "speakers_email": "reyiyo@gmail.com",
+      "cropping": "0,42,186,162",
+      "dummy_talk": false,
+      "type": 1,
+      "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est."
+    },
+    "model": "manager.talkproposal",
+    "pk": 1
   }
 ]

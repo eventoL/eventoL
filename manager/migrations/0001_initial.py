@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 from django.conf import settings
 import image_cropping.fields
+import ckeditor.fields
 
 
 class Migration(migrations.Migration):
@@ -44,6 +45,28 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name': 'Building',
                 'verbose_name_plural': 'Buildings',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Contact',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('url', models.URLField(verbose_name=b'URL')),
+                ('text', models.CharField(max_length=200, verbose_name='Text')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ContactType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(unique=True, max_length=200, verbose_name='Name')),
+                ('icon_class', models.CharField(max_length=200, verbose_name='Icon Class')),
+            ],
+            options={
             },
             bases=(models.Model,),
         ),
@@ -101,12 +124,12 @@ class Migration(migrations.Migration):
             name='Organizer',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('is_coordinator', models.BooleanField(default=False, help_text='The user is the coordinator of the sede?', verbose_name='Is Coordinator')),
                 ('phone', models.CharField(max_length=200, null=True, verbose_name='Phone', blank=True)),
                 ('address', models.CharField(max_length=200, null=True, verbose_name='Address', blank=True)),
+                ('assisted', models.BooleanField(default=False, verbose_name='Assisted')),
+                ('is_coordinator', models.BooleanField(default=False, help_text='The user is the coordinator of the sede?', verbose_name='Is Coordinator')),
                 ('assignation', models.CharField(help_text='Assignations given to the user (i.e. Talks, Coffee...)', max_length=200, null=True, verbose_name='Assignation', blank=True)),
                 ('additional_info', models.CharField(help_text='Any additional info you consider relevant', max_length=200, null=True, verbose_name='Additional Info', blank=True)),
-                ('assisted', models.BooleanField(default=False, verbose_name='Assisted')),
                 ('time_availability', models.CharField(help_text='Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...', max_length=200, null=True, verbose_name='Time Availability', blank=True)),
             ],
             options={
@@ -143,8 +166,11 @@ class Migration(migrations.Migration):
             name='Sede',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('footer', ckeditor.fields.RichTextField(help_text='Footer HTML', null=True, verbose_name='Footer', blank=True)),
+                ('event_information', ckeditor.fields.RichTextField(help_text='Event Information HTML', null=True, verbose_name='Event Information', blank=True)),
                 ('name', models.CharField(max_length=200, verbose_name='Name')),
                 ('date', models.DateField(help_text='Date of the event', verbose_name='Date')),
+                ('url', models.CharField(help_text='URL for the sede i.e. CABA', unique=True, max_length=200, verbose_name='URL', db_index=True)),
                 ('city', models.ForeignKey(verbose_name='City', to='cities.City')),
                 ('country', models.ForeignKey(verbose_name='Country', to='cities.Country')),
                 ('district', models.ForeignKey(verbose_name='District', blank=True, to='cities.District', null=True)),
@@ -172,14 +198,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=600, verbose_name='Title')),
+                ('long_description', models.TextField(verbose_name='Long Description')),
+                ('dummy_talk', models.BooleanField(default=False, verbose_name='Dummy Talk?')),
+                ('abstract', models.TextField(help_text='Short idea of the talk (Two or three sentences)', verbose_name='Abstract')),
                 ('speakers_email', models.CharField(help_text="Comma separated speaker's emails", max_length=600, verbose_name='Speakers Emails')),
                 ('labels', models.CharField(help_text='Comma separated tags. i.e. Linux, Free Software, Debian', max_length=200, verbose_name='Labels')),
-                ('abstract', models.TextField(help_text='Short idea of the talk (Two or three sentences)', verbose_name='Abstract')),
-                ('long_description', models.TextField(verbose_name='Long Description')),
                 ('presentation', models.FileField(help_text='Any material you are going to use for the talk (optional, but recommended)', upload_to=b'talks', null=True, verbose_name='Presentation', blank=True)),
                 ('home_image', image_cropping.fields.ImageCropField(help_text='Image that is going to appear in the home page of this web for promoting the talk (optional)', upload_to=b'talks_thumbnails', null=True, verbose_name='Home Page Image', blank=True)),
                 (b'cropping', image_cropping.fields.ImageRatioField(b'home_image', '700x450', hide_image_field=False, size_warning=True, allow_fullsize=False, free_crop=False, adapt_rotation=False, help_text='The image must be 700x450 px. You can crop it here.', verbose_name='Cropping')),
-                ('dummy_talk', models.BooleanField(default=False, verbose_name='Dummy Talk?')),
             ],
             options={
                 'verbose_name': 'Talk Proposal',
@@ -233,7 +259,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='talkproposal',
             name='sede',
-            field=models.ForeignKey(verbose_name=b'Sede', to='manager.Sede', help_text='Sede you are proposing the talk to'),
+            field=models.ForeignKey(related_name='talk_proposals', verbose_name=b'Sede', to='manager.Sede', help_text='Sede you are proposing the talk to'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -312,6 +338,18 @@ class Migration(migrations.Migration):
             model_name='eventinfo',
             name='sede',
             field=models.ForeignKey(verbose_name=b'Sede', to='manager.Sede'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='contact',
+            name='sede',
+            field=models.ForeignKey(related_name='contacts', verbose_name=b'Sede', to='manager.Sede'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='contact',
+            name='type',
+            field=models.ForeignKey(verbose_name='Contact Type', to='manager.ContactType'),
             preserve_default=True,
         ),
         migrations.AddField(
