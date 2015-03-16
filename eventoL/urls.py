@@ -10,6 +10,7 @@ import autocomplete_light
 autocomplete_light.autodiscover()
 admin.autodiscover()
 
+
 urlpatterns = patterns(
     '',
     url(r'^$', views.home, name="home"),
@@ -17,11 +18,10 @@ urlpatterns = patterns(
     url(r'^sede/', include('manager.urls'), name='sede'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
-    url(r'^event$', TemplateView.as_view(template_name='event/info.html'), name="event_info"),
+    url(r'^ckeditor/', include('ckeditor.urls'), name='ckeditor'),
     url(r'^confirm/', include('generic_confirmation.urls')),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'registration/login.html'}),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-    url(r'^FAQ$', TemplateView.as_view(template_name='FAQ.html'), name="FAQ"),
 
     # Hacks to preserve an old distributed url
     url(r'^proponer-charla$', RedirectView.as_view(url='/sede/talk/proposal/', permanent=True)),

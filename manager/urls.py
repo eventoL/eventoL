@@ -8,6 +8,8 @@ from manager.views import TalkDetailView
 sede_patterns = patterns(
     '',
     url(r'^$', views.index, name="index"),
+    url(r'^event$', views.event, name="event_info"),
+    url(r'^FAQ$', views.faq, name="FAQ"),
     url(r'^registration$', views.registration, name='registration'),
     url(r'^registration/confirm$', TemplateView.as_view(template_name='registration/confirm.html'),
         name="confirm_registration"),
