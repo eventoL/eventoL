@@ -181,11 +181,28 @@ class Installer(Organizer):
         verbose_name_plural = _('Installers')
 
 
+class InstallerFromOrganizer(models.Model):
+    installer_choices = (
+        ('1', _('Beginner')),
+        ('2', _('Medium')),
+        ('3', _('Advanced')),
+        ('4', _('Super Hacker'))
+    )
+    level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
+                             help_text=_('Linux Knowledge level for an installation'))
+    software = models.ManyToManyField(Software, verbose_name=_('Software'), blank=True, null=True, help_text=_(
+        'Select all the software you can install. Hold Ctrl key to select many'))
+
+    class Meta:
+        verbose_name = _('Installer')
+        verbose_name_plural = _('Installers')
+
+
 class Installation(models.Model):
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'), blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'), blank=True, null=True)
     attendee = models.ForeignKey(Attendee, verbose_name=_('Attendee'),
-                                  help_text=_('The owner of the installed hardware'))
+                                 help_text=_('The owner of the installed hardware'))
     installer = models.ForeignKey(Installer, verbose_name=_('Installer'), related_name='installed_by', blank=True,
                                   null=True)
     notes = models.TextField(_('Notes'), blank=True, null=True,
