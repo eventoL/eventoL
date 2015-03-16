@@ -12,6 +12,8 @@
         {% endif %}
     </div>
     <div class="col-md-6">
+        <p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>
+
         <p><strong>{% trans "Labels" %}:</strong> {{ talk.labels|lower }}</p>
 
         <p><strong>{% trans "Abstract" %}:</strong> {{ talk.abstract }}</p>
