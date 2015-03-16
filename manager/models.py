@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 import re
 
 from cities.models import Country, Region, City, District, Place
@@ -25,6 +26,9 @@ class Building(Place):
 class Sede(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('Country'))
     state = models.ForeignKey(Region, verbose_name=_('State'))
+    footer = RichTextField(default='', verbose_name=_('Footer'), help_text=_('Footer HTML'))
+    event_information = RichTextField(default='', verbose_name=_('Event Information'),
+                                      help_text=_('Event Information HTML'))
     city = models.ForeignKey(City, verbose_name=_('City'))
     district = models.ForeignKey(District, verbose_name=_('District'), blank=True, null=True)
     name = models.CharField(_('Name'), max_length=200)

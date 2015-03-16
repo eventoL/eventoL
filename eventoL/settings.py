@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
     'grappelli',
+    'ckeditor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -173,3 +174,11 @@ OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
 }
 
 GRAPPELLI_ADMIN_TITLE = 'Flisol 2015'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full'
+    },
+}
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
