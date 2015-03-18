@@ -11,15 +11,16 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.utils.translation import ugettext as _
+from django.core.mail import send_mail
 import django_tables2 as tables
 from manager import security
 
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
-    TalkProposalForm, TalkProposalImageCroppingForm, \
+    TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm
 from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkTime, TalkType, TalkProposal, Sede, Attendee, Organizer
+    TalkTime, TalkType, TalkProposal, Sede, Attendee, Organizer, ContactMessage
 from manager.security import add_installer_perms
 
 
@@ -250,18 +251,18 @@ def talks(request, sede_url):
             klass = type('DynamicTable', (TalksTable,), attrs)
 
             hours = TalkTime.objects.filter(talk_type=talk_type, sede=sede).order_by('start_date')
-            
+
             for hour in hours:
                 talkss = Talk.objects.filter(hour=hour, sede=sede)
                 talk = {'hour': hour}
                 for t in talkss:
-                    
+
                     talk_link = '<a href="' + reverse('talk_detail', args=[t.pk]) \
                                 + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
                     for speaker in t.speakers.all():
                         if not speaker.user.first_name == '':
                             talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))
-                    
+
                     talk[t.room.name] = mark_safe(talk_link)
                 talks.append(talk)
 
@@ -312,3 +313,22 @@ def attendee_registration_by_collaborator(request, sede_url):
 class TalkDetailView(DetailView):
     model = Talk
     template_name = 'talks/detail.html'
+
+
+def contact(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    contact_message = ContactMessage()
+    form = ContactMessageForm(request.POST or None, instance=contact_message)
+
+    if request.POST:
+        if form.is_valid():
+            contact_message = form.save()
+            send_mail(_("FLISoL Contact Message " + contact_message.name + " email " + contact_message.email),
+                      contact_message.message,
+                      contact_message.email,
+                      recipient_list=[sede.email, ],
+                      fail_silently=False)
+            contact_message.save()
+            return HttpResponseRedirect('/sede/' + sede_url)
+
+    return render(request, 'contact-message.html', update_sede_info(sede_url, {'form': form}, sede))
