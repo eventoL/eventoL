@@ -15,7 +15,7 @@ from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
-from manager.models import Attendee, Installation, Hardware, Organizer, \
+from manager.models import Attendee, Installation, Hardware, Collaborator, \
     Installer, TalkProposal, HardwareManufacturer
 
 
@@ -102,7 +102,7 @@ class HardwareForm(autocomplete.ModelForm):
 
 class CollaboratorRegistrationForm(ModelForm):
     class Meta:
-        model = Organizer
+        model = Collaborator
         exclude = ['user', 'is_coordinator', 'assisted']
         widgets = {'sede': forms.HiddenInput()}
 
@@ -115,7 +115,7 @@ class InstallerRegistrationForm(ModelForm):
 
     class Meta:
         model = Installer
-        exclude = ['user', 'is_coordinator', 'assisted']
+        exclude = ['user', 'is_coordinator', 'assisted', 'collaborator']
         widgets = {'sede': forms.HiddenInput()}
 
 

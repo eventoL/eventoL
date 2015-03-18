@@ -1,5 +1,5 @@
 from django.contrib.gis import admin
-from manager.models import (Building, Sede, Attendee, Organizer,
+from manager.models import (Building, Sede, Attendee, Collaborator,
                             HardwareManufacturer, Hardware, Software,
                             Installer, Installation, TalkProposal, Talk,
                             TalkType, Room, TalkTime, ContactType, Contact)
@@ -17,7 +17,7 @@ class SedeAdmin(admin.ModelAdmin):
 admin.site.register(Building)
 admin.site.register(Sede, SedeAdmin)
 admin.site.register(Attendee)
-admin.site.register(Organizer)
+admin.site.register(Collaborator)
 admin.site.register(HardwareManufacturer)
 admin.site.register(Hardware)
 admin.site.register(Software)

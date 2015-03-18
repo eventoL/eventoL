@@ -16,10 +16,7 @@ def create_installers_group():
 
 
 def add_installer_perms(user):
-    try:
-        group = Group.objects.get(name='Installers')
-    except Group.DoesNotExist:
-        group = create_installers_group()
+    group = Group.objects.get_or_create(name='Installers')[0]
     user.groups.add(group)
     user.save()
     return user

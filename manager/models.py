@@ -97,7 +97,7 @@ class Attendee(models.Model):
         unique_together = ('email', 'sede',)
 
 
-class Organizer(models.Model):
+class Collaborator(models.Model):
     user = models.OneToOneField(User, verbose_name=_('User'), blank=True, null=True)
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), help_text=_('Sede you are going to collaborate'))
     phone = models.CharField(_('Phone'), max_length=200, blank=True, null=True)
@@ -116,8 +116,8 @@ class Organizer(models.Model):
         return str(self.user)
 
     class Meta:
-        verbose_name = _('Organizer')
-        verbose_name_plural = _('Organizers')
+        verbose_name = _('Collaborator')
+        verbose_name_plural = _('Collaborators')
 
 
 class HardwareManufacturer(models.Model):
@@ -164,7 +164,8 @@ class Software(models.Model):
         return "%s - %s v.%s" % (self.type, self.name, self.version)
 
 
-class Installer(Organizer):
+class Installer(models.Model):
+    collaborator = models.OneToOneField(Collaborator, verbose_name=_('Collaborator'), blank=True, null=True)
     installer_choices = (
         ('1', _('Beginner')),
         ('2', _('Medium')),
@@ -175,6 +176,9 @@ class Installer(Organizer):
                              help_text=_('Linux Knowledge level for an installation'))
     software = models.ManyToManyField(Software, verbose_name=_('Software'), blank=True, null=True, help_text=_(
         'Select all the software you can install. Hold Ctrl key to select many'))
+
+    def __unicode__(self):
+        return str(self.collaborator.user)
 
     class Meta:
         verbose_name = _('Installer')
@@ -276,7 +280,7 @@ class TalkTime(models.Model):
 class Talk(TalkProposal):
     room = models.ForeignKey(Room, verbose_name=_('Room'))
     hour = models.ForeignKey(TalkTime, verbose_name=_('Hour'))
-    speakers = models.ManyToManyField(Organizer, related_name='speakers', verbose_name=_('Speakers'))
+    speakers = models.ManyToManyField(Collaborator, related_name='speakers', verbose_name=_('Speakers'))
 
     class Meta:
         verbose_name = _('Talk')

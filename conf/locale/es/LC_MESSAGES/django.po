@@ -173,7 +173,7 @@ msgstr ""
 "\"Mañana\", \"Tarde\"..."
 
 #: manager/models.py:71
-msgid "Organizer"
+msgid "Collaborator"
 msgstr "Colaborador"
 
 #: manager/models.py:72
@@ -618,7 +618,7 @@ msgid "Collaborator Registration"
 msgstr "Registro de colaboradores"
 
 #: manager/templates/registration/collaborator-registration.html:8
-msgid "Organizer Registration"
+msgid "Collaborator Registration"
 msgstr "Registro de Colaboradores"
 
 #: manager/templates/registration/confirm.html:3
