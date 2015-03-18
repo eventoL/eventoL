@@ -2,7 +2,8 @@
 import itertools
 
 import autocomplete_light
-from django.contrib.auth.decorators import login_required, permission_required
+import datetime
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -11,6 +12,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.utils.translation import ugettext as _
 import django_tables2 as tables
+from manager import security
 
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
@@ -173,6 +175,7 @@ def become_installer(request, sede_url):
 
 @login_required
 @permission_required('manager.add_installation', raise_exception=True)
+@user_passes_test(security.is_installer)
 def installation(request, sede_url):
     installation_form = InstallationForm(request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
@@ -200,13 +203,15 @@ def installation(request, sede_url):
 
 
 def registration(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    if sede.date < datetime.date.today():
+        return render(request, 'registration/closed-registration.html', update_sede_info(sede_url))
     form = RegistrationForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/sede/' + sede_url + '/registration/confirm')
     else:
-        sede = Sede.objects.get(url=sede_url)
         attendee = Attendee(sede=sede)
         form = RegistrationForm(instance=attendee)
 

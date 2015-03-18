@@ -84,9 +84,7 @@ DATABASES = {
     }
 }
 
-THUMBNAIL_PROCESSORS = (
-                           'image_cropping.thumbnail_processors.crop_corners',
-                       ) + thumbnail_settings.THUMBNAIL_PROCESSORS
+THUMBNAIL_PROCESSORS = ('image_cropping.thumbnail_processors.crop_corners',) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -194,3 +192,5 @@ CKEDITOR_CONFIGS = {
 }
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+
+IMAGE_CROPPING_JQUERY_URL = None

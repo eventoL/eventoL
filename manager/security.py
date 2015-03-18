@@ -1,7 +1,8 @@
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import PermissionDenied
 
-from manager.models import Installation
+from manager.models import Installation, Installer
 
 
 def create_installers_group():
@@ -20,3 +21,10 @@ def add_installer_perms(user):
     user.groups.add(group)
     user.save()
     return user
+
+
+def is_installer(user):
+    if not Installer.objects.filter(user=user).count() > 0:
+        raise PermissionDenied
+
+    return True

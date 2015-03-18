@@ -2,7 +2,11 @@
 {% load staticfiles %}
 {% load cropping thumbnail %}
 {% load i18n %}
-{% block other-head %}{{ form.media }}{% endblock %}
+{% block other-head %}
+    {% for css in form.media.render_css %}
+        {{ css }}
+    {% endfor %}
+{% endblock %}
 
 {% block page-header %}{% trans "Talk Proposal" %}
     <small>{% trans "Please select the visible area for your image" %}</small>{% endblock %}
@@ -14,3 +18,9 @@
 {% block form-name %}{% trans "Talk Proposal" %}{% endblock %}
 
 {% block form-action %}"."{% endblock %}
+
+{% block other-script %}
+    {% for js in form.media.render_js %}
+        {{ js }}
+    {% endfor %}
+{% endblock %}

@@ -225,6 +225,8 @@ class TalkProposal(models.Model):
     abstract = models.TextField(_('Abstract'), help_text=_('Short idea of the talk (Two or three sentences)'))
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), help_text=_('Sede you are proposing the talk to'),
                              related_name='talk_proposals')
+    speakers_names = models.CharField(_('Speakers Names'), max_length=600,
+                                      help_text=_("Comma separated speaker's names"))
     speakers_email = models.CharField(_('Speakers Emails'), max_length=600,
                                       help_text=_("Comma separated speaker's emails"))
     labels = models.CharField(_('Labels'), max_length=200,
