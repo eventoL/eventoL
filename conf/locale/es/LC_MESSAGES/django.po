@@ -178,7 +178,7 @@ msgstr "Colaborador"
 
 #: manager/models.py:72
 #, fuzzy
-msgid "Organizers"
+msgid "Collaborators"
 msgstr "Colaboradores"
 
 #: manager/models.py:82
