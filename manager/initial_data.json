@@ -759,6 +759,17 @@
   },
   {
     "fields": {
+      "name": "UTN",
+      "language": "es",
+      "is_preferred": false,
+      "is_short": false,
+      "is_colloquial": false
+    },
+    "model": "cities.AlternativeName",
+    "pk": 1
+  },
+  {
+    "fields": {
       "alt_names": [1],
       "address": "Medrano 951",
       "name": "UTN",

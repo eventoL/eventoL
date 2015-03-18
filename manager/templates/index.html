@@ -57,6 +57,8 @@
                                     <p><strong>{{ talk_proposal.abstract }}</strong></p>
 
                                     <p>{{ talk_proposal.long_description }}</p>
+
+                                    <p>{% trans 'Speakers' %}: {{ talk_proposal.speakers_names|title }}</p>
                                 </div>
                             </div>
                         {% endfor %}
