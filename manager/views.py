@@ -3,6 +3,7 @@ import itertools
 
 import autocomplete_light
 import datetime
+from django.contrib.auth.views import login as django_login
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -35,6 +36,10 @@ def update_sede_info(sede_url, render_dict=None, sede=None):
         'event_information': sede.event_information
     })
     return render_dict
+
+
+def login(request, sede_url):
+    return django_login(request, extra_context=update_sede_info(sede_url))
 
 
 def index(request, sede_url):

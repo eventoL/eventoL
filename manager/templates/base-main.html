@@ -76,7 +76,7 @@
                            data-toggle="dropdown">{% trans "Collaborators" %} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             {% if not user.is_authenticated %}
-                                <li><a href="/accounts/login"><i class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
+                                <li><a href="/sede/{{ sede_url }}/accounts/login"><i class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
                                 </li>
                             {% else %}
                                 <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>

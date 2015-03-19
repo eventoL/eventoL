@@ -3,13 +3,12 @@ from django.views.generic import TemplateView
 
 from manager import views
 from manager.views import TalkDetailView
-
-
 sede_patterns = patterns(
     '',
     url(r'^$', views.index, name="index"),
     url(r'^event$', views.event, name="event_info"),
     url(r'^FAQ$', views.sede_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
+    url(r'^accounts/login/$', views.login, name='eventol_login'),
     url(r'^registration$', views.registration, name='registration'),
     url(r'^registration/confirm$', views.sede_view, name="confirm_registration",
         kwargs={'html': 'registration/confirm.html'}),
@@ -33,6 +32,8 @@ sede_patterns = patterns(
     url(r'^talk/detail/(?P<pk>\d+)$', TalkDetailView.as_view(), name='talk_detail'),
     url(r'^schedule$', views.talks, name='talks')
 )
+
+
 
 urlpatterns = patterns(
     '',

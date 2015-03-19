@@ -17,12 +17,12 @@
 
 {% block form-name %}{% trans "Login" noop %}{% endblock %}
 
-{% block form-action %}"{% url 'django.contrib.auth.views.login' %}"{% endblock %}
+{% block form-action %}"{% url 'eventol_login' sede_url %}"{% endblock %}
 
 {% block extra-fields %}
     {% if next %}
         <input type="hidden" name="next" value="{{ next }}"/>
     {% else %}
-        <input type="hidden" name="next" value="/"/>
+        <input type="hidden" name="next" value="/sede/{{ sede_url }}/"/>
     {% endif %}
 {% endblock %}
