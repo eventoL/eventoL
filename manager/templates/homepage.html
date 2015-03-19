@@ -1,0 +1,108 @@
+{% load staticfiles %}
+{% load filters %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description"
+          content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
+
+    <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
+    <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
+          rel="image_src"/>
+    <link rel="stylesheet" type="text/less" media="all"
+          href="{% static "manager/css/flisol-bootstrap.less" %}"/>
+    <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
+    <script src="{% static 'manager/bower_components/less/dist/less.min.js' %}"></script>
+    <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
+    <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
+    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="well well-lg">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                {% for sede in sedes %}
+                    {% if not forloop.counter0|is_odd %}
+                        <div class="list-group-item">
+                            <div id={{ sede.name }} class="leaflet-container leaflet-fade-anim" tabindex="0" style="position: relative;">
+
+                            </div>
+                            <div class="row-content">
+                                <div class="action-secondary"><i class="mdi-material-info"></i></div>
+                                <a href='/sede/{{ sede.url }}/'><h4 class="list-group-item-heading">{{ sede.name }}</h4>
+                                </a>
+
+                                <p class="list-group-item-text">{{ sede.place }}</p>
+                            </div>
+                        </div>
+                        <div class="list-group-separator"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-lg-6 col-md-6">
+                {% for sede in sedes %}
+                    {% if forloop.counter0|is_odd %}
+                        <div class="list-group-item">
+                            <div id='{{ sede.name }}' class="leaflet-container leaflet-fade-anim col-md-6" tabindex="0" style="position: relative; height: 100%;">
+
+                            </div>
+                            <div class="row-content">
+                                <div class="action-secondary"><i class="mdi-material-info"></i></div>
+                                <a href='/sede/{{ sede.url }}/'><h4 class="list-group-item-heading">{{ sede.name }}</h4>
+                                </a>
+
+                                <p class="list-group-item-text">{{ sede.place }}</p>
+                            </div>
+                        </div>
+                        <div class="list-group-separator"></div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
+<script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+<script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
+<script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
+<script>
+    $(document).ready(function () {
+        // This command is used to initialize some elements and make them work properly
+        $.material.init();
+
+        function map(sede_name, sede_url, sede_lon, sede_lat) {
+
+            var map = new L.Map(sede_name);
+
+            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>' +
+                ' contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+                maxZoom: 18
+            }).addTo(map);
+            map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
+
+            var center = new L.LatLng(sede_lat, sede_lon);
+            map.setView(center, 6);
+
+            var markerLocation = new L.LatLng(sede_lat, sede_lon);
+            var marker = new L.Marker(markerLocation);
+            map.addLayer(marker);
+        }
+
+        {% for sede in sedes %}
+            map('{{ sede.name }}', '{{ sede.url }}', {{ sede.city.location.x }}, {{ sede.city.location.y }});
+        {% endfor %}
+    });
+</script>
+</body>
+</html>

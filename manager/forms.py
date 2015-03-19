@@ -155,8 +155,9 @@ class TalkProposalImageCroppingForm(ModelForm):
         model = TalkProposal
         fields = ('home_image', 'cropping',)
 
+
 class ContactMessageForm(ModelForm):
     class Meta:
         model = ContactMessage
         fields = ('name', 'email', 'message', )
-        widgets = {'message': forms.Textarea(attrs={'rows': 1})}
+        widgets = {'message': forms.Textarea(attrs={'rows': 5})}

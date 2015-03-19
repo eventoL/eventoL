@@ -60,7 +60,8 @@ def event(request, sede_url):
 
 
 def home(request):
-    return render(request, 'home.html')
+    sedes = Sede.objects.all()
+    return render(request, 'homepage.html', {'sedes': sedes})
 
 
 def get_forms_errors(forms):
