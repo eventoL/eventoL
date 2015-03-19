@@ -4,5 +4,5 @@
     <small>{% trans "You've been registered successfully!" %}</small>{% endblock %}
 {% block page-name %}{% trans "Registration" %}{% endblock %}
 {% block content %}
-    <p>{% blocktrans %}You can now <a href="/accounts/login">login</a>{% endblocktrans %}</p>
+    <p>{% trans "You can now" %} <a href="/sede/{{ sede_url }}/accounts/login">{% trans "login" %}</a></p>
 {% endblock %}

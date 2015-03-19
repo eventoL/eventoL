@@ -3,5 +3,7 @@
 {% block page-header %}{% trans "Event Information" %}{% endblock %}
 {% block page-name %}{% trans "Event Information" %}{% endblock %}
 {% block content %}
-    {{ event_information | safe }}
+    <div class="well">
+        {{ event_information | safe }}
+    </div>
 {% endblock %}

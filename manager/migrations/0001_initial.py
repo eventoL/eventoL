@@ -49,6 +49,24 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='Collaborator',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('phone', models.CharField(max_length=200, null=True, verbose_name='Phone', blank=True)),
+                ('address', models.CharField(max_length=200, null=True, verbose_name='Address', blank=True)),
+                ('assisted', models.BooleanField(default=False, verbose_name='Assisted')),
+                ('is_coordinator', models.BooleanField(default=False, help_text='The user is the coordinator of the sede?', verbose_name='Is Coordinator')),
+                ('assignation', models.CharField(help_text='Assignations given to the user (i.e. Talks, Coffee...)', max_length=200, null=True, verbose_name='Assignation', blank=True)),
+                ('additional_info', models.CharField(help_text='Any additional info you consider relevant', max_length=200, null=True, verbose_name='Additional Info', blank=True)),
+                ('time_availability', models.CharField(help_text='Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...', max_length=200, null=True, verbose_name='Time Availability', blank=True)),
+            ],
+            options={
+                'verbose_name': 'Collaborator',
+                'verbose_name_plural': 'Collaborators',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Contact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -121,34 +139,17 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Organizer',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('phone', models.CharField(max_length=200, null=True, verbose_name='Phone', blank=True)),
-                ('address', models.CharField(max_length=200, null=True, verbose_name='Address', blank=True)),
-                ('assisted', models.BooleanField(default=False, verbose_name='Assisted')),
-                ('is_coordinator', models.BooleanField(default=False, help_text='The user is the coordinator of the sede?', verbose_name='Is Coordinator')),
-                ('assignation', models.CharField(help_text='Assignations given to the user (i.e. Talks, Coffee...)', max_length=200, null=True, verbose_name='Assignation', blank=True)),
-                ('additional_info', models.CharField(help_text='Any additional info you consider relevant', max_length=200, null=True, verbose_name='Additional Info', blank=True)),
-                ('time_availability', models.CharField(help_text='Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...', max_length=200, null=True, verbose_name='Time Availability', blank=True)),
-            ],
-            options={
-                'verbose_name': 'Organizer',
-                'verbose_name_plural': 'Organizers',
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Installer',
             fields=[
-                ('organizer_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='manager.Organizer')),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('level', models.CharField(help_text='Linux Knowledge level for an installation', max_length=200, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced'), (b'4', 'Super Hacker')])),
+                ('collaborator', models.OneToOneField(null=True, blank=True, to='manager.Collaborator', verbose_name='Collaborator')),
             ],
             options={
                 'verbose_name': 'Installer',
                 'verbose_name_plural': 'Installers',
             },
-            bases=('manager.organizer',),
+            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Room',
@@ -201,6 +202,7 @@ class Migration(migrations.Migration):
                 ('long_description', models.TextField(verbose_name='Long Description')),
                 ('dummy_talk', models.BooleanField(default=False, verbose_name='Dummy Talk?')),
                 ('abstract', models.TextField(help_text='Short idea of the talk (Two or three sentences)', verbose_name='Abstract')),
+                ('speakers_names', models.CharField(help_text="Comma separated speaker's names", max_length=600, verbose_name='Speakers Names')),
                 ('speakers_email', models.CharField(help_text="Comma separated speaker's emails", max_length=600, verbose_name='Speakers Emails')),
                 ('labels', models.CharField(help_text='Comma separated tags. i.e. Linux, Free Software, Debian', max_length=200, verbose_name='Labels')),
                 ('presentation', models.FileField(help_text='Any material you are going to use for the talk (optional, but recommended)', upload_to=b'talks', null=True, verbose_name='Presentation', blank=True)),
@@ -283,7 +285,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='talk',
             name='speakers',
-            field=models.ManyToManyField(related_name='speakers', verbose_name='Speakers', to='manager.Organizer'),
+            field=models.ManyToManyField(related_name='speakers', verbose_name='Speakers', to='manager.Collaborator'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -296,18 +298,6 @@ class Migration(migrations.Migration):
             model_name='room',
             name='sede',
             field=models.ForeignKey(verbose_name=b'Sede', to='manager.Sede'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='organizer',
-            name='sede',
-            field=models.ForeignKey(verbose_name=b'Sede', to='manager.Sede', help_text='Sede you are going to collaborate'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='organizer',
-            name='user',
-            field=models.OneToOneField(null=True, blank=True, to=settings.AUTH_USER_MODEL, verbose_name='User'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -350,6 +340,18 @@ class Migration(migrations.Migration):
             model_name='contact',
             name='type',
             field=models.ForeignKey(verbose_name='Contact Type', to='manager.ContactType'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='collaborator',
+            name='sede',
+            field=models.ForeignKey(verbose_name=b'Sede', to='manager.Sede', help_text='Sede you are going to collaborate'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='collaborator',
+            name='user',
+            field=models.OneToOneField(null=True, blank=True, to=settings.AUTH_USER_MODEL, verbose_name='User'),
             preserve_default=True,
         ),
         migrations.AddField(

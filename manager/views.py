@@ -3,6 +3,7 @@ import itertools
 
 import autocomplete_light
 import datetime
+from django.contrib.auth.views import login as django_login
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -19,7 +20,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm
 from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkTime, TalkType, TalkProposal, Sede, Attendee, Organizer
+    TalkTime, TalkType, TalkProposal, Sede, Attendee, Collaborator
 from manager.security import add_installer_perms
 
 
@@ -27,8 +28,7 @@ autocomplete_light.autodiscover()
 
 
 def update_sede_info(sede_url, render_dict=None, sede=None):
-    if not sede:
-        sede = Sede.objects.get(url=sede_url)
+    sede = sede or Sede.objects.get(url=sede_url)
     render_dict = render_dict or {}
     render_dict.update({
         'sede_url': sede_url,
@@ -36,6 +36,10 @@ def update_sede_info(sede_url, render_dict=None, sede=None):
         'event_information': sede.event_information
     })
     return render_dict
+
+
+def login(request, sede_url):
+    return django_login(request, extra_context=update_sede_info(sede_url))
 
 
 def index(request, sede_url):
@@ -69,18 +73,12 @@ def get_forms_errors(forms):
 
 
 def collaborator_registration(request, sede_url):
+    errors = []
     user_form = UserRegistrationForm(request.POST or None)
+
     if request.POST:
         collaborator_form = CollaboratorRegistrationForm(request.POST)
-    else:
-        sede = Sede.objects.get(url=sede_url)
-        organizer = Organizer(sede=sede)
-        collaborator_form = CollaboratorRegistrationForm(instance=organizer)
-
-    forms = [user_form, collaborator_form]
-    errors = []
-
-    if request.POST:
+        forms = [user_form, collaborator_form]
         if user_form.is_valid():
             user = user_form.save()
             try:
@@ -93,38 +91,55 @@ def collaborator_registration(request, sede_url):
                 User.delete(user)
         errors = get_forms_errors(forms)
 
+    else:
+        sede = Sede.objects.get(url=sede_url)
+        collaborator = Collaborator(sede=sede)
+        collaborator_form = CollaboratorRegistrationForm(instance=collaborator)
+        forms = [user_form, collaborator_form]
+
     return render(request,
                   'registration/collaborator-registration.html',
                   update_sede_info(sede_url, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 def installer_registration(request, sede_url):
+    errors = []
+    user, collaborator, installer = None, None, None
     user_form = UserRegistrationForm(request.POST or None)
+
     if request.POST:
+        collaborator_form = CollaboratorRegistrationForm(request.POST)
         installer_form = InstallerRegistrationForm(request.POST)
+        forms = [user_form, collaborator_form, installer_form]
+        try:
+            if user_form.is_valid():
+                user = user_form.save()
+                if collaborator_form.is_valid():
+                    collaborator = collaborator_form.save()
+                    if installer_form.is_valid():
+                            installer = installer_form.save()
+                            user = add_installer_perms(user)
+                            collaborator.user = user
+                            collaborator.save()
+                            installer.collaborator = collaborator
+                            installer.save()
+                            return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
+        except Exception as e:
+            if user is not None:
+                User.delete(user)
+            if collaborator is not None:
+                Collaborator.delete(collaborator)
+            if installer is not None:
+                Installer.delete(installer)
+        errors = get_forms_errors(forms)
+
     else:
         sede = Sede.objects.get(url=sede_url)
-        installer = Installer(sede=sede)
+        installer = Installer()
+        collaborator = Collaborator(sede=sede)
+        collaborator_form = CollaboratorRegistrationForm(instance=collaborator)
         installer_form = InstallerRegistrationForm(instance=installer)
-
-    forms = [user_form, installer_form]
-    errors = []
-    if request.POST:
-        if user_form.is_valid():
-            user = user_form.save()
-            try:
-                if installer_form.is_valid():
-                    installer = installer_form.save()
-                    user = add_installer_perms(user)
-                    installer.user = user
-                    installer.save()
-                    return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
-            except Exception as e:
-                if user is not None:
-                    User.delete(user)
-                if installer is not None:
-                    Installer.delete(installer)
-        errors = get_forms_errors(forms)
+        forms = [user_form, collaborator_form, installer_form]
 
     return render(request,
                   'registration/installer-registration.html',
@@ -133,28 +148,30 @@ def installer_registration(request, sede_url):
 
 @login_required
 def become_installer(request, sede_url):
+    forms = []
     errors = []
     installer = None
-    if request.POST:
-        user = User.objects.get_by_natural_key(request.user.username)
-        installer_form = InstallerRegistrationFromCollaboratorForm(request.POST, instance=user)
-    else:
-        installer = Installer()
-        installer_form = InstallerRegistrationFromCollaboratorForm(instance=installer)
 
-    forms = [installer_form]
     if request.POST:
-        try:
-            if installer_form.is_valid():
+        collaborator = Collaborator.objects.get(user__username=request.user.username)
+        installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
+                                                                   instance=Installer(collaborator=collaborator))
+        forms = [installer_form]
+        if installer_form.is_valid():
+            try:
                 installer = installer_form.save()
-                user = add_installer_perms(user)
-                installer.user = user
+                collaborator.user = add_installer_perms(collaborator.user)
+                collaborator.save()
                 installer.save()
                 return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
-        except Exception as e:
-            if installer is not None:
-                Installer.delete(installer)
+            except Exception as e:
+                if installer is not None:
+                    Installer.delete(installer)
         errors = get_forms_errors(forms)
+
+    else:
+        installer_form = InstallerRegistrationFromCollaboratorForm(instance=Installer())
+        forms = [installer_form]
 
     return render(request,
                   'registration/become_installer.html',
@@ -176,8 +193,7 @@ def installation(request, sede_url):
                 if installation_form.is_valid():
                     installation = installation_form.save()
                     installation.hardware = hardware
-                    installer = Installer.objects.filter(user__username=request.user.username)[0]
-                    installation.installer = installer
+                    installation.installer = Installer.objects.get(user__username=request.user.username)
                     installation.save()
                     return HttpResponseRedirect('/sede/' + sede_url + '/installation/success')
             except:
