@@ -5,11 +5,12 @@
 
 {% block pre-form %}
     {% if next %}
-        {% if next == "/sede/{{ sede_url }}/talk/proposal/" %}
-            <p>{% trans "In order to submit a talk proposal, you must <a href='/sede/{{ sede_url }}/registration/collaborator'>register as a collaborator</a> or <a href='/sede/{{ sede_url }}/registration/installer'>register as an installer</a> first" %}</p>
-        {% elif next == "/sede/{{ sede_url }}/installation" %}
-            <p>{% trans "In order to submit an installation, you must <a href='/sede/{{ sede_url }}/registration/installer'>register as an installer</a> first" %}</p>
-        {% endif %}
+        {% ifequal next "/sede/"|add:sede_url|add:"/talk/proposal/" %}
+            <p>{% trans "In order to submit a talk proposal, you must" %} <a href='/sede/{{ sede_url }}/registration/collaborator'>{% trans "register as a collaborator" %}</a> {% trans "or" %} <a href='/sede/{{ sede_url }}/registration/installer'> {% trans "register as an installer" %}</a> {% trans "first" %}</p>
+        {% endifequal %}
+        {% ifequal next "/sede/"|add:sede_url|add:"/installation" %}
+            <p>{% trans "In order to submit an installation, you must" %} <a href='/sede/{{ sede_url }}/registration/installer'>{% trans "register as an installer" %}</a> {% trans "first" %}</p>
+        {% endifequal %}
     {% endif %}
 {% endblock %}
 
