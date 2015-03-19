@@ -144,7 +144,7 @@ class UserRegistrationForm(UserCreationForm):
 class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
-        exclude = ('cropping',)
+        exclude = ('cropping', 'confirmed', 'dummy_talk')
         widgets = {'sede': forms.HiddenInput(),
                    'long_description': forms.Textarea(attrs={'rows': 3}),
                    'abstract': forms.Textarea(attrs={'rows': 3})}

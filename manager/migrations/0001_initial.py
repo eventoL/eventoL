@@ -78,6 +78,20 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='ContactMessage',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=255, verbose_name='Name')),
+                ('email', models.EmailField(max_length=75, verbose_name='Email')),
+                ('message', models.TextField(verbose_name='Message')),
+            ],
+            options={
+                'verbose_name': 'Contact Message',
+                'verbose_name_plural': 'Contact Messages',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='ContactType',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -169,6 +183,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('footer', ckeditor.fields.RichTextField(help_text='Footer HTML', null=True, verbose_name='Footer', blank=True)),
                 ('event_information', ckeditor.fields.RichTextField(help_text='Event Information HTML', null=True, verbose_name='Event Information', blank=True)),
+                ('email', models.EmailField(max_length=75, verbose_name='Email')),
                 ('name', models.CharField(max_length=200, verbose_name='Name')),
                 ('date', models.DateField(help_text='Date of the event', verbose_name='Date')),
                 ('url', models.CharField(help_text='URL for the sede i.e. CABA', unique=True, max_length=200, verbose_name='URL', db_index=True)),
@@ -195,11 +210,27 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='Talk',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('start_date', models.DateTimeField(verbose_name='Start Date')),
+                ('end_date', models.DateTimeField(verbose_name='End Date')),
+                ('room', models.ForeignKey(verbose_name='Room', to='manager.Room')),
+                ('speakers', models.ManyToManyField(related_name='speakers', verbose_name='Speakers', to='manager.Collaborator')),
+            ],
+            options={
+                'verbose_name': 'Talk',
+                'verbose_name_plural': 'Talks',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='TalkProposal',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=600, verbose_name='Title')),
                 ('long_description', models.TextField(verbose_name='Long Description')),
+                ('confirmed', models.BooleanField(default=False, verbose_name='Confirmed')),
                 ('dummy_talk', models.BooleanField(default=False, verbose_name='Dummy Talk?')),
                 ('abstract', models.TextField(help_text='Short idea of the talk (Two or three sentences)', verbose_name='Abstract')),
                 ('speakers_names', models.CharField(help_text="Comma separated speaker's names", max_length=600, verbose_name='Speakers Names')),
@@ -208,35 +239,11 @@ class Migration(migrations.Migration):
                 ('presentation', models.FileField(help_text='Any material you are going to use for the talk (optional, but recommended)', upload_to=b'talks', null=True, verbose_name='Presentation', blank=True)),
                 ('home_image', image_cropping.fields.ImageCropField(help_text='Image that is going to appear in the home page of this web for promoting the talk (optional)', upload_to=b'talks_thumbnails', null=True, verbose_name='Home Page Image', blank=True)),
                 (b'cropping', image_cropping.fields.ImageRatioField(b'home_image', '700x450', hide_image_field=False, size_warning=True, allow_fullsize=False, free_crop=False, adapt_rotation=False, help_text='The image must be 700x450 px. You can crop it here.', verbose_name='Cropping')),
+                ('sede', models.ForeignKey(related_name='talk_proposals', verbose_name=b'Sede', to='manager.Sede', help_text='Sede you are proposing the talk to')),
             ],
             options={
                 'verbose_name': 'Talk Proposal',
                 'verbose_name_plural': 'Talk Proposals',
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='Talk',
-            fields=[
-                ('talkproposal_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='manager.TalkProposal')),
-            ],
-            options={
-                'verbose_name': 'Talk',
-                'verbose_name_plural': 'Talks',
-            },
-            bases=('manager.talkproposal',),
-        ),
-        migrations.CreateModel(
-            name='TalkTime',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('start_date', models.DateTimeField(verbose_name='Start Date')),
-                ('end_date', models.DateTimeField(verbose_name='End Date')),
-                ('sede', models.ForeignKey(verbose_name=b'Sede', to='manager.Sede')),
-            ],
-            options={
-                'verbose_name': 'Talk Time',
-                'verbose_name_plural': 'Talk Times',
             },
             bases=(models.Model,),
         ),
@@ -253,18 +260,6 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.AddField(
-            model_name='talktime',
-            name='talk_type',
-            field=models.ForeignKey(verbose_name='Talk Type', to='manager.TalkType', help_text='The type of talk the room is going to be used for.'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='talkproposal',
-            name='sede',
-            field=models.ForeignKey(related_name='talk_proposals', verbose_name=b'Sede', to='manager.Sede', help_text='Sede you are proposing the talk to'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
             model_name='talkproposal',
             name='type',
             field=models.ForeignKey(verbose_name='Type', to='manager.TalkType'),
@@ -272,20 +267,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='talk',
-            name='hour',
-            field=models.ForeignKey(verbose_name='Hour', to='manager.TalkTime'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='talk',
-            name='room',
-            field=models.ForeignKey(verbose_name='Room', to='manager.Room'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='talk',
-            name='speakers',
-            field=models.ManyToManyField(related_name='speakers', verbose_name='Speakers', to='manager.Collaborator'),
+            name='talk_proposal',
+            field=models.OneToOneField(null=True, blank=True, to='manager.TalkProposal', verbose_name='TalkProposal'),
             preserve_default=True,
         ),
         migrations.AddField(
