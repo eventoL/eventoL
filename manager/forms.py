@@ -16,7 +16,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
