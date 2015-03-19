@@ -31,6 +31,7 @@ class Sede(models.Model):
                                       blank=True, null=True)
     city = models.ForeignKey(City, verbose_name=_('City'))
     district = models.ForeignKey(District, verbose_name=_('District'), blank=True, null=True)
+    email = models.EmailField(verbose_name=_('Email'))
     name = models.CharField(_('Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
     place = models.ForeignKey(Building, verbose_name=_('Place'),
@@ -296,3 +297,12 @@ class EventInfo(models.Model):
     class Meta:
         verbose_name = _('Event Info')
         verbose_name_plural = _('Envent Info (s)')
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length= 255, verbose_name=_('Name'))
+    email = models.EmailField(verbose_name=_('Email'))
+    message = models.TextField(verbose_name=_('Message'))
+
+    class Meta:
+        verbose_name = _('Contact Message')
+        verbose_name_plural = _('Contact Messages')
