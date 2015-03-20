@@ -13,9 +13,9 @@
     <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
           rel="image_src"/>
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
+    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
     <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
-    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
     <style>
         body {
             padding: 0;
@@ -30,7 +30,7 @@
 <body onLoad="javascript:init();">
 <div id="map" class="leaflet-container leaflet-fade-anim" tabindex="0" style="position: relative;"></div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+<script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
 
 <script language="javascript">
     function init() {

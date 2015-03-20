@@ -12,15 +12,16 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic.detail import DetailView
 from django.utils.translation import ugettext as _
+from django.core.mail import send_mail
 import django_tables2 as tables
 from manager import security
 
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
-    TalkProposalForm, TalkProposalImageCroppingForm, \
+    TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm
 from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkTime, TalkType, TalkProposal, Sede, Attendee, Collaborator
+    TalkType, TalkProposal, Sede, Attendee, Collaborator, ContactMessage
 from manager.security import add_installer_perms
 
 
@@ -63,7 +64,8 @@ def event(request, sede_url):
 
 
 def home(request):
-    return render(request, 'home.html')
+    sedes = Sede.objects.all()
+    return render(request, 'homepage.html', {'sedes': sedes})
 
 
 def get_forms_errors(forms):
@@ -146,7 +148,7 @@ def installer_registration(request, sede_url):
                   update_sede_info(sede_url, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
-@login_required
+@login_required(login_url='../accounts/login/')
 def become_installer(request, sede_url):
     forms = []
     errors = []
@@ -178,7 +180,7 @@ def become_installer(request, sede_url):
                   update_sede_info(sede_url, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
-@login_required
+@login_required(login_url='./accounts/login/')
 @permission_required('manager.add_installation', raise_exception=True)
 @user_passes_test(security.is_installer)
 def installation(request, sede_url):
@@ -223,7 +225,7 @@ def registration(request, sede_url):
     return render(request, 'registration/attendee-registration.html', update_sede_info(sede_url, {'form': form}))
 
 
-@login_required
+@login_required(login_url='../../accounts/login/')
 def talk_proposal(request, sede_url):
     sede = Sede.objects.get(url=sede_url)
     proposal = TalkProposal(sede=sede)
@@ -236,7 +238,7 @@ def talk_proposal(request, sede_url):
     return render(request, 'talks/proposal.html', update_sede_info(sede_url, {'form': form}))
 
 
-@login_required
+@login_required(login_url='../../../accounts/login/')
 def image_cropping(request, sede_url, image_id):
     proposal = get_object_or_404(TalkProposal, pk=image_id)
     form = TalkProposalImageCroppingForm(request.POST or None, request.FILES, instance=proposal)
@@ -265,19 +267,18 @@ def talks(request, sede_url):
             attrs['Meta'] = type('Meta', (), dict(attrs={"class": "table", "orderable": "False", }))
             klass = type('DynamicTable', (TalksTable,), attrs)
 
-            hours = TalkTime.objects.filter(talk_type=talk_type, sede=sede).order_by('start_date')
-            
+            # hours = TalkTime.objects.filter(talk_type=talk_type, sede=sede).order_by('start_date')
             for hour in hours:
                 talkss = Talk.objects.filter(hour=hour, sede=sede)
                 talk = {'hour': hour}
                 for t in talkss:
-                    
+
                     talk_link = '<a href="' + reverse('talk_detail', args=[t.pk]) \
                                 + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
                     for speaker in t.speakers.all():
                         if not speaker.user.first_name == '':
                             talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))
-                    
+
                     talk[t.room.name] = mark_safe(talk_link)
                 talks.append(talk)
 
@@ -291,7 +292,7 @@ def talks(request, sede_url):
     return render(request, "talks/schedule.html", update_sede_info(sede_url, {'tables': tabless}))
 
 
-@login_required
+@login_required(login_url='../../accounts/login/')
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_search(request, sede_url):
     form = AttendeeSearchForm(request.POST or None)
@@ -309,7 +310,7 @@ def attendee_search(request, sede_url):
     return render(request, 'registration/attendee/search.html', update_sede_info(sede_url, {'form': form}))
 
 
-@login_required
+@login_required(login_url='../../accounts/login/')
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_registration_by_collaborator(request, sede_url):
     sede = Sede.objects.get(url=sede_url)
@@ -328,3 +329,22 @@ def attendee_registration_by_collaborator(request, sede_url):
 class TalkDetailView(DetailView):
     model = Talk
     template_name = 'talks/detail.html'
+
+
+def contact(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    contact_message = ContactMessage()
+    form = ContactMessageForm(request.POST or None, instance=contact_message)
+
+    if request.POST:
+        if form.is_valid():
+            contact_message = form.save()
+            send_mail(_("FLISoL Contact Message " + contact_message.name + " email " + contact_message.email),
+                      contact_message.message,
+                      contact_message.email,
+                      recipient_list=[sede.email, ],
+                      fail_silently=False)
+            contact_message.save()
+            return HttpResponseRedirect('/sede/' + sede_url)
+
+    return render(request, 'contact-message.html', update_sede_info(sede_url, {'form': form}, sede))

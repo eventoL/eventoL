@@ -31,6 +31,7 @@ class Sede(models.Model):
                                       blank=True, null=True)
     city = models.ForeignKey(City, verbose_name=_('City'))
     district = models.ForeignKey(District, verbose_name=_('District'), blank=True, null=True)
+    email = models.EmailField(verbose_name=_('Email'))
     name = models.CharField(_('Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
     place = models.ForeignKey(Building, verbose_name=_('Place'),
@@ -221,6 +222,7 @@ class TalkProposal(models.Model):
     title = models.CharField(_('Title'), max_length=600)
     type = models.ForeignKey(TalkType, verbose_name=_('Type'))
     long_description = models.TextField(_('Long Description'))
+    confirmed = models.BooleanField(_('Confirmed'), default=False)
     dummy_talk = models.BooleanField(_('Dummy Talk?'), default=False)
     abstract = models.TextField(_('Abstract'), help_text=_('Short idea of the talk (Two or three sentences)'))
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), help_text=_('Sede you are proposing the talk to'),
@@ -262,27 +264,16 @@ class Room(models.Model):
         verbose_name_plural = _('Rooms')
 
 
-class TalkTime(models.Model):
+class Talk(models.Model):
+    talk_proposal = models.OneToOneField(TalkProposal, verbose_name=_('TalkProposal'), blank=True, null=True)
+    room = models.ForeignKey(Room, verbose_name=_('Room'))
+    speakers = models.ManyToManyField(Collaborator, related_name='speakers', verbose_name=_('Speakers'))
     start_date = models.DateTimeField(_('Start Date'))
     end_date = models.DateTimeField(_('End Date'))
-    sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'))
-    talk_type = models.ForeignKey(TalkType, verbose_name=_('Talk Type'),
-                                  help_text=_('The type of talk the room is going to be used for.'))
 
     def __unicode__(self):
-        return "%s - %s" % (
-            self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M")
-        )
-
-    class Meta:
-        verbose_name = _('Talk Time')
-        verbose_name_plural = _('Talk Times')
-
-
-class Talk(TalkProposal):
-    room = models.ForeignKey(Room, verbose_name=_('Room'))
-    hour = models.ForeignKey(TalkTime, verbose_name=_('Hour'))
-    speakers = models.ManyToManyField(Collaborator, related_name='speakers', verbose_name=_('Speakers'))
+        return "%s - %s (%s - %s)" % (self.sede.name, self.name,
+                                      self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
     class Meta:
         verbose_name = _('Talk')
@@ -296,3 +287,12 @@ class EventInfo(models.Model):
     class Meta:
         verbose_name = _('Event Info')
         verbose_name_plural = _('Envent Info (s)')
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length= 255, verbose_name=_('Name'))
+    email = models.EmailField(verbose_name=_('Email'))
+    message = models.TextField(verbose_name=_('Message'))
+
+    class Meta:
+        verbose_name = _('Contact Message')
+        verbose_name_plural = _('Contact Messages')

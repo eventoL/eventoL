@@ -1,0 +1,85 @@
+{% load staticfiles %}
+{% load filters %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description"
+          content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
+
+    <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
+    <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
+          rel="image_src"/>
+    <link rel="stylesheet" type="text/less" media="all"
+          href="{% static "manager/css/flisol-bootstrap.less" %}"/>
+    <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
+    <script src="{% static 'manager/bower_components/less/dist/less.min.js' %}"></script>
+    <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
+    <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
+    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<img src="{% static 'manager/img/flisol-banner.png' %}" style="width: 100%">
+<div class="container">
+    <div class="row" style="padding-top: 10px">
+        {% for sede in sedes %}
+            <div class="col-lg-4 col-md-4">
+                <div class="well" style="padding: 0px 0px 0px 15px">
+                    <div class="row">
+                        <div id='{{ sede.name }}'
+                             class="col-md-4 col-lg-4 leaflet-container leaflet-fade-anim" tabindex="0"
+                             style="position: relative; height: 130px;"></div>
+                        <div class="col-md-8 col-lg-8" style="padding-top: 10px">
+                            <a href='/sede/{{ sede.url }}/'><h4
+                                    class="list-group-item-heading">{{ sede.name }}</h4></a>
+
+                            <p>{{ sede.place }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
+<script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+<script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
+<script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
+<script>
+    $(document).ready(function() {
+        // This command is used to initialize some elements and make them work properly
+        $.material.init();
+
+        function map(sede_name, sede_lon, sede_lat) {
+
+            var map = new L.Map(sede_name, {zoomControl: false});
+
+            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+                attribution: '',
+                maxZoom    : 4
+            }).addTo(map);
+            map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
+
+            var center = new L.LatLng(sede_lat, sede_lon);
+            map.setView(center, 4);
+
+            var markerLocation = new L.LatLng(sede_lat, sede_lon);
+            var marker = new L.Marker(markerLocation);
+            map.addLayer(marker);
+        }
+
+        {% for sede in sedes %}
+            map('{{ sede.name }}', {{ sede.city.location.x }}, {{ sede.city.location.y }});
+        {% endfor %}
+    });
+</script>
+</body>
+</html>

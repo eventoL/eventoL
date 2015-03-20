@@ -44,7 +44,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="pull-left" href="javascript:void(0)"><img src="{% static "manager/img/flisol-top-bar.png" %}"
+                <a class="pull-left" href="/sede/{{ sede_url }}/"><img src="{% static "manager/img/flisol-top-bar.png" %}"
                                                                     alt="Flisol Logo"></a>
             </div>
 
@@ -110,6 +110,9 @@
                                     <i class="fa {{ contact.type.icon_class }}"></i> {{ contact.text }}</a>
                                 </li>
                             {% endfor %}
+                            <li><a href="contact">
+                                <i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -132,7 +135,7 @@
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
     {% block other-script %}{% endblock %}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // This command is used to initialize some elements and make them work properly
             $.material.init();
         });

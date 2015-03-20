@@ -16,7 +16,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
@@ -144,7 +144,7 @@ class UserRegistrationForm(UserCreationForm):
 class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
-        exclude = ('cropping',)
+        exclude = ('cropping', 'confirmed', 'dummy_talk')
         widgets = {'sede': forms.HiddenInput(),
                    'long_description': forms.Textarea(attrs={'rows': 3}),
                    'abstract': forms.Textarea(attrs={'rows': 3})}
@@ -154,3 +154,10 @@ class TalkProposalImageCroppingForm(ModelForm):
     class Meta:
         model = TalkProposal
         fields = ('home_image', 'cropping',)
+
+
+class ContactMessageForm(ModelForm):
+    class Meta:
+        model = ContactMessage
+        fields = ('name', 'email', 'message', )
+        widgets = {'message': forms.Textarea(attrs={'rows': 5})}

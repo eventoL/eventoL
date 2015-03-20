@@ -30,7 +30,8 @@ sede_patterns = patterns(
     url(r'^talk/proposal/$', views.talk_proposal, name='talk_proposal'),
     url(r'^talk/confirm$', views.sede_view, kwargs={'html': 'talks/confirm.html'}, name='talk_confirm'),
     url(r'^talk/detail/(?P<pk>\d+)$', TalkDetailView.as_view(), name='talk_detail'),
-    url(r'^schedule$', views.talks, name='talks')
+    url(r'^schedule$', views.talks, name='talks'),
+    url(r'^contact$', views.contact)
 )
 
 
