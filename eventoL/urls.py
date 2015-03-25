@@ -1,15 +1,15 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from django.views.generic.base import TemplateView, RedirectView
+from django.views.generic.base import RedirectView
 
 from manager import views
 from django.conf.urls.static import static
+from django.contrib.auth import views as django_views
 from eventoL import settings
 import autocomplete_light
 
 autocomplete_light.autodiscover()
 admin.autodiscover()
-
 
 urlpatterns = patterns(
     '',
@@ -21,6 +21,16 @@ urlpatterns = patterns(
     url(r'^ckeditor/', include('ckeditor.urls'), name='ckeditor'),
     url(r'^confirm/', include('generic_confirmation.urls')),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    url(r'^accounts/password-reset/$', django_views.password_reset,
+        {'template_name': 'registration/password_reset/reset.html'}, name='forgot_password'),
+    url(r'^accounts/password_reset/done/$', django_views.password_reset_done,
+        {'template_name': 'registration/password_reset/done.html'}, name="password_reset_done"),
+    url(r'^accounts/password_reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        django_views.password_reset_confirm,
+        {'template_name': 'registration/password_reset/confirm.html'}, name='password_reset_confirm'),
+    url(r'^accounts/password_reset/complete/$', django_views.password_reset_complete,
+        {'template_name': 'registration/password_reset/complete.html'},
+        name='password_reset_complete'),
 
     # Hacks to preserve an old distributed url
     url(r'^proponer-charla$', RedirectView.as_view(url='/sede/talk/proposal/', permanent=True)),

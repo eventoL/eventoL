@@ -119,13 +119,13 @@ def installer_registration(request, sede_url):
                 if collaborator_form.is_valid():
                     collaborator = collaborator_form.save()
                     if installer_form.is_valid():
-                            installer = installer_form.save()
-                            user = add_installer_perms(user)
-                            collaborator.user = user
-                            collaborator.save()
-                            installer.collaborator = collaborator
-                            installer.save()
-                            return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
+                        installer = installer_form.save()
+                        user = add_installer_perms(user)
+                        collaborator.user = user
+                        collaborator.save()
+                        installer.collaborator = collaborator
+                        installer.save()
+                        return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
         except Exception as e:
             if user is not None:
                 User.delete(user)
