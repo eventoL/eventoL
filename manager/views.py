@@ -89,7 +89,7 @@ def collaborator_registration(request, sede_url):
                     collaborator = collaborator_form.save()
                     collaborator.user = user
                     collaborator.save()
-                    messages.success(request, 'Ha sido registrado como colaborador.')
+                    messages.success(request, "You've been registered successfully!")
                     return HttpResponseRedirect('/sede/' + sede_url)
             except Exception:
                 User.delete(user)
@@ -127,7 +127,7 @@ def installer_registration(request, sede_url):
                             collaborator.save()
                             installer.collaborator = collaborator
                             installer.save()
-                            messages.success(request, 'Ha sido registrado como instalador.')
+                            messages.success(request, "You've been registered successfully!")
                             return HttpResponseRedirect('/sede/' + sede_url)
         except Exception as e:
             if user is not None:
@@ -168,7 +168,7 @@ def become_installer(request, sede_url):
                 collaborator.user = add_installer_perms(collaborator.user)
                 collaborator.save()
                 installer.save()
-                messages.success(request, 'Le han sido otorgados permisos de instalador.')
+                messages.success(request, "You've became an installer!")
                 return HttpResponseRedirect('/sede/' + sede_url)
             except Exception as e:
                 if installer is not None:
@@ -201,7 +201,7 @@ def installation(request, sede_url):
                     installation.hardware = hardware
                     installation.installer = Installer.objects.get(user__username=request.user.username)
                     installation.save()
-                    messages.success(request, 'Se ha agregado la instalacion.')
+                    messages.success(request, "The installation has been registered successfully. Happy Hacking!")
                     return HttpResponseRedirect('/sede/' + sede_url)
             except:
                 if hardware is not None:
@@ -354,7 +354,7 @@ def contact(request, sede_url):
                       recipient_list=[sede.email, ],
                       fail_silently=False)
             contact_message.save()
-            messages.success(request, 'El mensaje ha sido enviado.')
+            messages.success(request, "The message has been send.")
             return HttpResponseRedirect('/sede/' + sede_url)
 
     return render(request, 'contact-message.html', update_sede_info(sede_url, {'form': form}, sede))
