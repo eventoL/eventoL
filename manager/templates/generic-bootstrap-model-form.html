@@ -2,8 +2,8 @@
 {% load filters %}
 {% load i18n %}
 {% block content %}
-    {% block pre-form %}{% endblock %}
     <div class="well">
+        {% block pre-form %}{% endblock %}
         <div class="row">
             <form id=
                           {% block form-id %}{% endblock %} {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
@@ -48,6 +48,6 @@
                 {% endblock %}
             </form>
         </div>
+        {% block post-form %}{% endblock %}
     </div>
-    {% block post-form %}{% endblock %}
 {% endblock %}
