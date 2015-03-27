@@ -272,7 +272,7 @@ class Talk(models.Model):
     end_date = models.DateTimeField(_('End Date'))
 
     def __unicode__(self):
-        return "%s - %s (%s - %s)" % (self.sede.name, self.name,
+        return "%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
                                       self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
     class Meta:
@@ -288,6 +288,7 @@ class EventInfo(models.Model):
         verbose_name = _('Event Info')
         verbose_name_plural = _('Envent Info (s)')
 
+
 class ContactMessage(models.Model):
     name = models.CharField(max_length= 255, verbose_name=_('Name'))
     email = models.EmailField(verbose_name=_('Email'))
@@ -296,3 +297,23 @@ class ContactMessage(models.Model):
     class Meta:
         verbose_name = _('Contact Message')
         verbose_name_plural = _('Contact Messages')
+
+
+class Comment(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=60)
+    body = models.TextField()
+    proposal = models.ForeignKey(TalkProposal)
+    user = models.ForeignKey(User)
+
+    def __unicode__(self):
+        return unicode("%s: %s (%s)" % (self.user, self.proposal, self.created.strftime('%Y-%m-%d %H:%M')))
+
+    def save(self, *args, **kwargs):
+        """Email when a comment is added."""
+
+        #TODO: Email when a comment is added.
+
+        if "notify" in kwargs:
+            del kwargs["notify"]
+        super(Comment, self).save(*args, **kwargs)
