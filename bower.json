@@ -18,6 +18,8 @@
   "dependencies": {
     "bootstrap-material-design": "~0.2.2",
     "bootstrap": "~3.3.2",
+    "bootstrap-datepicker": "~1.4",
+    "bootstrap-timepicker": "~0.2.6",
     "roboto-fontface": "~0.3.0",
     "leaflet": "~0.7.3"
   },
