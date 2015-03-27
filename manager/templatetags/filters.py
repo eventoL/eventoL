@@ -1,4 +1,5 @@
 from django import template, forms
+from manager.models import Installer
 
 register = template.Library()
 
@@ -15,6 +16,12 @@ def is_checkbox(boundfield):
            isinstance(boundfield.field.widget, forms.CheckboxSelectMultiple)
 
 
+@register.filter(name='is_datetime')
+def is_datetime(boundfield):
+    """Return True if this field's widget is a DateInput."""
+    return isinstance(boundfield.field.widget, forms.SplitDateTimeWidget)
+
+
 @register.filter(name='is_fileinput')
 def is_fileinput(boundfield):
     """Return True if this field's widget is a FileField."""
@@ -25,3 +32,8 @@ def is_fileinput(boundfield):
 def is_odd(number):
     """Return True if the number is odd"""
     return number & 1
+
+
+@register.filter(name='is_installer')
+def is_installer(user):
+    return Installer.objects.filter(collaborator__user__username=user).exists()
