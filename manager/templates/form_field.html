@@ -21,6 +21,9 @@
             <input type="text" readonly="" class="form-control floating-label" placeholder="{% trans 'Browse...' %}">
             {{ field }}
         </div>
+    {% elif field|is_datetime %}
+        <br>{% trans "Date" %}: <input class="form-control datepicker empty" id="{{ field.id_for_label }}" name="{{ field.name }}_0" type="text">
+        {% trans "Time" %}: <input class="form-control timepicker empty" id="{{ field.name }}_1" name="{{ field.name }}_1" type="text">
     {% else %}
         {{ field | addcss:"form-control" }}
     {% endif %}

@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load compress %}
+{% load filters %}
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="es-AR">
@@ -29,7 +30,7 @@
         <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
         <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
               rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
         {% block other-head %}{% endblock %}
     {% endblock %}
 </head>
@@ -89,9 +90,11 @@
                                 <li><a href="/sede/{{ sede_url }}/registration/attendee/search"><i
                                         class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}</a>
                                 </li>
-                                <li><a href="/sede/{{ sede_url }}/registration/become_installer"><i
+                                {% if not user|is_installer %}
+                                    <li><a href="/sede/{{ sede_url }}/registration/become_installer"><i
                                         class="fa fa-linux"></i> {% trans "Become installer" %}</a>
-                                </li>
+                                    </li>
+                                {% endif %}
                             {% endif %}
                             <li><a href="/sede/{{ sede_url }}/registration/collaborator"><i
                                     class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}</a>

@@ -1,0 +1,61 @@
+{% load i18n %}
+{% if comments %}
+    <h2>{% trans "Comments" %}</h2>
+
+    <form action="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/" method="POST">{% csrf_token %}
+        {% for comment in comments %}
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            {% if user.is_staff %}
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="delete" value="{{ comment.pk }}">
+                                        <strong>{{ comment.title }}</strong>
+                                    </label>
+                                    <div class="time pull-right">{{ comment.created }}</div>
+                                </div>
+                            {% else %}
+                                <strong>{{ comment.title }}</strong>
+                                <div class="time pull-right">{{ comment.created }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="body">{{ comment.body|linebreaks }}</div>
+                        {% if user.is_staff %}
+                            <div class="pull-right">
+                                <label>
+                                    <a href="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/{{ comment.id }}">{% trans "Delete comment" %}</a>
+                                </label>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if user.is_staff and comments %}
+            <p><input class="btn btn-primary btn-raised" type="submit" value="Delete all selected"></p>
+        {% endif %}
+    </form>
+{% endif %}
+
+{% if user.is_authenticated %}
+    <!-- Add Comment form -->
+    <h2>{% trans "Add a comment" %}</h2>
+    <div class="well">
+        <div class="row" style="margin-left: 10px; margin-right: 10px;">
+            <form action="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/add_comment/" method="POST">{% csrf_token %}
+                <div id="cform">
+                    {% include "form_field.html" with field=form.title only %}
+                    {% include "form_field.html" with field=form.body only %}
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-raised pull-right">{% trans "Submit" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endif %}
