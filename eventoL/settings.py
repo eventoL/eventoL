@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'cities',
+    'voting',
     'generic_confirmation',
     'django_tables2',
     'easy_thumbnails',

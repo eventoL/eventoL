@@ -1,25 +1,129 @@
+{% extends "base.html" %}
+{% load static %}
 {% load i18n %}
+{% load filters %}
 {% load cropping %}
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title">{% trans "Talk" %}: {{ talk.title }}</h4>
-</div>
-<div class="modal-body row">
-    <div class="col-md-6">
-        {% if talk.home_image %}
-            <img class="img-responsive" src="{% cropped_thumbnail talk cropping %}" alt="{{ talk.title }}" width="100%"
-                 heigth="100%">
-        {% endif %}
+{% if proposal %}
+    {% block other-head %}
+        <link rel="stylesheet" type="text/css" href="/static/manager/bower_components/bootstrap-timepicker/css/bootstrap-timepicker.css">
+        <link rel="stylesheet" type="text/css" href="/static/manager/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    {% endblock %}
+{% endif %}
+{% block page-header %}
+    {% if talk %}{{ talk.talk_proposal.title }}{% elif proposal %}{{ proposal.title }}{% endif %}
+{% endblock %}
+{% block page-name %}
+    {% if talk %}{{ talk.talk_proposal.title }}{% elif proposal %}{{ proposal.title }}{% endif %}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            {% if talk %}
+                                <div class="col-md-4 col-lg-4">
+                                    {% if talk.talk_proposal.home_image %}
+                                        <img src="{% cropped_thumbnail talk.talk_proposal "cropping" %}" width="100%">
+                                    {% endif %}
+                                    <br><br>
+                                    {% include 'talks/proposal/votes.html' with proposal=talk.talk_proposal %}
+                                </div>
+                                <div class="col-md-8 col-lg-8" style="padding-top: 10px">
+                                    <p><strong>{% trans "Abstract" %}:</strong> {{ talk.talk_proposal.abstract }}</p>
+                                    <p><strong>{% trans "Speakers" %}:</strong> {{ talk.talk_proposal.speakers_names|title }}</p>
+                                    <p><strong>{% trans "Labels" %}:</strong> {{ talk.talk_proposal.labels|lower }}</p>
+                                    <p><strong>{% trans "Type" %}:</strong> {{ talk.talk_proposal.type }}</p>
+                                    <p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>
+                                    <p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>
+                                    <p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>
+                                </div>
+                            {% elif proposal %}
+                                <div class="col-md-4 col-lg-4">
+                                    {% if proposal.home_image %}
+                                        <img src="{% cropped_thumbnail proposal "cropping" %}" width="100%">
+                                    {% endif %}
+                                    <br><br>
+                                    {% include 'talks/proposal/votes.html' %}
+                                </div>
+                                <div class="col-md-8 col-lg-8" id="accordion">
+                                    <div id="talk_information">
+                                        <p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>
+                                        <p><strong>{% trans "Labels" %}:</strong> {{ proposal.labels|lower }}</p>
+                                        <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>
+                                        <p><strong>{% trans "Long Description" %}:</strong> {{ proposal.long_description }}</p>
+                                        <p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>
+                                    </div>
+                                    {% if proposal.confirmed %}
+                                        <p>{% trans "Abstract" %}: {{ proposal.abstract }}</p>
+                                        <p>{% trans "Room" %}: {{ talk.room }}</p>
+                                        <p>{% trans "Start" %}: {{ talk.start_date }}</p>
+                                        <p>{% trans "End" %}: {{ talk.end_date }}</p>
+                                    {% elif user.is_staff %}
+                                        <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
+                                            {% trans "Become Talk" %}
+                                        </a></strong></p>
+                                        <div id="become_talk">
+                                            <div id="to_talk" class="panel-collapse collapse">
+                                                <div class="container col-md-12 col-lg-12">
+                                                    {% include 'talks/to_talk_form.html' with form_id=proposal.pk%}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'talks/comments.html' with form=comment_form %}
+        </div>
     </div>
-    <div class="col-md-6">
-        <p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>
+{% endblock %}
+{% if proposal %}
+    {% block other-script %}
+        <script src="/static/manager/bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+        <script src="/static/manager/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function() {
+                $('.datepicker').datepicker();
+                $('.timepicker').timepicker({
+                    showMeridian: false
+                });
 
-        <p><strong>{% trans "Labels" %}:</strong> {{ talk.labels|lower }}</p>
+                function becomeTalkActive() {
+                    $('#talk_information').attr("style", "visibility: hidden; position: absolute");
+                    $('#become_talk').attr("style", "visibility: block");
+                };
 
-        <p><strong>{% trans "Abstract" %}:</strong> {{ talk.abstract }}</p>
+                function becomeTalkDeactive() {
+                    $('#talk_information').attr("style", "visibility: block");
+                    $('#become_talk').attr("style", "visibility: hidden");
+                };
 
-        <p><strong>{% trans "Long Description" %}:</strong> {{ talk.long_description }}</p>
+                $('#accordion').on('hidden.bs.collapse', becomeTalkDeactive);
+                $('#accordion').on('shown.bs.collapse', becomeTalkActive);
 
-        <p><strong>{% trans "Type" %}:</strong> {{ talk.type }}</p>
-    </div>
-</div>
+                {% if error %}
+                    $('.accordion-toggle').trigger('click');
+                {% endif %}
+
+                {% if vote %}
+                    var original_text = $('#score').text();
+                    $('#score').hover(
+                        function(){
+                            $(this).text('{% trans 'Cancel my vote' %}');
+                        },
+                        function(){
+                            $(this).text(original_text);
+                        }
+                    );
+                {% endif %}
+
+            });
+
+        </script>
+    {% endblock %}
+{% endif %}
