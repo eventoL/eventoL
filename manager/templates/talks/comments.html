@@ -37,7 +37,7 @@
         {% endfor %}
 
         {% if user.is_staff and comments %}
-            <p><input class="btn btn-primary btn-raised" type="submit" value="Delete all selected"></p>
+            <p><input class="btn btn-primary btn-raised" type="submit" value="{% trans 'Delete all selected' %}"></p>
         {% endif %}
     </form>
 {% endif %}

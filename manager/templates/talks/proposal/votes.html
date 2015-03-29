@@ -38,7 +38,7 @@
                 </a>
             {% else %}
                 <strong><span class="alert alert-success text-center col-md-offset-1 col-md-5" style="border-radius: 4px;">
-                    {% trans 'Score: ' %} {% ifnotequal score 0 %}{{ score.score }}{% else %}0{% endifnotequal %}
+                    {% trans 'Score' %}: {% ifnotequal score 0 %}{{ score.score }}{% else %}0{% endifnotequal %}
                 </span></strong>
             {% endif %}
         {% endif %}
