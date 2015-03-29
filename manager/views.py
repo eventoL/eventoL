@@ -235,10 +235,10 @@ def installation(request, sede_url):
                 if installation_form.is_valid():
                     installation = installation_form.save()
                     installation.hardware = hardware
-                    installation.installer = Installer.objects.get(user__username=request.user.username)
+                    installation.installer = Installer.objects.get(collaborator__user__username=request.user.username)
                     installation.save()
                     return HttpResponseRedirect('/sede/' + sede_url + '/installation/success')
-            except:
+            except Exception:
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if installation is not None:
@@ -321,7 +321,6 @@ def proposal_detail(request, sede_url, pk):
     return render(request, 'talks/detail.html', update_sede_info(sede_url, render_dict))
 
 
-
 @login_required(login_url='../../accounts/login/')
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_search(request, sede_url):
@@ -398,8 +397,8 @@ def add_comment(request, sede_url, pk):
 def vote_proposal(request, sede_url, pk, vote):
     proposal = TalkProposal.objects.get(pk=pk)
     exits_vote = Vote.objects.get_for_user(proposal, request.user)
-    if not exits_vote and vote in ("1", "-1"):
-        Vote.objects.record_vote(proposal, request.user, int(vote))
+    if not exits_vote and vote in ("1", "0"):
+        Vote.objects.record_vote(proposal, request.user, 1 if vote == '1' else -1)
     return proposal_detail(request, sede_url, pk)
 
 

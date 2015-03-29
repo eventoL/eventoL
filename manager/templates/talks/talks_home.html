@@ -24,9 +24,11 @@
                                     {{ talk.talk_proposal.title }}
                                 </a>
                                 <i class="indicator fa fa-chevron-up pull-right"></i>
+                                {% if user.is_authenticated %}
                                     <span class="label label-success pull-right" style="border-radius: 2px; padding-top: 0.3em">
                                         {% trans "Confirmed" %}
                                     </span>
+                                {% endif %}
                             </h4>
                         </div>
                         <div id="talk-{{ forloop.counter }}" class="panel-collapse collapse">
@@ -61,9 +63,11 @@
                                         {{ proposal.title }}
                                     </a>
                                     <i class="indicator fa fa-chevron-up pull-right"></i>
-                                    <span class="label label-danger pull-right" style="border-radius: 2px; padding-top: 0.3em">
-                                        {% trans "Not Confirmed" %}
-                                    </span>
+                                    {% if user.is_authenticated %}
+                                        <span class="label label-danger pull-right" style="border-radius: 2px; padding-top: 0.3em">
+                                            {% trans "Not Confirmed" %}
+                                        </span>
+                                    {% endif %}
                                 </h4>
                             </div>
                             <div id="proposal-{{ forloop.counter }}" class="panel-collapse collapse">
