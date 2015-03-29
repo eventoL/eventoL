@@ -24,7 +24,8 @@ def add_installer_perms(user):
 
 
 def is_installer(user):
-    if not Installer.objects.filter(user=user).count() > 0:
-        raise PermissionDenied
-
-    return True
+    if Installer.objects.filter(collaborator__user=user).exists():
+        return True
+    if user.is_staff:
+        return True
+    raise PermissionDenied

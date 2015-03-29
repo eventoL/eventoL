@@ -1,4 +1,4 @@
-Django==1.7.6
+Django==1.7.7
 Pillow==2.7.0
 argparse==1.3.0
 django-appconf==1.0.1
@@ -14,3 +14,5 @@ wsgiref==0.1.2
 django-grappelli==2.6.3
 django_compressor==1.4
 django-ckeditor==4.4.7
+django-voting==0.2
+

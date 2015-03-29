@@ -1,29 +1,24 @@
 # encoding: UTF-8
 import itertools
+import datetime
 
 import autocomplete_light
-import datetime
-from django.contrib.auth.views import login as django_login
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
+from django.contrib.auth.views import login as django_login
+from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.utils.safestring import mark_safe
-from django.views.generic.detail import DetailView
-from django.utils.translation import ugettext as _
-from django.core.mail import send_mail
-import django_tables2 as tables
-from manager import security
-
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
-    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm
-from manager.models import Installer, Hardware, Installation, Talk, Room, \
-    TalkType, TalkProposal, Sede, Attendee, Collaborator, ContactMessage
+    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm,\
+    TalkForm, CommentForm
+from manager.models import Installer, Hardware, Installation, Talk, \
+    TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
 from manager.security import add_installer_perms
+from voting.models import Vote
 
 
 autocomplete_light.autodiscover()
@@ -31,11 +26,13 @@ autocomplete_light.autodiscover()
 
 def update_sede_info(sede_url, render_dict=None, sede=None):
     sede = sede or Sede.objects.get(url=sede_url)
+    contacts = Contact.objects.filter(sede=sede)
     render_dict = render_dict or {}
     render_dict.update({
         'sede_url': sede_url,
         'footer': sede.footer,
-        'event_information': sede.event_information
+        'event_information': sede.event_information,
+        'contacts': contacts
     })
     return render_dict
 
@@ -104,6 +101,47 @@ def collaborator_registration(request, sede_url):
     return render(request,
                   'registration/collaborator-registration.html',
                   update_sede_info(sede_url, {'forms': forms, 'errors': errors, 'multipart': False}))
+
+
+def talk_registration(request, sede_url, pk):
+    errors = []
+    error = False
+    talk = None
+    talk_form = TalkForm(request.POST or None)
+    proposal = TalkProposal.objects.get(pk=pk)
+    forms = [talk_form]
+    if request.POST:
+        if talk_form.is_valid() and room_available(talk_form.instance, sede_url):
+            try:
+                proposal.confirmed = True
+                proposal.save()
+                talk = talk_form.save()
+                talk.talk_proposal = proposal
+                talk.save()
+                return HttpResponseRedirect(reverse("manager.views.talk_detail", args=[sede_url, talk.pk]))
+            except Exception:
+                if talk is not None:
+                    Talk.delete(talk)
+                if proposal.confirmed:
+                    proposal.confirmed = False
+                    proposal.save()
+        errors = get_forms_errors(forms)
+        error = True
+    comments = Comment.objects.filter(proposal=proposal)
+    render_dict = dict(comments=comments, comment_form=CommentForm(), user=request.user, proposal=proposal)
+    render_dict.update({'multipart': False, 'errors': errors, 'form': talk_form, 'error': error})
+    return render(request,
+                  'talks/detail.html',
+                  update_sede_info(sede_url, render_dict))
+
+
+def room_available(talk_form, sede_url):
+    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__name=sede_url)
+    if talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists()\
+            or talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists()\
+            or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists():
+        return False
+    return True
 
 
 def installer_registration(request, sede_url):
@@ -199,11 +237,11 @@ def installation(request, sede_url):
                 if installation_form.is_valid():
                     installation = installation_form.save()
                     installation.hardware = hardware
-                    installation.installer = Installer.objects.get(user__username=request.user.username)
+                    installation.installer = Installer.objects.get(collaborator__user__username=request.user.username)
                     installation.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/sede/' + sede_url)
-            except:
+            except Exception:
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if installation is not None:
@@ -256,46 +294,42 @@ def image_cropping(request, sede_url, image_id):
     return render(request, 'talks/proposal/image-cropping.html', update_sede_info(sede_url, {'form': form}))
 
 
-# FIXME: Esto es lo que hay que tirar y hacer de nuevo :)
+def schedule(request, sede_url):
+    pass
+
+
 def talks(request, sede_url):
-    class TalksTable(tables.Table):
-        hour = tables.Column(verbose_name=_('Hour'), orderable=False)
+    sede = Sede.objects.get(name=sede_url)
+    if datetime.date.today() > sede.limit_proposal_date:
+        return HttpResponseRedirect(reverse("manager.views.schedule", args=[sede_url]))
+    talks_list = Talk.objects.filter(talk_proposal__sede__name=sede_url)
+    proposals = TalkProposal.objects.filter(sede__name=sede_url)
+    for proposal in proposals:
+        setattr(proposal, 'form', TalkForm())
+        setattr(proposal, 'errors', [])
+    return render(request, 'talks/talks_home.html',
+                  update_sede_info(sede_url, {'talks': talks_list, 'proposals': proposals}))
 
-    if Talk.objects.all().count() == 0:
-        return render(request, "talks/schedule.html", update_sede_info(sede_url, {'tables': None}))
 
-    tabless = {}
-    for sede in Sede.objects.all():
-        for talk_type in TalkType.objects.all():
-            rooms = Room.objects.filter(for_type=talk_type, sede=sede)
-            talks = []
-            attrs = dict((room.name, tables.Column(orderable=False)) for room in rooms)
-            attrs['Meta'] = type('Meta', (), dict(attrs={"class": "table", "orderable": "False", }))
-            klass = type('DynamicTable', (TalksTable,), attrs)
+def talk_detail(request, sede_url, pk):
+    talk = Talk.objects.get(pk=pk)
+    return proposal_detail(request, sede_url, talk.talk_proposal.pk)
 
-            # hours = TalkTime.objects.filter(talk_type=talk_type, sede=sede).order_by('start_date')
-            for hour in hours:
-                talkss = Talk.objects.filter(hour=hour, sede=sede)
-                talk = {'hour': hour}
-                for t in talkss:
 
-                    talk_link = '<a href="' + reverse('talk_detail', args=[t.pk]) \
-                                + '" data-toggle="modal" data-target="#modal">' + t.title + '</a>'
-                    for speaker in t.speakers.all():
-                        if not speaker.user.first_name == '':
-                            talk_link += (' - ' + ' '.join((speaker.user.first_name, speaker.user.last_name)))
-
-                    talk[t.room.name] = mark_safe(talk_link)
-                talks.append(talk)
-
-            table = klass(talks)
-            if len(talks) > 0:
-                sede_key = ''.join((str(sede.date.day), '/', str(sede.date.month), ' - ', sede.name,))
-                if sede_key not in tabless:
-                    tabless[sede_key] = {}
-                tabless[sede_key][talk_type.name] = table
-
-    return render(request, "talks/schedule.html", update_sede_info(sede_url, {'tables': tabless}))
+def proposal_detail(request, sede_url, pk):
+    proposal = TalkProposal.objects.get(pk=pk)
+    comments = Comment.objects.filter(proposal=proposal)
+    render_dict = dict(comments=comments, comment_form=CommentForm(), user=request.user, proposal=proposal)
+    vote = Vote.objects.get_for_user(proposal, request.user)
+    score = Vote.objects.get_score(proposal)
+    if vote or score:
+        render_dict.update({'vote': vote, 'score': score})
+    if proposal.confirmed:
+        talk = Talk.objects.get(talk_proposal=proposal)
+        render_dict.update({'talk': talk})
+    else:
+        render_dict.update({'form': TalkForm(), 'errors': []})
+    return render(request, 'talks/detail.html', update_sede_info(sede_url, render_dict))
 
 
 @login_required(login_url='../../accounts/login/')
@@ -334,16 +368,10 @@ def attendee_registration_by_collaborator(request, sede_url):
     return render(request, 'registration/attendee/by-collaborator.html', update_sede_info(sede_url, {'form': form}))
 
 
-class TalkDetailView(DetailView):
-    model = Talk
-    template_name = 'talks/detail.html'
-
-
 def contact(request, sede_url):
     sede = Sede.objects.get(url=sede_url)
     contact_message = ContactMessage()
     form = ContactMessageForm(request.POST or None, instance=contact_message)
-
     if request.POST:
         if form.is_valid():
             contact_message = form.save()
@@ -357,3 +385,42 @@ def contact(request, sede_url):
             return HttpResponseRedirect('/sede/' + sede_url)
 
     return render(request, 'contact-message.html', update_sede_info(sede_url, {'form': form}, sede))
+
+
+@login_required(login_url='../../../../../accounts/login/')
+def delete_comment(request, sede_url, pk, comment_pk=None):
+    """Delete comment(s) with primary key `pk` or with pks in POST."""
+    if request.user.is_staff:
+        pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
+        for comment_pk in pklist:
+            Comment.objects.get(pk=comment_pk).delete()
+    return HttpResponseRedirect(reverse("manager.views.proposal_detail", args=[sede_url, pk]))
+
+
+@login_required(login_url='../../../accounts/login/')
+def add_comment(request, sede_url, pk):
+    """Add a new comment."""
+    comment = Comment(proposal=TalkProposal.objects.get(pk=pk), user=request.user)
+    comment_form = CommentForm(request.POST, instance=comment)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.save(notify=True)
+    return HttpResponseRedirect(reverse("manager.views.proposal_detail", args=[sede_url, pk]))
+
+
+@login_required(login_url='../../../../../accounts/login/')
+def vote_proposal(request, sede_url, pk, vote):
+    proposal = TalkProposal.objects.get(pk=pk)
+    exits_vote = Vote.objects.get_for_user(proposal, request.user)
+    if not exits_vote and vote in ("1", "0"):
+        Vote.objects.record_vote(proposal, request.user, 1 if vote == '1' else -1)
+    return proposal_detail(request, sede_url, pk)
+
+
+@login_required(login_url='../../../../../accounts/login/')
+def cancel_vote(request, sede_url, pk):
+    proposal = TalkProposal.objects.get(pk=pk)
+    vote = Vote.objects.get_for_user(proposal, request.user)
+    if vote:
+        vote.delete()
+    return proposal_detail(request, sede_url, pk)

@@ -2,7 +2,7 @@ from django.contrib.gis import admin
 from manager.models import (Building, Sede, Attendee, Collaborator,
                             HardwareManufacturer, Hardware, Software,
                             Installer, Installation, TalkProposal, Talk,
-                            TalkType, Room, ContactType, Contact)
+                            TalkType, Room, ContactType, Contact, Comment)
 from image_cropping.admin import ImageCroppingMixin
 
 
@@ -14,6 +14,11 @@ class SedeAdmin(admin.ModelAdmin):
     raw_id_fields = ('city', 'district',)
 
 
+class CommentAdmin(admin.ModelAdmin):
+    display_fields = ["proposal", "title", "created", "user"]
+
+
+admin.site.register(Comment, CommentAdmin)
 admin.site.register(Building)
 admin.site.register(Sede, SedeAdmin)
 admin.site.register(Attendee)
