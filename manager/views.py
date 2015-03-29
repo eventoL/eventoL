@@ -9,10 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import login as django_login
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
-from django.core.mail import send_mail
-from manager import security
-
+from django.contrib import messages
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
@@ -89,7 +86,8 @@ def collaborator_registration(request, sede_url):
                     collaborator = collaborator_form.save()
                     collaborator.user = user
                     collaborator.save()
-                    return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
+                    messages.success(request, _("You've been registered successfully!"))
+                    return HttpResponseRedirect('/sede/' + sede_url)
             except Exception:
                 User.delete(user)
         errors = get_forms_errors(forms)
@@ -167,7 +165,8 @@ def installer_registration(request, sede_url):
                             collaborator.save()
                             installer.collaborator = collaborator
                             installer.save()
-                            return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
+                            messages.success(request, _("You've been registered successfully!"))
+                            return HttpResponseRedirect('/sede/' + sede_url)
         except Exception as e:
             if user is not None:
                 User.delete(user)
@@ -207,7 +206,8 @@ def become_installer(request, sede_url):
                 collaborator.user = add_installer_perms(collaborator.user)
                 collaborator.save()
                 installer.save()
-                return HttpResponseRedirect('/sede/' + sede_url + '/registration/success')
+                messages.success(request, _("You've became an installer!"))
+                return HttpResponseRedirect('/sede/' + sede_url)
             except Exception as e:
                 if installer is not None:
                     Installer.delete(installer)
@@ -239,7 +239,8 @@ def installation(request, sede_url):
                     installation.hardware = hardware
                     installation.installer = Installer.objects.get(collaborator__user__username=request.user.username)
                     installation.save()
-                    return HttpResponseRedirect('/sede/' + sede_url + '/installation/success')
+                    messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
+                    return HttpResponseRedirect('/sede/' + sede_url)
             except Exception:
                 if hardware is not None:
                     Hardware.delete(hardware)
@@ -259,7 +260,8 @@ def registration(request, sede_url):
     if request.POST:
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/sede/' + sede_url + '/registration/confirm')
+            messages.success(request, _("We've sent you an email with the confirmation link. Please click or copy and paste it in your browser to confirm the registration."))
+            return HttpResponseRedirect('/sede/' + sede_url)
     else:
         attendee = Attendee(sede=sede)
         form = RegistrationForm(instance=attendee)
@@ -341,7 +343,8 @@ def attendee_search(request, sede_url):
                 attendee = Attendee.objects.get(email=attendee_email, sede__url=sede_url)
                 attendee.assisted = True
                 attendee.save()
-                return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/assisted')
+                messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
+                return HttpResponseRedirect('/sede/' + sede_url)
             else:
                 return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/by-collaborator')
 
@@ -359,7 +362,8 @@ def attendee_registration_by_collaborator(request, sede_url):
             attendee = form.save()
             attendee.assisted = True
             attendee.save()
-            return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/assisted')
+            messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
+            return HttpResponseRedirect('/sede/' + sede_url)
 
     return render(request, 'registration/attendee/by-collaborator.html', update_sede_info(sede_url, {'form': form}))
 
@@ -377,7 +381,9 @@ def contact(request, sede_url):
                       recipient_list=[sede.email, ],
                       fail_silently=False)
             contact_message.save()
+            messages.success(request, _("The message has been send."))
             return HttpResponseRedirect('/sede/' + sede_url)
+
     return render(request, 'contact-message.html', update_sede_info(sede_url, {'form': form}, sede))
 
 
