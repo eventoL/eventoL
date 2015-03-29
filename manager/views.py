@@ -19,7 +19,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm,\
     TalkForm, CommentForm
 from manager.models import Installer, Hardware, Installation, Talk, \
-    TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment
+    TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
 from manager.security import add_installer_perms
 from voting.models import Vote
 
@@ -29,11 +29,13 @@ autocomplete_light.autodiscover()
 
 def update_sede_info(sede_url, render_dict=None, sede=None):
     sede = sede or Sede.objects.get(url=sede_url)
+    contacts = Contact.objects.filter(sede=sede)
     render_dict = render_dict or {}
     render_dict.update({
         'sede_url': sede_url,
         'footer': sede.footer,
-        'event_information': sede.event_information
+        'event_information': sede.event_information,
+        'contacts': contacts
     })
     return render_dict
 
