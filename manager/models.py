@@ -34,6 +34,7 @@ class Sede(models.Model):
     email = models.EmailField(verbose_name=_('Email'))
     name = models.CharField(_('Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
+    limit_proposal_date = models.DateField(_('Limit Proposal Date'), help_text=_('Date Limit of Talk Proposal'))
     place = models.ForeignKey(Building, verbose_name=_('Place'),
                               help_text=_('Specific place (building) where the event is taking place'))
     url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,

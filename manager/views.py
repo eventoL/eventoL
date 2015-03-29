@@ -290,7 +290,14 @@ def image_cropping(request, sede_url, image_id):
     return render(request, 'talks/proposal/image-cropping.html', update_sede_info(sede_url, {'form': form}))
 
 
+def schedule(request, sede_url):
+    pass
+
+
 def talks(request, sede_url):
+    sede = Sede.objects.get(name=sede_url)
+    if datetime.date.today() > sede.limit_proposal_date:
+        return HttpResponseRedirect(reverse("manager.views.schedule", args=[sede_url]))
     talks_list = Talk.objects.filter(talk_proposal__sede__name=sede_url)
     proposals = TalkProposal.objects.filter(sede__name=sede_url)
     for proposal in proposals:
