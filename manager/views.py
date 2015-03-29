@@ -3,6 +3,7 @@ import itertools
 import datetime
 
 import autocomplete_light
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
@@ -17,7 +18,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     TalkForm, CommentForm
 from manager.models import Installer, Hardware, Installation, Talk, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
-from manager.security import add_installer_perms
+from manager.security import add_installer_perms, is_installer
 from voting.models import Vote
 
 
@@ -31,7 +32,6 @@ def update_sede_info(sede_url, render_dict=None, sede=None):
     render_dict.update({
         'sede_url': sede_url,
         'footer': sede.footer,
-        'event_information': sede.event_information,
         'contacts': contacts
     })
     return render_dict
@@ -58,7 +58,9 @@ def sede_view(request, sede_url, html='home.html'):
 
 
 def event(request, sede_url):
-    return render(request, 'event/info.html', update_sede_info(sede_url))
+    sede = Sede.objects.get(url=sede_url)
+    render_dict = update_sede_info(sede_url, render_dict={'event_information': sede.event_information}, sede=sede)
+    return render(request, 'event/info.html', render_dict)
 
 
 def home(request):
@@ -224,7 +226,7 @@ def become_installer(request, sede_url):
 
 @login_required(login_url='./accounts/login/')
 @permission_required('manager.add_installation', raise_exception=True)
-@user_passes_test(security.is_installer)
+@user_passes_test(is_installer)
 def installation(request, sede_url):
     installation_form = InstallationForm(request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
