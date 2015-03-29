@@ -219,6 +219,11 @@ class TalkType(models.Model):
 
 
 class TalkProposal(models.Model):
+    level_choices = (
+        ('1', _('Beginner')),
+        ('2', _('Medium')),
+        ('3', _('Advanced')),
+    )
     title = models.CharField(_('Title'), max_length=600)
     type = models.ForeignKey(TalkType, verbose_name=_('Type'))
     long_description = models.TextField(_('Long Description'))
@@ -241,6 +246,8 @@ class TalkProposal(models.Model):
                                     'talk (optional)'))
     cropping = ImageRatioField('home_image', '700x450', size_warning=True, verbose_name=_('Cropping'),
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
+    level = models.CharField(_('Level'), choices=level_choices, max_length=100,
+                             help_text=_("The talk's Technical level"), default='Beginner')
 
     def __unicode__(self):
         return self.title
