@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required, 
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login as django_login
 from django.shortcuts import get_object_or_404, render
+from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
@@ -138,7 +139,7 @@ def talk_registration(request, sede_url, pk):
 
 
 def room_available(talk_form, sede_url):
-    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__name=sede_url)
+    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__url=sede_url)
     if talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists()\
             or talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists()\
             or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists():
@@ -239,7 +240,7 @@ def installation(request, sede_url):
                 if installation_form.is_valid():
                     installation = installation_form.save()
                     installation.hardware = hardware
-                    installation.installer = Installer.objects.get(collaborator__user__username=request.user.username)
+                    installation.installer = Installer.objects.get(collaborator__user=request.user)
                     installation.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/sede/' + sede_url)
