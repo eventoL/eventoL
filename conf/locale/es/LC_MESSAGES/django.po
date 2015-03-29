@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: EventoL\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-28 22:25-0300\n"
-"PO-Revision-Date: 2015-03-28 22:25-0300\n"
+"PO-Revision-Date: 2015-03-28 23:06-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -117,10 +117,8 @@ msgid "Icon Class"
 msgstr ""
 
 #: manager/models.py:72
-#, fuzzy
-#| msgid "Contact Us!"
 msgid "Contact Type"
-msgstr "Contactanos!"
+msgstr "Tipo de Contacto"
 
 #: manager/models.py:74
 msgid "Text"
