@@ -9,10 +9,8 @@ from django.contrib.auth.decorators import login_required, permission_required, 
 from django.contrib.auth.models import User
 from django.contrib.auth.views import login as django_login
 from django.shortcuts import get_object_or_404, render
-from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from voting.models import Vote
 from django.utils.translation import ugettext_lazy as _
 
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
@@ -173,7 +171,7 @@ def installer_registration(request, sede_url):
                     collaborator = collaborator_form.save()
                     if installer_form.is_valid():
                         installer = installer_form.save()
-                        user = security.add_installer_perms(user)
+                        user = add_installer_perms(user)
                         collaborator.user = user
                         collaborator.save()
                         installer.collaborator = collaborator
@@ -322,6 +320,7 @@ def image_cropping(request, sede_url, image_id):
 
 
 def schedule(request, sede_url):
+    # TODO: template y manejo de schedule con las talks confirmadas
     pass
 
 
