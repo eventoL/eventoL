@@ -31,6 +31,7 @@
         <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
               rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         {% block other-head %}{% endblock %}
     {% endblock %}
 </head>
@@ -146,7 +147,6 @@
 </div>
 
 {% block script %}
-    <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
