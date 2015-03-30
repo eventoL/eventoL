@@ -12,8 +12,6 @@ sede_patterns = patterns(
     url(r'^registration/installer$', views.installer_registration, name='installer_registration'),
     url(r'^registration/become_installer$', views.become_installer, name='become_installer'),
     url(r'^registration/attendee/search$', views.attendee_search, name='attendee_search'),
-    url(r'^registration/attendee/assisted$', views.sede_view,
-        name="attendee_assisted", kwargs={'html': 'registration/attendee/assisted.html'}),
     url(r'^registration/attendee/by-collaborator$', views.attendee_registration_by_collaborator,
         name='attendee_registration_by_collaborator'),
     url(r'^installation$', views.installation, name='installation'),
@@ -29,7 +27,8 @@ sede_patterns = patterns(
     url(r"^talk/detail/proposal/(?P<pk>\d+)/delete_comment/(?P<comment_pk>\d+)$", views.delete_comment),
     url(r'^talk/registration/(?P<pk>\d+)$', views.talk_registration, name='talk_registration'),
     url(r'^schedule$', views.talks, name='talks'),
-    url(r'^contact$', views.contact)
+    url(r'^contact$', views.contact),
+    url(r'^confirm/(?P<token>\w+)$', views.confirm_registration, name='confirm_registration'),
 )
 
 urlpatterns = patterns(

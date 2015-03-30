@@ -16,7 +16,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Sede
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
@@ -62,11 +62,18 @@ class AttendeeSearchForm(forms.Form):
 
 
 class RegistrationForm(DeferredForm):
+    def __init__(self, *args, **kwargs):
+        self.domain = kwargs.pop('domain', None)
+        self.protocol = kwargs.pop('protocol', None)
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+
     def send_notification(self, user=None, instance=None):
         send_mail(_("FLISoL Registration Confirmation"),
                   render_to_string(
                       "mail/registration_confirmation.txt",
-                      {'token': instance.token, 'form': self}),
+                      {'token': instance.token, 'form': self,
+                       'sede_url': self.cleaned_data['sede'].url,
+                       'domain': self.domain, 'protocol': self.protocol}),
                   'reyiyo@gmail.com',
                   recipient_list=[self.cleaned_data['email'], ],
                   fail_silently=False)

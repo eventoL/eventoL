@@ -12,15 +12,19 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+from voting.models import Vote
+from django.utils.translation import ugettext_lazy as _
+
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
-    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm,\
+    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
     TalkForm, CommentForm
 from manager.models import Installer, Hardware, Installation, Talk, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
 from manager.security import add_installer_perms, is_installer
 from voting.models import Vote
+from generic_confirmation.views import confirm_by_get
 
 
 autocomplete_light.autodiscover()
@@ -168,14 +172,14 @@ def installer_registration(request, sede_url):
                 if collaborator_form.is_valid():
                     collaborator = collaborator_form.save()
                     if installer_form.is_valid():
-                            installer = installer_form.save()
-                            user = add_installer_perms(user)
-                            collaborator.user = user
-                            collaborator.save()
-                            installer.collaborator = collaborator
-                            installer.save()
-                            messages.success(request, _("You've been registered successfully!"))
-                            return HttpResponseRedirect('/sede/' + sede_url)
+                        installer = installer_form.save()
+                        user = security.add_installer_perms(user)
+                        collaborator.user = user
+                        collaborator.save()
+                        installer.collaborator = collaborator
+                        installer.save()
+                        messages.success(request, _("You've been registered successfully!"))
+                        return HttpResponseRedirect('/sede/' + sede_url)
             except Exception:
                 if user is not None:
                     User.delete(user)
@@ -268,7 +272,7 @@ def registration(request, sede_url):
     sede = Sede.objects.get(url=sede_url)
     if sede.date < datetime.date.today():
         return render(request, 'registration/closed-registration.html', update_sede_info(sede_url))
-    form = RegistrationForm(request.POST or None)
+    form = RegistrationForm(request.POST or None, domain=request.get_host(), protocol=request.scheme)
     if request.POST:
         if form.is_valid():
             form.save()
@@ -280,6 +284,13 @@ def registration(request, sede_url):
         form = RegistrationForm(instance=attendee)
 
     return render(request, 'registration/attendee-registration.html', update_sede_info(sede_url, {'form': form}))
+
+
+def confirm_registration(request, sede_url, token):
+    messages.success(request, _(
+        'Thanks for your confirmation! You don\'t need to bring any paper to the event. You\'ll be asked for the '
+        'email you registered with'))
+    return confirm_by_get(request, token, success_url='/sede/' + sede_url)
 
 
 @login_required(login_url='../../accounts/login/')
@@ -399,9 +410,9 @@ def contact(request, sede_url):
                       recipient_list=[sede.email, ],
                       fail_silently=False)
             contact_message.save()
-            messages.success(request, _("The message has been send."))
+            messages.success(request, _("The message has been sent."))
             return HttpResponseRedirect('/sede/' + sede_url)
-        messages.error(request, _("The message hasn't been send."))
+        messages.error(request, _("The message hasn't been sent."))
 
     return render(request, 'contact-message.html', update_sede_info(sede_url, {'form': form}, sede))
 
