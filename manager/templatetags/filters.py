@@ -36,4 +36,4 @@ def is_odd(number):
 
 @register.filter(name='is_installer')
 def is_installer(user):
-    return Installer.objects.filter(collaborator__user__username=user).exists()
+    return Installer.objects.filter(collaborator__user=user).exists()

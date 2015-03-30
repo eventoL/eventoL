@@ -18,7 +18,6 @@ sede_patterns = patterns(
     url(r'^talk/proposal/image-cropping/(?P<image_id>\d+)/$', views.image_cropping, name='image_cropping'),
     url(r'^talk/proposal/image-cropping/$', views.image_cropping, name='image_cropping'),
     url(r'^talk/proposal/$', views.talk_proposal, name='talk_proposal'),
-    url(r'^talk/confirm$', views.sede_view, kwargs={'html': 'talks/confirm.html'}, name='talk_confirm'),
     url(r'^talk/detail/talk/(?P<pk>\d+)$', views.talk_detail, name='talk_detail'),
     url(r'^talk/detail/proposal/(?P<pk>\d+)$', views.proposal_detail, name='proposal_detail'),
     url(r'^talk/detail/proposal/(?P<pk>\d+)/vote/(?P<vote>\d+)$', views.vote_proposal, name='vote_proposal'),

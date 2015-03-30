@@ -3,6 +3,7 @@ import itertools
 import datetime
 
 import autocomplete_light
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import User
@@ -10,7 +11,6 @@ from django.contrib.auth.views import login as django_login
 from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from voting.models import Vote
 from django.utils.translation import ugettext_lazy as _
 
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
@@ -20,8 +20,8 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     TalkForm, CommentForm
 from manager.models import Installer, Hardware, Installation, Talk, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
-from manager import security
-
+from manager.security import add_installer_perms, is_installer
+from voting.models import Vote
 from generic_confirmation.views import confirm_by_get
 
 
@@ -35,7 +35,6 @@ def update_sede_info(sede_url, render_dict=None, sede=None):
     render_dict.update({
         'sede_url': sede_url,
         'footer': sede.footer,
-        'event_information': sede.event_information,
         'contacts': contacts
     })
     return render_dict
@@ -62,7 +61,9 @@ def sede_view(request, sede_url, html='home.html'):
 
 
 def event(request, sede_url):
-    return render(request, 'event/info.html', update_sede_info(sede_url))
+    sede = Sede.objects.get(url=sede_url)
+    render_dict = update_sede_info(sede_url, render_dict={'event_information': sede.event_information}, sede=sede)
+    return render(request, 'event/info.html', render_dict)
 
 
 def home(request):
@@ -94,6 +95,7 @@ def collaborator_registration(request, sede_url):
                     return HttpResponseRedirect('/sede/' + sede_url)
             except Exception:
                 User.delete(user)
+        messages.error(request, _("You haven't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
@@ -122,13 +124,18 @@ def talk_registration(request, sede_url, pk):
                 talk = talk_form.save()
                 talk.talk_proposal = proposal
                 talk.save()
-                return HttpResponseRedirect(reverse("manager.views.talk_detail", args=[sede_url, talk.pk]))
+                messages.success(request, _("The talk was registered successfully!"))
+                return HttpResponseRedirect(reverse("talk_detail", args=[sede_url, talk.pk]))
             except Exception:
                 if talk is not None:
                     Talk.delete(talk)
                 if proposal.confirmed:
                     proposal.confirmed = False
                     proposal.save()
+        elif talk_form.is_valid():
+            messages.error(request, _("The talk wasn't registered successfully (check form errors)"))
+        else:
+            messages.error(request, _("The talk wasn't registered successfully because the room or schedule isn't available"))
         errors = get_forms_errors(forms)
         error = True
     comments = Comment.objects.filter(proposal=proposal)
@@ -140,9 +147,9 @@ def talk_registration(request, sede_url, pk):
 
 
 def room_available(talk_form, sede_url):
-    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__name=sede_url)
-    if talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
-            or talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
+    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__url=sede_url)
+    if talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists()\
+            or talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists()\
             or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists():
         return False
     return True
@@ -157,27 +164,28 @@ def installer_registration(request, sede_url):
         collaborator_form = CollaboratorRegistrationForm(request.POST)
         installer_form = InstallerRegistrationForm(request.POST)
         forms = [user_form, collaborator_form, installer_form]
-        try:
-            if user_form.is_valid():
+        if user_form.is_valid():
+            try:
                 user = user_form.save()
                 if collaborator_form.is_valid():
                     collaborator = collaborator_form.save()
                     if installer_form.is_valid():
                         installer = installer_form.save()
-                        user = security.add_installer_perms(user)
+                        user = add_installer_perms(user)
                         collaborator.user = user
                         collaborator.save()
                         installer.collaborator = collaborator
                         installer.save()
                         messages.success(request, _("You've been registered successfully!"))
                         return HttpResponseRedirect('/sede/' + sede_url)
-        except Exception as e:
-            if user is not None:
-                User.delete(user)
-            if collaborator is not None:
-                Collaborator.delete(collaborator)
-            if installer is not None:
-                Installer.delete(installer)
+            except Exception:
+                if user is not None:
+                    User.delete(user)
+                if collaborator is not None:
+                    Collaborator.delete(collaborator)
+                if installer is not None:
+                    Installer.delete(installer)
+        messages.error(request, _("You haven't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
@@ -200,14 +208,14 @@ def become_installer(request, sede_url):
     installer = None
 
     if request.POST:
-        collaborator = Collaborator.objects.get(user__username=request.user.username)
+        collaborator = Collaborator.objects.get(user=request.user)
         installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
                                                                    instance=Installer(collaborator=collaborator))
         forms = [installer_form]
         if installer_form.is_valid():
             try:
                 installer = installer_form.save()
-                collaborator.user = security.add_installer_perms(collaborator.user)
+                collaborator.user = add_installer_perms(collaborator.user)
                 collaborator.save()
                 installer.save()
                 messages.success(request, _("You've became an installer!"))
@@ -215,6 +223,7 @@ def become_installer(request, sede_url):
             except Exception as e:
                 if installer is not None:
                     Installer.delete(installer)
+        messages.error(request, _("You not became an installer (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
@@ -228,7 +237,7 @@ def become_installer(request, sede_url):
 
 @login_required(login_url='./accounts/login/')
 @permission_required('manager.add_installation', raise_exception=True)
-@user_passes_test(security.is_installer)
+@user_passes_test(is_installer)
 def installation(request, sede_url):
     installation_form = InstallationForm(request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
@@ -241,7 +250,7 @@ def installation(request, sede_url):
                 if installation_form.is_valid():
                     installation = installation_form.save()
                     installation.hardware = hardware
-                    installation.installer = Installer.objects.get(collaborator__user__username=request.user.username)
+                    installation.installer = Installer.objects.get(collaborator__user=request.user)
                     installation.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/sede/' + sede_url)
@@ -250,6 +259,7 @@ def installation(request, sede_url):
                     Hardware.delete(hardware)
                 if installation is not None:
                     Installation.delete(installation)
+        messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
     return render(request,
                   'installation/installation-form.html',
@@ -264,10 +274,9 @@ def registration(request, sede_url):
     if request.POST:
         if form.is_valid():
             form.save()
-            messages.success(request, _(
-                "We've sent you an email with the confirmation link. Please click or copy and paste it in your "
-                "browser to confirm the registration."))
+            messages.success(request, _("We've sent you an email with the confirmation link. Please click or copy and paste it in your browser to confirm the registration."))
             return HttpResponseRedirect('/sede/' + sede_url)
+        messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
     else:
         attendee = Attendee(sede=sede)
         form = RegistrationForm(instance=attendee)
@@ -276,7 +285,6 @@ def registration(request, sede_url):
 
 
 def confirm_registration(request, sede_url, token):
-    print token
     messages.success(request, _(
         'Thanks for your confirmation! You don\'t need to bring any paper to the event. You\'ll be asked for the '
         'email you registered with'))
@@ -292,6 +300,7 @@ def talk_proposal(request, sede_url):
         if form.is_valid():
             proposal = form.save()
             return HttpResponseRedirect(reverse('image_cropping', args=(sede_url, proposal.pk)))
+        messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
 
     return render(request, 'talks/proposal.html', update_sede_info(sede_url, {'form': form}))
 
@@ -304,11 +313,14 @@ def image_cropping(request, sede_url, image_id):
         # FIXME No me acuerdo por qué este if: if not proposal.cropping:
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/sede/' + sede_url + '/talk/confirm')
+            messages.success(request, _("The proposal has been registered successfully!"))
+            return proposal_detail(request, sede_url, proposal.pk)
+        messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
     return render(request, 'talks/proposal/image-cropping.html', update_sede_info(sede_url, {'form': form}))
 
 
 def schedule(request, sede_url):
+    # TODO: template y manejo de schedule con las talks confirmadas
     pass
 
 
@@ -361,6 +373,7 @@ def attendee_search(request, sede_url):
                 return HttpResponseRedirect('/sede/' + sede_url)
             else:
                 return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/by-collaborator')
+        messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
     return render(request, 'registration/attendee/search.html', update_sede_info(sede_url, {'form': form}))
 
@@ -378,6 +391,7 @@ def attendee_registration_by_collaborator(request, sede_url):
             attendee.save()
             messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
             return HttpResponseRedirect('/sede/' + sede_url)
+        messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
     return render(request, 'registration/attendee/by-collaborator.html', update_sede_info(sede_url, {'form': form}))
 
@@ -397,6 +411,7 @@ def contact(request, sede_url):
             contact_message.save()
             messages.success(request, _("The message has been sent."))
             return HttpResponseRedirect('/sede/' + sede_url)
+        messages.error(request, _("The message hasn't been sent."))
 
     return render(request, 'contact-message.html', update_sede_info(sede_url, {'form': form}, sede))
 
@@ -408,7 +423,7 @@ def delete_comment(request, sede_url, pk, comment_pk=None):
         pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
         for comment_pk in pklist:
             Comment.objects.get(pk=comment_pk).delete()
-    return HttpResponseRedirect(reverse("manager.views.proposal_detail", args=[sede_url, pk]))
+    return HttpResponseRedirect(reverse("proposal_detail", args=[sede_url, pk]))
 
 
 @login_required(login_url='../../../accounts/login/')
@@ -419,7 +434,7 @@ def add_comment(request, sede_url, pk):
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
         comment.save(notify=True)
-    return HttpResponseRedirect(reverse("manager.views.proposal_detail", args=[sede_url, pk]))
+    return HttpResponseRedirect(reverse("proposal_detail", args=[sede_url, pk]))
 
 
 @login_required(login_url='../../../../../accounts/login/')
