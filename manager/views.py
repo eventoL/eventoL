@@ -239,7 +239,7 @@ def become_installer(request, sede_url):
 @permission_required('manager.add_installation', raise_exception=True)
 @user_passes_test(is_installer)
 def installation(request, sede_url):
-    installation_form = InstallationForm(request.POST or None, prefix='installation')
+    installation_form = InstallationForm(sede_url, request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
     forms = [installation_form, hardware_form]
     errors = []
@@ -361,7 +361,7 @@ def proposal_detail(request, sede_url, pk):
 @login_required(login_url='../../accounts/login/')
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_search(request, sede_url):
-    form = AttendeeSearchForm(request.POST or None)
+    form = AttendeeSearchForm(sede_url, request.POST or None)
     if request.POST:
         if form.is_valid():
             attendee_email = form.cleaned_data['attendee']
