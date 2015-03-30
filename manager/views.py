@@ -113,7 +113,7 @@ def talk_registration(request, sede_url, pk):
     errors = []
     error = False
     talk = None
-    talk_form = TalkForm(request.POST or None)
+    talk_form = TalkForm(sede_url, request.POST or None)
     proposal = TalkProposal.objects.get(pk=pk)
     forms = [talk_form]
     if request.POST:
@@ -331,7 +331,7 @@ def talks(request, sede_url):
     talks_list = Talk.objects.filter(talk_proposal__sede__name=sede_url)
     proposals = TalkProposal.objects.filter(sede__name=sede_url)
     for proposal in proposals:
-        setattr(proposal, 'form', TalkForm())
+        setattr(proposal, 'form', TalkForm(sede_url))
         setattr(proposal, 'errors', [])
     return render(request, 'talks/talks_home.html',
                   update_sede_info(sede_url, {'talks': talks_list, 'proposals': proposals}))
@@ -354,7 +354,7 @@ def proposal_detail(request, sede_url, pk):
         talk = Talk.objects.get(talk_proposal=proposal)
         render_dict.update({'talk': talk})
     else:
-        render_dict.update({'form': TalkForm(), 'errors': []})
+        render_dict.update({'form': TalkForm(sede_url), 'errors': []})
     return render(request, 'talks/detail.html', update_sede_info(sede_url, render_dict))
 
 

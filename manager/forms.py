@@ -16,7 +16,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Sede
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Sede, Room
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
@@ -164,6 +164,13 @@ class TalkProposalImageCroppingForm(ModelForm):
 
 
 class TalkForm(ModelForm):
+
+    def __init__(self, sede, *args, **kwargs):
+        super(TalkForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['room'].queryset = Room.objects.filter(sede__url=sede)
+            self.fields['speakers'].queryset = Collaborator.objects.filter(sede__url=sede)
+
     class Meta:
         model = Talk
         exclude = ('talk_proposal',)
