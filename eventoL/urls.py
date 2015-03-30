@@ -19,7 +19,6 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
     url(r'^ckeditor/', include('ckeditor.urls'), name='ckeditor'),
-    url(r'^confirm/', include('generic_confirmation.urls')),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
 
     # Hacks to preserve an old distributed url
