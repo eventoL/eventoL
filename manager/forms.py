@@ -16,7 +16,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Sede
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Sede, Room
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
@@ -58,6 +58,11 @@ def sorted_choices(choices_list):
 
 
 class AttendeeSearchForm(forms.Form):
+    def __init__(self, sede, *args, **kwargs):
+        super(AttendeeSearchForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
+
     attendee = autocomplete.ModelChoiceField('AttendeeBySedeAutocomplete', required=False)
 
 
@@ -95,6 +100,12 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 
 
 class InstallationForm(autocomplete.ModelForm):
+    def __init__(self, sede, *args, **kwargs):
+        super(InstallationForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
+            self.fields['installer'].queryset = Installer.objects.filter(collaborator__sede__url=sede)
+
     class Meta:
         model = Installation
         exclude = ('installer', 'hardware')
@@ -164,6 +175,13 @@ class TalkProposalImageCroppingForm(ModelForm):
 
 
 class TalkForm(ModelForm):
+
+    def __init__(self, sede, *args, **kwargs):
+        super(TalkForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['room'].queryset = Room.objects.filter(sede__url=sede)
+            self.fields['speakers'].queryset = Collaborator.objects.filter(sede__url=sede)
+
     class Meta:
         model = Talk
         exclude = ('talk_proposal',)
