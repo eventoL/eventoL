@@ -39,6 +39,9 @@ class Sede(models.Model):
     url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,
                            db_index=True)
 
+    def get_absolute_url(self):
+        return "/sede/" + self.url + '/'
+
     def __unicode__(self):
         return "%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
 
@@ -249,6 +252,9 @@ class TalkProposal(models.Model):
     level = models.CharField(_('Level'), choices=level_choices, max_length=100,
                              help_text=_("The talk's Technical level"), default='Beginner')
 
+    def get_absolute_url(self):
+        return "/sede/" + self.sede.url + '/talk/detail/proposal/' + str(self.id)
+
     def __unicode__(self):
         return self.title
 
@@ -277,6 +283,9 @@ class Talk(models.Model):
     speakers = models.ManyToManyField(Collaborator, related_name='speakers', verbose_name=_('Speakers'))
     start_date = models.DateTimeField(_('Start Date'))
     end_date = models.DateTimeField(_('End Date'))
+
+    def get_absolute_url(self):
+        return "/sede/" + self.talk_proposal.sede.url + '/talk/detail/talk/' + str(self.id)
 
     def __unicode__(self):
         return "%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,

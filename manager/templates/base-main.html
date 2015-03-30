@@ -15,6 +15,7 @@
         <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
         <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
               rel="image_src"/>
+
         {% if debug %}
             <link rel="stylesheet" type="text/less" media="all"
                   href="{% static "manager/css/flisol-bootstrap.less" %}"/>
@@ -27,11 +28,16 @@
                 <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
             {% endcompress %}
         {% endif %}
+
         <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
         <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
               rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        
+        <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
+        <script> var jqMin = jQuery.noConflict(); </script>
         {% block other-head %}{% endblock %}
+        <script> jQuery = $ = jqMin;</script>
     {% endblock %}
 </head>
 <body>
@@ -145,20 +151,23 @@
     {{ footer | safe }}
 </div>
 
+<div align="right">
+    <a href="//github.com/reyiyo/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}</a>
+</div>
+
 {% block script %}
-    <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
-    {% block other-script %}{% endblock %}
     <script>
         $(document).ready(function () {
             // This command is used to initialize some elements and make them work properly
             $.material.init();
         });
     </script>
+    {% block other-script %}{% endblock %}
 {% endblock %}
-<div align="right"><a href="//github.com/reyiyo/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}
-</a>
+
 </body>
+
 </html>
