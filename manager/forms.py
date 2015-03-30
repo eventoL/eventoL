@@ -95,6 +95,12 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 
 
 class InstallationForm(autocomplete.ModelForm):
+    def __init__(self, sede, *args, **kwargs):
+        super(InstallationForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
+            self.fields['installer'].queryset = Installer.objects.filter(collaborator_sede__url=sede)
+
     class Meta:
         model = Installation
         exclude = ('installer', 'hardware')
