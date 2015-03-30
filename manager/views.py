@@ -93,6 +93,7 @@ def collaborator_registration(request, sede_url):
                     return HttpResponseRedirect('/sede/' + sede_url)
             except Exception:
                 User.delete(user)
+        messages.error(request, _("You haven't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
@@ -121,13 +122,18 @@ def talk_registration(request, sede_url, pk):
                 talk = talk_form.save()
                 talk.talk_proposal = proposal
                 talk.save()
-                return HttpResponseRedirect(reverse("manager.views.talk_detail", args=[sede_url, talk.pk]))
+                messages.success(request, _("The talk was registered successfully!"))
+                return HttpResponseRedirect(reverse("talk_detail", args=[sede_url, talk.pk]))
             except Exception:
                 if talk is not None:
                     Talk.delete(talk)
                 if proposal.confirmed:
                     proposal.confirmed = False
                     proposal.save()
+        elif talk_form.is_valid():
+            messages.error(request, _("The talk wasn't registered successfully (check form errors)"))
+        else:
+            messages.error(request, _("The talk wasn't registered successfully because the room or schedule isn't available"))
         errors = get_forms_errors(forms)
         error = True
     comments = Comment.objects.filter(proposal=proposal)
@@ -156,8 +162,8 @@ def installer_registration(request, sede_url):
         collaborator_form = CollaboratorRegistrationForm(request.POST)
         installer_form = InstallerRegistrationForm(request.POST)
         forms = [user_form, collaborator_form, installer_form]
-        try:
-            if user_form.is_valid():
+        if user_form.is_valid():
+            try:
                 user = user_form.save()
                 if collaborator_form.is_valid():
                     collaborator = collaborator_form.save()
@@ -170,13 +176,14 @@ def installer_registration(request, sede_url):
                             installer.save()
                             messages.success(request, _("You've been registered successfully!"))
                             return HttpResponseRedirect('/sede/' + sede_url)
-        except Exception as e:
-            if user is not None:
-                User.delete(user)
-            if collaborator is not None:
-                Collaborator.delete(collaborator)
-            if installer is not None:
-                Installer.delete(installer)
+            except Exception:
+                if user is not None:
+                    User.delete(user)
+                if collaborator is not None:
+                    Collaborator.delete(collaborator)
+                if installer is not None:
+                    Installer.delete(installer)
+        messages.error(request, _("You haven't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
@@ -199,7 +206,7 @@ def become_installer(request, sede_url):
     installer = None
 
     if request.POST:
-        collaborator = Collaborator.objects.get(user__username=request.user.username)
+        collaborator = Collaborator.objects.get(user=request.user)
         installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
                                                                    instance=Installer(collaborator=collaborator))
         forms = [installer_form]
@@ -214,6 +221,7 @@ def become_installer(request, sede_url):
             except Exception as e:
                 if installer is not None:
                     Installer.delete(installer)
+        messages.error(request, _("You not became an installer (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
@@ -249,6 +257,7 @@ def installation(request, sede_url):
                     Hardware.delete(hardware)
                 if installation is not None:
                     Installation.delete(installation)
+        messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
     return render(request,
                   'installation/installation-form.html',
@@ -265,6 +274,7 @@ def registration(request, sede_url):
             form.save()
             messages.success(request, _("We've sent you an email with the confirmation link. Please click or copy and paste it in your browser to confirm the registration."))
             return HttpResponseRedirect('/sede/' + sede_url)
+        messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
     else:
         attendee = Attendee(sede=sede)
         form = RegistrationForm(instance=attendee)
@@ -281,6 +291,7 @@ def talk_proposal(request, sede_url):
         if form.is_valid():
             proposal = form.save()
             return HttpResponseRedirect(reverse('image_cropping', args=(sede_url, proposal.pk)))
+        messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
 
     return render(request, 'talks/proposal.html', update_sede_info(sede_url, {'form': form}))
 
@@ -293,7 +304,9 @@ def image_cropping(request, sede_url, image_id):
         # FIXME No me acuerdo por qué este if: if not proposal.cropping:
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/sede/' + sede_url + '/talk/confirm')
+            messages.success(request, _("The proposal has been registered successfully!"))
+            return proposal_detail(request, sede_url, proposal.pk)
+        messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
     return render(request, 'talks/proposal/image-cropping.html', update_sede_info(sede_url, {'form': form}))
 
 
@@ -350,6 +363,7 @@ def attendee_search(request, sede_url):
                 return HttpResponseRedirect('/sede/' + sede_url)
             else:
                 return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/by-collaborator')
+        messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
     return render(request, 'registration/attendee/search.html', update_sede_info(sede_url, {'form': form}))
 
@@ -367,6 +381,7 @@ def attendee_registration_by_collaborator(request, sede_url):
             attendee.save()
             messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
             return HttpResponseRedirect('/sede/' + sede_url)
+        messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
     return render(request, 'registration/attendee/by-collaborator.html', update_sede_info(sede_url, {'form': form}))
 
@@ -386,6 +401,7 @@ def contact(request, sede_url):
             contact_message.save()
             messages.success(request, _("The message has been send."))
             return HttpResponseRedirect('/sede/' + sede_url)
+        messages.error(request, _("The message hasn't been send."))
 
     return render(request, 'contact-message.html', update_sede_info(sede_url, {'form': form}, sede))
 
@@ -397,7 +413,7 @@ def delete_comment(request, sede_url, pk, comment_pk=None):
         pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
         for comment_pk in pklist:
             Comment.objects.get(pk=comment_pk).delete()
-    return HttpResponseRedirect(reverse("manager.views.proposal_detail", args=[sede_url, pk]))
+    return HttpResponseRedirect(reverse("proposal_detail", args=[sede_url, pk]))
 
 
 @login_required(login_url='../../../accounts/login/')
@@ -408,7 +424,7 @@ def add_comment(request, sede_url, pk):
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
         comment.save(notify=True)
-    return HttpResponseRedirect(reverse("manager.views.proposal_detail", args=[sede_url, pk]))
+    return HttpResponseRedirect(reverse("proposal_detail", args=[sede_url, pk]))
 
 
 @login_required(login_url='../../../../../accounts/login/')
