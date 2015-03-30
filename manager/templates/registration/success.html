@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-{% load i18n %}
-{% block page-header %}{% trans "Registration" %}
-    <small>{% trans "You've been registered successfully!" %}</small>{% endblock %}
-{% block page-name %}{% trans "Registration" %}{% endblock %}
-{% block content %}
-    <p>{% trans "You can now" %} <a href="/sede/{{ sede_url }}/accounts/login">{% trans "login" %}</a></p>
-{% endblock %}
