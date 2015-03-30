@@ -58,6 +58,11 @@ def sorted_choices(choices_list):
 
 
 class AttendeeSearchForm(forms.Form):
+    def __init__(self, sede, *args, **kwargs):
+        super(AttendeeSearchForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
+
     attendee = autocomplete.ModelChoiceField('AttendeeBySedeAutocomplete', required=False)
 
 
