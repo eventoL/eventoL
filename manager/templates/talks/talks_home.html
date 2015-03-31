@@ -82,7 +82,7 @@
                                                 <p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>
                                                 <p><strong>{% trans "Labels" %}:</strong> {{ proposal.labels|lower }}</p>
                                                 <p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>
-                                                {% if user.is_staff %}
+                                                {% if sede_url|is_sede_staff:user %}
                                                     <p><a id='become-{{ forloop.counter }}' class="accordion-toggle" data-toggle="collapse" onclick="becomeTalk('proposal-info-{{ forloop.counter }}','to_talk-{{ forloop.counter }}')">
                                                         {% trans "Become Talk" %}
                                                     </a></p>

@@ -60,7 +60,7 @@
                                         <p>{% trans "Room" %}: {{ talk.room }}</p>
                                         <p>{% trans "Start" %}: {{ talk.start_date }}</p>
                                         <p>{% trans "End" %}: {{ talk.end_date }}</p>
-                                    {% elif user.is_staff %}
+                                    {% elif sede_url|is_sede_staff:user %}
                                         <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
                                             {% trans "Become Talk" %}
                                         </a></strong></p>
