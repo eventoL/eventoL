@@ -22,7 +22,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     TalkForm, CommentForm
 from manager.models import Installer, Hardware, Installation, Talk, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
-from manager.security import add_installer_perms, is_installer
+from manager.security import add_installer_perms, is_installer, add_collaborator_perms
 
 
 autocomplete_light.autodiscover()
@@ -89,6 +89,9 @@ def collaborator_registration(request, sede_url):
             try:
                 if collaborator_form.is_valid():
                     collaborator = collaborator_form.save()
+                    user = add_collaborator_perms(user)
+                    user.is_staff = True
+                    user.save()
                     collaborator.user = user
                     collaborator.save()
                     messages.success(request, _("You've been registered successfully!"))
