@@ -81,8 +81,10 @@
                                             class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
                                     </li>
                                 {% else %}
-                                    <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}
-                                    </a>
+                                    <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>
+                                    </li>
+                                    <li><a href="/sede/{{ sede_url }}/talks"><i
+                                        class="fa fa-list"></i> {% trans "Talks List" %}</a>
                                     </li>
                                     {% if perms.installation.can_add %}
                                         <li><a href="/sede/{{ sede_url }}/installation"><i
