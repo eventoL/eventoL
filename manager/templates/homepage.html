@@ -24,22 +24,29 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-<img src="{% static 'manager/img/flisol-banner.png' %}" style="width: 100%">
+<div style="
+    width: 100%;
+    text-align: center;
+    display: block;
+    background-color: rgb(0,149,135);
+">
+    <img src="{% static 'manager/img/flisol-banner.png' %}">
+</div>
+
 
 <div class="container">
+    <h3>Encontrá tu sede!</h3>
     <div class="row" style="padding-top: 10px">
         {% for sede in sedes %}
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="well" style="padding: 0px 0px 0px 15px">
                     <div class="row">
                         <div id='{{ sede.name }}'
-                             class="col-md-4 leaflet-container leaflet-fade-anim" tabindex="0"
-                             style="position: relative; height: 130px;"></div>
+                             class="col-md-4" tabindex="0"
+                             style="height: 80px;"></div>
                         <div class="col-md-8" style="padding-top: 10px">
                             <a href='/sede/{{ sede.url }}/'><h4
                                     class="list-group-item-heading">{{ sede.name }}</h4></a>
-
-                            <p>{{ sede.place }}</p>
                         </div>
                     </div>
                 </div>
@@ -58,26 +65,19 @@
         // This command is used to initialize some elements and make them work properly
         $.material.init();
 
-        function map(sede_name, sede_lon, sede_lat) {
+        function map(sede_name, sede_lat, sede_lon) {
+            var map = L.map(sede_name, {zoomControl: false}).setView([sede_lat, sede_lon], 4);
 
-            var map = new L.Map(sede_name, {zoomControl: false});
-
-            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-                attribution: '',
-                maxZoom    : 4
+            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+                attribution: ''
             }).addTo(map);
             map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
 
-            var center = new L.LatLng(sede_lat, sede_lon);
-            map.setView(center, 4);
-
-            var markerLocation = new L.LatLng(sede_lat, sede_lon);
-            var marker = new L.Marker(markerLocation);
-            map.addLayer(marker);
+            L.marker([sede_lat, sede_lon]).addTo(map);
         }
 
         {% for sede in sedes %}
-            map('{{ sede.name }}', {{ sede.city.location.x }}, {{ sede.city.location.y }});
+            map('{{ sede.name }}', {{ sede.city.location.y|safe }}, {{ sede.city.location.x|safe }});
         {% endfor %}
     });
 </script>

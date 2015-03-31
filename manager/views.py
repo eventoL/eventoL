@@ -52,7 +52,7 @@ def index(request, sede_url):
         .exclude(dummy_talk=True) \
         .distinct()
 
-    render_dict = {'talk_proposals': talk_proposals, 'contacts': sede.contacts.all()}
+    render_dict = {'talk_proposals': talk_proposals, 'sede': sede}
     return render(request, 'index.html', update_sede_info(sede_url, render_dict, sede))
 
 
@@ -279,7 +279,8 @@ def registration(request, sede_url):
         if form.is_valid():
             form.save()
             messages.success(request, _(
-                "We've sent you an email with the confirmation link. Please click or copy and paste it in your browser to confirm the registration."))
+                """We've sent you an email with the confirmation link. Please click or copy and paste it in your
+                browser to confirm the registration."""))
             return HttpResponseRedirect('/sede/' + sede_url)
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
     else:
@@ -299,6 +300,12 @@ def confirm_registration(request, sede_url, token):
 @login_required(login_url='../../accounts/login/')
 def talk_proposal(request, sede_url):
     sede = Sede.objects.get(url=sede_url)
+
+    if not sede.talk_proposal_is_open:
+        messages.error(request,
+                       _("The talk proposal is already close. Please contact the Sede Organization Team to submit it."))
+        return HttpResponseRedirect(reverse('index', args=(sede_url,)))
+
     proposal = TalkProposal(sede=sede)
     form = TalkProposalForm(request.POST or None, request.FILES or None, instance=proposal)
     if request.POST:
@@ -330,11 +337,9 @@ def schedule(request, sede_url):
 
 
 def talks(request, sede_url):
-    sede = Sede.objects.get(name=sede_url)
-    if datetime.date.today() > sede.limit_proposal_date:
-        return HttpResponseRedirect(reverse("manager.views.schedule", args=[sede_url]))
-    talks_list = Talk.objects.filter(talk_proposal__sede__name=sede_url)
-    proposals = TalkProposal.objects.filter(sede__name=sede_url)
+    sede = Sede.objects.get(url=sede_url)
+    talks_list = Talk.objects.filter(talk_proposal__sede=sede)
+    proposals = TalkProposal.objects.filter(sede=sede)
     for proposal in proposals:
         setattr(proposal, 'form', TalkForm(sede_url))
         setattr(proposal, 'errors', [])
