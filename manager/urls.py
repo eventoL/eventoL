@@ -1,12 +1,14 @@
 from django.conf.urls import patterns, url, include
 from manager import views
 
+from django.contrib.auth.views import login
+
 sede_patterns = patterns(
     '',
     url(r'^$', views.index, name="index"),
     url(r'^event$', views.event, name="event_info"),
     url(r'^FAQ$', views.sede_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
-    url(r'^accounts/login/$', views.login, name='eventol_login'),
+    url(r'^accounts/login/$', views.sede_django_view, kwargs={'view': login}, name='eventol_login'),
     url(r'^registration$', views.registration, name='registration'),
     url(r'^registration/collaborator$', views.collaborator_registration, name='collaborator_registration'),
     url(r'^registration/installer$', views.installer_registration, name='installer_registration'),

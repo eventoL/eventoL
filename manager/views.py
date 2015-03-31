@@ -40,8 +40,8 @@ def update_sede_info(sede_url, render_dict=None, sede=None):
     return render_dict
 
 
-def login(request, sede_url):
-    return django_login(request, extra_context=update_sede_info(sede_url))
+def sede_django_view(request, sede_url, view=django_login):
+    return view(request, extra_context=update_sede_info(sede_url))
 
 
 def index(request, sede_url):
@@ -135,7 +135,8 @@ def talk_registration(request, sede_url, pk):
         elif talk_form.is_valid():
             messages.error(request, _("The talk wasn't registered successfully (check form errors)"))
         else:
-            messages.error(request, _("The talk wasn't registered successfully because the room or schedule isn't available"))
+            messages.error(request,
+                           _("The talk wasn't registered successfully because the room or schedule isn't available"))
         errors = get_forms_errors(forms)
         error = True
     comments = Comment.objects.filter(proposal=proposal)
@@ -148,8 +149,8 @@ def talk_registration(request, sede_url, pk):
 
 def room_available(talk_form, sede_url):
     talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__url=sede_url)
-    if talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists()\
-            or talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists()\
+    if talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
+            or talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
             or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists():
         return False
     return True
@@ -274,7 +275,8 @@ def registration(request, sede_url):
     if request.POST:
         if form.is_valid():
             form.save()
-            messages.success(request, _("We've sent you an email with the confirmation link. Please click or copy and paste it in your browser to confirm the registration."))
+            messages.success(request, _(
+                "We've sent you an email with the confirmation link. Please click or copy and paste it in your browser to confirm the registration."))
             return HttpResponseRedirect('/sede/' + sede_url)
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
     else:
