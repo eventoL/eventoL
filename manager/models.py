@@ -1,6 +1,7 @@
+import datetime
+
 from ckeditor.fields import RichTextField
 import re
-
 from cities.models import Country, Region, City, District, Place
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -55,6 +56,10 @@ class Sede(models.Model):
                 "lon": self.city.location.x,
                 "name": self.name,
                 "url": reverse('index', args=(self.url,))}
+
+    @property
+    def talk_proposal_is_open(self):
+        return self.limit_proposal_date > datetime.date.today()
 
 
 class ContactType(models.Model):
@@ -289,7 +294,7 @@ class Talk(models.Model):
 
     def __unicode__(self):
         return u"%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
-                                      self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+                                       self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
     class Meta:
         verbose_name = _('Talk')
@@ -306,7 +311,7 @@ class EventInfo(models.Model):
 
 
 class ContactMessage(models.Model):
-    name = models.CharField(max_length= 255, verbose_name=_('Name'))
+    name = models.CharField(max_length=255, verbose_name=_('Name'))
     email = models.EmailField(verbose_name=_('Email'))
     message = models.TextField(verbose_name=_('Message'))
 
@@ -328,7 +333,7 @@ class Comment(models.Model):
     def save(self, *args, **kwargs):
         """Email when a comment is added."""
 
-        #TODO: Email when a comment is added.
+        # TODO: Email when a comment is added.
 
         if "notify" in kwargs:
             del kwargs["notify"]
