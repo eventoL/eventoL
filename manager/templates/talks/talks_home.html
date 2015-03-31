@@ -139,6 +139,13 @@
                 {% endfor %}
             </div>
         </div>
+        {% if not sede.schedule_confirm %}
+            <div class="row">
+                <a type="button" class="btn btn-success btn-xs" href="/sede/{{ sede_url }}/talk/confirm_schedule/">
+                    <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
+                </a>
+            </div>
+        {% endif %}
     {% else %}
         <div class="well">
             <p>
