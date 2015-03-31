@@ -1,14 +1,14 @@
 {% load i18n %}
+{% load filters %}
 {% if comments %}
     <h2>{% trans "Comments" %}</h2>
-
     <form action="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/" method="POST">{% csrf_token %}
         {% for comment in comments %}
             <div class="panel-group">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">
-                            {% if user.is_staff %}
+                    <div class="panel-heading col-xs-12">
+                        <div class="panel-title col-xs-12">
+                            {% if sede_url|is_sede_staff:user %}
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="delete" value="{{ comment.pk }}">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="body">{{ comment.body|linebreaks }}</div>
-                        {% if user.is_staff %}
+                        {% if sede_url|is_sede_staff:user %}
                             <div class="pull-right">
                                 <label>
                                     <a href="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/{{ comment.id }}">{% trans "Delete comment" %}</a>
@@ -36,7 +36,7 @@
             </div>
         {% endfor %}
 
-        {% if user.is_staff and comments %}
+        {% if sede_url|is_sede_staff:user and comments %}
             <p><input class="btn btn-primary btn-raised" type="submit" value="{% trans 'Delete all selected' %}"></p>
         {% endif %}
     </form>
