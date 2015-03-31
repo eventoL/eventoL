@@ -31,7 +31,7 @@ class SedeAdmin(EventoLAdmin):
 
 
 class CommentAdmin(EventoLAdmin):
-    display_fields = ["proposal", "title", "created", "user"]
+    display_fields = ["proposal", "created", "user"]
 
     def filter_sede(self, sede, queryset):
         return queryset.filter(proposal__sede=sede)

@@ -322,7 +322,6 @@ class ContactMessage(models.Model):
 
 class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=60)
     body = models.TextField()
     proposal = models.ForeignKey(TalkProposal)
     user = models.ForeignKey(User)
