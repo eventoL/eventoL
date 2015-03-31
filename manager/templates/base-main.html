@@ -80,13 +80,21 @@
                                     <li><a href="/sede/{{ sede_url }}/accounts/login"><i
                                             class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
                                     </li>
+                                    <li><a href="/sede/{{ sede_url }}/registration/collaborator"><i
+                                            class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
+                                    </a>
+                                    </li>
+                                    <li><a href="/sede/{{ sede_url }}/registration/installer"><i
+                                            class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
+                                    </li>
                                 {% else %}
-                                    <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>
+                                    <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}
+                                    </a>
                                     </li>
                                     <li><a href="/sede/{{ sede_url }}/talks"><i
-                                        class="fa fa-list"></i> {% trans "Talks List" %}</a>
+                                            class="fa fa-list"></i> {% trans "Talks List" %}</a>
                                     </li>
-                                    {% if perms.installation.can_add %}
+                                    {% if user|is_installer %}
                                         <li><a href="/sede/{{ sede_url }}/installation"><i
                                                 class="fa fa-laptop"></i> {% trans "Submit an installation" %}</a>
                                         </li>
@@ -100,12 +108,6 @@
                                         </li>
                                     {% endif %}
                                 {% endif %}
-                                <li><a href="/sede/{{ sede_url }}/registration/collaborator"><i
-                                        class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}</a>
-                                </li>
-                                <li><a href="/sede/{{ sede_url }}/registration/installer"><i
-                                        class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
-                                </li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -143,10 +145,6 @@
 {% endblock %}
 
 {% block main-content %}{% endblock %}
-
-<div class="well">
-    {{ footer | safe }}
-</div>
 
 <div align="right">
     <a href="//github.com/reyiyo/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}</a>

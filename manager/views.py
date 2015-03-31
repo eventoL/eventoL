@@ -34,7 +34,7 @@ def update_sede_info(sede_url, render_dict=None, sede=None):
     render_dict = render_dict or {}
     render_dict.update({
         'sede_url': sede_url,
-        'footer': sede.footer,
+        'sede': sede,
         'contacts': contacts
     })
     return render_dict
@@ -52,7 +52,7 @@ def index(request, sede_url):
         .exclude(dummy_talk=True) \
         .distinct()
 
-    render_dict = {'talk_proposals': talk_proposals, 'sede': sede}
+    render_dict = {'talk_proposals': talk_proposals}
     return render(request, 'index.html', update_sede_info(sede_url, render_dict, sede))
 
 

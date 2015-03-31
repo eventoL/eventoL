@@ -26,7 +26,6 @@ class Building(Place):
 class Sede(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('Country'))
     state = models.ForeignKey(Region, verbose_name=_('State'))
-    footer = RichTextField(verbose_name=_('Footer'), help_text=_('Footer HTML'), blank=True, null=True)
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     city = models.ForeignKey(City, verbose_name=_('City'))
