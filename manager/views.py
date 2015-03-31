@@ -12,6 +12,8 @@ from django.shortcuts import get_object_or_404, render
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from voting.models import Vote
+from generic_confirmation.views import confirm_by_get
 
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
@@ -21,8 +23,6 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
 from manager.models import Installer, Hardware, Installation, Talk, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
 from manager.security import add_installer_perms, is_installer
-from voting.models import Vote
-from generic_confirmation.views import confirm_by_get
 
 
 autocomplete_light.autodiscover()
@@ -56,7 +56,7 @@ def index(request, sede_url):
     return render(request, 'index.html', update_sede_info(sede_url, render_dict, sede))
 
 
-def sede_view(request, sede_url, html='home.html'):
+def sede_view(request, sede_url, html='index.html'):
     return render(request, html, update_sede_info(sede_url))
 
 

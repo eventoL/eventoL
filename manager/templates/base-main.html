@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load compress %}
 {% load filters %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -16,24 +15,15 @@
         <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
               rel="image_src"/>
 
-        {% if debug %}
-            <link rel="stylesheet" type="text/less" media="all"
-                  href="{% static "manager/css/flisol-bootstrap.less" %}"/>
-            <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
-            <script src="{% static 'manager/bower_components/less/dist/less.min.js' %}"></script>
-        {% else %}
-            {% compress css %}
-                <link rel="stylesheet" type="text/less" media="all"
-                      href="{% static "manager/css/flisol-bootstrap.less" %}"/>
-                <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
-            {% endcompress %}
-        {% endif %}
+        <link rel="stylesheet" type="text/css" media="all"
+              href="{% static "manager/css/flisol-bootstrap.css" %}"/>
+        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
 
         <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
         <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
               rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-        
+
         <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         <script> var jqMin = jQuery.noConflict(); </script>
         {% block other-head %}{% endblock %}
@@ -100,7 +90,7 @@
                                 </li>
                                 {% if not user|is_installer %}
                                     <li><a href="/sede/{{ sede_url }}/registration/become_installer"><i
-                                        class="fa fa-linux"></i> {% trans "Become installer" %}</a>
+                                            class="fa fa-linux"></i> {% trans "Become installer" %}</a>
                                     </li>
                                 {% endif %}
                             {% endif %}
@@ -133,7 +123,8 @@
 
     {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-{% ifequal  message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center" role="alert">
+            <div class="alert alert-{% ifequal  message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center"
+                 role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -160,7 +151,7 @@
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // This command is used to initialize some elements and make them work properly
             $.material.init();
         });

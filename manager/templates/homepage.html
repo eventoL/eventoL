@@ -13,10 +13,9 @@
     <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
     <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
           rel="image_src"/>
-    <link rel="stylesheet" type="text/less" media="all"
-          href="{% static "manager/css/flisol-bootstrap.less" %}"/>
-    <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
-    <script src="{% static 'manager/bower_components/less/dist/less.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="{% static "manager/css/flisol-bootstrap.css" %}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
     <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
     <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
           rel="stylesheet">
@@ -26,6 +25,7 @@
 </head>
 <body>
 <img src="{% static 'manager/img/flisol-banner.png' %}" style="width: 100%">
+
 <div class="container">
     <div class="row" style="padding-top: 10px">
         {% for sede in sedes %}
