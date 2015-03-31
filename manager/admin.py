@@ -13,9 +13,9 @@ class EventoLAdmin(admin.ModelAdmin):
 
     def queryset(self, request):
         queryset = super(EventoLAdmin, self).queryset(request)
-        collaborator = Collaborator.objects.get(user=request.user)
         if request.user.is_superuser:
             return queryset
+        collaborator = Collaborator.objects.get(user=request.user)
         return self.filter_sede(collaborator.sede, queryset)
 
 
