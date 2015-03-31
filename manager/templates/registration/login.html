@@ -6,10 +6,16 @@
 {% block pre-form %}
     {% if next %}
         {% ifequal next "/sede/"|add:sede_url|add:"/talk/proposal/" %}
-            <p>{% trans "In order to submit a talk proposal, you must" %} <a href='/sede/{{ sede_url }}/registration/collaborator'>{% trans "register as a collaborator" %}</a> {% trans "or" %} <a href='/sede/{{ sede_url }}/registration/installer'> {% trans "register as an installer" %}</a> {% trans "first" %}</p>
+            <p>{% trans "In order to submit a talk proposal, you must" %}
+                <a href='/sede/{{ sede_url }}/registration/collaborator'>{% trans "register as a Speaker" %}</a>
+                {% trans "first" %}
+            </p>
         {% endifequal %}
         {% ifequal next "/sede/"|add:sede_url|add:"/installation" %}
-            <p>{% trans "In order to submit an installation, you must" %} <a href='/sede/{{ sede_url }}/registration/installer'>{% trans "register as an installer" %}</a> {% trans "first" %}</p>
+            <p>{% trans "In order to submit an installation, you must" %}
+                <a href='/sede/{{ sede_url }}/registration/installer'>{% trans "register as an installer" %}</a>
+                {% trans "first" %}
+            </p>
         {% endifequal %}
     {% endif %}
 {% endblock %}
@@ -26,4 +32,8 @@
     {% else %}
         <input type="hidden" name="next" value="/sede/{{ sede_url }}/"/>
     {% endif %}
+{% endblock %}
+
+{% block post-form %}
+    <p><a href="{% url 'forgot_password' %}">{% trans "Forgot your password?" %}</a></p>
 {% endblock %}

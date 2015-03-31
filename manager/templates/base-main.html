@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load compress %}
 {% load filters %}
 {% load i18n %}
 <!DOCTYPE html>
@@ -16,18 +15,9 @@
         <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
               rel="image_src"/>
 
-        {% if debug %}
-            <link rel="stylesheet" type="text/less" media="all"
-                  href="{% static "manager/css/flisol-bootstrap.less" %}"/>
-            <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
-            <script src="{% static 'manager/bower_components/less/dist/less.min.js' %}"></script>
-        {% else %}
-            {% compress css %}
-                <link rel="stylesheet" type="text/less" media="all"
-                      href="{% static "manager/css/flisol-bootstrap.less" %}"/>
-                <link rel="stylesheet" type="text/less" media="all" href="{% static "manager/css/flisol.less" %}"/>
-            {% endcompress %}
-        {% endif %}
+        <link rel="stylesheet" type="text/css" media="all"
+              href="{% static "manager/css/flisol-bootstrap.css" %}"/>
+        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
 
         <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
         <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
@@ -51,89 +41,93 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="pull-left" href="/sede/{{ sede_url }}/"><img
-                        src="{% static "manager/img/flisol-top-bar.png" %}"
-                        alt="Flisol Logo"></a>
+                <a class="pull-left" href="{% if sede_url %}/sede/{{ sede_url }}/{% else %}#{% endif %}">
+                    <img src="{% static "manager/img/flisol-top-bar.png" %}" alt="Flisol Logo">
+                </a>
             </div>
 
-            <div class="navbar-collapse collapse navbar-responsive-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/sede/{{ sede_url }}/registration">{% trans "Registration" %}</a>
-                    </li>
-                    <li><a href="/sede/{{ sede_url }}/schedule">{% trans "Talks Schedule" %}</a>
-                    </li>
-                    <li><a href="/sede/{{ sede_url }}/talk/proposal">{% trans "Submit your talk!" %}</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" data-target="#" class="dropdown-toggle"
-                           data-toggle="dropdown">{% trans "About FLISoL" %} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/sede/{{ sede_url }}/FAQ"><i
-                                    class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
-                            </li>
-                            <li><a href="/sede/{{ sede_url }}/event"><i
-                                    class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
-                            </li>
-                            <li><a href="//flisol.info" target="_blank"><i
-                                    class="fa fa-info-circle"></i> {% trans "More Info" %}</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" data-target="#" class="dropdown-toggle"
-                           data-toggle="dropdown">{% trans "Collaborators" %} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            {% if not user.is_authenticated %}
-                                <li><a href="/sede/{{ sede_url }}/accounts/login"><i
-                                        class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
+            {% if sede_url %}
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/sede/{{ sede_url }}/registration">{% trans "Registration" %}</a>
+                        </li>
+                        <li><a href="/sede/{{ sede_url }}/schedule">{% trans "Talks Schedule" %}</a>
+                        </li>
+                        <li><a href="/sede/{{ sede_url }}/talk/proposal">{% trans "Submit your talk!" %}</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown">{% trans "About FLISoL" %} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/sede/{{ sede_url }}/FAQ"><i
+                                        class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
                                 </li>
-                            {% else %}
-                                <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}</a>
+                                <li><a href="/sede/{{ sede_url }}/event"><i
+                                        class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
                                 </li>
-                                {% if perms.installation.can_add %}
-                                    <li><a href="/sede/{{ sede_url }}/installation"><i
-                                            class="fa fa-laptop"></i> {% trans "Submit an installation" %}</a>
+                                <li><a href="//flisol.info" target="_blank"><i
+                                        class="fa fa-info-circle"></i> {% trans "More Info" %}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown">{% trans "Collaborators" %} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                {% if not user.is_authenticated %}
+                                    <li><a href="/sede/{{ sede_url }}/accounts/login"><i
+                                            class="fa fa-sign-in"></i> {% trans "Login" noop %}</a>
                                     </li>
-                                {% endif %}
-                                <li><a href="/sede/{{ sede_url }}/registration/attendee/search"><i
-                                        class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}</a>
-                                </li>
-                                {% if not user|is_installer %}
-                                    <li><a href="/sede/{{ sede_url }}/registration/become_installer"><i
-                                        class="fa fa-linux"></i> {% trans "Become installer" %}</a>
+                                {% else %}
+                                    <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}
+                                    </a>
                                     </li>
+                                    {% if perms.installation.can_add %}
+                                        <li><a href="/sede/{{ sede_url }}/installation"><i
+                                                class="fa fa-laptop"></i> {% trans "Submit an installation" %}</a>
+                                        </li>
+                                    {% endif %}
+                                    <li><a href="/sede/{{ sede_url }}/registration/attendee/search"><i
+                                            class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}</a>
+                                    </li>
+                                    {% if not user|is_installer %}
+                                        <li><a href="/sede/{{ sede_url }}/registration/become_installer"><i
+                                                class="fa fa-linux"></i> {% trans "Become installer" %}</a>
+                                        </li>
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                            <li><a href="/sede/{{ sede_url }}/registration/collaborator"><i
-                                    class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}</a>
-                            </li>
-                            <li><a href="/sede/{{ sede_url }}/registration/installer"><i
-                                    class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" data-target="#" class="dropdown-toggle"
-                           data-toggle="dropdown">{% trans "Follow Us!" %} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            {% for contact in contacts %}
-                                <li><a href="{{ contact.url }}" target="_blank">
-                                    <i class="fa {{ contact.type.icon_class }}"></i> {{ contact.text }}</a>
+                                <li><a href="/sede/{{ sede_url }}/registration/collaborator"><i
+                                        class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}</a>
                                 </li>
-                            {% endfor %}
-                            <li><a href="contact">
-                                <i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+                                <li><a href="/sede/{{ sede_url }}/registration/installer"><i
+                                        class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown">{% trans "Follow Us!" %} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                {% for contact in contacts %}
+                                    <li><a href="{{ contact.url }}" target="_blank">
+                                        <i class="fa {{ contact.type.icon_class }}"></i> {{ contact.text }}</a>
+                                    </li>
+                                {% endfor %}
+                                <li><a href="contact">
+                                    <i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
         </div>
     </div>
 
     {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-{% ifequal  message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center" role="alert">
+            <div class="alert alert-{% ifequal  message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center"
+                 role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -146,7 +140,6 @@
 
 {% block main-content %}{% endblock %}
 
-<!-- logos -->
 <div class="well">
     {{ footer | safe }}
 </div>
@@ -160,7 +153,7 @@
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // This command is used to initialize some elements and make them work properly
             $.material.init();
         });
