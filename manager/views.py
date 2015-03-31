@@ -332,8 +332,14 @@ def image_cropping(request, sede_url, image_id):
 
 
 def schedule(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    if not sede.schedule_confirm:
+        messages.info(request, _("While the schedule this unconfirmed, you can only see the list of proposals."))
+        return HttpResponseRedirect(reverse("talks", args=[sede_url]))
+
     # TODO: template y manejo de schedule con las talks confirmadas
-    pass
+    # El retorno de talks es temporal hasta que se defina un schedule.html
+    return HttpResponseRedirect(reverse("talks", args=[sede_url]))
 
 
 def talks(request, sede_url):
@@ -344,7 +350,7 @@ def talks(request, sede_url):
         setattr(proposal, 'form', TalkForm(sede_url))
         setattr(proposal, 'errors', [])
     return render(request, 'talks/talks_home.html',
-                  update_sede_info(sede_url, {'talks': talks_list, 'proposals': proposals}))
+                  update_sede_info(sede_url, {'talks': talks_list, 'proposals': proposals, 'sede': sede}, sede))
 
 
 def talk_detail(request, sede_url, pk):
@@ -463,3 +469,11 @@ def cancel_vote(request, sede_url, pk):
     if vote:
         vote.delete()
     return proposal_detail(request, sede_url, pk)
+
+
+@login_required(login_url='../../accounts/login/')
+def confirm_schedule(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    sede.schedule_confirm = True
+    sede.save()
+    return schedule(request, sede_url)

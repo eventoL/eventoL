@@ -12,12 +12,24 @@
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="delete" value="{{ comment.pk }}">
-                                        <strong>{{ comment.title }}</strong>
+                                        <strong>
+                                            {% if comment.user.get_full_name %}
+                                                {{ comment.user.get_full_name|title }}
+                                            {% else %}
+                                                {{ comment.user.username|title }}
+                                            {% endif %}
+                                        </strong>
                                     </label>
                                     <div class="time pull-right">{{ comment.created }}</div>
                                 </div>
                             {% else %}
-                                <strong>{{ comment.title }}</strong>
+                                <strong>
+                                    {% if comment.user.get_full_name %}
+                                        {{ comment.user.get_full_name|title }}
+                                    {% else %}
+                                        {{ comment.user.username|title }}
+                                    {% endif %}
+                                </strong>
                                 <div class="time pull-right">{{ comment.created }}</div>
                             {% endif %}
                         </div>
@@ -46,10 +58,15 @@
     <!-- Add Comment form -->
     <h2>{% trans "Add a comment" %}</h2>
     <div class="well">
+        <div class="alert alert-info alert-dismissible text-center" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>{% trans 'This comment is public' %}</strong>
+        </div>
         <div class="row" style="margin-left: 10px; margin-right: 10px;">
             <form action="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/add_comment/" method="POST">{% csrf_token %}
                 <div id="cform">
-                    {% include "form_field.html" with field=form.title only %}
                     {% include "form_field.html" with field=form.body only %}
                 </div>
                 <div class="form-group">
