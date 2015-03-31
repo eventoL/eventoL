@@ -43,7 +43,7 @@ class Sede(models.Model):
         return "/sede/" + self.url + '/'
 
     def __unicode__(self):
-        return "%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
+        return u"%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
 
     def save(self, *args, **kwargs):
         if not re.match("^[a-zA-Z0-9-_]+$", self.url):
@@ -77,7 +77,7 @@ class Contact(models.Model):
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), related_name='contacts')
 
     def __unicode__(self):
-        return "%s - %s" % (self.type.name, self.text)
+        return u"%s - %s" % (self.type.name, self.text)
 
 
 class Attendee(models.Model):
@@ -150,7 +150,7 @@ class Hardware(models.Model):
     serial = models.CharField(_('Serial'), max_length=200, blank=True, null=True)
 
     def __unicode__(self):
-        return "%s, %s, %s" % (self.type, self.manufacturer, self.model)
+        return u"%s, %s, %s" % (self.type, self.manufacturer, self.model)
 
 
 class Software(models.Model):
@@ -165,7 +165,7 @@ class Software(models.Model):
     type = models.CharField(_('Type'), choices=software_choices, max_length=200)
 
     def __unicode__(self):
-        return "%s - %s v.%s" % (self.type, self.name, self.version)
+        return u"%s - %s v.%s" % (self.type, self.name, self.version)
 
 
 class Installer(models.Model):
@@ -200,7 +200,7 @@ class Installation(models.Model):
                              help_text=_('Any information or trouble you found and consider relevant to document'))
 
     def __unicode__(self):
-        return "%s, %s, %s" % (self.attendee, self.hardware, self.software)
+        return u"%s, %s, %s" % (self.attendee, self.hardware, self.software)
 
     class Meta:
         verbose_name = _('Installation')
@@ -270,7 +270,7 @@ class Room(models.Model):
                                  help_text=_('The type of talk the room is going to be used for.'))
 
     def __unicode__(self):
-        return "%s - %s" % (self.sede.name, self.name)
+        return u"%s - %s" % (self.sede.name, self.name)
 
     class Meta:
         verbose_name = _('Room')
@@ -288,7 +288,7 @@ class Talk(models.Model):
         return "/sede/" + self.talk_proposal.sede.url + '/talk/detail/talk/' + str(self.id)
 
     def __unicode__(self):
-        return "%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
+        return u"%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
                                       self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
     class Meta:
