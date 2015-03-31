@@ -103,7 +103,6 @@ class InstallationForm(autocomplete.ModelForm):
         super(InstallationForm, self).__init__(*args, **kwargs)
         if self.instance:
             self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
-            self.fields['installer'].queryset = Installer.objects.filter(collaborator__sede__url=sede)
 
     class Meta:
         model = Installation
@@ -174,7 +173,6 @@ class TalkProposalImageCroppingForm(ModelForm):
 
 
 class TalkForm(ModelForm):
-
     def __init__(self, sede, *args, **kwargs):
         super(TalkForm, self).__init__(*args, **kwargs)
         if self.instance:
