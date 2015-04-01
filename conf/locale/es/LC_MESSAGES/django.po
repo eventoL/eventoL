@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EventoL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-31 20:10-0300\n"
+"POT-Creation-Date: 2015-04-01 08:35-0300\n"
 "PO-Revision-Date: 2015-03-31 19:53-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,180 +39,172 @@ msgstr "País"
 
 #: manager/models.py:28
 msgid "State"
-msgstr "Provincia/Estado"
+msgstr "Provincia"
 
-#: manager/models.py:29
-msgid "Footer"
-msgstr ""
-
-#: manager/models.py:29
-msgid "Footer HTML"
-msgstr ""
-
-#: manager/models.py:30 manager/templates/base-main.html:66
+#: manager/models.py:29 manager/templates/base-main.html:65
 #: manager/templates/event/info.html:3 manager/templates/event/info.html:4
 msgid "Event Information"
 msgstr "Información del evento"
 
-#: manager/models.py:30
+#: manager/models.py:29
 msgid "Event Information HTML"
-msgstr "Información del evento"
+msgstr "HTML de Información del evento"
 
-#: manager/models.py:32
+#: manager/models.py:31
 msgid "City"
 msgstr "Ciudad"
 
-#: manager/models.py:33
+#: manager/models.py:32
 msgid "District"
 msgstr "Distrito"
 
-#: manager/models.py:34 manager/models.py:93 manager/models.py:316
+#: manager/models.py:33 manager/models.py:92 manager/models.py:315
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: manager/models.py:35 manager/models.py:72 manager/models.py:134
-#: manager/models.py:169 manager/models.py:220 manager/models.py:274
-#: manager/models.py:315
+#: manager/models.py:34 manager/models.py:71 manager/models.py:133
+#: manager/models.py:168 manager/models.py:219 manager/models.py:273
+#: manager/models.py:314
 msgid "Name"
 msgstr "Nombre"
 
-#: manager/models.py:36 manager/templates/form_field.html:25
+#: manager/models.py:35
 msgid "Date"
 msgstr "Fecha"
 
-#: manager/models.py:36
+#: manager/models.py:35
 msgid "Date of the event"
 msgstr "Fecha del evento"
 
-#: manager/models.py:37
+#: manager/models.py:36
 msgid "Limit Proposal Date"
-msgstr "Fecha limite para Propuestas"
+msgstr "Fecha límite para Propuestas"
+
+#: manager/models.py:36
+msgid "Date Limit of Talk Proposal"
+msgstr "Fecha límite para proponer charlas"
 
 #: manager/models.py:37
-msgid "Date Limit of Talk Proposal"
-msgstr "Fecha limite para proponer charlas"
+msgid "Schedule Confirm"
+msgstr "Confirmar Cronograma"
 
 #: manager/models.py:38
-msgid "Schedule Confirm"
-msgstr ""
-
-#: manager/models.py:39
 msgid "Place"
 msgstr "Lugar"
 
-#: manager/models.py:40
+#: manager/models.py:39
 msgid "Specific place (building) where the event is taking place"
 msgstr "Lugar específico (edificio) donde se va a llevar a cabo el evento"
 
-#: manager/models.py:41
+#: manager/models.py:40
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
-#: manager/models.py:41
+#: manager/models.py:40
 msgid "URL for the sede i.e. CABA"
-msgstr ""
+msgstr "URL para la sede (ej. rosario)"
 
-#: manager/models.py:52
+#: manager/models.py:51
 msgid "URL can only contain letters or numbers"
 msgstr "La URL solo puede tener letras o números"
 
-#: manager/models.py:73
+#: manager/models.py:72
 msgid "Icon Class"
-msgstr ""
+msgstr "class para el ícono"
 
-#: manager/models.py:80
+#: manager/models.py:79
 msgid "Contact Type"
 msgstr "Tipo de Contacto"
 
-#: manager/models.py:82
+#: manager/models.py:81
 msgid "Text"
 msgstr "Texto"
 
-#: manager/models.py:90
+#: manager/models.py:89
 msgid "First Name"
 msgstr "Nombre"
 
-#: manager/models.py:91
+#: manager/models.py:90
 msgid "Last Name"
 msgstr "Apellido"
 
-#: manager/models.py:92
+#: manager/models.py:91
 msgid "Nickname"
 msgstr "Apodo/Nick"
 
-#: manager/models.py:94
+#: manager/models.py:93
 msgid "Sede you are going to attend"
 msgstr "Sede a la que va a asistir"
 
-#: manager/models.py:95 manager/models.py:115
+#: manager/models.py:94 manager/models.py:114
 msgid "Assisted"
 msgstr "Asistió"
 
-#: manager/models.py:96
+#: manager/models.py:95
 msgid "Is going to install?"
 msgstr "Vas a llevar una máquina para instalar?"
 
-#: manager/models.py:97
+#: manager/models.py:96
 msgid "Are you going to bring a PC for installing it?"
 msgstr "Vas a llevar una máquina para que le instalen software libre?"
 
-#: manager/models.py:98 manager/models.py:120
+#: manager/models.py:97 manager/models.py:119
 msgid "Additional Info"
 msgstr "Información Adicional"
 
-#: manager/models.py:99
+#: manager/models.py:98
 msgid "i.e. Wath kind of PC are you bringing"
-msgstr "x. ej: Qué tipo de PC vas a llevar para instalar"
+msgstr "ej: Qué tipo de PC vas a llevar para instalar"
 
-#: manager/models.py:105 manager/models.py:201
+#: manager/models.py:104 manager/models.py:200
 msgid "Attendee"
 msgstr "Asistente"
 
-#: manager/models.py:106
+#: manager/models.py:105
 msgid "Attendees"
 msgstr "Asistentes"
 
-#: manager/models.py:111
+#: manager/models.py:110
 msgid "User"
 msgstr "Usuario"
 
-#: manager/models.py:112
+#: manager/models.py:111
 msgid "Sede you are going to collaborate"
-msgstr "Sede en la que va a colaborar"
+msgstr "Sede en la que vas a colaborar"
 
-#: manager/models.py:113
+#: manager/models.py:112
 msgid "Phone"
 msgstr "Teléfono"
 
-#: manager/models.py:114
+#: manager/models.py:113
 msgid "Address"
 msgstr "Dirección"
 
-#: manager/models.py:116
+#: manager/models.py:115
 msgid "Is Coordinator"
 msgstr "Es Coordinador"
 
-#: manager/models.py:117
+#: manager/models.py:116
 msgid "The user is the coordinator of the sede?"
 msgstr "El usuario es el coordinador de la sede?"
 
-#: manager/models.py:118
+#: manager/models.py:117
 msgid "Assignation"
 msgstr "Asignación"
 
-#: manager/models.py:119
+#: manager/models.py:118
 msgid "Assignations given to the user (i.e. Talks, Coffee...)"
 msgstr "Encargos que se le han hecho al usuario (por ej. Charlas, Café, etc.)"
 
-#: manager/models.py:121
+#: manager/models.py:120
 msgid "Any additional info you consider relevant"
 msgstr "Cualquier información adicional que considere relevante"
 
-#: manager/models.py:122
+#: manager/models.py:121
 msgid "Time Availability"
 msgstr "Disponibilidad Horaria"
 
-#: manager/models.py:123
+#: manager/models.py:122
 msgid ""
 "Time gap in which you can help during the event. i.e. \"All the event\", "
 "\"Morning\", \"Afternoon\"..."
@@ -220,231 +212,231 @@ msgstr ""
 "Horario en el que va a poder asistir al evento. por ej: \"Todo el evento\", "
 "\"Mañana\", \"Tarde\"..."
 
-#: manager/models.py:129 manager/models.py:178
+#: manager/models.py:128 manager/models.py:177
 msgid "Collaborator"
 msgstr "Colaborador"
 
-#: manager/models.py:130 manager/templates/base-main.html:75
+#: manager/models.py:129 manager/templates/base-main.html:74
 msgid "Collaborators"
 msgstr "Colaboradores"
 
-#: manager/models.py:140
+#: manager/models.py:139
 msgid "Hardware Manufacturer"
 msgstr "Fabricante/Marca"
 
-#: manager/models.py:141
+#: manager/models.py:140
 msgid "Hardware Manufacturers"
 msgstr "Fabricantes/Marcas"
 
-#: manager/models.py:146
+#: manager/models.py:145
 msgid "Mobile"
 msgstr "Dispositivo movil"
 
-#: manager/models.py:147
+#: manager/models.py:146
 msgid "Notebook"
 msgstr "Notebook"
 
-#: manager/models.py:148
+#: manager/models.py:147
 msgid "Netbook"
 msgstr "Netbook"
 
-#: manager/models.py:149
+#: manager/models.py:148
 msgid "Tablet"
 msgstr "Tablet"
 
-#: manager/models.py:150
+#: manager/models.py:149
 msgid "Desktop"
 msgstr "PC de escritorio"
 
-#: manager/models.py:151 manager/models.py:167
+#: manager/models.py:150 manager/models.py:166
 msgid "Other"
 msgstr "Otro"
 
-#: manager/models.py:153 manager/models.py:171 manager/models.py:237
-#: manager/templates/talks/detail.html:37
-#: manager/templates/talks/detail.html:56
-#: manager/templates/talks/talks_home.html:56
-#: manager/templates/talks/talks_home.html:111
+#: manager/models.py:152 manager/models.py:170 manager/models.py:236
+#: manager/templates/talks/detail.html:42
+#: manager/templates/talks/detail.html:71
+#: manager/templates/talks/talks_home.html:54
+#: manager/templates/talks/talks_home.html:109
 msgid "Type"
 msgstr "Tipo"
 
-#: manager/models.py:154
+#: manager/models.py:153
 msgid "Manufacturer"
 msgstr "Fabricante/Marca"
 
-#: manager/models.py:155
+#: manager/models.py:154
 msgid "Model"
 msgstr "Modelo"
 
-#: manager/models.py:156
+#: manager/models.py:155
 msgid "Serial"
 msgstr "Número de serie"
 
-#: manager/models.py:164
+#: manager/models.py:163
 msgid "Operative System"
 msgstr "Sistema Operativo"
 
-#: manager/models.py:165
+#: manager/models.py:164
 msgid "Application"
 msgstr "Aplicación"
 
-#: manager/models.py:166
+#: manager/models.py:165
 msgid "Support and Problem Fixing"
 msgstr "Soporte o resolución de problemas"
 
-#: manager/models.py:170
+#: manager/models.py:169
 msgid "Version"
 msgstr "Versión"
 
-#: manager/models.py:180 manager/models.py:232
+#: manager/models.py:179 manager/models.py:231
 msgid "Beginner"
 msgstr "Principiante"
 
-#: manager/models.py:181 manager/models.py:233
+#: manager/models.py:180 manager/models.py:232
 msgid "Medium"
 msgstr "Medio"
 
-#: manager/models.py:182 manager/models.py:234
+#: manager/models.py:181 manager/models.py:233
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: manager/models.py:183
+#: manager/models.py:182
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
-#: manager/models.py:185 manager/models.py:258
+#: manager/models.py:184 manager/models.py:257
 msgid "Level"
 msgstr "Nivel"
 
-#: manager/models.py:186
+#: manager/models.py:185
 msgid "Linux Knowledge level for an installation"
 msgstr "Conocimiento de Linux para realizar un instalación"
 
-#: manager/models.py:187 manager/models.py:200
+#: manager/models.py:186 manager/models.py:199
 msgid "Software"
 msgstr "Software"
 
-#: manager/models.py:188
+#: manager/models.py:187
 msgid "Select all the software you can install. Hold Ctrl key to select many"
 msgstr "Seleccione todo el software que sepa instalar."
 
-#: manager/models.py:194 manager/models.py:203
+#: manager/models.py:193 manager/models.py:202
 msgid "Installer"
 msgstr "Instalador"
 
-#: manager/models.py:195
+#: manager/models.py:194
 msgid "Installers"
 msgstr "Instaladores"
 
-#: manager/models.py:199
+#: manager/models.py:198
 msgid "Hardware"
 msgstr "Hardware"
 
-#: manager/models.py:202
+#: manager/models.py:201
 msgid "The owner of the installed hardware"
 msgstr "El dueño de la máquina instalada"
 
-#: manager/models.py:205
+#: manager/models.py:204
 msgid "Notes"
 msgstr "Notas"
 
-#: manager/models.py:206
+#: manager/models.py:205
 msgid "Any information or trouble you found and consider relevant to document"
 msgstr ""
 "Cualquier información o problema que haya encontrado durante la instalación "
 "y considere relevante documentar"
 
-#: manager/models.py:212
+#: manager/models.py:211
 msgid "Installation"
 msgstr "Instalación"
 
-#: manager/models.py:213
+#: manager/models.py:212
 msgid "Installations"
 msgstr "Instalaciones"
 
-#: manager/models.py:226
+#: manager/models.py:225
 msgid "Talk Type"
 msgstr "Tipo de charla"
 
-#: manager/models.py:227
+#: manager/models.py:226
 msgid "Talk Types"
 msgstr "Tipos de charla"
 
-#: manager/models.py:236
+#: manager/models.py:235
 msgid "Title"
 msgstr "Título"
 
-#: manager/models.py:238 manager/templates/talks/detail.html:55
+#: manager/models.py:237 manager/templates/talks/detail.html:68
 msgid "Long Description"
 msgstr "Descripción completa"
 
-#: manager/models.py:239 manager/templates/talks/proposal/votes.html:16
-#: manager/templates/talks/talks_home.html:31
+#: manager/models.py:238 manager/templates/talks/proposal/votes.html:16
+#: manager/templates/talks/talks_home.html:29
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: manager/models.py:240
+#: manager/models.py:239
 msgid "Dummy Talk?"
-msgstr "Charla ficticia?"
+msgstr "Charla dummy?"
 
-#: manager/models.py:241 manager/templates/talks/detail.html:34
-#: manager/templates/talks/detail.html:54
-#: manager/templates/talks/detail.html:59
-#: manager/templates/talks/talks_home.html:45
-#: manager/templates/talks/talks_home.html:100
+#: manager/models.py:240 manager/templates/talks/detail.html:34
+#: manager/templates/talks/detail.html:65
+#: manager/templates/talks/detail.html:74
+#: manager/templates/talks/talks_home.html:43
+#: manager/templates/talks/talks_home.html:98
 msgid "Abstract"
 msgstr "Resumen"
 
-#: manager/models.py:241
+#: manager/models.py:240
 msgid "Short idea of the talk (Two or three sentences)"
-msgstr "Dos o tres oraciones que den la idea de la charla"
+msgstr "Dos o tres oraciones que den una idea de la charla"
 
-#: manager/models.py:242
+#: manager/models.py:241
 msgid "Sede you are proposing the talk to"
 msgstr "Sede para la que se está proponiendo la charla"
 
-#: manager/models.py:244
+#: manager/models.py:243
 msgid "Speakers Names"
 msgstr "Nombres de los disertantes"
 
-#: manager/models.py:245
+#: manager/models.py:244
 msgid "Comma separated speaker's names"
-msgstr "(Separados por coma) Nombre de los disertantes"
+msgstr "(Separados por coma) Nombres de los disertantes"
 
-#: manager/models.py:246
+#: manager/models.py:245
 msgid "Speakers Emails"
 msgstr "Correo electrónico de los disertantes"
 
-#: manager/models.py:247
+#: manager/models.py:246
 msgid "Comma separated speaker's emails"
 msgstr "(Separados por coma) Correo electrónico de los disertantes"
 
-#: manager/models.py:248 manager/templates/talks/detail.html:36
-#: manager/templates/talks/detail.html:53
-#: manager/templates/talks/talks_home.html:53
-#: manager/templates/talks/talks_home.html:108
+#: manager/models.py:247 manager/templates/talks/detail.html:40
+#: manager/templates/talks/detail.html:63
+#: manager/templates/talks/talks_home.html:51
+#: manager/templates/talks/talks_home.html:106
 msgid "Labels"
 msgstr "Etiquetas/Tags"
 
-#: manager/models.py:249
+#: manager/models.py:248
 msgid "Comma separated tags. i.e. Linux, Free Software, Debian"
 msgstr "(Separadas por coma) por ej. Linux, Software Libre, Debian..."
 
-#: manager/models.py:250
+#: manager/models.py:249
 msgid "Presentation"
 msgstr "Presentación"
 
-#: manager/models.py:251
+#: manager/models.py:250
 msgid ""
 "Any material you are going to use for the talk (optional, but recommended)"
 msgstr ""
-"Materia multimedia que vaya a usar para la charla (opcional pero recomendado)"
+"Material multimedia que vaya a usar para la charla (opcional pero recomendado)"
 
-#: manager/models.py:252
+#: manager/models.py:251
 msgid "Home Page Image"
 msgstr "Imagen"
 
-#: manager/models.py:254
+#: manager/models.py:253
 msgid ""
 "Image that is going to appear in the home page of this web for promoting the "
 "talk (optional)"
@@ -452,19 +444,19 @@ msgstr ""
 "Imagen que aparecerá en la página principal de esta web promocionando la "
 "charla (opcional)"
 
-#: manager/models.py:256
+#: manager/models.py:255
 msgid "Cropping"
 msgstr "Recorte"
 
-#: manager/models.py:257
+#: manager/models.py:256
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr "La imagen debe ser de 700x450 px. Puede recortarla aquí."
 
-#: manager/models.py:259
+#: manager/models.py:258
 msgid "The talk's Technical level"
 msgstr "Nivel técnico de la charla"
 
-#: manager/models.py:268 manager/templates/talks/proposal.html:11
+#: manager/models.py:267 manager/templates/talks/proposal.html:11
 #: manager/templates/talks/proposal.html:13
 #: manager/templates/talks/proposal.html:17
 #: manager/templates/talks/proposal/image-cropping.html:11
@@ -473,84 +465,88 @@ msgstr "Nivel técnico de la charla"
 msgid "Talk Proposal"
 msgstr "Proponer charla"
 
-#: manager/models.py:269
+#: manager/models.py:268
 msgid "Talk Proposals"
 msgstr "Propuestas de charla"
 
-#: manager/models.py:274
+#: manager/models.py:273
 msgid "i.e. Classroom 256"
 msgstr "por ej. Aula 256"
 
-#: manager/models.py:275
+#: manager/models.py:274
 msgid "For talk type"
 msgstr "Para el tipo de charla"
 
-#: manager/models.py:276
+#: manager/models.py:275
 msgid "The type of talk the room is going to be used for."
 msgstr "El tipo de charla para el cual se va a utilizar la sala"
 
-#: manager/models.py:282 manager/models.py:288
-#: manager/templates/talks/detail.html:38
-#: manager/templates/talks/detail.html:60
-#: manager/templates/talks/talks_home.html:59
+#: manager/models.py:281 manager/models.py:287
+#: manager/templates/talks/detail.html:44
+#: manager/templates/talks/detail.html:75
+#: manager/templates/talks/talks_home.html:57
 msgid "Room"
 msgstr "Sala"
 
-#: manager/models.py:283
+#: manager/models.py:282
 msgid "Rooms"
 msgstr "Salas"
 
-#: manager/models.py:287
+#: manager/models.py:286
 msgid "TalkProposal"
 msgstr "Propuesta de charla"
 
-#: manager/models.py:289 manager/templates/index.html:61
-#: manager/templates/talks/detail.html:35
-#: manager/templates/talks/detail.html:52
-#: manager/templates/talks/talks_home.html:49
-#: manager/templates/talks/talks_home.html:104
+#: manager/models.py:288 manager/templates/index.html:61
+#: manager/templates/talks/detail.html:37
+#: manager/templates/talks/detail.html:60
+#: manager/templates/talks/talks_home.html:47
+#: manager/templates/talks/talks_home.html:102
 msgid "Speakers"
 msgstr "Disertantes"
 
+#: manager/models.py:289
+#, fuzzy
+#| msgid "Start Date"
+msgid "Start Time"
+msgstr "Hora de inicio"
+
 #: manager/models.py:290
-msgid "Start Date"
-msgstr "Fecha de inicio"
+#, fuzzy
+#| msgid "Time"
+msgid "End Time"
+msgstr "Hora de fin"
 
-#: manager/models.py:291
-msgid "End Date"
-msgstr "Fecha de finalización"
-
-#: manager/models.py:301
+#: manager/models.py:300
 msgid "Talk"
 msgstr "Charla"
 
-#: manager/models.py:302 manager/templates/talks/talks_home.html:13
+#: manager/models.py:301 manager/templates/talks/talks_home.html:11
 msgid "Talks"
 msgstr "Charlas"
 
-#: manager/models.py:310
+#: manager/models.py:309
 msgid "Event Info"
 msgstr "Información del evento"
 
-#: manager/models.py:311
+#: manager/models.py:310
 msgid "Envent Info (s)"
 msgstr "Información(es) de los eventos"
 
-#: manager/models.py:317
+#: manager/models.py:316
 msgid "Message"
 msgstr "Mensaje"
 
-#: manager/models.py:320 manager/templates/contact-message.html:5
+#: manager/models.py:319 manager/templates/contact-message.html:5
 #: manager/templates/contact-message.html:7
 msgid "Contact Message"
 msgstr "Mensaje de contacto"
 
-#: manager/models.py:321
+#: manager/models.py:320
 msgid "Contact Messages"
 msgstr "Mensajes de contacto"
 
 #: manager/templates/FAQ.html:3 manager/templates/FAQ.html.py:5
-#: manager/templates/base-main.html:63
+#: manager/templates/base-main.html:62
 msgid "FAQ"
 msgstr "FAQ"
 
@@ -558,73 +554,73 @@ msgstr "FAQ"
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Frecuentes"
 
-#: manager/templates/base-main.html:50
+#: manager/templates/base-main.html:49
 msgid "Registration"
-msgstr "Registro de Asistentes"
+msgstr "Registración"
 
-#: manager/templates/base-main.html:52 manager/templates/talks/schedule.html:4
+#: manager/templates/base-main.html:51 manager/templates/talks/schedule.html:4
 #: manager/templates/talks/schedule.html:5
 msgid "Talks Schedule"
 msgstr "Cronograma de Charlas"
 
-#: manager/templates/base-main.html:55
+#: manager/templates/base-main.html:54
 msgid "Submit your talk!"
 msgstr "Proponé tu charla!"
 
-#: manager/templates/base-main.html:60
+#: manager/templates/base-main.html:59
 msgid "About FLISoL"
 msgstr "Acerca de FLISoL"
 
-#: manager/templates/base-main.html:69
+#: manager/templates/base-main.html:68
 msgid "More Info"
 msgstr "Más información"
 
-#: manager/templates/base-main.html:79
+#: manager/templates/base-main.html:78
 #: manager/templates/registration/login.html:3
 #: manager/templates/registration/login.html:4
 #: manager/templates/registration/login.html:25
 msgid "Login"
 msgstr "Iniciar sesión"
 
-#: manager/templates/base-main.html:82
-msgid "Logout"
-msgstr "Cerrar sesión"
-
-#: manager/templates/base-main.html:85
-msgid "Talks List"
-msgstr "Lista de charlas"
-
-#: manager/templates/base-main.html:89
-msgid "Submit an installation"
-msgstr "Cargar una instalación"
-
-#: manager/templates/base-main.html:93
-msgid "Administrar asistencia"
-msgstr "Administrar asistencia"
-
-#: manager/templates/base-main.html:97
-msgid "Become installer"
-msgstr "Ser instalador"
-
-#: manager/templates/base-main.html:102
+#: manager/templates/base-main.html:81
 msgid "Register as a Collaborator"
 msgstr "Registrarme como Colaborador"
 
-#: manager/templates/base-main.html:105
+#: manager/templates/base-main.html:85
 msgid "Register as an Installer"
 msgstr "Registrarme como Instalador"
 
-#: manager/templates/base-main.html:111
+#: manager/templates/base-main.html:88
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+#: manager/templates/base-main.html:92
+msgid "Talks List"
+msgstr "Lista de charlas"
+
+#: manager/templates/base-main.html:96
+msgid "Submit an installation"
+msgstr "Cargar una instalación"
+
+#: manager/templates/base-main.html:100
+msgid "Administrar asistencia"
+msgstr "Administrar asistencia"
+
+#: manager/templates/base-main.html:104
+msgid "Become installer"
+msgstr "Ser instalador"
+
+#: manager/templates/base-main.html:112
 msgid "Follow Us!"
 msgstr "Seguinos!"
 
-#: manager/templates/base-main.html:119
+#: manager/templates/base-main.html:120
 msgid "Contact Us!"
 msgstr "Contactanos!"
 
-#: manager/templates/base-main.html:150
+#: manager/templates/base-main.html:147
 msgid "You have the power!"
-msgstr "Vos tenes el poder!"
+msgstr "You have the power!"
 
 #: manager/templates/contact-message.html:11
 #, fuzzy
@@ -637,8 +633,10 @@ msgid "Browse..."
 msgstr "Buscar..."
 
 #: manager/templates/form_field.html:26
-msgid "Time"
-msgstr "Horario"
+#, fuzzy
+#| msgid "Time"
+msgid "Time..."
+msgstr "Hora..."
 
 #: manager/templates/generic-bootstrap-model-form.html:46
 #: manager/templates/generic-bootstrap-multiple-model-form.html:49
@@ -664,8 +662,6 @@ msgstr ""
 "\n"
 "Por favor, confirme su registro haciendo click en el siguiente enlace\n"
 "o copie y pegue el mismo en la barra de direcciones de su navegador:\n"
-"\n"
-"http://flisolcaba.usla.org.ar/confirm/%(token)s\n"
 
 #: manager/templates/registration/attendee-registration.html:5
 #: manager/templates/registration/attendee-registration.html:7
@@ -682,15 +678,15 @@ msgstr "Registro de Asistentes"
 #: manager/templates/registration/become_installer.html:4
 #: manager/templates/registration/become_installer.html:8
 msgid "Installer Registration from collaborator"
-msgstr "Registro de Instaladores desde colaborador"
+msgstr "Registro de Instaladores por un colaborador"
 
 #: manager/templates/registration/closed-registration.html:3
 msgid "Registration Closed"
-msgstr "Registración Terminada"
+msgstr "Registración Cerrada"
 
 #: manager/templates/registration/closed-registration.html:6
 msgid "Registration for this event is already closed."
-msgstr ""
+msgstr "La registración para este evento ya está finalizada"
 
 #: manager/templates/registration/collaborator-registration.html:3
 #: manager/templates/registration/collaborator-registration.html:7
@@ -705,38 +701,38 @@ msgstr "Registro de Instaladores"
 
 #: manager/templates/registration/login.html:9
 msgid "In order to submit a talk proposal, you must"
-msgstr ""
+msgstr "Para enviar una charla, primero debes"
 
 #: manager/templates/registration/login.html:10
 msgid "register as a Speaker"
-msgstr "Registrarme como disertante"
+msgstr "registrarte como disertante"
 
 #: manager/templates/registration/login.html:11
 #: manager/templates/registration/login.html:17
 msgid "first"
-msgstr "primero"
+msgstr ""
 
 #: manager/templates/registration/login.html:15
 #, fuzzy
 #| msgid "Submit an installation"
 msgid "In order to submit an installation, you must"
-msgstr "Cargar una instalación"
+msgstr "Para registrar una instalación, primero debes"
 
 #: manager/templates/registration/login.html:16
 msgid "register as an installer"
-msgstr "Registrarme como Instalador"
+msgstr "registrarte como Instalador"
 
 #: manager/templates/registration/login.html:38
 msgid "Forgot your password?"
-msgstr ""
+msgstr "Olvidaste tu contraseña?"
 
 #: manager/templates/registration/password_reset/complete.html:3
 msgid "Password reset completed"
-msgstr ""
+msgstr "Restablecimiento de contraseña completado"
 
 #: manager/templates/registration/password_reset/complete.html:7
 msgid "Your password has been set. You may go ahead and log in now."
-msgstr ""
+msgstr "Tu contraseña ha sido restablecida. Ahora puedes seguir adelante e iniciar sesión"
 
 #: manager/templates/registration/password_reset/confirm_error.html:8
 msgid ""
@@ -746,17 +742,17 @@ msgstr ""
 
 #: manager/templates/registration/password_reset/confirm_form.html:3
 msgid "Pick a new password"
-msgstr ""
+msgstr "Elija una nueva contraseña"
 
 #: manager/templates/registration/password_reset/confirm_form.html:7
 #: manager/templates/registration/password_reset/reset.html:3
 #: manager/templates/registration/password_reset/reset.html:5
 msgid "Reset Password"
-msgstr ""
+msgstr "Reestablecer Contraseña"
 
 #: manager/templates/registration/password_reset/done.html:3
 msgid "Password reset successful"
-msgstr ""
+msgstr "Contraseña reestablicida exitosamente"
 
 #: manager/templates/registration/password_reset/done.html:7
 msgid ""
@@ -788,123 +784,119 @@ msgstr "Agregar comentario"
 
 #: manager/templates/talks/comments.html:65
 msgid "This comment is public"
-msgstr "Este comentario es publico"
+msgstr "Este comentario es público"
 
-#: manager/templates/talks/detail.html:39
-#: manager/templates/talks/detail.html:61
-#: manager/templates/talks/talks_home.html:61
+#: manager/templates/talks/detail.html:46
+#: manager/templates/talks/detail.html:76
+#: manager/templates/talks/talks_home.html:59
 msgid "Start"
-msgstr "Fecha de inicio"
+msgstr "Hora de inicio"
 
-#: manager/templates/talks/detail.html:40
-#: manager/templates/talks/detail.html:62
-#: manager/templates/talks/talks_home.html:63
+#: manager/templates/talks/detail.html:48
+#: manager/templates/talks/detail.html:77
+#: manager/templates/talks/talks_home.html:61
 msgid "End"
-msgstr "Fecha de fin"
+msgstr "Hora de fin"
 
-#: manager/templates/talks/detail.html:65
-#: manager/templates/talks/talks_home.html:117
+#: manager/templates/talks/detail.html:80
+#: manager/templates/talks/talks_home.html:115
 msgid "Become Talk"
 msgstr "Convertir en charla"
 
-#: manager/templates/talks/detail.html:117
+#: manager/templates/talks/detail.html:134
 msgid "Cancel my vote"
-msgstr "Cancelar voto"
+msgstr "Cancelar mi voto"
 
 #: manager/templates/talks/proposal/image-cropping.html:12
 msgid "Please select the visible area for your image"
 msgstr "Por favor seleccione el área visible para la imagen"
 
 #: manager/templates/talks/proposal/votes.html:24
-#: manager/templates/talks/talks_home.html:86
+#: manager/templates/talks/talks_home.html:84
 msgid "Not Confirmed"
 msgstr "No Confirmada"
 
 #: manager/templates/talks/proposal/votes.html:36
 msgid "Score: "
-msgstr "Puntaje"
+msgstr "Votos: "
 
 #: manager/templates/talks/proposal/votes.html:41
 msgid "Score"
-msgstr "Puntaje"
+msgstr "Votos: "
 
 #: manager/templates/talks/schedule.html:9
 msgid "The talks schedule will be available on April, 15th"
 msgstr ""
-"El cronograma de charlas estará disponible a partir del día 15 de Abril."
+"El cronograma de charlas estará disponible a partir del día 16 de Abril."
 
-#: manager/templates/talks/talks_home.html:66
+#: manager/templates/talks/talks_home.html:64
 msgid "View Talk"
 msgstr "Ver charla"
 
-#: manager/templates/talks/talks_home.html:123
+#: manager/templates/talks/talks_home.html:121
 msgid "View Proposal"
 msgstr "Ver propuesta"
 
-#: manager/templates/talks/talks_home.html:145
+#: manager/templates/talks/talks_home.html:143
 msgid "Confirm Schedule"
 msgstr "Confirmar Cronograma"
 
-#: manager/templates/talks/talks_home.html:152
+#: manager/templates/talks/talks_home.html:150
 msgid "There isn't any talk proposal yet."
-msgstr ""
+msgstr "No hay ninguna propuesta de charla todavía."
 
-#: manager/templates/talks/talks_home.html:153
+#: manager/templates/talks/talks_home.html:151
 #, fuzzy
 #| msgid "Submit your talk!"
 msgid "Submit yours!"
-msgstr "Proponé tu charla!"
+msgstr "Proponé la tuya!"
 
-#: manager/views.py:97 manager/views.py:183
+#: manager/views.py:97 manager/views.py:202
 msgid "You've been registered successfully!"
 msgstr "Se ha registrado satisfactoriamente!"
 
-#: manager/views.py:101 manager/views.py:192
+#: manager/views.py:101 manager/views.py:211
 msgid "You haven't been registered successfully (check form errors)"
 msgstr ""
-"No se ha registrado satisfactoriamente (puede visualizar los errores en el "
-"formulario)"
+"No se ha podido completar la registración. Por favor, verifique los errores en el formulario."
 
-#: manager/views.py:130
+#: manager/views.py:149
 msgid "The talk was registered successfully!"
 msgstr "La charla se ha registrado satisfactoriamente!"
 
-#: manager/views.py:139
+#: manager/views.py:158
 msgid "The talk wasn't registered successfully (check form errors)"
 msgstr ""
-"La charla no se ha registrado satisfactoriamente (puede visualizar los "
-"errores en el formulario)"
+"La charla no se ha podido registrar (puede visualizar los errores en el formulario)"
 
-#: manager/views.py:142
+#: manager/views.py:161
 msgid ""
 "The talk wasn't registered successfully because the room or schedule isn't "
 "available"
 msgstr ""
-"La charla no se ha registrado satisfactoriamente porque la sala o el horario "
-"no esta disponible"
+"La sala o el horario elegidos no están disponibles. La charla no se ha registrado."
 
-#: manager/views.py:225
+#: manager/views.py:244
 #, fuzzy
 #| msgid "Become installer"
 msgid "You've became an installer!"
-msgstr "Ser instalador"
+msgstr "Ahora sos instalador!"
 
-#: manager/views.py:230
+#: manager/views.py:249
 msgid "You not became an installer (check form errors)"
-msgstr ""
+msgstr "No se pudo registrar como instalador. Verifique los errores en el formulario."
 
-#: manager/views.py:259
+#: manager/views.py:278
 msgid "The installation has been registered successfully. Happy Hacking!"
 msgstr "La instalación se ha registrado satisfactoriamente. Happy Hacking!"
 
-#: manager/views.py:266
+#: manager/views.py:285
 msgid ""
 "The installation hasn't been registered successfully (check form errors)"
 msgstr ""
-"La instalación no se ha registrado satisfactoriamente (puede visualizar los "
-"errores en el formulario)"
+"No se ha podido registrar la instalación. Verifique los errores en el formulario."
 
-#: manager/views.py:282
+#: manager/views.py:301
 #, fuzzy
 #| msgid ""
 #| "<h3>Thank you for registering for FLISoL.</h3>\n"
@@ -915,59 +907,63 @@ msgid ""
 "paste it in your\n"
 "                browser to confirm the registration."
 msgstr ""
-"<h3>Gracias por registrarse al FLISoL.</h3>\n"
-"<p>Hemos enviado un mail a su casilla con un link de confirmación. Por favor "
-"haga click en el mismo o copie y pegue el link en su navegador para "
-"confirmar el registro."
+"Hemos enviado un correo electrónico con el link de confirmación. Por favor haga click en el mismo "
+"o cópielo y péguelo en su \n"
+"                navegador para confirmar la registración."
 
-#: manager/views.py:285 manager/views.py:392 manager/views.py:410
+#: manager/views.py:304 manager/views.py:411 manager/views.py:429
 #, fuzzy
 msgid "The attendee hasn't been registered successfully (check form errors)"
-msgstr "La instalación se ha registrado satisfactoriamente. Happy Hacking!"
+msgstr "Hubo algún error al procesar la registración. Por favor verifique los errores en el formulario."
 
-#: manager/views.py:295
+#: manager/views.py:314
 msgid ""
 "Thanks for your confirmation! You don't need to bring any paper to the "
 "event. You'll be asked for the email you registered with"
-msgstr ""
+msgstr "Gracias por confirmar! No es necesario llevar ningún papel el día del evento."
+"Te preguntarán con qué mail te registraste."
 
-#: manager/views.py:306
+#: manager/views.py:325
 msgid ""
 "The talk proposal is already close. Please contact the Sede Organization "
 "Team to submit it."
-msgstr ""
+msgstr "La propuesta de charlas ya está cerrada. Por favor, ponete en contacto con"
+"el equipo de organización de tu sede para enviarla."
 
-#: manager/views.py:315 manager/views.py:330
+#: manager/views.py:334 manager/views.py:349
 msgid "The proposal hasn't been registered successfully (check form errors)"
 msgstr ""
-"La propuesta de charla no se ha registrado satisfactoriamente (puede "
-"visualizar los errores en el formulario)"
+"No se ha podido registrar la propuesta. Por favor, verifique los errores en el formulario."
 
-#: manager/views.py:328
+#: manager/views.py:347
 msgid "The proposal has been registered successfully!"
-msgstr "La propuesta de charla we ha registrado satisfactoriamente!"
+msgstr "La propuesta de charla se ha registrado satisfactoriamente!"
 
-#: manager/views.py:337
+#: manager/views.py:356
 msgid ""
 "While the schedule this unconfirmed, you can only see the list of proposals."
-msgstr ""
+msgstr "El cronograma final de charlas todavía no está confirmado. Se muestra una lista de las charlas"
+"propuestas hasta el momento."
 
-#: manager/views.py:388 manager/views.py:408
+#: manager/views.py:407 manager/views.py:427
 #, fuzzy
 msgid "The attendee has been registered successfully. Happy Hacking!"
-msgstr "La instalación se ha registrado satisfactoriamente. Happy Hacking!"
+msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
-#: manager/views.py:422
+#: manager/views.py:441
 msgid "FLISoL Contact Message "
 msgstr "Mensaje de contacto de FLISoL"
 
-#: manager/views.py:428
+#: manager/views.py:447
 msgid "The message has been sent."
-msgstr "El mensaje ha sido enviado"
+msgstr "El mensaje ha sido enviado."
 
-#: manager/views.py:430
+#: manager/views.py:449
 msgid "The message hasn't been sent."
-msgstr "El mensaje no ha sido enviado"
+msgstr "No se ha podido enviar el mensaje."
+
+#~ msgid "End Date"
+#~ msgstr "Hora de fin"
 
 #~ msgid "Proposal and confirmed talks"
 #~ msgstr "Propuestas de charlas y charlas confirmadas"
@@ -994,7 +990,7 @@ msgstr "El mensaje no ha sido enviado"
 #~ msgstr "o"
 
 #~ msgid "You can now"
-#~ msgstr "Ahora podes"
+#~ msgstr "Ahora puedes"
 
 #~ msgid "login"
 #~ msgstr "Iniciar sesión"
@@ -1003,7 +999,7 @@ msgstr "El mensaje no ha sido enviado"
 #~ msgstr "Gracias por enviar su propuesta :D"
 
 #~ msgid "We'll confirm the schedule and room assigned on April, 15th "
-#~ msgstr "Confirmaremos el horario y sala asiganda el 15 de Abril"
+#~ msgstr "Confirmaremos el horario y sala asiganda el 16 de Abril"
 
 #~ msgid "Hour"
 #~ msgstr "Hora"

@@ -9,11 +9,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description"
-              content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
+              content="Página principal para FLISol {{ sede.name }}. Festival Latinoamericano de Instalación de Software Libre">
 
         <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
-        <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
-              rel="image_src"/>
+        <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/>
 
         <link rel="stylesheet" type="text/css" media="all"
               href="{% static "manager/css/flisol-bootstrap.css" %}"/>
@@ -117,7 +116,7 @@
                                         <i class="fa {{ contact.type.icon_class }}"></i> {{ contact.text }}</a>
                                     </li>
                                 {% endfor %}
-                                <li><a href="contact">
+                                <li><a href="{% url "contact" sede_url %}">
                                     <i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
                                 </li>
                             </ul>
@@ -154,7 +153,6 @@
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
     <script>
         $(document).ready(function() {
-            // This command is used to initialize some elements and make them work properly
             $.material.init();
         });
     </script>

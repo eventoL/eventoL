@@ -11,8 +11,7 @@
           content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
 
     <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
-    <link href="http://flisolcaba.usla.org.ar/media/talks_thumbnails/flisol-logo_1.png.700x450_q85_box-0%2C0%2C700%2C450_crop_detail.png"
-          rel="image_src"/>
+    <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/>
     <link rel="stylesheet" type="text/css" media="all"
           href="{% static "manager/css/flisol-bootstrap.css" %}"/>
     <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
@@ -36,6 +35,7 @@
 
 <div class="container">
     <h3>Encontrá tu sede!</h3>
+
     <div class="row" style="padding-top: 10px">
         {% for sede in sedes %}
             <div class="col-md-3">
@@ -55,8 +55,8 @@
     </div>
 </div>
 
-<script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
 <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
 <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
 <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
 <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
