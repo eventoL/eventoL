@@ -26,7 +26,6 @@ class Building(Place):
 class Sede(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('Country'))
     state = models.ForeignKey(Region, verbose_name=_('State'))
-    footer = RichTextField(verbose_name=_('Footer'), help_text=_('Footer HTML'), blank=True, null=True)
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     city = models.ForeignKey(City, verbose_name=_('City'))
@@ -287,8 +286,8 @@ class Talk(models.Model):
     talk_proposal = models.OneToOneField(TalkProposal, verbose_name=_('TalkProposal'), blank=True, null=True)
     room = models.ForeignKey(Room, verbose_name=_('Room'))
     speakers = models.ManyToManyField(Collaborator, related_name='speakers', verbose_name=_('Speakers'))
-    start_date = models.DateTimeField(_('Start Date'))
-    end_date = models.DateTimeField(_('End Date'))
+    start_date = models.DateTimeField(_('Start Time'))
+    end_date = models.DateTimeField(_('End Time'))
 
     def get_absolute_url(self):
         return "/sede/" + self.talk_proposal.sede.url + '/talk/detail/talk/' + str(self.id)

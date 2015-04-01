@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "homepage": "https://github.com/reyiyo/eventoL",
   "authors": [
-    "Sergio Orbe <sergioo@exo.com.ar>"
+    "Sergio Orbe <reyiyo@gmail.com>",
+    "Federico Gonzalez <federicogonzalez761@gmail.com>",
+    "Agustín Ignacio Guido Croce Villanustre (sí, todo eso) <>"
   ],
   "license": "GPL",
   "private": true,
@@ -21,9 +23,7 @@
     "bootstrap-datepicker": "~1.4",
     "bootstrap-timepicker": "~0.2.6",
     "roboto-fontface": "~0.3.0",
-    "leaflet": "~0.7.3"
-  },
-  "devDependencies": {
-    "less": "~2.4.0"
+    "leaflet": "~0.7.3",
+    "slick-carousel": "1.4.1"
   }
 }
