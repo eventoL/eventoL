@@ -28,7 +28,8 @@
                 <div class="col-lg-4 col-md-4">
                     <h3><i class="fa fa-map-marker"></i> <a href="/sede/{{ sede_url }}/event">¿Dónde es?</a></h3>
 
-                    <p>El FLISoL se realiza en muchas ciudades a la vez. Encontrá tu sede más cercana acá.</p>
+                    <p>El FLISoL se realiza en más de 200 ciudades a la vez. Encontrá más información sobre tu sede
+                        acá.</p>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <h3><i class="fa fa-pencil"></i> <a href="/sede/{{ sede_url }}/registration">Anotate!</a></h3>
@@ -43,23 +44,53 @@
 
         <div class="well">
             <div id="slick_charlas">
-                {% for talk_proposal in talk_proposals %}
+                {% if talk_proposals %}
+                    {% for talk_proposal in talk_proposals %}
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <img src="{% cropped_thumbnail talk_proposal "cropping" %}"
+                                     alt="{{ talk_proposal.title }}" width="100%" heigth="100%">
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <h2>{{ talk_proposal.title }}</h2>
+
+                                <p><strong>{{ talk_proposal.abstract }}</strong></p>
+
+                                <p>{{ talk_proposal.long_description }}</p>
+
+                                <p>{% trans 'Speakers' %}: {{ talk_proposal.speakers_names|title }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
                     <div class="row">
                         <div class="col-sm-6 col-md-6 col-lg-6">
-                            <img src="{% cropped_thumbnail talk_proposal "cropping" %}"
-                                 alt="{{ talk_proposal.title }}" width="100%" heigth="100%">
+                            <img src="{% static "manager/img/charlas.png" %}" width="80%" alt="Charlas y Talleres">
                         </div>
                         <div class="col-sm-6 col-md-6 col-lg-6">
-                            <h2>{{ talk_proposal.title }}</h2>
+                            <h2>Charlas y Talleres</h2>
 
-                            <p><strong>{{ talk_proposal.abstract }}</strong></p>
+                            <p><strong>Durante todo el día, para que puedas aprender y descubrir más sobre el Software
+                                Libre</strong></p>
 
-                            <p>{{ talk_proposal.long_description }}</p>
+                            <p>A lo largo de la jornada, se llevarán a cabo diversas charlas y talleres para todo tipo
+                                de público. No es necesario que sepas algo de informática para asistir al FLISoL. Hay
+                                charlas tanto para principiantes como para entusiastas y expertos.</p>
 
-                            <p>{% trans 'Speakers' %}: {{ talk_proposal.speakers_names|title }}</p>
+                            <p>Algunos de los temas propuestos son: Introducción a GNU/Linux, Filosofía del Software
+                                Libre, Recomendaciones para Migrar, Comunidades, Presentación y utilización de algunas
+                                de las principales aplicaciones (paquete de ofimática, navegador web, editor de
+                                imágenes, etc.), Experiencias con Software Libre en Educación, Conocimiento Libre,
+                                Licencias, Construcción Colaborativa de Conocimiento, Software Libre y Trabajo, Hardware
+                                Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
+
+                            <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte!
+                                <a href="{% url "talk_proposal" sede_url %}">Envianos tu propuesta</a> o <a
+                                        href="{% url "talks" sede_url %}">consultá las charlas propuestas hasta el
+                                    momento</a>.</p>
                         </div>
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
 
@@ -76,7 +107,7 @@
                     </p>
                 </div>
                 <div class="col-md-6">
-                    <img src="{% static "manager/img/Software-Libre.gif" %}"
+                    <img src="{% static "manager/img/Software-Libre.gif" %}" width="100%">
                 </div>
             </div>
         </div>
@@ -90,7 +121,7 @@
         $(document).ready(function() {
             $('#slick_charlas').slick({
                 'autoplay': true,
-                'dots': true
+                'dots'    : true
             });
         });
     </script>
