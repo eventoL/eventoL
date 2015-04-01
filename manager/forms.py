@@ -182,11 +182,6 @@ class TalkForm(ModelForm):
     class Meta:
         model = Talk
         exclude = ('talk_proposal',)
-        widgets = {
-            'start_date': forms.SplitDateTimeWidget(),
-            'end_date': forms.SplitDateTimeWidget()
-        }
-
 
 class ContactMessageForm(ModelForm):
     class Meta:

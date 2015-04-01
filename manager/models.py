@@ -286,8 +286,8 @@ class Talk(models.Model):
     talk_proposal = models.OneToOneField(TalkProposal, verbose_name=_('TalkProposal'), blank=True, null=True)
     room = models.ForeignKey(Room, verbose_name=_('Room'))
     speakers = models.ManyToManyField(Collaborator, related_name='speakers', verbose_name=_('Speakers'))
-    start_date = models.DateTimeField(_('Start Date'))
-    end_date = models.DateTimeField(_('End Date'))
+    start_date = models.DateTimeField(_('Start Time'))
+    end_date = models.DateTimeField(_('End Time'))
 
     def get_absolute_url(self):
         return "/sede/" + self.talk_proposal.sede.url + '/talk/detail/talk/' + str(self.id)

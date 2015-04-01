@@ -19,7 +19,7 @@ def is_checkbox(boundfield):
 @register.filter(name='is_datetime')
 def is_datetime(boundfield):
     """Return True if this field's widget is a DateInput."""
-    return isinstance(boundfield.field.widget, forms.SplitDateTimeWidget)
+    return isinstance(boundfield.field.widget, forms.DateTimeInput)
 
 
 @register.filter(name='is_fileinput')
