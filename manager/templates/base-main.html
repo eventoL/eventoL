@@ -116,7 +116,7 @@
                                         <i class="fa {{ contact.type.icon_class }}"></i> {{ contact.text }}</a>
                                     </li>
                                 {% endfor %}
-                                <li><a href="contact">
+                                <li><a href="{% url "contact" sede_url %}">
                                     <i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
                                 </li>
                             </ul>
