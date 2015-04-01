@@ -414,7 +414,7 @@ def attendee_search(request, sede_url):
                 attendee.assisted = True
                 attendee.save()
                 messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
-                return HttpResponseRedirect('/sede/' + sede_url)
+                return HttpResponseRedirect(reverse("attendee_search", args=[sede_url]))
             else:
                 return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/by-collaborator')
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
