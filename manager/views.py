@@ -411,9 +411,12 @@ def attendee_search(request, sede_url):
             attendee_email = form.cleaned_data['attendee']
             if attendee_email is not None:
                 attendee = Attendee.objects.get(email=attendee_email, sede__url=sede_url)
-                attendee.assisted = True
-                attendee.save()
-                messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
+                if attendee.assisted:
+                    messages.info(request, _('The attendee had already been registered correctly.'))
+                else:
+                    attendee.assisted = True
+                    attendee.save()
+                    messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=[sede_url]))
             else:
                 return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/by-collaborator')
