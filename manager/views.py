@@ -34,7 +34,7 @@ def update_sede_info(sede_url, render_dict=None, sede=None):
     render_dict = render_dict or {}
     render_dict.update({
         'sede_url': sede_url,
-        'footer': sede.footer,
+        'sede': sede,
         'contacts': contacts
     })
     return render_dict
@@ -52,7 +52,7 @@ def index(request, sede_url):
         .exclude(dummy_talk=True) \
         .distinct()
 
-    render_dict = {'talk_proposals': talk_proposals, 'sede': sede}
+    render_dict = {'talk_proposals': talk_proposals}
     return render(request, 'index.html', update_sede_info(sede_url, render_dict, sede))
 
 
@@ -116,7 +116,26 @@ def talk_registration(request, sede_url, pk):
     errors = []
     error = False
     talk = None
-    talk_form = TalkForm(sede_url, request.POST or None)
+    sede = Sede.objects.get(url=sede_url)
+
+    # FIXME: Esto es lo que se llama una buena chanchada!
+    post = None
+    if request.POST:
+        start_time = datetime.datetime.strptime(request.POST.get('start_date', None), '%H:%M')
+        end_time = datetime.datetime.strptime(request.POST.get('end_date', None), '%H:%M')
+
+        start_time_posta = datetime.datetime.combine(sede.date, start_time.time())
+        end_time_posta = datetime.datetime.combine(sede.date, end_time.time())
+
+        post = request.POST.copy()
+
+        post['start_date'] = start_time_posta.strftime('%Y-%m-%d %H:%M:%S')
+        post['end_date'] = end_time_posta.strftime('%Y-%m-%d %H:%M:%S')
+
+    # Fin de la chanchada
+
+
+    talk_form = TalkForm(sede_url, post)
     proposal = TalkProposal.objects.get(pk=pk)
     forms = [talk_form]
     if request.POST:
