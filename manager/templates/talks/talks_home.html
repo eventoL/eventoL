@@ -21,8 +21,8 @@
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                    href="#talk-{{ forloop.counter }}">
                                     {{ talk.talk_proposal.title }}
+                                    <i class="indicator fa fa-chevron-down pull-right"></i>
                                 </a>
-                                <i class="indicator fa fa-chevron-down pull-right"></i>
                                 {% if user.is_authenticated %}
                                     <span class="label label-success pull-right"
                                           style="border-radius: 2px; padding-top: 0.3em">
@@ -39,27 +39,13 @@
                                              width="100%">
                                     </div>
                                     <div class="col-sm-8" style="padding-top: 10px">
-                                        <p>
-                                            <strong>{% trans "Abstract" %}:</strong> {{ talk.talk_proposal.abstract }}
-                                        </p>
-
-                                        <p>
-                                            <strong>{% trans "Speakers" %}:</strong> {{ talk.talk_proposal.speakers_names|title }}
-                                        </p>
-
-                                        <p>
-                                            <strong>{% trans "Labels" %}:</strong> {{ talk.talk_proposal.labels|lower }}
-                                        </p>
-
-                                        <p><strong>{% trans "Type" %}:</strong> {{ talk.talk_proposal.type }}
-                                        </p>
-
+                                        <p><strong>{% trans "Abstract" %}:</strong> {{ talk.talk_proposal.abstract }}</p>
+                                        <p><strong>{% trans "Speakers" %}:</strong> {{ talk.talk_proposal.speakers_names|title }}</p>
+                                        <p><strong>{% trans "Labels" %}:</strong> {{ talk.talk_proposal.labels|lower }}</p>
+                                        <p><strong>{% trans "Type" %}:</strong> {{ talk.talk_proposal.type }}</p>
                                         <p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>
-
                                         <p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>
-
                                         <p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>
-
                                         <p><a href="/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}">
                                             {% trans "View Talk" %}
                                         </a></p>
@@ -94,18 +80,9 @@
                                         </div>
                                         <div class="col-sm-8">
                                             <div id="proposal-info-{{ forloop.counter }}">
-                                                <p>
-                                                    <strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}
-                                                </p>
-
-                                                <p>
-                                                    <strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}
-                                                </p>
-
-                                                <p>
-                                                    <strong>{% trans "Labels" %}:</strong> {{ proposal.labels|lower }}
-                                                </p>
-
+                                                <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>
+                                                <p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>
+                                                <p><strong>{% trans "Labels" %}:</strong> {{ proposal.labels|lower }}</p>
                                                 <p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>
                                                 {% if sede_url|is_sede_staff:user %}
                                                     <p><a id='become-{{ forloop.counter }}'

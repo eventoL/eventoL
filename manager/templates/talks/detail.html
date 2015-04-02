@@ -127,7 +127,7 @@
                     $('.accordion-toggle').trigger('click');
                 {% endif %}
 
-                {% if vote %}
+                {% if vote and not proposal.confirmed %}
                     var original_text = $('#score').text();
                     $('#score').hover(
                             function() {

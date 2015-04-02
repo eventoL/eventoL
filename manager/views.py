@@ -134,12 +134,11 @@ def talk_registration(request, sede_url, pk):
 
     # Fin de la chanchada
 
-
     talk_form = TalkForm(sede_url, post)
     proposal = TalkProposal.objects.get(pk=pk)
     forms = [talk_form]
     if request.POST:
-        if talk_form.is_valid() and room_available(talk_form.instance, sede_url):
+        if talk_form.is_valid() and room_available(request, talk_form.instance, sede_url):
             try:
                 proposal.confirmed = True
                 proposal.save()
@@ -154,26 +153,36 @@ def talk_registration(request, sede_url, pk):
                 if proposal.confirmed:
                     proposal.confirmed = False
                     proposal.save()
-        elif talk_form.is_valid():
-            messages.error(request, _("The talk wasn't registered successfully (check form errors)"))
-        else:
-            messages.error(request,
-                           _("The talk wasn't registered successfully because the room or schedule isn't available"))
         errors = get_forms_errors(forms)
         error = True
+        if errors:
+            messages.error(request, _("The talk wasn't registered successfully (check form errors)"))
     comments = Comment.objects.filter(proposal=proposal)
+    vote = Vote.objects.get_for_user(proposal, request.user)
+    score = Vote.objects.get_score(proposal)
     render_dict = dict(comments=comments, comment_form=CommentForm(), user=request.user, proposal=proposal)
+    if vote or score:
+        render_dict.update({'vote': vote, 'score': score})
+
     render_dict.update({'multipart': False, 'errors': errors, 'form': talk_form, 'error': error})
     return render(request,
                   'talks/detail.html',
                   update_sede_info(sede_url, render_dict))
 
 
-def room_available(talk_form, sede_url):
+def room_available(request, talk_form, sede_url):
     talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__url=sede_url)
-    if talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
-            or talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
-            or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists():
+    if talk_form.start_date == talk_form.end_date:
+        messages.error(request, _("The talk wasn't registered successfully because schedule isn't available (start time equals end time)"))
+        return False
+    if talk_form.end_date < talk_form.start_date:
+        messages.error(request, _("The talk wasn't registered successfully because schedule isn't available (start time is after end time)"))
+        return False
+    if talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
+            or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists()\
+            or talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists():
+        messages.error(request,
+                       _("The talk wasn't registered successfully because the room or schedule isn't available"))
         return False
     return True
 
@@ -402,10 +411,13 @@ def attendee_search(request, sede_url):
             attendee_email = form.cleaned_data['attendee']
             if attendee_email is not None:
                 attendee = Attendee.objects.get(email=attendee_email, sede__url=sede_url)
-                attendee.assisted = True
-                attendee.save()
-                messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
-                return HttpResponseRedirect('/sede/' + sede_url)
+                if attendee.assisted:
+                    messages.info(request, _('The attendee had already been registered correctly.'))
+                else:
+                    attendee.assisted = True
+                    attendee.save()
+                    messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
+                return HttpResponseRedirect(reverse("attendee_search", args=[sede_url]))
             else:
                 return HttpResponseRedirect('/sede/' + sede_url + '/registration/attendee/by-collaborator')
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
