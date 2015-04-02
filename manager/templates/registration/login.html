@@ -1,7 +1,7 @@
 {% extends "generic-bootstrap-model-form.html" %}
 {% load i18n %}
-{% block page-header %}{% trans "Login" noop %}{% endblock %}
-{% block page-name %}{% trans "Login" noop %}{% endblock %}
+{% block page-header %}{% trans "Login" %}{% endblock %}
+{% block page-name %}{% trans "Login" %}{% endblock %}
 
 {% block pre-form %}
     {% if next %}
@@ -22,7 +22,7 @@
 
 {% block form-id %}"login"{% endblock %}
 
-{% block form-name %}{% trans "Login" noop %}{% endblock %}
+{% block form-name %}{% trans "Login" %}{% endblock %}
 
 {% block form-action %}"{% url 'eventol_login' sede_url %}"{% endblock %}
 
