@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EventoL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 21:03-0300\n"
+"POT-Creation-Date: 2015-04-01 23:41-0300\n"
 "PO-Revision-Date: 2015-04-01 21:07-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -694,7 +694,7 @@ msgstr "Registro de Instaladores"
 
 #: manager/templates/registration/login.html:9
 msgid "In order to submit a talk proposal, you must"
-msgstr "Para enviar una charla, primero debes"
+msgstr "Para enviar una charla, debes"
 
 #: manager/templates/registration/login.html:10
 msgid "register as a Speaker"
@@ -867,7 +867,7 @@ msgid ""
 "The talk wasn't registered successfully because schedule isn't available "
 "(start time equals end time)"
 msgstr ""
-"El horario elegidos no es valido porque la hora de inicio es igual a la de "
+"El horario elegidos no es válido porque la hora de inicio es igual a la de "
 "fin"
 
 #: manager/views.py:179
@@ -875,7 +875,7 @@ msgid ""
 "The talk wasn't registered successfully because schedule isn't available "
 "(start time is after end time)"
 msgstr ""
-"El horario elegidos no es valido porque la hora de inicio es mayor a la de "
+"El horario elegido no es válido porque la hora de inicio es mayor a la de "
 "fin"
 
 #: manager/views.py:185
@@ -935,7 +935,7 @@ msgid ""
 "The talk proposal is already close. Please contact the Sede Organization "
 "Team to submit it."
 msgstr ""
-"La propuesta de charlas ya está cerrada. Por favor, ponete en contacto conel "
+"La propuesta de charlas ya está cerrada. Por favor, ponete en contacto con el "
 "equipo de organización de tu sede para enviarla."
 
 #: manager/views.py:343 manager/views.py:358
@@ -953,10 +953,12 @@ msgid ""
 "While the schedule this unconfirmed, you can only see the list of proposals."
 msgstr ""
 "El cronograma final de charlas todavía no está confirmado. Se muestra una "
-"lista de las charlaspropuestas hasta el momento."
+"lista de las charlas propuestas hasta el momento."
 
 #: manager/views.py:415
-msgid "The attendee had already been registered correctly."
+#, fuzzy
+#| msgid "The attendee had already been registered correctly."
+msgid "The attendee has already been registered correctly."
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
 #: manager/views.py:419 manager/views.py:439

@@ -412,7 +412,7 @@ def attendee_search(request, sede_url):
             if attendee_email is not None:
                 attendee = Attendee.objects.get(email=attendee_email, sede__url=sede_url)
                 if attendee.assisted:
-                    messages.info(request, _('The attendee had already been registered correctly.'))
+                    messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
                     attendee.assisted = True
                     attendee.save()
