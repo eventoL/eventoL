@@ -352,6 +352,8 @@ def image_cropping(request, sede_url, image_id):
     if request.POST:
         # FIXME No me acuerdo por qué este if: if not proposal.cropping:
         if form.is_valid():
+            if request.POST.get('home_image-clear'):
+                form.cleaned_data['home_image'] = None
             form.save()
             messages.success(request, _("The proposal has been registered successfully!"))
             return proposal_detail(request, sede_url, proposal.pk)
