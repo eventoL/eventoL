@@ -173,13 +173,15 @@ def talk_registration(request, sede_url, pk):
 def room_available(request, talk_form, sede_url):
     talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__url=sede_url)
     if talk_form.start_date == talk_form.end_date:
-        messages.error(request, _("The talk wasn't registered successfully because schedule isn't available (start time equals end time)"))
+        messages.error(request, _(
+            "The talk wasn't registered successfully because schedule isn't available (start time equals end time)"))
         return False
     if talk_form.end_date < talk_form.start_date:
-        messages.error(request, _("The talk wasn't registered successfully because schedule isn't available (start time is after end time)"))
+        messages.error(request, _(
+            "The talk wasn't registered successfully because schedule isn't available (start time is after end time)"))
         return False
     if talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
-            or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists()\
+            or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists() \
             or talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists():
         messages.error(request,
                        _("The talk wasn't registered successfully because the room or schedule isn't available"))
@@ -350,13 +352,20 @@ def image_cropping(request, sede_url, image_id):
     proposal = get_object_or_404(TalkProposal, pk=image_id)
     form = TalkProposalImageCroppingForm(request.POST or None, request.FILES, instance=proposal)
     if request.POST:
-        # FIXME No me acuerdo por qué este if: if not proposal.cropping:
         if form.is_valid():
-            if request.POST.get('home_image-clear'):
-                form.cleaned_data['home_image'] = None
+            # If a new file is being upload
+            if request.FILES:
+                # If clear home_image is clicked, delete the image
+                if request.POST.get('home_image-clear') or request.FILES:
+                    form.cleaned_data['home_image'] = None
+
+                # Save the changes and redirect to upload a new one or crop the new one
+                form.save()
+                messages.info(request, _("Please crop or upload a new image."))
+                return HttpResponseRedirect(reverse('image_cropping', args=(sede_url, proposal.pk)))
             form.save()
             messages.success(request, _("The proposal has been registered successfully!"))
-            return proposal_detail(request, sede_url, proposal.pk)
+            return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, proposal.pk)))
         messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
     return render(request, 'talks/proposal/image-cropping.html', update_sede_info(sede_url, {'form': form}))
 
