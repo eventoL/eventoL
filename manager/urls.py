@@ -38,6 +38,6 @@ sede_patterns = patterns(
 
 urlpatterns = patterns(
     '',
-    url(r'^(?P<sede_url>[a-zA-Z0-9-_]+)/', include(sede_patterns)),
+    url(r'^(?i)(?P<sede_url>[a-zA-Z0-9-_]+)/', include(sede_patterns)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 )

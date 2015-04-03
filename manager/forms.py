@@ -39,7 +39,7 @@ class AttendeeBySedeAutocomplete(autocomplete.AutocompleteModelBase):
 
         if sede_url:
             choices = self.choices.all()
-            choices = choices.filter(sede__url=sede_url)
+            choices = choices.filter(sede__url__iexact=sede_url)
             if q:
                 choices = choices.filter(
                     Q(name__icontains=q) | Q(surname__icontains=q) | Q(

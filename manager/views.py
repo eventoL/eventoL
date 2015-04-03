@@ -29,7 +29,7 @@ autocomplete_light.autodiscover()
 
 
 def update_sede_info(sede_url, render_dict=None, sede=None):
-    sede = sede or Sede.objects.get(url=sede_url)
+    sede = sede or Sede.objects.get(url__iexact=sede_url)
     contacts = Contact.objects.filter(sede=sede)
     render_dict = render_dict or {}
     render_dict.update({
@@ -45,7 +45,7 @@ def sede_django_view(request, sede_url, view=django_login):
 
 
 def index(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
 
     talk_proposals = sede.talk_proposals.exclude(home_image__isnull=True) \
         .exclude(home_image__exact='') \
@@ -61,7 +61,7 @@ def sede_view(request, sede_url, html='index.html'):
 
 
 def event(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
     render_dict = update_sede_info(sede_url, render_dict={'event_information': sede.event_information}, sede=sede)
     return render(request, 'event/info.html', render_dict)
 
@@ -116,7 +116,7 @@ def talk_registration(request, sede_url, pk):
     errors = []
     error = False
     talk = None
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
 
     # FIXME: Esto es lo que se llama una buena chanchada!
     post = None
@@ -171,7 +171,7 @@ def talk_registration(request, sede_url, pk):
 
 
 def room_available(request, talk_form, sede_url):
-    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__url=sede_url)
+    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__sede__url__iexact=sede_url)
     if talk_form.start_date == talk_form.end_date:
         messages.error(request, _(
             "The talk wasn't registered successfully because schedule isn't available (start time equals end time)"))
@@ -223,7 +223,7 @@ def installer_registration(request, sede_url):
         errors = get_forms_errors(forms)
 
     else:
-        sede = Sede.objects.get(url=sede_url)
+        sede = Sede.objects.get(url__iexact=sede_url)
         installer = Installer()
         collaborator = Collaborator(sede=sede)
         collaborator_form = CollaboratorRegistrationForm(instance=collaborator)
@@ -301,7 +301,7 @@ def installation(request, sede_url):
 
 
 def registration(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
     if sede.date < datetime.date.today():
         return render(request, 'registration/closed-registration.html', update_sede_info(sede_url))
     form = RegistrationForm(request.POST or None, domain=request.get_host(), protocol=request.scheme)
@@ -329,7 +329,7 @@ def confirm_registration(request, sede_url, token):
 
 @login_required(login_url='../../accounts/login/')
 def talk_proposal(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
 
     if not sede.talk_proposal_is_open:
         messages.error(request,
@@ -371,7 +371,7 @@ def image_cropping(request, sede_url, image_id):
 
 
 def schedule(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
     if not sede.schedule_confirm:
         messages.info(request, _("While the schedule this unconfirmed, you can only see the list of proposals."))
         return HttpResponseRedirect(reverse("talks", args=[sede_url]))
@@ -382,7 +382,7 @@ def schedule(request, sede_url):
 
 
 def talks(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
     talks_list = Talk.objects.filter(talk_proposal__sede=sede)
     proposals = TalkProposal.objects.filter(sede=sede)
     for proposal in proposals:
@@ -421,7 +421,7 @@ def attendee_search(request, sede_url):
         if form.is_valid():
             attendee_email = form.cleaned_data['attendee']
             if attendee_email is not None:
-                attendee = Attendee.objects.get(email=attendee_email, sede__url=sede_url)
+                attendee = Attendee.objects.get(email=attendee_email, sede__url__iexact=sede_url)
                 if attendee.assisted:
                     messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
@@ -439,7 +439,7 @@ def attendee_search(request, sede_url):
 @login_required(login_url='../../accounts/login/')
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_registration_by_collaborator(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
     attendee = Attendee(sede=sede)
     form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
@@ -455,7 +455,7 @@ def attendee_registration_by_collaborator(request, sede_url):
 
 
 def contact(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
     contact_message = ContactMessage()
     form = ContactMessageForm(request.POST or None, instance=contact_message)
     if request.POST:
@@ -515,7 +515,7 @@ def cancel_vote(request, sede_url, pk):
 
 @login_required(login_url='../../accounts/login/')
 def confirm_schedule(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
     sede.schedule_confirm = True
     sede.save()
     return schedule(request, sede_url)
