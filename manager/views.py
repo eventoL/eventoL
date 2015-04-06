@@ -333,7 +333,9 @@ def talk_proposal(request, sede_url):
 
     if not sede.talk_proposal_is_open:
         messages.error(request,
-                       _("The talk proposal is already close. Please contact the Sede Organization Team to submit it."))
+                       _(
+                           """The talk proposal is already close or the sede is not accepting proposals through this
+                             page. Please contact the Sede Organization Team to submit it."""))
         return HttpResponseRedirect(reverse('index', args=(sede_url,)))
 
     proposal = TalkProposal(sede=sede)
