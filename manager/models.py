@@ -61,6 +61,9 @@ class Sede(models.Model):
     def talk_proposal_is_open(self):
         return self.limit_proposal_date > datetime.date.today()
 
+    class Meta:
+        ordering = ['name']
+
 
 class ContactType(models.Model):
     """
