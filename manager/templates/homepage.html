@@ -39,14 +39,13 @@
     <div class="row" style="padding-top: 10px">
         {% for sede in sedes %}
             <div class="col-md-3">
-                <div class="well" style="padding: 0px 0px 0px 15px">
+                <div class="well" style="padding: 0px 15px 0px 15px">
                     <div class="row">
-                        <div id='{{ sede.name }}'
-                             class="col-md-4" tabindex="0"
-                             style="height: 80px;"></div>
+                        <div id='{{ sede.name }}' class="col-md-4" tabindex="0" style="height: 80px;"></div>
                         <div class="col-md-8" style="padding-top: 10px">
-                            <a href='/sede/{{ sede.url }}/'><h4
-                                    class="list-group-item-heading">{{ sede.name }}</h4></a>
+                            <a href='/sede/{{ sede.url }}/'>
+                                <h4 class="list-group-item-heading">{{ sede.name }}</h4>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +65,7 @@
         $.material.init();
 
         function map(sede_name, sede_lat, sede_lon) {
-            var map = L.map(sede_name, {zoomControl: false}).setView([sede_lat, sede_lon], 4);
+            var map = L.map(sede_name, {zoomControl: false, dragging: false}).setView([sede_lat, sede_lon], 4);
 
             L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
                 attribution: ''
