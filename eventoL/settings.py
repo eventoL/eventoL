@@ -52,7 +52,6 @@ INSTALLED_APPS = (
     'easy_thumbnails.optimize',
     'image_cropping',
     'autocomplete_light',
-    'compressor',
     'manager',
 )
 
@@ -165,6 +164,7 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'YOUR USERNAME'
 EMAIL_HOST_PASSWORD = 'YOUR PASSWORD'
 EMAIL_USE_TLS = True
+EMAIL_FROM = 'FROM@YOURACCOUNT'
 LOGIN_URL = '/accounts/login/'
 
 OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
@@ -175,16 +175,10 @@ OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
 
 GRAPPELLI_ADMIN_TITLE = 'Flisol 2015'
 
-COMPRESS_PRECOMPILERS = (
-    ('text/less', 'lessc {infile} {outfile}'),
-)
-
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
-COMPRESS_ENABLED = False
 
 CKEDITOR_CONFIGS = {
     'default': {

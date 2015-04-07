@@ -32,9 +32,4 @@ urlpatterns = patterns(
         {'template_name': 'registration/password_reset/complete.html'},
         name='password_reset_complete'),
 
-    # Hacks to preserve an old distributed url
-    url(r'^proponer-charla$', RedirectView.as_view(url='/sede/talk/proposal/', permanent=True)),
-    url(r'^page/informacion-del-festival$', RedirectView.as_view(url='/event', permanent=True)),
-    url(r'^registracion$', RedirectView.as_view(url='/sede/registration', permanent=True)),
-
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

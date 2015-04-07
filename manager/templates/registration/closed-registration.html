@@ -3,6 +3,8 @@
 {% block page-header %}{% trans "Registration Closed" %}{% endblock %}
 {% block content %}
     <div class="well">
-        <h3><b class="fa fa-frown-o"></b> {% blocktrans %}Registration for this event is already closed.{% endblocktrans %}</h3>
+        <h4><b class="fa fa-frown-o"></b> {% blocktrans %}Registration for this event is already
+            closed or the sede is no accepting registrations through this page. You can find more
+            info{% endblocktrans %} <a href="{% url "event_info" sede_url %}">{% trans "here" %}.</a></h4>
     </div>
 {% endblock %}

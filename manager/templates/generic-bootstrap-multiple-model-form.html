@@ -44,3 +44,11 @@
         </div>
     </div>
 {% endblock %}
+
+{% block other-script %}
+    <script>
+        $('form').submit(function() {
+            $(this).find('button[type=submit]').attr('disabled', 'disabled');
+        });
+    </script>
+{% endblock %}

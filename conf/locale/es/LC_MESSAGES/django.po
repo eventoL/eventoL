@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EventoL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 21:03-0300\n"
+"POT-Creation-Date: 2015-04-06 04:54-0300\n"
 "PO-Revision-Date: 2015-04-01 21:07-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.10\n"
 
-#: manager/forms.py:31
+#: manager/forms.py:32
 msgid "Search Attendee"
 msgstr "Buscar Asistente"
 
-#: manager/forms.py:75
+#: manager/forms.py:76
 msgid "FLISoL Registration Confirmation"
 msgstr "Confirmación de registro a FLISoL"
 
@@ -678,8 +678,19 @@ msgid "Registration Closed"
 msgstr "Registración Cerrada"
 
 #: manager/templates/registration/closed-registration.html:6
-msgid "Registration for this event is already closed."
-msgstr "La registración para este evento ya está finalizada"
+msgid ""
+"Registration for this event is already\n"
+"            closed or the sede is no accepting registrations through this "
+"page. You can find more\n"
+"            info"
+msgstr "La registración para este evento ya está\n"
+"            cerrada o la sede no está aceptando registraciones a través de esta "
+"página. Podrás encontrar más\n"
+"            información"
+
+#: manager/templates/registration/closed-registration.html:8
+msgid "here"
+msgstr "acá"
 
 #: manager/templates/registration/collaborator-registration.html:3
 #: manager/templates/registration/collaborator-registration.html:7
@@ -694,7 +705,7 @@ msgstr "Registro de Instaladores"
 
 #: manager/templates/registration/login.html:9
 msgid "In order to submit a talk proposal, you must"
-msgstr "Para enviar una charla, primero debes"
+msgstr "Para enviar una charla, debes"
 
 #: manager/templates/registration/login.html:10
 msgid "register as a Speaker"
@@ -731,7 +742,8 @@ msgstr ""
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
-msgstr ""
+msgstr "El link para reestablecer la contraseña es inválido. Probablemente porque"
+"ya ha sido usado. Por favor, intente reestablecer la contraseña nuevamente."
 
 #: manager/templates/registration/password_reset/confirm_form.html:3
 msgid "Pick a new password"
@@ -842,11 +854,11 @@ msgstr "No hay ninguna propuesta de charla todavía."
 msgid "Submit yours!"
 msgstr "Proponé la tuya!"
 
-#: manager/views.py:97 manager/views.py:211
+#: manager/views.py:97 manager/views.py:213
 msgid "You've been registered successfully!"
 msgstr "Se ha registrado satisfactoriamente!"
 
-#: manager/views.py:101 manager/views.py:220
+#: manager/views.py:101 manager/views.py:222
 msgid "You haven't been registered successfully (check form errors)"
 msgstr ""
 "No se ha podido completar la registración. Por favor, verifique los errores "
@@ -862,23 +874,22 @@ msgstr ""
 "La charla no se ha podido registrar (puede visualizar los errores en el "
 "formulario)"
 
-#: manager/views.py:176
+#: manager/views.py:177
 msgid ""
 "The talk wasn't registered successfully because schedule isn't available "
 "(start time equals end time)"
 msgstr ""
-"El horario elegidos no es valido porque la hora de inicio es igual a la de "
+"El horario elegidos no es válido porque la hora de inicio es igual a la de "
 "fin"
 
-#: manager/views.py:179
+#: manager/views.py:181
 msgid ""
 "The talk wasn't registered successfully because schedule isn't available "
 "(start time is after end time)"
 msgstr ""
-"El horario elegidos no es valido porque la hora de inicio es mayor a la de "
-"fin"
+"El horario elegido no es válido porque la hora de inicio es mayor a la de fin"
 
-#: manager/views.py:185
+#: manager/views.py:187
 msgid ""
 "The talk wasn't registered successfully because the room or schedule isn't "
 "available"
@@ -886,27 +897,27 @@ msgstr ""
 "La sala o el horario elegidos no están disponibles. La charla no se ha "
 "registrado."
 
-#: manager/views.py:253
+#: manager/views.py:255
 msgid "You've became an installer!"
 msgstr "Ahora sos instalador!"
 
-#: manager/views.py:258
+#: manager/views.py:260
 msgid "You not became an installer (check form errors)"
 msgstr ""
 "No se pudo registrar como instalador. Verifique los errores en el formulario."
 
-#: manager/views.py:287
+#: manager/views.py:289
 msgid "The installation has been registered successfully. Happy Hacking!"
 msgstr "La instalación se ha registrado satisfactoriamente. Happy Hacking!"
 
-#: manager/views.py:294
+#: manager/views.py:296
 msgid ""
 "The installation hasn't been registered successfully (check form errors)"
 msgstr ""
 "No se ha podido registrar la instalación. Verifique los errores en el "
 "formulario."
 
-#: manager/views.py:310
+#: manager/views.py:312
 msgid ""
 "We've sent you an email with the confirmation link. Please click or copy and "
 "paste it in your\n"
@@ -916,13 +927,13 @@ msgstr ""
 "haga click en el mismo o cópielo y péguelo en su \n"
 "                navegador para confirmar la registración."
 
-#: manager/views.py:313 manager/views.py:423 manager/views.py:441
+#: manager/views.py:315 manager/views.py:436 manager/views.py:454
 msgid "The attendee hasn't been registered successfully (check form errors)"
 msgstr ""
 "Hubo algún error al procesar la registración. Por favor verifique los "
 "errores en el formulario."
 
-#: manager/views.py:323
+#: manager/views.py:325
 msgid ""
 "Thanks for your confirmation! You don't need to bring any paper to the "
 "event. You'll be asked for the email you registered with"
@@ -930,50 +941,65 @@ msgstr ""
 "Gracias por confirmar! No es necesario llevar ningún papel el día del evento."
 "Te preguntarán con qué mail te registraste."
 
-#: manager/views.py:334
+#: manager/views.py:337
+#, fuzzy
+#| msgid ""
+#| "The talk proposal is already close. Please contact the Sede Organization "
+#| "Team to submit it."
 msgid ""
-"The talk proposal is already close. Please contact the Sede Organization "
-"Team to submit it."
+"The talk proposal is already close or the sede is not accepting proposals "
+"through this\n"
+"                             page. Please contact the Sede Organization Team "
+"to submit it."
 msgstr ""
-"La propuesta de charlas ya está cerrada. Por favor, ponete en contacto conel "
-"equipo de organización de tu sede para enviarla."
+"La propuesta de charlas ya está cerrada o la sede no está aceptando propuestas a través de"
+"esta página. Por favor, ponete en contacto con el equipo de organización de tu sede para enviarla."
 
-#: manager/views.py:343 manager/views.py:358
+#: manager/views.py:347 manager/views.py:371
 msgid "The proposal hasn't been registered successfully (check form errors)"
 msgstr ""
 "No se ha podido registrar la propuesta. Por favor, verifique los errores en "
 "el formulario."
 
-#: manager/views.py:356
+#: manager/views.py:366
+msgid "Please crop or upload a new image."
+msgstr "Por favor recorte o suba una nueva imagen."
+
+#: manager/views.py:369
 msgid "The proposal has been registered successfully!"
 msgstr "La propuesta de charla se ha registrado satisfactoriamente!"
 
-#: manager/views.py:365
+#: manager/views.py:378
 msgid ""
 "While the schedule this unconfirmed, you can only see the list of proposals."
 msgstr ""
 "El cronograma final de charlas todavía no está confirmado. Se muestra una "
-"lista de las charlaspropuestas hasta el momento."
+"lista de las charlas propuestas hasta el momento."
 
-#: manager/views.py:415
-msgid "The attendee had already been registered correctly."
+#: manager/views.py:428
+#, fuzzy
+#| msgid "The attendee had already been registered correctly."
+msgid "The attendee has already been registered correctly."
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
-#: manager/views.py:419 manager/views.py:439
+#: manager/views.py:432 manager/views.py:452
 msgid "The attendee has been registered successfully. Happy Hacking!"
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
-#: manager/views.py:453
+#: manager/views.py:466
 msgid "FLISoL Contact Message "
 msgstr "Mensaje de contacto de FLISoL"
 
-#: manager/views.py:459
+#: manager/views.py:472
 msgid "The message has been sent."
 msgstr "El mensaje ha sido enviado."
 
-#: manager/views.py:461
+#: manager/views.py:474
 msgid "The message hasn't been sent."
 msgstr "No se ha podido enviar el mensaje."
+
+#~ msgid "Registration for this event is already closed."
+#~ msgstr "La registración para este evento ya está finalizada"
 
 #~ msgid "End Date"
 #~ msgstr "Hora de fin"

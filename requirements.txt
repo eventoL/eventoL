@@ -12,7 +12,6 @@ psycopg2==2.6
 six==1.9.0
 wsgiref==0.1.2
 django-grappelli==2.6.4
-django_compressor==1.4
 django-ckeditor==4.4.7
 django-voting==0.2
 

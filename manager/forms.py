@@ -14,6 +14,7 @@ from django.forms.models import ModelForm
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
+from eventoL.settings import EMAIL_FROM
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
     Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Sede, Room
@@ -38,7 +39,7 @@ class AttendeeBySedeAutocomplete(autocomplete.AutocompleteModelBase):
 
         if sede_url:
             choices = self.choices.all()
-            choices = choices.filter(sede__url=sede_url)
+            choices = choices.filter(sede__url__iexact=sede_url)
             if q:
                 choices = choices.filter(
                     Q(name__icontains=q) | Q(surname__icontains=q) | Q(
@@ -78,7 +79,7 @@ class RegistrationForm(DeferredForm):
                       {'token': instance.token, 'form': self,
                        'sede_url': self.cleaned_data['sede'].url,
                        'domain': self.domain, 'protocol': self.protocol}),
-                  'reyiyo@gmail.com',
+                  EMAIL_FROM,
                   recipient_list=[self.cleaned_data['email'], ],
                   fail_silently=False)
 
