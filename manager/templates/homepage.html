@@ -65,7 +65,13 @@
         $.material.init();
 
         function map(sede_name, sede_lat, sede_lon) {
-            var map = L.map(sede_name, {zoomControl: false, dragging: false}).setView([sede_lat, sede_lon], 4);
+            var map = L.map(sede_name, {
+                zoomControl: false,
+                dragging: false,
+                keyboard: false,
+                doubleClickZoom: false,
+                touchZoom: false
+            }).setView([sede_lat, sede_lon], 4);
 
             L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
                 attribution: ''
