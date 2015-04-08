@@ -309,8 +309,8 @@ def registration(request, sede_url):
         if form.is_valid():
             form.save()
             messages.success(request, _(
-                """We've sent you an email with the confirmation link. Please click or copy and paste it in your
-                browser to confirm the registration."""))
+                "We've sent you an email with the confirmation link. Please click or copy and paste it in your "
+                "browser to confirm the registration."))
             return HttpResponseRedirect('/sede/' + sede_url)
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
     else:
@@ -334,8 +334,8 @@ def talk_proposal(request, sede_url):
     if not sede.talk_proposal_is_open:
         messages.error(request,
                        _(
-                           """The talk proposal is already close or the sede is not accepting proposals through this
-                             page. Please contact the Sede Organization Team to submit it."""))
+                           "The talk proposal is already close or the sede is not accepting proposals through this "
+                           "page. Please contact the Sede Organization Team to submit it."))
         return HttpResponseRedirect(reverse('index', args=(sede_url,)))
 
     proposal = TalkProposal(sede=sede)
