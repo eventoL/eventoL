@@ -35,17 +35,32 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <img src="{% cropped_thumbnail talk.talk_proposal "cropping" %}"
-                                             width="100%">
+                                        {% if talk.talk_proposal.home_image %}
+                                            <img src="{% cropped_thumbnail talk.talk_proposal "cropping" %}"
+                                                 width="100%">
+                                        {% else %}
+                                            <img src="{% static "manager/img/no-image.png" %}" width="100%">
+                                        {% endif %}
                                     </div>
                                     <div class="col-sm-8" style="padding-top: 10px">
-                                        <p><strong>{% trans "Abstract" %}:</strong> {{ talk.talk_proposal.abstract }}</p>
-                                        <p><strong>{% trans "Speakers" %}:</strong> {{ talk.talk_proposal.speakers_names|title }}</p>
-                                        <p><strong>{% trans "Labels" %}:</strong> {{ talk.talk_proposal.labels|lower }}</p>
+                                        <p><strong>{% trans "Abstract" %}:</strong> {{ talk.talk_proposal.abstract }}
+                                        </p>
+
+                                        <p>
+                                            <strong>{% trans "Speakers" %}:</strong> {{ talk.talk_proposal.speakers_names|title }}
+                                        </p>
+
+                                        <p><strong>{% trans "Labels" %}:</strong> {{ talk.talk_proposal.labels|lower }}
+                                        </p>
+
                                         <p><strong>{% trans "Type" %}:</strong> {{ talk.talk_proposal.type }}</p>
+
                                         <p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>
+
                                         <p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>
+
                                         <p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>
+
                                         <p><a href="/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}">
                                             {% trans "View Talk" %}
                                         </a></p>
@@ -76,13 +91,24 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <img src="{% cropped_thumbnail proposal "cropping" %}" width="100%">
+                                            {% if proposal.home_image %}
+                                                <img src="{% cropped_thumbnail proposal "cropping" %}" width="100%">
+                                            {% else %}
+                                                <img src="{% static "manager/img/no-image.png" %}" width="100%">
+                                            {% endif %}
+
                                         </div>
                                         <div class="col-sm-8">
                                             <div id="proposal-info-{{ forloop.counter }}">
                                                 <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>
-                                                <p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>
-                                                <p><strong>{% trans "Labels" %}:</strong> {{ proposal.labels|lower }}</p>
+
+                                                <p>
+                                                    <strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}
+                                                </p>
+
+                                                <p><strong>{% trans "Labels" %}:</strong> {{ proposal.labels|lower }}
+                                                </p>
+
                                                 <p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>
                                                 {% if sede_url|is_sede_staff:user %}
                                                     <p><a id='become-{{ forloop.counter }}'

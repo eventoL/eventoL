@@ -26,6 +26,8 @@
                                 <div class="col-md-4 col-lg-4">
                                     {% if talk.talk_proposal.home_image %}
                                         <img src="{% cropped_thumbnail talk.talk_proposal "cropping" %}" width="100%">
+                                    {% else %}
+                                        <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                     {% endif %}
                                     <br><br>
                                     {% include 'talks/proposal/votes.html' with proposal=talk.talk_proposal %}
@@ -51,6 +53,8 @@
                                 <div class="col-md-4 col-lg-4">
                                     {% if proposal.home_image %}
                                         <img src="{% cropped_thumbnail proposal "cropping" %}" width="100%">
+                                    {% else %}
+                                        <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                     {% endif %}
                                     <br><br>
                                     {% include 'talks/proposal/votes.html' %}
