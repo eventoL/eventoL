@@ -40,7 +40,13 @@ class Sede(models.Model):
     url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,
                            db_index=True)
 
+    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
+        'If you want to use other page for your sede rather than eventoL\'s one, you can put the absolute url here'))
+
     def get_absolute_url(self):
+        if self.external_url:
+            return self.external_url
+
         return "/sede/" + self.url + '/'
 
     def __unicode__(self):
@@ -330,7 +336,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User)
 
     def __unicode__(self):
-        return unicode("%s: %s (%s)" % (self.user, self.proposal, self.created.strftime('%Y-%m-%d %H:%M')))
+        return u"%s: %s" % (self.user, self.proposal)
 
     def save(self, *args, **kwargs):
         """Email when a comment is added."""

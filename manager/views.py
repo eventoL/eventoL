@@ -47,6 +47,13 @@ def sede_django_view(request, sede_url, view=django_login):
 def index(request, sede_url):
     sede = Sede.objects.get(url__iexact=sede_url)
 
+    if sede.external_url:
+        msgs = messages.get_messages(request)
+        if msgs:
+            return render(request, 'base.html', update_sede_info(sede_url, {messages: msgs}, sede))
+
+        return HttpResponseRedirect(sede.external_url)
+
     talk_proposals = sede.talk_proposals.exclude(home_image__isnull=True) \
         .exclude(home_image__exact='') \
         .exclude(dummy_talk=True) \
@@ -62,6 +69,10 @@ def sede_view(request, sede_url, html='index.html'):
 
 def event(request, sede_url):
     sede = Sede.objects.get(url__iexact=sede_url)
+
+    if sede.external_url:
+        return HttpResponseRedirect(sede.external_url)
+
     render_dict = update_sede_info(sede_url, render_dict={'event_information': sede.event_information}, sede=sede)
     return render(request, 'event/info.html', render_dict)
 
