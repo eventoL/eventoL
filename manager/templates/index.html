@@ -17,6 +17,15 @@
 {% block main-content %}
     <div class="container">
         <div class="well">
+            {% if sede.registration_is_open %}
+                <div class="row" style="text-align: center">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <h3><i class="fa fa-calendar"></i> {{ sede.date|date:"l d" }} de {{ sede.date|date:"F" }}
+                            - Faltan {{ sede.date|timeuntil }}!
+                        </h3>
+                    </div>
+                </div>
+            {% endif %}
             <div class="row">
                 <div class="col-lg-4 col-md-4">
                     <h3><i class="fa fa-question-circle"></i> <a href="/sede/{{ sede_url }}/FAQ">¿Qué es el FLISoL?</a>

@@ -67,6 +67,10 @@ class Sede(models.Model):
     def talk_proposal_is_open(self):
         return self.limit_proposal_date > datetime.date.today()
 
+    @property
+    def registration_is_open(self):
+        return self.date > datetime.date.today()
+
     class Meta:
         ordering = ['name']
 

@@ -314,7 +314,7 @@ def installation(request, sede_url):
 
 def registration(request, sede_url):
     sede = Sede.objects.get(url__iexact=sede_url)
-    if sede.date < datetime.date.today():
+    if not sede.registration_is_open:
         return render(request, 'registration/closed-registration.html', update_sede_info(sede_url))
     form = RegistrationForm(request.POST or None, domain=request.get_host(), protocol=request.scheme)
     if request.POST:
