@@ -5,7 +5,7 @@ django-appconf==1.0.1
 django-autocomplete-light==2.0.9
 django-cities==0.4.1
 django-generic-confirmation==0.3.0
-django-image-cropping==1.0.0
+django-image-cropping==0.8.4
 django-tables2==0.15.0
 easy-thumbnails==2.2
 psycopg2==2.6
