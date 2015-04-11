@@ -22,7 +22,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     TalkForm, CommentForm
 from manager.models import Installer, Hardware, Installation, Talk, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
-from manager.security import add_installer_perms, is_installer, add_collaborator_perms
+from manager.security import is_installer, add_collaborator_perms
 
 
 autocomplete_light.autodiscover()
@@ -101,7 +101,6 @@ def collaborator_registration(request, sede_url):
                 if collaborator_form.is_valid():
                     collaborator = collaborator_form.save()
                     user = add_collaborator_perms(user)
-                    user.is_staff = True
                     user.save()
                     collaborator.user = user
                     collaborator.save()
@@ -216,20 +215,20 @@ def installer_registration(request, sede_url):
                     collaborator = collaborator_form.save()
                     if installer_form.is_valid():
                         installer = installer_form.save()
-                        user = add_installer_perms(user)
-                        collaborator.user = user
+                        collaborator.user = add_collaborator_perms(user)
                         collaborator.save()
                         installer.collaborator = collaborator
                         installer.save()
                         messages.success(request, _("You've been registered successfully!"))
                         return HttpResponseRedirect('/sede/' + sede_url)
             except Exception:
-                if user is not None:
-                    User.delete(user)
-                if collaborator is not None:
-                    Collaborator.delete(collaborator)
-                if installer is not None:
-                    Installer.delete(installer)
+                pass
+        if user is not None:
+            User.delete(user)
+        if collaborator is not None:
+            Collaborator.delete(collaborator)
+        if installer is not None:
+            Installer.delete(installer)
         messages.error(request, _("You haven't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
@@ -260,7 +259,7 @@ def become_installer(request, sede_url):
         if installer_form.is_valid():
             try:
                 installer = installer_form.save()
-                collaborator.user = add_installer_perms(collaborator.user)
+                collaborator.user = add_collaborator_perms(collaborator.user)
                 collaborator.save()
                 installer.save()
                 messages.success(request, _("You've became an installer!"))
@@ -281,7 +280,6 @@ def become_installer(request, sede_url):
 
 
 @login_required(login_url='./accounts/login/')
-@permission_required('manager.add_installation', raise_exception=True)
 @user_passes_test(is_installer)
 def installation(request, sede_url):
     installation_form = InstallationForm(sede_url, request.POST or None, prefix='installation')
@@ -300,10 +298,13 @@ def installation(request, sede_url):
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/sede/' + sede_url)
             except Exception:
-                if hardware is not None:
-                    Hardware.delete(hardware)
-                if installation is not None:
-                    Installation.delete(installation)
+                pass
+
+        if hardware is not None:
+            Hardware.delete(hardware)
+        if installation is not None:
+            Installation.delete(installation)
+
         messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
     return render(request,
