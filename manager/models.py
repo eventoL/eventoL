@@ -309,6 +309,17 @@ class Talk(models.Model):
         return u"%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
                                        self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
+    def get_schedule_info(self):
+        talk = {}
+        talk['room'] = self.room.name
+        talk['start_date'] = self.start_date.strftime('%m/%d/%Y %H:%M')
+        talk['end_date'] = self.end_date.strftime('%m/%d/%Y %H:%M')
+        talk['title'] = self.talk_proposal.title
+        talk['speakers'] = self.talk_proposal.speakers_names
+        talk['type'] = self.talk_proposal.type.name
+
+        return talk
+
     class Meta:
         verbose_name = _('Talk')
         verbose_name_plural = _('Talks')
