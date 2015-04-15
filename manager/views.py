@@ -462,7 +462,7 @@ def attendee_registration_by_collaborator(request, sede_url):
             attendee.assisted = True
             attendee.save()
             messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
-            return HttpResponseRedirect(reverse("attendee_registration_by_collaborator", args=(sede_url, )))
+            return HttpResponseRedirect(reverse("attendee_search", args=(sede_url, )))
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
     return render(request, 'registration/attendee/by-collaborator.html', update_sede_info(sede_url, {'form': form}))
