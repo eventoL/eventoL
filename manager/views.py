@@ -21,7 +21,8 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
     TalkForm, CommentForm
 from manager.models import Installer, Hardware, Installation, Talk, \
-    TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
+    TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact, Room
+from manager.schedule import Schedule
 from manager.security import is_installer, add_collaborator_perms
 
 
@@ -390,9 +391,11 @@ def schedule(request, sede_url):
         messages.info(request, _("While the schedule this unconfirmed, you can only see the list of proposals."))
         return HttpResponseRedirect(reverse("talks", args=[sede_url]))
 
-    # TODO: template y manejo de schedule con las talks confirmadas
-    # El retorno de talks es temporal hasta que se defina un schedule.html
-    return HttpResponseRedirect(reverse("talks", args=[sede_url]))
+    rooms = Room.objects.filter(sede=sede)
+    talks_confirmed = Talk.objects.filter(talk_proposal__confirmed=True, talk_proposal__sede=sede)
+    schedule = Schedule(list(rooms), list(talks_confirmed))
+    return render(request, 'talks/schedule.html',
+                  update_sede_info(sede_url, sede=sede, render_dict={'schedule': schedule}))
 
 
 def talks(request, sede_url):
