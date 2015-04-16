@@ -15,7 +15,7 @@
                         {% for talk in room.talks %}
                             {% if 'dummy' in talk %}
                                 <div class="well" style="height: {{ talk.dummy_size }}%; background-color: #F0F0F0">
-                                    <strong>Espacio sin charlas confirmadas</strong>
+                                    <strong>{% trans "Haven't confirmed talks in this space"%}</strong>
                                 </div>
                             {% else %}
                             <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
