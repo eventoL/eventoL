@@ -48,3 +48,9 @@ def is_sede_staff(sede_url, user):
         return exists_collaborator and user.is_staff
     except Exception:
         return False
+
+
+@register.filter(name='bootstrap_cols')
+def bootstrap_cols(elements):
+    cant = len(elements)
+    return int(round(12/cant)) if cant < 5 else 3
