@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EventoL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-11 18:53-0300\n"
-"PO-Revision-Date: 2015-04-01 21:07-0300\n"
+"POT-Creation-Date: 2015-04-16 16:39-0300\n"
+"PO-Revision-Date: 2015-04-16 16:39-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -58,13 +58,13 @@ msgstr "Ciudad"
 msgid "District"
 msgstr "Distrito"
 
-#: manager/models.py:33 manager/models.py:105 manager/models.py:328
+#: manager/models.py:33 manager/models.py:105 manager/models.py:335
 msgid "Email"
 msgstr "Correo electrónico"
 
 #: manager/models.py:34 manager/models.py:84 manager/models.py:146
-#: manager/models.py:181 manager/models.py:232 manager/models.py:286
-#: manager/models.py:327
+#: manager/models.py:181 manager/models.py:232 manager/models.py:287
+#: manager/models.py:334
 msgid "Name"
 msgstr "Nombre"
 
@@ -264,7 +264,7 @@ msgstr "PC de escritorio"
 msgid "Other"
 msgstr "Otro"
 
-#: manager/models.py:165 manager/models.py:183 manager/models.py:249
+#: manager/models.py:165 manager/models.py:183 manager/models.py:250
 #: manager/templates/talks/detail.html:44
 #: manager/templates/talks/detail.html:75
 #: manager/templates/talks/talks_home.html:56
@@ -300,15 +300,15 @@ msgstr "Soporte o resolución de problemas"
 msgid "Version"
 msgstr "Versión"
 
-#: manager/models.py:192 manager/models.py:244
+#: manager/models.py:192 manager/models.py:245
 msgid "Beginner"
 msgstr "Principiante"
 
-#: manager/models.py:193 manager/models.py:245
+#: manager/models.py:193 manager/models.py:246
 msgid "Medium"
 msgstr "Medio"
 
-#: manager/models.py:194 manager/models.py:246
+#: manager/models.py:194 manager/models.py:247
 msgid "Advanced"
 msgstr "Avanzado"
 
@@ -316,7 +316,7 @@ msgstr "Avanzado"
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
-#: manager/models.py:197 manager/models.py:270
+#: manager/models.py:197 manager/models.py:271
 msgid "Level"
 msgstr "Nivel"
 
@@ -366,32 +366,36 @@ msgstr "Instalación"
 msgid "Installations"
 msgstr "Instalaciones"
 
-#: manager/models.py:238
+#: manager/models.py:233
+msgid "Color"
+msgstr "Color"
+
+#: manager/models.py:239
 msgid "Talk Type"
 msgstr "Tipo de charla"
 
-#: manager/models.py:239
+#: manager/models.py:240
 msgid "Talk Types"
 msgstr "Tipos de charla"
 
-#: manager/models.py:248
+#: manager/models.py:249
 msgid "Title"
 msgstr "Título"
 
-#: manager/models.py:250 manager/templates/talks/detail.html:72
+#: manager/models.py:251 manager/templates/talks/detail.html:72
 msgid "Long Description"
 msgstr "Descripción completa"
 
-#: manager/models.py:251 manager/templates/talks/proposal/votes.html:16
+#: manager/models.py:252 manager/templates/talks/proposal/votes.html:16
 #: manager/templates/talks/talks_home.html:29
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: manager/models.py:252
+#: manager/models.py:253
 msgid "Dummy Talk?"
 msgstr "Charla dummy?"
 
-#: manager/models.py:253 manager/templates/talks/detail.html:36
+#: manager/models.py:254 manager/templates/talks/detail.html:36
 #: manager/templates/talks/detail.html:69
 #: manager/templates/talks/detail.html:78
 #: manager/templates/talks/talks_home.html:46
@@ -399,57 +403,57 @@ msgstr "Charla dummy?"
 msgid "Abstract"
 msgstr "Resumen"
 
-#: manager/models.py:253
+#: manager/models.py:254
 msgid "Short idea of the talk (Two or three sentences)"
 msgstr "Dos o tres oraciones que den una idea de la charla"
 
-#: manager/models.py:254
+#: manager/models.py:255
 msgid "Sede you are proposing the talk to"
 msgstr "Sede para la que se está proponiendo la charla"
 
-#: manager/models.py:256
+#: manager/models.py:257
 msgid "Speakers Names"
 msgstr "Nombres de los disertantes"
 
-#: manager/models.py:257
+#: manager/models.py:258
 msgid "Comma separated speaker's names"
 msgstr "(Separados por coma) Nombres de los disertantes"
 
-#: manager/models.py:258
+#: manager/models.py:259
 msgid "Speakers Emails"
 msgstr "Correo electrónico de los disertantes"
 
-#: manager/models.py:259
+#: manager/models.py:260
 msgid "Comma separated speaker's emails"
 msgstr "(Separados por coma) Correo electrónico de los disertantes"
 
-#: manager/models.py:260 manager/templates/talks/detail.html:42
+#: manager/models.py:261 manager/templates/talks/detail.html:42
 #: manager/templates/talks/detail.html:67
 #: manager/templates/talks/talks_home.html:53
 #: manager/templates/talks/talks_home.html:109
 msgid "Labels"
 msgstr "Etiquetas/Tags"
 
-#: manager/models.py:261
+#: manager/models.py:262
 msgid "Comma separated tags. i.e. Linux, Free Software, Debian"
 msgstr "(Separadas por coma) por ej. Linux, Software Libre, Debian..."
 
-#: manager/models.py:262
+#: manager/models.py:263
 msgid "Presentation"
 msgstr "Presentación"
 
-#: manager/models.py:263
+#: manager/models.py:264
 msgid ""
 "Any material you are going to use for the talk (optional, but recommended)"
 msgstr ""
 "Material multimedia que vaya a usar para la charla (opcional pero "
 "recomendado)"
 
-#: manager/models.py:264
+#: manager/models.py:265
 msgid "Home Page Image"
 msgstr "Imagen"
 
-#: manager/models.py:266
+#: manager/models.py:267
 msgid ""
 "Image that is going to appear in the home page of this web for promoting the "
 "talk (optional)"
@@ -457,19 +461,19 @@ msgstr ""
 "Imagen que aparecerá en la página principal de esta web promocionando la "
 "charla (opcional, pero si no tiene imagen, no aparece en al página principal)"
 
-#: manager/models.py:268
+#: manager/models.py:269
 msgid "Cropping"
 msgstr "Recorte"
 
-#: manager/models.py:269
+#: manager/models.py:270
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr "La imagen debe ser de 700x450 px. Puede recortarla aquí."
 
-#: manager/models.py:271
+#: manager/models.py:272
 msgid "The talk's Technical level"
 msgstr "Nivel técnico de la charla"
 
-#: manager/models.py:280 manager/templates/talks/proposal.html:11
+#: manager/models.py:281 manager/templates/talks/proposal.html:11
 #: manager/templates/talks/proposal.html:13
 #: manager/templates/talks/proposal.html:17
 #: manager/templates/talks/proposal/image-cropping.html:11
@@ -478,38 +482,38 @@ msgstr "Nivel técnico de la charla"
 msgid "Talk Proposal"
 msgstr "Proponer charla"
 
-#: manager/models.py:281
+#: manager/models.py:282
 msgid "Talk Proposals"
 msgstr "Propuestas de charla"
 
-#: manager/models.py:286
+#: manager/models.py:287
 msgid "i.e. Classroom 256"
 msgstr "por ej. Aula 256"
 
-#: manager/models.py:287
+#: manager/models.py:288
 msgid "For talk type"
 msgstr "Para el tipo de charla"
 
-#: manager/models.py:288
+#: manager/models.py:289
 msgid "The type of talk the room is going to be used for."
 msgstr "El tipo de charla para el cual se va a utilizar la sala"
 
-#: manager/models.py:294 manager/models.py:300
+#: manager/models.py:295 manager/models.py:301
 #: manager/templates/talks/detail.html:46
 #: manager/templates/talks/detail.html:79
 #: manager/templates/talks/talks_home.html:58
 msgid "Room"
 msgstr "Sala"
 
-#: manager/models.py:295
+#: manager/models.py:296
 msgid "Rooms"
 msgstr "Salas"
 
-#: manager/models.py:299
+#: manager/models.py:300
 msgid "TalkProposal"
 msgstr "Propuesta de charla"
 
-#: manager/models.py:301 manager/templates/index.html:70
+#: manager/models.py:302 manager/templates/index.html:70
 #: manager/templates/talks/detail.html:39
 #: manager/templates/talks/detail.html:64
 #: manager/templates/talks/talks_home.html:50
@@ -517,40 +521,40 @@ msgstr "Propuesta de charla"
 msgid "Speakers"
 msgstr "Disertantes"
 
-#: manager/models.py:302
+#: manager/models.py:303
 msgid "Start Time"
 msgstr "Hora de inicio"
 
-#: manager/models.py:303
+#: manager/models.py:304
 msgid "End Time"
 msgstr "Hora de fin"
 
-#: manager/models.py:313
+#: manager/models.py:320
 msgid "Talk"
 msgstr "Charla"
 
-#: manager/models.py:314 manager/templates/talks/talks_home.html:11
+#: manager/models.py:321 manager/templates/talks/talks_home.html:11
 msgid "Talks"
 msgstr "Charlas"
 
-#: manager/models.py:322
+#: manager/models.py:329
 msgid "Event Info"
 msgstr "Información del evento"
 
-#: manager/models.py:323
+#: manager/models.py:330
 msgid "Envent Info (s)"
 msgstr "Información(es) de los eventos"
 
-#: manager/models.py:329
+#: manager/models.py:336
 msgid "Message"
 msgstr "Mensaje"
 
-#: manager/models.py:332 manager/templates/contact-message.html:5
+#: manager/models.py:339 manager/templates/contact-message.html:5
 #: manager/templates/contact-message.html:7
 msgid "Contact Message"
 msgstr "Mensaje de contacto"
 
-#: manager/models.py:333
+#: manager/models.py:340
 msgid "Contact Messages"
 msgstr "Mensajes de contacto"
 
@@ -845,10 +849,9 @@ msgstr "Votos: "
 msgid "Score"
 msgstr "Votos: "
 
-#: manager/templates/talks/schedule.html:9
-msgid "The talks schedule will be available on April, 15th"
-msgstr ""
-"El cronograma de charlas estará disponible a partir del día 16 de Abril."
+#: manager/templates/talks/schedule.html:18
+msgid "Haven't confirmed talks in this space"
+msgstr "No hay charlas confirmadas en este horarios"
 
 #: manager/templates/talks/talks_home.html:65
 msgid "View Talk"
@@ -870,27 +873,27 @@ msgstr "No hay ninguna propuesta de charla todavía."
 msgid "Submit yours!"
 msgstr "Proponé la tuya!"
 
-#: manager/views.py:107 manager/views.py:222
+#: manager/views.py:108 manager/views.py:223
 msgid "You've been registered successfully!"
 msgstr "Se ha registrado satisfactoriamente!"
 
-#: manager/views.py:111 manager/views.py:232
+#: manager/views.py:112 manager/views.py:233
 msgid "You haven't been registered successfully (check form errors)"
 msgstr ""
 "No se ha podido completar la registración. Por favor, verifique los errores "
 "en el formulario."
 
-#: manager/views.py:158
+#: manager/views.py:159
 msgid "The talk was registered successfully!"
 msgstr "La charla se ha registrado satisfactoriamente!"
 
-#: manager/views.py:169
+#: manager/views.py:170
 msgid "The talk wasn't registered successfully (check form errors)"
 msgstr ""
 "La charla no se ha podido registrar (puede visualizar los errores en el "
 "formulario)"
 
-#: manager/views.py:187
+#: manager/views.py:188
 msgid ""
 "The talk wasn't registered successfully because schedule isn't available "
 "(start time equals end time)"
@@ -898,14 +901,14 @@ msgstr ""
 "El horario elegidos no es válido porque la hora de inicio es igual a la de "
 "fin"
 
-#: manager/views.py:191
+#: manager/views.py:192
 msgid ""
 "The talk wasn't registered successfully because schedule isn't available "
 "(start time is after end time)"
 msgstr ""
 "El horario elegido no es válido porque la hora de inicio es mayor a la de fin"
 
-#: manager/views.py:197
+#: manager/views.py:198
 msgid ""
 "The talk wasn't registered successfully because the room or schedule isn't "
 "available"
@@ -913,27 +916,27 @@ msgstr ""
 "La sala o el horario elegidos no están disponibles. La charla no se ha "
 "registrado."
 
-#: manager/views.py:265
+#: manager/views.py:266
 msgid "You've became an installer!"
 msgstr "Ahora sos instalador!"
 
-#: manager/views.py:270
+#: manager/views.py:271
 msgid "You not became an installer (check form errors)"
 msgstr ""
 "No se pudo registrar como instalador. Verifique los errores en el formulario."
 
-#: manager/views.py:298
+#: manager/views.py:299
 msgid "The installation has been registered successfully. Happy Hacking!"
 msgstr "La instalación se ha registrado satisfactoriamente. Happy Hacking!"
 
-#: manager/views.py:308
+#: manager/views.py:309
 msgid ""
 "The installation hasn't been registered successfully (check form errors)"
 msgstr ""
 "No se ha podido registrar la instalación. Verifique los errores en el "
 "formulario."
 
-#: manager/views.py:324
+#: manager/views.py:325
 #, fuzzy
 #| msgid ""
 #| "We've sent you an email with the confirmation link. Please click or copy "
@@ -947,13 +950,13 @@ msgstr ""
 "haga click en el mismo o cópielo y péguelo en su \n"
 "                navegador para confirmar la registración."
 
-#: manager/views.py:327 manager/views.py:448 manager/views.py:466
+#: manager/views.py:328 manager/views.py:451 manager/views.py:469
 msgid "The attendee hasn't been registered successfully (check form errors)"
 msgstr ""
 "Hubo algún error al procesar la registración. Por favor verifique los "
 "errores en el formulario."
 
-#: manager/views.py:337
+#: manager/views.py:338
 msgid ""
 "Thanks for your confirmation! You don't need to bring any paper to the "
 "event. You'll be asked for the email you registered with"
@@ -961,7 +964,7 @@ msgstr ""
 "Gracias por confirmar! No es necesario llevar ningún papel el día del evento."
 "Te preguntarán con qué mail te registraste."
 
-#: manager/views.py:349
+#: manager/views.py:350
 msgid ""
 "The talk proposal is already close or the sede is not accepting proposals "
 "through this page. Please contact the Sede Organization Team to submit it."
@@ -970,48 +973,52 @@ msgstr ""
 "propuestas a través de esta página. Por favor, ponete en contacto con el "
 "equipo de organización de tu sede para enviarla."
 
-#: manager/views.py:359 manager/views.py:383
+#: manager/views.py:360 manager/views.py:384
 msgid "The proposal hasn't been registered successfully (check form errors)"
 msgstr ""
 "No se ha podido registrar la propuesta. Por favor, verifique los errores en "
 "el formulario."
 
-#: manager/views.py:378
+#: manager/views.py:379
 msgid "Please crop or upload a new image."
 msgstr "Por favor recorte o suba una nueva imagen."
 
-#: manager/views.py:381
+#: manager/views.py:382
 msgid "The proposal has been registered successfully!"
 msgstr "La propuesta de charla se ha registrado satisfactoriamente!"
 
-#: manager/views.py:390
+#: manager/views.py:391
 msgid ""
 "While the schedule this unconfirmed, you can only see the list of proposals."
 msgstr ""
 "El cronograma final de charlas todavía no está confirmado. Se muestra una "
 "lista de las charlas propuestas hasta el momento."
 
-#: manager/views.py:440
+#: manager/views.py:443
 #, fuzzy
 #| msgid "The attendee had already been registered correctly."
 msgid "The attendee has already been registered correctly."
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
-#: manager/views.py:444 manager/views.py:464
+#: manager/views.py:447 manager/views.py:467
 msgid "The attendee has been registered successfully. Happy Hacking!"
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
-#: manager/views.py:478
+#: manager/views.py:481
 msgid "FLISoL Contact Message "
 msgstr "Mensaje de contacto de FLISoL"
 
-#: manager/views.py:484
+#: manager/views.py:487
 msgid "The message has been sent."
 msgstr "El mensaje ha sido enviado."
 
-#: manager/views.py:486
+#: manager/views.py:489
 msgid "The message hasn't been sent."
 msgstr "No se ha podido enviar el mensaje."
+
+#~ msgid "The talks schedule will be available on April, 15th"
+#~ msgstr ""
+#~ "El cronograma de charlas estará disponible a partir del día 16 de Abril."
 
 #~ msgid "Registration for this event is already closed."
 #~ msgstr "La registración para este evento ya está finalizada"
