@@ -1,42 +1,35 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load render_table from django_tables2 %}
+{% load filters %}
 {% block page-header %}{% trans "Talks Schedule" %}{% endblock %}
 {% block page-name %}{% trans "Talks Schedule" %}{% endblock %}
 
 {% block content %}
-    {% if not tables %}
-        <p>{% trans "The talks schedule will be available on April, 15th" %}</p>
-    {% else %}
-        {% for sede, tabless in tables.items %}
-            <h3>{{ sede }}</h3>
-            <hr>
-            {% for talktype, table in tabless.items %}
-                {% if talktype == 'Taller' %}
-                    <h4>Talleres</h4>
-                {% else %}
-                    <h4>{{ talktype }}s</h4>
-                {% endif %}
-                <hr/>
-                {% render_table table %}
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
 
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="True">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="row text-center">
+        {% for room in schedule.rooms %}
+            <div class="col-md-{{ schedule.rooms|bootstrap_cols }}">
+                <div class="well" style="padding: 0px 15px 0px 15px">
+                    <div class="alert alert-success row"><strong>{{ room.name|title }}</strong></div>
+                    <div style="height: {{ schedule.size }}px; padding-bottom: 10%">
+                        {% for talk in room.talks %}
+                            {% if 'dummy' in talk %}
+                                <div class="well" style="height: {{ talk.dummy_size }}%; background-color: #F0F0F0">
+                                    <strong>{% trans "Haven't confirmed talks in this space"%}</strong>
+                                </div>
+                            {% else %}
+                            <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
+                                <div class="well {{ talk.talk_proposal.type.color_class }}" style="height: {{ talk.talk_size }}%">
+                                    <strong>{{ talk.talk_proposal.title|title|truncatechars:50 }}</strong><br>
+                                    {{ talk.schedule }}
+                                </div>
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-{% endblock %}
+        {% endfor %}
+    </div>
 
-{% block other-script %}
-    <script>
-        $('body').on('hidden.bs.modal', '.modal', function () {
-            $(this).removeData('bs.modal');
-        });
-    </script>
 {% endblock %}

@@ -230,6 +230,7 @@ class TalkType(models.Model):
     Type of talk. For example: Talk, Workshop, Debate, etc.
     """
     name = models.CharField(_('Name'), max_length=200)
+    color_class = models.CharField(_('Color'), max_length=50, default="")
 
     def __unicode__(self):
         return self.name
@@ -308,6 +309,12 @@ class Talk(models.Model):
     def __unicode__(self):
         return u"%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
                                        self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+
+    def __cmp__(self, other):
+        return -1 if self.start_date.time() < other.start_date.time() else 1
+
+    def schedule(self):
+        return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
     class Meta:
         verbose_name = _('Talk')
