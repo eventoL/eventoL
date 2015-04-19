@@ -100,11 +100,6 @@
                                             <i class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}
                                         </a>
                                     </li>
-                                    {% if sede.schedule_confirm %}
-                                        <li>
-                                            <a href="/sede/{{ sede_url }}/talks">{% trans "Talks Schedule" %}</a>
-                                        </li>
-                                    {% endif %}
                                     {% if user|is_installer %}
                                         <li>
                                             <a href="/sede/{{ sede_url }}/installation">
