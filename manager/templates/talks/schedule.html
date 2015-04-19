@@ -29,10 +29,18 @@
                             </div>
                         {% else %}
                             <div style="height: {{ talk.talk_size }}%">
-                                <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
-                                    <strong>{{ talk.talk_proposal.title|title|truncatechars:50 }}</strong><br>
-                                </a>
-                                {{ talk.schedule }}
+                                {% if talk.talk_size < 3 %}
+                                    <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
+                                        <strong>
+                                            {{ talk.talk_proposal.title|title|truncatechars:10 }}{{ talk.schedule }}</strong><br>
+                                    </a>
+                                {% else %}
+                                    <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
+                                        <strong>
+                                            {{ talk.talk_proposal.title|title|truncatechars:50 }}</strong><br>
+                                    </a>
+                                    {{ talk.schedule }}
+                                {% endif %}
                             </div>
                         {% endif %}
                         {% if not forloop.last %}
