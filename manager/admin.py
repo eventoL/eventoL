@@ -63,18 +63,36 @@ class AttendeeResource(resources.ModelResource):
     class Meta:
         model = Attendee
         fields = ('name', 'surname', 'nickname', 'email', 'assisted', 'is_going_to_install', 'additional_info')
+        export_order = fields
 
 
 class AttendeeAdmin(ExportMixin, EventoLAdmin):
     resource_class = AttendeeResource
     pass
 
+
+class CollaboratorResource(resources.ModelResource):
+    class Meta:
+        model = Collaborator
+        fields = (
+            'user__first_name', 'user__last_name', 'user__username', 'user__email', 'user__date_joined', 'phone',
+            'address',
+            'assisted', 'assignation', 'time_availability', 'additional_info')
+
+        export_order = fields
+
+
+class CollaboratorAdmin(ExportMixin, EventoLAdmin):
+    resource_class = CollaboratorResource
+    pass
+
+
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Sede, SedeAdmin)
 admin.site.register(TalkProposal, TalkProposalAdmin)
 admin.site.register(Building, BuildingAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
-admin.site.register(Collaborator, EventoLAdmin)
+admin.site.register(Collaborator, CollaboratorAdmin)
 admin.site.register(HardwareManufacturer)
 admin.site.register(Hardware)
 admin.site.register(Software)
