@@ -49,7 +49,19 @@ class InstallerAdmin(EventoLAdmin):
         return queryset.filter(collaborator__sede=sede)
 
 
-class InstallationAdmin(EventoLAdmin):
+class InstallationResource(resources.ModelResource):
+    class Meta:
+        model = Installation
+        fields = (
+            'hardware__type', 'hardware__manufacturer__name', 'hardware__model', 'hardware__serial', 'software__type',
+            'software__name', 'software__version', 'attendee__email', 'installer__collaborator__user__username',
+            'notes')
+        export_order = fields
+
+
+class InstallationAdmin(ExportMixin, EventoLAdmin):
+    resource_class = InstallationResource
+    
     def filter_sede(self, sede, queryset):
         return queryset.filter(installer__collaborator__sede=sede)
 
