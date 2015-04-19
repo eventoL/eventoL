@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'easy_thumbnails.optimize',
     'image_cropping',
     'autocomplete_light',
+    'import_export',
     'manager',
 )
 

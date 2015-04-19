@@ -1,13 +1,15 @@
 from django.contrib.gis import admin
+from image_cropping.admin import ImageCroppingMixin
+from import_export import resources
+from import_export.admin import ExportMixin
+
 from manager.models import (Building, Sede, Attendee, Collaborator,
                             HardwareManufacturer, Hardware, Software,
                             Installer, Installation, TalkProposal, Talk,
                             TalkType, Room, ContactType, Contact, Comment)
-from image_cropping.admin import ImageCroppingMixin
 
 
 class EventoLAdmin(admin.ModelAdmin):
-
     def filter_sede(self, sede, queryset):
         return queryset.filter(sede=sede)
 
@@ -19,7 +21,16 @@ class EventoLAdmin(admin.ModelAdmin):
         return self.filter_sede(collaborator.sede, queryset)
 
 
-class TalkProposalAdmin(ImageCroppingMixin, EventoLAdmin):
+class TalkProposalResource(resources.ModelResource):
+    class Meta:
+        model = TalkProposal
+        fields = (
+            'title', 'type', 'speakers_names', 'speakers_email', 'abstract', 'long_description', 'labels', 'level')
+        export_order = fields
+
+
+class TalkProposalAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
+    resource_class = TalkProposalResource
     pass
 
 
@@ -38,34 +49,83 @@ class CommentAdmin(EventoLAdmin):
 
 
 class BuildingAdmin(EventoLAdmin):
-
     def filter_sede(self, sede, queryset):
         return queryset.filter(address=sede.place.address)
 
 
-class InstallerAdmin(EventoLAdmin):
+class InstallerResource(resources.ModelResource):
+    class Meta:
+        model = Installer
+        fields = ('collaborator__user__first_name', 'collaborator__user__last_name', 'collaborator__user__username',
+                  'collaborator__user__email', 'collaborator__user__date_joined', 'collaborator__phone',
+                  'collaborator__address', 'collaborator__assisted', 'collaborator__assignation',
+                  'collaborator__time_availability', 'collaborator__additional_info', 'level')
+        export_order = fields
+
+
+class InstallerAdmin(ExportMixin, EventoLAdmin):
+    resource_class = InstallerResource
 
     def filter_sede(self, sede, queryset):
         return queryset.filter(collaborator__sede=sede)
 
 
-class InstallationAdmin(EventoLAdmin):
+class InstallationResource(resources.ModelResource):
+    class Meta:
+        model = Installation
+        fields = (
+            'hardware__type', 'hardware__manufacturer__name', 'hardware__model', 'hardware__serial', 'software__type',
+            'software__name', 'software__version', 'attendee__email', 'installer__collaborator__user__username',
+            'notes')
+        export_order = fields
+
+
+class InstallationAdmin(ExportMixin, EventoLAdmin):
+    resource_class = InstallationResource
 
     def filter_sede(self, sede, queryset):
         return queryset.filter(installer__collaborator__sede=sede)
 
 
 class TalkAdmin(EventoLAdmin):
-
     def filter_sede(self, sede, queryset):
         return queryset.filter(talk_proposal__sede=sede)
+
+
+class AttendeeResource(resources.ModelResource):
+    class Meta:
+        model = Attendee
+        fields = ('name', 'surname', 'nickname', 'email', 'assisted', 'is_going_to_install', 'additional_info')
+        export_order = fields
+
+
+class AttendeeAdmin(ExportMixin, EventoLAdmin):
+    resource_class = AttendeeResource
+    pass
+
+
+class CollaboratorResource(resources.ModelResource):
+    class Meta:
+        model = Collaborator
+        fields = (
+            'user__first_name', 'user__last_name', 'user__username', 'user__email', 'user__date_joined', 'phone',
+            'address',
+            'assisted', 'assignation', 'time_availability', 'additional_info')
+
+        export_order = fields
+
+
+class CollaboratorAdmin(ExportMixin, EventoLAdmin):
+    resource_class = CollaboratorResource
+    pass
+
 
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Sede, SedeAdmin)
 admin.site.register(TalkProposal, TalkProposalAdmin)
 admin.site.register(Building, BuildingAdmin)
-admin.site.register(Attendee, EventoLAdmin)
-admin.site.register(Collaborator, EventoLAdmin)
+admin.site.register(Attendee, AttendeeAdmin)
+admin.site.register(Collaborator, CollaboratorAdmin)
 admin.site.register(HardwareManufacturer)
 admin.site.register(Hardware)
 admin.site.register(Software)

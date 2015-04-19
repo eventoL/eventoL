@@ -14,4 +14,5 @@ wsgiref==0.1.2
 django-grappelli==2.6.4
 django-ckeditor==4.4.7
 django-voting==0.2
+django-import-export==0.2.6
 
