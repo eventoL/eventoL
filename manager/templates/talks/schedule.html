@@ -32,7 +32,7 @@
                                 {% if talk.talk_size < 3 %}
                                     <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
                                         <strong>
-                                            {{ talk.talk_proposal.title|title|truncatechars:10 }}{{ talk.schedule }}</strong><br>
+                                            {{ talk.talk_proposal.title|title|truncatechars:10 }} {{ talk.schedule }}</strong><br>
                                     </a>
                                 {% else %}
                                     <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
