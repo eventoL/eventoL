@@ -21,7 +21,8 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
     TalkForm, CommentForm
 from manager.models import Installer, Hardware, Installation, Talk, \
-    TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact
+    TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact, Room
+from manager.schedule import Schedule
 from manager.security import is_installer, add_collaborator_perms
 
 
@@ -190,9 +191,13 @@ def room_available(request, talk_form, sede_url):
         messages.error(request, _(
             "The talk wasn't registered successfully because schedule isn't available (start time is after end time)"))
         return False
-    if talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
-            or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists() \
-            or talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists():
+
+    one_second = datetime.timedelta(seconds=1)
+    if talks_room.filter(
+            end_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
+            or talks_room.filter(end_date__gt=talk_form.end_date, start_date__lt=talk_form.start_date).exists() \
+            or talks_room.filter(
+                    start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists():
         messages.error(request,
                        _("The talk wasn't registered successfully because the room or schedule isn't available"))
         return False
@@ -390,9 +395,11 @@ def schedule(request, sede_url):
         messages.info(request, _("While the schedule this unconfirmed, you can only see the list of proposals."))
         return HttpResponseRedirect(reverse("talks", args=[sede_url]))
 
-    # TODO: template y manejo de schedule con las talks confirmadas
-    # El retorno de talks es temporal hasta que se defina un schedule.html
-    return HttpResponseRedirect(reverse("talks", args=[sede_url]))
+    rooms = Room.objects.filter(sede=sede)
+    talks_confirmed = Talk.objects.filter(talk_proposal__confirmed=True, talk_proposal__sede=sede)
+    schedule = Schedule(list(rooms), list(talks_confirmed))
+    return render(request, 'talks/schedule.html',
+                  update_sede_info(sede_url, sede=sede, render_dict={'schedule': schedule}))
 
 
 def talks(request, sede_url):

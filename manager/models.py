@@ -309,6 +309,12 @@ class Talk(models.Model):
         return u"%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
                                        self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
+    def __cmp__(self, other):
+        return -1 if self.start_date.time() < other.start_date.time() else 1
+
+    def schedule(self):
+        return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+
     class Meta:
         verbose_name = _('Talk')
         verbose_name_plural = _('Talks')

@@ -1,42 +1,51 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% load render_table from django_tables2 %}
+{% load filters %}
+{% load static %}
 {% block page-header %}{% trans "Talks Schedule" %}{% endblock %}
-{% block page-name %}{% trans "Talks Schedule" %}{% endblock %}
 
 {% block content %}
-    {% if not tables %}
-        <p>{% trans "The talks schedule will be available on April, 15th" %}</p>
-    {% else %}
-        {% for sede, tabless in tables.items %}
-            <h3>{{ sede }}</h3>
-            <hr>
-            {% for talktype, table in tabless.items %}
-                {% if talktype == 'Taller' %}
-                    <h4>Talleres</h4>
-                {% else %}
-                    <h4>{{ talktype }}s</h4>
-                {% endif %}
-                <hr/>
-                {% render_table table %}
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
-
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="True">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    <div class="well row text-center" data-columns="{{ schedule.rooms|schedule_cols_total }}">
+        <div class="col-md-{{ schedule.rooms|schedule_cols_first }}">
+            <div class="alert alert-material-teal-100 row"><strong>{% trans "Hour" %}</strong></div>
+            <div style="height: {{ schedule.size }}px;">
+                {% for reference_hour in schedule.reference_hours %}
+                    <div style="height: {{ reference_hour.size }}%">
+                        <strong>{{ reference_hour.start|date:"H:i" }} - {{ reference_hour.end|date:"H:i" }}</strong>
+                    </div>
+                    {% if not forloop.last %}
+                        <hr style="padding:0px; margin:0px;"/>
+                    {% endif %}
+                {% endfor %}
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        {% for room in schedule.rooms %}
+            <div class="col-md-{{ schedule.rooms|schedule_cols_other }}">
+                <div class="alert alert-material-teal-100 row"><strong>{{ room.name|title }}</strong></div>
+                <div style="height: {{ schedule.size }}px;">
+                    {% for talk in room.talks %}
+                        {% if 'dummy' in talk %}
+                            <div class="alert-material-light-green-50" style="height: {{ talk.dummy_size }}%;">
+                            </div>
+                        {% else %}
+                            <div style="height: {{ talk.talk_size }}%">
+                                <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
+                                    <strong>{{ talk.talk_proposal.title|title|truncatechars:50 }}</strong><br>
+                                </a>
+                                {{ talk.schedule }}
+                            </div>
+                        {% endif %}
+                        {% if not forloop.last %}
+                            <hr style="padding:0px; margin:0px;"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block other-script %}
-    <script>
-        $('body').on('hidden.bs.modal', '.modal', function () {
-            $(this).removeData('bs.modal');
-        });
-    </script>
+    <script type="text/javascript"
+            src="{% static "manager/bower_components/gridline-bootstrap/dist/gridline.min.js" %}"></script>
 {% endblock %}

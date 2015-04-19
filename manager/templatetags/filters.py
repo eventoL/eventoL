@@ -48,3 +48,35 @@ def is_sede_staff(sede_url, user):
         return exists_collaborator and user.is_staff
     except Exception:
         return False
+
+
+@register.filter(name='schedule_cols_total')
+def schedule_cols_total(elements):
+    elems = len(elements)
+    if elems <= 3:
+        return 12
+    elif elems <= 5:
+        return len(elements) * 3 + 1
+    return len(elements) * 2 + 1
+
+
+@register.filter(name='schedule_cols_first')
+def schedule_cols_first(elements):
+    elems = len(elements)
+    if elems <= 2:
+        return 2
+    elif elems == 3:
+        return 3
+    return 1
+
+
+@register.filter(name='schedule_cols_other')
+def schedule_cols_other(elements):
+    elems = len(elements)
+    if elems == 1:
+        return 10
+    elif elems == 2:
+        return 5
+    elif elems <= 5:
+        return 3
+    return 2
