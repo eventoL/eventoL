@@ -191,9 +191,13 @@ def room_available(request, talk_form, sede_url):
         messages.error(request, _(
             "The talk wasn't registered successfully because schedule isn't available (start time is after end time)"))
         return False
-    if talks_room.filter(end_date__range=(talk_form.start_date, talk_form.end_date)).exists() \
-            or talks_room.filter(end_date__gte=talk_form.end_date, start_date__lte=talk_form.start_date).exists() \
-            or talks_room.filter(start_date__range=(talk_form.start_date, talk_form.end_date)).exists():
+
+    one_second = datetime.timedelta(seconds=1)
+    if talks_room.filter(
+            end_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
+            or talks_room.filter(end_date__gt=talk_form.end_date, start_date__lt=talk_form.start_date).exists() \
+            or talks_room.filter(
+                    start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists():
         messages.error(request,
                        _("The talk wasn't registered successfully because the room or schedule isn't available"))
         return False

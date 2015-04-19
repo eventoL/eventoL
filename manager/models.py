@@ -230,7 +230,6 @@ class TalkType(models.Model):
     Type of talk. For example: Talk, Workshop, Debate, etc.
     """
     name = models.CharField(_('Name'), max_length=200)
-    color_class = models.CharField(_('Color'), max_length=50, default="")
 
     def __unicode__(self):
         return self.name

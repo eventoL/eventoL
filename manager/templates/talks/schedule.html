@@ -1,35 +1,51 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load filters %}
+{% load static %}
 {% block page-header %}{% trans "Talks Schedule" %}{% endblock %}
-{% block page-name %}{% trans "Talks Schedule" %}{% endblock %}
 
 {% block content %}
-
-    <div class="row text-center">
-        {% for room in schedule.rooms %}
-            <div class="col-md-{{ schedule.rooms|bootstrap_cols }}">
-                <div class="well" style="padding: 0px 15px 0px 15px">
-                    <div class="alert alert-success row"><strong>{{ room.name|title }}</strong></div>
-                    <div style="height: {{ schedule.size }}px; padding-bottom: 10%">
-                        {% for talk in room.talks %}
-                            {% if 'dummy' in talk %}
-                                <div class="well" style="height: {{ talk.dummy_size }}%; background-color: #F0F0F0">
-                                    <strong>{% trans "Haven't confirmed talks in this space"%}</strong>
-                                </div>
-                            {% else %}
-                            <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
-                                <div class="well {{ talk.talk_proposal.type.color_class }}" style="height: {{ talk.talk_size }}%">
-                                    <strong>{{ talk.talk_proposal.title|title|truncatechars:50 }}</strong><br>
-                                    {{ talk.schedule }}
-                                </div>
-                            </a>
-                            {% endif %}
-                        {% endfor %}
+    <div class="well row text-center" data-columns="{{ schedule.rooms|schedule_cols_total }}">
+        <div class="col-md-{{ schedule.rooms|schedule_cols_first }}">
+            <div class="alert alert-material-teal-100 row"><strong>{% trans "Hour" %}</strong></div>
+            <div style="height: {{ schedule.size }}px;">
+                {% for reference_hour in schedule.reference_hours %}
+                    <div style="height: {{ reference_hour.size }}%">
+                        <strong>{{ reference_hour.start|date:"H:i" }} - {{ reference_hour.end|date:"H:i" }}</strong>
                     </div>
+                    {% if not forloop.last %}
+                        <hr style="padding:0px; margin:0px;"/>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% for room in schedule.rooms %}
+            <div class="col-md-{{ schedule.rooms|schedule_cols_other }}">
+                <div class="alert alert-material-teal-100 row"><strong>{{ room.name|title }}</strong></div>
+                <div style="height: {{ schedule.size }}px;">
+                    {% for talk in room.talks %}
+                        {% if 'dummy' in talk %}
+                            <div class="alert-material-light-green-50" style="height: {{ talk.dummy_size }}%;">
+                            </div>
+                        {% else %}
+                            <div style="height: {{ talk.talk_size }}%">
+                                <a href='/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}'>
+                                    <strong>{{ talk.talk_proposal.title|title|truncatechars:50 }}</strong><br>
+                                </a>
+                                {{ talk.schedule }}
+                            </div>
+                        {% endif %}
+                        {% if not forloop.last %}
+                            <hr style="padding:0px; margin:0px;"/>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         {% endfor %}
     </div>
+{% endblock %}
 
+{% block other-script %}
+    <script type="text/javascript"
+            src="{% static "manager/bower_components/gridline-bootstrap/dist/gridline.min.js" %}"></script>
 {% endblock %}

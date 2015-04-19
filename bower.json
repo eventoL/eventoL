@@ -24,6 +24,7 @@
     "bootstrap-timepicker": "~0.2.6",
     "roboto-fontface": "~0.3.0",
     "leaflet": "~0.7.3",
-    "slick-carousel": "1.4.1"
+    "slick-carousel": "1.4.1",
+    "gridline-bootstrap": "*"
   }
 }
