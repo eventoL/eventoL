@@ -21,7 +21,16 @@ class EventoLAdmin(admin.ModelAdmin):
         return self.filter_sede(collaborator.sede, queryset)
 
 
-class TalkProposalAdmin(ImageCroppingMixin, EventoLAdmin):
+class TalkProposalResource(resources.ModelResource):
+    class Meta:
+        model = TalkProposal
+        fields = (
+            'title', 'type', 'speakers_names', 'speakers_email', 'abstract', 'long_description', 'labels', 'level')
+        export_order = fields
+
+
+class TalkProposalAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
+    resource_class = TalkProposalResource
     pass
 
 
