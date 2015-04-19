@@ -44,7 +44,19 @@ class BuildingAdmin(EventoLAdmin):
         return queryset.filter(address=sede.place.address)
 
 
-class InstallerAdmin(EventoLAdmin):
+class InstallerResource(resources.ModelResource):
+    class Meta:
+        model = Installer
+        fields = ('collaborator__user__first_name', 'collaborator__user__last_name', 'collaborator__user__username',
+                  'collaborator__user__email', 'collaborator__user__date_joined', 'collaborator__phone',
+                  'collaborator__address', 'collaborator__assisted', 'collaborator__assignation',
+                  'collaborator__time_availability', 'collaborator__additional_info', 'level')
+        export_order = fields
+
+
+class InstallerAdmin(ExportMixin, EventoLAdmin):
+    resource_class = InstallerResource
+
     def filter_sede(self, sede, queryset):
         return queryset.filter(collaborator__sede=sede)
 
@@ -61,7 +73,7 @@ class InstallationResource(resources.ModelResource):
 
 class InstallationAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallationResource
-    
+
     def filter_sede(self, sede, queryset):
         return queryset.filter(installer__collaborator__sede=sede)
 
