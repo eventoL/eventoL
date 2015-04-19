@@ -1,13 +1,15 @@
 from django.contrib.gis import admin
+from image_cropping.admin import ImageCroppingMixin
+from import_export import resources
+from import_export.admin import ExportMixin
+
 from manager.models import (Building, Sede, Attendee, Collaborator,
                             HardwareManufacturer, Hardware, Software,
                             Installer, Installation, TalkProposal, Talk,
                             TalkType, Room, ContactType, Contact, Comment)
-from image_cropping.admin import ImageCroppingMixin
 
 
 class EventoLAdmin(admin.ModelAdmin):
-
     def filter_sede(self, sede, queryset):
         return queryset.filter(sede=sede)
 
@@ -38,33 +40,40 @@ class CommentAdmin(EventoLAdmin):
 
 
 class BuildingAdmin(EventoLAdmin):
-
     def filter_sede(self, sede, queryset):
         return queryset.filter(address=sede.place.address)
 
 
 class InstallerAdmin(EventoLAdmin):
-
     def filter_sede(self, sede, queryset):
         return queryset.filter(collaborator__sede=sede)
 
 
 class InstallationAdmin(EventoLAdmin):
-
     def filter_sede(self, sede, queryset):
         return queryset.filter(installer__collaborator__sede=sede)
 
 
 class TalkAdmin(EventoLAdmin):
-
     def filter_sede(self, sede, queryset):
         return queryset.filter(talk_proposal__sede=sede)
+
+
+class AttendeeResource(resources.ModelResource):
+    class Meta:
+        model = Attendee
+        fields = ('name', 'surname', 'nickname', 'email', 'assisted', 'is_going_to_install', 'additional_info')
+
+
+class AttendeeAdmin(ExportMixin, EventoLAdmin):
+    resource_class = AttendeeResource
+    pass
 
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Sede, SedeAdmin)
 admin.site.register(TalkProposal, TalkProposalAdmin)
 admin.site.register(Building, BuildingAdmin)
-admin.site.register(Attendee, EventoLAdmin)
+admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Collaborator, EventoLAdmin)
 admin.site.register(HardwareManufacturer)
 admin.site.register(Hardware)
