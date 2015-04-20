@@ -85,23 +85,32 @@
                                             class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
                                     </li>
                                 {% else %}
-                                    <li><a href="/accounts/logout"><i class="fa fa-sign-out"></i> {% trans "Logout" %}
-                                    </a>
+                                    <li>
+                                        <a href="/accounts/logout">
+                                            <i class="fa fa-sign-out"></i>{% trans "Logout" %}
+                                        </a>
                                     </li>
-                                    <li><a href="/sede/{{ sede_url }}/talks"><i
-                                            class="fa fa-list"></i> {% trans "Talks List" %}</a>
+                                    <li>
+                                        <a href="/sede/{{ sede_url }}/talks">
+                                            <i class="fa fa-list"></i> {% trans "Talks List" %}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/sede/{{ sede_url }}/registration/attendee/search">
+                                            <i class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}
+                                        </a>
                                     </li>
                                     {% if user|is_installer %}
-                                        <li><a href="/sede/{{ sede_url }}/installation"><i
-                                                class="fa fa-laptop"></i> {% trans "Submit an installation" %}</a>
+                                        <li>
+                                            <a href="/sede/{{ sede_url }}/installation">
+                                                <i class="fa fa-laptop"></i> {% trans "Submit an installation" %}
+                                            </a>
                                         </li>
-                                    {% endif %}
-                                    <li><a href="/sede/{{ sede_url }}/registration/attendee/search"><i
-                                            class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}</a>
-                                    </li>
-                                    {% if not user|is_installer %}
-                                        <li><a href="/sede/{{ sede_url }}/registration/become_installer"><i
-                                                class="fa fa-linux"></i> {% trans "Become installer" %}</a>
+                                    {% else %}
+                                        <li>
+                                            <a href="/sede/{{ sede_url }}/registration/become_installer">
+                                                <i class="fa fa-linux"></i> {% trans "Become installer" %}
+                                            </a>
                                         </li>
                                     {% endif %}
                                 {% endif %}

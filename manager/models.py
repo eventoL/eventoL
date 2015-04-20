@@ -12,6 +12,9 @@ from image_cropping import ImageRatioField
 from image_cropping.fields import ImageCropField
 
 
+del Place.get_absolute_url
+
+
 class Building(Place):
     address = models.CharField(max_length=200)
 
@@ -21,6 +24,11 @@ class Building(Place):
     class Meta:
         verbose_name = _('Building')
         verbose_name_plural = _('Buildings')
+
+
+def validate_url(url):
+    if not re.match("^[a-zA-Z0-9-_]+$", url):
+        raise ValidationError(_('URL can only contain letters or numbers'))
 
 
 class Sede(models.Model):
@@ -38,7 +46,7 @@ class Sede(models.Model):
     place = models.ForeignKey(Building, verbose_name=_('Place'),
                               help_text=_('Specific place (building) where the event is taking place'))
     url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,
-                           db_index=True)
+                           db_index=True, validators=[validate_url])
 
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
         'If you want to use other page for your sede rather than eventoL\'s one, you can put the absolute url here'))
@@ -46,16 +54,10 @@ class Sede(models.Model):
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
-
         return "/sede/" + self.url + '/'
 
     def __unicode__(self):
         return u"%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
-
-    def save(self, *args, **kwargs):
-        if not re.match("^[a-zA-Z0-9-_]+$", self.url):
-            raise ValidationError({'url': _('URL can only contain letters or numbers')})
-        super(Sede, self).save(*args, **kwargs)
 
     def get_geo_info(self):
         return {"lat": self.city.location.y,
@@ -293,6 +295,7 @@ class Room(models.Model):
     class Meta:
         verbose_name = _('Room')
         verbose_name_plural = _('Rooms')
+        ordering = ['name']
 
 
 class Talk(models.Model):
@@ -314,6 +317,17 @@ class Talk(models.Model):
 
     def schedule(self):
         return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+
+    def get_schedule_info(self):
+        talk = {
+            'room': self.room.name,
+            'start_date': self.start_date.strftime('%m/%d/%Y %H:%M'),
+            'end_date': self.end_date.strftime('%m/%d/%Y %H:%M'),
+            'title': self.talk_proposal.title,
+            'speakers': self.talk_proposal.speakers_names,
+            'type': self.talk_proposal.type.name
+        }
+        return talk
 
     class Meta:
         verbose_name = _('Talk')

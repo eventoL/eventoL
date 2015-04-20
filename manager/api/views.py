@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 import json
 
-from manager.models import Sede
+from manager.models import Sede, Talk
 
 
 def states(request):
@@ -36,4 +36,14 @@ def sedes(request):
 
 def sedes_geo(request):
     response_data = [sede.get_geo_info() for sede in Sede.objects.distinct()]
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def talks(request, sede_url):
+    scheduled_talks = Talk.objects.filter(talk_proposal__sede__url__iexact=sede_url,
+                                          talk_proposal__confirmed=True,
+                                          talk_proposal__dummy_talk=False
+                                          )
+
+    response_data = [talk.get_schedule_info() for talk in scheduled_talks]
     return HttpResponse(json.dumps(response_data), content_type="application/json")
