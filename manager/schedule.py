@@ -5,7 +5,6 @@ import datetime
 class Schedule(object):
     def __init__(self, rooms, talks):
         self.rooms = rooms
-        rooms.sort()
         self.talks = talks
         if self.talks:
             self.talks.sort()
