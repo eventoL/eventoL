@@ -12,6 +12,9 @@ from image_cropping import ImageRatioField
 from image_cropping.fields import ImageCropField
 
 
+del Place.get_absolute_url
+
+
 class Building(Place):
     address = models.CharField(max_length=200)
 
