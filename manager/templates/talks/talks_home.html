@@ -8,7 +8,15 @@
           href="{% static "manager/bower_components/bootstrap-timepicker/css/bootstrap-timepicker.min.css" %}">
 {% endblock %}
 {% block page-header %}
-    {% trans "Talks" %}
+    <div class="row">
+        {% trans "Talks" %}
+        <button type="button" class="btn btn-success btn-xs pull-right" onclick="javascript:showAll()">
+            {% trans 'Show all' %}
+        </button>
+        <button type="button" class="btn btn-success btn-xs pull-right" onclick="javascript:hideAll()">
+            {% trans 'Hide all' %}
+        </button>
+    </div>
 {% endblock %}
 {% block content %}
     {% if talks or proposals %}
@@ -166,14 +174,15 @@
             $('#' + target).removeClass('collapse');
         }
 
+        function showAll() {
+            $('.panel-collapse').collapse('show');
+        }
+
+        function hideAll() {
+            $('.panel-collapse.in').collapse('hide');
+        }
 
         $(document).ready(function() {
-            $('.timepicker').timepicker({
-                showMeridian: false
-            }).on('show.timepicker', function(e) {
-                $('.icon-chevron-up').addClass('fa fa-chevron-up').removeClass('icon-chevron-up');
-                $('.icon-chevron-down').addClass('fa fa-chevron-down').removeClass('icon-chevron-down');
-            });
 
             function toggleChevron(e) {
                 $(e.target)
@@ -181,6 +190,13 @@
                         .find("i.indicator")
                         .toggleClass('fa-chevron-down fa-chevron-up');
             }
+
+            $('.timepicker').timepicker({
+                showMeridian: false
+            }).on('show.timepicker', function(e) {
+                $('.icon-chevron-up').addClass('fa fa-chevron-up').removeClass('icon-chevron-up');
+                $('.icon-chevron-down').addClass('fa fa-chevron-down').removeClass('icon-chevron-down');
+            });
 
             $('#accordion')
                     .on('hidden.bs.collapse', toggleChevron)
