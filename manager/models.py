@@ -293,6 +293,7 @@ class Room(models.Model):
     class Meta:
         verbose_name = _('Room')
         verbose_name_plural = _('Rooms')
+        ordering = ['name']
 
 
 class Talk(models.Model):
