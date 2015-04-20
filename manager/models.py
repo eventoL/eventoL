@@ -26,6 +26,11 @@ class Building(Place):
         verbose_name_plural = _('Buildings')
 
 
+def validate_url(url):
+    if not re.match("^[a-zA-Z0-9-_]+$", url):
+        raise ValidationError(_('URL can only contain letters or numbers'))
+
+
 class Sede(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('Country'))
     state = models.ForeignKey(Region, verbose_name=_('State'))
@@ -41,7 +46,7 @@ class Sede(models.Model):
     place = models.ForeignKey(Building, verbose_name=_('Place'),
                               help_text=_('Specific place (building) where the event is taking place'))
     url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,
-                           db_index=True)
+                           db_index=True, validators=[validate_url])
 
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
         'If you want to use other page for your sede rather than eventoL\'s one, you can put the absolute url here'))
@@ -53,11 +58,6 @@ class Sede(models.Model):
 
     def __unicode__(self):
         return u"%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
-
-    def save(self, *args, **kwargs):
-        if not re.match("^[a-zA-Z0-9-_]+$", self.url):
-            raise ValidationError({'url': _('URL can only contain letters or numbers')})
-        super(Sede, self).save(*args, **kwargs)
 
     def get_geo_info(self):
         return {"lat": self.city.location.y,
