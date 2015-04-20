@@ -46,7 +46,6 @@ class Sede(models.Model):
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
-
         return "/sede/" + self.url + '/'
 
     def __unicode__(self):
@@ -309,15 +308,21 @@ class Talk(models.Model):
         return u"%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
                                        self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
-    def get_schedule_info(self):
-        talk = {}
-        talk['room'] = self.room.name
-        talk['start_date'] = self.start_date.strftime('%m/%d/%Y %H:%M')
-        talk['end_date'] = self.end_date.strftime('%m/%d/%Y %H:%M')
-        talk['title'] = self.talk_proposal.title
-        talk['speakers'] = self.talk_proposal.speakers_names
-        talk['type'] = self.talk_proposal.type.name
+    def __cmp__(self, other):
+        return -1 if self.start_date.time() < other.start_date.time() else 1
 
+    def schedule(self):
+        return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+
+    def get_schedule_info(self):
+        talk = {
+            'room': self.room.name,
+            'start_date': self.start_date.strftime('%m/%d/%Y %H:%M'),
+            'end_date': self.end_date.strftime('%m/%d/%Y %H:%M'),
+            'title': self.talk_proposal.title,
+            'speakers': self.talk_proposal.speakers_names,
+            'type': self.talk_proposal.type.name
+        }
         return talk
 
     class Meta:
