@@ -5,7 +5,8 @@
 {% block page-header %}{% trans "Talks Schedule" %}{% endblock %}
 
 {% block content %}
-    <div class="well row text-center" data-columns="{{ schedule.rooms|schedule_cols_total }}">
+    <div class="well row text-center {% if schedule.rooms >= 6 %}letra-chiquita{% endif %}"
+         data-columns="{{ schedule.rooms|schedule_cols_total }}">
         <div class="col-md-{{ schedule.rooms|schedule_cols_first }}">
             <div class="alert alert-material-teal-100 row"><strong>{% trans "Hour" %}</strong></div>
             <div style="height: {{ schedule.size }}px;">
