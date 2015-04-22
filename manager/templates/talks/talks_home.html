@@ -132,12 +132,14 @@
                                                     {% trans "View Proposal" %}
                                                 </a></p>
 
-                                            <div id="to_talk-{{ forloop.counter }}"
-                                                 class="panel-collapse collapse">
-                                                <div class="container col-sm-12">
-                                                    {% include 'talks/to_talk_form.html' with form=proposal.form errors=proposal.errors form_id=proposal.pk %}
+                                            {% if sede_url|is_sede_staff:user %}
+                                                <div id="to_talk-{{ forloop.counter }}"
+                                                     class="panel-collapse collapse">
+                                                    <div class="container col-sm-12">
+                                                        {% include 'talks/to_talk_form.html' with form=proposal.form errors=proposal.errors form_id=proposal.pk %}
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            {% endif %}
 
                                         </div>
                                     </div>
@@ -148,7 +150,7 @@
                 {% endfor %}
             </div>
         </div>
-        {% if not sede.schedule_confirm %}
+        {% if not sede.schedule_confirm and sede_url|is_sede_staff:user %}
             <div class="row">
                 <a type="button" class="btn btn-success btn-xs" href="/sede/{{ sede_url }}/talk/confirm_schedule/">
                     <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
