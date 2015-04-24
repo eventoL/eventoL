@@ -297,22 +297,23 @@ def installation(request, sede_url):
             hardware = hardware_form.save()
             try:
                 if installation_form.is_valid():
-                    installation = installation_form.save()
-                    installation.hardware = hardware
-                    installation.installer = Installer.objects.get(collaborator__user=request.user)
-                    installation.save()
+                    install = installation_form.save()
+                    install.hardware = hardware
+                    install.installer = Installer.objects.get(collaborator__user=request.user)
+                    install.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/sede/' + sede_url)
+                else:
+                    if hardware is not None:
+                        Hardware.delete(hardware)
             except Exception:
-                pass
-
-        if hardware is not None:
-            Hardware.delete(hardware)
-        if installation is not None:
-            Installation.delete(installation)
-
+                if hardware is not None:
+                    Hardware.delete(hardware)
+                if install is not None:
+                    Installation.delete(installation)
         messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
+
     return render(request,
                   'installation/installation-form.html',
                   update_sede_info(sede_url, {'forms': forms, 'errors': errors, 'multipart': False}))
