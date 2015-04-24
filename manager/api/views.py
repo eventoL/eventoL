@@ -5,7 +5,7 @@ from manager.models import Sede, Talk, Attendee, Collaborator, Installer, Instal
 
 
 def sede_report(request, sede_url):
-    sede = Sede.objects.get(url=sede_url)
+    sede = Sede.objects.get(url__iexact=sede_url)
     attendees = Attendee.objects.filter(sede=sede)
     talks = Talk.objects.filter(talk_proposal__sede=sede)
     collaborators = Collaborator.objects.filter(sede=sede)
