@@ -34,6 +34,7 @@ sede_patterns = patterns(
     url(r'^schedule$', views.schedule, name='schedule'),
     url(r'^contact$', views.contact, name='contact'),
     url(r'^confirm/(?P<token>\w+)$', views.confirm_registration, name='confirm_registration'),
+    url(r'^reports$', views.reports, name='reports'),
 )
 
 urlpatterns = patterns(
