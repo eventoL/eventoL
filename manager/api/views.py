@@ -1,49 +1,70 @@
 from django.http import HttpResponse
 import json
-
-from manager.models import Sede, Talk
-
-
-def states(request):
-    country = request.GET.get('country', '')
-    sedes = Sede.objects.filter(country__code=country).prefetch_related('state')
-    regions = [sede.state for sede in sedes]
-    response_data = {}
-    for region in regions:
-        response_data[region.code] = region.name_std
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+from voting.models import Vote
+from manager.models import Sede, Talk, Attendee, Collaborator, Installer, Installation, TalkProposal, TalkType
 
 
-def cities(request):
-    region = request.GET.get('state', '')
-    sedes = Sede.objects.filter(state__code=region).prefetch_related('city')
-    citiess = [sede.city for sede in sedes]
-    response_data = {}
-    for city in citiess:
-        response_data[city.name_std] = city.name_std
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+def sede_report(request, sede_url):
+    sede = Sede.objects.get(url=sede_url)
+    attendees = Attendee.objects.filter(sede=sede)
+    talks = Talk.objects.filter(talk_proposal__sede=sede)
+    collaborators = Collaborator.objects.filter(sede=sede)
+    installers = Installer.objects.filter(collaborator__sede=sede)
+    talk_proposals = TalkProposal.objects.filter(sede=sede)
+    installations = Installation.objects.filter(attendee__sede=sede)
+    votes = Vote.objects.all()
+    sede_data = {
+        'attendee': {
+            'not_confirmed': attendees.filter(assisted=False).count(),
+            'confirmed': attendees.filter(assisted=True).count(),
+            'is_going_to_install': attendees.filter(is_going_to_install=True).count(),
+            'total': attendees.count()
+        },
+        'talk': {
+            'total': talks.count(),
+            'talks_for_room': count_by(talks, lambda talk: talk.room.name),
+            'talks_for_type': count_by(talks, lambda talk: talk.talk_proposal.type.name),
+            'talks_for_level': count_by(talks, lambda talk: talk.talk_proposal.level),
+            'talks_not_confirmed': talk_proposals.filter(confirmed=False).count(),
+            'talks_confirmed': talk_proposals.filter(confirmed=True).count(),
+            'talks_dummys': talk_proposals.filter(dummy_talk=True).count(),
+            'votes_for_talk': count_by(votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id).title, lambda vote: vote.vote)
+        },
+        'installation': {
+            'total': installations.count(),
+            'installation_for_software': count_by(installations, lambda inst: inst.software.name),
+            'installation_for_hardware': count_by(installations, lambda inst: inst.hardware.type),
+            'installation_for_installer': count_by(installations,
+                                                   lambda inst: inst.installer.collaborator.user.username)
+        },
+        'installer': {
+            'total': installers.count(),
+            'installers_for_level': count_by(installers, lambda inst: inst.level)
+        },
+        'staff': get_staff(talk_proposals, installers, collaborators)
+    }
+    return HttpResponse(json.dumps(sede_data), content_type="application/json")
 
 
-def sedes(request):
-    city = request.GET.get('city', '')
-    places = Sede.objects.filter(city__name_std=city)
-    response_data = {}
-    response_data[''] = '----------------'
-    for place in places:
-        response_data[place.id] = place.name
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+def count_by(list, getter, increment=None):
+    return_dict = {}
+    for element in list:
+        field = getter(element)
+        if field in return_dict:
+            return_dict[field] += increment(element) if increment else 1
+        else:
+            return_dict[field] = increment(element) if increment else 1
+    return return_dict
 
 
-def sedes_geo(request):
-    response_data = [sede.get_geo_info() for sede in Sede.objects.distinct()]
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
-def talks(request, sede_url):
-    scheduled_talks = Talk.objects.filter(talk_proposal__sede__url__iexact=sede_url,
-                                          talk_proposal__confirmed=True,
-                                          talk_proposal__dummy_talk=False
-                                          )
-
-    response_data = [talk.get_schedule_info() for talk in scheduled_talks]
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+def get_staff(talks, installers, collaborators):
+    staff_collaborators, speakers = [], []
+    for talk in talks:
+        speakers += [speaker.strip() for speaker in talk.speakers_names.split(',')]
+    installers = [installer.collaborator.user.username for installer in installers
+                  if installer.collaborator.user.username not in speakers]
+    for collaborator in collaborators:
+        if collaborator.user.username not in speakers:
+            if collaborator.user.username not in installers:
+                staff_collaborators.append(collaborator.user.username)
+    return {'collaborators': len(staff_collaborators), 'installers': len(installers), 'speakers': len(speakers)}
