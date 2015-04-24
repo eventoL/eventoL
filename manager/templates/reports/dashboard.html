@@ -100,8 +100,8 @@
         $(document).ready(function() {
 
             Q([
-              $.ajax("/api/attendee/?format=json&assisted=True&reduce=True"),
-              $.ajax("/api/attendee/?format=json&assisted=False&reduce=True")
+              $.ajax("/api/attendee/?format=json&assisted=True&sede={{ sede.pk }}&reduce=True"),
+              $.ajax("/api/attendee/?format=json&assisted=False&sede={{ sede.pk }}&reduce=True")
             ]).spread(function (assited, notAssisted){
 
               Morris.Donut({
@@ -114,7 +114,7 @@
 
             });
 
-            Q([$.get("/api/CABA/sede_report")])
+            Q([$.get("/api/{{ sede_url }}/sede_report")])
               .spread(function (sede_report){
 
                 Morris.Donut({
@@ -186,6 +186,6 @@
             });
 
         });
-    
+
     </script>
 {% endblock %}
