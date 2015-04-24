@@ -7,13 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EventoL\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2015-04-24 12:02-0300\n"
-"PO-Revision-Date: 2015-04-24 12:06-0300\n"
-=======
-"POT-Creation-Date: 2015-04-23 22:11-0300\n"
-"PO-Revision-Date: 2015-04-20 00:00-0300\n"
->>>>>>> 4c752f50ca9d7e630c3439af52bdba74eb25b55e
+"POT-Creation-Date: 2015-04-24 12:13-0300\n"
+"PO-Revision-Date: 2015-04-24 12:13-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -924,7 +919,6 @@ msgstr "Ver charla"
 msgid "View Proposal"
 msgstr "Ver propuesta"
 
-<<<<<<< HEAD
 #: manager/templates/talks/talks_home.html:158
 msgid "Confirm Schedule"
 msgstr "Confirmar Cronograma"
@@ -934,17 +928,6 @@ msgid "There isn't any talk proposal yet."
 msgstr "No hay ninguna propuesta de charla todavía."
 
 #: manager/templates/talks/talks_home.html:166
-=======
-#: manager/templates/talks/talks_home.html:156
-msgid "Confirm Schedule"
-msgstr "Confirmar Cronograma"
-
-#: manager/templates/talks/talks_home.html:163
-msgid "There isn't any talk proposal yet."
-msgstr "No hay ninguna propuesta de charla todavía."
-
-#: manager/templates/talks/talks_home.html:164
->>>>>>> 4c752f50ca9d7e630c3439af52bdba74eb25b55e
 msgid "Submit yours!"
 msgstr "Proponé la tuya!"
 
@@ -1011,16 +994,7 @@ msgstr ""
 "No se ha podido registrar la instalación. Verifique los errores en el "
 "formulario."
 
-<<<<<<< HEAD
-#: manager/views.py:330
-=======
 #: manager/views.py:331
-#, fuzzy
-#| msgid ""
-#| "We've sent you an email with the confirmation link. Please click or copy "
-#| "and paste it in your\n"
-#| "                browser to confirm the registration."
->>>>>>> 4c752f50ca9d7e630c3439af52bdba74eb25b55e
 msgid ""
 "We've sent you an email with the confirmation link. Please click or copy and "
 "paste it in your browser to confirm the registration."
@@ -1073,13 +1047,7 @@ msgstr ""
 "El cronograma final de charlas todavía no está confirmado. Se muestra una "
 "lista de las charlas propuestas hasta el momento."
 
-<<<<<<< HEAD
-#: manager/views.py:448
-=======
 #: manager/views.py:449
-#, fuzzy
-#| msgid "The attendee had already been registered correctly."
->>>>>>> 4c752f50ca9d7e630c3439af52bdba74eb25b55e
 msgid "The attendee has already been registered correctly."
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
