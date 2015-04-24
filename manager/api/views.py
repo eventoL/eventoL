@@ -28,7 +28,8 @@ def sede_report(request, sede_url):
             'talks_not_confirmed': talk_proposals.filter(confirmed=False).count(),
             'talks_confirmed': talk_proposals.filter(confirmed=True).count(),
             'talks_dummys': talk_proposals.filter(dummy_talk=True).count(),
-            'votes_for_talk': count_by(votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id).title, lambda vote: vote.vote)
+            'votes_for_talk': count_by(votes, lambda vote: TalkProposal.objects.get(
+                pk=vote.object_id, sede=sede).title, lambda vote: vote.vote)
         },
         'installation': {
             'total': installations.count(),
