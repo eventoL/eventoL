@@ -17,7 +17,7 @@ from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Sede, Room
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Room
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
@@ -183,6 +183,7 @@ class TalkForm(ModelForm):
     class Meta:
         model = Talk
         exclude = ('talk_proposal',)
+
 
 class ContactMessageForm(ModelForm):
     class Meta:

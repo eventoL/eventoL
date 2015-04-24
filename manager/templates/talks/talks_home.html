@@ -10,12 +10,14 @@
 {% block page-header %}
     <div class="row">
         {% trans "Talks" %}
-        <button type="button" class="btn btn-success btn-xs pull-right" onclick="javascript:showAll()">
-            {% trans 'Show all' %}
-        </button>
-        <button type="button" class="btn btn-success btn-xs pull-right" onclick="javascript:hideAll()">
-            {% trans 'Hide all' %}
-        </button>
+        <div id="buttons" class="pull-right">
+            <button type="button" class="btn btn-success" onclick="javascript:showAll()">
+                {% trans 'Show all' %}
+            </button>
+            <button type="button" class="btn btn-success" onclick="javascript:hideAll()">
+                {% trans 'Hide all' %}
+            </button>
+        </div>
     </div>
 {% endblock %}
 {% block content %}

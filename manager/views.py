@@ -542,3 +542,7 @@ def confirm_schedule(request, sede_url):
     sede.schedule_confirm = True
     sede.save()
     return schedule(request, sede_url)
+
+
+def reports(request, sede_url):
+    return render(request, 'reports/dashboard.html', update_sede_info(sede_url))

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EventoL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-23 22:11-0300\n"
-"PO-Revision-Date: 2015-04-20 00:00-0300\n"
+"POT-Creation-Date: 2015-04-24 12:13-0300\n"
+"PO-Revision-Date: 2015-04-24 12:13-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -169,6 +169,7 @@ msgid "i.e. Wath kind of PC are you bringing"
 msgstr "ej: Qué tipo de PC vas a llevar para instalar"
 
 #: manager/models.py:119 manager/models.py:215
+#: manager/templates/reports/dashboard.html:24
 msgid "Attendee"
 msgstr "Asistente"
 
@@ -229,6 +230,8 @@ msgid "Collaborator"
 msgstr "Colaborador"
 
 #: manager/models.py:144 manager/templates/base-main.html:74
+#: manager/templates/reports/dashboard.html:40
+#: manager/templates/reports/dashboard.html:123
 msgid "Collaborators"
 msgstr "Colaboradores"
 
@@ -267,8 +270,8 @@ msgstr "Otro"
 #: manager/models.py:167 manager/models.py:185 manager/models.py:251
 #: manager/templates/talks/detail.html:44
 #: manager/templates/talks/detail.html:75
-#: manager/templates/talks/talks_home.html:64
-#: manager/templates/talks/talks_home.html:120
+#: manager/templates/talks/talks_home.html:66
+#: manager/templates/talks/talks_home.html:122
 msgid "Type"
 msgstr "Tipo"
 
@@ -301,18 +304,21 @@ msgid "Version"
 msgstr "Versión"
 
 #: manager/models.py:194 manager/models.py:246
+#: manager/templates/reports/dashboard.html:168
 msgid "Beginner"
 msgstr "Principiante"
 
 #: manager/models.py:195 manager/models.py:247
+#: manager/templates/reports/dashboard.html:169
 msgid "Medium"
 msgstr "Medio"
 
 #: manager/models.py:196 manager/models.py:248
+#: manager/templates/reports/dashboard.html:170
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: manager/models.py:197
+#: manager/models.py:197 manager/templates/reports/dashboard.html:171
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
@@ -336,7 +342,8 @@ msgstr "Seleccione todo el software que sepa instalar."
 msgid "Installer"
 msgstr "Instalador"
 
-#: manager/models.py:209
+#: manager/models.py:209 manager/templates/reports/dashboard.html:41
+#: manager/templates/reports/dashboard.html:124
 msgid "Installers"
 msgstr "Instaladores"
 
@@ -362,7 +369,7 @@ msgstr ""
 msgid "Installation"
 msgstr "Instalación"
 
-#: manager/models.py:227
+#: manager/models.py:227 manager/templates/reports/dashboard.html:62
 msgid "Installations"
 msgstr "Instalaciones"
 
@@ -383,7 +390,7 @@ msgid "Long Description"
 msgstr "Descripción completa"
 
 #: manager/models.py:253 manager/templates/talks/proposal/votes.html:16
-#: manager/templates/talks/talks_home.html:37
+#: manager/templates/talks/talks_home.html:39
 msgid "Confirmed"
 msgstr "Confirmada"
 
@@ -394,8 +401,8 @@ msgstr "Charla dummy?"
 #: manager/models.py:255 manager/templates/talks/detail.html:36
 #: manager/templates/talks/detail.html:69
 #: manager/templates/talks/detail.html:78
-#: manager/templates/talks/talks_home.html:54
-#: manager/templates/talks/talks_home.html:111
+#: manager/templates/talks/talks_home.html:56
+#: manager/templates/talks/talks_home.html:113
 msgid "Abstract"
 msgstr "Resumen"
 
@@ -425,8 +432,8 @@ msgstr "(Separados por coma) Correo electrónico de los disertantes"
 
 #: manager/models.py:262 manager/templates/talks/detail.html:42
 #: manager/templates/talks/detail.html:67
-#: manager/templates/talks/talks_home.html:61
-#: manager/templates/talks/talks_home.html:117
+#: manager/templates/talks/talks_home.html:63
+#: manager/templates/talks/talks_home.html:119
 msgid "Labels"
 msgstr "Etiquetas/Tags"
 
@@ -497,7 +504,7 @@ msgstr "El tipo de charla para el cual se va a utilizar la sala"
 #: manager/models.py:296 manager/models.py:303
 #: manager/templates/talks/detail.html:46
 #: manager/templates/talks/detail.html:79
-#: manager/templates/talks/talks_home.html:66
+#: manager/templates/talks/talks_home.html:68
 msgid "Room"
 msgstr "Sala"
 
@@ -510,10 +517,12 @@ msgid "TalkProposal"
 msgstr "Propuesta de charla"
 
 #: manager/models.py:304 manager/templates/index.html:70
+#: manager/templates/reports/dashboard.html:42
+#: manager/templates/reports/dashboard.html:125
 #: manager/templates/talks/detail.html:39
 #: manager/templates/talks/detail.html:64
-#: manager/templates/talks/talks_home.html:58
-#: manager/templates/talks/talks_home.html:114
+#: manager/templates/talks/talks_home.html:60
+#: manager/templates/talks/talks_home.html:116
 msgid "Speakers"
 msgstr "Disertantes"
 
@@ -529,7 +538,8 @@ msgstr "Hora de fin"
 msgid "Talk"
 msgstr "Charla"
 
-#: manager/models.py:334 manager/templates/talks/talks_home.html:12
+#: manager/models.py:334 manager/templates/reports/dashboard.html:132
+#: manager/templates/talks/talks_home.html:12
 msgid "Talks"
 msgstr "Charlas"
 
@@ -610,23 +620,27 @@ msgstr "Lista de charlas"
 msgid "Administrar asistencia"
 msgstr "Administrar asistencia"
 
-#: manager/templates/base-main.html:106
+#: manager/templates/base-main.html:105
+msgid "View Reports"
+msgstr "Ver reportes"
+
+#: manager/templates/base-main.html:111
 msgid "Submit an installation"
 msgstr "Cargar una instalación"
 
-#: manager/templates/base-main.html:112
+#: manager/templates/base-main.html:117
 msgid "Become installer"
 msgstr "Ser instalador"
 
-#: manager/templates/base-main.html:121
+#: manager/templates/base-main.html:126
 msgid "Follow Us!"
 msgstr "Seguinos!"
 
-#: manager/templates/base-main.html:129
+#: manager/templates/base-main.html:134
 msgid "Contact Us!"
 msgstr "Contactanos!"
 
-#: manager/templates/base-main.html:156
+#: manager/templates/base-main.html:161
 msgid "You have the power!"
 msgstr "You have the power!"
 
@@ -786,6 +800,47 @@ msgid ""
 "you registered with, and check your spam folder."
 msgstr ""
 
+#: manager/templates/reports/dashboard.html:15
+msgid "Reports"
+msgstr "Reportes"
+
+#: manager/templates/reports/dashboard.html:27
+#: manager/templates/reports/dashboard.html:110
+msgid "Attendees Confirmed"
+msgstr "Asistentes confirmados"
+
+#: manager/templates/reports/dashboard.html:28
+#: manager/templates/reports/dashboard.html:111
+msgid "Attendees Not Confirmed"
+msgstr "Asistentes no confirmados"
+
+#: manager/templates/reports/dashboard.html:37
+msgid "Staff"
+msgstr "Colaboradores"
+
+#: manager/templates/reports/dashboard.html:51
+msgid "Counts"
+msgstr "Contadores"
+
+#: manager/templates/reports/dashboard.html:73
+msgid "Votes For Talks"
+msgstr "Votos por charla"
+
+#: manager/templates/reports/dashboard.html:84
+msgid "Installer For Level"
+msgstr "Instaladores por nivel"
+
+#: manager/templates/reports/dashboard.html:133
+msgid "Instalations"
+msgstr "Instalaciones"
+
+#: manager/templates/reports/dashboard.html:137
+#: manager/templates/reports/dashboard.html:150
+#: manager/templates/reports/dashboard.html:163
+#: manager/templates/reports/dashboard.html:183
+msgid "Count"
+msgstr "Contadores"
+
 #: manager/templates/talks/comments.html:4
 msgid "Comments"
 msgstr "Comentarios"
@@ -808,18 +863,18 @@ msgstr "Este comentario es público"
 
 #: manager/templates/talks/detail.html:48
 #: manager/templates/talks/detail.html:80
-#: manager/templates/talks/talks_home.html:68
+#: manager/templates/talks/talks_home.html:70
 msgid "Start"
 msgstr "Hora de inicio"
 
 #: manager/templates/talks/detail.html:50
 #: manager/templates/talks/detail.html:81
-#: manager/templates/talks/talks_home.html:70
+#: manager/templates/talks/talks_home.html:72
 msgid "End"
 msgstr "Hora de fin"
 
 #: manager/templates/talks/detail.html:84
-#: manager/templates/talks/talks_home.html:126
+#: manager/templates/talks/talks_home.html:128
 msgid "Become Talk"
 msgstr "Convertir en charla"
 
@@ -832,7 +887,7 @@ msgid "Please select the visible area for your image"
 msgstr "Por favor seleccione el área visible para la imagen"
 
 #: manager/templates/talks/proposal/votes.html:24
-#: manager/templates/talks/talks_home.html:93
+#: manager/templates/talks/talks_home.html:95
 msgid "Not Confirmed"
 msgstr "No Confirmada"
 
@@ -848,31 +903,31 @@ msgstr "Votos: "
 msgid "Hour"
 msgstr "Hora"
 
-#: manager/templates/talks/talks_home.html:14
+#: manager/templates/talks/talks_home.html:15
 msgid "Show all"
 msgstr "Mostrar todo"
 
-#: manager/templates/talks/talks_home.html:17
+#: manager/templates/talks/talks_home.html:18
 msgid "Hide all"
 msgstr "Ocultar todo"
 
-#: manager/templates/talks/talks_home.html:73
+#: manager/templates/talks/talks_home.html:75
 msgid "View Talk"
 msgstr "Ver charla"
 
-#: manager/templates/talks/talks_home.html:132
+#: manager/templates/talks/talks_home.html:134
 msgid "View Proposal"
 msgstr "Ver propuesta"
 
-#: manager/templates/talks/talks_home.html:156
+#: manager/templates/talks/talks_home.html:158
 msgid "Confirm Schedule"
 msgstr "Confirmar Cronograma"
 
-#: manager/templates/talks/talks_home.html:163
+#: manager/templates/talks/talks_home.html:165
 msgid "There isn't any talk proposal yet."
 msgstr "No hay ninguna propuesta de charla todavía."
 
-#: manager/templates/talks/talks_home.html:164
+#: manager/templates/talks/talks_home.html:166
 msgid "Submit yours!"
 msgstr "Proponé la tuya!"
 
@@ -940,11 +995,6 @@ msgstr ""
 "formulario."
 
 #: manager/views.py:331
-#, fuzzy
-#| msgid ""
-#| "We've sent you an email with the confirmation link. Please click or copy "
-#| "and paste it in your\n"
-#| "                browser to confirm the registration."
 msgid ""
 "We've sent you an email with the confirmation link. Please click or copy and "
 "paste it in your browser to confirm the registration."
@@ -998,8 +1048,6 @@ msgstr ""
 "lista de las charlas propuestas hasta el momento."
 
 #: manager/views.py:449
-#, fuzzy
-#| msgid "The attendee had already been registered correctly."
 msgid "The attendee has already been registered correctly."
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 

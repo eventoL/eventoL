@@ -25,6 +25,8 @@
     "roboto-fontface": "~0.3.0",
     "leaflet": "~0.7.3",
     "slick-carousel": "1.4.1",
-    "gridline-bootstrap": "*"
+    "gridline-bootstrap": "*",
+    "morrisjs": "~0.5.1",
+    "q": "~1.0.1"
   }
 }
