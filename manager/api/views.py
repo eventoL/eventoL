@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 import json
 from voting.models import Vote
-from manager.models import Sede, Talk, Attendee, Collaborator, Installer, Installation, TalkProposal, TalkType
+from manager.models import Sede, Talk, Attendee, Collaborator, Installer, Installation, TalkProposal
 
 
 def sede_report(request, sede_url):
@@ -49,11 +49,14 @@ def sede_report(request, sede_url):
 def count_by(list, getter, increment=None):
     return_dict = {}
     for element in list:
-        field = getter(element)
-        if field in return_dict:
-            return_dict[field] += increment(element) if increment else 1
-        else:
-            return_dict[field] = increment(element) if increment else 1
+        try:
+            field = getter(element)
+            if field in return_dict:
+                return_dict[field] += increment(element) if increment else 1
+            else:
+                return_dict[field] = increment(element) if increment else 1
+        except Exception:
+            pass
     return return_dict
 
 
