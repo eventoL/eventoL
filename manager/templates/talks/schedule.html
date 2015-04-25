@@ -7,7 +7,7 @@
 {% block content %}
     <div class="well row text-center {% if schedule.rooms >= 6 %}letra-chiquita{% endif %}"
          data-columns="{{ schedule.rooms|schedule_cols_total }}">
-        <div class="col-md-{{ schedule.rooms|schedule_cols_first }}">
+        <div class="col-md-{{ schedule.rooms|schedule_cols_first }} hidden-sm hidden-xs">
             <div class="alert alert-material-teal-100 row"><strong>{% trans "Hour" %}</strong></div>
             <div style="height: {{ schedule.size }}px;">
                 {% for reference_hour in schedule.reference_hours %}
@@ -26,8 +26,7 @@
                 <div style="height: {{ schedule.size }}px;">
                     {% for talk in room.talks %}
                         {% if 'dummy' in talk %}
-                            <div class="alert-material-light-green-50" style="height: {{ talk.dummy_size }}%;">
-                            </div>
+                            <div class="alert-material-light-green-50 hidden-sm hidden-xs" style="height: {{ talk.dummy_size }}%;"></div>
                         {% else %}
                             <div style="height: {{ talk.talk_size }}%">
                                 {% if talk.talk_size < 3 %}
@@ -56,5 +55,6 @@
 
 {% block other-script %}
     <script type="text/javascript"
-            src="{% static "manager/bower_components/gridline-bootstrap/dist/gridline.min.js" %}"></script>
+            src="{% static "manager/bower_components/gridline-bootstrap/dist/gridline.min.js" %}">
+    </script>
 {% endblock %}
