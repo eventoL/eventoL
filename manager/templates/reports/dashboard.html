@@ -101,7 +101,7 @@
 
             Q([
               $.ajax("/api/attendee/?format=json&assisted=True&sede={{ sede.pk }}&reduce=True"),
-              $.ajax("/api/attendee/?format=json&assisted=False&sede={{ sede.pk }}&reduce=True")
+              $.ajax("/api/attendee/?format=json&assisted=False&sede=sede.pk&reduce=True")
             ]).spread(function (assited, notAssisted){
 
               Morris.Donut({
@@ -114,8 +114,8 @@
 
             });
 
-            Q([$.get("/api/{{ sede_url }}/sede_report")])
-              .spread(function (sede_report){
+            Q($.get("/api/{{ sede_url }}/sede_report"))
+              .then(function (sede_report){
 
                 Morris.Donut({
                   element: 'staff',
@@ -126,33 +126,9 @@
                   ]
                 });
 
-                Morris.Bar({
-                  element: 'counts',
-                  data: [
-                    { y: '{% trans "Talks" %}', a: sede_report.talk.total},
-                    { y: '{% trans "Instalations" %}', a: sede_report.installation.total}
-                  ],
-                  xkey: 'y',
-                  ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
-                });
-
-                var software = [];
-                for ( var item in sede_report.installation.installation_for_software ){
-                    software.push({y: item, a: sede_report.installation.installation_for_software[item]});
-                };
-
-                Morris.Bar({
-                  element: 'installations',
-                  data: software,
-                  xkey: 'y',
-                  ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
-                });
-
                 var votes = [];
-                for ( var item in sede_report.talk.votes_for_talk ){
-                    votes.push({y: item, a: sede_report.talk.votes_for_talk[item]});
+                for ( var item in sede_report.votes_for_talk ){
+                    votes.push({y: item, a: sede_report.votes_for_talk[item]});
                 };
 
                 Morris.Bar({
@@ -163,6 +139,11 @@
                   labels: ['{% trans "Count" %}']
                 });
 
+            });
+
+            Q($.get("/api/installers/?format=json&sede={{ sede.pk }}&reduce=True"))
+              .then(function (installer){
+
                 var installers = [];
                 var installer_levels = {
                   1: '{% trans 'Beginner' %}',
@@ -170,14 +151,42 @@
                   3: '{% trans 'Advanced' %}',
                   4: '{% trans 'Super Hacker' %}'
                 }
-                for ( var item in sede_report.installer.installers_for_level ){
-
-                    installers.push({y: installer_levels[item], a: sede_report.installer.installers_for_level[item]});
+                for ( var item in installer.installers_for_level ){
+                    installers.push({y: installer_levels[item], a: installer.installers_for_level[item]});
                 };
 
                 Morris.Bar({
                   element: 'installers',
                   data: installers,
+                  xkey: 'y',
+                  ykeys: ['a'],
+                  labels: ['{% trans "Count" %}']
+                });
+
+            });
+
+            Q([$.get("/api/talks/?format=json&sede={{ sede.pk }}&reduce=True"),
+               $.get("/api/installations/?format=json&sede={{ sede.pk }}&reduce=True")])
+              .spread(function (talk, installation){
+                Morris.Bar({
+                  element: 'counts',
+                  data: [
+                    { y: '{% trans "Talks" %}', a: talk.total},
+                    { y: '{% trans "Instalations" %}', a: installation.total}
+                  ],
+                  xkey: 'y',
+                  ykeys: ['a'],
+                  labels: ['{% trans "Count" %}']
+                });
+
+                var software = [];
+                for ( var item in installation.installation_for_software ){
+                    software.push({y: item, a: installation.installation_for_software[item]});
+                };
+
+                Morris.Bar({
+                  element: 'installations',
+                  data: software,
                   xkey: 'y',
                   ykeys: ['a'],
                   labels: ['{% trans "Count" %}']
