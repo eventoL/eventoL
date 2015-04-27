@@ -6,6 +6,16 @@ def basic_reduce(queryset):
     return {'total': queryset.count()}
 
 
+def count_if(list, conditions):
+    count = 0
+    for element in list:
+        try:
+            if all(element[key] == value for key, value in conditions.items()):
+                count += 1
+        except Exception:
+            pass
+    return count
+
 class ViewSetBuilder():
 
     def __init__(self, cls, cls_form=None, reduce_func=None):
