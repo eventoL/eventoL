@@ -2,6 +2,7 @@ from django.http import HttpResponse
 import json
 from voting.models import Vote
 from manager.models import Sede, Talk, Attendee, Collaborator, Installer, Installation, TalkProposal
+from manager.api.builder import count_by
 
 
 def sede_report(request, sede_url):
@@ -45,20 +46,6 @@ def sede_report(request, sede_url):
         'staff': get_staff(talk_proposals, installers, collaborators)
     }
     return HttpResponse(json.dumps(sede_data), content_type="application/json")
-
-
-def count_by(list, getter, increment=None):
-    return_dict = {}
-    for element in list:
-        try:
-            field = getter(element)
-            if field in return_dict:
-                return_dict[field] += increment(element) if increment else 1
-            else:
-                return_dict[field] = increment(element) if increment else 1
-        except Exception:
-            pass
-    return return_dict
 
 
 def get_staff(talks, installers, collaborators):
