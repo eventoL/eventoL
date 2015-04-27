@@ -2,8 +2,8 @@ from rest_framework import serializers, viewsets
 from rest_framework.filters import DjangoFilterBackend
 
 
-def basic_reduce(data):
-    return {'total': len(data)}
+def basic_reduce(queryset):
+    return {'total': queryset.count()}
 
 
 class ViewSetBuilder():
