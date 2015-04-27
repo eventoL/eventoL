@@ -16,6 +16,21 @@ def count_if(list, conditions):
             pass
     return count
 
+
+def count_by(list, getter, increment=None):
+    return_dict = {}
+    for element in list:
+        try:
+            field = getter(element)
+            if field in return_dict:
+                return_dict[field] += increment(element) if increment else 1
+            else:
+                return_dict[field] = increment(element) if increment else 1
+        except Exception:
+            pass
+    return return_dict
+
+
 class ViewSetBuilder():
 
     def __init__(self, cls, cls_form=None, reduce_func=None):
