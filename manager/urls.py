@@ -22,6 +22,7 @@ sede_patterns = patterns(
     url(r'^talk/proposal/image-cropping/(?P<image_id>\d+)/$', views.image_cropping, name='image_cropping'),
     url(r'^talk/proposal/image-cropping/$', views.image_cropping, name='image_cropping'),
     url(r'^talk/proposal/$', views.talk_proposal, name='talk_proposal'),
+    url(r'^talk/proposal/(?P<pk>\d+)$', views.talk_proposal, name='talk_proposal'),
     url(r'^talk/detail/talk/(?P<pk>\d+)$', views.talk_detail, name='talk_detail'),
     url(r'^talk/detail/proposal/(?P<pk>\d+)$', views.proposal_detail, name='proposal_detail'),
     url(r'^talk/detail/proposal/(?P<pk>\d+)/upload_presentation$', views.upload_presentation, name='upload_presentation'),
