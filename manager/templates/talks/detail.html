@@ -43,9 +43,15 @@
                                         <p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>
                                     {% endif %}
                                 </div>
+                                <a href="/sede/{{ sede_url }}/talk/proposal/{{ proposal.pk }}">
+                                    <p><strong>
+                                        <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
+                                    </strong></p>
+                                </a>
                                 {% if sede_url|is_sede_staff:user %}
                                     <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
-                                        {% if talk %}<i class="fa fa-pencil"></i> {% trans "Edit Talk" %}
+                                        <i class="fa fa-pencil"></i>
+                                        {% if talk %}{% trans "Edit Talk" %}
                                         {% else %}{% trans "Become Talk" %}
                                         {% endif %}
                                     </a></strong></p>
