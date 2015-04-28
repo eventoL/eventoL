@@ -417,7 +417,15 @@ def talks(request, sede_url):
 
 def talk_detail(request, sede_url, pk):
     talk = Talk.objects.get(pk=pk)
-    return proposal_detail(request, sede_url, talk.talk_proposal.pk)
+    return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, talk.talk_proposal.pk)))
+
+
+def talk_delete(request, sede_url, pk):
+    talk = Talk.objects.get(pk=pk)
+    talk.talk_proposal.confirmed = False
+    talk.talk_proposal.save()
+    talk.delete()
+    return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, talk.talk_proposal.pk)))
 
 
 def proposal_detail(request, sede_url, pk):
