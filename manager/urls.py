@@ -24,6 +24,7 @@ sede_patterns = patterns(
     url(r'^talk/proposal/$', views.talk_proposal, name='talk_proposal'),
     url(r'^talk/proposal/(?P<pk>\d+)$', views.talk_proposal, name='talk_proposal'),
     url(r'^talk/detail/talk/(?P<pk>\d+)$', views.talk_detail, name='talk_detail'),
+    url(r'^talk/detail/talk/(?P<pk>\d+)/delete$', views.talk_delete, name='talk_delete'),
     url(r'^talk/detail/proposal/(?P<pk>\d+)$', views.proposal_detail, name='proposal_detail'),
     url(r'^talk/detail/proposal/(?P<pk>\d+)/upload_presentation$', views.upload_presentation, name='upload_presentation'),
     url(r'^talk/detail/proposal/(?P<pk>\d+)/vote/(?P<vote>\d+)$', views.vote_proposal, name='vote_proposal'),
