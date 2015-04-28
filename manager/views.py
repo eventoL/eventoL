@@ -437,6 +437,21 @@ def proposal_detail(request, sede_url, pk):
     return render(request, 'talks/detail.html', update_sede_info(sede_url, render_dict))
 
 
+def upload_presentation(request, sede_url, pk):
+    proposal = get_object_or_404(TalkProposal, pk=pk)
+    form = PresentationForm(request.POST or None, request.FILES, instance=proposal)
+    if request.POST:
+        if form.is_valid():
+            if request.FILES:
+                if request.POST.get('presentation-clear') or request.FILES:
+                    form.cleaned_data['presentation'] = None
+            form.save()
+            messages.success(request, _("The presentation has been uploaded successfully!"))
+            return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, proposal.pk)))
+        messages.error(request, _("The presentation hasn't been uploaded successfully (check form errors)"))
+    return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, pk)))
+
+
 @login_required(login_url='../../accounts/login/')
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_search(request, sede_url):
