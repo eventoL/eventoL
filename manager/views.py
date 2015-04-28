@@ -19,7 +19,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    TalkForm, CommentForm
+    TalkForm, CommentForm, PresentationForm
 from manager.models import Installer, Hardware, Installation, Talk, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact, Room
 from manager.schedule import Schedule
@@ -430,7 +430,8 @@ def proposal_detail(request, sede_url, pk):
         render_dict.update({'vote': vote, 'score': score})
     if proposal.confirmed:
         talk = Talk.objects.get(talk_proposal=proposal)
-        render_dict.update({'talk': talk})
+        render_dict.update({'talk': talk, 'form': TalkForm(sede_url, instance=talk),
+                            'form_presentation': PresentationForm(instance=proposal), 'errors': []})
     else:
         render_dict.update({'form': TalkForm(sede_url), 'errors': []})
     return render(request, 'talks/detail.html', update_sede_info(sede_url, render_dict))
