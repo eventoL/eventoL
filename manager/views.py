@@ -347,7 +347,7 @@ def confirm_registration(request, sede_url, token):
 
 
 @login_required(login_url='../../accounts/login/')
-def talk_proposal(request, sede_url):
+def talk_proposal(request, sede_url, pk=None):
     sede = Sede.objects.get(url__iexact=sede_url)
 
     if not sede.talk_proposal_is_open:
@@ -357,7 +357,7 @@ def talk_proposal(request, sede_url):
                            "page. Please contact the Sede Organization Team to submit it."))
         return HttpResponseRedirect(reverse('index', args=(sede_url,)))
 
-    proposal = TalkProposal(sede=sede)
+    proposal = TalkProposal.objects.get(pk=pk) if pk else TalkProposal(sede=sede)
     form = TalkProposalForm(request.POST or None, request.FILES or None, instance=proposal)
     if request.POST:
         if form.is_valid():
