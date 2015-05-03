@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url, include
 from manager.api import views
-from manager.api.rest import router
+from manager.api.routes import router
 
 urlpatterns = patterns(
     '',

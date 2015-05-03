@@ -2,8 +2,33 @@ from rest_framework import serializers, viewsets
 from rest_framework.filters import DjangoFilterBackend
 
 
-def basic_reduce(data):
-    return {'total': len(data)}
+def basic_reduce(queryset):
+    return {'total': queryset.count()}
+
+
+def count_if(list, conditions):
+    count = 0
+    for element in list:
+        try:
+            if all(element[key] == value for key, value in conditions.items()):
+                count += 1
+        except Exception:
+            pass
+    return count
+
+
+def count_by(list, getter, increment=None):
+    return_dict = {}
+    for element in list:
+        try:
+            field = getter(element)
+            if field in return_dict:
+                return_dict[field] += increment(element) if increment else 1
+            else:
+                return_dict[field] = increment(element) if increment else 1
+        except Exception:
+            pass
+    return return_dict
 
 
 class ViewSetBuilder():
@@ -32,7 +57,7 @@ class ViewSetBuilder():
             def list(this, request, *args, **kwargs):
                 return_value = super(ViewSet, this).list(request, *args, **kwargs)
                 if request.GET.get('reduce', None):
-                    return_value.data = self.reduce_func(return_value.data)
+                    return_value.data = self.reduce_func(this.get_queryset())
                 return return_value
 
         return ViewSet
