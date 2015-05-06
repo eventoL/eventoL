@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EventoL\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 12:13-0300\n"
-"PO-Revision-Date: 2015-04-24 12:13-0300\n"
+"POT-Creation-Date: 2015-05-06 13:59-0300\n"
+"PO-Revision-Date: 2015-05-06 14:01-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: es\n"
@@ -268,8 +268,7 @@ msgid "Other"
 msgstr "Otro"
 
 #: manager/models.py:167 manager/models.py:185 manager/models.py:251
-#: manager/templates/talks/detail.html:44
-#: manager/templates/talks/detail.html:75
+#: manager/templates/talks/detail.html:39
 #: manager/templates/talks/talks_home.html:66
 #: manager/templates/talks/talks_home.html:122
 msgid "Type"
@@ -304,21 +303,21 @@ msgid "Version"
 msgstr "Versión"
 
 #: manager/models.py:194 manager/models.py:246
-#: manager/templates/reports/dashboard.html:168
+#: manager/templates/reports/dashboard.html:149
 msgid "Beginner"
 msgstr "Principiante"
 
 #: manager/models.py:195 manager/models.py:247
-#: manager/templates/reports/dashboard.html:169
+#: manager/templates/reports/dashboard.html:150
 msgid "Medium"
 msgstr "Medio"
 
 #: manager/models.py:196 manager/models.py:248
-#: manager/templates/reports/dashboard.html:170
+#: manager/templates/reports/dashboard.html:151
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: manager/models.py:197 manager/templates/reports/dashboard.html:171
+#: manager/models.py:197 manager/templates/reports/dashboard.html:152
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
@@ -385,7 +384,7 @@ msgstr "Tipos de charla"
 msgid "Title"
 msgstr "Título"
 
-#: manager/models.py:252 manager/templates/talks/detail.html:72
+#: manager/models.py:252
 msgid "Long Description"
 msgstr "Descripción completa"
 
@@ -399,8 +398,6 @@ msgid "Dummy Talk?"
 msgstr "Charla dummy?"
 
 #: manager/models.py:255 manager/templates/talks/detail.html:36
-#: manager/templates/talks/detail.html:69
-#: manager/templates/talks/detail.html:78
 #: manager/templates/talks/talks_home.html:56
 #: manager/templates/talks/talks_home.html:113
 msgid "Abstract"
@@ -430,8 +427,7 @@ msgstr "Correo electrónico de los disertantes"
 msgid "Comma separated speaker's emails"
 msgstr "(Separados por coma) Correo electrónico de los disertantes"
 
-#: manager/models.py:262 manager/templates/talks/detail.html:42
-#: manager/templates/talks/detail.html:67
+#: manager/models.py:262 manager/templates/talks/detail.html:38
 #: manager/templates/talks/talks_home.html:63
 #: manager/templates/talks/talks_home.html:119
 msgid "Labels"
@@ -502,8 +498,7 @@ msgid "The type of talk the room is going to be used for."
 msgstr "El tipo de charla para el cual se va a utilizar la sala"
 
 #: manager/models.py:296 manager/models.py:303
-#: manager/templates/talks/detail.html:46
-#: manager/templates/talks/detail.html:79
+#: manager/templates/talks/detail.html:41
 #: manager/templates/talks/talks_home.html:68
 msgid "Room"
 msgstr "Sala"
@@ -519,8 +514,7 @@ msgstr "Propuesta de charla"
 #: manager/models.py:304 manager/templates/index.html:70
 #: manager/templates/reports/dashboard.html:42
 #: manager/templates/reports/dashboard.html:125
-#: manager/templates/talks/detail.html:39
-#: manager/templates/talks/detail.html:64
+#: manager/templates/talks/detail.html:37
 #: manager/templates/talks/talks_home.html:60
 #: manager/templates/talks/talks_home.html:116
 msgid "Speakers"
@@ -538,7 +532,7 @@ msgstr "Hora de fin"
 msgid "Talk"
 msgstr "Charla"
 
-#: manager/models.py:334 manager/templates/reports/dashboard.html:132
+#: manager/models.py:334 manager/templates/reports/dashboard.html:174
 #: manager/templates/talks/talks_home.html:12
 msgid "Talks"
 msgstr "Charlas"
@@ -660,6 +654,7 @@ msgstr "Hora..."
 #: manager/templates/generic-bootstrap-multiple-model-form.html:40
 #: manager/templates/talks/comments.html:73
 #: manager/templates/talks/to_talk_form.html:40
+#: manager/templates/talks/upload_presentation.html:29
 msgid "Submit"
 msgstr "Enviar"
 
@@ -830,16 +825,16 @@ msgstr "Votos por charla"
 msgid "Installer For Level"
 msgstr "Instaladores por nivel"
 
-#: manager/templates/reports/dashboard.html:133
-msgid "Instalations"
-msgstr "Instalaciones"
-
-#: manager/templates/reports/dashboard.html:137
-#: manager/templates/reports/dashboard.html:150
+#: manager/templates/reports/dashboard.html:139
 #: manager/templates/reports/dashboard.html:163
-#: manager/templates/reports/dashboard.html:183
+#: manager/templates/reports/dashboard.html:179
+#: manager/templates/reports/dashboard.html:192
 msgid "Count"
 msgstr "Contadores"
+
+#: manager/templates/reports/dashboard.html:175
+msgid "Instalations"
+msgstr "Instalaciones"
 
 #: manager/templates/talks/comments.html:4
 msgid "Comments"
@@ -861,24 +856,42 @@ msgstr "Agregar comentario"
 msgid "This comment is public"
 msgstr "Este comentario es público"
 
-#: manager/templates/talks/detail.html:48
-#: manager/templates/talks/detail.html:80
+#: manager/templates/talks/detail.html:42
 #: manager/templates/talks/talks_home.html:70
 msgid "Start"
 msgstr "Hora de inicio"
 
-#: manager/templates/talks/detail.html:50
-#: manager/templates/talks/detail.html:81
+#: manager/templates/talks/detail.html:43
 #: manager/templates/talks/talks_home.html:72
 msgid "End"
 msgstr "Hora de fin"
 
-#: manager/templates/talks/detail.html:84
+#: manager/templates/talks/detail.html:46
+msgid "Disconfirm talk"
+msgstr "Desconfirmar charla"
+
+#: manager/templates/talks/detail.html:54
+msgid "Edit Proposal"
+msgstr "Editar propuesta"
+
+#: manager/templates/talks/detail.html:60
+msgid "Edit Talk"
+msgstr "Editar charla"
+
+#: manager/templates/talks/detail.html:61
 #: manager/templates/talks/talks_home.html:128
 msgid "Become Talk"
 msgstr "Convertir en charla"
 
-#: manager/templates/talks/detail.html:138
+#: manager/templates/talks/detail.html:75
+msgid "Upload Presentation"
+msgstr "Subir Presentación"
+
+#: manager/templates/talks/detail.html:86
+msgid "Download/View presentation"
+msgstr "Descargar/Ver presentación"
+
+#: manager/templates/talks/detail.html:130
 msgid "Cancel my vote"
 msgstr "Cancelar mi voto"
 
@@ -1003,7 +1016,7 @@ msgstr ""
 "haga click en el mismo o cópielo y péguelo en su \n"
 "                navegador para confirmar la registración."
 
-#: manager/views.py:334 manager/views.py:457 manager/views.py:475
+#: manager/views.py:334 manager/views.py:481 manager/views.py:499
 msgid "The attendee hasn't been registered successfully (check form errors)"
 msgstr ""
 "Hubo algún error al procesar la registración. Por favor verifique los "
@@ -1047,23 +1060,33 @@ msgstr ""
 "El cronograma final de charlas todavía no está confirmado. Se muestra una "
 "lista de las charlas propuestas hasta el momento."
 
-#: manager/views.py:449
+#: manager/views.py:457
+msgid "The presentation has been uploaded successfully!"
+msgstr "La presentación de charla se ha guardado satisfactoriamente!"
+
+#: manager/views.py:459
+msgid "The presentation hasn't been uploaded successfully (check form errors)"
+msgstr ""
+"No se ha podido guardar la presentación. Verifique los errores en el "
+"formulario."
+
+#: manager/views.py:473
 msgid "The attendee has already been registered correctly."
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
-#: manager/views.py:453 manager/views.py:473
+#: manager/views.py:477 manager/views.py:497
 msgid "The attendee has been registered successfully. Happy Hacking!"
 msgstr "El asistente se ha registrado correctamente. Happy Hacking!"
 
-#: manager/views.py:487
+#: manager/views.py:511
 msgid "FLISoL Contact Message "
 msgstr "Mensaje de contacto de FLISoL"
 
-#: manager/views.py:493
+#: manager/views.py:517
 msgid "The message has been sent."
 msgstr "El mensaje ha sido enviado."
 
-#: manager/views.py:495
+#: manager/views.py:519
 msgid "The message hasn't been sent."
 msgstr "No se ha podido enviar el mensaje."
 
@@ -1091,9 +1114,6 @@ msgstr "No se ha podido enviar el mensaje."
 
 #~ msgid "End Date"
 #~ msgstr "Hora de fin"
-
-#~ msgid "Proposal and confirmed talks"
-#~ msgstr "Propuestas de charlas y charlas confirmadas"
 
 #~ msgid "Registration Confirmation"
 #~ msgstr "Confirmación de registro"
