@@ -19,7 +19,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    TalkForm, CommentForm
+    TalkForm, CommentForm, PresentationForm
 from manager.models import Installer, Hardware, Installation, Talk, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact, Room
 from manager.schedule import Schedule
@@ -347,7 +347,7 @@ def confirm_registration(request, sede_url, token):
 
 
 @login_required(login_url='../../accounts/login/')
-def talk_proposal(request, sede_url):
+def talk_proposal(request, sede_url, pk=None):
     sede = Sede.objects.get(url__iexact=sede_url)
 
     if not sede.talk_proposal_is_open:
@@ -357,7 +357,7 @@ def talk_proposal(request, sede_url):
                            "page. Please contact the Sede Organization Team to submit it."))
         return HttpResponseRedirect(reverse('index', args=(sede_url,)))
 
-    proposal = TalkProposal(sede=sede)
+    proposal = TalkProposal.objects.get(pk=pk) if pk else TalkProposal(sede=sede)
     form = TalkProposalForm(request.POST or None, request.FILES or None, instance=proposal)
     if request.POST:
         if form.is_valid():
@@ -417,7 +417,15 @@ def talks(request, sede_url):
 
 def talk_detail(request, sede_url, pk):
     talk = Talk.objects.get(pk=pk)
-    return proposal_detail(request, sede_url, talk.talk_proposal.pk)
+    return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, talk.talk_proposal.pk)))
+
+
+def talk_delete(request, sede_url, pk):
+    talk = Talk.objects.get(pk=pk)
+    talk.talk_proposal.confirmed = False
+    talk.talk_proposal.save()
+    talk.delete()
+    return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, talk.talk_proposal.pk)))
 
 
 def proposal_detail(request, sede_url, pk):
@@ -430,10 +438,26 @@ def proposal_detail(request, sede_url, pk):
         render_dict.update({'vote': vote, 'score': score})
     if proposal.confirmed:
         talk = Talk.objects.get(talk_proposal=proposal)
-        render_dict.update({'talk': talk})
+        render_dict.update({'talk': talk, 'form': TalkForm(sede_url, instance=talk),
+                            'form_presentation': PresentationForm(instance=proposal), 'errors': []})
     else:
         render_dict.update({'form': TalkForm(sede_url), 'errors': []})
     return render(request, 'talks/detail.html', update_sede_info(sede_url, render_dict))
+
+
+def upload_presentation(request, sede_url, pk):
+    proposal = get_object_or_404(TalkProposal, pk=pk)
+    form = PresentationForm(request.POST or None, request.FILES, instance=proposal)
+    if request.POST:
+        if form.is_valid():
+            if request.FILES:
+                if request.POST.get('presentation-clear') or request.FILES:
+                    form.cleaned_data['presentation'] = None
+            form.save()
+            messages.success(request, _("The presentation has been uploaded successfully!"))
+            return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, proposal.pk)))
+        messages.error(request, _("The presentation hasn't been uploaded successfully (check form errors)"))
+    return HttpResponseRedirect(reverse('proposal_detail', args=(sede_url, pk)))
 
 
 @login_required(login_url='../../accounts/login/')

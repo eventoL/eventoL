@@ -185,6 +185,13 @@ class TalkForm(ModelForm):
         exclude = ('talk_proposal',)
 
 
+class PresentationForm(ModelForm):
+
+    class Meta:
+        model = TalkProposal
+        fields = ('presentation',)
+
+
 class ContactMessageForm(ModelForm):
     class Meta:
         model = ContactMessage
