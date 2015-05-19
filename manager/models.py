@@ -67,38 +67,32 @@ class Event(models.Model):
 
 
 class Sede(models.Model):
+    event = models.ForeignKey(Event, verbose_name=_('Event'))
     country = models.ForeignKey(Country, verbose_name=_('Country'))
     state = models.ForeignKey(Region, verbose_name=_('State'))
+    name = models.CharField(_('Name'), max_length=200)
+    date = models.DateField(_('Date'), help_text=_('Date of the event'))
+    limit_proposal_date = models.DateField(_('Limit Proposal Date'), help_text=_('Date Limit of Talk Proposal'))
+    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,
+                           db_index=True, validators=[validate_url])
+    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
+        'If you want to use other page for your sede rather than eventoL\'s one, you can put the absolute url here'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     city = models.ForeignKey(City, verbose_name=_('City'))
     district = models.ForeignKey(District, verbose_name=_('District'), blank=True, null=True)
     email = models.EmailField(verbose_name=_('Email'))
-    name = models.CharField(_('Name'), max_length=200)
-    date = models.DateField(_('Date'), help_text=_('Date of the event'))
-    limit_proposal_date = models.DateField(_('Limit Proposal Date'), help_text=_('Date Limit of Talk Proposal'))
     schedule_confirm = models.BooleanField(_('Schedule Confirm'), default=False)
     place = models.ForeignKey(Building, verbose_name=_('Place'),
                               help_text=_('Specific place (building) where the event is taking place'))
-    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,
-                           db_index=True, validators=[validate_url])
-
-    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
-        'If you want to use other page for your sede rather than eventoL\'s one, you can put the absolute url here'))
 
     def get_absolute_url(self):
+        if self.event.external_url:
+            return self.event.external_url
         if self.external_url:
             return self.external_url
-        return "/sede/" + self.url + '/'
-
-    def __unicode__(self):
-        return u"%s / %s / %s - %s" % (self.country, self.state, self.city, self.name)
-
-    def get_geo_info(self):
-        return {"lat": self.city.location.y,
-                "lon": self.city.location.x,
-                "name": self.name,
-                "url": reverse('index', args=(self.url,))}
+        event_url = self.event.get_absolute_url()
+        return event_url + "sede/" + self.url + '/'
 
     @property
     def talk_proposal_is_open(self):
@@ -107,6 +101,15 @@ class Sede(models.Model):
     @property
     def registration_is_open(self):
         return self.date >= datetime.date.today()
+
+    def __unicode__(self):
+        return u"%s / %s / %s - %s / %s" % (self.country, self.state, self.city, self.event.name, self.name)
+
+    def get_geo_info(self):
+        return {"lat": self.city.location.y,
+                "lon": self.city.location.x,
+                "name": self.name,
+                "url": reverse('index', args=(self.url,))}
 
     class Meta:
         ordering = ['name']
