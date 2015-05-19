@@ -54,14 +54,6 @@ class Event(models.Model):
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.url)
 
-    @property
-    def talk_proposal_is_open(self):
-        return self.limit_proposal_date >= datetime.date.today()
-
-    @property
-    def registration_is_open(self):
-        return self.date >= datetime.date.today()
-
     class Meta:
         ordering = ['name']
 

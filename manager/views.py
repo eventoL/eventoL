@@ -91,6 +91,8 @@ def home(request):
 
 def sedeshome(request, event_url):
     sedes = Sede.objects.filter(event__url__iexact=event_url)
+    if len(sedes) == 1:
+        return HttpResponseRedirect(reverse("sede_index", args=[event_url, sedes[0].url]))
     return render(request, 'sedespage.html', {'sedes': sedes})
 
 

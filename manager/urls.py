@@ -5,7 +5,7 @@ from django.contrib.auth.views import login
 
 sede_patterns = patterns(
     '',
-    url(r'^$', views.index, name="index"),
+    url(r'^$', views.index, name="sede_index"),
     url(r'^event$', views.event_info, name="event_info"),
     url(r'^FAQ$', views.sede_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
     url(r'^accounts/login/$', views.sede_django_view, kwargs={'view': login}, name='eventol_login'),
@@ -42,7 +42,7 @@ sede_patterns = patterns(
 
 urlpatterns = patterns(
     '',
-    url(r'^$', views.sedeshome, name="sedes home"),
+    url(r'^$', views.sedeshome, name="event_index"),
     url(r'^sede/(?P<sede_url>[a-zA-Z0-9-_]+)/', include(sede_patterns)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 )
