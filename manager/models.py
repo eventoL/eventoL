@@ -311,7 +311,7 @@ class TalkProposal(models.Model):
                              help_text=_("The talk's Technical level"), default='Beginner')
 
     def get_absolute_url(self):
-        return "/sede/" + self.sede.url + '/talk/detail/proposal/' + str(self.id)
+        return "/event/" + self.sede.event.url + "/sede/" + self.sede.url + '/talk/detail/proposal/' + str(self.id)
 
     def __unicode__(self):
         return self.title
@@ -344,7 +344,7 @@ class Talk(models.Model):
     end_date = models.DateTimeField(_('End Time'))
 
     def get_absolute_url(self):
-        return "/sede/" + self.talk_proposal.sede.url + '/talk/detail/talk/' + str(self.id)
+        return "/event/" + self.talk_proposal.sede.event.url + "/sede/" + self.talk_proposal.sede.url + '/talk/detail/talk/' + str(self.id)
 
     def __unicode__(self):
         return u"%s - %s (%s - %s)" % (self.talk_proposal.sede.name, self.talk_proposal.title,
