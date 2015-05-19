@@ -31,6 +31,41 @@ def validate_url(url):
         raise ValidationError(_('URL can only contain letters or numbers'))
 
 
+class Event(models.Model):
+    name = models.CharField(_('Name'), max_length=200)
+    date = models.DateField(_('Date'), help_text=_('Date of the event'))
+    limit_proposal_date = models.DateField(_('Limit Proposal Date'), help_text=_('Date Limit of Talk Proposal'))
+    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the event i.e. FLISoL'), unique=True,
+                           db_index=True, validators=[validate_url])
+    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
+        'If you want to use other page for your sede rather than eventoL\'s one, you can put the absolute url here'))
+    home_image = ImageCropField(upload_to='talks_thumbnails', verbose_name=_('Home Page Image'), blank=True, null=True,
+                                help_text=_(
+                                    'Image that is going to appear in the home page of this web for promoting the '
+                                    'talk (optional)'))
+    cropping = ImageRatioField('home_image', '700x450', size_warning=True, verbose_name=_('Cropping'),
+                               help_text=_('The image must be 700x450 px. You can crop it here.'))
+
+    def get_absolute_url(self):
+        if self.external_url:
+            return self.external_url
+        return "/event/" + self.url + '/'
+
+    def __unicode__(self):
+        return u"%s (%s)" % (self.name, self.url)
+
+    @property
+    def talk_proposal_is_open(self):
+        return self.limit_proposal_date >= datetime.date.today()
+
+    @property
+    def registration_is_open(self):
+        return self.date >= datetime.date.today()
+
+    class Meta:
+        ordering = ['name']
+
+
 class Sede(models.Model):
     country = models.ForeignKey(Country, verbose_name=_('Country'))
     state = models.ForeignKey(Region, verbose_name=_('State'))
