@@ -17,7 +17,7 @@ from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Room
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Room, Sede
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
@@ -59,9 +59,10 @@ def sorted_choices(choices_list):
 
 
 class AttendeeSearchForm(forms.Form):
-    def __init__(self, sede, *args, **kwargs):
+    def __init__(self, event_url, sede_url, *args, **kwargs):
         super(AttendeeSearchForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
+        sede = Sede.objects.get(event__url_iexact=event_url, url__iexact=sede_url)
+        self.fields['attendee'].queryset = Attendee.objects.filter(sede=sede)
 
     attendee = autocomplete.ModelChoiceField('AttendeeBySedeAutocomplete', required=False)
 
@@ -100,10 +101,11 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 
 
 class InstallationForm(autocomplete.ModelForm):
-    def __init__(self, sede, *args, **kwargs):
+    def __init__(self, event_url, sede_url, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
+            sede = Sede.objects.get(event__url__iexact=event_url, url__iexact=sede_url)
+            self.fields['attendee'].queryset = Attendee.objects.filter(sede=sede)
 
     class Meta:
         model = Installation
@@ -174,11 +176,12 @@ class TalkProposalImageCroppingForm(ModelForm):
 
 
 class TalkForm(ModelForm):
-    def __init__(self, sede, *args, **kwargs):
+    def __init__(self, event_url, sede_url, *args, **kwargs):
         super(TalkForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(sede__url=sede)
-            self.fields['speakers'].queryset = Collaborator.objects.filter(sede__url=sede)
+            sede = Sede.objects.get(event__url__iexact=event_url, url__iexact=sede_url)
+            self.fields['room'].queryset = Room.objects.filter(sede=sede)
+            self.fields['speakers'].queryset = Collaborator.objects.filter(sede=sede)
 
     class Meta:
         model = Talk
