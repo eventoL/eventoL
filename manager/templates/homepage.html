@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% load filters %}
 {% load i18n %}
+{% load cropping %}
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -8,9 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="description"
-          content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
+          content="Página principal para EventoL.">
 
-    <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
+    <title>EventoL</title>
     <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/>
     <link rel="stylesheet" type="text/css" media="all"
           href="{% static "manager/css/flisol-bootstrap.css" %}"/>
@@ -18,7 +19,6 @@
     <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
     <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
           rel="stylesheet">
-    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
     <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
@@ -29,22 +29,28 @@
     display: block;
     background-color: rgb(0,149,135);
 ">
-    <img src="{% static 'manager/img/flisol-banner.png' %}">
+    <img src="{% static 'manager/img/eventol-banner.png' %}" style="height: 130px">
 </div>
 
 
 <div class="container">
-    <h3>Encontrá tu sede!</h3>
+    <h3>Encontrá tu vento!</h3>
 
     <div class="row" style="padding-top: 10px">
-        {% for sede in sedes %}
+        {% for event in events %}
             <div class="col-md-3">
                 <div class="well" style="padding: 0px 15px 0px 15px">
                     <div class="row">
-                        <div id='{{ sede.name }}' class="col-md-4" tabindex="0" style="height: 80px;"></div>
+                        <div class="col-md-4" style="height: 80px; padding: 0">
+                            {% if event.home_image %}
+                                <img src="{% cropped_thumbnail event "cropping" %}" width="100%" height="100%">
+                            {% else %}
+                                <img src="{% static "manager/img/no-image.png" %}" width="100%" height="100%">
+                            {% endif %}
+                        </div>
                         <div class="col-md-8" style="padding-top: 10px">
-                            <a href='/sede/{{ sede.url }}/'>
-                                <h4 class="list-group-item-heading">{{ sede.name }}</h4>
+                            <a href='/event/{{ event.url }}/'>
+                                <h4 class="list-group-item-heading">{{ event.name }}</h4>
                             </a>
                         </div>
                     </div>
@@ -55,35 +61,12 @@
 </div>
 
 <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
-<script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
 <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
 <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
 <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
 <script>
     $(document).ready(function() {
-        // This command is used to initialize some elements and make them work properly
         $.material.init();
-
-        function map(sede_name, sede_lat, sede_lon) {
-            var map = L.map(sede_name, {
-                zoomControl: false,
-                dragging: false,
-                keyboard: false,
-                doubleClickZoom: false,
-                touchZoom: false
-            }).setView([sede_lat, sede_lon], 4);
-
-            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-                attribution: ''
-            }).addTo(map);
-            map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
-
-            L.marker([sede_lat, sede_lon]).addTo(map);
-        }
-
-        {% for sede in sedes %}
-            map('{{ sede.name }}', {{ sede.city.location.y|safe }}, {{ sede.city.location.x|safe }});
-        {% endfor %}
     });
 </script>
 </body>

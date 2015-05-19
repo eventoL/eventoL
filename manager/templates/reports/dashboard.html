@@ -114,7 +114,7 @@
 
             });
 
-            Q($.get("/api/{{ sede_url }}/sede_report"))
+            Q($.get("/api/{{ event_url }}/{{ sede_url }}/sede_report"))
               .then(function (sede_report){
 
                 Morris.Donut({

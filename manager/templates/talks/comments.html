@@ -2,7 +2,7 @@
 {% load filters %}
 {% if comments %}
     <h2>{% trans "Comments" %}</h2>
-    <form action="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/" method="POST">{% csrf_token %}
+    <form action="/event/{{ event_url }}/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/" method="POST">{% csrf_token %}
         {% for comment in comments %}
             <div class="panel-group">
                 <div class="panel panel-default">
@@ -39,7 +39,7 @@
                         {% if sede_url|is_sede_staff:user %}
                             <div class="pull-right">
                                 <label>
-                                    <a href="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/{{ comment.id }}">{% trans "Delete comment" %}</a>
+                                    <a href="/event/{{ event_url }}/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/{{ comment.id }}">{% trans "Delete comment" %}</a>
                                 </label>
                             </div>
                         {% endif %}
@@ -65,7 +65,7 @@
             <strong>{% trans 'This comment is public' %}</strong>
         </div>
         <div class="row" style="margin-left: 10px; margin-right: 10px;">
-            <form action="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/add_comment/" method="POST">{% csrf_token %}
+            <form action="/event/{{ event_url }}/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}/add_comment/" method="POST">{% csrf_token %}
                 <div id="cform">
                     {% include "form_field.html" with field=form.body only %}
                 </div>

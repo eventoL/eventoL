@@ -5,15 +5,15 @@
 
 {% block pre-form %}
     {% if next %}
-        {% ifequal next "/sede/"|add:sede_url|add:"/talk/proposal/" %}
+        {% ifequal next "/event/{{ event_url }}/sede/"|add:sede_url|add:"/talk/proposal/" %}
             <p>{% trans "In order to submit a talk proposal, you must" %}
-                <a href='/sede/{{ sede_url }}/registration/collaborator'>{% trans "register as a Speaker" %}</a>
+                <a href="/event/{{ event_url }}/sede/{{ sede_url }}/registration/collaborator'>{% trans "register as a Speaker" %}</a>
                 {% trans "first" %}
             </p>
         {% endifequal %}
-        {% ifequal next "/sede/"|add:sede_url|add:"/installation" %}
+        {% ifequal next "/event/{{ event_url }}/sede/"|add:sede_url|add:"/installation" %}
             <p>{% trans "In order to submit an installation, you must" %}
-                <a href='/sede/{{ sede_url }}/registration/installer'>{% trans "register as an installer" %}</a>
+                <a href='/event/{{ event_url }}/sede/{{ sede_url }}/registration/installer'>{% trans "register as an installer" %}</a>
                 {% trans "first" %}
             </p>
         {% endifequal %}
@@ -24,13 +24,13 @@
 
 {% block form-name %}{% trans "Login" %}{% endblock %}
 
-{% block form-action %}"{% url 'eventol_login' sede_url %}"{% endblock %}
+{% block form-action %}"{% url 'eventol_login' event_url sede_url %}"{% endblock %}
 
 {% block extra-fields %}
     {% if next %}
         <input type="hidden" name="next" value="{{ next }}"/>
     {% else %}
-        <input type="hidden" name="next" value="/sede/{{ sede_url }}/"/>
+        <input type="hidden" name="next" value="/event/{{ event_url }}/sede/{{ sede_url }}/"/>
     {% endif %}
 {% endblock %}
 
