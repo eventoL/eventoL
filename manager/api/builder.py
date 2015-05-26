@@ -57,7 +57,7 @@ class ViewSetBuilder():
             def list(this, request, *args, **kwargs):
                 return_value = super(ViewSet, this).list(request, *args, **kwargs)
                 if request.GET.get('reduce', None):
-                    return_value.data = self.reduce_func(this.get_queryset())
+                    return_value.data = self.reduce_func(this.filter_queryset(this.get_queryset()))
                 return return_value
 
         return ViewSet
