@@ -21,10 +21,6 @@ class Building(Place):
     def __unicode__(self):
         return self.name
 
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
-
     class Meta:
         verbose_name = _('Building')
         verbose_name_plural = _('Buildings')
@@ -54,10 +50,6 @@ class Sede(models.Model):
 
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
         'If you want to use other page for your sede rather than eventoL\'s one, you can put the absolute url here'))
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
 
     def get_absolute_url(self):
         if self.external_url:
@@ -94,10 +86,6 @@ class ContactType(models.Model):
     name = models.CharField(_('Name'), unique=True, max_length=200)
     icon_class = models.CharField(_('Icon Class'), max_length=200)
 
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
-
     def __unicode__(self):
         return self.name
 
@@ -107,10 +95,6 @@ class Contact(models.Model):
     url = models.URLField(_noop('URL'))
     text = models.CharField(_('Text'), max_length=200)
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'), related_name='contacts')
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
 
     def __unicode__(self):
         return u"%s - %s" % (self.type.name, self.text)
@@ -127,10 +111,6 @@ class Attendee(models.Model):
                                               help_text=_('Are you going to bring a PC for installing it?'))
     additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
                                        help_text=_('i.e. Wath kind of PC are you bringing'))
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
 
     def __unicode__(self):
         return self.email
@@ -156,10 +136,6 @@ class Collaborator(models.Model):
     time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_(
         'Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...'))
 
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
-
     def __unicode__(self):
         return str(self.user)
 
@@ -170,10 +146,6 @@ class Collaborator(models.Model):
 
 class HardwareManufacturer(models.Model):
     name = models.CharField(_('Name'), max_length=200, blank=True, null=True)
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
 
     def __unicode__(self):
         return self.name
@@ -197,10 +169,6 @@ class Hardware(models.Model):
     model = models.CharField(_('Model'), max_length=200, blank=True, null=True)
     serial = models.CharField(_('Serial'), max_length=200, blank=True, null=True)
 
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
-
     def __unicode__(self):
         return u"%s, %s, %s" % (self.type, self.manufacturer, self.model)
 
@@ -215,10 +183,6 @@ class Software(models.Model):
     name = models.CharField(_('Name'), max_length=200)
     version = models.CharField(_('Version'), max_length=200)
     type = models.CharField(_('Type'), choices=software_choices, max_length=200)
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
 
     def __unicode__(self):
         return u"%s - %s v.%s" % (self.type, self.name, self.version)
@@ -284,10 +248,6 @@ class TalkType(models.Model):
     def __unicode__(self):
         return self.name
 
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
-
     class Meta:
         verbose_name = _('Talk Type')
         verbose_name_plural = _('Talk Types')
@@ -324,10 +284,6 @@ class TalkProposal(models.Model):
     level = models.CharField(_('Level'), choices=level_choices, max_length=100,
                              help_text=_("The talk's Technical level"), default='Beginner')
 
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
-
     def get_absolute_url(self):
         return "/sede/" + self.sede.url + '/talk/detail/proposal/' + str(self.id)
 
@@ -347,10 +303,6 @@ class Room(models.Model):
 
     def __unicode__(self):
         return u"%s - %s" % (self.sede.name, self.name)
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
 
     class Meta:
         verbose_name = _('Room')
@@ -404,10 +356,6 @@ class EventInfo(models.Model):
     sede = models.ForeignKey(Sede, verbose_name=_noop('Sede'))
     html = models.TextField()
 
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
-
     class Meta:
         verbose_name = _('Event Info')
         verbose_name_plural = _('Envent Info (s)')
@@ -417,10 +365,6 @@ class ContactMessage(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Name'))
     email = models.EmailField(verbose_name=_('Email'))
     message = models.TextField(verbose_name=_('Message'))
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        return queryset
 
     class Meta:
         verbose_name = _('Contact Message')

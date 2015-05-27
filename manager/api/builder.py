@@ -55,8 +55,9 @@ class ViewSetBuilder():
             ordering_fields = '__all__'
 
             def list(this, request, *args, **kwargs):
-                for filter_key, filter_value in request.GET.items():
-                    this.queryset = self.cls.filter_by(this.queryset, filter_key, filter_value)
+                if 'filter_by' in dir(self.cls):
+                    for filter_key, filter_value in request.GET.items():
+                        this.queryset = self.cls.filter_by(this.queryset, filter_key, filter_value)
                 return_value = super(ViewSet, this).list(request, *args, **kwargs)
                 if request.GET.get('reduce', None):
                     return_value.data = self.reduce_func(this.filter_queryset(this.get_queryset()))
