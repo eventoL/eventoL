@@ -2,7 +2,7 @@ from django.http import HttpResponse
 import json
 from voting.models import Vote
 from manager.api.builder import count_by
-from manager.models import Sede, Collaborator, Installer, TalkProposal
+from manager.models import Sede, Collaborator, Installer, TalkProposal, Talk
 
 
 def sede_report(request, sede_url):
@@ -14,6 +14,19 @@ def sede_report(request, sede_url):
     sede_data = {
         'votes_for_talk': count_by(votes, lambda vote: TalkProposal.objects.get(
             pk=vote.object_id, sede=sede).title, lambda vote: vote.vote),
+        'staff': get_staff(talk_proposals, installers, collaborators)
+    }
+    return HttpResponse(json.dumps(sede_data), content_type="application/json")
+
+
+def sede_report2(request, sede_url):
+    sede = Sede.objects.get(url__iexact=sede_url)
+    collaborators = Collaborator.objects.filter(sede=sede)
+    installers = Installer.objects.filter(collaborator__sede=sede)
+    talks = Talk.objects.filter(talk_proposal__sede=sede)
+    talk_proposals = TalkProposal.objects.filter(sede=sede)
+    sede_data = {
+        'talks': [t.talk_proposal.title for t in talks],
         'staff': get_staff(talk_proposals, installers, collaborators)
     }
     return HttpResponse(json.dumps(sede_data), content_type="application/json")
