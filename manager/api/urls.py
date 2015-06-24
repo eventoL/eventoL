@@ -5,7 +5,7 @@ from manager.api.routes import router
 urlpatterns = patterns(
     '',
     url(r'^(?i)(?P<sede_url>[a-zA-Z0-9-_]+)/sede_report$', views.sede_report, name='sede report'),
-    url(r'^(?i)(?P<sede_url>[a-zA-Z0-9-_]+)/sede_report2$', views.sede_report2, name='sede report2'),
+    url(r'^(?i)(?P<sede_url>[a-zA-Z0-9-_]+)/sede_full_report$', views.sede_full_report, name='sede_full_report'),
 
     # Django REST
     url(r'^', include(router.urls)),
