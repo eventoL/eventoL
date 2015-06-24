@@ -204,6 +204,12 @@ class Installer(models.Model):
     def __unicode__(self):
         return str(self.collaborator.user)
 
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'sede':
+            return queryset.filter(collaborator__sede__pk=value)
+        return queryset
+
     class Meta:
         verbose_name = _('Installer')
         verbose_name_plural = _('Installers')
@@ -221,6 +227,12 @@ class Installation(models.Model):
 
     def __unicode__(self):
         return u"%s, %s, %s" % (self.attendee, self.hardware, self.software)
+
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'sede':
+            return queryset.filter(attendee__sede__pk=value)
+        return queryset
 
     class Meta:
         verbose_name = _('Installation')
@@ -329,6 +341,12 @@ class Talk(models.Model):
         }
         return talk
 
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'sede':
+            return queryset.filter(talk_proposal__sede__pk=value)
+        return queryset
+
     class Meta:
         verbose_name = _('Talk')
         verbose_name_plural = _('Talks')
@@ -356,8 +374,8 @@ class ContactMessage(models.Model):
 class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     body = models.TextField()
-    proposal = models.ForeignKey(TalkProposal)
-    user = models.ForeignKey(User)
+    proposal = models.ForeignKey(TalkProposal, verbose_name=_('TalkProposal'))
+    user = models.ForeignKey(User, verbose_name=_('User'))
 
     def __unicode__(self):
         return u"%s: %s" % (self.user, self.proposal)
@@ -370,3 +388,9 @@ class Comment(models.Model):
         if "notify" in kwargs:
             del kwargs["notify"]
         super(Comment, self).save(*args, **kwargs)
+
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'sede':
+            return queryset.filter(proposal__sede__pk=value)
+        return queryset

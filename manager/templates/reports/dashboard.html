@@ -99,18 +99,16 @@
 
         $(document).ready(function() {
 
-            Q([
-              $.ajax("/api/attendee/?format=json&assisted=True&sede={{ sede.pk }}&reduce=True"),
-              $.ajax("/api/attendee/?format=json&assisted=False&sede=sede.pk&reduce=True")
-            ]).spread(function (assited, notAssisted){
+            Q($.get("/api/attendee/?format=json&sede={{ sede.pk }}&reduce=True"))
+              .then(function (attendee){
 
-              Morris.Donut({
-                element: 'attendee',
-                data: [
-                  {label: "{% trans "Attendees Confirmed" %}", value: assited.total, color: "#0b62a4"},
-                  {label: "{% trans "Attendees Not Confirmed" %}", value: notAssisted.total, color: "#FA5858"}
-                ]
-              });
+                Morris.Donut({
+                  element: 'attendee',
+                  data: [
+                    {label: "{% trans "Attendees Confirmed" %}", value: attendee.confirmed, color: "#0b62a4"},
+                    {label: "{% trans "Attendees Not Confirmed" %}", value: attendee.not_confirmed, color: "#FA5858"}
+                  ]
+                });
 
             });
 
