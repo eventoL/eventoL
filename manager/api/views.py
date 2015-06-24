@@ -31,7 +31,7 @@ def sede_full_report(request, sede_url):
         'talks': [t.talk_proposal.title for t in talks],
         'staff': get_staff(talk_proposals, installers, collaborators),
         'attendees': reduces.attendees(attendees),
-        'installations': reduces.installations(Installation.objects.filter(sede=sede))
+        'installations': reduces.installations(Installation.objects.filter(attendee__sede=sede))
     }
     return HttpResponse(json.dumps(sede_data), content_type="application/json")
 
