@@ -71,7 +71,7 @@
 
                                         <p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>
 
-                                        <p><a href="/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}">
+                                        <p><a href="/event/{{ event_url }}/sede/{{ sede_url }}/talk/detail/talk/{{ talk.pk }}">
                                             {% trans "View Talk" %}
                                         </a></p>
                                     </div>
@@ -130,7 +130,7 @@
                                                 {% endif %}
                                             </div>
                                             <p>
-                                                <a href="/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}">
+                                                <a href="/event/{{ event_url }}/sede/{{ sede_url }}/talk/detail/proposal/{{ proposal.pk }}">
                                                     {% trans "View Proposal" %}
                                                 </a></p>
 
@@ -154,7 +154,7 @@
         </div>
         {% if not sede.schedule_confirm and sede_url|is_sede_staff:user %}
             <div class="row">
-                <a type="button" class="btn btn-success btn-xs" href="/sede/{{ sede_url }}/talk/confirm_schedule/">
+                <a type="button" class="btn btn-success btn-xs" href="/event/{{ event_url }}/sede/{{ sede_url }}/talk/confirm_schedule/">
                     <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
                 </a>
             </div>
@@ -163,7 +163,7 @@
         <div class="well">
             <p>
                 {% trans "There isn't any talk proposal yet." %} <a
-                    href="{% url "talk_proposal" sede_url %}">{% trans "Submit yours!" %}</a>
+                    href="{% url "talk_proposal" event_url sede_url %}">{% trans "Submit yours!" %}</a>
             </p>
         </div>
     {% endif %}

@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 # EventoL
+router.register(r'events', EventViewSet)
 router.register(r'sedes', SedeViewSet)
 router.register(r'collaborators', CollaboratorViewSet)
 router.register(r'rooms', RoomViewSet)

@@ -3,7 +3,7 @@ from image_cropping.admin import ImageCroppingMixin
 from import_export import resources
 from import_export.admin import ExportMixin
 
-from manager.models import (Building, Sede, Attendee, Collaborator,
+from manager.models import (Building, Sede, Attendee, Collaborator, Event,
                             HardwareManufacturer, Hardware, Software,
                             Installer, Installation, TalkProposal, Talk,
                             TalkType, Room, ContactType, Contact, Comment)
@@ -120,6 +120,7 @@ class CollaboratorAdmin(ExportMixin, EventoLAdmin):
     pass
 
 
+admin.site.register(Event, EventoLAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Sede, SedeAdmin)
 admin.site.register(TalkProposal, TalkProposalAdmin)
