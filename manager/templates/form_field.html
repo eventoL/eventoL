@@ -24,6 +24,9 @@
     {% elif field|is_datetime %}
         <input class="form-control timepicker empty" id="{{ field.id_for_label }}" name="{{ field.html_name }}"
                type="text" placeholder="{% trans "Time..." %}">
+    {% elif field|is_date %}
+        <input class="form-control datepicker empty" id="{{ field.id_for_label }}" name="{{ field.html_name }}"
+               type="text" placeholder="{% trans "Date..." %}">
     {% else %}
         {{ field | addcss:"form-control" }}
     {% endif %}

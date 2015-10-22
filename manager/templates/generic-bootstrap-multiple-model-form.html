@@ -23,7 +23,7 @@
 
                 {% for form in forms %}
                     {% for field in form.visible_fields %}
-                        <div class="col-lg-6 col-md-6">
+                        <div class="col-md-6" style="display: inline-table">
                             {% include "form_field.html" with field=field only %}
                         </div>
                     {% endfor %}
@@ -35,7 +35,7 @@
                 {% block extra-fields %}{% endblock %}
 
                 {% block buttons %}
-                    <div class="form-group">
+                    <div class="form-group col-md-12">
                         <button type="submit"
                                 class="btn btn-primary btn-raised pull-right">{% trans "Submit" %}</button>
                     </div>
