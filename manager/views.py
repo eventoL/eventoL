@@ -19,7 +19,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    TalkForm, CommentForm, PresentationForm
+    TalkForm, CommentForm, PresentationForm, EventRegistrationForm, SedeRegistrationForm
 from manager.models import Installer, Hardware, Installation, Talk, Event, \
     TalkProposal, Sede, Attendee, Collaborator, ContactMessage, Comment, Contact, Room
 from manager.schedule import Schedule
@@ -90,16 +90,74 @@ def home(request):
 
 
 def sedeshome(request, event_url):
-    sedes = Sede.objects.filter(event__url__iexact=event_url)
-    if len(sedes) == 1:
-        return HttpResponseRedirect(reverse("sede_index", args=[event_url, sedes[0].url]))
-    return render(request, 'sedespage.html', {'sedes': sedes})
+    event = Event.objects.get(url__iexact=event_url)
+    sedes = Sede.objects.filter(event=event)
+
+    if not sedes:
+        return HttpResponseRedirect(reverse("sede_registration", args=[event_url]))
+
+    if event.multisede:
+        return render(request, 'sedespage.html', {'sedes': sedes})
+
+    sede = sedes[0]
+    return HttpResponseRedirect(reverse("sede_index", args=[event_url, sede.url]))
 
 
 def get_forms_errors(forms):
     field_errors = [form.non_field_errors() for form in forms]
     errors = [error for error in field_errors]
     return list(itertools.chain.from_iterable(errors))
+
+
+def event_registration(request):
+    errors = []
+    if request.POST:
+        event_form = EventRegistrationForm(request.POST)
+        forms = [event_form]
+        try:
+            if event_form.is_valid():
+                event = event_form.save()
+                event.save()
+                messages.success(request, _("The event been registered successfully!"))
+                return HttpResponseRedirect(reverse('event_index', args=[event.url]))
+        except Exception:
+            pass
+        messages.error(request, _("The event haven't been registered successfully (check form errors)"))
+        errors = get_forms_errors(forms)
+
+    else:
+        event = Event()
+        event_form = EventRegistrationForm(instance=event)
+        forms = [event_form]
+
+    return render(request, 'registration/event.html',
+                  {'forms': forms, 'errors': errors, 'multipart': False})
+
+
+def sede_registration(request, event_url):
+    errors = []
+    if request.POST:
+        sede_form = SedeRegistrationForm(request.POST)
+        forms = [sede_form]
+        try:
+            if sede_form.is_valid():
+                sede = sede_form.save()
+                sede.save()
+                messages.success(request, _("The sede been registered successfully!"))
+                return HttpResponseRedirect(reverse('sede_index', args=[event_url, sede.url]))
+        except Exception:
+            pass
+        messages.error(request, _("The sede haven't been registered successfully (check form errors)"))
+        errors = get_forms_errors(forms)
+
+    else:
+        event = Event.objects.get(url__iexact=event_url)
+        sede = Sede.from_event(event)
+        sede_form = SedeRegistrationForm(instance=sede)
+        forms = [sede_form]
+
+    return render(request, 'registration/sede.html',
+                  {'event_url': event_url, 'forms': forms, 'errors': errors, 'multipart': False})
 
 
 def collaborator_registration(request, event_url, sede_url):
