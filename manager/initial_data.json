@@ -782,11 +782,23 @@
     "fields": {
       "name": "FLISoL",
       "url": "FLISoL",
-      "limit_proposal_date": "2015-04-25",
-      "date": "2015-04-25"
+      "limit_proposal_date": "2015-10-25",
+      "date": "2015-10-25",
+      "multisede": true
     },
     "model": "manager.event",
     "pk": 1
+  },
+  {
+    "fields": {
+      "name": "Python Meetup",
+      "url": "PythonM",
+      "limit_proposal_date": "2015-07-25",
+      "date": "2015-07-25",
+      "multisede": false
+    },
+    "model": "manager.event",
+    "pk": 2
   },
   {
     "fields": {
@@ -804,6 +816,23 @@
     },
     "model": "manager.sede",
     "pk": 1
+  },
+  {
+    "fields": {
+      "event": 2,
+      "city": 3435910,
+      "name": "CABA",
+      "district": 71,
+      "url": "CABA",
+      "country": 3865483,
+      "state": 3435907,
+      "place": 1,
+      "limit_proposal_date": "2015-07-25",
+      "event_information": "<p>saraza meetup python</p>\r\n",
+      "date": "2015-07-25"
+    },
+    "model": "manager.sede",
+    "pk": 2
   },
   {
     "fields": {"name": "Charla"},
