@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import ckeditor.fields
 from django.conf import settings
 import image_cropping.fields
-import ckeditor.fields
+import manager.models
 
 
 class Migration(migrations.Migration):
@@ -67,6 +68,17 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='Comment',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', models.DateTimeField(auto_now_add=True)),
+                ('body', models.TextField()),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Contact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -99,6 +111,23 @@ class Migration(migrations.Migration):
                 ('icon_class', models.CharField(max_length=200, verbose_name='Icon Class')),
             ],
             options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Event',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=200, verbose_name='Name')),
+                ('date', models.DateField(help_text='Date of the event', verbose_name='Date')),
+                ('limit_proposal_date', models.DateField(help_text='Date Limit of Talk Proposal', verbose_name='Limit Proposal Date')),
+                ('url', models.CharField(max_length=200, validators=[manager.models.validate_url], help_text='URL for the event i.e. FLISoL', unique=True, verbose_name='URL', db_index=True)),
+                ('external_url', models.URLField(default=None, blank=True, help_text="If you want to use other page for your sede rather than eventoL's one, you can put the absolute url here", null=True, verbose_name='External URL')),
+                ('home_image', image_cropping.fields.ImageCropField(help_text='Image that is going to appear in the home page of this web for promoting the talk (optional)', upload_to=b'talks_thumbnails', null=True, verbose_name='Home Page Image', blank=True)),
+                (b'cropping', image_cropping.fields.ImageRatioField(b'home_image', '700x450', hide_image_field=False, size_warning=True, allow_fullsize=False, free_crop=False, adapt_rotation=False, help_text='The image must be 700x450 px. You can crop it here.', verbose_name='Cropping')),
+            ],
+            options={
+                'ordering': ['name'],
             },
             bases=(models.Model,),
         ),
@@ -172,6 +201,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(help_text='i.e. Classroom 256', max_length=200, verbose_name='Name')),
             ],
             options={
+                'ordering': ['name'],
                 'verbose_name': 'Room',
                 'verbose_name_plural': 'Rooms',
             },
@@ -181,19 +211,23 @@ class Migration(migrations.Migration):
             name='Sede',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('footer', ckeditor.fields.RichTextField(help_text='Footer HTML', null=True, verbose_name='Footer', blank=True)),
-                ('event_information', ckeditor.fields.RichTextField(help_text='Event Information HTML', null=True, verbose_name='Event Information', blank=True)),
-                ('email', models.EmailField(max_length=75, verbose_name='Email')),
                 ('name', models.CharField(max_length=200, verbose_name='Name')),
                 ('date', models.DateField(help_text='Date of the event', verbose_name='Date')),
-                ('url', models.CharField(help_text='URL for the sede i.e. CABA', unique=True, max_length=200, verbose_name='URL', db_index=True)),
+                ('limit_proposal_date', models.DateField(help_text='Date Limit of Talk Proposal', verbose_name='Limit Proposal Date')),
+                ('url', models.CharField(max_length=200, validators=[manager.models.validate_url], help_text='URL for the sede i.e. CABA', unique=True, verbose_name='URL', db_index=True)),
+                ('external_url', models.URLField(default=None, blank=True, help_text="If you want to use other page for your sede rather than eventoL's one, you can put the absolute url here", null=True, verbose_name='External URL')),
+                ('event_information', ckeditor.fields.RichTextField(help_text='Event Information HTML', null=True, verbose_name='Event Information', blank=True)),
+                ('email', models.EmailField(max_length=75, verbose_name='Email')),
+                ('schedule_confirm', models.BooleanField(default=False, verbose_name='Schedule Confirm')),
                 ('city', models.ForeignKey(verbose_name='City', to='cities.City')),
                 ('country', models.ForeignKey(verbose_name='Country', to='cities.Country')),
                 ('district', models.ForeignKey(verbose_name='District', blank=True, to='cities.District', null=True)),
+                ('event', models.ForeignKey(verbose_name='Event', to='manager.Event')),
                 ('place', models.ForeignKey(verbose_name='Place', to='manager.Building', help_text='Specific place (building) where the event is taking place')),
                 ('state', models.ForeignKey(verbose_name='State', to='cities.Region')),
             ],
             options={
+                'ordering': ['name'],
             },
             bases=(models.Model,),
         ),
@@ -213,8 +247,8 @@ class Migration(migrations.Migration):
             name='Talk',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('start_date', models.DateTimeField(verbose_name='Start Date')),
-                ('end_date', models.DateTimeField(verbose_name='End Date')),
+                ('start_date', models.DateTimeField(verbose_name='Start Time')),
+                ('end_date', models.DateTimeField(verbose_name='End Time')),
                 ('room', models.ForeignKey(verbose_name='Room', to='manager.Room')),
                 ('speakers', models.ManyToManyField(related_name='speakers', verbose_name='Speakers', to='manager.Collaborator')),
             ],
@@ -239,6 +273,7 @@ class Migration(migrations.Migration):
                 ('presentation', models.FileField(help_text='Any material you are going to use for the talk (optional, but recommended)', upload_to=b'talks', null=True, verbose_name='Presentation', blank=True)),
                 ('home_image', image_cropping.fields.ImageCropField(help_text='Image that is going to appear in the home page of this web for promoting the talk (optional)', upload_to=b'talks_thumbnails', null=True, verbose_name='Home Page Image', blank=True)),
                 (b'cropping', image_cropping.fields.ImageRatioField(b'home_image', '700x450', hide_image_field=False, size_warning=True, allow_fullsize=False, free_crop=False, adapt_rotation=False, help_text='The image must be 700x450 px. You can crop it here.', verbose_name='Cropping')),
+                ('level', models.CharField(default=b'Beginner', help_text="The talk's Technical level", max_length=100, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced')])),
                 ('sede', models.ForeignKey(related_name='talk_proposals', verbose_name=b'Sede', to='manager.Sede', help_text='Sede you are proposing the talk to')),
             ],
             options={
@@ -323,6 +358,18 @@ class Migration(migrations.Migration):
             model_name='contact',
             name='type',
             field=models.ForeignKey(verbose_name='Contact Type', to='manager.ContactType'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='comment',
+            name='proposal',
+            field=models.ForeignKey(to='manager.TalkProposal'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='comment',
+            name='user',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
             preserve_default=True,
         ),
         migrations.AddField(
