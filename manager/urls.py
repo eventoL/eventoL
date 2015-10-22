@@ -43,6 +43,7 @@ sede_patterns = patterns(
 urlpatterns = patterns(
     '',
     url(r'^$', views.sedeshome, name="event_index"),
+    url(r'^registration/sede/', views.sede_registration, name='sede_registration'),
     url(r'^sede/(?P<sede_url>[a-zA-Z0-9-_]+)/', include(sede_patterns)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 )
