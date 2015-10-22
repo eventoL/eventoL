@@ -22,6 +22,12 @@ def is_datetime(boundfield):
     return isinstance(boundfield.field.widget, forms.DateTimeInput)
 
 
+@register.filter(name='is_date')
+def is_date(boundfield):
+    """Return True if this field's widget is a DateInput."""
+    return isinstance(boundfield.field.widget, forms.DateInput)
+
+
 @register.filter(name='is_fileinput')
 def is_fileinput(boundfield):
     """Return True if this field's widget is a FileField."""
