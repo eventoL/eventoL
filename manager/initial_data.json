@@ -780,6 +780,17 @@
   },
   {
     "fields": {
+      "name": "FLISoL",
+      "url": "FLISoL",
+      "limit_proposal_date": "2015-04-25",
+      "date": "2015-04-25"
+    },
+    "model": "manager.event",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "event": 1,
       "city": 3435910,
       "name": "CABA",
       "district": 71,

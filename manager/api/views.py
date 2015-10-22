@@ -6,8 +6,8 @@ from manager.models import Sede, Collaborator, Installer, TalkProposal, Talk, At
 from manager.api import reduces
 
 
-def sede_report(request, sede_url):
-    sede = Sede.objects.get(url__iexact=sede_url)
+def sede_report(request, event_url, sede_url):
+    sede = Sede.objects.get(event__url__iexact=event_url, url__iexact=sede_url)
     collaborators = Collaborator.objects.filter(sede=sede)
     installers = Installer.objects.filter(collaborator__sede=sede)
     talk_proposals = TalkProposal.objects.filter(sede=sede)

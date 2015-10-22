@@ -25,6 +25,7 @@ class InstallerSerializer(serializers.HyperlinkedModelSerializer):
 UserViewSet = ViewSetBuilder(User, forms.UserRegistrationForm).build()
 
 # EventoL
+EventViewSet = ViewSetBuilder(models.Event).build()
 SedeViewSet = ViewSetBuilder(models.Sede, SedeSerializer).build()
 CollaboratorViewSet = ViewSetBuilder(models.Collaborator, forms.CollaboratorRegistrationForm).build()
 TalkTypeViewSet = ViewSetBuilder(models.TalkType).build()
