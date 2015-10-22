@@ -1,0 +1,19 @@
+site_name: EventoL
+theme: readthedocs
+pages:
+- Home: index.md
+- Installation: installation.md
+- Configuración rápida de Sede: ConfiguraciónRápidaDeSede.md
+- Configuración de Sede: ConfiguraciónDeSede.md
+- Registración del Asistente: RegistraciónDelAsistente.md
+- Registración del Colaborador: RegistraciónDelColaborador.md
+- Registración del Instalador: RegistraciónDelInstalador.md
+- Cargar una instalación: CargarUnaInstalación.md
+- Administrar Asistencia: AdministrarAsistencia.md
+- Propuestas de Charlas: PropuestasDeCharlas.md
+- Lista Votación de Charlas: ListaVotaciónDeCharlas.md
+- Administración de asistencia: AdministraciónDeAsistencia.md
+- Administrar Salas Aulas: AdministrarSalasAulas.md
+- Confirmar propuestas de charlas: ConfirmarPropuestasDeCharlas.md
+- Confirmar el cronograma: ConfirmarElCronograma.md
+- Exportación de datos: ExportaciónDeDatos.md
