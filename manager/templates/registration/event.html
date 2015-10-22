@@ -1,0 +1,31 @@
+{% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block other-head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static "manager/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" %}">
+{% endblock %}
+
+{% block page-header %}{% trans "Event Registration" %}{% endblock %}
+
+{% block form-id %}"event_registration"{% endblock %}
+
+{% block form-name %}{% trans "Event Registration" %}{% endblock %}
+
+{% block form-action %}"/registration/event/"{% endblock %}
+
+{% block other-script %}
+
+    <script src="{% static "manager/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" %}"
+            type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function() {
+            $( ".datepicker" ).datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+
+{% endblock %}

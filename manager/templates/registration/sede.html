@@ -1,0 +1,39 @@
+{% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block other-head %}
+    {% for form in forms %}
+        {{ form.media }}
+    {% endfor %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static "manager/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" %}">
+{% endblock %}
+
+{% block page-header %}{% trans "Sede Registration" %}{% endblock %}
+
+{% block form-id %}"sede_registration"{% endblock %}
+
+{% block form-name %}{% trans "Sede Registration" %}{% endblock %}
+
+{% block form-action %}"/event/{{ event_url }}/registration/sede/"{% endblock %}
+
+{% block other-script %}
+
+    <script src="{% static "manager/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" %}"
+            type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function() {
+            $( ".datepicker" ).datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+
+            $("#id_date").datepicker(
+                    "setDate" , new Date('{{ forms.0.date.value | safe }}'));
+            $("#id_limit_proposal_date").datepicker(
+                    "setDate" , new Date('{{ forms.0.limit_proposal_date.value | safe }}'));
+        });
+    </script>
+
+{% endblock %}
