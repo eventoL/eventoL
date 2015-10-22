@@ -7,6 +7,7 @@ import autocomplete_light as autocomplete
 
 autocomplete.autodiscover()
 
+from django.contrib.gis.forms import PointField, OSMWidget
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -16,7 +17,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
-from manager.models import Attendee, Installation, Hardware, Collaborator, \
+from manager.models import Attendee, Installation, Hardware, Collaborator, Event,\
     Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Room, Sede
 
 
@@ -206,3 +207,29 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         exclude = ["proposal", "user"]
+
+
+class SedeRegistrationForm(ModelForm):
+    point = PointField(widget=OSMWidget(), required=False)
+
+    def clean(self):
+        from cities.models import City, District
+        cities_nearest = City.objects.distance(self.point).order_by('distance')
+        if cities_nearest:
+            city = cities_nearest[0]
+            self.fields['city'] = city
+            self.fields['country'] = city.country
+            self.fields['state'] = city.region
+            self.fields['district'] = District.objects.get(city=city)
+            self.fields['place'] = Building
+        super(SedeRegistrationForm, self).clean()
+
+    class Meta:
+        model = Sede
+        exclude = ["event", "country", "state", "city", "district", "place", "schedule_confirm", ]
+
+
+class EventRegistrationForm(ModelForm):
+    class Meta:
+        model = Event
+        exclude = ["cropping"]
