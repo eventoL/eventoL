@@ -34,9 +34,24 @@
 
 
 <div class="container">
-    <h3>Encontrá tu vento!</h3>
+    <h3>Encontrá tu evento!</h3>
 
     <div class="row" style="padding-top: 10px">
+        <div class="col-md-3">
+            <div class="well" style="padding: 0px 15px 0px 15px">
+                <div class="row">
+                    <div class="col-md-4" style="height: 80px; padding: 0">
+                        <img src="{% static "manager/img/add.png" %}" width="100%" height="100%">
+                    </div>
+                    <div class="col-md-8" style="padding-top: 10px">
+                        <a href='/registration/event/'>
+                            <h4 class="list-group-item-heading">{% trans "Add event" %}</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% for event in events %}
             <div class="col-md-3">
                 <div class="well" style="padding: 0px 15px 0px 15px">
