@@ -37,6 +37,21 @@
     <h3>Encontrá tu sede!</h3>
 
     <div class="row" style="padding-top: 10px">
+        <div class="col-md-3">
+            <div class="well" style="padding: 0px 15px 0px 15px">
+                <div class="row">
+                    <div class="col-md-4" style="height: 80px; padding: 0">
+                        <img src="{% static "manager/img/add.png" %}" width="100%" height="100%">
+                    </div>
+                    <div class="col-md-8" style="padding-top: 10px">
+                        <a href='registration/sede/'>
+                            <h4 class="list-group-item-heading">{% trans "Add sede" %}</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% for sede in sedes %}
             <div class="col-md-3">
                 <div class="well" style="padding: 0px 15px 0px 15px">
