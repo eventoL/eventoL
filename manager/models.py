@@ -45,6 +45,7 @@ class Event(models.Model):
                                     'talk (optional)'))
     cropping = ImageRatioField('home_image', '700x450', size_warning=True, verbose_name=_('Cropping'),
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
+    multisede = models.BooleanField(_('Multiples sedes'), default=True)
 
     def get_absolute_url(self):
         if self.external_url:
@@ -65,18 +66,18 @@ class Sede(models.Model):
     name = models.CharField(_('Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
     limit_proposal_date = models.DateField(_('Limit Proposal Date'), help_text=_('Date Limit of Talk Proposal'))
-    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'), unique=True,
-                           db_index=True, validators=[validate_url])
+    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the sede i.e. CABA'),
+                           validators=[validate_url])
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
         'If you want to use other page for your sede rather than eventoL\'s one, you can put the absolute url here'))
+    email = models.EmailField(verbose_name=_('Email'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     city = models.ForeignKey(City, verbose_name=_('City'))
     district = models.ForeignKey(District, verbose_name=_('District'), blank=True, null=True)
-    email = models.EmailField(verbose_name=_('Email'))
-    schedule_confirm = models.BooleanField(_('Schedule Confirm'), default=False)
     place = models.ForeignKey(Building, verbose_name=_('Place'),
                               help_text=_('Specific place (building) where the event is taking place'))
+    schedule_confirm = models.BooleanField(_('Schedule Confirm'), default=False)
 
     def get_absolute_url(self):
         if self.event.external_url:
@@ -93,6 +94,13 @@ class Sede(models.Model):
     @property
     def registration_is_open(self):
         return self.date >= datetime.date.today()
+
+    @classmethod
+    def from_event(cls, event):
+        sede = cls(event=event)
+        sede.date = event.date
+        sede.limit_proposal_date = event.limit_proposal_date
+        return sede
 
     def __unicode__(self):
         return u"%s / %s / %s - %s / %s" % (self.country, self.state, self.city, self.event.name, self.name)
