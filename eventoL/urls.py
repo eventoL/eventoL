@@ -29,5 +29,6 @@ urlpatterns = patterns(
     url(r'^accounts/password_reset/complete/$', django_views.password_reset_complete,
         {'template_name': 'registration/password_reset/complete.html'},
         name='password_reset_complete'),
+    url(r'^registration/event/', views.event_registration, name='event_registration'),
     url(r'^event/(?P<event_url>[a-zA-Z0-9-_]+)/', include('manager.urls'), name='event')
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
