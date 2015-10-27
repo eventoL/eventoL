@@ -1,10 +1,3 @@
-
-REPO MOVED!
-=========
-It's now owned by GNUtn community. Please use this repo from now on: [https://github.com/GNUtn/eventoL](https://github.com/GNUtn/eventoL)
-
-
-
 eventoL
 =========
 
