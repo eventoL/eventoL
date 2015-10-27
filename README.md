@@ -1,8 +1,12 @@
 eventoL
 =========
-
 eventoL is a conference and install fest management software initially developed to manage [FLISoL][1] conference.
 It is in developement state and this year (2014) is going to be used for managing the Buenos Aires City FLISoL as a test.
+
+Status
+-------
+
+[![Requirements Status](https://requires.io/github/reyiyo/eventoL/requirements.svg?branch=master)](https://requires.io/github/reyiyo/eventoL/requirements/?branch=master) [![Stories in Ready](https://badge.waffle.io/GNUtn/eventoL.svg?label=ready&title=Ready)](http://waffle.io/GNUtn/eventoL) 
 
 Features
 --------------
@@ -18,12 +22,6 @@ Actually supports:
 - Collaborators and installers authentication.
 - Submit an installation with hardware and software info.
 - Full internationalization and localization support.
-
-Status
--------
-
-[![Requirements Status](https://requires.io/github/reyiyo/eventoL/requirements.svg?branch=master)](https://requires.io/github/reyiyo/eventoL/requirements/?branch=master)
-
 
 Future
 -------
