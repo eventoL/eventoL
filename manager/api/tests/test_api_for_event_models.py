@@ -1,13 +1,13 @@
 import unittest
 import datetime
-from api.tests.test_api import api_test
-from event.models import Adress, Contact, ContactMessage, ContactType, Event, Image
+from manager.api.tests.test_api import api_test
+from manager.models import Adress, Contact, ContactMessage, ContactType, Event, Image
 
 
 # Event Models
 @api_test()
 class TestApiAdress():
-    str_model = 'event.Adress'
+    str_model = 'manager.Adress'
     model = Adress
     url_base = '/api/adress/'
     example = {
@@ -20,19 +20,19 @@ class TestApiAdress():
 
 @api_test()
 class TestApiContact():
-    fk_models = ['event.Adress', 'event.Event', 'event.ContactType']
-    str_model = 'event.Contact'
+    fk_models = ['manager.Adress', 'manager.Event', 'manager.ContactType']
+    str_model = 'manager.Contact'
     model = Contact
     url_base = '/api/contact/'
     example = {
-        'url': 'http://event..com',
+        'url': 'http://manager..com',
         'text': 'text'
     }
 
 
 @api_test()
 class TestApiContactMessage():
-    str_model = 'event.ContactMessage'
+    str_model = 'manager.ContactMessage'
     model = ContactMessage
     url_base = '/api/contactmessage/'
     example = {
@@ -44,7 +44,7 @@ class TestApiContactMessage():
 
 @api_test()
 class TestApiContactType():
-    str_model = 'event.ContactType'
+    str_model = 'manager.ContactType'
     model = ContactType
     url_base = '/api/contacttype/'
     example = {
@@ -55,8 +55,8 @@ class TestApiContactType():
 
 @api_test()
 class TestApiEvent():
-    fk_models = ['event.Adress']
-    str_model = 'event.Event'
+    fk_models = ['manager.Adress']
+    str_model = 'manager.Event'
     model = Event
     url_base = '/api/event/'
     example = {
@@ -73,8 +73,8 @@ class TestApiEvent():
 
 @api_test()
 class TestApiImage():
-    fk_models = ['event.Adress', 'event.Event']
-    str_model = 'event.Image'
+    fk_models = ['manager.Adress', 'manager.Event']
+    str_model = 'manager.Image'
     model = Image
     url_base = '/api/image/'
     example = {

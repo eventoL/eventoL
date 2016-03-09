@@ -1,12 +1,12 @@
 import unittest
-from device.models import HardwareManufacturer, Software, Hardware
-from api.tests.test_api import api_test
+from manager.models import HardwareManufacturer, Software, Hardware
+from manager.api.tests.test_api import api_test
 
 
 # Device Models
 @api_test()
 class TestApiHardwareManufacturer():
-    str_model = 'device.HardwareManufacturer'
+    str_model = 'manager.HardwareManufacturer'
     model = HardwareManufacturer
     url_base = '/api/hardwaremanufacturer/'
     example = {
@@ -16,7 +16,7 @@ class TestApiHardwareManufacturer():
 
 @api_test()
 class TestApiSoftware():
-    str_model = 'device.Software'
+    str_model = 'manager.Software'
     model = Software
     url_base = '/api/software/'
     example = {
@@ -28,8 +28,8 @@ class TestApiSoftware():
 
 @api_test()
 class TestApiHardware():
-    fk_models = ['device.HardwareManufacturer']
-    str_model = 'device.Hardware'
+    fk_models = ['manager.HardwareManufacturer']
+    str_model = 'manager.Hardware'
     model = Hardware
     url_base = '/api/hardware/'
     example = {

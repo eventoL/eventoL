@@ -1,39 +1,40 @@
-from django.http import HttpResponse
 import json
+
+from django.http import HttpResponse
 from voting.models import Vote
-from manager.api.builder import count_by
-from manager.models import Sede, Collaborator, Installer, TalkProposal, Talk, Attendee, Installation
-from manager.api import reduces
+from manager.api.rest.builder import count_by
+from manager.models import Event, Collaborator, Installer, TalkProposal, Talk, Attendee, Installation
+from manager.api.rest import reduces
 
 
-def sede_report(request, sede_url):
-    sede = Sede.objects.get(url__iexact=sede_url)
-    collaborators = Collaborator.objects.filter(sede=sede)
-    installers = Installer.objects.filter(collaborator__sede=sede)
-    talk_proposals = TalkProposal.objects.filter(sede=sede)
+def event_report(request, event_url):
+    event = Event.objects.get(url__iexact=event_url)
+    collaborators = Collaborator.objects.filter(event=event)
+    installers = Installer.objects.filter(collaborator__event=event)
+    talk_proposals = TalkProposal.objects.filter(event=event)
     votes = Vote.objects.all()
-    sede_data = {
+    event_data = {
         'votes_for_talk': count_by(votes, lambda vote: TalkProposal.objects.get(
-            pk=vote.object_id, sede=sede).title, lambda vote: vote.vote),
+            pk=vote.object_id, event=event).title, lambda vote: vote.vote),
         'staff': get_staff(talk_proposals, installers, collaborators)
     }
-    return HttpResponse(json.dumps(sede_data), content_type="application/json")
+    return HttpResponse(json.dumps(event_data), content_type="application/json")
 
 
-def sede_full_report(request, sede_url):
-    sede = Sede.objects.get(url__iexact=sede_url)
-    collaborators = Collaborator.objects.filter(sede=sede)
-    installers = Installer.objects.filter(collaborator__sede=sede)
-    talks = Talk.objects.filter(talk_proposal__sede=sede)
-    talk_proposals = TalkProposal.objects.filter(sede=sede)
-    attendees = Attendee.objects.filter(sede=sede)
-    sede_data = {
+def event_full_report(request, event_url):
+    event = Event.objects.get(url__iexact=event_url)
+    collaborators = Collaborator.objects.filter(event=event)
+    installers = Installer.objects.filter(collaborator__event=event)
+    talks = Talk.objects.filter(talk_proposal__event=event)
+    talk_proposals = TalkProposal.objects.filter(event=event)
+    attendees = Attendee.objects.filter(event=event)
+    event_data = {
         'talks': [t.talk_proposal.title for t in talks],
         'staff': get_staff(talk_proposals, installers, collaborators),
         'attendees': reduces.attendees(attendees),
-        'installations': reduces.installations(Installation.objects.filter(attendee__sede=sede))
+        'installations': reduces.installations(Installation.objects.filter(attendee__event=event))
     }
-    return HttpResponse(json.dumps(sede_data), content_type="application/json")
+    return HttpResponse(json.dumps(event_data), content_type="application/json")
 
 
 def get_staff(talks, installers, collaborators):

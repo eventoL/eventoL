@@ -1,11 +1,11 @@
 from django.conf.urls import patterns, url, include
 from manager.api import views
-from manager.api.routes import router
+from manager.api.rest.router import router
 
 urlpatterns = patterns(
     '',
-    url(r'^(?i)(?P<sede_url>[a-zA-Z0-9-_]+)/sede_report$', views.sede_report, name='sede report'),
-    url(r'^(?i)(?P<sede_url>[a-zA-Z0-9-_]+)/sede_full_report$', views.sede_full_report, name='sede_full_report'),
+    url(r'^(?i)(?P<event_url>[a-zA-Z0-9-_]+)/event_report$', views.event_report, name='event report'),
+    url(r'^(?i)(?P<event_url>[a-zA-Z0-9-_]+)/event_full_report$', views.event_full_report, name='event_full_report'),
 
     # Django REST
     url(r'^', include(router.urls)),

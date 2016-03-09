@@ -1,6 +1,6 @@
 import mock
 import unittest
-from api.rest.builder import ViewSetBuilder
+from manager.api.rest.builder import ViewSetBuilder
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from rest_framework.serializers import HyperlinkedModelSerializer

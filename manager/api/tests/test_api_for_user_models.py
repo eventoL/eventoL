@@ -1,13 +1,13 @@
 import unittest
-from user.models import Attendee, Collaborator, EventoLUser, InstalationAttendee, Installer, Speaker
-from api.tests.test_api import api_test
+from manager.models import Attendee, Collaborator, EventoLUser, InstalationAttendee, Installer, Speaker
+from manager.api.tests.test_api import api_test
 
 
 # User Models
 @api_test()
 class TestApiAttendee():
-    fk_models = ['auth.User', 'event.Adress', 'event.Event', 'user.EventoLUser']
-    str_model = 'user.Attendee'
+    fk_models = ['auth.User', 'manager.Adress', 'manager.Event', 'manager.EventoLUser']
+    str_model = 'manager.Attendee'
     model = Attendee
     url_base = '/api/attendee/'
     example = {
@@ -17,8 +17,8 @@ class TestApiAttendee():
 
 @api_test()
 class TestApiCollaborator():
-    fk_models = ['auth.User', 'event.Adress', 'event.Event', 'user.EventoLUser']
-    str_model = 'user.Collaborator'
+    fk_models = ['auth.User', 'manager.Adress', 'manager.Event', 'manager.EventoLUser']
+    str_model = 'manager.Collaborator'
     model = Collaborator
     url_base = '/api/collaborator/'
     example = {
@@ -32,8 +32,8 @@ class TestApiCollaborator():
 
 @api_test()
 class TestApiEventoLUser():
-    fk_models = ['auth.User', 'event.Adress', 'event.Event']
-    str_model = 'user.EventoLUser'
+    fk_models = ['auth.User', 'manager.Adress', 'manager.Event']
+    str_model = 'manager.EventoLUser'
     model = EventoLUser
     url_base = '/api/eventoluser/'
     example = {
@@ -43,8 +43,8 @@ class TestApiEventoLUser():
 
 @api_test()
 class TestApiInstalationAttendee():
-    fk_models = ['auth.User', 'event.Adress', 'event.Event', 'user.EventoLUser']
-    str_model = 'user.InstalationAttendee'
+    fk_models = ['auth.User', 'manager.Adress', 'manager.Event', 'manager.EventoLUser']
+    str_model = 'manager.InstalationAttendee'
     model = InstalationAttendee
     url_base = '/api/instalationattendee/'
     example = {
@@ -54,8 +54,8 @@ class TestApiInstalationAttendee():
 
 @api_test()
 class TestApiSpeaker():
-    fk_models = ['auth.User', 'event.Adress', 'event.Event', 'user.EventoLUser']
-    str_model = 'user.Speaker'
+    fk_models = ['auth.User', 'manager.Adress', 'manager.Event', 'manager.EventoLUser']
+    str_model = 'manager.Speaker'
     model = Speaker
     url_base = '/api/speaker/'
     example = {}
@@ -63,12 +63,11 @@ class TestApiSpeaker():
 
 @api_test()
 class TestApiInstaller():
-    fk_models = ['auth.User', 'event.Adress', 'event.Event', 'user.EventoLUser']
-    str_model = 'user.Installer'
+    fk_models = ['auth.User', 'manager.Adress', 'manager.Event', 'manager.EventoLUser']
+    str_model = 'manager.Installer'
     model = Installer
     url_base = '/api/installer/'
     example = {}
-    # TODO check level: Beginner
 
 if __name__ == '__main__':
     unittest.main()

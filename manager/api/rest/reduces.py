@@ -1,4 +1,4 @@
-from manager.api.builder import count_by
+from manager.api.rest.builder import count_by
 
 
 def talks(talks):
