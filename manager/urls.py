@@ -3,12 +3,12 @@ from manager import views
 
 from django.contrib.auth.views import login
 
-sede_patterns = patterns(
+event_patterns = patterns(
     '',
     url(r'^$', views.index, name="index"),
     url(r'^event$', views.event, name="event_info"),
-    url(r'^FAQ$', views.sede_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
-    url(r'^accounts/login/$', views.sede_django_view, kwargs={'view': login}, name='eventol_login'),
+    url(r'^FAQ$', views.event_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
+    url(r'^accounts/login/$', views.event_django_view, kwargs={'view': login}, name='eventol_login'),
     url(r'^registration$', views.registration, name='registration'),
     url(r'^registration/collaborator$', views.collaborator_registration, name='collaborator_registration'),
     url(r'^registration/installer$', views.installer_registration, name='installer_registration'),
@@ -42,6 +42,6 @@ sede_patterns = patterns(
 
 urlpatterns = patterns(
     '',
-    url(r'^(?i)(?P<sede_url>[a-zA-Z0-9-_]+)/', include(sede_patterns)),
+    url(r'^(?i)(?P<event_url>[a-zA-Z0-9-_]+)/', include(event_patterns)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 )
