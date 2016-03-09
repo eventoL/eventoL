@@ -13,6 +13,11 @@ install:
   - pip install -U pip wheel
   - pip install coverage coveralls
   - pip install -r requirements.txt
+  - git clone https://github.com/arneb/django-generic-confirmation.git
+  - cd django-generic-confirmation
+  - python setup.py install
+  - cd ..
+  - rm -rf django-generic-confirmation
 script:
   - coverage run --source='.' manage.py test -v 3
 after_success:
