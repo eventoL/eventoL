@@ -1,73 +1,59 @@
-from django.contrib.gis import admin
-from image_cropping.admin import ImageCroppingMixin
+from manager.models import *
 from import_export import resources
+from django.contrib.gis import admin
 from import_export.admin import ExportMixin
-
-from manager.models import (Building, Sede, Attendee, Collaborator,
-                            HardwareManufacturer, Hardware, Software,
-                            Installer, Installation, TalkProposal, Talk,
-                            TalkType, Room, ContactType, Contact, Comment)
 
 
 class EventoLAdmin(admin.ModelAdmin):
-    def filter_sede(self, sede, queryset):
-        return queryset.filter(sede=sede)
+
+    def filter_event(self, event, queryset):
+        return queryset.filter(event=event)
 
     def queryset(self, request):
         queryset = super(EventoLAdmin, self).queryset(request)
         if request.user.is_superuser:
             return queryset
         collaborator = Collaborator.objects.get(user=request.user)
-        return self.filter_sede(collaborator.sede, queryset)
+        return self.filter_event(collaborator.eventolUser.event, queryset)
 
 
 class TalkProposalResource(resources.ModelResource):
     class Meta:
         model = TalkProposal
-        fields = (
-            'title', 'type', 'speakers_names', 'speakers_email', 'abstract', 'long_description', 'labels', 'level')
-        export_order = fields
 
 
-class TalkProposalAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
+class TalkProposalAdmin(ExportMixin, EventoLAdmin):
     resource_class = TalkProposalResource
     pass
 
 
-class SedeAdmin(EventoLAdmin):
-    raw_id_fields = ('city', 'district',)
+class EventAdmin(EventoLAdmin):
 
-    def filter_sede(self, sede, queryset):
-        return queryset.filter(name=sede.name)
+    def filter_event(self, event, queryset):
+        return queryset.filter(name=event.name)
 
 
 class CommentAdmin(EventoLAdmin):
     display_fields = ["proposal", "created", "user"]
 
-    def filter_sede(self, sede, queryset):
-        return queryset.filter(proposal__sede=sede)
-
-
-class BuildingAdmin(EventoLAdmin):
-    def filter_sede(self, sede, queryset):
-        return queryset.filter(address=sede.place.address)
+    def filter_event(self, event, queryset):
+        return queryset.filter(proposal__activity__event=event)
 
 
 class InstallerResource(resources.ModelResource):
     class Meta:
         model = Installer
-        fields = ('collaborator__user__first_name', 'collaborator__user__last_name', 'collaborator__user__username',
-                  'collaborator__user__email', 'collaborator__user__date_joined', 'collaborator__phone',
-                  'collaborator__address', 'collaborator__assisted', 'collaborator__assignation',
-                  'collaborator__time_availability', 'collaborator__additional_info', 'level')
+        fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
+                  'eventolUser__user__email', 'eventolUser__user__date_joined',
+                  'eventolUser__assisted', 'level')
         export_order = fields
 
 
 class InstallerAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallerResource
 
-    def filter_sede(self, sede, queryset):
-        return queryset.filter(collaborator__sede=sede)
+    def filter_event(self, event, queryset):
+        return queryset.filter(collaborator__eventolUser__event=event)
 
 
 class InstallationResource(resources.ModelResource):
@@ -75,7 +61,7 @@ class InstallationResource(resources.ModelResource):
         model = Installation
         fields = (
             'hardware__type', 'hardware__manufacturer__name', 'hardware__model', 'hardware__serial', 'software__type',
-            'software__name', 'software__version', 'attendee__email', 'installer__collaborator__user__username',
+            'software__name', 'software__version', 'attendee__eventolUser__user__email', 'installer__eventolUser__user__username',
             'notes')
         export_order = fields
 
@@ -83,13 +69,13 @@ class InstallationResource(resources.ModelResource):
 class InstallationAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallationResource
 
-    def filter_sede(self, sede, queryset):
-        return queryset.filter(installer__collaborator__sede=sede)
+    def filter_event(self, event, queryset):
+        return queryset.filter(installer__collaborator__eventolUser__event=event)
 
 
 class TalkAdmin(EventoLAdmin):
-    def filter_sede(self, sede, queryset):
-        return queryset.filter(talk_proposal__sede=sede)
+    def filter_event(self, event, queryset):
+        return queryset.filter(talk_proposal__activity__event=event)
 
 
 class AttendeeResource(resources.ModelResource):
@@ -108,7 +94,8 @@ class CollaboratorResource(resources.ModelResource):
     class Meta:
         model = Collaborator
         fields = (
-            'user__first_name', 'user__last_name', 'user__username', 'user__email', 'user__date_joined', 'phone',
+            'eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
+            'eventolUser__user__email', 'eventolUser__user__date_joined', 'phone',
             'address',
             'assisted', 'assignation', 'time_availability', 'additional_info')
 
@@ -121,9 +108,8 @@ class CollaboratorAdmin(ExportMixin, EventoLAdmin):
 
 
 admin.site.register(Comment, CommentAdmin)
-admin.site.register(Sede, SedeAdmin)
+admin.site.register(Event, EventAdmin)
 admin.site.register(TalkProposal, TalkProposalAdmin)
-admin.site.register(Building, BuildingAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Collaborator, CollaboratorAdmin)
 admin.site.register(HardwareManufacturer)
@@ -136,3 +122,10 @@ admin.site.register(Room, EventoLAdmin)
 admin.site.register(Talk, TalkAdmin)
 admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
+admin.site.register(Activity)
+admin.site.register(Adress)
+admin.site.register(ContactMessage)
+admin.site.register(EventoLUser)
+admin.site.register(Image)
+admin.site.register(InstalationAttendee)
+admin.site.register(Speaker)
