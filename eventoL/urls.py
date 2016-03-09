@@ -15,7 +15,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.home, name="home"),
     url(r'^api/', include('manager.api.urls')),
-    url(r'^sede/', include('manager.urls'), name='sede'),
+    url(r'^event/', include('manager.urls'), name='event'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
     url(r'^ckeditor/', include('ckeditor.urls'), name='ckeditor'),
