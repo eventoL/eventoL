@@ -17,40 +17,40 @@ from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Room
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Room, EventoLUser
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
-    search_fields = ('name', 'surname', 'nickname', 'email')
+    search_fields = ('eventolUser__user__name', 'eventolUser__user__surname', 'eventolUser__user__nickname', 'eventolUser__user__email')
 
 
 class HardwareManufacturerAutocomplete(autocomplete.AutocompleteModelBase):
     search_fields = ('name',)
 
 
-class AttendeeBySedeAutocomplete(autocomplete.AutocompleteModelBase):
+class AttendeeByEventAutocomplete(autocomplete.AutocompleteModelBase):
     autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
 
     def choices_for_request(self):
         q = self.request.GET.get('q', '')
-        sede_url = self.request.GET.get('sede_url', None)
+        event_url = self.request.GET.get('event_url', None)
 
         choices = []
 
-        if sede_url:
+        if event_url:
             choices = self.choices.all()
-            choices = choices.filter(sede__url__iexact=sede_url)
+            choices = choices.filter(eventolUser__event__url__iexact=event_url)
             if q:
                 choices = choices.filter(
-                    Q(name__icontains=q) | Q(surname__icontains=q) | Q(
-                        nickname__icontains=q) | Q(email__icontains=q))
+                    Q(eventolUser__user__name__icontains=q) | Q(eventolUser__user__surname__icontains=q) | Q(
+                        eventolUser__user__nickname__icontains=q) | Q(eventolUser__user__email__icontains=q))
 
         return self.order_choices(choices)[0:self.limit_choices]
 
 
 autocomplete.register(Attendee, AttendeeAutocomplete)
 autocomplete.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
-autocomplete.register(Attendee, AttendeeBySedeAutocomplete)
+autocomplete.register(Attendee, AttendeeByEventAutocomplete)
 
 
 def sorted_choices(choices_list):
@@ -59,11 +59,11 @@ def sorted_choices(choices_list):
 
 
 class AttendeeSearchForm(forms.Form):
-    def __init__(self, sede, *args, **kwargs):
+    def __init__(self, event, *args, **kwargs):
         super(AttendeeSearchForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
+        self.fields['attendee'].queryset = Attendee.objects.filter(eventolUser__event__url=event)
 
-    attendee = autocomplete.ModelChoiceField('AttendeeBySedeAutocomplete', required=False)
+    attendee = autocomplete.ModelChoiceField('AttendeeByEventAutocomplete', required=False)
 
 
 class RegistrationForm(DeferredForm):
@@ -77,7 +77,7 @@ class RegistrationForm(DeferredForm):
                   render_to_string(
                       "mail/registration_confirmation.txt",
                       {'token': instance.token, 'form': self,
-                       'sede_url': self.cleaned_data['sede'].url,
+                       'event_url': self.cleaned_data['event'].url,
                        'domain': self.domain, 'protocol': self.protocol}),
                   EMAIL_FROM,
                   recipient_list=[self.cleaned_data['email'], ],
@@ -85,25 +85,23 @@ class RegistrationForm(DeferredForm):
 
     class Meta:
         model = Attendee
-        fields = ['name', 'surname', 'nickname', 'email', 'sede', 'is_going_to_install', 'additional_info']
-        widgets = {'sede': forms.HiddenInput(),
+        fields = ['eventolUser', 'additional_info']
+        widgets = {'eventolUser': forms.HiddenInput(),
                    'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
     class Meta:
         model = Attendee
-        fields = ('name', 'surname', 'nickname', 'email', 'sede',
-                  'is_going_to_install', 'additional_info')
-        widgets = {'sede': forms.HiddenInput(),
+        widgets = {'eventolUser': forms.HiddenInput(),
                    'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
 class InstallationForm(autocomplete.ModelForm):
-    def __init__(self, sede, *args, **kwargs):
+    def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['attendee'].queryset = Attendee.objects.filter(sede__url=sede)
+            self.fields['attendee'].queryset = Attendee.objects.filter(event__url=event)
 
     class Meta:
         model = Installation
@@ -120,8 +118,20 @@ class HardwareForm(autocomplete.ModelForm):
 class CollaboratorRegistrationForm(ModelForm):
     class Meta:
         model = Collaborator
-        exclude = ['user', 'is_coordinator', 'assisted']
-        widgets = {'sede': forms.HiddenInput()}
+        widgets = {'eventolUser': forms.HiddenInput()}
+
+
+class EventoLUserRegistrationForm(ModelForm):
+    class Meta:
+        model = EventoLUser
+        exclude = ['user', 'assisted']
+        widgets = {'event': forms.HiddenInput()}
+
+
+class AttendeeRegistrationForm(ModelForm):
+    class Meta:
+        model = Attendee
+        widgets = {'eventolUser': forms.HiddenInput()}
 
 
 class InstallerRegistrationForm(ModelForm):
@@ -132,8 +142,7 @@ class InstallerRegistrationForm(ModelForm):
 
     class Meta:
         model = Installer
-        exclude = ['user', 'is_coordinator', 'assisted', 'collaborator']
-        widgets = {'sede': forms.HiddenInput()}
+        widgets = {'eventolUser': forms.HiddenInput()}
 
 
 class InstallerRegistrationFromCollaboratorForm(ModelForm):
@@ -144,8 +153,8 @@ class InstallerRegistrationFromCollaboratorForm(ModelForm):
 
     class Meta:
         model = Installer
-        fields = ['level', 'software']
-        widgets = {'sede': forms.HiddenInput()}
+        fields = ['level']
+        widgets = {'eventolUser': forms.HiddenInput()}
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -161,8 +170,7 @@ class UserRegistrationForm(UserCreationForm):
 class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
-        exclude = ('cropping', 'confirmed', 'dummy_talk')
-        widgets = {'sede': forms.HiddenInput(),
+        widgets = {'event': forms.HiddenInput(),
                    'long_description': forms.Textarea(attrs={'rows': 3}),
                    'abstract': forms.Textarea(attrs={'rows': 3})}
 
@@ -170,15 +178,14 @@ class TalkProposalForm(ModelForm):
 class TalkProposalImageCroppingForm(ModelForm):
     class Meta:
         model = TalkProposal
-        fields = ('home_image', 'cropping')
 
 
 class TalkForm(ModelForm):
-    def __init__(self, sede, *args, **kwargs):
+    def __init__(self, event, *args, **kwargs):
         super(TalkForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(sede__url=sede)
-            self.fields['speakers'].queryset = Collaborator.objects.filter(sede__url=sede)
+            self.fields['room'].queryset = Room.objects.filter(event__url=event)
+            self.fields['speakers'].queryset = Collaborator.objects.filter(event__url=event)
 
     class Meta:
         model = Talk
