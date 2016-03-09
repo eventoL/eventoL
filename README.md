@@ -6,9 +6,9 @@ It is in developement state.
 
 Status
 -------
-[![Requirements Status](https://requires.io/github/GNUtn/eventoL/requirements.svg?branch=master)](https://requires.io/github/GNUtn/eventoL/requirements/?branch=master)
-[![Build Status](https://travis-ci.org/GNUtn/eventoL.svg?branch=master)](https://travis-ci.org/GNUtn/eventoL)
-[![Coverage Status](https://coveralls.io/repos/github/GNUtn/eventoL/badge.svg?branch=master)](https://coveralls.io/github/GNUtn/eventoL?branch=master)
+[![Requirements Status](https://requires.io/github/GNUtn/eventoL/requirements.svg?branch=dev2016)](https://requires.io/github/GNUtn/eventoL/requirements/?branch=dev2016)
+[![Build Status](https://travis-ci.org/GNUtn/eventoL.svg?branch=dev2016)](https://travis-ci.org/GNUtn/eventoL)
+[![Coverage Status](https://coveralls.io/repos/github/GNUtn/eventoL/badge.svg?branch=dev2016)](https://coveralls.io/github/GNUtn/eventoL?branch=dev2016)
 [![Stories in Ready](https://badge.waffle.io/GNUtn/eventoL.svg?label=ready&title=Ready)](http://waffle.io/GNUtn/eventoL)
 
 DER
@@ -17,11 +17,11 @@ DER
 
 Documentation:
 --------------
-See [Documentation](http://eventol-docs.readthedocs.org/en/master/)
+See [Documentation](http://eventol-docs.readthedocs.org/en/dev2016/)
 
 Installation
 --------------
-See [Installation Instructions](http://eventol-docs.readthedocs.org/en/master/installation/)
+See [Installation Instructions](http://eventol-docs.readthedocs.org/en/dev2016/installation/)
 
 
   [1]: http://flisol.info/
