@@ -4,7 +4,7 @@
 {% block content %}
     <div class="well">
         <h4><b class="fa fa-frown-o"></b> {% blocktrans %}Registration for this event is already
-            closed or the sede is no accepting registrations through this page. You can find more
-            info{% endblocktrans %} <a href="{% url "event_info" sede_url %}">{% trans "here" %}.</a></h4>
+            closed or the event is no accepting registrations through this page. You can find more
+            info{% endblocktrans %} <a href="{% url "event_info" event_url %}">{% trans "here" %}.</a></h4>
     </div>
 {% endblock %}

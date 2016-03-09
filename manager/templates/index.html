@@ -17,31 +17,31 @@
 {% block main-content %}
     <div class="container">
         <div class="well">
-            {% if sede.registration_is_open %}
+            {% if event.registration_is_open %}
                 <div class="row" style="text-align: center">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <h3><i class="fa fa-calendar"></i> {{ sede.date|date:"l d" }} de {{ sede.date|date:"F" }}
-                            - Faltan {{ sede.date|timeuntil }}!
+                        <h3><i class="fa fa-calendar"></i> {{ event.date|date:"l d" }} de {{ event.date|date:"F" }}
+                            - Faltan {{ event.date|timeuntil }}!
                         </h3>
                     </div>
                 </div>
             {% endif %}
             <div class="row">
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-question-circle"></i> <a href="/sede/{{ sede_url }}/FAQ">¿Qué es el FLISoL?</a>
+                    <h3><i class="fa fa-question-circle"></i> <a href="/event/{{ event_url }}/FAQ">¿Qué es el FLISoL?</a>
                     </h3>
 
                     <p>¿Quién lo organiza? ¿A quién está dirigido? ¿Cuánto cuesta? ¿Qué beneficios obtengo? Quiero
                         ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-map-marker"></i> <a href="/sede/{{ sede_url }}/event">¿Dónde es?</a></h3>
+                    <h3><i class="fa fa-map-marker"></i> <a href="/event/{{ event_url }}/event">¿Dónde es?</a></h3>
 
-                    <p>El FLISoL se realiza en más de 200 ciudades a la vez. Encontrá más información sobre tu sede
+                    <p>El FLISoL se realiza en más de 200 ciudades a la vez. Encontrá más información sobre tu event
                         acá.</p>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-pencil"></i> <a href="/sede/{{ sede_url }}/registration">Anotate!</a></h3>
+                    <h3><i class="fa fa-pencil"></i> <a href="/event/{{ event_url }}/registration">Anotate!</a></h3>
 
                     <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
                         traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
@@ -51,13 +51,14 @@
         </div>
         <h2>Charlas y Talleres</h2>
 
+
         <div class="well">
             <div id="slick_charlas">
                 {% if talk_proposals %}
                     {% for talk_proposal in talk_proposals %}
                         <div class="row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <img src="{% cropped_thumbnail talk_proposal "cropping" %}"
+                                <img src="{% cropped_thumbnail talk_proposal "image.cropping" %}"
                                      alt="{{ talk_proposal.title }}" width="100%" heigth="100%">
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -94,8 +95,8 @@
                                 Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
 
                             <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte!
-                                <a href="{% url "talk_proposal" sede_url %}">Envianos tu propuesta</a> o <a
-                                        href="{% url "talks" sede_url %}">consultá las charlas propuestas hasta el
+                                <a href="{% url "talk_proposal" event_url %}">Envianos tu propuesta</a> o <a
+                                        href="{% url "talks" event_url %}">consultá las charlas propuestas hasta el
                                     momento</a>.</p>
                         </div>
                     </div>

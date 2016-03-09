@@ -99,7 +99,7 @@
 
         $(document).ready(function() {
 
-            Q($.get("/api/attendee/?format=json&sede={{ sede.pk }}&reduce=True"))
+            Q($.get("/api/attendee/?format=json&event={{ event.pk }}&reduce=True"))
               .then(function (attendee){
 
                 Morris.Donut({
@@ -112,21 +112,21 @@
 
             });
 
-            Q($.get("/api/{{ sede_url }}/sede_report"))
-              .then(function (sede_report){
+            Q($.get("/api/{{ event_url }}/event_report"))
+              .then(function (event_report){
 
                 Morris.Donut({
                   element: 'staff',
                   data: [
-                    {label: "{% trans "Collaborators" %}", value: sede_report.staff.collaborators, color: "#0b62a4"},
-                    {label: "{% trans "Installers" %}", value: sede_report.staff.installers, color: "#FA5858"},
-                    {label: "{% trans "Speakers" %}", value: sede_report.staff.speakers, color: "#4da74d"}
+                    {label: "{% trans "Collaborators" %}", value: event_report.staff.collaborators, color: "#0b62a4"},
+                    {label: "{% trans "Installers" %}", value: event_report.staff.installers, color: "#FA5858"},
+                    {label: "{% trans "Speakers" %}", value: event_report.staff.speakers, color: "#4da74d"}
                   ]
                 });
 
                 var votes = [];
-                for ( var item in sede_report.votes_for_talk ){
-                    votes.push({y: item, a: sede_report.votes_for_talk[item]});
+                for ( var item in event_report.votes_for_talk ){
+                    votes.push({y: item, a: event_report.votes_for_talk[item]});
                 };
 
                 Morris.Bar({
@@ -139,7 +139,7 @@
 
             });
 
-            Q($.get("/api/installers/?format=json&sede={{ sede.pk }}&reduce=True"))
+            Q($.get("/api/installers/?format=json&event={{ event.pk }}&reduce=True"))
               .then(function (installer){
 
                 var installers = [];
@@ -163,8 +163,8 @@
 
             });
 
-            Q([$.get("/api/talks/?format=json&sede={{ sede.pk }}&reduce=True"),
-               $.get("/api/installations/?format=json&sede={{ sede.pk }}&reduce=True")])
+            Q([$.get("/api/talks/?format=json&event={{ event.pk }}&reduce=True"),
+               $.get("/api/installations/?format=json&event={{ event.pk }}&reduce=True")])
               .spread(function (talk, installation){
                 Morris.Bar({
                   element: 'counts',

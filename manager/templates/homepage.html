@@ -34,17 +34,17 @@
 
 
 <div class="container">
-    <h3>Encontrá tu sede!</h3>
+    <h3>Encontrá tu event!</h3>
 
     <div class="row" style="padding-top: 10px">
-        {% for sede in sedes %}
+        {% for event in events %}
             <div class="col-md-3">
                 <div class="well" style="padding: 0px 15px 0px 15px">
                     <div class="row">
-                        <div id='{{ sede.name }}' class="col-md-4" tabindex="0" style="height: 80px;"></div>
+                        <div id='{{ event.name }}' class="col-md-4" tabindex="0" style="height: 80px;"></div>
                         <div class="col-md-8" style="padding-top: 10px">
-                            <a href='/sede/{{ sede.url }}/'>
-                                <h4 class="list-group-item-heading">{{ sede.name }}</h4>
+                            <a href='/event/{{ event.url }}/'>
+                                <h4 class="list-group-item-heading">{{ event.name }}</h4>
                             </a>
                         </div>
                     </div>
@@ -64,25 +64,25 @@
         // This command is used to initialize some elements and make them work properly
         $.material.init();
 
-        function map(sede_name, sede_lat, sede_lon) {
-            var map = L.map(sede_name, {
+        function map(event_name, event_lat, event_lon) {
+            var map = L.map(event_name, {
                 zoomControl: false,
                 dragging: false,
                 keyboard: false,
                 doubleClickZoom: false,
                 touchZoom: false
-            }).setView([sede_lat, sede_lon], 4);
+            }).setView([event_lat, event_lon], 4);
 
             L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
                 attribution: ''
             }).addTo(map);
             map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
 
-            L.marker([sede_lat, sede_lon]).addTo(map);
+            L.marker([event_lat, event_lon]).addTo(map);
         }
 
-        {% for sede in sedes %}
-            map('{{ sede.name }}', {{ sede.city.location.y|safe }}, {{ sede.city.location.x|safe }});
+        {% for event in events %}
+            map('{{ event.name }}', {{ event.adress.latitude|safe }}, {{ event.adress.longitude|safe }});
         {% endfor %}
     });
 </script>

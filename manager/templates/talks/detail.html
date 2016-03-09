@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="col-md-4 col-lg-4">
                                 {% if proposal.home_image %}
-                                    <img src="{% cropped_thumbnail proposal "cropping" %}" width="100%">
+                                    <img src="{% cropped_thumbnail proposal "image.cropping" %}" width="100%">
                                 {% else %}
                                     <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                 {% endif %}
@@ -41,20 +41,20 @@
                                         <p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>
                                         <p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>
                                         <p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p><br>
-                                        {% if sede.registration_is_open %}
+                                        {% if event.registration_is_open %}
                                             <p><a href="../talk/{{ talk.pk }}/delete">
                                                 <strong><i class="fa fa-times"></i> {% trans "Disconfirm talk" %}</strong>
                                             </a></p>
                                         {% endif %}
                                     {% endif %}
                                 </div>
-                                {% if sede.registration_is_open %}
-                                    <a href="/sede/{{ sede_url }}/talk/proposal/{{ proposal.pk }}">
+                                {% if event.registration_is_open %}
+                                    <a href="/event/{{ event_url }}/talk/proposal/{{ proposal.pk }}">
                                         <p><strong>
                                             <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
                                         </strong></p>
                                     </a>
-                                    {% if sede_url|is_sede_staff:user %}
+                                    {% if event_url|is_event_staff:user %}
                                         <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
                                             <i class="fa fa-pencil"></i>
                                             {% if talk %}{% trans "Edit Talk" %}
@@ -70,7 +70,7 @@
                                         </div>
                                     {% endif %}
                                 {% endif %}
-                                {% if sede_url|is_sede_staff:user and talk %}
+                                {% if event_url|is_event_staff:user and talk %}
                                     <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#upload_presentation">
                                         <i class="fa fa-upload"></i> {% trans "Upload Presentation" %}
                                     </a></strong></p>

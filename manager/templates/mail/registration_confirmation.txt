@@ -5,5 +5,5 @@ Por favor, confirme su registro haciendo click en el siguiente enlace
 o copie y pegue el mismo en la barra de direcciones de su navegador:
 {% endblocktrans %}
 
-{{ protocol }}://{{ domain }}/sede/{{sede_url}}/confirm/{{token}}
+{{ protocol }}://{{ domain }}/event/{{event_url}}/confirm/{{token}}
 
