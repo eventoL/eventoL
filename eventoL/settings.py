@@ -44,7 +44,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'cities',
     'voting',
     'generic_confirmation',
     'django_tables2',
@@ -55,6 +54,7 @@ INSTALLED_APPS = (
     'import_export',
     'rest_framework',
     'manager',
+    'autofixture',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -77,14 +77,18 @@ WSGI_APPLICATION = 'eventoL.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',  # 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'flisol',
-        'USER': 'flisol',
-        'PASSWORD': 'flisol',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'eventol',
+        'USER': 'eventol',
+        'PASSWORD': 'secret',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+# Travis Configuration
+if 'TRAVIS' in os.environ:
+    DATABASES['default']['PORT'] = 5000
 
 THUMBNAIL_PROCESSORS = ('image_cropping.thumbnail_processors.crop_corners',) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
