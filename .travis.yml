@@ -1,0 +1,20 @@
+sudo: required
+language: python
+python:
+  - "2.7"
+env:
+  - DJANGO=1.9 DB=postgres
+services:
+  - docker
+cache: pip
+before_install:
+  - docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5000:5432 -d postgres
+install:
+  - pip install -U pip wheel
+  - pip install coverage coveralls
+  - pip install -r requirements.txt
+script:
+  - cd eventoL; coverage run --source='.' manage.py test -v 3
+after_success:
+  - coverage report
+  - coveralls
