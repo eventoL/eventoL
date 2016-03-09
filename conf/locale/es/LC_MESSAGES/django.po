@@ -105,8 +105,8 @@ msgid "URL"
 msgstr "URL"
 
 #: manager/models.py:48
-msgid "URL for the sede i.e. CABA"
-msgstr "URL para la sede (ej. rosario)"
+msgid "URL for the eventi.e. CABA"
+msgstr "URL para la event(ej. rosario)"
 
 #: manager/models.py:51
 msgid "External URL"
@@ -114,10 +114,10 @@ msgstr "URL Externa"
 
 #: manager/models.py:52
 msgid ""
-"If you want to use other page for your sede rather than eventoL's one, you "
+"If you want to use other page for your eventrather than eventoL's one, you "
 "can put the absolute url here"
 msgstr ""
-"Si desea usar otro sitio para su sede en lugar de la página de eventol puede "
+"Si desea usar otro sitio para su eventen lugar de la página de eventol puede "
 "cargar la URL absoluta acá."
 
 #: manager/models.py:87
@@ -145,8 +145,8 @@ msgid "Nickname"
 msgstr "Apodo/Nick"
 
 #: manager/models.py:108
-msgid "Sede you are going to attend"
-msgstr "Sede a la que va a asistir"
+msgid "Eventyou are going to attend"
+msgstr "Eventa la que va a asistir"
 
 #: manager/models.py:109 manager/models.py:129
 msgid "Assisted"
@@ -182,8 +182,8 @@ msgid "User"
 msgstr "Usuario"
 
 #: manager/models.py:126
-msgid "Sede you are going to collaborate"
-msgstr "Sede en la que vas a colaborar"
+msgid "Eventyou are going to collaborate"
+msgstr "Eventen la que vas a colaborar"
 
 #: manager/models.py:127
 msgid "Phone"
@@ -408,8 +408,8 @@ msgid "Short idea of the talk (Two or three sentences)"
 msgstr "Dos o tres oraciones que den una idea de la charla"
 
 #: manager/models.py:256
-msgid "Sede you are proposing the talk to"
-msgstr "Sede para la que se está proponiendo la charla"
+msgid "Eventyou are proposing the talk to"
+msgstr "Eventpara la que se está proponiendo la charla"
 
 #: manager/models.py:258
 msgid "Speakers Names"
@@ -700,12 +700,12 @@ msgstr "Registración Cerrada"
 #: manager/templates/registration/closed-registration.html:6
 msgid ""
 "Registration for this event is already\n"
-"            closed or the sede is no accepting registrations through this "
+"            closed or the eventis no accepting registrations through this "
 "page. You can find more\n"
 "            info"
 msgstr ""
 "La registración para este evento ya está\n"
-"            cerrada o la sede no está aceptando registraciones a través de "
+"            cerrada o la eventno está aceptando registraciones a través de "
 "esta página. Podrás encontrar más\n"
 "            información"
 
@@ -1032,12 +1032,12 @@ msgstr ""
 
 #: manager/views.py:356
 msgid ""
-"The talk proposal is already close or the sede is not accepting proposals "
-"through this page. Please contact the Sede Organization Team to submit it."
+"The talk proposal is already close or the eventis not accepting proposals "
+"through this page. Please contact the EventOrganization Team to submit it."
 msgstr ""
-"La propuesta de charlas ya está cerrada o la sede no está aceptando "
+"La propuesta de charlas ya está cerrada o la eventno está aceptando "
 "propuestas a través de esta página. Por favor, ponete en contacto con el "
-"equipo de organización de tu sede para enviarla."
+"equipo de organización de tu eventpara enviarla."
 
 #: manager/views.py:366 manager/views.py:390
 msgid "The proposal hasn't been registered successfully (check form errors)"
