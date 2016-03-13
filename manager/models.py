@@ -5,6 +5,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 
 
