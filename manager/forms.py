@@ -179,8 +179,16 @@ class TalkProposalForm(ModelForm):
 
 class TalkForm(ModelForm):
     class Meta:
-        model = TalkProposal
-        fields = ['confirmed_talk']
+        model = Activity
+        fields = ['start_date', 'end_date', 'room', 'confirmed', 'event']
+        widgets = {
+            'event': forms.HiddenInput()
+        }
+
+    def __init__(self, event, *args, **kwargs):
+        super(TalkForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['room'].queryset = Room.objects.filter(event__slug=event)
 
 
 class ImageCroppingForm(ModelForm):
