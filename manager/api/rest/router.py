@@ -17,34 +17,33 @@ user_view_set_builder.set_fields(user_filter_fields)
 router.register(r'users', user_view_set_builder.build())
 
 # Activity Model
-router.register(r'talktype', ViewSetBuilder(models.TalkType).build())
-router.register(r'talkproposal', ViewSetBuilder(models.TalkProposal, cls_form=forms.TalkProposalForm, reduce_func=reduces.proposals).build())
-router.register(r'room', ViewSetBuilder(models.Room).build())
-router.register(r'activity', ViewSetBuilder(models.Activity).build())
-router.register(r'comment', ViewSetBuilder(models.Comment).build())
-router.register(r'installation', ViewSetBuilder(models.Installation, reduce_func=reduces.installations).build())
-router.register(r'talk', ViewSetBuilder(models.Talk, reduce_func=reduces.talks).build())
+router.register(r'talktypes', ViewSetBuilder(models.TalkType).build())
+router.register(r'talkproposals', ViewSetBuilder(models.TalkProposal, cls_form=forms.TalkProposalForm, reduce_func=reduces.proposals).build())
+router.register(r'rooms', ViewSetBuilder(models.Room).build())
+router.register(r'activities', ViewSetBuilder(models.Activity).build())
+router.register(r'comments', ViewSetBuilder(models.Comment).build())
+router.register(r'installations', ViewSetBuilder(models.Installation, reduce_func=reduces.installations).build())
 
 # User Models
-router.register(r'installer', ViewSetBuilder(models.Installer, reduce_func=reduces.installers).build())
-router.register(r'instalationattendee', ViewSetBuilder(models.InstalationAttendee).build())
+router.register(r'installers', ViewSetBuilder(models.Installer, reduce_func=reduces.installers).build())
+router.register(r'instalationattendees', ViewSetBuilder(models.InstalationAttendee).build())
 router.register(r'attendee', ViewSetBuilder(models.Attendee, cls_form=forms.AttendeeRegistrationByCollaboratorForm, reduce_func=reduces.attendees).build())
-router.register(r'collaborator', ViewSetBuilder(models.Collaborator, cls_form=forms.CollaboratorRegistrationForm).build())
-router.register(r'eventoluser', ViewSetBuilder(models.EventoLUser).build())
-router.register(r'speaker', ViewSetBuilder(models.Speaker).build())
+router.register(r'collaborators', ViewSetBuilder(models.Collaborator, cls_form=forms.CollaboratorRegistrationForm).build())
+router.register(r'eventolusers', ViewSetBuilder(models.EventoLUser).build())
+router.register(r'speakers', ViewSetBuilder(models.Speaker).build())
 
 # Event Model
 router.register(r'adress', ViewSetBuilder(models.Adress).build())
-router.register(r'contact', ViewSetBuilder(models.Contact).build())
-router.register(r'contactmessage', ViewSetBuilder(models.ContactMessage).build())
-router.register(r'contacttype', ViewSetBuilder(models.ContactType).build())
-router.register(r'event', ViewSetBuilder(models.Event).build())
-router.register(r'image', ViewSetBuilder(models.Image).build())
+router.register(r'contacts', ViewSetBuilder(models.Contact).build())
+router.register(r'contactmessages', ViewSetBuilder(models.ContactMessage).build())
+router.register(r'contacttypes', ViewSetBuilder(models.ContactType).build())
+router.register(r'events', ViewSetBuilder(models.Event).build())
+router.register(r'images', ViewSetBuilder(models.Image).build())
 
 # Device Model
-router.register(r'hardware', ViewSetBuilder(models.Hardware).build())
-router.register(r'hardwaremanufacturer', ViewSetBuilder(models.HardwareManufacturer).build())
-router.register(r'software', ViewSetBuilder(models.Software).build())
+router.register(r'hardwares', ViewSetBuilder(models.Hardware).build())
+router.register(r'hardwaremanufacturers', ViewSetBuilder(models.HardwareManufacturer).build())
+router.register(r'softwares', ViewSetBuilder(models.Software).build())
 
 # Route External
 router.register(r'votes', ViewSetBuilder(Vote).build())
