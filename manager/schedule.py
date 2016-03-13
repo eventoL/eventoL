@@ -8,8 +8,8 @@ class Schedule(object):
         self.talks = talks
         if self.talks:
             self.talks.sort()
-            self.start_date = self.talks[0].start_date
-            self.end_date = self.talks[-1].end_date
+            self.start_date = self.talks[0].activity.start_date
+            self.end_date = self.talks[-1].activity.end_date
             self.total_minutes = int(
                 ((self.end_date - self.start_date) + datetime.timedelta(hours=1)).total_seconds() / 60)
             self.size = self.total_minutes * 2
@@ -38,16 +38,16 @@ class Schedule(object):
     def talks_for_room(self, room):
         room_talks = []
         date_anterior = self.start_date
-        talks = [talk for talk in self.talks if talk.room == room]
+        talks = [talk for talk in self.talks if talk.activity.room == room]
         talks.sort()
         for talk in talks:
-            if talk.start_date.time() > date_anterior.time():
-                room_talks.append({'dummy': True, 'dummy_size': self.talk_size(date_anterior, talk.start_date)})
-            talk.talk_size = self.talk_size(talk.start_date, talk.end_date)
+            if talk.activity.start_date.time() > date_anterior.time():
+                room_talks.append({'dummy': True, 'dummy_size': self.talk_size(date_anterior, talk.activity.start_date)})
+            talk.talk_size = self.talk_size(talk.activity.start_date, talk.activity.end_date)
             room_talks.append(talk)
-            date_anterior = talk.end_date
-        if talk.end_date.time() < self.end_date.time():
-            room_talks.append({'dummy': True, 'dummy_size': self.talk_size(talk.end_date, self.end_date)})
+            date_anterior = talk.activity.end_date
+        if talk.activity.end_date.time() < self.end_date.time():
+            room_talks.append({'dummy': True, 'dummy_size': self.talk_size(talk.activity.end_date, self.end_date)})
         return room_talks
 
     def talk_size(self, start, end):
