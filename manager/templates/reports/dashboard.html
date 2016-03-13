@@ -112,7 +112,7 @@
 
             });
 
-            Q($.get("/api/{{ event_url }}/event_report"))
+            Q($.get("/api/{{ event_slug }}/event_report"))
               .then(function (event_report){
 
                 Morris.Donut({

@@ -34,7 +34,7 @@
 
 
 <div class="container">
-    <h3>Encontrá tu event!</h3>
+    <h3>Encontrá tu evento!</h3>
 
     <div class="row" style="padding-top: 10px">
         {% for event in events %}
@@ -43,7 +43,7 @@
                     <div class="row">
                         <div id='{{ event.name }}' class="col-md-4" tabindex="0" style="height: 80px;"></div>
                         <div class="col-md-8" style="padding-top: 10px">
-                            <a href='/event/{{ event.url }}/'>
+                            <a href='/event/{{ event.slug }}/'>
                                 <h4 class="list-group-item-heading">{{ event.name }}</h4>
                             </a>
                         </div>

@@ -49,12 +49,12 @@
                                     {% endif %}
                                 </div>
                                 {% if event.registration_is_open %}
-                                    <a href="/event/{{ event_url }}/talk/proposal/{{ proposal.pk }}">
+                                    <a href="/event/{{ event_slug }}/talk/proposal/{{ proposal.pk }}">
                                         <p><strong>
                                             <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
                                         </strong></p>
                                     </a>
-                                    {% if event_url|is_event_staff:user %}
+                                    {% if event_slug|is_event_staff:user %}
                                         <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
                                             <i class="fa fa-pencil"></i>
                                             {% if talk %}{% trans "Edit Talk" %}
@@ -70,7 +70,7 @@
                                         </div>
                                     {% endif %}
                                 {% endif %}
-                                {% if event_url|is_event_staff:user and talk %}
+                                {% if event_slug|is_event_staff:user and talk %}
                                     <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#upload_presentation">
                                         <i class="fa fa-upload"></i> {% trans "Upload Presentation" %}
                                     </a></strong></p>

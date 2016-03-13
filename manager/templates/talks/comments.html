@@ -2,13 +2,13 @@
 {% load filters %}
 {% if comments %}
     <h2>{% trans "Comments" %}</h2>
-    <form action="/event/{{ event_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/" method="POST">{% csrf_token %}
+    <form action="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/" method="POST">{% csrf_token %}
         {% for comment in comments %}
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading col-xs-12">
                         <div class="panel-title col-xs-12">
-                            {% if event_url|is_event_staff:user %}
+                            {% if event_slug|is_event_staff:user %}
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" name="delete" value="{{ comment.pk }}">
@@ -36,10 +36,10 @@
                     </div>
                     <div class="panel-body">
                         <div class="body">{{ comment.body|linebreaks }}</div>
-                        {% if event_url|is_event_staff:user %}
+                        {% if event_slug|is_event_staff:user %}
                             <div class="pull-right">
                                 <label>
-                                    <a href="/event/{{ event_url }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/{{ comment.id }}">{% trans "Delete comment" %}</a>
+                                    <a href="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/{{ comment.id }}">{% trans "Delete comment" %}</a>
                                 </label>
                             </div>
                         {% endif %}
@@ -48,7 +48,7 @@
             </div>
         {% endfor %}
 
-        {% if event_url|is_event_staff:user and comments %}
+        {% if event_slug|is_event_staff:user and comments %}
             <p><input class="btn btn-primary btn-raised" type="submit" value="{% trans 'Delete all selected' %}"></p>
         {% endif %}
     </form>
@@ -65,7 +65,7 @@
             <strong>{% trans 'This comment is public' %}</strong>
         </div>
         <div class="row" style="margin-left: 10px; margin-right: 10px;">
-            <form action="/event/{{ event_url }}/talk/detail/proposal/{{ proposal.pk }}/add_comment/" method="POST">{% csrf_token %}
+            <form action="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/add_comment/" method="POST">{% csrf_token %}
                 <div id="cform">
                     {% include "form_field.html" with field=form.body only %}
                 </div>

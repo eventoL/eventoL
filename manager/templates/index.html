@@ -28,20 +28,20 @@
             {% endif %}
             <div class="row">
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-question-circle"></i> <a href="/event/{{ event_url }}/FAQ">¿Qué es el FLISoL?</a>
+                    <h3><i class="fa fa-question-circle"></i> <a href="/event/{{ event_slug }}/FAQ">¿Qué es el FLISoL?</a>
                     </h3>
 
                     <p>¿Quién lo organiza? ¿A quién está dirigido? ¿Cuánto cuesta? ¿Qué beneficios obtengo? Quiero
                         ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-map-marker"></i> <a href="/event/{{ event_url }}/event">¿Dónde es?</a></h3>
+                    <h3><i class="fa fa-map-marker"></i> <a href="/event/{{ event_slug }}/event">¿Dónde es?</a></h3>
 
                     <p>El FLISoL se realiza en más de 200 ciudades a la vez. Encontrá más información sobre tu event
                         acá.</p>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-pencil"></i> <a href="/event/{{ event_url }}/registration">Anotate!</a></h3>
+                    <h3><i class="fa fa-pencil"></i> <a href="/event/{{ event_slug }}/registration">Anotate!</a></h3>
 
                     <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
                         traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
@@ -95,8 +95,8 @@
                                 Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
 
                             <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte!
-                                <a href="{% url "talk_proposal" event_url %}">Envianos tu propuesta</a> o <a
-                                        href="{% url "talks" event_url %}">consultá las charlas propuestas hasta el
+                                <a href="{% url "talk_proposal" event_slug %}">Envianos tu propuesta</a> o <a
+                                        href="{% url "talks" event_slug %}">consultá las charlas propuestas hasta el
                                     momento</a>.</p>
                         </div>
                     </div>

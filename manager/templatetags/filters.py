@@ -40,11 +40,11 @@ def is_installer(user):
 
 
 @register.filter(name='is_event_staff')
-def is_event_staff(event_url, user):
+def is_event_staff(event_slug, user):
     if user.is_superuser:
         return True
     try:
-        exists_collaborator = Collaborator.objects.filter(eventolUser__user=user, eventolUser__event__url=event_url).exists()
+        exists_collaborator = Collaborator.objects.filter(eventolUser__user=user, eventolUser__event__slug=event_slug).exists()
         return exists_collaborator and user.is_staff
     except Exception:
         return False

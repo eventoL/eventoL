@@ -5,15 +5,15 @@
 
 {% block pre-form %}
     {% if next %}
-        {% ifequal next "/event/"|add:event_url|add:"/talk/proposal/" %}
+        {% ifequal next "/event/"|add:event_slug|add:"/talk/proposal/" %}
             <p>{% trans "In order to submit a talk proposal, you must" %}
-                <a href='/event/{{ event_url }}/registration/collaborator'>{% trans "register as a Speaker" %}</a>
+                <a href='/event/{{ event_slug }}/registration/collaborator'>{% trans "register as a Speaker" %}</a>
                 {% trans "first" %}
             </p>
         {% endifequal %}
-        {% ifequal next "/event/"|add:event_url|add:"/installation" %}
+        {% ifequal next "/event/"|add:event_slug|add:"/installation" %}
             <p>{% trans "In order to submit an installation, you must" %}
-                <a href='/event/{{ event_url }}/registration/installer'>{% trans "register as an installer" %}</a>
+                <a href='/event/{{ event_slug }}/registration/installer'>{% trans "register as an installer" %}</a>
                 {% trans "first" %}
             </p>
         {% endifequal %}
@@ -24,13 +24,13 @@
 
 {% block form-name %}{% trans "Login" %}{% endblock %}
 
-{% block form-action %}"{% url 'eventol_login' event_url %}"{% endblock %}
+{% block form-action %}"{% url 'eventol_login' event_slug %}"{% endblock %}
 
 {% block extra-fields %}
     {% if next %}
         <input type="hidden" name="next" value="{{ next }}"/>
     {% else %}
-        <input type="hidden" name="next" value="/event/{{ event_url }}/"/>
+        <input type="hidden" name="next" value="/event/{{ event_slug }}/"/>
     {% endif %}
 {% endblock %}
 
