@@ -24,7 +24,9 @@ class TalkProposalResource(resources.ModelResource):
 
 class TalkProposalAdmin(ExportMixin, EventoLAdmin):
     resource_class = TalkProposalResource
-    pass
+
+    def filter_event(self, event, queryset):
+        return queryset.filter(activity__event=event)
 
 
 class EventAdmin(EventoLAdmin):
@@ -34,10 +36,10 @@ class EventAdmin(EventoLAdmin):
 
 
 class CommentAdmin(EventoLAdmin):
-    display_fields = ["proposal", "created", "user"]
+    display_fields = ["activity", "created", "user"]
 
     def filter_event(self, event, queryset):
-        return queryset.filter(proposal__activity__event=event)
+        return queryset.filter(activity__event=event)
 
 
 class InstallerResource(resources.ModelResource):
@@ -53,7 +55,7 @@ class InstallerAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallerResource
 
     def filter_event(self, event, queryset):
-        return queryset.filter(collaborator__eventolUser__event=event)
+        return queryset.filter(eventolUser__event=event)
 
 
 class InstallationResource(resources.ModelResource):
@@ -70,18 +72,14 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallationResource
 
     def filter_event(self, event, queryset):
-        return queryset.filter(installer__collaborator__eventolUser__event=event)
-
-
-class TalkAdmin(EventoLAdmin):
-    def filter_event(self, event, queryset):
-        return queryset.filter(talk_proposal__activity__event=event)
+        return queryset.filter(installer__eventolUser__event=event)
 
 
 class AttendeeResource(resources.ModelResource):
     class Meta:
         model = Attendee
-        fields = ('name', 'surname', 'nickname', 'email', 'assisted', 'is_going_to_install', 'additional_info')
+        fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
+                  'eventolUser__user__email', 'eventolUser__assisted', 'additional_info')
         export_order = fields
 
 
@@ -97,7 +95,7 @@ class CollaboratorResource(resources.ModelResource):
             'eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
             'eventolUser__user__email', 'eventolUser__user__date_joined', 'phone',
             'address',
-            'assisted', 'assignation', 'time_availability', 'additional_info')
+            'eventolUser__assisted', 'assignation', 'time_availability', 'additional_info')
 
         export_order = fields
 
@@ -119,7 +117,6 @@ admin.site.register(Installer, InstallerAdmin)
 admin.site.register(Installation, InstallationAdmin)
 admin.site.register(TalkType)
 admin.site.register(Room, EventoLAdmin)
-admin.site.register(Talk, TalkAdmin)
 admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
 admin.site.register(Activity)
