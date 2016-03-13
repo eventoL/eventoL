@@ -33,7 +33,7 @@ router.register(r'eventolusers', ViewSetBuilder(models.EventoLUser).build())
 router.register(r'speakers', ViewSetBuilder(models.Speaker).build())
 
 # Event Model
-router.register(r'adress', ViewSetBuilder(models.Adress).build())
+router.register(r'address', ViewSetBuilder(models.Address).build())
 router.register(r'contacts', ViewSetBuilder(models.Contact).build())
 router.register(r'contactmessages', ViewSetBuilder(models.ContactMessage).build())
 router.register(r'contacttypes', ViewSetBuilder(models.ContactType).build())

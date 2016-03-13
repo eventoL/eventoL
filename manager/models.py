@@ -27,9 +27,9 @@ class Image(models.Model):
         verbose_name_plural = _('Images')
 
 
-class Adress(models.Model):
+class Address(models.Model):
     name = models.CharField(_('Name'), max_length=200)
-    adress = models.CharField(_('Adress'), max_length=200)
+    address = models.CharField(_('Address'), max_length=200)
     latitude = models.FloatField(_('Latitude'), validators=[MinValueValidator(-90), MaxValueValidator(90)])
     longitude = models.FloatField(_('Longitude'), validators=[MinValueValidator(-180), MaxValueValidator(180)])
 
@@ -74,9 +74,9 @@ class Event(models.Model):
 
     def get_geo_info(self):
         return {
-            "lat": self.adress.latitude,
-            "lon": self.adress.longitude,
-            "name": self.adress.name
+            "lat": self.address.latitude,
+            "lon": self.address.longitude,
+            "name": self.address.name
         }
 
     class Meta:

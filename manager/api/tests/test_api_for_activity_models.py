@@ -6,7 +6,7 @@ from manager.api.tests.test_api import api_test
 
 @api_test()
 class TestApiActivity():
-    fk_models = ['manager.Adress', 'manager.Event']
+    fk_models = ['manager.Address', 'manager.Event']
     str_model = 'manager.Activity'
     model = Activity
     url_base = '/api/activity/'
@@ -20,7 +20,7 @@ class TestApiActivity():
 
 @api_test()
 class TestApiComment():
-    fk_models = ['auth.User', 'manager.Adress', 'manager.Event', 'manager.Activity']
+    fk_models = ['auth.User', 'manager.Address', 'manager.Event', 'manager.Activity']
     str_model = 'manager.Comment'
     model = Comment
     url_base = '/api/comment/'
@@ -32,7 +32,7 @@ class TestApiComment():
 
 @api_test()
 class TestApiTalkProposal():
-    fk_models = ['manager.Adress', 'manager.Event', 'manager.Activity', 'manager.TalkType']
+    fk_models = ['manager.Address', 'manager.Event', 'manager.Activity', 'manager.TalkType']
     str_model = 'manager.TalkProposal'
     model = TalkProposal
     url_base = '/api/talkproposal/'
@@ -45,7 +45,7 @@ class TestApiTalkProposal():
 
 @api_test()
 class TestApiTalk():
-    fk_models = ['manager.Adress', 'manager.Event', 'manager.Activity', 'manager.TalkType', 'manager.TalkProposal', 'manager.Room']
+    fk_models = ['manager.Address', 'manager.Event', 'manager.Activity', 'manager.TalkType', 'manager.TalkProposal', 'manager.Room']
     str_model = 'manager.Talk'
     model = Talk
     url_base = '/api/talk/'
@@ -67,7 +67,7 @@ class TestApiTalkType():
 
 @api_test()
 class TestApiRoom():
-    fk_models = ['manager.Adress', 'manager.Event', 'manager.TalkType']
+    fk_models = ['manager.Address', 'manager.Event', 'manager.TalkType']
     str_model = 'manager.Room'
     model = Room
     url_base = '/api/room/'
@@ -78,7 +78,7 @@ class TestApiRoom():
 
 @api_test()
 class TestApiInstallation():
-    fk_models = ['manager.HardwareManufacturer', 'manager.Hardware', 'manager.Software', 'auth.User', 'manager.Adress', 'manager.Event', 'manager.EventoLUser', 'manager.InstalationAttendee','manager.Installer']
+    fk_models = ['manager.HardwareManufacturer', 'manager.Hardware', 'manager.Software', 'auth.User', 'manager.Address', 'manager.Event', 'manager.EventoLUser', 'manager.InstalationAttendee','manager.Installer']
     str_model = 'manager.Installation'
     model = Installation
     url_base = '/api/installation/'

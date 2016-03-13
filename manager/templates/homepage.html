@@ -82,7 +82,7 @@
         }
 
         {% for event in events %}
-            map('{{ event.name }}', {{ event.adress.latitude|safe }}, {{ event.adress.longitude|safe }});
+            map('{{ event.name }}', {{ event.address.latitude|safe }}, {{ event.address.longitude|safe }});
         {% endfor %}
     });
 </script>
