@@ -325,9 +325,12 @@ def schedule(request, event_slug):
 
     rooms = Room.objects.filter(event=event)
     talks_confirmed = TalkProposal.objects.filter(confirmed_talk=True, activity__event=event)
-    schedule = Schedule(list(rooms), list(talks_confirmed))
-    return render(request, 'talks/schedule.html',
-                  update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
+    if talks_confirmed:
+        schedule = Schedule(list(rooms), list(talks_confirmed))
+        return render(request, 'talks/schedule.html',
+                      update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
+    messages.warning(_("You don't have confirmed talks, please confirm talks and after confirm schedule"))
+    return talks(request, event_slug)
 
 
 def talks(request, event_slug):
