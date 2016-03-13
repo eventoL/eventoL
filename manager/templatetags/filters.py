@@ -1,5 +1,5 @@
 from django import template, forms
-from manager.models import Installer, Collaborator
+from manager.models import Installer, Collaborator, Organizer
 
 register = template.Library()
 
@@ -37,6 +37,16 @@ def is_odd(number):
 @register.filter(name='is_installer')
 def is_installer(user):
     return Installer.objects.filter(eventolUser__user=user).exists()
+
+
+@register.filter(name='is_collaborator')
+def is_collaborator(user):
+    return Collaborator.objects.filter(eventolUser__user=user).exists()
+
+
+@register.filter(name='is_organizer')
+def is_organizer(user):
+    return Organizer.objects.filter(eventolUser__user=user).exists()
 
 
 @register.filter(name='is_event_staff')
