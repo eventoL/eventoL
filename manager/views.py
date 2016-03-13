@@ -176,22 +176,20 @@ def become_installer(request, event_slug):
     installer = None
 
     if request.POST:
-        collaborator = Collaborator.objects.get(user=request.user)
+        eventolUser = EventoLUser.objects.get(user=request.user)
         installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
-                                                                   instance=Installer(collaborator=collaborator))
+                                                                   instance=Installer(eventolUser=eventolUser))
         forms = [installer_form]
         if installer_form.is_valid():
             try:
                 installer = installer_form.save()
-                collaborator.user = add_collaborator_perms(collaborator.user)
-                collaborator.save()
                 installer.save()
-                messages.success(request, _("You've became an installer!"))
+                messages.success(request, _("You've become an installer!"))
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception as e:
                 if installer is not None:
                     Installer.delete(installer)
-        messages.error(request, _("You not became an installer (check form errors)"))
+        messages.error(request, _("You haven't become an installer (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
