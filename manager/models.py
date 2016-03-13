@@ -170,6 +170,9 @@ class Attendee(models.Model):
         verbose_name = _('Attendee')
         verbose_name_plural = _('Attendees')
 
+    def __unicode__(self):
+        return u'%s %s' % (self.eventolUser.user.first_name, self.eventolUser.user.last_name)
+
 
 class InstalationAttendee(models.Model):
     eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
@@ -179,6 +182,10 @@ class InstalationAttendee(models.Model):
     class Meta:
         verbose_name = _('Instalation Attendee')
         verbose_name_plural = _('Instalation Attendees')
+
+    def __unicode__(self):
+        return u'%s %s' % (self.eventolUser.user.first_name, self.eventolUser.user.last_name)
+
 
 
 class Installer(models.Model):
@@ -195,6 +202,9 @@ class Installer(models.Model):
     class Meta:
         verbose_name = _('Installer')
         verbose_name_plural = _('Installers')
+
+    def __unicode__(self):
+        return u'%s %s' % (self.eventolUser.user.first_name, self.eventolUser.user.last_name)
 
 
 class Speaker(models.Model):

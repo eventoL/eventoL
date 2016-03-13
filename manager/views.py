@@ -215,11 +215,12 @@ def installation(request, event_slug):
     if request.POST:
         if hardware_form.is_valid():
             hardware = hardware_form.save()
+            install = None
             try:
                 if installation_form.is_valid():
                     install = installation_form.save()
                     install.hardware = hardware
-                    install.installer = Installer.objects.get(collaborator__user=request.user)
+                    install.installer = Installer.objects.get(eventolUser__user=request.user)
                     install.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/event/' + event_slug)
@@ -230,7 +231,7 @@ def installation(request, event_slug):
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if install is not None:
-                    Installation.delete(installation)
+                    Installation.delete(install)
         messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
