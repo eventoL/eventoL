@@ -42,6 +42,6 @@ event_patterns = patterns(
 
 urlpatterns = patterns(
     '',
-    url(r'^(?i)(?P<event_url>[a-zA-Z0-9-_]+)/', include(event_patterns)),
+    url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)/', include(event_patterns)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 )

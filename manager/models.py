@@ -1,3 +1,4 @@
+from image_cropping import ImageCropField, ImageRatioField
 import re
 import datetime
 from django.db import models
@@ -14,16 +15,17 @@ def validate_url(url):
 
 
 class Image(models.Model):
-    type = models.CharField(_('Type'), max_length=200)
-    url = models.URLField(_noop('URL'))
-    cropping = models.CharField(_('Text'), max_length=200)
+    image = ImageCropField(upload_to='images_thumbnails', verbose_name=_('Image'), blank=True, null=True)
+    cropping = ImageRatioField('image', '700x450', size_warning=True, verbose_name=_('Cropping'),
+                               help_text=_('The image must be 700x450 px. You can crop it here.'))
 
     def __unicode__(self):
-        return self.url
+        return self.image.name
 
     class Meta:
         verbose_name = _('Image')
         verbose_name_plural = _('Images')
+
 
 class Adress(models.Model):
     name = models.CharField(_('Name'), max_length=200)
@@ -42,21 +44,22 @@ class Event(models.Model):
     name = models.CharField(_('Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
     limit_proposal_date = models.DateField(_('Limit Proposal Date'), help_text=_('Date Limit of Talk Proposal'))
-    url = models.CharField(_('URL'), max_length=200, help_text=_('URL for the event i.e. CABA'),
-                           validators=[validate_url])
+    slug = models.CharField(_('URL'), max_length=200, help_text=_('URL for the event i.e. CABA'),
+                            validators=[validate_url])
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
         'If you want to use other page for your event rather than eventoL\'s one, you can put the absolute url here'))
     email = models.EmailField(verbose_name=_('Email'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     schedule_confirm = models.BooleanField(_('Schedule Confirm'), default=False)
-    adress = models.ForeignKey(Adress, verbose_name=_('Adress'))
-    image = models.ForeignKey(Image, verbose_name=_noop('Image'), blank=True, null=True)
+    place = models.TextField(_('Place')) #TODO: JsonFIELD
+    home_image = models.ForeignKey(Image, related_name="eventol_home_image", verbose_name=_noop('Home Image'), blank=True, null=True)
+    cover_image = models.ForeignKey(Image, related_name="eventol_cover_image", verbose_name=_noop('Cover Image'), blank=True, null=True)
 
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
-        return "/event/" + self.url + '/'
+        return "/event/" + self.slug + '/'
 
     @property
     def talk_proposal_is_open(self):
@@ -67,7 +70,7 @@ class Event(models.Model):
         return self.date >= datetime.date.today()
 
     def __unicode__(self):
-        return u"%s (%s)" % (self.name, self.adress.name)
+        return u"%s" % (self.name)
 
     def get_geo_info(self):
         return {
@@ -135,7 +138,7 @@ class EventoLUser(models.Model):
 
 
 class Collaborator(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'))
+    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
     assignation = models.CharField(_('Assignation'), max_length=200, blank=True, null=True,
                                    help_text=_('Assignations given to the user (i.e. Talks, Coffee...)'))
     time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_(
@@ -151,7 +154,7 @@ class Collaborator(models.Model):
 
 
 class Attendee(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'),blank=True, null=True)
+    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
                                        help_text=_('Any additional info you consider relevant'))
 
@@ -161,7 +164,7 @@ class Attendee(models.Model):
 
 
 class InstalationAttendee(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'))
+    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
     installarion_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing'))
 
@@ -177,7 +180,7 @@ class Installer(models.Model):
         ('3', _('Advanced')),
         ('4', _('Super Hacker'))
     )
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'))
+    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
     level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
                              help_text=_('Linux Knowledge level for an installation'))
 
@@ -187,7 +190,7 @@ class Installer(models.Model):
 
 
 class Speaker(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'))
+    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('Speaker')
@@ -246,15 +249,47 @@ class Hardware(models.Model):
         return u"%s, %s, %s" % (self.type, self.manufacturer, self.model)
 
 
+class Room(models.Model):
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
+    name = models.CharField(_('Name'), max_length=200, help_text=_('i.e. Classroom 256'))
+
+    def __unicode__(self):
+        return u"%s - %s" % (self.event.name, self.name)
+
+    class Meta:
+        verbose_name = _('Room')
+        verbose_name_plural = _('Rooms')
+        ordering = ['name']
+
+
 class Activity(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'))
     title = models.CharField(_('Title'), max_length=50, blank=True, null=True)
     long_description = models.TextField(_('Long Description'))
     confirmed = models.BooleanField(_('Confirmed'), default=False)
     abstract = models.TextField(_('Abstract'), help_text=_('Short idea of the talk (Two or three sentences)'))
+    room = models.ForeignKey(Room, verbose_name=_('Room'))
+    start_date = models.DateTimeField(_('Start Time'))
+    end_date = models.DateTimeField(_('End Time'))
+
+    def __cmp__(self, other):
+        return -1 if self.start_date.time() < other.start_date.time() else 1
+
+    def get_absolute_url(self):
+        return "/event/" + self.event.slug + '/activity/detail/activity/' + str(self.id)
+
+    def schedule(self):
+        return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'event':
+            return queryset.filter(event__pk=value)
+        return queryset
 
     def __unicode__(self):
-        return u"%s: %s" % (self.event, self.title)
+        return u"%s - %s (%s - %s)" % (self.event, self.title,
+                                       self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
 
     class Meta:
         ordering = ['title']
@@ -285,6 +320,7 @@ class TalkProposal(models.Model):
     activity = models.ForeignKey(Activity, verbose_name=_noop('Activity'))
     type = models.ForeignKey(TalkType, verbose_name=_('Type'))
     image = models.ForeignKey(Image, verbose_name=_noop('Image'), blank=True, null=True)
+    confirmed_talk = models.BooleanField(_('Talk Confirmed'), default=False)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
                                       help_text=_("Comma separated speaker's names"))
     speakers_email = models.CharField(_('Speakers Emails'), max_length=600,
@@ -296,8 +332,20 @@ class TalkProposal(models.Model):
     level = models.CharField(_('Level'), choices=level_choices, max_length=100,
                              help_text=_("The talk's Technical level"))
 
+    def get_schedule_info(self):
+        return {
+            'room': self.activity.room.name,
+            'start_date': self.activity.start_date.strftime('%m/%d/%Y %H:%M'),
+            'end_date': self.activity.end_date.strftime('%m/%d/%Y %H:%M'),
+            'title': self.activity.title,
+            'speakers': self.speakers_names,
+            'type': self.type.name
+        }
+
     def get_absolute_url(self):
-        return "/event/" + self.activity.event.url + '/talk/detail/proposal/' + str(self.id)
+        if self.confirmed_talk:
+            return "/event/" + self.activity.event.slug + '/talk/detail/talk/' + str(self.id)
+        return "/event/" + self.activity.event.slug + '/talk/detail/proposal/' + str(self.id)
 
     def __unicode__(self):
         return u"%s: %s" % (self.activity.event, self.activity.title)
@@ -305,62 +353,6 @@ class TalkProposal(models.Model):
     class Meta:
         verbose_name = _('Talk Proposal')
         verbose_name_plural = _('Talk Proposals')
-
-
-class Room(models.Model):
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
-    name = models.CharField(_('Name'), max_length=200, help_text=_('i.e. Classroom 256'))
-    for_type = models.ForeignKey(TalkType, verbose_name=_('For talk type'),
-                                 help_text=_('The type of talk the room is going to be used for.'))
-
-    def __unicode__(self):
-        return u"%s - %s" % (self.event.name, self.name)
-
-    class Meta:
-        verbose_name = _('Room')
-        verbose_name_plural = _('Rooms')
-        ordering = ['name']
-
-
-class Talk(models.Model):
-    talk_proposal = models.OneToOneField(TalkProposal, verbose_name=_('TalkProposal'), blank=True, null=True)
-    room = models.ForeignKey(Room, verbose_name=_('Room'))
-    start_date = models.DateTimeField(_('Start Time'))
-    end_date = models.DateTimeField(_('End Time'))
-
-    def __unicode__(self):
-        return u"%s - %s (%s - %s)" % (self.talk_proposal.activity.event.name, self.talk_proposal.activity.title,
-                                       self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
-
-    def __cmp__(self, other):
-        return -1 if self.start_date.time() < other.start_date.time() else 1
-
-    def get_absolute_url(self):
-        return "/event/" + self.talk_proposal.activity.event.url + '/talk/detail/talk/' + str(self.id)
-
-    def schedule(self):
-        return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
-
-    def get_schedule_info(self):
-        talk = {
-            'room': self.room.name,
-            'start_date': self.start_date.strftime('%m/%d/%Y %H:%M'),
-            'end_date': self.end_date.strftime('%m/%d/%Y %H:%M'),
-            'title': self.talk_proposal.activity.title,
-            'speakers': self.talk_proposal.speakers_names,
-            'type': self.talk_proposal.type.name
-        }
-        return talk
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(talk_proposal__activity__event__pk=value)
-        return queryset
-
-    class Meta:
-        verbose_name = _('Talk')
-        verbose_name_plural = _('Talks')
 
 
 class Comment(models.Model):

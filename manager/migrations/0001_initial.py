@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import manager.models
 from django.conf import settings
+import image_cropping.fields
 import django.core.validators
 import ckeditor.fields
 
@@ -23,6 +24,8 @@ class Migration(migrations.Migration):
                 ('long_description', models.TextField(verbose_name='Long Description')),
                 ('confirmed', models.BooleanField(default=False, verbose_name='Confirmed')),
                 ('abstract', models.TextField(help_text='Short idea of the talk (Two or three sentences)', verbose_name='Abstract')),
+                ('start_date', models.DateTimeField(verbose_name='Start Time')),
+                ('end_date', models.DateTimeField(verbose_name='End Time')),
             ],
             options={
                 'ordering': ['title'],
@@ -135,12 +138,12 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200, verbose_name='Name')),
                 ('date', models.DateField(help_text='Date of the event', verbose_name='Date')),
                 ('limit_proposal_date', models.DateField(help_text='Date Limit of Talk Proposal', verbose_name='Limit Proposal Date')),
-                ('url', models.CharField(help_text='URL for the event i.e. CABA', max_length=200, verbose_name='URL', validators=[manager.models.validate_url])),
+                ('slug', models.CharField(help_text='URL for the event i.e. CABA', max_length=200, verbose_name='URL', validators=[manager.models.validate_url])),
                 ('external_url', models.URLField(default=None, blank=True, help_text="If you want to use other page for your event rather than eventoL's one, you can put the absolute url here", null=True, verbose_name='External URL')),
                 ('email', models.EmailField(max_length=75, verbose_name='Email')),
                 ('event_information', ckeditor.fields.RichTextField(help_text='Event Information HTML', null=True, verbose_name='Event Information', blank=True)),
                 ('schedule_confirm', models.BooleanField(default=False, verbose_name='Schedule Confirm')),
-                ('adress', models.ForeignKey(verbose_name='Adress', to='manager.Adress')),
+                ('place', models.TextField(verbose_name='Place')),
             ],
             options={
                 'ordering': ['name'],
@@ -189,9 +192,8 @@ class Migration(migrations.Migration):
             name='Image',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('type', models.CharField(max_length=200, verbose_name='Type')),
-                ('url', models.URLField(verbose_name=b'URL')),
-                ('cropping', models.CharField(max_length=200, verbose_name='Text')),
+                ('image', image_cropping.fields.ImageCropField(upload_to=b'images_thumbnails', null=True, verbose_name='Image', blank=True)),
+                (b'cropping', image_cropping.fields.ImageRatioField(b'image', '700x450', hide_image_field=False, size_warning=True, allow_fullsize=False, free_crop=False, adapt_rotation=False, help_text='The image must be 700x450 px. You can crop it here.', verbose_name='Cropping')),
             ],
             options={
                 'verbose_name': 'Image',
@@ -204,7 +206,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('installarion_additional_info', models.TextField(help_text='i.e. Wath kind of PC are you bringing', null=True, verbose_name='Additional Info', blank=True)),
-                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', to='manager.EventoLUser')),
+                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True)),
             ],
             options={
                 'verbose_name': 'Instalation Attendee',
@@ -231,7 +233,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('level', models.CharField(help_text='Linux Knowledge level for an installation', max_length=200, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced'), (b'4', 'Super Hacker')])),
-                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', to='manager.EventoLUser')),
+                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True)),
             ],
             options={
                 'verbose_name': 'Installer',
@@ -269,7 +271,7 @@ class Migration(migrations.Migration):
             name='Speaker',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', to='manager.EventoLUser')),
+                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True)),
             ],
             options={
                 'verbose_name': 'Speaker',
@@ -278,23 +280,10 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Talk',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('start_date', models.DateTimeField(verbose_name='Start Time')),
-                ('end_date', models.DateTimeField(verbose_name='End Time')),
-                ('room', models.ForeignKey(verbose_name='Room', to='manager.Room')),
-            ],
-            options={
-                'verbose_name': 'Talk',
-                'verbose_name_plural': 'Talks',
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='TalkProposal',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('confirmed_talk', models.BooleanField(default=False, verbose_name='Talk Confirmed')),
                 ('speakers_names', models.CharField(help_text="Comma separated speaker's names", max_length=600, verbose_name='Speakers Names')),
                 ('speakers_email', models.CharField(help_text="Comma separated speaker's emails", max_length=600, verbose_name='Speakers Emails')),
                 ('labels', models.CharField(help_text='Comma separated tags. i.e. Linux, Free Software, Debian', max_length=200, verbose_name='Labels')),
@@ -328,18 +317,6 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='talk',
-            name='talk_proposal',
-            field=models.OneToOneField(null=True, blank=True, to='manager.TalkProposal', verbose_name='TalkProposal'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='room',
-            name='for_type',
-            field=models.ForeignKey(verbose_name='For talk type', to='manager.TalkType', help_text='The type of talk the room is going to be used for.'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
             model_name='installation',
             name='installer',
             field=models.ForeignKey(related_name='installed_by', verbose_name='Installer', blank=True, to='manager.Installer', null=True),
@@ -359,8 +336,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='event',
-            name='image',
-            field=models.ForeignKey(verbose_name=b'Image', blank=True, to='manager.Image', null=True),
+            name='cover_image',
+            field=models.ForeignKey(related_name='eventol_cover_image', verbose_name=b'Cover Image', blank=True, to='manager.Image', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='event',
+            name='home_image',
+            field=models.ForeignKey(related_name='eventol_home_image', verbose_name=b'Home Image', blank=True, to='manager.Image', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -378,7 +361,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='collaborator',
             name='eventolUser',
-            field=models.ForeignKey(verbose_name='EventoL User', to='manager.EventoLUser'),
+            field=models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -391,6 +374,12 @@ class Migration(migrations.Migration):
             model_name='activity',
             name='event',
             field=models.ForeignKey(verbose_name=b'Event', to='manager.Event'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='activity',
+            name='room',
+            field=models.ForeignKey(verbose_name='Room', to='manager.Room'),
             preserve_default=True,
         ),
     ]

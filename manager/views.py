@@ -17,9 +17,9 @@ from generic_confirmation.views import confirm_by_get
 
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
-    TalkProposalForm, TalkProposalImageCroppingForm, ContactMessageForm, \
+    TalkProposalForm, ContactMessageForm, ImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    TalkForm, CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm
+    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm
 from manager.models import *
 from manager.schedule import Schedule
 from manager.security import is_installer, add_collaborator_perms
@@ -28,52 +28,51 @@ from manager.security import is_installer, add_collaborator_perms
 autocomplete_light.autodiscover()
 
 
-def update_event_info(event_url, render_dict=None, event=None):
-    event = event or Event.objects.get(url__iexact=event_url)
+def update_event_info(event_slug, render_dict=None, event=None):
+    event = event or Event.objects.get(slug__iexact=event_slug)
     contacts = Contact.objects.filter(event=event)
     render_dict = render_dict or {}
     render_dict.update({
-        'event_url': event_url,
+        'event_slug': event_slug,
         'event': event,
         'contacts': contacts
     })
     return render_dict
 
 
-def event_django_view(request, event_url, view=django_login):
-    return view(request, extra_context=update_event_info(event_url))
+def event_django_view(request, event_slug, view=django_login):
+    return view(request, extra_context=update_event_info(event_slug))
 
 
-def index(request, event_url):
-    event = Event.objects.get(url__iexact=event_url)
+def index(request, event_slug):
+    event = Event.objects.get(slug__iexact=event_slug)
 
     if event.external_url:
         msgs = messages.get_messages(request)
         if msgs:
-            return render(request, 'base.html', update_event_info(event_url, {messages: msgs}, event))
+            return render(request, 'base.html', update_event_info(event_slug, {messages: msgs}, event))
 
         return HttpResponseRedirect(event.external_url)
 
     talk_proposals = TalkProposal.objects.filter(activity__event=event)\
         .exclude(image__isnull=True) \
-        .exclude(image__url__exact='') \
         .distinct()
 
     render_dict = {'talk_proposals': talk_proposals}
-    return render(request, 'index.html', update_event_info(event_url, render_dict, event))
+    return render(request, 'index.html', update_event_info(event_slug, render_dict, event))
 
 
-def event_view(request, event_url, html='index.html'):
-    return render(request, html, update_event_info(event_url))
+def event_view(request, event_slug, html='index.html'):
+    return render(request, html, update_event_info(event_slug))
 
 
-def event(request, event_url):
-    event = Event.objects.get(url__iexact=event_url)
+def event(request, event_slug):
+    event = Event.objects.get(slug__iexact=event_slug)
 
     if event.external_url:
         return HttpResponseRedirect(event.external_url)
 
-    render_dict = update_event_info(event_url, render_dict={'event_information': event.event_information}, event=event)
+    render_dict = update_event_info(event_slug, render_dict={'event_information': event.event_information}, event=event)
     return render(request, 'event/info.html', render_dict)
 
 
@@ -88,11 +87,11 @@ def get_forms_errors(forms):
     return list(itertools.chain.from_iterable(errors))
 
 
-def talk_registration(request, event_url, pk):
+def talk_registration(request, event_slug, pk):
     errors = []
     error = False
     talk = None
-    event = Event.objects.get(url__iexact=event_url)
+    event = Event.objects.get(slug__iexact=event_slug)
 
     # FIXME: Esto es lo que se llama una buena chanchada!
     post = None
@@ -110,11 +109,11 @@ def talk_registration(request, event_url, pk):
 
     # Fin de la chanchada
 
-    talk_form = TalkForm(event_url, post)
+    talk_form = TalkForm(event_slug, post)
     proposal = TalkProposal.objects.get(pk=pk)
     forms = [talk_form]
     if request.POST:
-        if talk_form.is_valid() and room_available(request, talk_form.instance, event_url):
+        if talk_form.is_valid() and room_available(request, talk_form.instance, event_slug):
             try:
                 proposal.confirmed = True
                 proposal.save()
@@ -122,7 +121,7 @@ def talk_registration(request, event_url, pk):
                 talk.talk_proposal = proposal
                 talk.save()
                 messages.success(request, _("The talk was registered successfully!"))
-                return HttpResponseRedirect(reverse("talk_detail", args=[event_url, talk.pk]))
+                return HttpResponseRedirect(reverse("talk_detail", args=[event_slug, talk.pk]))
             except Exception:
                 if talk is not None:
                     Talk.delete(talk)
@@ -143,11 +142,11 @@ def talk_registration(request, event_url, pk):
     render_dict.update({'multipart': False, 'errors': errors, 'form': talk_form, 'error': error})
     return render(request,
                   'talks/detail.html',
-                  update_event_info(event_url, render_dict))
+                  update_event_info(event_slug, render_dict))
 
 
-def room_available(request, talk_form, event_url):
-    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__event__url__iexact=event_url)
+def room_available(request, talk_form, event_slug):
+    talks_room = Talk.objects.filter(room=talk_form.room, talk_proposal__event__slug__iexact=event_slug)
     if talk_form.start_date == talk_form.end_date:
         messages.error(request, _(
             "The talk wasn't registered successfully because schedule isn't available (start time equals end time)"))
@@ -171,7 +170,7 @@ def room_available(request, talk_form, event_url):
 
 
 @login_required(login_url='../accounts/login/')
-def become_installer(request, event_url):
+def become_installer(request, event_slug):
     forms = []
     errors = []
     installer = None
@@ -188,7 +187,7 @@ def become_installer(request, event_url):
                 collaborator.save()
                 installer.save()
                 messages.success(request, _("You've became an installer!"))
-                return HttpResponseRedirect('/event/' + event_url)
+                return HttpResponseRedirect('/event/' + event_slug)
             except Exception as e:
                 if installer is not None:
                     Installer.delete(installer)
@@ -201,13 +200,13 @@ def become_installer(request, event_url):
 
     return render(request,
                   'registration/become_installer.html',
-                  update_event_info(event_url, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 @login_required(login_url='./accounts/login/')
 @user_passes_test(is_installer)
-def installation(request, event_url):
-    installation_form = InstallationForm(event_url, request.POST or None, prefix='installation')
+def installation(request, event_slug):
+    installation_form = InstallationForm(event_slug, request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
     forms = [installation_form, hardware_form]
     errors = []
@@ -221,7 +220,7 @@ def installation(request, event_url):
                     install.installer = Installer.objects.get(collaborator__user=request.user)
                     install.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
-                    return HttpResponseRedirect('/event/' + event_url)
+                    return HttpResponseRedirect('/event/' + event_slug)
                 else:
                     if hardware is not None:
                         Hardware.delete(hardware)
@@ -235,26 +234,26 @@ def installation(request, event_url):
 
     return render(request,
                   'installation/installation-form.html',
-                  update_event_info(event_url, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
-def confirm_registration(request, event_url, token):
+def confirm_registration(request, event_slug, token):
     messages.success(request, _(
         'Thanks for your confirmation! You don\'t need to bring any paper to the event. You\'ll be asked for the '
         'email you registered with'))
-    return confirm_by_get(request, token, success_url='/event/' + event_url)
+    return confirm_by_get(request, token, success_url='/event/' + event_slug)
 
 
 @login_required(login_url='../../accounts/login/')
-def talk_proposal(request, event_url, pk=None):
-    event = Event.objects.get(url__iexact=event_url)
+def talk_proposal(request, event_slug, pk=None):
+    event = Event.objects.get(slug__iexact=event_slug)
 
     if not event.talk_proposal_is_open:
         messages.error(request,
                        _(
                            "The talk proposal is already close or the event is not accepting proposals through this "
                            "page. Please contact the Event Organization Team to submit it."))
-        return HttpResponseRedirect(reverse('index', args=(event_url,)))
+        return HttpResponseRedirect(reverse('index', args=(event_slug,)))
 
     if pk:
         proposal = TalkProposal.objects.get(pk=pk)
@@ -265,16 +264,16 @@ def talk_proposal(request, event_url, pk=None):
     if request.POST:
         if form.is_valid():
             proposal = form.save()
-            return HttpResponseRedirect(reverse('image_cropping', args=(event_url, proposal.pk)))
+            return HttpResponseRedirect(reverse('image_cropping', args=(event_slug, proposal.pk)))
         messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
 
-    return render(request, 'talks/proposal.html', update_event_info(event_url, {'form': form}))
+    return render(request, 'talks/proposal.html', update_event_info(event_slug, {'form': form}))
 
 
 @login_required(login_url='../../../accounts/login/')
-def image_cropping(request, event_url, image_id):
+def image_cropping(request, event_slug, image_id):
     proposal = get_object_or_404(TalkProposal, pk=image_id)
-    form = TalkProposalImageCroppingForm(request.POST or None, request.FILES, instance=proposal)
+    form = ImageCroppingForm(request.POST or None, request.FILES, instance=proposal)
     if request.POST:
         if form.is_valid():
             # If a new file is being upload
@@ -286,52 +285,52 @@ def image_cropping(request, event_url, image_id):
                 # Save the changes and redirect to upload a new one or crop the new one
                 form.save()
                 messages.info(request, _("Please crop or upload a new image."))
-                return HttpResponseRedirect(reverse('image_cropping', args=(event_url, proposal.pk)))
+                return HttpResponseRedirect(reverse('image_cropping', args=(event_slug, proposal.pk)))
             form.save()
             messages.success(request, _("The proposal has been registered successfully!"))
-            return HttpResponseRedirect(reverse('proposal_detail', args=(event_url, proposal.pk)))
+            return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
         messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
-    return render(request, 'talks/proposal/image-cropping.html', update_event_info(event_url, {'form': form}))
+    return render(request, 'talks/proposal/image-cropping.html', update_event_info(event_slug, {'form': form}))
 
 
-def schedule(request, event_url):
-    event = Event.objects.get(url__iexact=event_url)
+def schedule(request, event_slug):
+    event = Event.objects.get(slug__iexact=event_slug)
     if not event.schedule_confirm:
         messages.info(request, _("While the schedule this unconfirmed, you can only see the list of proposals."))
-        return HttpResponseRedirect(reverse("talks", args=[event_url]))
+        return HttpResponseRedirect(reverse("talks", args=[event_slug]))
 
     rooms = Room.objects.filter(event=event)
     talks_confirmed = Talk.objects.filter(talk_proposal__confirmed=True, talk_proposal__event=event)
     schedule = Schedule(list(rooms), list(talks_confirmed))
     return render(request, 'talks/schedule.html',
-                  update_event_info(event_url, event=event, render_dict={'schedule': schedule}))
+                  update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
 
 
-def talks(request, event_url):
-    event = Event.objects.get(url__iexact=event_url)
+def talks(request, event_slug):
+    event = Event.objects.get(slug__iexact=event_slug)
     talks_list = Talk.objects.filter(talk_proposal__activity__event=event)
     proposals = TalkProposal.objects.filter(activity__event=event)
     for proposal in proposals:
-        setattr(proposal, 'form', TalkForm(event_url))
+        setattr(proposal, 'form', TalkForm(event_slug))
         setattr(proposal, 'errors', [])
     return render(request, 'talks/talks_home.html',
-                  update_event_info(event_url, {'talks': talks_list, 'proposals': proposals, 'event': event}, event))
+                  update_event_info(event_slug, {'talks': talks_list, 'proposals': proposals, 'event': event}, event))
 
 
-def talk_detail(request, event_url, pk):
+def talk_detail(request, event_slug, pk):
     talk = Talk.objects.get(pk=pk)
-    return HttpResponseRedirect(reverse('proposal_detail', args=(event_url, talk.talk_proposal.pk)))
+    return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, talk.talk_proposal.pk)))
 
 
-def talk_delete(request, event_url, pk):
+def talk_delete(request, event_slug, pk):
     talk = Talk.objects.get(pk=pk)
     talk.talk_proposal.confirmed = False
     talk.talk_proposal.save()
     talk.delete()
-    return HttpResponseRedirect(reverse('proposal_detail', args=(event_url, talk.talk_proposal.pk)))
+    return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, talk.talk_proposal.pk)))
 
 
-def proposal_detail(request, event_url, pk):
+def proposal_detail(request, event_slug, pk):
     proposal = TalkProposal.objects.get(pk=pk)
     comments = Comment.objects.filter(proposal=proposal)
     render_dict = dict(comments=comments, comment_form=CommentForm(), user=request.user, proposal=proposal)
@@ -341,14 +340,14 @@ def proposal_detail(request, event_url, pk):
         render_dict.update({'vote': vote, 'score': score})
     if proposal.confirmed:
         talk = Talk.objects.get(talk_proposal=proposal)
-        render_dict.update({'talk': talk, 'form': TalkForm(event_url, instance=talk),
+        render_dict.update({'talk': talk, 'form': TalkForm(event_slug, instance=talk),
                             'form_presentation': PresentationForm(instance=proposal), 'errors': []})
     else:
-        render_dict.update({'form': TalkForm(event_url), 'errors': []})
-    return render(request, 'talks/detail.html', update_event_info(event_url, render_dict))
+        render_dict.update({'form': TalkForm(event_slug), 'errors': []})
+    return render(request, 'talks/detail.html', update_event_info(event_slug, render_dict))
 
 
-def upload_presentation(request, event_url, pk):
+def upload_presentation(request, event_slug, pk):
     proposal = get_object_or_404(TalkProposal, pk=pk)
     form = PresentationForm(request.POST or None, request.FILES, instance=proposal)
     if request.POST:
@@ -358,38 +357,38 @@ def upload_presentation(request, event_url, pk):
                     form.cleaned_data['presentation'] = None
             form.save()
             messages.success(request, _("The presentation has been uploaded successfully!"))
-            return HttpResponseRedirect(reverse('proposal_detail', args=(event_url, proposal.pk)))
+            return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
         messages.error(request, _("The presentation hasn't been uploaded successfully (check form errors)"))
-    return HttpResponseRedirect(reverse('proposal_detail', args=(event_url, pk)))
+    return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, pk)))
 
 
 @login_required(login_url='../../accounts/login/')
 @permission_required('manager.add_attendee', raise_exception=True)
-def attendee_search(request, event_url):
-    form = AttendeeSearchForm(event_url, request.POST or None)
+def attendee_search(request, event_slug):
+    form = AttendeeSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
             attendee_email = form.cleaned_data['attendee']
             if attendee_email is not None:
-                attendee = Attendee.objects.get(email=attendee_email, event__url__iexact=event_url)
+                attendee = Attendee.objects.get(email=attendee_email, event__slug__iexact=event_slug)
                 if attendee.assisted:
                     messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
                     attendee.assisted = True
                     attendee.save()
                     messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
-                return HttpResponseRedirect(reverse("attendee_search", args=[event_url]))
+                return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
             else:
-                return HttpResponseRedirect('/event/' + event_url + '/registration/attendee/by-collaborator')
+                return HttpResponseRedirect('/event/' + event_slug + '/registration/attendee/by-collaborator')
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
-    return render(request, 'registration/attendee/search.html', update_event_info(event_url, {'form': form}))
+    return render(request, 'registration/attendee/search.html', update_event_info(event_slug, {'form': form}))
 
 
 @login_required(login_url='../../accounts/login/')
 @permission_required('manager.add_attendee', raise_exception=True)
-def attendee_registration_by_collaborator(request, event_url):
-    event = Event.objects.get(url__iexact=event_url)
+def attendee_registration_by_collaborator(request, event_slug):
+    event = Event.objects.get(slug__iexact=event_slug)
     attendee = Attendee(eventolUser__event=event)
     form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
@@ -398,14 +397,14 @@ def attendee_registration_by_collaborator(request, event_url):
             attendee.assisted = True
             attendee.save()
             messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
-            return HttpResponseRedirect(reverse("attendee_search", args=(event_url, )))
+            return HttpResponseRedirect(reverse("attendee_search", args=(event_slug, )))
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
-    return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_url, {'form': form}))
+    return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, {'form': form}))
 
 
-def contact(request, event_url):
-    event = Event.objects.get(url__iexact=event_url)
+def contact(request, event_slug):
+    event = Event.objects.get(slug__iexact=event_slug)
     contact_message = ContactMessage()
     form = ContactMessageForm(request.POST or None, instance=contact_message)
     if request.POST:
@@ -418,71 +417,71 @@ def contact(request, event_url):
                       fail_silently=False)
             contact_message.save()
             messages.success(request, _("The message has been sent."))
-            return HttpResponseRedirect('/event/' + event_url)
+            return HttpResponseRedirect('/event/' + event_slug)
         messages.error(request, _("The message hasn't been sent."))
 
-    return render(request, 'contact-message.html', update_event_info(event_url, {'form': form}, event))
+    return render(request, 'contact-message.html', update_event_info(event_slug, {'form': form}, event))
 
 
 @login_required(login_url='../../../../../accounts/login/')
-def delete_comment(request, event_url, pk, comment_pk=None):
+def delete_comment(request, event_slug, pk, comment_pk=None):
     """Delete comment(s) with primary key `pk` or with pks in POST."""
     if request.user.is_staff:
         pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
         for comment_pk in pklist:
             Comment.objects.get(pk=comment_pk).delete()
-    return HttpResponseRedirect(reverse("proposal_detail", args=[event_url, pk]))
+    return HttpResponseRedirect(reverse("proposal_detail", args=[event_slug, pk]))
 
 
 @login_required(login_url='../../../accounts/login/')
-def add_comment(request, event_url, pk):
+def add_comment(request, event_slug, pk):
     """Add a new comment."""
     comment = Comment(proposal=TalkProposal.objects.get(pk=pk), user=request.user)
     comment_form = CommentForm(request.POST, instance=comment)
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
         comment.save(notify=True)
-    return HttpResponseRedirect(reverse("proposal_detail", args=[event_url, pk]))
+    return HttpResponseRedirect(reverse("proposal_detail", args=[event_slug, pk]))
 
 
 @login_required(login_url='../../../../../accounts/login/')
-def vote_proposal(request, event_url, pk, vote):
+def vote_proposal(request, event_slug, pk, vote):
     proposal = TalkProposal.objects.get(pk=pk)
     exits_vote = Vote.objects.get_for_user(proposal, request.user)
     if not exits_vote and vote in ("1", "0"):
         Vote.objects.record_vote(proposal, request.user, 1 if vote == '1' else -1)
-    return proposal_detail(request, event_url, pk)
+    return proposal_detail(request, event_slug, pk)
 
 
 @login_required(login_url='../../../../../accounts/login/')
-def cancel_vote(request, event_url, pk):
+def cancel_vote(request, event_slug, pk):
     proposal = TalkProposal.objects.get(pk=pk)
     vote = Vote.objects.get_for_user(proposal, request.user)
     if vote:
         vote.delete()
-    return proposal_detail(request, event_url, pk)
+    return proposal_detail(request, event_slug, pk)
 
 
 @login_required(login_url='../../accounts/login/')
-def confirm_schedule(request, event_url):
-    event = Event.objects.get(url__iexact=event_url)
+def confirm_schedule(request, event_slug):
+    event = Event.objects.get(slug__iexact=event_slug)
     event.schedule_confirm = True
     event.save()
-    return schedule(request, event_url)
+    return schedule(request, event_slug)
 
 
-def reports(request, event_url):
-    return render(request, 'reports/dashboard.html', update_event_info(event_url))
+def reports(request, event_slug):
+    return render(request, 'reports/dashboard.html', update_event_info(event_slug))
 
 
-def generic_registration(request, event_url, registration_model, registration_form, msg_success, msg_error, template):
-    event = Event.objects.get(url__iexact=event_url)
+def generic_registration(request, event_slug, registration_model, registration_form, msg_success, msg_error, template):
+    event = Event.objects.get(slug__iexact=event_slug)
 
     if not event.registration_is_open:
-        return render(request, 'registration/closed-registration.html', update_event_info(event_url))
+        return render(request, 'registration/closed-registration.html', update_event_info(event_slug))
 
     errors = []
-    user, eventoLUser, attendee = None, None, None
+    user, eventoLUser, registration = None, None, None
     user_form = UserRegistrationForm(request.POST or None)
 
     if request.POST:
@@ -501,7 +500,7 @@ def generic_registration(request, event_url, registration_model, registration_fo
                         registration.eventolUser = eventoLUser
                         registration.save()
                         messages.success(request, msg_success)
-                        return HttpResponseRedirect('/event/' + event_url)
+                        return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
                 pass
         if user is not None:
@@ -509,7 +508,7 @@ def generic_registration(request, event_url, registration_model, registration_fo
         if eventoLUser is not None:
             EventoLUser.delete(eventoLUser)
         if registration is not None:
-            registration_model.delete(attendee)
+            registration_model.delete(registration)
         messages.error(request, msg_error)
         errors = get_forms_errors(forms)
 
@@ -517,34 +516,34 @@ def generic_registration(request, event_url, registration_model, registration_fo
         eventoLUser = EventoLUser(event=event)
         registration = registration_model(eventolUser=eventoLUser)
         eventoLUser_form = EventoLUserRegistrationForm(instance=eventoLUser)
-        registration_form = registration_form(instance=attendee)
+        registration_form = registration_form(instance=registration)
         forms = [user_form, eventoLUser_form, registration_form]
 
     return render(request,
                   template,
-                  update_event_info(event_url, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
-def registration(request, event_url):
+def registration(request, event_slug):
     msg_success = _("We've sent you an email with the confirmation link. Please click or "
                     "copy and paste it in your browser to confirm the registration.")
     msg_error = _("The attendee hasn't been registered successfully (check form errors)")
     template = 'registration/attendee-registration.html'
-    return generic_registration(request, event_url, Attendee,
+    return generic_registration(request, event_slug, Attendee,
                                 AttendeeRegistrationForm, msg_success, msg_error, template)
 
 
-def installer_registration(request, event_url):
+def installer_registration(request, event_slug):
     msg_success = _("You've been registered successfully!")
     msg_error = _("You haven't been registered successfully (check form errors)")
     template = 'registration/installer-registration.html'
-    return generic_registration(request, event_url, Installer,
+    return generic_registration(request, event_slug, Installer,
                                 InstallerRegistrationForm, msg_success, msg_error, template)
 
 
-def collaborator_registration(request, event_url):
+def collaborator_registration(request, event_slug):
     msg_success = _("You've been registered successfully!")
     msg_error = _("You haven't been registered successfully (check form errors)")
     template = 'registration/collaborator-registration.html'
-    return generic_registration(request, event_url, Collaborator,
+    return generic_registration(request, event_slug, Collaborator,
                                 CollaboratorRegistrationForm, msg_success, msg_error, template)

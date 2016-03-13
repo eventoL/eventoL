@@ -17,7 +17,7 @@ from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
 from manager.models import Attendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Talk, Comment, Room, EventoLUser
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventoLUser, Activity
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
@@ -33,13 +33,13 @@ class AttendeeByEventAutocomplete(autocomplete.AutocompleteModelBase):
 
     def choices_for_request(self):
         q = self.request.GET.get('q', '')
-        event_url = self.request.GET.get('event_url', None)
+        event_slug = self.request.GET.get('event_slug', None)
 
         choices = []
 
-        if event_url:
+        if event_slug:
             choices = self.choices.all()
-            choices = choices.filter(eventolUser__event__url__iexact=event_url)
+            choices = choices.filter(eventolUser__event__slug__iexact=event_slug)
             if q:
                 choices = choices.filter(
                     Q(eventolUser__user__name__icontains=q) | Q(eventolUser__user__surname__icontains=q) | Q(
@@ -61,7 +61,7 @@ def sorted_choices(choices_list):
 class AttendeeSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(AttendeeSearchForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = Attendee.objects.filter(eventolUser__event__url=event)
+        self.fields['attendee'].queryset = Attendee.objects.filter(eventolUser__event__slug=event)
 
     attendee = autocomplete.ModelChoiceField('AttendeeByEventAutocomplete', required=False)
 
@@ -77,7 +77,7 @@ class RegistrationForm(DeferredForm):
                   render_to_string(
                       "mail/registration_confirmation.txt",
                       {'token': instance.token, 'form': self,
-                       'event_url': self.cleaned_data['event'].url,
+                       'event_slug': self.cleaned_data['event'].url,
                        'domain': self.domain, 'protocol': self.protocol}),
                   EMAIL_FROM,
                   recipient_list=[self.cleaned_data['email'], ],
@@ -101,7 +101,7 @@ class InstallationForm(autocomplete.ModelForm):
     def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['attendee'].queryset = Attendee.objects.filter(event__url=event)
+            self.fields['attendee'].queryset = Attendee.objects.filter(event__slug=event)
 
     class Meta:
         model = Installation
@@ -170,26 +170,33 @@ class UserRegistrationForm(UserCreationForm):
 class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
-        widgets = {'event': forms.HiddenInput(),
-                   'long_description': forms.Textarea(attrs={'rows': 3}),
-                   'abstract': forms.Textarea(attrs={'rows': 3})}
+        exclude = ['confirmed_talk']
+        widgets = {
+            'image': forms.HiddenInput(),
+            'activity': forms.HiddenInput()
+        }
 
 
-class TalkProposalImageCroppingForm(ModelForm):
+class ImageCroppingForm(ModelForm):
     class Meta:
-        model = TalkProposal
+        model = Image
+        fields = ('image', 'cropping')
 
 
-class TalkForm(ModelForm):
+class ActivityForm(ModelForm):
     def __init__(self, event, *args, **kwargs):
-        super(TalkForm, self).__init__(*args, **kwargs)
+        super(ActivityForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(event__url=event)
-            self.fields['speakers'].queryset = Collaborator.objects.filter(event__url=event)
+            self.fields['room'].queryset = Room.objects.filter(event__slug=event)
+            self.fields['speakers'].queryset = EventoLUser.objects.filter(event__slug=event)
 
     class Meta:
-        model = Talk
-        exclude = ('talk_proposal',)
+        model = Activity
+        widgets = {
+            'event': forms.HiddenInput(),
+            'long_description': forms.Textarea(attrs={'rows': 3}),
+            'abstract': forms.Textarea(attrs={'rows': 3})
+        }
 
 
 class PresentationForm(ModelForm):
@@ -209,4 +216,4 @@ class ContactMessageForm(ModelForm):
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        exclude = ["proposal", "user"]
+        exclude = ["activity", "user"]
