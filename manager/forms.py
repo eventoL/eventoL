@@ -177,6 +177,12 @@ class TalkProposalForm(ModelForm):
         }
 
 
+class TalkForm(ModelForm):
+    class Meta:
+        model = TalkProposal
+        fields = ['confirmed_talk']
+
+
 class ImageCroppingForm(ModelForm):
     class Meta:
         model = Image
@@ -184,14 +190,9 @@ class ImageCroppingForm(ModelForm):
 
 
 class ActivityForm(ModelForm):
-    def __init__(self, event, *args, **kwargs):
-        super(ActivityForm, self).__init__(*args, **kwargs)
-        if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(event__slug=event)
-            self.fields['speakers'].queryset = EventoLUser.objects.filter(event__slug=event)
-
     class Meta:
         model = Activity
+        exclude = ['confirmed', 'room', 'start_date', 'end_date']
         widgets = {
             'event': forms.HiddenInput(),
             'long_description': forms.Textarea(attrs={'rows': 3}),

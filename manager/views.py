@@ -19,7 +19,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
     TalkProposalForm, ContactMessageForm, ImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm
+    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm
 from manager.models import *
 from manager.schedule import Schedule
 from manager.security import is_installer, add_collaborator_perms
@@ -250,40 +250,60 @@ def talk_proposal(request, event_slug, pk=None):
 
     if not event.talk_proposal_is_open:
         messages.error(request,
-                       _(
-                           "The talk proposal is already close or the event is not accepting proposals through this "
-                           "page. Please contact the Event Organization Team to submit it."))
+                       _("The talk proposal is already close or the event is not accepting proposals through this"
+                         "page. Please contact the Event Organization Team to submit it."))
         return HttpResponseRedirect(reverse('index', args=(event_slug,)))
+
+    errors = []
+    new_activity, new_proposal = None, None
 
     if pk:
         proposal = TalkProposal.objects.get(pk=pk)
+        activity_form = ActivityForm(request.POST or None, intance=proposal.activity)
     else:
         activity = Activity(event=event)
         proposal = TalkProposal(activity=activity)
-    form = TalkProposalForm(request.POST or None, request.FILES or None, instance=proposal)
-    if request.POST:
-        if form.is_valid():
-            proposal = form.save()
-            return HttpResponseRedirect(reverse('image_cropping', args=(event_slug, proposal.pk)))
-        messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
+        activity_form = ActivityForm(request.POST or None, instance=activity)
+    proposal_form = TalkProposalForm(request.POST or None, request.FILES or None, instance=proposal)
+    forms = [activity_form, proposal_form]
 
-    return render(request, 'talks/proposal.html', update_event_info(event_slug, {'form': form}))
+    if request.POST:
+        if activity_form.is_valid():
+            try:
+                new_activity = activity_form.save()
+                if proposal_form.is_valid():
+                    new_proposal = proposal_form.save()
+                    new_proposal.activity = new_activity
+                    new_proposal.save()
+                    return HttpResponseRedirect(reverse('image_cropping', args=(event_slug, proposal.pk)))
+            except Exception:
+                pass
+        if new_activity is not None:
+            Activity.delete(new_activity)
+        if new_proposal is not None:
+            TalkProposal.delete(new_proposal)
+        messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
+        errors = get_forms_errors(forms)
+
+    return render(request, 'talks/proposal.html',
+                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 @login_required(login_url='../../../accounts/login/')
 def image_cropping(request, event_slug, image_id):
     proposal = get_object_or_404(TalkProposal, pk=image_id)
-    form = ImageCroppingForm(request.POST or None, request.FILES, instance=proposal)
+    form = ImageCroppingForm(request.POST or None, request.FILES, instance=proposal.image)
     if request.POST:
         if form.is_valid():
             # If a new file is being upload
             if request.FILES:
                 # If clear home_image is clicked, delete the image
-                if request.POST.get('home_image-clear') or request.FILES:
-                    form.cleaned_data['home_image'] = None
-
+                if request.POST.get('image-clear') or request.FILES:
+                    form.cleaned_data['image'] = None
                 # Save the changes and redirect to upload a new one or crop the new one
-                form.save()
+                image = form.save()
+                proposal.image = image
+                proposal.save()
                 messages.info(request, _("Please crop or upload a new image."))
                 return HttpResponseRedirect(reverse('image_cropping', args=(event_slug, proposal.pk)))
             form.save()
@@ -308,7 +328,7 @@ def schedule(request, event_slug):
 
 def talks(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
-    talks_list = Talk.objects.filter(talk_proposal__activity__event=event)
+    talks_list = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True)
     proposals = TalkProposal.objects.filter(activity__event=event)
     for proposal in proposals:
         setattr(proposal, 'form', TalkForm(event_slug))
@@ -318,12 +338,12 @@ def talks(request, event_slug):
 
 
 def talk_detail(request, event_slug, pk):
-    talk = Talk.objects.get(pk=pk)
+    talk = TalkProposal.objects.filter(pk=pk)
     return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, talk.talk_proposal.pk)))
 
 
 def talk_delete(request, event_slug, pk):
-    talk = Talk.objects.get(pk=pk)
+    talk = TalkProposal.objects.get(pk=pk)
     talk.talk_proposal.confirmed = False
     talk.talk_proposal.save()
     talk.delete()
@@ -332,15 +352,14 @@ def talk_delete(request, event_slug, pk):
 
 def proposal_detail(request, event_slug, pk):
     proposal = TalkProposal.objects.get(pk=pk)
-    comments = Comment.objects.filter(proposal=proposal)
+    comments = Comment.objects.filter(activity=proposal.activity)
     render_dict = dict(comments=comments, comment_form=CommentForm(), user=request.user, proposal=proposal)
     vote = Vote.objects.get_for_user(proposal, request.user)
     score = Vote.objects.get_score(proposal)
     if vote or score:
         render_dict.update({'vote': vote, 'score': score})
-    if proposal.confirmed:
-        talk = Talk.objects.get(talk_proposal=proposal)
-        render_dict.update({'talk': talk, 'form': TalkForm(event_slug, instance=talk),
+    if proposal.confirmed_talk:
+        render_dict.update({'talk': proposal, 'form': TalkForm(event_slug, instance=proposal),
                             'form_presentation': PresentationForm(instance=proposal), 'errors': []})
     else:
         render_dict.update({'form': TalkForm(event_slug), 'errors': []})

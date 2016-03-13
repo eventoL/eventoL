@@ -27,6 +27,19 @@ class Image(models.Model):
         verbose_name_plural = _('Images')
 
 
+class Adress(models.Model):
+    name = models.CharField(_('Name'), max_length=200)
+    adress = models.CharField(_('Adress'), max_length=200)
+    latitude = models.FloatField(_('Latitude'), validators=[MinValueValidator(-90), MaxValueValidator(90)])
+    longitude = models.FloatField(_('Longitude'), validators=[MinValueValidator(-180), MaxValueValidator(180)])
+
+    def __unicode__(self):
+        return u"%s (%s-%s)" % (self.name, self.latitude, self.longitude)
+
+    class Meta:
+        ordering = ['name']
+
+
 class Event(models.Model):
     name = models.CharField(_('Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
@@ -58,6 +71,13 @@ class Event(models.Model):
 
     def __unicode__(self):
         return u"%s" % (self.name)
+
+    def get_geo_info(self):
+        return {
+            "lat": self.adress.latitude,
+            "lon": self.adress.longitude,
+            "name": self.adress.name
+        }
 
     class Meta:
         ordering = ['name']
@@ -132,6 +152,14 @@ class Collaborator(models.Model):
         verbose_name = _('Collaborator')
         verbose_name_plural = _('Collaborators')
 
+
+class Organizer(models.Model):
+    """Event organizer"""
+    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('Organizer')
+        verbose_name_plural = _('Organizers')
 
 class Attendee(models.Model):
     eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
@@ -248,9 +276,9 @@ class Activity(models.Model):
     long_description = models.TextField(_('Long Description'))
     confirmed = models.BooleanField(_('Confirmed'), default=False)
     abstract = models.TextField(_('Abstract'), help_text=_('Short idea of the talk (Two or three sentences)'))
-    room = models.ForeignKey(Room, verbose_name=_('Room'))
-    start_date = models.DateTimeField(_('Start Time'))
-    end_date = models.DateTimeField(_('End Time'))
+    room = models.ForeignKey(Room, verbose_name=_('Room'), blank=True, null=True)
+    start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)
+    end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
 
     def __cmp__(self, other):
         return -1 if self.start_date.time() < other.start_date.time() else 1
@@ -259,7 +287,9 @@ class Activity(models.Model):
         return "/event/" + self.event.slug + '/activity/detail/activity/' + str(self.id)
 
     def schedule(self):
-        return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+        if self.start_date and self.end_date:
+            return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+        return _('Schedule not confirm')
 
     @classmethod
     def filter_by(cls, queryset, field, value):
@@ -269,7 +299,8 @@ class Activity(models.Model):
 
     def __unicode__(self):
         return u"%s - %s (%s - %s)" % (self.event, self.title,
-                                       self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
+                                       self.start_date.strftime("%H:%M") if self.start_date else None,
+                                       self.end_date.strftime("%H:%M") if self.end_date else None)
 
     class Meta:
         ordering = ['title']
@@ -297,7 +328,7 @@ class TalkProposal(models.Model):
         ('2', _('Medium')),
         ('3', _('Advanced')),
     )
-    activity = models.ForeignKey(Activity, verbose_name=_noop('Activity'))
+    activity = models.ForeignKey(Activity, verbose_name=_noop('Activity'), blank=True, null=True)
     type = models.ForeignKey(TalkType, verbose_name=_('Type'))
     image = models.ForeignKey(Image, verbose_name=_noop('Image'), blank=True, null=True)
     confirmed_talk = models.BooleanField(_('Talk Confirmed'), default=False)

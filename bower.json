@@ -28,9 +28,5 @@
     "gridline-bootstrap": "*",
     "morrisjs": "~0.5.1",
     "q": "~1.0.1"
-  },
-  "resolutions": {
-    "jquery": "~2.1.1",
-    "bootstrap": "~3.3.2"
   }
 }
