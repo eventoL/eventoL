@@ -58,15 +58,15 @@
                     {% for talk_proposal in talk_proposals %}
                         <div class="row">
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <img src="{% cropped_thumbnail talk_proposal "image.cropping" %}"
-                                     alt="{{ talk_proposal.title }}" width="100%" heigth="100%">
+                                <img src="{% cropped_thumbnail talk_proposal.image "cropping" %}"
+                                     alt="{{ talk_proposal.activity.title }}" width="100%" heigth="100%">
                             </div>
                             <div class="col-sm-6 col-md-6 col-lg-6">
-                                <h2>{{ talk_proposal.title }}</h2>
+                                <h2>{{ talk_proposal.activity.title }}</h2>
 
-                                <p><strong>{{ talk_proposal.abstract }}</strong></p>
+                                <p><strong>{{ talk_proposal.activity.abstract }}</strong></p>
 
-                                <p>{{ talk_proposal.long_description }}</p>
+                                <p>{{ talk_proposal.activity.long_description }}</p>
 
                                 <p>{% trans 'Speakers' %}: {{ talk_proposal.speakers_names|title }}</p>
                             </div>
