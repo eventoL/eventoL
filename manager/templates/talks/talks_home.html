@@ -30,7 +30,7 @@
                             <h4 class="panel-title">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                    href="#talk-{{ forloop.counter }}">
-                                    {{ talk.talk_proposal.title }}
+                                    {{ talk.activity.title }}
                                     <i class="indicator fa fa-chevron-down pull-right"></i>
                                 </a>
                                 {% if user.is_authenticated %}
@@ -45,33 +45,33 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        {% if talk.talk_proposal.home_image %}
-                                            <img src="{% cropped_thumbnail talk.talk_proposal "cropping" %}"
+                                        {% if talk.image %}
+                                            <img src="{% cropped_thumbnail talk.image "cropping" %}"
                                                  width="100%">
                                         {% else %}
                                             <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                         {% endif %}
                                     </div>
                                     <div class="col-sm-8" style="padding-top: 10px">
-                                        <p><strong>{% trans "Abstract" %}:</strong> {{ talk.talk_proposal.abstract }}
+                                        <p><strong>{% trans "Abstract" %}:</strong> {{ talk.activity.abstract }}
                                         </p>
 
                                         <p>
-                                            <strong>{% trans "Speakers" %}:</strong> {{ talk.talk_proposal.speakers_names|title }}
+                                            <strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}
                                         </p>
 
-                                        <p><strong>{% trans "Labels" %}:</strong> {{ talk.talk_proposal.labels|lower }}
+                                        <p><strong>{% trans "Labels" %}:</strong> {{ talk.labels|lower }}
                                         </p>
 
-                                        <p><strong>{% trans "Type" %}:</strong> {{ talk.talk_proposal.type }}</p>
+                                        <p><strong>{% trans "Type" %}:</strong> {{ talk.type }}</p>
+                                        
+                                        <p><strong>{% trans "Room" %}:</strong> {{ talk.activity.room }}</p>
 
-                                        <p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>
+                                        <p><strong>{% trans "Start" %}:</strong> {{ talk.activity.start_date }}</p>
 
-                                        <p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>
+                                        <p><strong>{% trans "End" %}:</strong> {{ talk.activity.end_date }}</p>
 
-                                        <p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>
-
-                                        <p><a href="/event/{{ event_slug }}/talk/detail/talk/{{ talk.pk }}">
+                                        <p><a href="/event/{{ event_slug }}/talk/detail/talk/{{ talk.pk }}/">
                                             {% trans "View Talk" %}
                                         </a></p>
                                     </div>
@@ -81,13 +81,13 @@
                     </div>
                 {% endfor %}
                 {% for proposal in proposals %}
-                    {% if not proposal.confirmed %}
+                    {% if not proposal.confirmed_talk %}
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                        href="#proposal-{{ forloop.counter }}">
-                                        {{ proposal.title }}
+                                        {{ proposal.activity.title }}
                                         <i class="indicator fa fa-chevron-down pull-right"></i>
                                     </a>
                                     {% if user.is_authenticated %}
@@ -101,8 +101,8 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            {% if proposal.home_image %}
-                                                <img src="{% cropped_thumbnail proposal "cropping" %}" width="100%">
+                                            {% if proposal.image %}
+                                                <img src="{% cropped_thumbnail proposal.image "cropping" %}" width="100%">
                                             {% else %}
                                                 <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                             {% endif %}
@@ -110,7 +110,7 @@
                                         </div>
                                         <div class="col-sm-8">
                                             <div id="proposal-info-{{ forloop.counter }}">
-                                                <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>
+                                                <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.activity.abstract }}</p>
 
                                                 <p>
                                                     <strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}
@@ -130,7 +130,7 @@
                                                 {% endif %}
                                             </div>
                                             <p>
-                                                <a href="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}">
+                                                <a href="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/">
                                                     {% trans "View Proposal" %}
                                                 </a></p>
 

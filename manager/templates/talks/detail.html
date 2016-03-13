@@ -23,8 +23,8 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-4 col-lg-4">
-                                {% if proposal.home_image %}
-                                    <img src="{% cropped_thumbnail proposal "image.cropping" %}" width="100%">
+                                {% if proposal.image %}
+                                    <img src="{% cropped_thumbnail proposal.image "cropping" %}" width="100%">
                                 {% else %}
                                     <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                 {% endif %}
@@ -33,14 +33,14 @@
                             </div>
                             <div class="col-md-8 col-lg-8" id="accordion" style="padding-top: 10px">
                                 <div id="talk_information">
-                                    <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>
+                                    <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.activity.abstract }}</p>
                                     <p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>
                                     <p><strong>{% trans "Labels" %}:</strong> {{ proposal.labels|lower }}</p>
                                     <p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>
-                                    {% if talk %}
-                                        <p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>
-                                        <p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>
-                                        <p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p><br>
+                                    {% if confirmed_talk %}
+                                        <p><strong>{% trans "Room" %}:</strong> {{ talk.activity.room }}</p>
+                                        <p><strong>{% trans "Start" %}:</strong> {{ talk.activity.start_date }}</p>
+                                        <p><strong>{% trans "End" %}:</strong> {{ talk.activity.end_date }}</p><br>
                                         {% if event.registration_is_open %}
                                             <p><a href="../talk/{{ talk.pk }}/delete">
                                                 <strong><i class="fa fa-times"></i> {% trans "Disconfirm talk" %}</strong>
@@ -49,7 +49,7 @@
                                     {% endif %}
                                 </div>
                                 {% if event.registration_is_open %}
-                                    <a href="/event/{{ event_slug }}/talk/proposal/{{ proposal.pk }}">
+                                    <a href="/event/{{ event_slug }}/talk/proposal/{{ proposal.pk }}/">
                                         <p><strong>
                                             <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
                                         </strong></p>
