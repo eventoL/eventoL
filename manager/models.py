@@ -367,7 +367,7 @@ class TalkProposal(models.Model):
 
 
 class Comment(models.Model):
-    created = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
     body = models.TextField()
     activity = models.ForeignKey(Activity, verbose_name=_noop('Activity'))
     user = models.ForeignKey(User, verbose_name=_('User'))
