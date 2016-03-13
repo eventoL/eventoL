@@ -746,87 +746,46 @@
     }
   },
   {
-    "model": "manager.TalkType",
+    "model": "manager.Event",
     "fields": {
-      "name": "Charla"
-    }
-  },
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Taller"
-    }
-  },
-  {
-    "fields": {
-      "name": "UTN",
-      "language": "es",
-      "is_preferred": false,
-      "is_short": false,
-      "is_colloquial": false
+      "name": "FLISol-CABA",
+      "date": "2016-04-25",
+      "limit_proposal_date": "2016-04-22",
+      "slug": "caba",
+      "email": "flisol@gmail.com",
+      "place": "{}"
     },
-    "model": "cities.AlternativeName",
     "pk": 1
   },
   {
     "fields": {
-      "alt_names": [1],
-      "address": "Medrano 951",
-      "name": "UTN",
-      "slug": "UTN"
+      "event": 1,
+      "name": "Sala Blanca"
     },
-    "model": "manager.building",
+    "model": "manager.Room",
     "pk": 1
   },
   {
     "fields": {
-      "city": 3435910,
-      "name": "CABA",
-      "district": 71,
-      "url": "CABA",
-      "country": 3865483,
-      "state": 3435907,
-      "place": 1,
-      "limit_proposal_date": "2015-04-25",
-      "event_information": "<p>saraza</p>\r\n",
-      "date": "2015-04-25"
-    },
-    "model": "manager.sede",
-    "pk": 1
-  },
-  {
-    "fields": {"name": "Charla"},
-    "model": "manager.talktype",
-    "pk": 1
-  },
-  {
-    "fields": {"name": "Taller"},
-    "model": "manager.talktype",
-    "pk": 2
-  },
-  {
-    "fields": {"name": "Debate"},
-    "model": "manager.talktype",
-    "pk": 5
-  },
-  {
-    "fields": {"name": "Otro"},
-    "model": "manager.talktype",
-    "pk": 6
-  },
-  {
-    "fields": {
-      "title": "Tu vieja",
-      "presentation": "",
+      "event": 1,
+      "title": "Linux para tu familia entera",
+      "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.",
       "abstract": "Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies.",
-      "labels": "Linux, Debian, Free Software",
-      "home_image": "talks_thumbnails/tesla_hGOI6M5.png",
-      "sede": 1,
-      "speakers_email": "reyiyo@gmail.com",
-      "cropping": "0,42,186,162",
-      "dummy_talk": false,
-      "type": 1,
-      "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est."
+      "room":1,
+      "start_date": "2016-04-25T08:30:00",
+      "end_date": "2016-04-25T09:00:00"
+    },
+    "model": "manager.Activity",
+    "pk":1
+  },
+  {
+    "fields": {
+      "activity": 1,
+      "level": 2,
+      "type":1,
+      "speakers_names": "Sergio Orbe, Agustín Ignacio Guido Croce Villanustre",
+      "speakers_email": "reyiyo@gmail.com, agustin.crocevillanustre@gmail.com",
+      "labels": "Linux, Software Libre, It's Free"
     },
     "model": "manager.talkproposal",
     "pk": 1
