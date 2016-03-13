@@ -5,22 +5,10 @@ from manager.models import Adress, Contact, ContactMessage, ContactType, Event, 
 
 
 # Event Models
-@api_test()
-class TestApiAdress():
-    str_model = 'manager.Adress'
-    model = Adress
-    url_base = '/api/adress/'
-    example = {
-        'name': 'home',
-        'adress': 'adressssss',
-        'latitude': 57.34,
-        'longitude': 120.65
-    }
-
 
 @api_test()
 class TestApiContact():
-    fk_models = ['manager.Adress', 'manager.Event', 'manager.ContactType']
+    fk_models = ['manager.Event', 'manager.ContactType']
     str_model = 'manager.Contact'
     model = Contact
     url_base = '/api/contact/'
@@ -55,7 +43,7 @@ class TestApiContactType():
 
 @api_test()
 class TestApiEvent():
-    fk_models = ['manager.Adress']
+    fk_models = []
     str_model = 'manager.Event'
     model = Event
     url_base = '/api/event/'
@@ -73,7 +61,7 @@ class TestApiEvent():
 
 @api_test()
 class TestApiImage():
-    fk_models = ['manager.Adress', 'manager.Event']
+    fk_models = ['manager.Event']
     str_model = 'manager.Image'
     model = Image
     url_base = '/api/image/'

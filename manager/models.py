@@ -27,19 +27,6 @@ class Image(models.Model):
         verbose_name_plural = _('Images')
 
 
-class Adress(models.Model):
-    name = models.CharField(_('Name'), max_length=200)
-    adress = models.CharField(_('Adress'), max_length=200)
-    latitude = models.FloatField(_('Latitude'), validators=[MinValueValidator(-90), MaxValueValidator(90)])
-    longitude = models.FloatField(_('Longitude'), validators=[MinValueValidator(-180), MaxValueValidator(180)])
-
-    def __unicode__(self):
-        return u"%s (%s-%s)" % (self.name, self.latitude, self.longitude)
-
-    class Meta:
-        ordering = ['name']
-
-
 class Event(models.Model):
     name = models.CharField(_('Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('Date of the event'))
@@ -71,13 +58,6 @@ class Event(models.Model):
 
     def __unicode__(self):
         return u"%s" % (self.name)
-
-    def get_geo_info(self):
-        return {
-            "lat": self.adress.latitude,
-            "lon": self.adress.longitude,
-            "name": self.adress.name
-        }
 
     class Meta:
         ordering = ['name']
