@@ -116,13 +116,13 @@ def talk_registration(request, event_slug, pk):
         if talk_form.is_valid() and room_available(request, talk_form.instance, event_slug):
             try:
                 proposal.confirmed_talk = True
-                proposal.save()
                 activity = proposal.activity
                 activity.start_date = post['start_date']
                 activity.end_date = post['end_date']
-                activity.room = request.POST.get('room', None)
+                activity.room = Room.objects.get(pk=request.POST.get('room', None))
                 activity.confirmed = True
                 activity.save()
+                proposal.save()
                 messages.success(request, _("The talk was registered successfully!"))
                 return HttpResponseRedirect(reverse("talk_detail", args=[event_slug, proposal.pk]))
             except Exception:
@@ -263,11 +263,11 @@ def talk_proposal(request, event_slug, pk=None):
 
     if pk:
         proposal = TalkProposal.objects.get(pk=pk)
-        activity_form = ActivityForm(request.POST or None, instance=proposal.activity)
+        activity = proposal.activity
     else:
         activity = Activity(event=event)
         proposal = TalkProposal(activity=activity)
-        activity_form = ActivityForm(request.POST or None, instance=activity)
+    activity_form = ActivityForm(request.POST or None, instance=activity)
     proposal_form = TalkProposalForm(request.POST or None, request.FILES or None, instance=proposal)
     forms = [activity_form, proposal_form]
 
