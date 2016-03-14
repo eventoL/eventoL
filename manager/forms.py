@@ -21,7 +21,7 @@ from manager.models import Attendee, InstalationAttendee, Installation, Hardware
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
-    search_fields = ('eventolUser__user__name', 'eventolUser__user__surname', 'eventolUser__user__nickname', 'eventolUser__user__email')
+    search_fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username', 'eventolUser__user__email')
 
 
 class HardwareManufacturerAutocomplete(autocomplete.AutocompleteModelBase):
@@ -42,8 +42,8 @@ class AttendeeByEventAutocomplete(autocomplete.AutocompleteModelBase):
             choices = choices.filter(eventolUser__event__slug__iexact=event_slug)
             if q:
                 choices = choices.filter(
-                    Q(eventolUser__user__name__icontains=q) | Q(eventolUser__user__surname__icontains=q) | Q(
-                        eventolUser__user__nickname__icontains=q) | Q(eventolUser__user__email__icontains=q))
+                    Q(eventolUser__user__first_name__icontains=q) | Q(eventolUser__user__last_name__icontains=q) | Q(
+                        eventolUser__user__username__icontains=q) | Q(eventolUser__user__email__icontains=q))
 
         return self.order_choices(choices)[0:self.limit_choices]
 

@@ -392,14 +392,13 @@ def attendee_search(request, event_slug):
     form = AttendeeSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
-            attendee_email = form.cleaned_data['attendee']
-            if attendee_email is not None:
-                attendee = Attendee.objects.get(email=attendee_email, event__slug__iexact=event_slug)
-                if attendee.assisted:
+            attendee = form.cleaned_data['attendee']
+            if attendee:
+                if attendee.eventolUser.assisted:
                     messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
-                    attendee.assisted = True
-                    attendee.save()
+                    attendee.eventolUser.assisted = True
+                    attendee.eventolUser.save()
                     messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
             else:
