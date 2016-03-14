@@ -95,7 +95,7 @@
                                             <i class="fa fa-list"></i> {% trans "Talks List" %}
                                         </a>
                                     </li>
-                                  {% if user|is_collaborator or user|is_organizer %}
+                                  {% if user|can_take_attendance %}
                                     <li>
                                         <a href="/event/{{ event_slug }}/registration/attendee/search">
                                             <i class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}
