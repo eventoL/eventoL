@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load filters %}
+{% load cropping %}
+{% if proposal %}
+    {% block other-head %}
+        <link rel="stylesheet" type="text/css"
+              href="{% static "manager/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" %}">
+
+        <style type="text/css">
+            .map_canvas {
+                width: 100%;
+                height: 300px;
+            }
+        </style>
+    {% endblock %}
+{% endif %}
+{% block page-header %}
+    {% trans 'Create an event' %}
+{% endblock %}
+{% block page-name %}
+    {% trans 'Create an event' %}
+{% endblock %}
+{% block content %}
+    <div class="well">
+        <div class="row">
+            <form class="form-horizontal" id="create_event" method="post" action=".">
+                {% csrf_token %}
+
+                {% if form.non_field_errors|length > 0 %}
+                    <div class="alert alert-dismissable alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <ul>
+                            {% for error in form.non_field_errors %}
+                                <li>{% trans error %}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+
+                <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                    <h4>{% trans "What's the name of your event?" %}</h4>
+                    <br>
+                    <div class="form-group {% if form.name.errors|length > 0 %}has-error has-feedback{% endif %}">
+                        <label class="col-sm-2 col-xs-1 control-label" for="{{ form.name.id_for_label }}">
+                            {% trans form.name.label %}{% if form.name.required %} *{% endif %}
+                        </label>
+
+                        <div class="col-sm-10 col-xs-11">
+                            {{ form.name | addcss:'form-control' }}
+                        </div>
+
+                        {% if form.name.errors|length > 0 %}
+                            <span class="fa fa-minus-square form-control-feedback"></span>
+                            <span class="help-inline">{{ form.name.errors.as_text }}</span>
+                        {% endif %}
+                        {% if form.name.help_text %}<p class="help-block">{{ form.name.help_text }}</p>{% endif %}
+                    </div>
+
+                    <br>
+                    <br>
+                    <h4>{% trans 'When will your event be?' %}</h4>
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4 col-xs-12">
+                            <div class="event-date-picker" data-date="{% now "f" %}"></div>
+                        </div>
+                    </div>
+
+                    {{ form.date }}
+
+                    <br>
+                    <br>
+                    <h4>{% trans "Choose an URL" %}</h4>
+                    <br>
+                    <div class="form-group {% if form.slug.errors|length > 0 %}has-error has-feedback{% endif %}">
+                        <label class="col-sm-4 col-xs-4 control-label" for="{{ form.slug.id_for_label }}">
+                            {{ protocol }}://{{ domain }}/event/
+                        </label>
+
+                        <div class="col-sm-8 col-xs-8">
+                            {{ form.slug | addcss:'form-control' }}
+                            {% if form.slug.help_text %}<p class="help-block">{{ form.slug.help_text }}</p>{% endif %}
+                        </div>
+
+                        {% if form.name.errors|length > 0 %}
+                            <span class="fa fa-minus-square form-control-feedback"></span>
+                            <span class="help-inline">{{ form.slug.errors.as_text }}</span>
+                        {% endif %}
+                    </div>
+
+                    <br>
+                    <br>
+                    <h4>{% trans "Where can people contact you?" %}</h4>
+                    <br>
+                    <div class="form-group {% if form.email.errors|length > 0 %}has-error has-feedback{% endif %}">
+                        <label class="col-sm-3 col-xs-3 control-label" for="{{ form.email.id_for_label }}">
+                            {% trans form.email.label %}{% if form.email.required %} *{% endif %}
+                        </label>
+
+                        <div class="col-sm-9 col-xs-9">
+                            {{ form.email | addcss:'form-control' }}
+                        </div>
+
+                        {% if form.email.errors|length > 0 %}
+                            <span class="fa fa-minus-square form-control-feedback"></span>
+                            <span class="help-inline">{{ form.email.errors.as_text }}</span>
+                        {% endif %}
+                        {% if form.email.help_text %}<p class="help-block">{{ form.email.help_text }}</p>{% endif %}
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <h4>{% trans 'Where will your event be?' %}</h4>
+                    <div class="row">
+                        <div class="col-sm-10 col-sm-offset-1">
+                            <div class="form-group">
+                                <label class="col-sm-4 col-xs-4 control-label" for="address">
+                                    {% trans "Search for a place or address" %}
+                                </label>
+
+                                <div class="col-sm-8 col-xs-8">
+                                    <div class="input-group">
+                                        <input id="geocomplete" class="form-control" type="text">
+                                        <span class="input-group-btn">
+                                          <button type="button" class="btn btn-fab btn-fab-mini">
+                                              <i class="fa fa-search"></i>
+                                          </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                            <div class="map_canvas"></div>
+                        </div>
+                    </div>
+
+                    {{ form.place }}
+
+                    <br>
+                    <br>
+                    <h4>{% trans 'When is the last day to submit talk proposals?' %}</h4>
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4 col-xs-12">
+                            <div class="limit-proposal-picker" data-date="{% now "f" %}"></div>
+                        </div>
+                    </div>
+
+                    {{ form.limit_proposal_date }}
+
+                    <br>
+                    <br>
+                    <h4>{% trans "Do you want to use your own homepage?" %}</h4>
+                    <p>{% trans "You probably don't want to. But if you want, we can link to your page in our index. Provide the full URL here:" %}</p>
+                    <br>
+                    <br>
+                    <div class="form-group {% if form.external_url.errors|length > 0 %}has-error has-feedback{% endif %}">
+                        <label class="col-sm-3 col-xs-3 control-label" for="{{ form.email.id_for_label }}">
+                            {% trans form.external_url.label %}{% if form.external_url.required %} *{% endif %}
+                        </label>
+
+                        <div class="col-sm-9 col-xs-9">
+                            {{ form.external_url | addcss:'form-control' }}
+                            {% if form.external_url.help_text %}
+                                <p class="help-block">{{ form.external_url.help_text }}</p>{% endif %}
+                        </div>
+
+                        {% if form.external_url.errors|length > 0 %}
+                            <span class="fa fa-minus-square form-control-feedback"></span>
+                            <span class="help-inline">{{ form.external_url.errors.as_text }}</span>
+                        {% endif %}
+                    </div>
+
+                    <br>
+                    <br>
+                    <h4>{% trans "Please provide as much information you can about your event" %}</h4>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                            {{ form.event_information }}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit"
+                                class="btn btn-primary btn-raised pull-right">{% trans "Submit" %}</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block other-script %}
+    <script src="{% static "manager/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" %}"
+            type="text/javascript"></script>
+    <script src="{% static "manager/bower_components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js" %}"
+            type="text/javascript"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script src="{% static "manager/bower_components/geocomplete/jquery.geocomplete.min.js" %}"
+            type="text/javascript"></script>
+    {{ form.media }}
+
+    <script>
+        $(document).ready(function() {
+            $('.event-date-picker')
+                    .datepicker()
+                    .on("changeDate", function(event) {
+                        $("#{{ form.date.id_for_label }}").val(
+                                $(".event-date-picker").datepicker('getFormattedDate')
+                        );
+                    });
+
+
+            $("#geocomplete").geocomplete({
+                map: ".map_canvas"
+            });
+
+            $("#geocomplete").bind("geocode:result", function(event, result) {
+                console.log(result);
+                $("#{{ form.place.id_for_label }}").val(
+                        JSON.stringify(result)
+                );
+            });
+
+            $('.limit-proposal-picker')
+                    .datepicker()
+                    .on("changeDate", function(event) {
+                        $("#{{ form.limit_proposal_date.id_for_label }}").val(
+                                $(".limit-proposal-picker").datepicker('getFormattedDate')
+                        );
+                    });
+        });
+
+
+    </script>
+{% endblock %}

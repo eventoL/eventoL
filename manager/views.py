@@ -1,29 +1,25 @@
 # encoding: UTF-8
 import itertools
-import datetime
 
 import autocomplete_light
-from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
-from django.contrib.auth.models import User
-from django.contrib.auth.views import login as django_login
-from django.shortcuts import get_object_or_404, render
-from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.views import login as django_login
+from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext_lazy as _
-from voting.models import Vote
 from generic_confirmation.views import confirm_by_get
-
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
-    InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
+    InstallationForm, HardwareForm, InstallerRegistrationForm, \
     TalkProposalForm, ContactMessageForm, ImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm
+    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, EventForm
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer, add_collaborator_perms
-
+from manager.security import is_installer
+from voting.models import Vote
 
 autocomplete_light.autodiscover()
 
@@ -570,3 +566,15 @@ def collaborator_registration(request, event_slug):
     template = 'registration/collaborator-registration.html'
     return generic_registration(request, event_slug, Collaborator,
                                 CollaboratorRegistrationForm, msg_success, msg_error, template)
+
+
+def create_event(request):
+    event_form = EventForm(request.POST or None, prefix='event')
+    if request.POST:
+        if event_form.is_valid():
+            the_event = event_form.save()
+            return HttpResponseRedirect('/event/' + the_event.slug)
+        messages.error(request, _("Some error with the event"))
+
+    return render(request,
+                  'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme})

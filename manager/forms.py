@@ -17,11 +17,12 @@ from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
 from manager.models import Attendee, InstalationAttendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventoLUser, Activity
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventoLUser, Activity, Event
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
-    search_fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username', 'eventolUser__user__email')
+    search_fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
+                     'eventolUser__user__email')
 
 
 class HardwareManufacturerAutocomplete(autocomplete.AutocompleteModelBase):
@@ -209,7 +210,6 @@ class ActivityForm(ModelForm):
 
 
 class PresentationForm(ModelForm):
-
     class Meta:
         model = TalkProposal
         fields = ('presentation',)
@@ -218,7 +218,7 @@ class PresentationForm(ModelForm):
 class ContactMessageForm(ModelForm):
     class Meta:
         model = ContactMessage
-        fields = ('name', 'email', 'message', )
+        fields = ('name', 'email', 'message',)
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
 
 
@@ -226,3 +226,12 @@ class CommentForm(ModelForm):
     class Meta:
         model = Comment
         exclude = ["activity", "user"]
+
+
+class EventForm(ModelForm):
+    class Meta:
+        model = Event
+        fields = ('name', 'slug', 'date', 'limit_proposal_date', 'email', 'place', 'external_url', 'event_information')
+        widgets = {'date': forms.HiddenInput(),
+                   'place': forms.HiddenInput(),
+                   'limit_proposal_date': forms.HiddenInput()}

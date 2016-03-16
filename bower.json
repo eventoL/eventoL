@@ -27,6 +27,7 @@
     "slick-carousel": "1.4.1",
     "gridline-bootstrap": "*",
     "morrisjs": "~0.5.1",
-    "q": "~1.0.1"
+    "q": "~1.0.1",
+    "geocomplete": "^1.6.5"
   }
 }

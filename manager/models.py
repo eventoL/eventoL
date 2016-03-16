@@ -41,13 +41,12 @@ class Address(models.Model):
 
 
 class Event(models.Model):
-    name = models.CharField(_('Name'), max_length=200)
-    date = models.DateField(_('Date'), help_text=_('Date of the event'))
-    limit_proposal_date = models.DateField(_('Limit Proposal Date'), help_text=_('Date Limit of Talk Proposal'))
-    slug = models.CharField(_('URL'), max_length=200, help_text=_('URL for the event i.e. CABA'),
+    name = models.CharField(_('Event Name'), max_length=200)
+    date = models.DateField(_('Date'), help_text=_('When will your event be?'))
+    limit_proposal_date = models.DateField(_('Limit Proposals Date'), help_text=_('Limit date to submit talk proposals'))
+    slug = models.CharField(_('URL'), max_length=200, help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
-    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
-        'If you want to use other page for your event rather than eventoL\'s one, you can put the absolute url here'))
+    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
@@ -185,7 +184,6 @@ class InstalationAttendee(models.Model):
 
     def __unicode__(self):
         return u'%s %s' % (self.eventolUser.user.first_name, self.eventolUser.user.last_name)
-
 
 
 class Installer(models.Model):
