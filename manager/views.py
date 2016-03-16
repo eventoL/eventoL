@@ -180,22 +180,20 @@ def become_installer(request, event_slug):
     installer = None
 
     if request.POST:
-        collaborator = Collaborator.objects.get(user=request.user)
+        eventolUser = EventoLUser.objects.get(user=request.user)
         installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
-                                                                   instance=Installer(collaborator=collaborator))
+                                                                   instance=Installer(eventolUser=eventolUser))
         forms = [installer_form]
         if installer_form.is_valid():
             try:
                 installer = installer_form.save()
-                collaborator.user = add_collaborator_perms(collaborator.user)
-                collaborator.save()
                 installer.save()
-                messages.success(request, _("You've became an installer!"))
+                messages.success(request, _("You've become an installer!"))
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception as e:
                 if installer is not None:
                     Installer.delete(installer)
-        messages.error(request, _("You not became an installer (check form errors)"))
+        messages.error(request, _("You haven't become an installer (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
@@ -217,11 +215,12 @@ def installation(request, event_slug):
     if request.POST:
         if hardware_form.is_valid():
             hardware = hardware_form.save()
+            install = None
             try:
                 if installation_form.is_valid():
                     install = installation_form.save()
                     install.hardware = hardware
-                    install.installer = Installer.objects.get(collaborator__user=request.user)
+                    install.installer = Installer.objects.get(eventolUser__user=request.user)
                     install.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/event/' + event_slug)
@@ -232,7 +231,7 @@ def installation(request, event_slug):
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if install is not None:
-                    Installation.delete(installation)
+                    Installation.delete(install)
         messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
@@ -325,9 +324,12 @@ def schedule(request, event_slug):
 
     rooms = Room.objects.filter(event=event)
     talks_confirmed = TalkProposal.objects.filter(confirmed_talk=True, activity__event=event)
-    schedule = Schedule(list(rooms), list(talks_confirmed))
-    return render(request, 'talks/schedule.html',
-                  update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
+    if talks_confirmed:
+        schedule = Schedule(list(rooms), list(talks_confirmed))
+        return render(request, 'talks/schedule.html',
+                      update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
+    messages.warning(_("You don't have confirmed talks, please confirm talks and after confirm schedule"))
+    return talks(request, event_slug)
 
 
 def talks(request, event_slug):
@@ -390,14 +392,13 @@ def attendee_search(request, event_slug):
     form = AttendeeSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
-            attendee_email = form.cleaned_data['attendee']
-            if attendee_email is not None:
-                attendee = Attendee.objects.get(email=attendee_email, event__slug__iexact=event_slug)
-                if attendee.assisted:
+            attendee = form.cleaned_data['attendee']
+            if attendee:
+                if attendee.eventolUser.assisted:
                     messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
-                    attendee.assisted = True
-                    attendee.save()
+                    attendee.eventolUser.assisted = True
+                    attendee.eventolUser.save()
                     messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
             else:

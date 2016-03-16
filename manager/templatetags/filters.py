@@ -48,6 +48,10 @@ def is_collaborator(user):
 def is_organizer(user):
     return Organizer.objects.filter(eventolUser__user=user).exists()
 
+@register.filter(name='can_take_attendance')
+def can_take_attendance(user):
+    return (is_organizer(user) or is_collaborator(user)) and user.has_perm('manager.add_attendee')
+
 
 @register.filter(name='is_event_staff')
 def is_event_staff(event_slug, user):

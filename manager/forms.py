@@ -16,12 +16,12 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
-from manager.models import Attendee, Installation, Hardware, Collaborator, \
+from manager.models import Attendee, InstalationAttendee, Installation, Hardware, Collaborator, \
     Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventoLUser, Activity
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
-    search_fields = ('eventolUser__user__name', 'eventolUser__user__surname', 'eventolUser__user__nickname', 'eventolUser__user__email')
+    search_fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username', 'eventolUser__user__email')
 
 
 class HardwareManufacturerAutocomplete(autocomplete.AutocompleteModelBase):
@@ -42,8 +42,8 @@ class AttendeeByEventAutocomplete(autocomplete.AutocompleteModelBase):
             choices = choices.filter(eventolUser__event__slug__iexact=event_slug)
             if q:
                 choices = choices.filter(
-                    Q(eventolUser__user__name__icontains=q) | Q(eventolUser__user__surname__icontains=q) | Q(
-                        eventolUser__user__nickname__icontains=q) | Q(eventolUser__user__email__icontains=q))
+                    Q(eventolUser__user__first_name__icontains=q) | Q(eventolUser__user__last_name__icontains=q) | Q(
+                        eventolUser__user__username__icontains=q) | Q(eventolUser__user__email__icontains=q))
 
         return self.order_choices(choices)[0:self.limit_choices]
 
@@ -101,7 +101,7 @@ class InstallationForm(autocomplete.ModelForm):
     def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['attendee'].queryset = Attendee.objects.filter(event__slug=event)
+            self.fields['attendee'].queryset = InstalationAttendee.objects.filter(eventolUser__event__slug=event)
 
     class Meta:
         model = Installation
@@ -136,7 +136,7 @@ class AttendeeRegistrationForm(ModelForm):
 
 class InstallerRegistrationForm(ModelForm):
     text = u'Afirmo que he leido la ' \
-           u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2014/Guía_del_' \
+           u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2016/Guía_del_' \
            u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
     read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 
@@ -147,7 +147,7 @@ class InstallerRegistrationForm(ModelForm):
 
 class InstallerRegistrationFromCollaboratorForm(ModelForm):
     text = u'Afirmo que he leido la ' \
-           u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2014/Guía_del_' \
+           u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2016/Guía_del_' \
            u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
     read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 

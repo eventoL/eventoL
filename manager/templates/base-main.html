@@ -95,11 +95,13 @@
                                             <i class="fa fa-list"></i> {% trans "Talks List" %}
                                         </a>
                                     </li>
+                                  {% if user|can_take_attendance %}
                                     <li>
                                         <a href="/event/{{ event_slug }}/registration/attendee/search">
                                             <i class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}
                                         </a>
                                     </li>
+                                  {% endif %}
                                     <li>
                                         <a href="/event/{{ event_slug }}/reports">
                                             <i class="fa fa-bar-chart"></i> {% trans "View Reports" %}
@@ -111,7 +113,8 @@
                                                 <i class="fa fa-laptop"></i> {% trans "Submit an installation" %}
                                             </a>
                                         </li>
-                                    {% else %}
+                                    {% endif %}
+                                    {% if user|is_collaborator and not user|is_installer %}
                                         <li>
                                             <a href="/event/{{ event_slug }}/registration/become_installer">
                                                 <i class="fa fa-linux"></i> {% trans "Become installer" %}
