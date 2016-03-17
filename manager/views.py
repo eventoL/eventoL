@@ -36,10 +36,6 @@ def update_event_info(event_slug, render_dict=None, event=None):
     return render_dict
 
 
-def event_django_view(request, event_slug, view=django_login):
-    return view(request, extra_context=update_event_info(event_slug))
-
-
 def index(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
 
@@ -568,6 +564,7 @@ def collaborator_registration(request, event_slug):
                                 CollaboratorRegistrationForm, msg_success, msg_error, template)
 
 
+@login_required(login_url='../accounts/login/')
 def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
     if request.POST:

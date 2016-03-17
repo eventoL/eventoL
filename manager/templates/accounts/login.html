@@ -1,0 +1,22 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load i18n %}
+{% block page-header %}{% trans "Login" %}{% endblock %}
+{% block page-name %}{% trans "Login" %}{% endblock %}
+
+{% block form-id %}"login"{% endblock %}
+
+{% block form-name %}{% trans "Login" %}{% endblock %}
+
+{% block form-action %}"."{% endblock %}
+
+{% block extra-fields %}
+    {% if next %}
+        <input type="hidden" name="next" value="{{ next }}"/>
+    {% else %}
+        <input type="hidden" name="next" value="/"/>
+    {% endif %}
+{% endblock %}
+
+{% block post-form %}
+    <p><a href="{% url 'forgot_password' %}">{% trans "Forgot your password?" %}</a></p>
+{% endblock %}
