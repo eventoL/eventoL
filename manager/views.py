@@ -15,7 +15,8 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, InstallerRegistrationForm, \
     TalkProposalForm, ContactMessageForm, ImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, EventForm
+    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
+    EventForm
 from manager.models import *
 from manager.schedule import Schedule
 from manager.security import is_installer
@@ -46,7 +47,7 @@ def index(request, event_slug):
 
         return HttpResponseRedirect(event.external_url)
 
-    talk_proposals = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True)\
+    talk_proposals = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True) \
         .exclude(image__isnull=True) \
         .distinct()
 
@@ -157,7 +158,7 @@ def room_available(request, talk_form, event_slug):
             end_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
             or activities_room.filter(end_date__gt=talk_form.end_date, start_date__lt=talk_form.start_date).exists() \
             or activities_room.filter(
-                    start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
+                start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
             or activities_room.filter(end_date=talk_form.end_date, start_date=talk_form.start_date).exists():
         messages.error(request,
                        _("The talk wasn't registered successfully because the room or schedule isn't available"))
@@ -412,7 +413,7 @@ def attendee_registration_by_collaborator(request, event_slug):
             attendee.assisted = True
             attendee.save()
             messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
-            return HttpResponseRedirect(reverse("attendee_search", args=(event_slug, )))
+            return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
     return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, {'form': form}))
@@ -571,7 +572,8 @@ def create_event(request):
         if event_form.is_valid():
             the_event = event_form.save()
             return HttpResponseRedirect('/event/' + the_event.slug)
-        messages.error(request, _("Some error with the event"))
+
+        messages.error(request, "There is a problem with your event. Please check the form for errors.")
 
     return render(request,
                   'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme})

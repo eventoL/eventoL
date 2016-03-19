@@ -28,6 +28,12 @@ def is_fileinput(boundfield):
     return isinstance(boundfield.field.widget, forms.FileInput)
 
 
+@register.filter(name='is_select')
+def is_select(boundfield):
+    """Return True if this field's widget is a Select Combo."""
+    return isinstance(boundfield.field.widget, forms.Select)
+
+
 @register.filter(name='is_odd')
 def is_odd(number):
     """Return True if the number is odd"""

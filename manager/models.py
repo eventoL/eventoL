@@ -160,6 +160,7 @@ class Organizer(models.Model):
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
 
+
 class Attendee(models.Model):
     eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
