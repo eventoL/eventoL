@@ -16,7 +16,7 @@ from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
-from manager.models import Attendee, InstalationAttendee, Installation, Hardware, Collaborator, \
+from manager.models import Attendee, InstallationAttendee, Installation, Hardware, Collaborator, \
     Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventUser, Activity, Event
 
 
@@ -102,7 +102,7 @@ class InstallationForm(autocomplete.ModelForm):
     def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['attendee'].queryset = InstalationAttendee.objects.filter(eventUser__event__slug=event)
+            self.fields['attendee'].queryset = InstallationAttendee.objects.filter(eventUser__event__slug=event)
 
     class Meta:
         model = Installation

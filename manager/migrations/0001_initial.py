@@ -49,8 +49,8 @@ class Migration(migrations.Migration):
             name='Collaborator',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('assignation', models.CharField(help_text='Assignations given to the user (i.e. Talks, Coffee...)', max_length=200, null=True, verbose_name='Assignation', blank=True)),
-                ('time_availability', models.CharField(help_text='Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...', max_length=200, null=True, verbose_name='Time Availability', blank=True)),
+                ('assignation', models.CharField(help_text='Anything you can help with (i.e. Talks, Coffee...)', max_length=200, null=True, verbose_name='Assignation', blank=True)),
+                ('time_availability', models.CharField(help_text='Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon", ...', max_length=200, null=True, verbose_name='Time Availability', blank=True)),
                 ('phone', models.CharField(max_length=200, null=True, verbose_name='Phone', blank=True)),
                 ('address', models.CharField(max_length=200, null=True, verbose_name='Address', blank=True)),
                 ('additional_info', models.CharField(help_text='Any additional info you consider relevant', max_length=200, null=True, verbose_name='Additional Info', blank=True)),
@@ -140,8 +140,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('assisted', models.BooleanField(default=False, verbose_name='Assisted')),
-                ('event', models.ForeignKey(verbose_name=b'Event', to='manager.Event', help_text='Event you are going to collaborate')),
-                ('user', models.OneToOneField(null=True, blank=True, to=settings.AUTH_USER_MODEL, verbose_name='User')),
+                ('event', models.ForeignKey(verbose_name=b'Event', to='manager.Event')),
+                ('user', models.ForeignKey(verbose_name='User', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
                 'verbose_name': 'Event User',
@@ -187,25 +187,10 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='InstalationAttendee',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('installarion_additional_info', models.TextField(help_text='i.e. Wath kind of PC are you bringing', null=True, verbose_name='Additional Info', blank=True)),
-                ('eventUser', models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True)),
-            ],
-            options={
-                'verbose_name': 'Instalation Attendee',
-                'verbose_name_plural': 'Instalation Attendees',
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Installation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('notes', models.TextField(help_text='Any information or trouble you found and consider relevant to document', null=True, verbose_name='Notes', blank=True)),
-                ('attendee', models.ForeignKey(verbose_name='Attendee', to='manager.InstalationAttendee', help_text='The owner of the installed hardware')),
-                ('hardware', models.ForeignKey(verbose_name='Hardware', blank=True, to='manager.Hardware', null=True)),
             ],
             options={
                 'verbose_name': 'Installation',
@@ -214,10 +199,23 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='InstallationAttendee',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('installation_additional_info', models.TextField(help_text='i.e. Wath kind of PC are you bringing?', null=True, verbose_name='Additional Info', blank=True)),
+                ('eventUser', models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True)),
+            ],
+            options={
+                'verbose_name': 'Installation Attendee',
+                'verbose_name_plural': 'Installation Attendees',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Installer',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('level', models.CharField(help_text='Linux Knowledge level for an installation', max_length=200, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced'), (b'4', 'Super Hacker')])),
+                ('level', models.CharField(help_text='Knowledge level for an installation', max_length=200, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced'), (b'4', 'Super Hacker')])),
                 ('eventUser', models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True)),
             ],
             options={
@@ -311,6 +309,18 @@ class Migration(migrations.Migration):
             model_name='talkproposal',
             name='type',
             field=models.ForeignKey(verbose_name='Type', to='manager.TalkType'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='installation',
+            name='attendee',
+            field=models.ForeignKey(verbose_name='Attendee', to='manager.InstallationAttendee', help_text='The owner of the installed hardware'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='installation',
+            name='hardware',
+            field=models.ForeignKey(verbose_name='Hardware', blank=True, to='manager.Hardware', null=True),
             preserve_default=True,
         ),
         migrations.AddField(

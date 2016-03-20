@@ -1,5 +1,5 @@
 import unittest
-from manager.models import Attendee, Collaborator, EventUser, InstalationAttendee, Installer, Speaker
+from manager.models import Attendee, Collaborator, EventUser, InstallationAttendee, Installer, Speaker
 from manager.api.tests.test_api import api_test
 
 
@@ -42,13 +42,13 @@ class TestApiEventUser():
 
 
 @api_test()
-class TestApiInstalationAttendee():
+class TestApiInstallationAttendee():
     fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
-    str_model = 'manager.InstalationAttendee'
-    model = InstalationAttendee
-    url_base = '/api/instalationattendee/'
+    str_model = 'manager.InstallationAttendee'
+    model = InstallationAttendee
+    url_base = '/api/installationattendee/'
     example = {
-        'installarion_additional_info': 'hola'
+        'installation_additional_info': 'hola'
     }
 
 

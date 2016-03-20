@@ -158,9 +158,9 @@ class Attendee(models.Model):
         return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
 
 
-class InstalationAttendee(models.Model):
+class InstallationAttendee(models.Model):
     eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
-    installarion_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
+    installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing?'))
 
     class Meta:
@@ -201,7 +201,7 @@ class Speaker(models.Model):
 userTypes = {
     'Collaborators': Collaborator,
     'Attendees': Attendee,
-    'Installation Attendees': InstalationAttendee,
+    'Installation Attendees': InstallationAttendee,
     'Speakers': Speaker,
     'Intallers': Installer
 }
@@ -390,7 +390,7 @@ class Comment(models.Model):
 class Installation(models.Model):
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'), blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'), blank=True, null=True)
-    attendee = models.ForeignKey(InstalationAttendee, verbose_name=_('Attendee'),
+    attendee = models.ForeignKey(InstallationAttendee, verbose_name=_('Attendee'),
                                  help_text=_('The owner of the installed hardware'))
     installer = models.ForeignKey(Installer, verbose_name=_('Installer'), related_name='installed_by', blank=True,
                                   null=True)
