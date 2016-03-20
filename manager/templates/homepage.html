@@ -1,90 +1,96 @@
+{% extends "base.html" %}
 {% load staticfiles %}
 {% load filters %}
 {% load i18n %}
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="description"
-          content="Página principal para FLISol Argentina. Festival Latinoamericano de Instalación de Software Libre">
-
-    <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
+{% block other-head %}
     <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/>
-    <link rel="stylesheet" type="text/css" media="all"
-          href="{% static "manager/css/flisol-bootstrap.css" %}"/>
-    <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
-    <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
-    <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
-          rel="stylesheet">
     <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
-    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.ie.css" /><![endif]-->
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-</head>
-<body>
-<div style="
-    width: 100%;
-    text-align: center;
-    display: block;
-    background-color: rgb(0,149,135);
-">
-    <img src="{% static 'manager/img/flisol-banner.png' %}">
-</div>
+    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.7/leaflet.ie.css" /><![endif]-->
+    <link href='https://fonts.googleapis.com/css?family=Comfortaa:400,700' rel='stylesheet' type='text/css'>
+
+    <style>
+        body {
+            font-family: 'Comfortaa', cursive !important;
+        }
+    </style>
+{% endblock %}
+
+{% block main-content %}
+    <div class="img-container">
+        <div class="container-text">
+            <h1>FLISoL Argentina</h1>
+            <a href="/create-event" class="btn btn-raised btn-primary btn-lg">Creá tu evento</a>
+            <h2>O encontrá tu evento más cercano!</h2>
+            <p><i class="fa fa-4x fa-hand-o-down"></i></p>
+        </div>
+    </div>
 
 
-<div class="container">
-    <h3>Encontrá tu evento!</h3>
+    <div class="container" style="margin-top:40px;">
+        <div class="row">
+            {% for event in events %}
+                <div class="col-md-4">
+                    <div class="well" style="padding:0;">
 
-    <div class="row" style="padding-top: 10px">
-        {% for event in events %}
-            <div class="col-md-3">
-                <div class="well" style="padding: 0px 15px 0px 15px">
-                    <div class="row">
-                        <div id='{{ event.name }}' class="col-md-4" tabindex="0" style="height: 80px;"></div>
-                        <div class="col-md-8" style="padding-top: 10px">
-                            <a href='/event/{{ event.slug }}/'>
-                                <h4 class="list-group-item-heading">{{ event.name }}</h4>
-                            </a>
+                        <div class="container-fluid" style="padding:0;">
+                            <div class="mapbox">
+                                <div class="row-fluid some" id="{{ event.name }}">
+                                    <img src="//placehold.it/260x180">
+                                </div>
+                                <div class="row-fluid overlay asd">
+                                    <div class="event-title">
+                                        {{ event.name }}
+                                    </div>
+                                </div>
+                                <div class="row-fluid overlay asd"
+                                     style="top: 70%; padding-left:80%;">
+                                    <a href='/event/{{ event.slug }}/'>
+                                        <i class="fa fa-3x fa-plus-circle"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+
     </div>
-</div>
+{% endblock %}
 
-<script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
-<script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
-<script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
-<script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
-<script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
-<script>
-    $(document).ready(function() {
-        // This command is used to initialize some elements and make them work properly
-        $.material.init();
+{% block other-script %}
+    <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
+    <script>
+        $(document).ready(function() {
+            // This command is used to initialize some elements and make them work properly
+            $.material.init();
 
-        function map(event_name, event_lat, event_lon) {
-            var map = L.map(event_name, {
-                zoomControl: false,
-                dragging: false,
-                keyboard: false,
-                doubleClickZoom: false,
-                touchZoom: false
-            }).setView([event_lat, event_lon], 4);
+            function map(event_name, event_lat, event_lon) {
+                var map = L.map(event_name, {
+                    scrollWheelZoom: false,
+                    zoomControl    : false,
+                    dragging       : false,
+                    keyboard       : false,
+                    doubleClickZoom: false,
+                    touchZoom      : false,
+                    doubleClickZoom: false,
+                    boxZoom        : false
+                }).setView([event_lat, event_lon], 5);
 
-            L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
-                attribution: ''
-            }).addTo(map);
-            map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
+                L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+                    attribution: ''
+                }).addTo(map);
+                map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
 
-            L.marker([event_lat, event_lon]).addTo(map);
-        }
+                L.marker([event_lat, event_lon]).addTo(map);
+            }
 
-        {% for event in events %}
-            map('{{ event.name }}', {{ event.address.latitude|safe }}, {{ event.address.longitude|safe }});
-        {% endfor %}
-    });
-</script>
-</body>
-</html>
+            var event_place;
+            {% for event in events %}
+                event_place = {{ event.place|safe }};
+                map('{{ event.name }}', event_place.geometry.location.lat, event_place.geometry.location.lng);
+            {% endfor %}
+        });
+
+    </script>
+{% endblock %}

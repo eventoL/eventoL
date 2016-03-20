@@ -1,11 +1,80 @@
 @import "../bower_components/bootstrap-material-design/less/bootstrap-material-design";
 @import "../bower_components/bootstrap-material-design/less/ripples";
+@import "../bower_components/roboto-fontface/css/roboto-fontface";
 
 .form-group label.control-label {
   color: #009688 !important;
 }
 
-
 .form-group.has-error label.control-label, .form-group.has-error .help-block {
   color: #f44336 !important;
+}
+
+body {
+  font-family: Roboto;
+}
+
+.mapbox {
+  position: relative;
+}
+
+.mapbox .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.asd {
+  height: 180px;
+}
+
+.event-title {
+  font-family: 'Comfortaa', cursive !important;
+  font-weight: 400;
+  font-size: 1.8em;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.img-container {
+  min-height: 400px;
+  background-image: url(http://lorempixel.com/1800/400/);
+  background-repeat: no-repeat;
+  background-size: 1800px 400px;
+  background-position: center top;
+  text-align: center;
+}
+
+.navbar {
+  margin-bottom: 0 !important;
+}
+
+.container-text > h1 {
+  font-family: 'Comfortaa', cursive !important;
+  color: orange;
+  margin: 0 auto;
+  padding: 75px 15px 0 15px;
+  position: relative;
+  z-index: 10;
+  font-size: 72px;
+  text-shadow: 0 4px 2px rgba(0, 0, 0, 0.7);
+  font-weight: 700;
+
+  @media screen and (max-width: 767px) {
+    padding: 35px 15px 0 15px;
+    font-size: 48px;
+  }
+}
+
+.container-text > a {
+  margin-top: 60px;
+}
+
+.container-text > h2 {
+  font-family: 'Comfortaa', cursive !important;
+  font-weight: 400;
 }
