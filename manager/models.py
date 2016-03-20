@@ -1,12 +1,12 @@
-from image_cropping import ImageCropField, ImageRatioField
-import re
 import datetime
-from django.db import models
+import re
+
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
+from image_cropping import ImageCropField, ImageRatioField
 
 
 def validate_url(url):
@@ -27,33 +27,24 @@ class Image(models.Model):
         verbose_name_plural = _('Images')
 
 
-class Address(models.Model):
-    name = models.CharField(_('Name'), max_length=200)
-    address = models.CharField(_('Address'), max_length=200)
-    latitude = models.FloatField(_('Latitude'), validators=[MinValueValidator(-90), MaxValueValidator(90)])
-    longitude = models.FloatField(_('Longitude'), validators=[MinValueValidator(-180), MaxValueValidator(180)])
-
-    def __unicode__(self):
-        return u"%s (%s-%s)" % (self.name, self.latitude, self.longitude)
-
-    class Meta:
-        ordering = ['name']
-
-
 class Event(models.Model):
     name = models.CharField(_('Event Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('When will your event be?'))
-    limit_proposal_date = models.DateField(_('Limit Proposals Date'), help_text=_('Limit date to submit talk proposals'))
+    limit_proposal_date = models.DateField(_('Limit Proposals Date'),
+                                           help_text=_('Limit date to submit talk proposals'))
     slug = models.CharField(_('URL'), max_length=200, help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
-    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_('http://www.my-awesome-event.com'))
+    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
+                                   help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     schedule_confirm = models.BooleanField(_('Schedule Confirm'), default=False)
-    place = models.TextField(_('Place')) #TODO: JsonFIELD
-    home_image = models.ForeignKey(Image, related_name="eventol_home_image", verbose_name=_noop('Home Image'), blank=True, null=True)
-    cover_image = models.ForeignKey(Image, related_name="eventol_cover_image", verbose_name=_noop('Cover Image'), blank=True, null=True)
+    place = models.TextField(_('Place'))  # TODO: JsonFIELD
+    home_image = models.ForeignKey(Image, related_name="eventol_home_image", verbose_name=_noop('Home Image'),
+                                   blank=True, null=True)
+    cover_image = models.ForeignKey(Image, related_name="eventol_cover_image", verbose_name=_noop('Cover Image'),
+                                    blank=True, null=True)
 
     def get_absolute_url(self):
         if self.external_url:
@@ -70,13 +61,6 @@ class Event(models.Model):
 
     def __unicode__(self):
         return u"%s" % (self.name)
-
-    def get_geo_info(self):
-        return {
-            "lat": self.address.latitude,
-            "lon": self.address.longitude,
-            "name": self.address.name
-        }
 
     class Meta:
         ordering = ['name']
@@ -212,6 +196,7 @@ class Speaker(models.Model):
     class Meta:
         verbose_name = _('Speaker')
         verbose_name_plural = _('Speakers')
+
 
 userTypes = {
     'Collaborators': Collaborator,
