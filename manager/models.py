@@ -32,7 +32,7 @@ class Event(models.Model):
     date = models.DateField(_('Date'), help_text=_('When will your event be?'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
-    slug = models.CharField(_('URL'), max_length=200, help_text=_('For example: flisol-caba'),
+    slug = models.CharField(_('URL'), max_length=200, unique=True, help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))

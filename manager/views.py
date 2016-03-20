@@ -570,8 +570,18 @@ def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
     if request.POST:
         if event_form.is_valid():
-            the_event = event_form.save()
-            return HttpResponseRedirect('/event/' + the_event.slug)
+            try:
+                the_event = event_form.save()
+                eventUser = EventUser.objects.create(user=request.user, event=the_event)
+                organizer = Organizer.objects.create(eventUser=eventUser)
+                return HttpResponseRedirect('/event/' + the_event.slug)
+            except Exception:
+                if organizer is not None:
+                    Organizer.delete(organizer)
+                if eventUser is not None:
+                    EventUser.delete(eventUser)
+                if the_event is not None:
+                    Event.delete(event)
 
         messages.error(request, "There is a problem with your event. Please check the form for errors.")
 
