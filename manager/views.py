@@ -15,7 +15,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, InstallerRegistrationForm, \
     TalkProposalForm, ContactMessageForm, ImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
+    CommentForm, PresentationForm, EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
     EventForm
 from manager.models import *
 from manager.schedule import Schedule
@@ -173,9 +173,9 @@ def become_installer(request, event_slug):
     installer = None
 
     if request.POST:
-        eventolUser = EventoLUser.objects.get(user=request.user)
+        eventUser = EventUser.objects.get(user=request.user)
         installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
-                                                                   instance=Installer(eventolUser=eventolUser))
+                                                                   instance=Installer(eventUser=eventUser))
         forms = [installer_form]
         if installer_form.is_valid():
             try:
@@ -213,7 +213,7 @@ def installation(request, event_slug):
                 if installation_form.is_valid():
                     install = installation_form.save()
                     install.hardware = hardware
-                    install.installer = Installer.objects.get(eventolUser__user=request.user)
+                    install.installer = Installer.objects.get(eventUser__user=request.user)
                     install.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/event/' + event_slug)
@@ -387,11 +387,11 @@ def attendee_search(request, event_slug):
         if form.is_valid():
             attendee = form.cleaned_data['attendee']
             if attendee:
-                if attendee.eventolUser.assisted:
+                if attendee.eventUser.assisted:
                     messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
-                    attendee.eventolUser.assisted = True
-                    attendee.eventolUser.save()
+                    attendee.eventUser.assisted = True
+                    attendee.eventUser.save()
                     messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
             else:
@@ -405,7 +405,7 @@ def attendee_search(request, event_slug):
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
-    attendee = Attendee(eventolUser__event=event)
+    attendee = Attendee(eventUser__event=event)
     form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
         if form.is_valid():
@@ -497,23 +497,23 @@ def generic_registration(request, event_slug, registration_model, registration_f
         return render(request, 'registration/closed-registration.html', update_event_info(event_slug))
 
     errors = []
-    user, eventoLUser, registration = None, None, None
+    user, eventUser, registration = None, None, None
     user_form = UserRegistrationForm(request.POST or None)
 
     if request.POST:
-        eventoLUser_form = EventoLUserRegistrationForm(request.POST)
+        eventUser_form = EventUserRegistrationForm(request.POST)
         registration_form = registration_form(request.POST)
-        forms = [user_form, eventoLUser_form, registration_form]
+        forms = [user_form, eventUser_form, registration_form]
         if user_form.is_valid():
             try:
                 user = user_form.save()
-                if eventoLUser_form.is_valid():
-                    eventoLUser = eventoLUser_form.save()
-                    eventoLUser.user = user
-                    eventoLUser.save()
+                if eventUser_form.is_valid():
+                    eventUser = eventUser_form.save()
+                    eventUser.user = user
+                    eventUser.save()
                     if registration_form.is_valid():
                         registration = registration_form.save()
-                        registration.eventolUser = eventoLUser
+                        registration.eventUser = eventUser
                         registration.save()
                         messages.success(request, msg_success)
                         return HttpResponseRedirect('/event/' + event_slug)
@@ -521,19 +521,19 @@ def generic_registration(request, event_slug, registration_model, registration_f
                 pass
         if user is not None:
             User.delete(user)
-        if eventoLUser is not None:
-            EventoLUser.delete(eventoLUser)
+        if eventUser is not None:
+            EventUser.delete(eventUser)
         if registration is not None:
             registration_model.delete(registration)
         messages.error(request, msg_error)
         errors = get_forms_errors(forms)
 
     else:
-        eventoLUser = EventoLUser(event=event)
-        registration = registration_model(eventolUser=eventoLUser)
-        eventoLUser_form = EventoLUserRegistrationForm(instance=eventoLUser)
+        eventUser = EventUser(event=event)
+        registration = registration_model(eventUser=eventUser)
+        eventUser_form = EventUserRegistrationForm(instance=eventUser)
         registration_form = registration_form(instance=registration)
-        forms = [user_form, eventoLUser_form, registration_form]
+        forms = [user_form, eventUser_form, registration_form]
 
     return render(request,
                   template,

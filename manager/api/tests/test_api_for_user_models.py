@@ -1,12 +1,12 @@
 import unittest
-from manager.models import Attendee, Collaborator, EventoLUser, InstalationAttendee, Installer, Speaker
+from manager.models import Attendee, Collaborator, EventUser, InstalationAttendee, Installer, Speaker
 from manager.api.tests.test_api import api_test
 
 
 # User Models
 @api_test()
 class TestApiAttendee():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventoLUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
     str_model = 'manager.Attendee'
     model = Attendee
     url_base = '/api/attendee/'
@@ -17,7 +17,7 @@ class TestApiAttendee():
 
 @api_test()
 class TestApiCollaborator():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventoLUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
     str_model = 'manager.Collaborator'
     model = Collaborator
     url_base = '/api/collaborator/'
@@ -31,11 +31,11 @@ class TestApiCollaborator():
 
 
 @api_test()
-class TestApiEventoLUser():
+class TestApiEventUser():
     fk_models = ['auth.User', 'manager.Event']
-    str_model = 'manager.EventoLUser'
-    model = EventoLUser
-    url_base = '/api/eventoluser/'
+    str_model = 'manager.EventUser'
+    model = EventUser
+    url_base = '/api/eventuser/'
     example = {
         'assisted': True
     }
@@ -43,7 +43,7 @@ class TestApiEventoLUser():
 
 @api_test()
 class TestApiInstalationAttendee():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventoLUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
     str_model = 'manager.InstalationAttendee'
     model = InstalationAttendee
     url_base = '/api/instalationattendee/'
@@ -54,7 +54,7 @@ class TestApiInstalationAttendee():
 
 @api_test()
 class TestApiSpeaker():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventoLUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
     str_model = 'manager.Speaker'
     model = Speaker
     url_base = '/api/speaker/'
@@ -63,7 +63,7 @@ class TestApiSpeaker():
 
 @api_test()
 class TestApiInstaller():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventoLUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
     str_model = 'manager.Installer'
     model = Installer
     url_base = '/api/installer/'

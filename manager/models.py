@@ -107,7 +107,7 @@ class Contact(models.Model):
         verbose_name_plural = _('Contacts')
 
 
-class EventoLUser(models.Model):
+class EventUser(models.Model):
     user = models.OneToOneField(User, verbose_name=_('User'), blank=True, null=True)
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), help_text=_('Event you are going to collaborate'))
     assisted = models.BooleanField(_('Assisted'), default=False)
@@ -116,12 +116,12 @@ class EventoLUser(models.Model):
         return str(self.user)
 
     class Meta:
-        verbose_name = _('EventoL User')
-        verbose_name_plural = _('EventoL User')
+        verbose_name = _('Event User')
+        verbose_name_plural = _('Event Users')
 
 
 class Collaborator(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     assignation = models.CharField(_('Assignation'), max_length=200, blank=True, null=True,
                                    help_text=_('Assignations given to the user (i.e. Talks, Coffee...)'))
     time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_(
@@ -138,7 +138,7 @@ class Collaborator(models.Model):
 
 class Organizer(models.Model):
     """Event organizer"""
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('Organizer')
@@ -146,7 +146,7 @@ class Organizer(models.Model):
 
 
 class Attendee(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
                                        help_text=_('Any additional info you consider relevant'))
 
@@ -155,11 +155,11 @@ class Attendee(models.Model):
         verbose_name_plural = _('Attendees')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventolUser.user.first_name, self.eventolUser.user.last_name)
+        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
 
 
 class InstalationAttendee(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     installarion_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing'))
 
@@ -168,7 +168,7 @@ class InstalationAttendee(models.Model):
         verbose_name_plural = _('Instalation Attendees')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventolUser.user.first_name, self.eventolUser.user.last_name)
+        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
 
 
 class Installer(models.Model):
@@ -178,7 +178,7 @@ class Installer(models.Model):
         ('3', _('Advanced')),
         ('4', _('Super Hacker'))
     )
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
                              help_text=_('Linux Knowledge level for an installation'))
 
@@ -187,11 +187,11 @@ class Installer(models.Model):
         verbose_name_plural = _('Installers')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventolUser.user.first_name, self.eventolUser.user.last_name)
+        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
 
 
 class Speaker(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('Speaker')
@@ -403,7 +403,7 @@ class Installation(models.Model):
     @classmethod
     def filter_by(cls, queryset, field, value):
         if field == 'event':
-            return queryset.filter(attendee__eventolUser__event__pk=value)
+            return queryset.filter(attendee__eventUser__event__pk=value)
         return queryset
 
     class Meta:

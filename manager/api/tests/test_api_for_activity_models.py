@@ -78,7 +78,7 @@ class TestApiRoom():
 
 @api_test()
 class TestApiInstallation():
-    fk_models = ['manager.HardwareManufacturer', 'manager.Hardware', 'manager.Software', 'auth.User', 'manager.Event', 'manager.EventoLUser', 'manager.InstalationAttendee','manager.Installer']
+    fk_models = ['manager.HardwareManufacturer', 'manager.Hardware', 'manager.Software', 'auth.User', 'manager.Event', 'manager.EventUser', 'manager.InstalationAttendee','manager.Installer']
     str_model = 'manager.Installation'
     model = Installation
     url_base = '/api/installation/'

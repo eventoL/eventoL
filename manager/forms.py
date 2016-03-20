@@ -17,12 +17,12 @@ from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
 
 from manager.models import Attendee, InstalationAttendee, Installation, Hardware, Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventoLUser, Activity, Event
+    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventUser, Activity, Event
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
-    search_fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
-                     'eventolUser__user__email')
+    search_fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
+                     'eventUser__user__email')
 
 
 class HardwareManufacturerAutocomplete(autocomplete.AutocompleteModelBase):
@@ -40,11 +40,11 @@ class AttendeeByEventAutocomplete(autocomplete.AutocompleteModelBase):
 
         if event_slug:
             choices = self.choices.all()
-            choices = choices.filter(eventolUser__event__slug__iexact=event_slug)
+            choices = choices.filter(eventUser__event__slug__iexact=event_slug)
             if q:
                 choices = choices.filter(
-                    Q(eventolUser__user__first_name__icontains=q) | Q(eventolUser__user__last_name__icontains=q) | Q(
-                        eventolUser__user__username__icontains=q) | Q(eventolUser__user__email__icontains=q))
+                    Q(eventUser__user__first_name__icontains=q) | Q(eventUser__user__last_name__icontains=q) | Q(
+                        eventUser__user__username__icontains=q) | Q(eventUser__user__email__icontains=q))
 
         return self.order_choices(choices)[0:self.limit_choices]
 
@@ -62,7 +62,7 @@ def sorted_choices(choices_list):
 class AttendeeSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(AttendeeSearchForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = Attendee.objects.filter(eventolUser__event__slug=event)
+        self.fields['attendee'].queryset = Attendee.objects.filter(eventUser__event__slug=event)
 
     attendee = autocomplete.ModelChoiceField('AttendeeByEventAutocomplete', required=False)
 
@@ -86,15 +86,15 @@ class RegistrationForm(DeferredForm):
 
     class Meta:
         model = Attendee
-        fields = ['eventolUser', 'additional_info']
-        widgets = {'eventolUser': forms.HiddenInput(),
+        fields = ['eventUser', 'additional_info']
+        widgets = {'eventUser': forms.HiddenInput(),
                    'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
     class Meta:
         model = Attendee
-        widgets = {'eventolUser': forms.HiddenInput(),
+        widgets = {'eventUser': forms.HiddenInput(),
                    'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
@@ -102,7 +102,7 @@ class InstallationForm(autocomplete.ModelForm):
     def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['attendee'].queryset = InstalationAttendee.objects.filter(eventolUser__event__slug=event)
+            self.fields['attendee'].queryset = InstalationAttendee.objects.filter(eventUser__event__slug=event)
 
     class Meta:
         model = Installation
@@ -119,12 +119,12 @@ class HardwareForm(autocomplete.ModelForm):
 class CollaboratorRegistrationForm(ModelForm):
     class Meta:
         model = Collaborator
-        widgets = {'eventolUser': forms.HiddenInput()}
+        widgets = {'eventUser': forms.HiddenInput()}
 
 
-class EventoLUserRegistrationForm(ModelForm):
+class EventUserRegistrationForm(ModelForm):
     class Meta:
-        model = EventoLUser
+        model = EventUser
         exclude = ['user', 'assisted']
         widgets = {'event': forms.HiddenInput()}
 
@@ -132,7 +132,7 @@ class EventoLUserRegistrationForm(ModelForm):
 class AttendeeRegistrationForm(ModelForm):
     class Meta:
         model = Attendee
-        widgets = {'eventolUser': forms.HiddenInput()}
+        widgets = {'eventUser': forms.HiddenInput()}
 
 
 class InstallerRegistrationForm(ModelForm):
@@ -143,7 +143,7 @@ class InstallerRegistrationForm(ModelForm):
 
     class Meta:
         model = Installer
-        widgets = {'eventolUser': forms.HiddenInput()}
+        widgets = {'eventUser': forms.HiddenInput()}
 
 
 class InstallerRegistrationFromCollaboratorForm(ModelForm):
@@ -155,7 +155,7 @@ class InstallerRegistrationFromCollaboratorForm(ModelForm):
     class Meta:
         model = Installer
         fields = ['level']
-        widgets = {'eventolUser': forms.HiddenInput()}
+        widgets = {'eventUser': forms.HiddenInput()}
 
 
 class UserRegistrationForm(UserCreationForm):

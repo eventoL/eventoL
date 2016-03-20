@@ -42,17 +42,17 @@ def is_odd(number):
 
 @register.filter(name='is_installer')
 def is_installer(user):
-    return Installer.objects.filter(eventolUser__user=user).exists()
+    return Installer.objects.filter(eventUser__user=user).exists()
 
 
 @register.filter(name='is_collaborator')
 def is_collaborator(user):
-    return Collaborator.objects.filter(eventolUser__user=user).exists()
+    return Collaborator.objects.filter(eventUser__user=user).exists()
 
 
 @register.filter(name='is_organizer')
 def is_organizer(user):
-    return Organizer.objects.filter(eventolUser__user=user).exists()
+    return Organizer.objects.filter(eventUser__user=user).exists()
 
 @register.filter(name='can_take_attendance')
 def can_take_attendance(user):
@@ -64,7 +64,7 @@ def is_event_staff(event_slug, user):
     if user.is_superuser:
         return True
     try:
-        exists_collaborator = Collaborator.objects.filter(eventolUser__user=user, eventolUser__event__slug=event_slug).exists()
+        exists_collaborator = Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
         return exists_collaborator and user.is_staff
     except Exception:
         return False

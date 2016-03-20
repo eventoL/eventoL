@@ -29,6 +29,6 @@ def add_collaborator_perms(user):
 
 
 def is_installer(user):
-    if Installer.objects.filter(eventolUser__user=user).exists():
+    if Installer.objects.filter(eventUser__user=user).exists():
         return True
     raise PermissionDenied

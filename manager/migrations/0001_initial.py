@@ -2,11 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import manager.models
+import ckeditor.fields
 from django.conf import settings
 import image_cropping.fields
-import django.core.validators
-import ckeditor.fields
+import manager.models
 
 
 class Migration(migrations.Migration):
@@ -24,27 +23,13 @@ class Migration(migrations.Migration):
                 ('long_description', models.TextField(verbose_name='Long Description')),
                 ('confirmed', models.BooleanField(default=False, verbose_name='Confirmed')),
                 ('abstract', models.TextField(help_text='Short idea of the talk (Two or three sentences)', verbose_name='Abstract')),
-                ('start_date', models.DateTimeField(verbose_name='Start Time')),
-                ('end_date', models.DateTimeField(verbose_name='End Time')),
+                ('start_date', models.DateTimeField(null=True, verbose_name='Start Time', blank=True)),
+                ('end_date', models.DateTimeField(null=True, verbose_name='End Time', blank=True)),
             ],
             options={
                 'ordering': ['title'],
                 'verbose_name': 'Activity',
                 'verbose_name_plural': 'Activities',
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='Adress',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=200, verbose_name='Name')),
-                ('adress', models.CharField(max_length=200, verbose_name='Adress')),
-                ('latitude', models.FloatField(verbose_name='Latitude', validators=[django.core.validators.MinValueValidator(-90), django.core.validators.MaxValueValidator(90)])),
-                ('longitude', models.FloatField(verbose_name='Longitude', validators=[django.core.validators.MinValueValidator(-180), django.core.validators.MaxValueValidator(180)])),
-            ],
-            options={
-                'ordering': ['name'],
             },
             bases=(models.Model,),
         ),
@@ -80,7 +65,7 @@ class Migration(migrations.Migration):
             name='Comment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('created', models.DateTimeField()),
+                ('created', models.DateTimeField(auto_now_add=True)),
                 ('body', models.TextField()),
                 ('activity', models.ForeignKey(verbose_name=b'Activity', to='manager.Activity')),
                 ('user', models.ForeignKey(verbose_name='User', to=settings.AUTH_USER_MODEL)),
@@ -135,11 +120,11 @@ class Migration(migrations.Migration):
             name='Event',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=200, verbose_name='Name')),
-                ('date', models.DateField(help_text='Date of the event', verbose_name='Date')),
-                ('limit_proposal_date', models.DateField(help_text='Date Limit of Talk Proposal', verbose_name='Limit Proposal Date')),
-                ('slug', models.CharField(help_text='URL for the event i.e. CABA', max_length=200, verbose_name='URL', validators=[manager.models.validate_url])),
-                ('external_url', models.URLField(default=None, blank=True, help_text="If you want to use other page for your event rather than eventoL's one, you can put the absolute url here", null=True, verbose_name='External URL')),
+                ('name', models.CharField(max_length=200, verbose_name='Event Name')),
+                ('date', models.DateField(help_text='When will your event be?', verbose_name='Date')),
+                ('limit_proposal_date', models.DateField(help_text='Limit date to submit talk proposals', verbose_name='Limit Proposals Date')),
+                ('slug', models.CharField(help_text='For example: flisol-caba', max_length=200, verbose_name='URL', validators=[manager.models.validate_url])),
+                ('external_url', models.URLField(default=None, blank=True, help_text='http://www.my-awesome-event.com', null=True, verbose_name='External URL')),
                 ('email', models.EmailField(max_length=75, verbose_name='Email')),
                 ('event_information', ckeditor.fields.RichTextField(help_text='Event Information HTML', null=True, verbose_name='Event Information', blank=True)),
                 ('schedule_confirm', models.BooleanField(default=False, verbose_name='Schedule Confirm')),
@@ -151,7 +136,7 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='EventoLUser',
+            name='EventUser',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('assisted', models.BooleanField(default=False, verbose_name='Assisted')),
@@ -159,8 +144,8 @@ class Migration(migrations.Migration):
                 ('user', models.OneToOneField(null=True, blank=True, to=settings.AUTH_USER_MODEL, verbose_name='User')),
             ],
             options={
-                'verbose_name': 'EventoL User',
-                'verbose_name_plural': 'EventoL User',
+                'verbose_name': 'Event User',
+                'verbose_name_plural': 'Event Users',
             },
             bases=(models.Model,),
         ),
@@ -206,7 +191,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('installarion_additional_info', models.TextField(help_text='i.e. Wath kind of PC are you bringing', null=True, verbose_name='Additional Info', blank=True)),
-                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True)),
+                ('eventUser', models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True)),
             ],
             options={
                 'verbose_name': 'Instalation Attendee',
@@ -233,11 +218,23 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('level', models.CharField(help_text='Linux Knowledge level for an installation', max_length=200, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced'), (b'4', 'Super Hacker')])),
-                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True)),
+                ('eventUser', models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True)),
             ],
             options={
                 'verbose_name': 'Installer',
                 'verbose_name_plural': 'Installers',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Organizer',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('eventUser', models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True)),
+            ],
+            options={
+                'verbose_name': 'Organizer',
+                'verbose_name_plural': 'Organizers',
             },
             bases=(models.Model,),
         ),
@@ -271,7 +268,7 @@ class Migration(migrations.Migration):
             name='Speaker',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('eventolUser', models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True)),
+                ('eventUser', models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True)),
             ],
             options={
                 'verbose_name': 'Speaker',
@@ -289,7 +286,7 @@ class Migration(migrations.Migration):
                 ('labels', models.CharField(help_text='Comma separated tags. i.e. Linux, Free Software, Debian', max_length=200, verbose_name='Labels')),
                 ('presentation', models.FileField(help_text='Any material you are going to use for the talk (optional, but recommended)', upload_to=b'talks', null=True, verbose_name='Presentation', blank=True)),
                 ('level', models.CharField(help_text="The talk's Technical level", max_length=100, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced')])),
-                ('activity', models.ForeignKey(verbose_name=b'Activity', to='manager.Activity')),
+                ('activity', models.ForeignKey(verbose_name=b'Activity', blank=True, to='manager.Activity', null=True)),
                 ('image', models.ForeignKey(verbose_name=b'Image', blank=True, to='manager.Image', null=True)),
             ],
             options={
@@ -360,14 +357,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='collaborator',
-            name='eventolUser',
-            field=models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True),
+            name='eventUser',
+            field=models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='attendee',
-            name='eventolUser',
-            field=models.ForeignKey(verbose_name='EventoL User', blank=True, to='manager.EventoLUser', null=True),
+            name='eventUser',
+            field=models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -379,7 +376,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='activity',
             name='room',
-            field=models.ForeignKey(verbose_name='Room', to='manager.Room'),
+            field=models.ForeignKey(verbose_name='Room', blank=True, to='manager.Room', null=True),
             preserve_default=True,
         ),
     ]
