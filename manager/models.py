@@ -108,8 +108,8 @@ class Contact(models.Model):
 
 
 class EventUser(models.Model):
-    user = models.OneToOneField(User, verbose_name=_('User'), blank=True, null=True)
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'), help_text=_('Event you are going to collaborate'))
+    user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
     assisted = models.BooleanField(_('Assisted'), default=False)
 
     def __unicode__(self):
@@ -123,9 +123,9 @@ class EventUser(models.Model):
 class Collaborator(models.Model):
     eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     assignation = models.CharField(_('Assignation'), max_length=200, blank=True, null=True,
-                                   help_text=_('Assignations given to the user (i.e. Talks, Coffee...)'))
+                                   help_text=_('Anything you can help with (i.e. Talks, Coffee...)'))
     time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_(
-        'Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...'))
+        'Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon", ...'))
     phone = models.CharField(_('Phone'), max_length=200, blank=True, null=True)
     address = models.CharField(_('Address'), max_length=200, blank=True, null=True)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
@@ -161,11 +161,11 @@ class Attendee(models.Model):
 class InstalationAttendee(models.Model):
     eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     installarion_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
-                                                    help_text=_('i.e. Wath kind of PC are you bringing'))
+                                                    help_text=_('i.e. Wath kind of PC are you bringing?'))
 
     class Meta:
-        verbose_name = _('Instalation Attendee')
-        verbose_name_plural = _('Instalation Attendees')
+        verbose_name = _('Installation Attendee')
+        verbose_name_plural = _('Installation Attendees')
 
     def __unicode__(self):
         return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
@@ -180,7 +180,7 @@ class Installer(models.Model):
     )
     eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
-                             help_text=_('Linux Knowledge level for an installation'))
+                             help_text=_('Knowledge level for an installation'))
 
     class Meta:
         verbose_name = _('Installer')
@@ -201,7 +201,7 @@ class Speaker(models.Model):
 userTypes = {
     'Collaborators': Collaborator,
     'Attendees': Attendee,
-    'Instalation Attendees': InstalationAttendee,
+    'Installation Attendees': InstalationAttendee,
     'Speakers': Speaker,
     'Intallers': Installer
 }
