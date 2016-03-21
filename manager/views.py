@@ -59,16 +59,6 @@ def event_view(request, event_slug, html='index.html'):
     return render(request, html, update_event_info(event_slug))
 
 
-def event(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
-
-    if event.external_url:
-        return HttpResponseRedirect(event.external_url)
-
-    render_dict = update_event_info(event_slug, render_dict={'event_information': event.event_information}, event=event)
-    return render(request, 'event/info.html', render_dict)
-
-
 def home(request):
     events = Event.objects.all()
     return render(request, 'homepage.html', {'events': events})

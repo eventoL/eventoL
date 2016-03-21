@@ -5,7 +5,6 @@ from manager import views
 event_patterns = patterns(
     '',
     url(r'^$', views.index, name="index"),
-    url(r'^event$', views.event, name="event_info"),
     url(r'^FAQ$', views.event_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
     url(r'^registration$', views.registration, name='registration'),
     url(r'^registration/collaborator$', views.collaborator_registration, name='collaborator_registration'),

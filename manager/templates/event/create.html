@@ -187,7 +187,8 @@
                         <div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
                             <div class="form-group label-floating {% if form.external_url.errors|length > 0 %}has-error{% endif %}">
                                 <label class="control-label" for="{{ form.external_url.id_for_label }}">
-                                    {% trans form.external_url.label %}{% if form.external_url.field.required %} *{% endif %}
+                                    {% trans form.external_url.label %}{% if form.external_url.field.required %}
+                                        *{% endif %}
                                     {% if form.external_url.errors|length > 0 %} <i class="fa fa-arrow-right"> </i>
                                         {{ form.external_url.errors.as_text }}{% endif %}
                                 </label>
@@ -251,11 +252,14 @@
 
 
             $("#geocomplete").geocomplete({
-                map: ".map_canvas"
+                map  : ".map_canvas",
+                types: [
+                    'geocode',
+                    'establishment'
+                ]
             });
 
             $("#geocomplete").bind("geocode:result", function(event, result) {
-                console.log(result);
                 $("#{{ form.place.id_for_label }}").val(
                         JSON.stringify(result)
                 );
