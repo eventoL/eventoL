@@ -18,15 +18,20 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap-material-design": "~0.2.2",
     "bootstrap": "~3.3.2",
-    "bootstrap-datepicker": "~1.4",
-    "bootstrap-timepicker": "~0.2.6",
-    "roboto-fontface": "~0.3.0",
-    "leaflet": "~0.7.3",
-    "slick-carousel": "1.4.1",
+    "bootstrap-datepicker": "~1.6",
+    "bootstrap-timepicker": "~0.5.2",
+    "roboto-fontface": "~0.4.5",
+    "leaflet": "~0.7.7",
+    "slick-carousel": "1.5.9",
     "gridline-bootstrap": "*",
     "morrisjs": "~0.5.1",
-    "q": "~1.0.1"
+    "q": "~1.0.1",
+    "geocomplete": "^1.6.5",
+    "bootstrap-material-design": "v0.5.9"
+  },
+  "resolutions": {
+    "bootstrap": "~3.3.2",
+    "jquery": "1.9.1 - 2"
   }
 }

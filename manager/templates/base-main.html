@@ -18,10 +18,7 @@
               href="{% static "manager/css/flisol-bootstrap.css" %}"/>
         <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
 
-        <link href="{% static "manager/bower_components/roboto-fontface/roboto-fontface.css" %}" rel="stylesheet">
-        <link href="{% static "manager/bower_components/bootstrap-material-design/dist/css/ripples.min.css" %}"
-              rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
         <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         {% block other-head %}{% endblock %}
@@ -56,21 +53,6 @@
                         {% endif %}
                         <li class="dropdown">
                             <a href="#" data-target="#" class="dropdown-toggle"
-                               data-toggle="dropdown">{% trans "About FLISoL" %} <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/event/{{ event_slug }}/FAQ"><i
-                                        class="fa fa-question-circle"></i> {% trans "FAQ" noop %}</a>
-                                </li>
-                                <li><a href="/event/{{ event_slug }}/event"><i
-                                        class="fa fa-map-marker"></i> {% trans "Event Information" %}</a>
-                                </li>
-                                <li><a href="//flisol.info" target="_blank"><i
-                                        class="fa fa-info-circle"></i> {% trans "More Info" %}</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" data-target="#" class="dropdown-toggle"
                                data-toggle="dropdown">{% trans "Collaborators" %} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 {% if not user.is_authenticated %}
@@ -95,11 +77,13 @@
                                             <i class="fa fa-list"></i> {% trans "Talks List" %}
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="/event/{{ event_slug }}/registration/attendee/search">
-                                            <i class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}
-                                        </a>
-                                    </li>
+                                    {% if user|can_take_attendance %}
+                                        <li>
+                                            <a href="/event/{{ event_slug }}/registration/attendee/search">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                     <li>
                                         <a href="/event/{{ event_slug }}/reports">
                                             <i class="fa fa-bar-chart"></i> {% trans "View Reports" %}
@@ -111,7 +95,8 @@
                                                 <i class="fa fa-laptop"></i> {% trans "Submit an installation" %}
                                             </a>
                                         </li>
-                                    {% else %}
+                                    {% endif %}
+                                    {% if user|is_collaborator and not user|is_installer %}
                                         <li>
                                             <a href="/event/{{ event_slug }}/registration/become_installer">
                                                 <i class="fa fa-linux"></i> {% trans "Become installer" %}

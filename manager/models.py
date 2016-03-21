@@ -1,12 +1,12 @@
-from image_cropping import ImageCropField, ImageRatioField
-import re
 import datetime
-from django.db import models
+import re
+
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
+from image_cropping import ImageCropField, ImageRatioField
 
 
 def validate_url(url):
@@ -27,34 +27,24 @@ class Image(models.Model):
         verbose_name_plural = _('Images')
 
 
-class Adress(models.Model):
-    name = models.CharField(_('Name'), max_length=200)
-    adress = models.CharField(_('Adress'), max_length=200)
-    latitude = models.FloatField(_('Latitude'), validators=[MinValueValidator(-90), MaxValueValidator(90)])
-    longitude = models.FloatField(_('Longitude'), validators=[MinValueValidator(-180), MaxValueValidator(180)])
-
-    def __unicode__(self):
-        return u"%s (%s-%s)" % (self.name, self.latitude, self.longitude)
-
-    class Meta:
-        ordering = ['name']
-
-
 class Event(models.Model):
-    name = models.CharField(_('Name'), max_length=200)
-    date = models.DateField(_('Date'), help_text=_('Date of the event'))
-    limit_proposal_date = models.DateField(_('Limit Proposal Date'), help_text=_('Date Limit of Talk Proposal'))
-    slug = models.CharField(_('URL'), max_length=200, help_text=_('URL for the event i.e. CABA'),
+    name = models.CharField(_('Event Name'), max_length=200)
+    date = models.DateField(_('Date'), help_text=_('When will your event be?'))
+    limit_proposal_date = models.DateField(_('Limit Proposals Date'),
+                                           help_text=_('Limit date to submit talk proposals'))
+    slug = models.CharField(_('URL'), max_length=200, unique=True, help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
-    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None, help_text=_(
-        'If you want to use other page for your event rather than eventoL\'s one, you can put the absolute url here'))
+    external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
+                                   help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     schedule_confirm = models.BooleanField(_('Schedule Confirm'), default=False)
-    place = models.TextField(_('Place')) #TODO: JsonFIELD
-    home_image = models.ForeignKey(Image, related_name="eventol_home_image", verbose_name=_noop('Home Image'), blank=True, null=True)
-    cover_image = models.ForeignKey(Image, related_name="eventol_cover_image", verbose_name=_noop('Cover Image'), blank=True, null=True)
+    place = models.TextField(_('Place'))  # TODO: JsonFIELD
+    home_image = models.ForeignKey(Image, related_name="eventol_home_image", verbose_name=_noop('Home Image'),
+                                   blank=True, null=True)
+    cover_image = models.ForeignKey(Image, related_name="eventol_cover_image", verbose_name=_noop('Cover Image'),
+                                    blank=True, null=True)
 
     def get_absolute_url(self):
         if self.external_url:
@@ -71,13 +61,6 @@ class Event(models.Model):
 
     def __unicode__(self):
         return u"%s" % (self.name)
-
-    def get_geo_info(self):
-        return {
-            "lat": self.adress.latitude,
-            "lon": self.adress.longitude,
-            "name": self.adress.name
-        }
 
     class Meta:
         ordering = ['name']
@@ -124,25 +107,25 @@ class Contact(models.Model):
         verbose_name_plural = _('Contacts')
 
 
-class EventoLUser(models.Model):
-    user = models.OneToOneField(User, verbose_name=_('User'), blank=True, null=True)
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'), help_text=_('Event you are going to collaborate'))
+class EventUser(models.Model):
+    user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
     assisted = models.BooleanField(_('Assisted'), default=False)
 
     def __unicode__(self):
         return str(self.user)
 
     class Meta:
-        verbose_name = _('EventoL User')
-        verbose_name_plural = _('EventoL User')
+        verbose_name = _('Event User')
+        verbose_name_plural = _('Event Users')
 
 
 class Collaborator(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     assignation = models.CharField(_('Assignation'), max_length=200, blank=True, null=True,
-                                   help_text=_('Assignations given to the user (i.e. Talks, Coffee...)'))
+                                   help_text=_('Anything you can help with (i.e. Talks, Coffee...)'))
     time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_(
-        'Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon"...'))
+        'Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon", ...'))
     phone = models.CharField(_('Phone'), max_length=200, blank=True, null=True)
     address = models.CharField(_('Address'), max_length=200, blank=True, null=True)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
@@ -155,14 +138,15 @@ class Collaborator(models.Model):
 
 class Organizer(models.Model):
     """Event organizer"""
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
 
+
 class Attendee(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
                                        help_text=_('Any additional info you consider relevant'))
 
@@ -170,15 +154,21 @@ class Attendee(models.Model):
         verbose_name = _('Attendee')
         verbose_name_plural = _('Attendees')
 
+    def __unicode__(self):
+        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
 
-class InstalationAttendee(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
-    installarion_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
-                                                    help_text=_('i.e. Wath kind of PC are you bringing'))
+
+class InstallationAttendee(models.Model):
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
+                                                    help_text=_('i.e. Wath kind of PC are you bringing?'))
 
     class Meta:
-        verbose_name = _('Instalation Attendee')
-        verbose_name_plural = _('Instalation Attendees')
+        verbose_name = _('Installation Attendee')
+        verbose_name_plural = _('Installation Attendees')
+
+    def __unicode__(self):
+        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
 
 
 class Installer(models.Model):
@@ -188,26 +178,30 @@ class Installer(models.Model):
         ('3', _('Advanced')),
         ('4', _('Super Hacker'))
     )
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
-                             help_text=_('Linux Knowledge level for an installation'))
+                             help_text=_('Knowledge level for an installation'))
 
     class Meta:
         verbose_name = _('Installer')
         verbose_name_plural = _('Installers')
 
+    def __unicode__(self):
+        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
+
 
 class Speaker(models.Model):
-    eventolUser = models.ForeignKey(EventoLUser, verbose_name=_('EventoL User'), blank=True, null=True)
+    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('Speaker')
         verbose_name_plural = _('Speakers')
 
+
 userTypes = {
     'Collaborators': Collaborator,
     'Attendees': Attendee,
-    'Instalation Attendees': InstalationAttendee,
+    'Installation Attendees': InstallationAttendee,
     'Speakers': Speaker,
     'Intallers': Installer
 }
@@ -396,7 +390,7 @@ class Comment(models.Model):
 class Installation(models.Model):
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'), blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'), blank=True, null=True)
-    attendee = models.ForeignKey(InstalationAttendee, verbose_name=_('Attendee'),
+    attendee = models.ForeignKey(InstallationAttendee, verbose_name=_('Attendee'),
                                  help_text=_('The owner of the installed hardware'))
     installer = models.ForeignKey(Installer, verbose_name=_('Installer'), related_name='installed_by', blank=True,
                                   null=True)
@@ -409,7 +403,7 @@ class Installation(models.Model):
     @classmethod
     def filter_by(cls, queryset, field, value):
         if field == 'event':
-            return queryset.filter(attendee__eventolUser__event__pk=value)
+            return queryset.filter(attendee__eventUser__event__pk=value)
         return queryset
 
     class Meta:

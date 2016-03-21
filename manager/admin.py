@@ -14,7 +14,7 @@ class EventoLAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return queryset
         collaborator = Collaborator.objects.get(user=request.user)
-        return self.filter_event(collaborator.eventolUser.event, queryset)
+        return self.filter_event(collaborator.eventUser.event, queryset)
 
 
 class TalkProposalResource(resources.ModelResource):
@@ -45,9 +45,9 @@ class CommentAdmin(EventoLAdmin):
 class InstallerResource(resources.ModelResource):
     class Meta:
         model = Installer
-        fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
-                  'eventolUser__user__email', 'eventolUser__user__date_joined',
-                  'eventolUser__assisted', 'level')
+        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
+                  'eventUser__user__email', 'eventUser__user__date_joined',
+                  'eventUser__assisted', 'level')
         export_order = fields
 
 
@@ -55,7 +55,7 @@ class InstallerAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallerResource
 
     def filter_event(self, event, queryset):
-        return queryset.filter(eventolUser__event=event)
+        return queryset.filter(eventUser__event=event)
 
 
 class InstallationResource(resources.ModelResource):
@@ -63,7 +63,7 @@ class InstallationResource(resources.ModelResource):
         model = Installation
         fields = (
             'hardware__type', 'hardware__manufacturer__name', 'hardware__model', 'hardware__serial', 'software__type',
-            'software__name', 'software__version', 'attendee__eventolUser__user__email', 'installer__eventolUser__user__username',
+            'software__name', 'software__version', 'attendee__eventUser__user__email', 'installer__eventUser__user__username',
             'notes')
         export_order = fields
 
@@ -72,14 +72,14 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallationResource
 
     def filter_event(self, event, queryset):
-        return queryset.filter(installer__eventolUser__event=event)
+        return queryset.filter(installer__eventUser__event=event)
 
 
 class AttendeeResource(resources.ModelResource):
     class Meta:
         model = Attendee
-        fields = ('eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
-                  'eventolUser__user__email', 'eventolUser__assisted', 'additional_info')
+        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
+                  'eventUser__user__email', 'eventUser__assisted', 'additional_info')
         export_order = fields
 
 
@@ -92,10 +92,10 @@ class CollaboratorResource(resources.ModelResource):
     class Meta:
         model = Collaborator
         fields = (
-            'eventolUser__user__first_name', 'eventolUser__user__last_name', 'eventolUser__user__username',
-            'eventolUser__user__email', 'eventolUser__user__date_joined', 'phone',
+            'eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
+            'eventUser__user__email', 'eventUser__user__date_joined', 'phone',
             'address',
-            'eventolUser__assisted', 'assignation', 'time_availability', 'additional_info')
+            'eventUser__assisted', 'assignation', 'time_availability', 'additional_info')
 
         export_order = fields
 
@@ -121,9 +121,8 @@ admin.site.register(Room, EventoLAdmin)
 admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
 admin.site.register(Activity)
-admin.site.register(Adress)
 admin.site.register(ContactMessage)
-admin.site.register(EventoLUser)
+admin.site.register(EventUser)
 admin.site.register(Image)
-admin.site.register(InstalationAttendee)
+admin.site.register(InstallationAttendee)
 admin.site.register(Speaker)

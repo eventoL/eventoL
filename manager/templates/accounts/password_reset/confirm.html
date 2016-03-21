@@ -1,0 +1,5 @@
+{% if validlink %}
+    {% include "accounts/password_reset/confirm_form.html" %}
+{% else %}
+    {% include "accounts/password_reset/confirm_error.html" %}
+{% endif %}

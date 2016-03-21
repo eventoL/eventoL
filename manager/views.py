@@ -1,29 +1,26 @@
 # encoding: UTF-8
 import itertools
-import datetime
 
 import autocomplete_light
-from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
-from django.contrib.auth.models import User
-from django.contrib.auth.views import login as django_login
-from django.shortcuts import get_object_or_404, render
-from django.core.urlresolvers import reverse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.views import login as django_login
+from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext_lazy as _
-from voting.models import Vote
 from generic_confirmation.views import confirm_by_get
-
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
-    InstallationForm, HardwareForm, RegistrationForm, InstallerRegistrationForm, \
+    InstallationForm, HardwareForm, InstallerRegistrationForm, \
     TalkProposalForm, ContactMessageForm, ImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
-    CommentForm, PresentationForm, EventoLUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm
+    CommentForm, PresentationForm, EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
+    EventForm
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer, add_collaborator_perms
-
+from manager.security import is_installer
+from voting.models import Vote
 
 autocomplete_light.autodiscover()
 
@@ -40,10 +37,6 @@ def update_event_info(event_slug, render_dict=None, event=None):
     return render_dict
 
 
-def event_django_view(request, event_slug, view=django_login):
-    return view(request, extra_context=update_event_info(event_slug))
-
-
 def index(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
 
@@ -54,7 +47,7 @@ def index(request, event_slug):
 
         return HttpResponseRedirect(event.external_url)
 
-    talk_proposals = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True)\
+    talk_proposals = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True) \
         .exclude(image__isnull=True) \
         .distinct()
 
@@ -64,16 +57,6 @@ def index(request, event_slug):
 
 def event_view(request, event_slug, html='index.html'):
     return render(request, html, update_event_info(event_slug))
-
-
-def event(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
-
-    if event.external_url:
-        return HttpResponseRedirect(event.external_url)
-
-    render_dict = update_event_info(event_slug, render_dict={'event_information': event.event_information}, event=event)
-    return render(request, 'event/info.html', render_dict)
 
 
 def home(request):
@@ -165,7 +148,7 @@ def room_available(request, talk_form, event_slug):
             end_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
             or activities_room.filter(end_date__gt=talk_form.end_date, start_date__lt=talk_form.start_date).exists() \
             or activities_room.filter(
-                    start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
+                start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
             or activities_room.filter(end_date=talk_form.end_date, start_date=talk_form.start_date).exists():
         messages.error(request,
                        _("The talk wasn't registered successfully because the room or schedule isn't available"))
@@ -180,22 +163,20 @@ def become_installer(request, event_slug):
     installer = None
 
     if request.POST:
-        collaborator = Collaborator.objects.get(user=request.user)
+        eventUser = EventUser.objects.get(user=request.user)
         installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
-                                                                   instance=Installer(collaborator=collaborator))
+                                                                   instance=Installer(eventUser=eventUser))
         forms = [installer_form]
         if installer_form.is_valid():
             try:
                 installer = installer_form.save()
-                collaborator.user = add_collaborator_perms(collaborator.user)
-                collaborator.save()
                 installer.save()
-                messages.success(request, _("You've became an installer!"))
+                messages.success(request, _("You've become an installer!"))
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception as e:
                 if installer is not None:
                     Installer.delete(installer)
-        messages.error(request, _("You not became an installer (check form errors)"))
+        messages.error(request, _("You haven't become an installer (check form errors)"))
         errors = get_forms_errors(forms)
 
     else:
@@ -217,11 +198,12 @@ def installation(request, event_slug):
     if request.POST:
         if hardware_form.is_valid():
             hardware = hardware_form.save()
+            install = None
             try:
                 if installation_form.is_valid():
                     install = installation_form.save()
                     install.hardware = hardware
-                    install.installer = Installer.objects.get(collaborator__user=request.user)
+                    install.installer = Installer.objects.get(eventUser__user=request.user)
                     install.save()
                     messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                     return HttpResponseRedirect('/event/' + event_slug)
@@ -232,7 +214,7 @@ def installation(request, event_slug):
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if install is not None:
-                    Installation.delete(installation)
+                    Installation.delete(install)
         messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
@@ -393,14 +375,13 @@ def attendee_search(request, event_slug):
     form = AttendeeSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
-            attendee_email = form.cleaned_data['attendee']
-            if attendee_email is not None:
-                attendee = Attendee.objects.get(email=attendee_email, event__slug__iexact=event_slug)
-                if attendee.assisted:
+            attendee = form.cleaned_data['attendee']
+            if attendee:
+                if attendee.eventUser.assisted:
                     messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
-                    attendee.assisted = True
-                    attendee.save()
+                    attendee.eventUser.assisted = True
+                    attendee.eventUser.save()
                     messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
             else:
@@ -414,7 +395,7 @@ def attendee_search(request, event_slug):
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
-    attendee = Attendee(eventolUser__event=event)
+    attendee = Attendee(eventUser__event=event)
     form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
         if form.is_valid():
@@ -422,7 +403,7 @@ def attendee_registration_by_collaborator(request, event_slug):
             attendee.assisted = True
             attendee.save()
             messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
-            return HttpResponseRedirect(reverse("attendee_search", args=(event_slug, )))
+            return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
 
     return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, {'form': form}))
@@ -506,23 +487,23 @@ def generic_registration(request, event_slug, registration_model, registration_f
         return render(request, 'registration/closed-registration.html', update_event_info(event_slug))
 
     errors = []
-    user, eventoLUser, registration = None, None, None
+    user, eventUser, registration = None, None, None
     user_form = UserRegistrationForm(request.POST or None)
 
     if request.POST:
-        eventoLUser_form = EventoLUserRegistrationForm(request.POST)
+        eventUser_form = EventUserRegistrationForm(request.POST)
         registration_form = registration_form(request.POST)
-        forms = [user_form, eventoLUser_form, registration_form]
+        forms = [user_form, eventUser_form, registration_form]
         if user_form.is_valid():
             try:
                 user = user_form.save()
-                if eventoLUser_form.is_valid():
-                    eventoLUser = eventoLUser_form.save()
-                    eventoLUser.user = user
-                    eventoLUser.save()
+                if eventUser_form.is_valid():
+                    eventUser = eventUser_form.save()
+                    eventUser.user = user
+                    eventUser.save()
                     if registration_form.is_valid():
                         registration = registration_form.save()
-                        registration.eventolUser = eventoLUser
+                        registration.eventUser = eventUser
                         registration.save()
                         messages.success(request, msg_success)
                         return HttpResponseRedirect('/event/' + event_slug)
@@ -530,19 +511,19 @@ def generic_registration(request, event_slug, registration_model, registration_f
                 pass
         if user is not None:
             User.delete(user)
-        if eventoLUser is not None:
-            EventoLUser.delete(eventoLUser)
+        if eventUser is not None:
+            EventUser.delete(eventUser)
         if registration is not None:
             registration_model.delete(registration)
         messages.error(request, msg_error)
         errors = get_forms_errors(forms)
 
     else:
-        eventoLUser = EventoLUser(event=event)
-        registration = registration_model(eventolUser=eventoLUser)
-        eventoLUser_form = EventoLUserRegistrationForm(instance=eventoLUser)
+        eventUser = EventUser(event=event)
+        registration = registration_model(eventUser=eventUser)
+        eventUser_form = EventUserRegistrationForm(instance=eventUser)
         registration_form = registration_form(instance=registration)
-        forms = [user_form, eventoLUser_form, registration_form]
+        forms = [user_form, eventUser_form, registration_form]
 
     return render(request,
                   template,
@@ -572,3 +553,27 @@ def collaborator_registration(request, event_slug):
     template = 'registration/collaborator-registration.html'
     return generic_registration(request, event_slug, Collaborator,
                                 CollaboratorRegistrationForm, msg_success, msg_error, template)
+
+
+@login_required(login_url='../accounts/login/')
+def create_event(request):
+    event_form = EventForm(request.POST or None, prefix='event')
+    if request.POST:
+        if event_form.is_valid():
+            try:
+                the_event = event_form.save()
+                eventUser = EventUser.objects.create(user=request.user, event=the_event)
+                organizer = Organizer.objects.create(eventUser=eventUser)
+                return HttpResponseRedirect('/event/' + the_event.slug)
+            except Exception:
+                if organizer is not None:
+                    Organizer.delete(organizer)
+                if eventUser is not None:
+                    EventUser.delete(eventUser)
+                if the_event is not None:
+                    Event.delete(event)
+
+        messages.error(request, "There is a problem with your event. Please check the form for errors.")
+
+    return render(request,
+                  'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme})
