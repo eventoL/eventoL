@@ -324,9 +324,9 @@ def schedule(request, event_slug):
         return HttpResponseRedirect(reverse("talks", args=[event_slug]))
 
     rooms = Room.objects.filter(event=event)
-    talks_confirmed = TalkProposal.objects.filter(confirmed_talk=True, activity__event=event)
-    if talks_confirmed:
-        schedule = Schedule(list(rooms), list(talks_confirmed))
+    activities_confirmed = Activity.objects.filter(confirmed=True, event=event)
+    if activities_confirmed:
+        schedule = Schedule(list(rooms), list(activities_confirmed))
         return render(request, 'talks/schedule.html',
                       update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
     messages.warning(_("You don't have confirmed talks, please confirm talks and after confirm schedule"))

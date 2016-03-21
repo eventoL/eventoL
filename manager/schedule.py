@@ -3,13 +3,13 @@ import datetime
 
 
 class Schedule(object):
-    def __init__(self, rooms, talks):
+    def __init__(self, rooms, activities):
         self.rooms = rooms
-        self.talks = talks
-        if self.talks:
-            self.talks.sort()
-            self.start_date = self.talks[0].activity.start_date
-            self.end_date = self.talks[-1].activity.end_date
+        self.activities = activities
+        if self.activities:
+            self.activities.sort()
+            self.start_date = self.activities[0].start_date
+            self.end_date = self.activities[-1].end_date
             self.total_minutes = int(
                 ((self.end_date - self.start_date) + datetime.timedelta(hours=1)).total_seconds() / 60)
             self.size = self.total_minutes * 2
@@ -33,22 +33,22 @@ class Schedule(object):
 
     def load_template_data(self):
         for room in self.rooms:
-            room.talks = self.talks_for_room(room)
+            room.activities = self.activities_for_room(room)
 
-    def talks_for_room(self, room):
-        room_talks = []
+    def activities_for_room(self, room):
+        room_activities = []
         date_anterior = self.start_date
-        talks = [talk for talk in self.talks if talk.activity.room == room]
-        talks.sort()
-        for talk in talks:
-            if talk.activity.start_date.time() > date_anterior.time():
-                room_talks.append({'dummy': True, 'dummy_size': self.talk_size(date_anterior, talk.activity.start_date)})
-            talk.talk_size = self.talk_size(talk.activity.start_date, talk.activity.end_date)
-            room_talks.append(talk)
-            date_anterior = talk.activity.end_date
-        if talk.activity.end_date.time() < self.end_date.time():
-            room_talks.append({'dummy': True, 'dummy_size': self.talk_size(talk.activity.end_date, self.end_date)})
-        return room_talks
+        activities = [activity for activity in self.activities if activity.room == room]
+        activities.sort()
+        for activity in activities:
+            if activity.start_date.time() > date_anterior.time():
+                room_activities.append({'dummy': True, 'dummy_size': self.talk_size(date_anterior, activity.start_date)})
+            activity.talk_size = self.talk_size(activity.start_date, activity.end_date)
+            room_activities.append(activity)
+            date_anterior = activity.end_date
+        if activity.end_date.time() < self.end_date.time():
+            room_activities.append({'dummy': True, 'dummy_size': self.talk_size(activity.end_date, self.end_date)})
+        return room_activities
 
     def talk_size(self, start, end):
         minutes = int((end - start).total_seconds()) / 60
