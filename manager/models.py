@@ -95,8 +95,8 @@ class ContactType(models.Model):
 
 class Contact(models.Model):
     type = models.ForeignKey(ContactType, verbose_name=_('Contact Type'))
-    url = models.URLField(_noop('URL'))
-    text = models.CharField(_('Text'), max_length=200)
+    url = models.URLField(_noop('URL'), help_text=_('i.e. https://twitter.com/flisol'))
+    text = models.CharField(_('Text'), max_length=200, help_text=_('i.e. @Flisol'))
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), related_name='contacts')
 
     def __unicode__(self):

@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'manager',
     'autofixture',
+    'djangoformsetjs'
 )
 
 MIDDLEWARE_CLASSES = (

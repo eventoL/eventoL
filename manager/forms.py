@@ -1,9 +1,8 @@
 # encoding: UTF-8
+import autocomplete_light as autocomplete
 from django import forms
 from django.db.models.query_utils import Q
 from django.utils.safestring import mark_safe
-
-import autocomplete_light as autocomplete
 
 autocomplete.autodiscover()
 

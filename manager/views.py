@@ -2,11 +2,12 @@
 import itertools
 
 import autocomplete_light
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
-from django.contrib.auth.views import login as django_login
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
+from django.forms.models import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext_lazy as _
@@ -558,12 +559,24 @@ def collaborator_registration(request, event_slug):
 @login_required(login_url='../accounts/login/')
 def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
+    ContactsFormSet = modelformset_factory(Contact, fields=('type', 'url', 'text', 'event'),
+                                           widgets={'event': forms.HiddenInput()},
+                                           can_delete=True)
+
+    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
+
     if request.POST:
-        if event_form.is_valid():
+        if event_form.is_valid() and contacts_formset.is_valid():
             try:
                 the_event = event_form.save()
                 eventUser = EventUser.objects.create(user=request.user, event=the_event)
                 organizer = Organizer.objects.create(eventUser=eventUser)
+
+                contacts = contacts_formset.save(commit=False)
+                for a_contact in contacts:
+                    a_contact.event = the_event
+                    a_contact.save()
+
                 return HttpResponseRedirect('/event/' + the_event.slug)
             except Exception:
                 if organizer is not None:
@@ -571,9 +584,13 @@ def create_event(request):
                 if eventUser is not None:
                     EventUser.delete(eventUser)
                 if the_event is not None:
-                    Event.delete(event)
+                    Event.delete(the_event)
+                if contacts is not None:
+                    for a_contact in contacts:
+                        Contact.objects.delete(a_contact)
 
         messages.error(request, "There is a problem with your event. Please check the form for errors.")
 
     return render(request,
-                  'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme})
+                  'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
+                                        'contacts_formset': contacts_formset})
