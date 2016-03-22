@@ -206,7 +206,6 @@
             var event_place = {{ event.place|safe }};
             map(event_place.geometry.location.lat, event_place.geometry.location.lng);
 
-            console.log(event_place);
             $('#place_name').text(event_place.name);
             $('#address1').html(event_place.adr_address);
 

@@ -246,6 +246,11 @@
                         );
                     });
 
+            var event_date = $("#{{ form.date.id_for_label }}").val();
+            if (event_date !== "") {
+                $('.event-date-picker').datepicker('setDate', event_date);
+            }
+
 
             $("#geocomplete").geocomplete({
                 map  : ".map_canvas",
@@ -261,6 +266,14 @@
                 );
             });
 
+            var event_place = $("#{{ form.place.id_for_label }}").val();
+
+            if (event_place !== "") {
+                event_place = JSON.parse(event_place);
+                console.log(event_place);
+                $("#geocomplete").geocomplete("find", event_place.formatted_address);
+            }
+
             $('.limit-proposal-picker')
                     .datepicker({
                         format: 'yyyy-mm-dd'
@@ -270,6 +283,11 @@
                                 $(".limit-proposal-picker").datepicker('getFormattedDate')
                         );
                     });
+
+            var limit_proposal_date = $("#{{ form.limit_proposal_date.id_for_label }}").val();
+            if (limit_proposal_date !== "") {
+                $('.limit-proposal-picker').datepicker('setDate', limit_proposal_date);
+            }
 
             $('#{{ contacts_formset.empty_form.type.id_for_label }}').addClass('form-control');
             $('#{{ contacts_formset.empty_form.url.id_for_label }}').addClass('form-control');
