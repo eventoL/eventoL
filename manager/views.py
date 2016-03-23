@@ -53,7 +53,7 @@ def index(request, event_slug):
         .distinct()
 
     render_dict = {'talk_proposals': talk_proposals}
-    return render(request, 'index.html', update_event_info(event_slug, render_dict, event))
+    return render(request, 'event/index.html', update_event_info(event_slug, render_dict, event))
 
 
 def event_view(request, event_slug, html='index.html'):
