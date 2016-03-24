@@ -559,9 +559,7 @@ def collaborator_registration(request, event_slug):
 @login_required(login_url='../accounts/login/')
 def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
-    ContactsFormSet = modelformset_factory(Contact, fields=('type', 'url', 'text', 'event'),
-                                           widgets={'event': forms.HiddenInput()},
-                                           can_delete=True)
+    ContactsFormSet = modelformset_factory(Contact, fields=('type', 'url', 'text'), can_delete=True)
 
     contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
 
@@ -571,14 +569,14 @@ def create_event(request):
                 the_event = event_form.save()
                 eventUser = EventUser.objects.create(user=request.user, event=the_event)
                 organizer = Organizer.objects.create(eventUser=eventUser)
-
                 contacts = contacts_formset.save(commit=False)
+
                 for a_contact in contacts:
                     a_contact.event = the_event
                     a_contact.save()
 
                 return HttpResponseRedirect('/event/' + the_event.slug)
-            except Exception:
+            except Exception as e:
                 if organizer is not None:
                     Organizer.delete(organizer)
                 if eventUser is not None:
@@ -590,7 +588,6 @@ def create_event(request):
                         Contact.objects.delete(a_contact)
 
         messages.error(request, "There is a problem with your event. Please check the form for errors.")
-
     return render(request,
                   'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
                                         'contacts_formset': contacts_formset})

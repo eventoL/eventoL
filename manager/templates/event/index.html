@@ -157,9 +157,10 @@
             </div>
         </div>
 
-        <h2>Instalaciones</h2>
-
         <div class="well">
+            <div class="row" style="text-align: center;">
+                <h2>{% trans 'Installations' %}</h2>
+            </div>
             <div class="row">
                 <div class="col-md-6">
                     <p style="padding-top: 15px">Durante toda la jornada entusiastas voluntarios del software libre,
@@ -174,6 +175,24 @@
                 </div>
             </div>
         </div>
+
+        {% if event.contacts.all|length > 0 %}
+            <div class="well">
+                <h3 style="text-align: center">{% trans 'Follow FLISoL' %} {{ event.name }}!</h3>
+                <div class="event-contacts">
+                    <div class="row" style="padding-top:20px;">
+                        <div class="col-md-10 col-md-offset-1">
+                            {{ contact }}
+                            {% for contact in event.contacts.all %}
+                                <a class="contact-link" href="{{ contact.url }}">
+                                    <i class="fa fa-3x {{ contact.type.icon_class }}"></i>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 
@@ -225,6 +244,5 @@
                     'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
                     event_place.geometry.location.lng + '&dirflg=b');
         });
-
     </script>
 {% endblock %}
