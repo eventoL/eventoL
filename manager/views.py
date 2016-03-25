@@ -2,7 +2,6 @@
 import itertools
 
 import autocomplete_light
-from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.core.mail import send_mail
@@ -10,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.forms.models import modelformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from generic_confirmation.views import confirm_by_get
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
@@ -20,7 +20,7 @@ from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     EventForm
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer
+from manager.security import is_installer, is_organizer
 from voting.models import Vote
 
 autocomplete_light.autodiscover()
@@ -576,7 +576,7 @@ def create_event(request):
                     a_contact.save()
 
                 return HttpResponseRedirect('/event/' + the_event.slug)
-            except Exception as e:
+            except Exception:
                 if organizer is not None:
                     Organizer.delete(organizer)
                 if eventUser is not None:
@@ -590,4 +590,36 @@ def create_event(request):
         messages.error(request, "There is a problem with your event. Please check the form for errors.")
     return render(request,
                   'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
-                                        'contacts_formset': contacts_formset})
+                                        'contacts_formset': contacts_formset}, context_instance=RequestContext(request))
+
+
+@login_required(login_url='../accounts/login/')
+@user_passes_test(is_organizer)
+def edit_event(request, event_slug):
+    event = Event.objects.get(slug__iexact=event_slug)
+    event_form = EventForm(request.POST or None, prefix='event', instance=event)
+    ContactsFormSet = modelformset_factory(Contact, fields=('type', 'url', 'text'), can_delete=True)
+
+    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=event.contacts.all())
+
+    if request.POST:
+        if event_form.is_valid() and contacts_formset.is_valid():
+            try:
+                the_event = event_form.save()
+                contacts = contacts_formset.save(commit=False)
+
+                for a_contact in contacts:
+                    a_contact.event = the_event
+
+                contacts_formset.save()
+
+                return HttpResponseRedirect('/event/' + the_event.slug)
+            except Exception:
+                pass
+
+        messages.error(request, "There is a problem with your event. Please check the form for errors.")
+    return render(request,
+                  'event/create.html',
+                  update_event_info(event_slug,
+                                    {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
+                                     'contacts_formset': contacts_formset}), context_instance=RequestContext(request))

@@ -2,7 +2,7 @@ from django.contrib.auth.models import Group, Permission
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 
-from manager.models import Installer
+from manager.models import Installer, Organizer
 
 
 def create_collaborators_group():
@@ -30,5 +30,11 @@ def add_collaborator_perms(user):
 
 def is_installer(user):
     if Installer.objects.filter(eventUser__user=user).exists():
+        return True
+    raise PermissionDenied
+
+
+def is_organizer(user):
+    if Organizer.objects.filter(eventUser__user=user).exists():
         return True
     raise PermissionDenied

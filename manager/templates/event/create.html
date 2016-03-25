@@ -25,7 +25,7 @@
 {% block content %}
     <div class="well">
         <div class="row">
-            <form class="form-horizontal" id="create_event" method="post" action=".">
+            <form class="form-horizontal" id="create_event" method="post" action="{{ request.path }}">
                 {% csrf_token %}
 
                 {% if form.non_field_errors|length > 0 %}

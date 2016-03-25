@@ -43,9 +43,16 @@
             {% if event_slug %}
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                     <ul class="nav navbar-nav navbar-right">
+                        {% if user|is_organizer %}
+                            <li>
+                                <a href="/event/{{ event_slug }}/edit">
+                                    <i class="fa fa-cogs"></i> {% trans "Manage event" %}
+                                </a>
+                            </li>
+                        {% endif %}
                         <li><a href="/event/{{ event_slug }}/registration">{% trans "Registration" %}</a>
                         </li>
-                        <li><a href="/event/{{ event_slug }}/schedule">{% trans "Talks Schedule" %}</a>
+                        <li><a href="/event/{{ event_slug }}/schedule">{% trans "Activities Schedule" %}</a>
                         </li>
                         {% if event.talk_proposal_is_open %}
                             <li><a href="/event/{{ event_slug }}/talk/proposal">{% trans "Submit your talk!" %}</a>
@@ -74,7 +81,7 @@
                                     </li>
                                     <li>
                                         <a href="/event/{{ event_slug }}/talks">
-                                            <i class="fa fa-list"></i> {% trans "Talks List" %}
+                                            <i class="fa fa-list"></i> {% trans "Activities List" %}
                                         </a>
                                     </li>
                                     {% if user|can_take_attendance %}
