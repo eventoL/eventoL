@@ -4,7 +4,7 @@ import itertools
 import autocomplete_light
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelformset_factory
 from django.http import HttpResponseRedirect
@@ -14,10 +14,9 @@ from django.utils.translation import ugettext_lazy as _
 from generic_confirmation.views import confirm_by_get
 from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
     InstallationForm, HardwareForm, InstallerRegistrationForm, \
-    TalkProposalForm, ContactMessageForm, ImageCroppingForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
     CommentForm, PresentationForm, EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
-    EventForm
+    EventForm, ContactMessageForm
 from manager.models import *
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer
@@ -417,15 +416,22 @@ def contact(request, event_slug):
     if request.POST:
         if form.is_valid():
             contact_message = form.save()
-            send_mail(_("FLISoL Contact Message " + contact_message.name + " email " + contact_message.email),
-                      contact_message.message,
-                      contact_message.email,
-                      recipient_list=[event.email, ],
-                      fail_silently=False)
+            info = _("Message received from ") + contact_message.name + "\n"
+            info += _("User email: ") + contact_message.email + "\n"
+            contact_message.message = info + contact_message.message
+
+            email = EmailMessage()
+            email.subject = _("eventoL Contact Message from " + contact_message.name)
+            email.body = contact_message.message
+            email.from_email = contact_message.email
+            email.to = [event.email]
+            email.extra_headers = {'Reply-To': contact_message.email}
+            email.send(fail_silently=False)
+
             contact_message.save()
-            messages.success(request, _("The message has been sent."))
+            messages.success(request, _("The message has been sent. You will receive a reply by email"))
             return HttpResponseRedirect('/event/' + event_slug)
-        messages.error(request, _("The message hasn't been sent."))
+        messages.error(request, _("There was a problem sending your message. Please try again in a few minutes."))
 
     return render(request, 'contact-message.html', update_event_info(event_slug, {'form': form}, event))
 
