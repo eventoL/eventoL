@@ -1,6 +1,9 @@
 {% load staticfiles %}
 {% load filters %}
 {% load i18n %}
+{% load account %}
+
+{% user_display user as user_display %}
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
@@ -18,9 +21,8 @@
               href="{% static "manager/css/flisol-bootstrap.css" %}"/>
         <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
         <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
         {% block other-head %}{% endblock %}
     {% endblock %}
 </head>
@@ -40,10 +42,11 @@
                 </a>
             </div>
 
-            {% if event_slug %}
-                <div class="navbar-collapse collapse navbar-responsive-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if user|is_organizer %}
+
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if event_slug %}
+                        {% if user.is_authenticated and user|is_organizer %}
                             <li>
                                 <a href="/event/{{ event_slug }}/edit">
                                     <i class="fa fa-cogs"></i> {% trans "Manage event" %}
@@ -63,9 +66,6 @@
                                data-toggle="dropdown">{% trans "Collaborators" %} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 {% if not user.is_authenticated %}
-                                    <li><a href="/event/{{ event_slug }}/accounts/login"><i
-                                            class="fa fa-sign-in"></i> {% trans "Login" %}</a>
-                                    </li>
                                     <li><a href="/event/{{ event_slug }}/registration/collaborator"><i
                                             class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
                                     </a>
@@ -74,11 +74,6 @@
                                             class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
                                     </li>
                                 {% else %}
-                                    <li>
-                                        <a href="/accounts/logout">
-                                            <i class="fa fa-sign-out"></i>{% trans "Logout" %}
-                                        </a>
-                                    </li>
                                     <li>
                                         <a href="/event/{{ event_slug }}/talks">
                                             <i class="fa fa-list"></i> {% trans "Activities List" %}
@@ -127,9 +122,35 @@
                                 </li>
                             </ul>
                         </li>
-                    </ul>
-                </div>
-            {% endif %}
+                    {% endif %}
+                    {% if not user.is_authenticated %}
+                        <li>
+                            <a href="/accounts/login/">
+                                <i class="material-icons">account_box</i> {% trans "Login" %}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown"><i
+                                    class="material-icons">account_box</i> {{ user_display }}<b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/accounts/profile/">
+                                        <i class="material-icons">assignment_ind</i> {% trans "Profile" %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/accounts/logout/">
+                                        <i class="material-icons">power_settings_new</i> {% trans "Logout" %}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
     </div>
 

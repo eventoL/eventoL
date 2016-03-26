@@ -6,14 +6,19 @@ from django.utils.safestring import mark_safe
 
 autocomplete.autodiscover()
 
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.forms.models import ModelForm
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from generic_confirmation.forms import DeferredForm
 from eventoL.settings import EMAIL_FROM
+from allauth.account.forms import LoginForm as AllAuthLoginForm
+from allauth.account.forms import SignupForm as AllAuthSignUpForm
+from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignUpForm
+from allauth.account.forms import ResetPasswordForm as AllAuthResetPasswordForm
+from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKeyForm
+from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
+from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 
 from manager.models import Attendee, InstallationAttendee, Installation, Hardware, Collaborator, \
     Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventUser, Activity, Event
@@ -157,16 +162,6 @@ class InstallerRegistrationFromCollaboratorForm(ModelForm):
         widgets = {'eventUser': forms.HiddenInput()}
 
 
-class UserRegistrationForm(UserCreationForm):
-    def __init__(self, *args, **kwargs):
-        super(UserRegistrationForm, self).__init__(*args, **kwargs)
-        self.fields['email'].required = True
-
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email',)
-
-
 class TalkProposalForm(ModelForm):
     class Meta:
         model = TalkProposal
@@ -234,3 +229,69 @@ class EventForm(ModelForm):
         widgets = {'date': forms.HiddenInput(),
                    'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
+
+
+class LoginForm(AllAuthLoginForm):
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['login'].label = self.fields['login'].widget.attrs['placeholder']
+        del self.fields['login'].widget.attrs['placeholder']
+        del self.fields['password'].widget.attrs['placeholder']
+
+
+class SignUpForm(AllAuthSignUpForm):
+    first_name = forms.CharField(max_length=30, label=_('First Name'))
+    last_name = forms.CharField(max_length=30, label=_('Last Name'))
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+        for field in ['username', 'email', 'password1', 'password2']:
+            del self.fields[field].widget.attrs['placeholder']
+
+    def signup(self, request, user):
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+
+
+class ResetPasswordForm(AllAuthResetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(ResetPasswordForm, self).__init__(*args, **kwargs)
+        for field in ['email']:
+            del self.fields[field].widget.attrs['placeholder']
+
+
+class ResetPasswordKeyForm(AllAuthResetPasswordKeyForm):
+    def __init__(self, *args, **kwargs):
+        super(ResetPasswordKeyForm, self).__init__(*args, **kwargs)
+        for field in ['password1', 'password2']:
+            del self.fields[field].widget.attrs['placeholder']
+
+
+class ChangePasswordForm(AllAuthChangePasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+        for field in ['oldpassword', 'password1', 'password2']:
+            del self.fields[field].widget.attrs['placeholder']
+
+
+class SetPasswordForm(AllAuthSetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super(SetPasswordForm, self).__init__(*args, **kwargs)
+        for field in ['password1', 'password2']:
+            del self.fields[field].widget.attrs['placeholder']
+
+
+class SocialSignUpForm(AllAuthSocialSignUpForm):
+    first_name = forms.CharField(max_length=30, label=_('First Name'))
+    last_name = forms.CharField(max_length=30, label=_('Last Name'))
+
+    def __init__(self, *args, **kwargs):
+        super(SocialSignUpForm, self).__init__(*args, **kwargs)
+        for field in ['username', 'email']:
+            del self.fields[field].widget.attrs['placeholder']
+
+    def signup(self, request, user):
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()

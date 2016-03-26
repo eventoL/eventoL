@@ -4,7 +4,7 @@ import itertools
 import autocomplete_light
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelformset_factory
 from django.http import HttpResponseRedirect
@@ -12,11 +12,10 @@ from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from generic_confirmation.views import confirm_by_get
-from manager.forms import UserRegistrationForm, CollaboratorRegistrationForm, \
-    InstallationForm, HardwareForm, InstallerRegistrationForm, \
+from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
     CommentForm, PresentationForm, EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
-    EventForm, ContactMessageForm
+    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm
 from manager.models import *
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer
@@ -571,6 +570,10 @@ def create_event(request):
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid():
+            organizer = None
+            eventUser = None
+            the_event = None
+            contacts = None
             try:
                 the_event = event_form.save()
                 eventUser = EventUser.objects.create(user=request.user, event=the_event)
