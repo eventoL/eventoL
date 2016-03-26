@@ -67,6 +67,34 @@ $ sudo apt-get install pgadmin3
 $ pip install -U -r requirements.txt
 ```
 
+### Bower
+We're using bower for frontend dependencies. So:
+
+* [Install nodejs and npm](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+* [Install bower](http://bower.io/#install-bower)
+* Install bower dependencies:
+
+```sh
+@/project-root$ bower install
+```
+
+### For compiling LESS on dev
+
+```sh
+$ sudo npm install -g less
+
+```
+
+### Compiling
+
+Every time you make a change to a less file, you'll need to compile it again. Also, the first time you clone the repo, you'll need to compile them
+
+
+```sh
+@/project-root$ lessc manager/static/manager/less/flisol.less > manager/static/manager/css/flisol.css
+@/project-root$ lessc manager/static/manager/less/flisol-bootstrap.less > manager/static/manager/css/flisol-bootstrap.css
+```
+
 ### Django stuff
 
 First of all, change in settings.py URLS, PATHS, DATABASE and EMAIL related settings with your specific configuration.
@@ -87,9 +115,19 @@ $ python manage.py collectstatic
 $ python manage.py loaddata manager/initial_data.json
 ```
 
-### Update tranlations
+### Update translations
 
 ```sh
 $ django-admin makemessages --locale=es
 $ django-admin compilemessages
 ```
+
+# Configure social login
+
+Start your server, visit your admin pages (e.g. `http://localhost:8000/admin/`) and follow these steps:
+
+* Add a Site for your domain, matching `settings.SITE_ID` (`django.contrib.sites app`).
+* For each OAuth based provider, add a Social App (socialaccount app).
+* Fill in the site and the OAuth app credentials obtained from the provider.
+
+For any trouble with social accounts, please refer to [django-allauth docs](http://django-allauth.readthedocs.org).
