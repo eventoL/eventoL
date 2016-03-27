@@ -138,6 +138,9 @@ class Collaborator(models.Model):
         verbose_name = _('Collaborator')
         verbose_name_plural = _('Collaborators')
 
+    def __unicode__(self):
+        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
+
 
 class Organizer(models.Model):
     """Event organizer"""
@@ -146,6 +149,9 @@ class Organizer(models.Model):
     class Meta:
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
+
+    def __unicode__(self):
+        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
 
 
 class Attendee(models.Model):
@@ -181,7 +187,7 @@ class NonRegisteredAttendee(models.Model):
     assisted = models.BooleanField(_('Assisted'), default=True)
     is_installing = models.BooleanField(_('Is Installing'),default=False,
         help_text=_(
-            'Does it have a pc for installation'
+            'Does it have a pc for installation?'
         )
     )
     installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
