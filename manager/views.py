@@ -11,6 +11,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
+from django.db import IntegrityError
+
 from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, InstallerRegistrationFromCollaboratorForm, \
@@ -394,17 +396,21 @@ def attendee_search(request, event_slug):
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
-    attendee = Attendee(eventUser__event=event)
+    attendee = NonRegisteredAttendee(event=event)
     form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
         if form.is_valid():
-            attendee = form.save()
-            attendee.assisted = True
-            attendee.save()
-            messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
-            return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
+            email = form.cleaned_data["email"]
+            if EventUser.objects.filter(event=event,user__email=email).count() > 0:
+                messages.error(request,_("The attendee has registered for this event, use correct form"))
+                return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
+            try:
+                form.save()
+                messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
+                return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
+            except IntegrityError:
+                form.add_error('email',_("Email already registered for this event"))
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
-
     return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, {'form': form}))
 
 
@@ -485,7 +491,7 @@ def confirm_schedule(request, event_slug):
 def reports(request, event_slug):
     return render(request, 'reports/dashboard.html', update_event_info(event_slug))
 
-
+@login_required(login_url='../../../accounts/login/')
 def generic_registration(request, event_slug, registration_model, registration_form, msg_success, msg_error, template):
     event = Event.objects.get(slug__iexact=event_slug)
 
@@ -493,69 +499,63 @@ def generic_registration(request, event_slug, registration_model, registration_f
         return render(request, 'registration/closed-registration.html', update_event_info(event_slug))
 
     errors = []
-    user, eventUser, registration = None, None, None
-    user_form = UserRegistrationForm(request.POST or None)
+    eventUser = EventUser.objects.filter(event=event, user=request.user).first()
+    if not eventUser:
+        eventUser = EventUser(event=event, user=request.user)
 
+    registration = registration_model.objects.filter(eventUser=eventUser)
+    if registration:
+        #Ya esta registrado con ese "rol"
+        messages.error(request, "You are already registered for this event")
+        return HttpResponseRedirect(reverse("index", args=(event_slug,)))
+
+    registration = registration_model(eventUser=eventUser)
     if request.POST:
-        eventUser_form = EventUserRegistrationForm(request.POST)
-        registration_form = registration_form(request.POST)
-        forms = [user_form, eventUser_form, registration_form]
-        if user_form.is_valid():
+        eventUser_form = EventUserRegistrationForm(request.POST, instance=eventUser)
+        registration_form = registration_form(request.POST, instance=registration)
+        forms = [eventUser_form,registration_form]
+        if eventUser_form.is_valid():
             try:
-                user = user_form.save()
-                if eventUser_form.is_valid():
-                    eventUser = eventUser_form.save()
-                    eventUser.user = user
-                    eventUser.save()
-                    if registration_form.is_valid():
-                        registration = registration_form.save()
-                        registration.eventUser = eventUser
-                        registration.save()
-                        messages.success(request, msg_success)
-                        return HttpResponseRedirect('/event/' + event_slug)
+                eventUser = eventUser_form.save()
+                if registration_form.is_valid():
+                    registration = registration_form.save()
+                    registration.eventUser = eventUser
+                    registration.save()
+                    messages.success(request, msg_success)
+                    return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
                 pass
-        if user is not None:
-            User.delete(user)
-        if eventUser is not None:
-            EventUser.delete(eventUser)
-        if registration is not None:
-            registration_model.delete(registration)
         messages.error(request, msg_error)
         errors = get_forms_errors(forms)
-
     else:
-        eventUser = EventUser(event=event)
-        registration = registration_model(eventUser=eventUser)
         eventUser_form = EventUserRegistrationForm(instance=eventUser)
         registration_form = registration_form(instance=registration)
-        forms = [user_form, eventUser_form, registration_form]
+        forms = [eventUser_form, registration_form]
 
     return render(request,
                   template,
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
-
+@login_required(login_url='../../../accounts/login/')
 def registration(request, event_slug):
-    msg_success = _("We've sent you an email with the confirmation link. Please click or "
-                    "copy and paste it in your browser to confirm the registration.")
-    msg_error = _("The attendee hasn't been registered successfully (check form errors)")
+    msg_success = _("You have successfully registered to attend")
+    msg_error = _("You have not successfully registered (check form errors)")
     template = 'registration/attendee-registration.html'
     return generic_registration(request, event_slug, Attendee,
                                 AttendeeRegistrationForm, msg_success, msg_error, template)
 
-
+@login_required(login_url='../../../accounts/login/')
 def installer_registration(request, event_slug):
-    msg_success = _("You've been registered successfully!")
-    msg_error = _("You haven't been registered successfully (check form errors)")
+    msg_success = _("You have successfully registered as an installer")
+    msg_error = _("You have not successfully registered (check form errors)")
     template = 'registration/installer-registration.html'
     return generic_registration(request, event_slug, Installer,
                                 InstallerRegistrationForm, msg_success, msg_error, template)
 
-
+@login_required(login_url='../../../accounts/login/')
 def collaborator_registration(request, event_slug):
-    msg_success = _("You've been registered successfully!")
-    msg_error = _("You haven't been registered successfully (check form errors)")
+    msg_success = _("You have successfully registered as a collaborator")
+    msg_error = _("You have not successfully registered (check form errors)")
     template = 'registration/collaborator-registration.html'
     return generic_registration(request, event_slug, Collaborator,
                                 CollaboratorRegistrationForm, msg_success, msg_error, template)
