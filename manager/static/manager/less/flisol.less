@@ -1,6 +1,9 @@
 @import "../bower_components/bootstrap-material-design/less/bootstrap-material-design";
 @import "../bower_components/bootstrap-material-design/less/ripples";
 @import "../bower_components/roboto-fontface/css/roboto-fontface";
+@import "../bower_components/font-awesome/less/font-awesome";
+
+@fa-font-path: "../bower_components/font-awesome/fonts";
 
 .form-group label.control-label {
   color: #009688 !important;
@@ -93,4 +96,40 @@ body {
 
 .postal-code {
   display: none;
+}
+
+.event-contacts {
+  text-align: center;
+}
+
+.contact-link {
+  color: #B6B6B6;
+  padding: 0 40px 0 40px;
+  @media screen and (max-width: 767px) {
+    padding: 0 20px 0 20px;
+  }
+}
+
+.login-panel {
+  z-index: 20;
+  padding: 20px;
+  text-align: center;
+}
+
+.social-login-btn {
+  padding: 13px !important;
+}
+
+.facebook-icon {
+  color: #3b5998 !important;
+  &:before {
+    content: @fa-var-facebook-f;
+  }
+}
+
+.twitter-icon {
+  color: #55ACEE !important;
+  &:before {
+    content: @fa-var-twitter;
+  }
 }

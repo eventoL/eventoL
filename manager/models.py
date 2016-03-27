@@ -95,12 +95,14 @@ class ContactType(models.Model):
 
 class Contact(models.Model):
     type = models.ForeignKey(ContactType, verbose_name=_('Contact Type'))
-    url = models.URLField(_noop('URL'))
-    text = models.CharField(_('Text'), max_length=200)
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'), related_name='contacts')
+    url = models.URLField(_noop('URL'), help_text=_('i.e. https://twitter.com/flisol'))
+    text = models.CharField(_('Text'), max_length=200, help_text=_('i.e. @Flisol'))
+    # null should be false, but I put true due to a django bug with formsets:
+    # https://code.djangoproject.com/ticket/13776
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'), related_name='contacts', blank=True, null=True)
 
     def __unicode__(self):
-        return u"%s - %s" % (self.type.name, self.text)
+        return u"%s - %s - %s" % (self.event.name, self.type.name, self.text)
 
     class Meta:
         verbose_name = _('Contact')

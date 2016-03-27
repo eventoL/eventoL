@@ -45,8 +45,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'voting',
-    'generic_confirmation',
-    'django_tables2',
     'easy_thumbnails',
     'easy_thumbnails.optimize',
     'image_cropping',
@@ -55,6 +53,13 @@ INSTALLED_APPS = (
     'rest_framework',
     'manager',
     'autofixture',
+    'djangoformsetjs',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -70,7 +75,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'eventoL.urls'
 
 WSGI_APPLICATION = 'eventoL.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -111,7 +115,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -200,3 +203,48 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'],
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook': {'METHOD': 'oauth2',
+                  'SCOPE': ['email', 'public_profile'],
+                  'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+                  'FIELDS': [
+                      'id',
+                      'email',
+                      'name',
+                      'first_name',
+                      'last_name',
+                      'verified',
+                      'locale',
+                      'timezone',
+                      'link',
+                      'gender',
+                      'updated_time'],
+                  'EXCHANGE_TOKEN': True,
+                  'LOCALE_FUNC': lambda request: 'es_AR',
+                  'VERIFIED_EMAIL': False,
+                  'VERSION': 'v2.4'}}
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+ACCOUNT_FORMS = {'login': 'manager.forms.LoginForm',
+                 'signup': 'manager.forms.SignUpForm',
+                 'reset_password': 'manager.forms.ResetPasswordForm',
+                 'reset_password_from_key': 'manager.forms.ResetPasswordKeyForm',
+                 'change_password': 'manager.forms.ChangePasswordForm',
+                 'set_password': 'manager.forms.SetPasswordForm'}
+
+SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_FORMS = {'signup': 'manager.forms.SocialSignUpForm'}

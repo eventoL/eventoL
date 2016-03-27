@@ -2,11 +2,11 @@
 {% load static %}
 {% load i18n %}
 {% load filters %}
-{% load cropping %}
 {% if proposal %}
     {% block other-head %}
         <link rel="stylesheet" type="text/css"
               href="{% static "manager/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" %}">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
         <style type="text/css">
             .map_canvas {
@@ -25,7 +25,7 @@
 {% block content %}
     <div class="well">
         <div class="row">
-            <form class="form-horizontal" id="create_event" method="post" action=".">
+            <form class="form-horizontal" id="create_event" method="post" action="{{ request.path }}">
                 {% csrf_token %}
 
                 {% if form.non_field_errors|length > 0 %}
@@ -54,10 +54,6 @@
 
 
                                 {{ form.name | addcss:'form-control' }}
-                                {% if form.name.errors|length > 0 %}
-                                    <p class="help-block"><span
-                                            class="fa fa-exclamation-triangle"></span>{{ form.name.errors.as_text }}</p>
-                                {% endif %}
                                 {% if form.name.help_text %}
                                     <p class="help-block">{{ form.name.help_text }}</p>{% endif %}
                             </div>
@@ -116,16 +112,19 @@
 
 
                                 {{ form.email | addcss:'form-control' }}
-                                {% if form.email.errors|length > 0 %}
-                                    <p class="help-block"><span
-                                            class="fa fa-exclamation-triangle"></span>{{ form.email.errors.as_text }}
-                                    </p>
-                                {% endif %}
                                 {% if form.name.help_text %}
                                     <p class="help-block">{{ form.email.help_text }}</p>{% endif %}
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <br>
+
+                    <h4>{% trans "Where can people follow you?" %}</h4>
+                    <br>
+
+                    {% include "event/contacts-formset.html" %}
+
                     <br>
                     <br>
 
@@ -195,11 +194,6 @@
 
 
                                 {{ form.external_url | addcss:'form-control' }}
-                                {% if form.external_url.errors|length > 0 %}
-                                    <p class="help-block"><span
-                                            class="fa fa-exclamation-triangle"></span>{{ form.external_url.errors.as_text }}
-                                    </p>
-                                {% endif %}
                                 {% if form.external_url.help_text %}
                                     <p class="help-block">{{ form.external_url.help_text }}</p>{% endif %}
                             </div>
@@ -220,10 +214,10 @@
                         <button type="submit"
                                 class="btn btn-primary btn-raised pull-right">{% trans "Submit" %}</button>
                     </div>
+                </div>
             </form>
         </div>
     </div>
-
 {% endblock %}
 
 
@@ -236,6 +230,8 @@
     <script src="http://maps.googleapis.com/maps/api/js?libraries=places"></script>
     <script src="{% static "manager/bower_components/geocomplete/jquery.geocomplete.min.js" %}"
             type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+
     {{ form.media }}
 
     <script>
@@ -249,6 +245,11 @@
                                 $(".event-date-picker").datepicker('getFormattedDate')
                         );
                     });
+
+            var event_date = $("#{{ form.date.id_for_label }}").val();
+            if (event_date !== "") {
+                $('.event-date-picker').datepicker('setDate', event_date);
+            }
 
 
             $("#geocomplete").geocomplete({
@@ -265,6 +266,14 @@
                 );
             });
 
+            var event_place = $("#{{ form.place.id_for_label }}").val();
+
+            if (event_place !== "") {
+                event_place = JSON.parse(event_place);
+                console.log(event_place);
+                $("#geocomplete").geocomplete("find", event_place.formatted_address);
+            }
+
             $('.limit-proposal-picker')
                     .datepicker({
                         format: 'yyyy-mm-dd'
@@ -274,8 +283,29 @@
                                 $(".limit-proposal-picker").datepicker('getFormattedDate')
                         );
                     });
+
+            var limit_proposal_date = $("#{{ form.limit_proposal_date.id_for_label }}").val();
+            if (limit_proposal_date !== "") {
+                $('.limit-proposal-picker').datepicker('setDate', limit_proposal_date);
+            }
+
+            $('#{{ contacts_formset.empty_form.type.id_for_label }}').addClass('form-control');
+            $('#{{ contacts_formset.empty_form.url.id_for_label }}').addClass('form-control');
+            $('#{{ contacts_formset.empty_form.text.id_for_label }}').addClass('form-control');
+
+            $("#formset").formset({
+                animateForms: true
+            });
+
+            $('#formset').on('formAdded', function(event) {
+                var inputs = $(event.target).find(':input');
+                $.each(inputs, function(index, input) {
+                    var $input = $(input);
+                    if ($input.attr('type') !== 'button') {
+                        $(input).addClass('form-control');
+                    }
+                });
+            });
         });
-
-
     </script>
 {% endblock %}
