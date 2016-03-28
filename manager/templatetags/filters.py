@@ -1,5 +1,5 @@
 from django import template, forms
-from manager.models import Installer, Collaborator, Organizer
+from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee
 
 register = template.Library()
 
@@ -39,11 +39,18 @@ def is_odd(number):
     """Return True if the number is odd"""
     return number & 1
 
+@register.filter(name='can_register')
+def can_register(user,event_slug):
+    """Search if the user is registered for the event as an attendee"""
+    eventuser = EventUser.objects.filter(user=user,event__slug=event_slug)
+    if eventuser:
+        return not Attendee.objects.filter(eventUser=eventuser).exists()
+    else:
+        return True
 
 @register.filter(name='is_installer')
 def is_installer(user):
     return Installer.objects.filter(eventUser__user=user).exists()
-
 
 @register.filter(name='is_collaborator')
 def is_collaborator(user):

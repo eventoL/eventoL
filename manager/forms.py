@@ -20,7 +20,7 @@ from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKe
 from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 
-from manager.models import Attendee, InstallationAttendee, Installation, Hardware, Collaborator, \
+from manager.models import Attendee, InstallationAttendee, NonRegisteredAttendee, Installation, Hardware, Collaborator, \
     Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventUser, Activity, Event
 
 
@@ -97,9 +97,10 @@ class RegistrationForm(DeferredForm):
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
     class Meta:
-        model = Attendee
-        widgets = {'eventUser': forms.HiddenInput(),
-                   'additional_info': forms.Textarea(attrs={'rows': 3})}
+        model = NonRegisteredAttendee
+        fields=['first_name','last_name','email','installation_additional_info','is_installing']
+        widgets = {'event': forms.HiddenInput(),'assisted':forms.HiddenInput(),
+        'installation_additional_info': forms.TextInput()}
 
 
 class InstallationForm(autocomplete.ModelForm):
