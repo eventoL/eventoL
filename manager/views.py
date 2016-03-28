@@ -405,6 +405,11 @@ def attendee_registration_by_collaborator(request, event_slug):
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
             try:
                 form.save()
+                eventuser = EventUser(event=event,nonregisteredattendee=attendee)
+                eventuser.save()
+                if form.cleaned_data["is_installing"]:
+                    installer = InstallationAttendee(eventUser=eventuser,installation_additional_info=form.cleaned_data["installation_additional_info"])
+                    installer.save()
                 messages.success(request, _('The attendee successfully registered . Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
             except IntegrityError:
