@@ -112,7 +112,6 @@ class NonRegisteredAttendee(models.Model):
     first_name = models.CharField(_('First Name'), max_length=30, blank=True)
     last_name = models.CharField(_('Last Name'), max_length=30, blank=True)
     email = models.EmailField(_('E-mail Address'), blank=True)
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
     assisted = models.BooleanField(_('Assisted'), default=True)
     is_installing = models.BooleanField(_('Is Installing'),default=False,
         help_text=_(
@@ -122,7 +121,6 @@ class NonRegisteredAttendee(models.Model):
     installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing?'))
     class Meta:
-        unique_together = (("event", "email"),)
         verbose_name = _('Non Registered  Attendee')
         verbose_name_plural = _('Non Registered Attendees')
 

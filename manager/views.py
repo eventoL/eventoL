@@ -11,7 +11,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
-from django.db import IntegrityError
 
 from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
@@ -395,7 +394,7 @@ def attendee_search(request, event_slug):
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
-    attendee = NonRegisteredAttendee(event=event)
+    attendee = NonRegisteredAttendee()
     form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
         if form.is_valid():
@@ -403,6 +402,8 @@ def attendee_registration_by_collaborator(request, event_slug):
             if EventUser.objects.filter(event=event,user__email=email).count() > 0:
                 messages.error(request,_("The attendee has registered for this event, use correct form"))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
+            if EventUser.objects.filter(event=event,nonregisteredattendee__email=email).count() > 0:
+                form.add_error('email',_("Email already registered for this event"))
             try:
                 form.save()
                 eventuser = EventUser(event=event,nonregisteredattendee=attendee)
@@ -410,10 +411,13 @@ def attendee_registration_by_collaborator(request, event_slug):
                 if form.cleaned_data["is_installing"]:
                     installer = InstallationAttendee(eventUser=eventuser,installation_additional_info=form.cleaned_data["installation_additional_info"])
                     installer.save()
+                else:
+                    attendee = Attendee(eventUser=eventuser)
+                    attendee.save()
                 messages.success(request, _('The attendee successfully registered . Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
-            except IntegrityError:
-                form.add_error('email',_("Email already registered for this event"))
+            except:
+                pass
         messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
     return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, {'form': form}))
 
