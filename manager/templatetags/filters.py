@@ -44,7 +44,7 @@ def can_register(user,event_slug):
     """Search if the user is registered for the event as an attendee"""
     eventuser = EventUser.objects.filter(user=user,event__slug=event_slug)
     if eventuser:
-        return not Attendee.objects.filter(eventUser=eventuser).exists()
+        return not Attendee.objects.filter(eventUser=eventuser).exists() and not InstallationAttendee.objects.filter(eventUser=eventuser).exist()
     else:
         return True
 

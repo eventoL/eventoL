@@ -130,11 +130,14 @@ class CollaboratorRegistrationForm(ModelForm):
 class EventUserRegistrationForm(ModelForm):
     class Meta:
         model = EventUser
-        exclude = ['user', 'assisted']
+        exclude = ['user', 'assisted', 'nonregisteredattendee']
         widgets = {'event': forms.HiddenInput()}
 
 
 class AttendeeRegistrationForm(ModelForm):
+    is_installing = forms.BooleanField(label=_('Bringing a device for installation?'), required=False)
+    installation_additional_info = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}),\
+        help_text=_('i.e. Wath kind of PC are you bringing? Leave blank if doesn\'t apply'), required=False)
     class Meta:
         model = Attendee
         widgets = {'eventUser': forms.HiddenInput()}
@@ -148,18 +151,6 @@ class InstallerRegistrationForm(ModelForm):
 
     class Meta:
         model = Installer
-        widgets = {'eventUser': forms.HiddenInput()}
-
-
-class InstallerRegistrationFromCollaboratorForm(ModelForm):
-    text = u'Afirmo que he leido la ' \
-           u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2016/Guía_del_' \
-           u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
-    read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
-
-    class Meta:
-        model = Installer
-        fields = ['level']
         widgets = {'eventUser': forms.HiddenInput()}
 
 
