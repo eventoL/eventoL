@@ -108,18 +108,17 @@ class Contact(models.Model):
         verbose_name = _('Contact')
         verbose_name_plural = _('Contacts')
 
+
 class NonRegisteredAttendee(models.Model):
     first_name = models.CharField(_('First Name'), max_length=30, blank=True)
     last_name = models.CharField(_('Last Name'), max_length=30, blank=True)
     email = models.EmailField(_('E-mail Address'), blank=True)
     assisted = models.BooleanField(_('Assisted'), default=True)
-    is_installing = models.BooleanField(_('Is Installing'),default=False,
-        help_text=_(
-            'Does it have a pc for installation?'
-        )
-    )
+    is_installing = models.BooleanField(_('Is Installing'), default=False,
+                                        help_text=_('Will you bring a PC for installation?'))
     installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing?'))
+
     class Meta:
         verbose_name = _('Non Registered  Attendee')
         verbose_name_plural = _('Non Registered Attendees')
@@ -130,14 +129,15 @@ class NonRegisteredAttendee(models.Model):
 
 class EventUser(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)
-    nonregisteredattendee = models.ForeignKey(NonRegisteredAttendee, verbose_name=_('Non Registered Attendee'),blank=True,null=True)
+    nonregisteredattendee = models.ForeignKey(NonRegisteredAttendee, verbose_name=_('Non Registered Attendee'),
+                                              blank=True, null=True)
     event = models.ForeignKey(Event, verbose_name=_noop('Event'))
     assisted = models.BooleanField(_('Assisted'), default=False)
 
     def __unicode__(self):
-        if(self.user):
+        if (self.user):
             return u'%s %s' % (self.user.first_name, self.user.last_name)
-        if(self.nonregisteredattendee):
+        if (self.nonregisteredattendee):
             return u'%s %s' % (self.nonregisteredattendee.first_name, self.nonregisteredattendee.last_name)
 
     class Meta:
@@ -187,10 +187,11 @@ class Attendee(models.Model):
         verbose_name_plural = _('Attendees')
 
     def __unicode__(self):
-        if(self.eventUser.user):
+        if self.eventUser.user:
             return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-        if(self.eventUser.nonregisteredattendee):
-            return u'%s %s' % (self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
+        if self.eventUser.nonregisteredattendee:
+            return u'%s %s' % (
+                self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
 
 
 class InstallationAttendee(models.Model):
@@ -203,10 +204,11 @@ class InstallationAttendee(models.Model):
         verbose_name_plural = _('Installation Attendees')
 
     def __unicode__(self):
-        if(self.eventUser.user):
+        if (self.eventUser.user):
             return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-        if(self.eventUser.nonregisteredattendee):
-            return u'%s %s' % (self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
+        if (self.eventUser.nonregisteredattendee):
+            return u'%s %s' % (
+                self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
 
 
 class Installer(models.Model):

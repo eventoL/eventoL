@@ -14,7 +14,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
-    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
+    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
+    EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm
 from manager.models import *
 from manager.schedule import Schedule
@@ -154,38 +155,6 @@ def room_available(request, talk_form, event_slug):
         return False
     return True
 
-'''
-@login_required
-def become_installer(request, event_slug):
-    forms = []
-    errors = []
-    installer = None
-
-    if request.POST:
-        eventUser = EventUser.objects.get(user=request.user)
-        installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
-                                                                   instance=Installer(eventUser=eventUser))
-        forms = [installer_form]
-        if installer_form.is_valid():
-            try:
-                installer = installer_form.save()
-                installer.save()
-                messages.success(request, _("You've become an installer!"))
-                return HttpResponseRedirect('/event/' + event_slug)
-            except Exception as e:
-                if installer is not None:
-                    Installer.delete(installer)
-        messages.error(request, _("You haven't become an installer (check form errors)"))
-        errors = get_forms_errors(forms)
-
-    else:
-        installer_form = InstallerRegistrationFromCollaboratorForm(instance=Installer())
-        forms = [installer_form]
-
-    return render(request,
-                  'registration/become_installer.html',
-                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
-'''
 
 @login_required
 @user_passes_test(is_installer)
@@ -399,17 +368,19 @@ def attendee_registration_by_collaborator(request, event_slug):
     if request.POST:
         if form.is_valid():
             email = form.cleaned_data["email"]
-            if EventUser.objects.filter(event=event,user__email=email).count() > 0:
-                messages.error(request,_("The attendee has registered for this event, use correct form"))
+            if EventUser.objects.filter(event=event, user__email=email).exists():
+                messages.error(request, _("The attendee is already registered for this event"))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
-            if EventUser.objects.filter(event=event,nonregisteredattendee__email=email).count() > 0:
-                form.add_error('email',_("Email already registered for this event"))
+            if EventUser.objects.filter(event=event, nonregisteredattendee__email=email).exists():
+                form.add_error('email', _("Email already registered for this event"))
             try:
                 form.save()
-                eventuser = EventUser(event=event,nonregisteredattendee=attendee)
+                eventuser = EventUser(event=event, nonregisteredattendee=attendee)
                 eventuser.save()
                 if form.cleaned_data["is_installing"]:
-                    installer = InstallationAttendee(eventUser=eventuser,installation_additional_info=form.cleaned_data["installation_additional_info"])
+                    installer = InstallationAttendee(eventUser=eventuser,
+                                                     installation_additional_info=form.cleaned_data[
+                                                         "installation_additional_info"])
                     installer.save()
                 else:
                     attendee = Attendee(eventUser=eventuser)
@@ -418,7 +389,7 @@ def attendee_registration_by_collaborator(request, event_slug):
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
             except:
                 pass
-        messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
+        messages.error(request, _("The attendee couldn't be registered (check form errors)"))
     return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, {'form': form}))
 
 
@@ -499,6 +470,7 @@ def confirm_schedule(request, event_slug):
 def reports(request, event_slug):
     return render(request, 'reports/dashboard.html', update_event_info(event_slug))
 
+
 @login_required
 def generic_registration(request, event_slug, registration_model, registration_form, msg_success, msg_error, template):
     event = Event.objects.get(slug__iexact=event_slug)
@@ -513,11 +485,11 @@ def generic_registration(request, event_slug, registration_model, registration_f
 
     registration = registration_model.objects.filter(eventUser=eventUser)
 
-    #FIXME: Chanchada
+    # FIXME: Chanchada
     installation = InstallationAttendee.objects.filter(eventUser=eventUser)
 
     if registration or installation:
-        #Ya esta registrado con ese "rol"
+        # Ya esta registrado con ese "rol"
         messages.error(request, "You are already registered for this event")
         return HttpResponseRedirect(reverse("index", args=(event_slug,)))
 
@@ -525,15 +497,17 @@ def generic_registration(request, event_slug, registration_model, registration_f
     if request.POST:
         eventUser_form = EventUserRegistrationForm(request.POST, instance=eventUser)
         registration_form = registration_form(request.POST, instance=registration)
-        forms = [eventUser_form,registration_form]
+        forms = [eventUser_form, registration_form]
         if eventUser_form.is_valid():
             try:
                 eventUser = eventUser_form.save()
                 if registration_form.is_valid():
-                    #FIXME: Chanchada
+                    # FIXME: Chanchada
                     if registration_model is Attendee and registration_form.cleaned_data["is_installing"]:
-                            installation = InstallationAttendee(eventUser=eventUser,installation_additional_info=registration_form.cleaned_data["installation_additional_info"])
-                            installation.save()
+                        installation = InstallationAttendee(eventUser=eventUser,
+                                                            installation_additional_info=registration_form.cleaned_data[
+                                                                "installation_additional_info"])
+                        installation.save()
                     else:
                         registration = registration_form.save()
                         registration.eventUser = eventUser
@@ -554,21 +528,24 @@ def generic_registration(request, event_slug, registration_model, registration_f
                   template,
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
+
 @login_required
 def registration(request, event_slug):
     msg_success = _("You have successfully registered to attend")
-    msg_error = _("You have not successfully registered (check form errors)")
+    msg_error = _("There is a problem with the registration (check form errors)")
     template = 'registration/attendee-registration.html'
     return generic_registration(request, event_slug, Attendee,
                                 AttendeeRegistrationForm, msg_success, msg_error, template)
 
+
 @login_required
 def installer_registration(request, event_slug):
     msg_success = _("You have successfully registered as an installer")
-    msg_error = _("You have not successfully registered (check form errors)")
+    msg_error = _("There is a problem with the registration (check form errors)")
     template = 'registration/installer-registration.html'
     return generic_registration(request, event_slug, Installer,
                                 InstallerRegistrationForm, msg_success, msg_error, template)
+
 
 @login_required
 def collaborator_registration(request, event_slug):
