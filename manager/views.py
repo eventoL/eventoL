@@ -378,9 +378,7 @@ def attendee_registration_by_collaborator(request, event_slug):
                 eventuser = EventUser(event=event, nonregisteredattendee=attendee)
                 eventuser.save()
                 if form.cleaned_data["is_installing"]:
-                    installer = InstallationAttendee(eventUser=eventuser,
-                                                     installation_additional_info=form.cleaned_data[
-                                                         "installation_additional_info"])
+                    installer = InstallationAttendee(eventUser=eventuser,installation_additional_info=form.cleaned_data["installation_additional_info"])
                     installer.save()
                 else:
                     attendee = Attendee(eventUser=eventuser)
@@ -498,23 +496,20 @@ def generic_registration(request, event_slug, registration_model, registration_f
         eventUser_form = EventUserRegistrationForm(request.POST, instance=eventUser)
         registration_form = registration_form(request.POST, instance=registration)
         forms = [eventUser_form, registration_form]
-        if eventUser_form.is_valid():
+        if eventUser_form.is_valid() and registration_form.is_valid():
             try:
                 eventUser = eventUser_form.save()
-                if registration_form.is_valid():
-                    # FIXME: Chanchada
-                    if registration_model is Attendee and registration_form.cleaned_data["is_installing"]:
-                        installation = InstallationAttendee(eventUser=eventUser,
-                                                            installation_additional_info=registration_form.cleaned_data[
-                                                                "installation_additional_info"])
+                # FIXME: Chanchada
+                if registration_model is Attendee and registration_form.cleaned_data["is_installing"]:
+                        installation = InstallationAttendee(eventUser=eventUser,installation_additional_info=registration_form.cleaned_data["installation_additional_info"])
                         installation.save()
-                    else:
-                        registration = registration_form.save()
-                        registration.eventUser = eventUser
-                        registration.save()
+                else:
+                    registration = registration_form.save()
+                    registration.eventUser = eventUser
+                    registration.save()
 
-                    messages.success(request, msg_success)
-                    return HttpResponseRedirect('/event/' + event_slug)
+                messages.success(request, msg_success)
+                return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
                 pass
         messages.error(request, msg_error)
