@@ -19,13 +19,13 @@ class Schedule(object):
     def calculate_reference_hours(self):
         one_hour = datetime.timedelta(hours=1)
         first_hour = {'start': self.start_date, 'end': self.start_date + one_hour}
-        first_hour['size'] = self.talk_size(first_hour['start'], first_hour['end'])
+        first_hour['size'] = self.activity_size(first_hour['start'], first_hour['end'])
         hours = [first_hour]
 
         last_hour = hours[-1]['end']
         while last_hour.hour < self.end_date.hour:
             new_hour = {'start': last_hour, 'end': last_hour + one_hour}
-            new_hour['size'] = self.talk_size(new_hour['start'], new_hour['end'])
+            new_hour['size'] = self.activity_size(new_hour['start'], new_hour['end'])
             hours.append(new_hour)
             last_hour = new_hour['end']
 
@@ -42,14 +42,14 @@ class Schedule(object):
         activities.sort()
         for activity in activities:
             if activity.start_date.time() > date_anterior.time():
-                room_activities.append({'dummy': True, 'dummy_size': self.talk_size(date_anterior, activity.start_date)})
-            activity.talk_size = self.talk_size(activity.start_date, activity.end_date)
+                room_activities.append({'dummy': True, 'dummy_size': self.activity_size(date_anterior, activity.start_date)})
+            activity.activity_size = self.activity_size(activity.start_date, activity.end_date)
             room_activities.append(activity)
             date_anterior = activity.end_date
         if activity.end_date.time() < self.end_date.time():
-            room_activities.append({'dummy': True, 'dummy_size': self.talk_size(activity.end_date, self.end_date)})
+            room_activities.append({'dummy': True, 'dummy_size': self.activity_size(activity.end_date, self.end_date)})
         return room_activities
 
-    def talk_size(self, start, end):
+    def activity_size(self, start, end):
         minutes = int((end - start).total_seconds()) / 60
         return minutes * 100 / self.total_minutes
