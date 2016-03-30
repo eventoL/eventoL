@@ -2,13 +2,13 @@
 {% load i18n %}
 {% load filters %}
 {% load static %}
-{% block page-header %}{% trans "Talks Schedule" %}{% endblock %}
+{% block page-header %}{% trans "activities Schedule" %}{% endblock %}
 
 {% block content %}
     <div class="well row text-center {% if schedule.rooms >= 6 %}letra-chiquita{% endif %}"
          data-columns="{{ schedule.rooms|schedule_cols_total }}">
         <div class="col-md-{{ schedule.rooms|schedule_cols_first }} hidden-sm hidden-xs">
-            <div class="alert alert-material-teal-100 row"><strong>{% trans "Hour" %}</strong></div>
+            <div class="alert schedule-room row"><strong>{% trans "Hour" %}</strong></div>
             <div style="height: {{ schedule.size }}px;">
                 {% for reference_hour in schedule.reference_hours %}
                     <div style="height: {{ reference_hour.size }}%">
@@ -22,24 +22,24 @@
         </div>
         {% for room in schedule.rooms %}
             <div class="col-md-{{ schedule.rooms|schedule_cols_other }}">
-                <div class="alert alert-material-teal-100 row"><strong>{{ room.name|title }}</strong></div>
+                <div class="row alert schedule-room"><strong>{{ room.name|title }}</strong></div>
                 <div style="height: {{ schedule.size }}px;">
-                    {% for talk in room.talks %}
-                        {% if 'dummy' in talk %}
-                            <div class="alert-material-light-green-50 hidden-sm hidden-xs" style="height: {{ talk.dummy_size }}%;"></div>
+                    {% for activity in room.activities %}
+                        {% if 'dummy' in activity %}
+                            <div class="schedule-dummy hidden-sm hidden-xs" style="height: {{ activity.dummy_size }}%;"></div>
                         {% else %}
-                            <div style="height: {{ talk.talk_size }}%">
-                                {% if talk.talk_size < 3 %}
-                                    <a href='/event/{{ event_slug }}/talk/detail/talk/{{ talk.pk }}/'>
+                            <div class="schedule-talk" style="height: {{ activity.activity_size }}%">
+                                {% if activity.activity_size < 3 %}
+                                    <a href='/event/{{ event_slug }}/talk/detail/talk/{{ activity.pk }}/'>
                                         <strong>
-                                            {{ talk.talk_proposal.title|title|truncatechars:10 }} {{ talk.schedule }}</strong><br>
+                                            {{ activity.title|title|truncatechars:10 }} {{ activity.schedule }}</strong><br>
                                     </a>
                                 {% else %}
-                                    <a href='/event/{{ event_slug }}/talk/detail/talk/{{ talk.pk }}/'>
+                                    <a href='/event/{{ event_slug }}/talk/detail/talk/{{ activity.pk }}/'>
                                         <strong>
-                                            {{ talk.talk_proposal.title|title|truncatechars:50 }}</strong><br>
+                                            {{ activity.title|title|truncatechars:50 }}</strong><br>
                                     </a>
-                                    {{ talk.schedule }}
+                                    {{ activity.schedule }}
                                 {% endif %}
                             </div>
                         {% endif %}
