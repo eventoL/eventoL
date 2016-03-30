@@ -4,35 +4,33 @@ from django.utils.decorators import available_attrs
 from functools import wraps
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.contenttypes.models import ContentType
 
-from manager.models import Installer, Organizer, Collaborator
-
-
-def create_collaborators_group():
-    collaborators = Group.objects.get(name='Collaborators')
-    perms = Permission.objects.filter(
-        Q(content_type__app_label='manager') |
-        Q(content_type__app_label='admin') |
-        Q(content_type__app_label='sessions')
-    )
-    for perm in perms:
-        collaborators.permissions.add(perm)
-    collaborators.save()
-    return collaborators
-
-
-def add_collaborator_perms(user):
-    group, created = Group.objects.get_or_create(name='Collaborators')
-    if created:
-        group = create_collaborators_group()
-    user.groups.add(group)
-    user.is_staff = True
-    user.save()
-    return user
-
+from manager.models import Installer, Organizer, EventUser, NonRegisteredAttendee
 
 def is_installer(user, event_slug=None):
     return event_slug and Installer.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
+
+def add_attendance_permission(user):
+    content_type = ContentType.objects.get_for_model(NonRegisteredAttendee)
+    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='add_nonregisteredattendee'))
+    user.user_permissions.add(
+        Permission.objects.get(content_type=content_type, codename='change_nonregisteredattendee'))
+
+    content_type = ContentType.objects.get_for_model(EventUser)
+    attendance_permission = None
+
+    if Permission.objects.filter(codename='can_take_attendance', name='Can Take Attendance',
+                                 content_type=content_type).exists():
+        attendance_permission = Permission.objects.get(codename='can_take_attendance', name='Can Take Attendance',
+                                                       content_type=content_type)
+    else:
+        attendance_permission = Permission.objects.create(codename='can_take_attendance', name='Can Take Attendance',
+                                                          content_type=content_type)
+
+    user.user_permissions.add(attendance_permission)
+
+    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='change_eventuser'))
 
 
 def is_organizer(user, event_slug=None):

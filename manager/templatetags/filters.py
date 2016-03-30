@@ -39,7 +39,6 @@ def is_odd(number):
     """Return True if the number is odd"""
     return number & 1
 
-
 @register.filter(name='can_register')
 def can_register(user, event_slug):
     """Search if the user is registered for the event as an attendee"""
