@@ -1,14 +1,14 @@
 {% load i18n %}
 {% if user.is_authenticated %}
     <div class="row alert text-center">
-        {% if not vote and not proposal.confirmed and event.registration_is_open %}
+        {% if not vote and not proposal.confirmed_talk and event.registration_is_open %}
         <a href="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/vote/0" class="alert alert-danger text-center col-xs-2" style="border-radius: 4px; padding: 3.2%;">
             <i class="fa fa-thumbs-o-down fa-2x"></i>
         </a>
         {% endif %}
 
-        {% if proposal.confirmed %}
-            {% if not vote and not proposal.confirmed and event.registration_is_open %}
+        {% if proposal.confirmed_talk %}
+            {% if not vote and not proposal.confirmed_talk and event.registration_is_open %}
                 <div class="alert alert-success text-center col-xs-offset-1 col-xs-6" style="border-radius: 4px">
             {% else %}
                 <div class="alert alert-success text-center col-xs-6" style="border-radius: 4px">
@@ -16,7 +16,7 @@
                 <strong>{% trans "Confirmed" %}</strong>
             </div>
         {% else %}
-            {% if not vote and not proposal.confirmed and event.registration_is_open %}
+            {% if not vote and not proposal.confirmed_talk and event.registration_is_open %}
                 <div class="alert alert-danger text-center col-xs-offset-1 col-xs-6" style="border-radius: 4px">
             {% else %}
                 <div class="alert alert-danger text-center col-xs-6" style="border-radius: 4px">
@@ -25,12 +25,12 @@
             </div>
         {% endif %}
 
-        {% if not vote and not proposal.confirmed and event.registration_is_open %}
+        {% if not vote and not proposal.confirmed_talk and event.registration_is_open %}
         <a href="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/vote/1" class="alert alert-success text-center col-xs-offset-1 col-xs-2" style="border-radius: 4px; padding: 3.2%;">
             <i class="fa fa-thumbs-o-up fa-2x"></i>
         </a>
         {% else %}
-            {% if vote and not proposal.confirmed %}
+            {% if vote and not proposal.confirmed_talk %}
                 <a href="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/cancel_vote/">
                     <strong><span id='score' class="alert alert-success text-center col-xs-offset-1 col-xs-5" style="border-radius: 4px;">
                         {% trans 'Score: ' %} {% if score %}{{ score.score }}{% else %}0{% endif %}

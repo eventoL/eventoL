@@ -3,7 +3,7 @@ import itertools
 
 import autocomplete_light
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelformset_factory
@@ -18,7 +18,7 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, Hardwa
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer, is_organizer
+from manager.security import is_installer, is_organizer, user_passes_test
 from voting.models import Vote
 
 autocomplete_light.autodiscover()
@@ -43,7 +43,6 @@ def index(request, event_slug):
         msgs = messages.get_messages(request)
         if msgs:
             return render(request, 'base.html', update_event_info(event_slug, {messages: msgs}, event))
-
         return HttpResponseRedirect(event.external_url)
 
     talk_proposals = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True) \
@@ -187,8 +186,9 @@ def become_installer(request, event_slug):
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 '''
 
+
 @login_required
-@user_passes_test(is_installer)
+@user_passes_test(is_installer, 'installer_registration')
 def installation(request, event_slug):
     installation_form = InstallationForm(event_slug, request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
@@ -499,6 +499,7 @@ def confirm_schedule(request, event_slug):
 def reports(request, event_slug):
     return render(request, 'reports/dashboard.html', update_event_info(event_slug))
 
+
 @login_required
 def generic_registration(request, event_slug, registration_model, registration_form, msg_success, msg_error, template):
     event = Event.objects.get(slug__iexact=event_slug)
@@ -553,6 +554,7 @@ def generic_registration(request, event_slug, registration_model, registration_f
                   template,
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
+
 @login_required
 def registration(request, event_slug):
     msg_success = _("You have successfully registered to attend")
@@ -561,6 +563,7 @@ def registration(request, event_slug):
     return generic_registration(request, event_slug, Attendee,
                                 AttendeeRegistrationForm, msg_success, msg_error, template)
 
+
 @login_required
 def installer_registration(request, event_slug):
     msg_success = _("You have successfully registered as an installer")
@@ -568,6 +571,7 @@ def installer_registration(request, event_slug):
     template = 'registration/installer-registration.html'
     return generic_registration(request, event_slug, Installer,
                                 InstallerRegistrationForm, msg_success, msg_error, template)
+
 
 @login_required
 def collaborator_registration(request, event_slug):
@@ -620,7 +624,7 @@ def create_event(request):
 
 
 @login_required
-@user_passes_test(is_organizer)
+@user_passes_test(is_organizer, 'index')
 def edit_event(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     event_form = EventForm(request.POST or None, prefix='event', instance=event)
