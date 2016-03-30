@@ -108,6 +108,7 @@ class Contact(models.Model):
         verbose_name = _('Contact')
         verbose_name_plural = _('Contacts')
 
+
 class NonRegisteredAttendee(models.Model):
     first_name = models.CharField(_('First Name'), max_length=30, blank=True)
     last_name = models.CharField(_('Last Name'), max_length=30, blank=True)
@@ -120,6 +121,7 @@ class NonRegisteredAttendee(models.Model):
     )
     installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing?'))
+
     class Meta:
         verbose_name = _('Non Registered  Attendee')
         verbose_name_plural = _('Non Registered Attendees')
@@ -135,9 +137,9 @@ class EventUser(models.Model):
     assisted = models.BooleanField(_('Assisted'), default=False)
 
     def __unicode__(self):
-        if(self.user):
+        if self.user:
             return u'%s %s' % (self.user.first_name, self.user.last_name)
-        if(self.nonregisteredattendee):
+        if self.nonregisteredattendee:
             return u'%s %s' % (self.nonregisteredattendee.first_name, self.nonregisteredattendee.last_name)
 
     class Meta:
@@ -187,9 +189,9 @@ class Attendee(models.Model):
         verbose_name_plural = _('Attendees')
 
     def __unicode__(self):
-        if(self.eventUser.user):
+        if self.eventUser.user:
             return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-        if(self.eventUser.nonregisteredattendee):
+        if self.eventUser.nonregisteredattendee:
             return u'%s %s' % (self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
 
 
@@ -203,9 +205,9 @@ class InstallationAttendee(models.Model):
         verbose_name_plural = _('Installation Attendees')
 
     def __unicode__(self):
-        if(self.eventUser.user):
+        if self.eventUser.user:
             return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-        if(self.eventUser.nonregisteredattendee):
+        if self.eventUser.nonregisteredattendee:
             return u'%s %s' % (self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
 
 
