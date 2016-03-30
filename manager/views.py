@@ -4,6 +4,7 @@ import itertools
 import autocomplete_light
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import Permission
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelformset_factory
@@ -19,7 +20,7 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, Hardwa
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer, is_organizer, user_passes_test
+from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission
 from voting.models import Vote
 
 autocomplete_light.autodiscover()
@@ -393,7 +394,7 @@ def attendee_search(request, event_slug):
 
 
 @login_required
-@user_passes_test(is_organizer)
+@user_passes_test(is_organizer, 'index')
 def add_organizer(request, event_slug):
     form = RegisteredEventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
@@ -414,7 +415,7 @@ def add_organizer(request, event_slug):
 
 
 @login_required
-@user_passes_test(is_organizer)
+@user_passes_test(is_organizer, 'index')
 def add_registration_people(request, event_slug):
     form = RegisteredEventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
@@ -422,7 +423,7 @@ def add_registration_people(request, event_slug):
             event_user = form.cleaned_data['eventUser']
             if event_user:
                 Collaborator.objects.get_or_create(eventUser=event_user)
-                security.add_attendance_permission(event_user.user)
+                add_attendance_permission(event_user.user)
                 messages.success(request,
                                  _("%s has been successfully added to manage attendance." % event_user.user.username))
             return HttpResponseRedirect(reverse("add_registration_people", args=[event_slug]))
@@ -432,7 +433,7 @@ def add_registration_people(request, event_slug):
     if Permission.objects.filter(codename='can_take_attendance').exists():
         permission = Permission.objects.get(codename='can_take_attendance')
         registration_people = Collaborator.objects.filter(eventUser__user__user_permissions=permission,
-                                                      eventUser__event__slug__iexact=event_slug)
+                                                          eventUser__event__slug__iexact=event_slug)
     else:
         registration_people = []
 

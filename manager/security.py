@@ -1,15 +1,16 @@
-from django.contrib.auth.models import Group, Permission
-from django.db.models import Q
+from django.contrib.auth.models import Permission
 from django.utils.decorators import available_attrs
 from functools import wraps
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.contrib.contenttypes.models import ContentType
 
-from manager.models import Installer, Organizer, EventUser, NonRegisteredAttendee
+from manager.models import Installer, Organizer, EventUser, NonRegisteredAttendee, Collaborator
+
 
 def is_installer(user, event_slug=None):
     return event_slug and Installer.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
+
 
 def add_attendance_permission(user):
     content_type = ContentType.objects.get_for_model(NonRegisteredAttendee)

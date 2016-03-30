@@ -46,7 +46,7 @@
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     {% if event_slug %}
-                        {% if user.is_authenticated and user|is_organizer %}
+                        {% if user.is_authenticated and user|is_organizer:event_slug %}
                             <li>
                                 <a href="/event/{{ event_slug }}/edit">
                                     <i class="fa fa-cogs"></i> {% trans "Manage event" %}
@@ -77,33 +77,33 @@
                                         <i class="fa fa-bar-chart"></i> {% trans "View Reports" %}
                                     </a>
                                 </li>
-                                {% if not user.is_authenticated or not user|is_collaborator %}
+                                {% if not user.is_authenticated or not user|is_collaborator:event_slug %}
                                     <li><a href="/event/{{ event_slug }}/registration/collaborator"><i
                                             class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
                                     </a>
                                     </li>
                                 {% endif %}
-                                {% if not user.is_authenticated or not user|is_installer %}
+                                {% if not user.is_authenticated or not user|is_installer:event_slug %}
                                     <li><a href="/event/{{ event_slug }}/registration/installer"><i
                                             class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
                                     </li>
                                 {% endif %}
                                 {% if user.is_authenticated %}
-                                    {% if user|can_take_attendance %}
+                                    {% if user|can_take_attendance:event_slug %}
                                         <li>
                                             <a href="/event/{{ event_slug }}/registration/attendee/search">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Manage Attendance" %}
                                             </a>
                                         </li>
                                     {% endif %}
-                                    {% if user|is_installer %}
+                                    {% if user|is_installer:event_slug %}
                                         <li>
                                             <a href="/event/{{ event_slug }}/installation">
                                                 <i class="fa fa-laptop"></i> {% trans "Submit an installation" %}
                                             </a>
                                         </li>
                                     {% endif %}
-                                    {% if user|is_organizer %}
+                                    {% if user|is_organizer:event_slug %}
                                         <li>
                                             <a href="/event/{{ event_slug }}/organizers">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Manage Organizers" %}
