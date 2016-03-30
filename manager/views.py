@@ -14,7 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
-    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
+    EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm
 from manager.models import *
 from manager.schedule import Schedule
@@ -371,21 +371,21 @@ def upload_presentation(request, event_slug, pk):
 @login_required
 @permission_required('manager.add_attendee', raise_exception=True)
 def attendee_search(request, event_slug):
-    form = AttendeeSearchForm(event_slug, request.POST or None)
+    form = EventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
-            attendee = form.cleaned_data['attendee']
-            if attendee:
-                if attendee.eventUser.assisted:
+            eventUser = form.cleaned_data['eventUser']
+            if eventUser:
+                if eventUser.assisted:
                     messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
-                    attendee.eventUser.assisted = True
-                    attendee.eventUser.save()
-                    messages.success(request, _('The attendee has been registered successfully. Happy Hacking!'))
+                    eventUser.assisted = True
+                    eventUser.save()
+                    messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
             else:
                 return HttpResponseRedirect('/event/' + event_slug + '/registration/attendee/by-collaborator')
-        messages.error(request, _("The attendee hasn't been registered successfully (check form errors)"))
+        messages.error(request, _("The attendee hasn't been successfully registered (check form errors)"))
 
     return render(request, 'registration/attendee/search.html', update_event_info(event_slug, {'form': form}))
 
@@ -406,7 +406,7 @@ def attendee_registration_by_collaborator(request, event_slug):
                 form.add_error('email',_("Email already registered for this event"))
             try:
                 form.save()
-                eventuser = EventUser(event=event,nonregisteredattendee=attendee)
+                eventuser = EventUser(event=event,nonregisteredattendee=attendee,assisted=True)
                 eventuser.save()
                 if form.cleaned_data["is_installing"]:
                     installer = InstallationAttendee(eventUser=eventuser,installation_additional_info=form.cleaned_data["installation_additional_info"])
@@ -414,7 +414,7 @@ def attendee_registration_by_collaborator(request, event_slug):
                 else:
                     attendee = Attendee(eventUser=eventuser)
                     attendee.save()
-                messages.success(request, _('The attendee successfully registered . Happy Hacking!'))
+                messages.success(request, _('The attendee was successfully registered . Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
             except:
                 pass

@@ -112,7 +112,6 @@ class NonRegisteredAttendee(models.Model):
     first_name = models.CharField(_('First Name'), max_length=30, blank=True)
     last_name = models.CharField(_('Last Name'), max_length=30, blank=True)
     email = models.EmailField(_('E-mail Address'), blank=True)
-    assisted = models.BooleanField(_('Assisted'), default=True)
     is_installing = models.BooleanField(_('Is Installing'),default=False,
         help_text=_(
             'Does it have a pc for installation?'
