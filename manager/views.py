@@ -14,7 +14,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
-    EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
+    EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
+    EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm
 from manager.models import *
 from manager.schedule import Schedule
@@ -367,17 +368,19 @@ def attendee_registration_by_collaborator(request, event_slug):
     if request.POST:
         if form.is_valid():
             email = form.cleaned_data["email"]
-            if EventUser.objects.filter(event=event,user__email=email).count() > 0:
-                messages.error(request,_("The attendee has registered for this event, use correct form"))
+            if EventUser.objects.filter(event=event, user__email=email).count() > 0:
+                messages.error(request, _("The attendee has registered for this event, use correct form"))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
-            if EventUser.objects.filter(event=event,nonregisteredattendee__email=email).count() > 0:
-                form.add_error('email',_("Email already registered for this event"))
+            if EventUser.objects.filter(event=event, nonregisteredattendee__email=email).count() > 0:
+                form.add_error('email', _("Email already registered for this event"))
             try:
                 form.save()
-                eventuser = EventUser(event=event,nonregisteredattendee=attendee,assisted=True)
+                eventuser = EventUser(event=event, nonregisteredattendee=attendee, assisted=True)
                 eventuser.save()
                 if form.cleaned_data["is_installing"]:
-                    installer = InstallationAttendee(eventUser=eventuser,installation_additional_info=form.cleaned_data["installation_additional_info"])
+                    installer = InstallationAttendee(eventUser=eventuser,
+                                                     installation_additional_info=form.cleaned_data[
+                                                         "installation_additional_info"])
                     installer.save()
                 else:
                     attendee = Attendee(eventUser=eventuser)
@@ -500,8 +503,10 @@ def generic_registration(request, event_slug, registration_model, registration_f
                 eventUser = eventUser_form.save()
                 # FIXME: Chanchada
                 if registration_model is Attendee and registration_form.cleaned_data["is_installing"]:
-                        installation = InstallationAttendee(eventUser=eventUser,installation_additional_info=registration_form.cleaned_data["installation_additional_info"])
-                        installation.save()
+                    installation = InstallationAttendee(eventUser=eventUser,
+                                                        installation_additional_info=registration_form.cleaned_data[
+                                                            "installation_additional_info"])
+                    installation.save()
                 else:
                     registration = registration_form.save()
                     registration.eventUser = eventUser
