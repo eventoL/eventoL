@@ -36,8 +36,10 @@
             </span>
         </div>
     {% elif field|is_datetime %}
-        <input class="form-control timepicker empty" id="{{ field.id_for_label }}" name="{{ field.html_name }}"
-               type="text" placeholder="{% trans "Time..." %}">
+        <div class="input-group bootstrap-timepicker timepicker">
+            <input class="form-control empty input-small time" id="{{ field.id_for_label }}" name="{{ field.html_name }}"
+                   type="text" placeholder="{% trans "Time..." %}">
+        </div>
     {% else %}
         {{ field | addcss:"form-control" }}
     {% endif %}

@@ -4,8 +4,8 @@
 {% load filters %}
 {% load cropping %}
 {% block other-head %}
-    <link rel="stylesheet" type="text/css"
-          href="{% static "manager/bower_components/bootstrap-timepicker/css/bootstrap-timepicker.min.css" %}">
+    <link rel="stylesheet/less" type="text/css"
+          href="{% static "manager/bower_components/bootstrap-timepicker/css/timepicker.less" %}">
 {% endblock %}
 {% block page-header %}
     <div class="row">
@@ -169,7 +169,7 @@
     {% endif %}
 {% endblock %}
 {% block other-script %}
-    <script src="{% static "manager/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.min.js" %}"
+    <script src="{% static "manager/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js" %}"
             type="text/javascript"></script>
     <script>
 
@@ -195,9 +195,9 @@
                         .toggleClass('fa-chevron-down fa-chevron-up');
             }
 
-            $('.timepicker').timepicker({
+            $('.time').timepicker({
                 showMeridian: false
-            }).on('show.timepicker', function(e) {
+            }).on('show.time', function(e) {
                 $('.icon-chevron-up').addClass('fa fa-chevron-up').removeClass('icon-chevron-up');
                 $('.icon-chevron-down').addClass('fa fa-chevron-down').removeClass('icon-chevron-down');
             });

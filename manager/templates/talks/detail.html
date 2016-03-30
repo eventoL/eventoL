@@ -5,8 +5,8 @@
 {% load cropping %}
 {% if proposal %}
     {% block other-head %}
-        <link rel="stylesheet" type="text/css"
-              href="{% static "manager/bower_components/bootstrap-timepicker/css/bootstrap-timepicker.min.css" %}">
+    <link rel="stylesheet/less" type="text/css"
+          href="{% static "manager/bower_components/bootstrap-timepicker/css/timepicker.less" %}">
     {% endblock %}
 {% endif %}
 {% block page-header %}
@@ -96,10 +96,10 @@
 {% endblock %}
 
 {% block other-script %}
-    <script src="{% static "manager/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "manager/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js" %}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
-            $('.timepicker').timepicker({
+            $('.time').timepicker({
                 showMeridian: false
             }).on('show.timepicker', function(e) {
                 $('.icon-chevron-up').addClass('fa fa-chevron-up').removeClass('icon-chevron-up');
@@ -126,6 +126,7 @@
             {% if vote and not proposal.confirmed %}
                 var original_text = $('#score').text();
                 $('#score').hover(
+
                         function() {
                             $(this).text('{% trans 'Cancel my vote' %}');
                         },
