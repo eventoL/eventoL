@@ -35,6 +35,7 @@ event_patterns = patterns(
     url(r'^contact$', views.contact, name='contact'),
     url(r'^confirm/(?P<token>\w+)$', views.confirm_registration, name='confirm_registration'),
     url(r'^reports$', views.reports, name='reports'),
+    url(r'^organizers$', views.add_organizer, name='add_organizer'),
 )
 
 urlpatterns = patterns(

@@ -54,9 +54,9 @@
                             </li>
                         {% endif %}
                         {% if not user.is_authenticated or user|can_register:event_slug %}
-                        <li><a href="/event/{{ event_slug }}/registration">{% trans "Registration" %}</a>
-                        </li>
-                        {%endif%}
+                            <li><a href="/event/{{ event_slug }}/registration">{% trans "Registration" %}</a>
+                            </li>
+                        {% endif %}
                         <li><a href="/event/{{ event_slug }}/schedule">{% trans "Activities Schedule" %}</a>
                         </li>
                         {% if event.talk_proposal_is_open %}
@@ -67,43 +67,50 @@
                             <a href="#" data-target="#" class="dropdown-toggle"
                                data-toggle="dropdown">{% trans "Collaborators" %} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                              <li>
-                                  <a href="/event/{{ event_slug }}/talks">
-                                      <i class="fa fa-list"></i> {% trans "Activities List" %}
-                                  </a>
-                              </li>
-                              <li>
-                                  <a href="/event/{{ event_slug }}/reports">
-                                      <i class="fa fa-bar-chart"></i> {% trans "View Reports" %}
-                                  </a>
-                              </li>
-                              {% if not user.is_authenticated or not user|is_collaborator %}
-                              <li><a href="/event/{{ event_slug }}/registration/collaborator"><i
-                                      class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
-                              </a>
-                              </li>
-                              {% endif %}
-                              {% if not user.is_authenticated or not user|is_installer %}
-                              <li><a href="/event/{{ event_slug }}/registration/installer"><i
-                                      class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
-                              </li>
-                              {% endif %}
-                              {% if user.is_authenticated %}
-                                {% if user|can_take_attendance %}
-                                  <li>
-                                      <a href="/event/{{ event_slug }}/registration/attendee/search">
-                                          <i class="fa fa-check-square-o"></i> {% trans "Administrar asistencia" %}
-                                      </a>
-                                  </li>
-                                {% endif %}
-                                {% if user|is_installer %}
-                                    <li>
-                                        <a href="/event/{{ event_slug }}/installation">
-                                            <i class="fa fa-laptop"></i> {% trans "Submit an installation" %}
-                                        </a>
+                                <li>
+                                    <a href="/event/{{ event_slug }}/talks">
+                                        <i class="fa fa-list"></i> {% trans "Activities List" %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/event/{{ event_slug }}/reports">
+                                        <i class="fa fa-bar-chart"></i> {% trans "View Reports" %}
+                                    </a>
+                                </li>
+                                {% if not user.is_authenticated or not user|is_collaborator %}
+                                    <li><a href="/event/{{ event_slug }}/registration/collaborator"><i
+                                            class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
+                                    </a>
                                     </li>
                                 {% endif %}
-                              {% endif %}
+                                {% if not user.is_authenticated or not user|is_installer %}
+                                    <li><a href="/event/{{ event_slug }}/registration/installer"><i
+                                            class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
+                                    </li>
+                                {% endif %}
+                                {% if user.is_authenticated %}
+                                    {% if user|can_take_attendance %}
+                                        <li>
+                                            <a href="/event/{{ event_slug }}/registration/attendee/search">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Manage Attendance" %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if user|is_installer %}
+                                        <li>
+                                            <a href="/event/{{ event_slug }}/installation">
+                                                <i class="fa fa-laptop"></i> {% trans "Submit an installation" %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if user|is_organizer %}
+                                        <li>
+                                            <a href="/event/{{ event_slug }}/organizers">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Manage Organizers" %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                {% endif %}
                             </ul>
                         </li>
                         <li class="dropdown">

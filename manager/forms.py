@@ -20,7 +20,8 @@ from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKe
 from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 
-from manager.models import Attendee, InstallationAttendee, NonRegisteredAttendee, Installation, Hardware, Collaborator, \
+from manager.models import Attendee, InstallationAttendee, NonRegisteredAttendee, Installation, Hardware, \
+    Collaborator, \
     Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventUser, Activity, Event
 
 
@@ -53,7 +54,28 @@ class EventUserAutocomplete(autocomplete.AutocompleteModelBase):
                     | Q(nonregisteredattendee__first_name__icontains=q)
                     | Q(nonregisteredattendee__last_name__icontains=q)
                     | Q(nonregisteredattendee__email__icontains=q)
-                    )
+                )
+
+        return self.order_choices(choices)[0:self.limit_choices]
+
+
+class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
+    autocomplete_js_attributes = {'placeholder': _('Type to search'),
+                                  'label': _('User')}
+
+    def choices_for_request(self):
+        q = self.request.GET.get('q', '')
+        event_slug = self.request.GET.get('event_slug', None)
+
+        choices = []
+        if event_slug:
+            choices = self.choices.all()
+            choices = choices.filter(event__slug__iexact=event_slug)
+            if q:
+                choices = choices.filter(
+                    Q(user__first_name__icontains=q) | Q(user__last_name__icontains=q) | Q(
+                        user__username__icontains=q) | Q(user__email__icontains=q)
+                )
 
         return self.order_choices(choices)[0:self.limit_choices]
 
@@ -61,6 +83,7 @@ class EventUserAutocomplete(autocomplete.AutocompleteModelBase):
 autocomplete.register(Attendee, AttendeeAutocomplete)
 autocomplete.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
 autocomplete.register(EventUser, EventUserAutocomplete)
+autocomplete.register(EventUser, RegisteredEventUserAutocomplete)
 
 
 def sorted_choices(choices_list):
@@ -71,10 +94,18 @@ def sorted_choices(choices_list):
 class EventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(EventUserSearchForm, self).__init__(*args, **kwargs)
-        #Los EventUser para el evento que todavia no registraron asistencia
+        # Los EventUser para el evento que todavia no registraron asistencia
         self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug=event).filter(assisted=False)
 
     eventUser = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
+
+
+class RegisteredEventUserSearchForm(forms.Form):
+    def __init__(self, event, *args, **kwargs):
+        super(RegisteredEventUserSearchForm, self).__init__(*args, **kwargs)
+        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug=event)
+
+    eventUser = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
 
 
 class RegistrationForm(DeferredForm):
@@ -104,9 +135,9 @@ class RegistrationForm(DeferredForm):
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
     class Meta:
         model = NonRegisteredAttendee
-        fields=['first_name','last_name','email','installation_additional_info','is_installing']
-        widgets = {'event': forms.HiddenInput(),'assisted':forms.HiddenInput(),
-        'installation_additional_info': forms.TextInput()}
+        fields = ['first_name', 'last_name', 'email', 'installation_additional_info', 'is_installing']
+        widgets = {'event': forms.HiddenInput(), 'assisted': forms.HiddenInput(),
+                   'installation_additional_info': forms.TextInput()}
 
 
 class InstallationForm(autocomplete.ModelForm):
@@ -142,8 +173,9 @@ class EventUserRegistrationForm(ModelForm):
 
 class AttendeeRegistrationForm(ModelForm):
     is_installing = forms.BooleanField(label=_('Bringing a device for installation?'), required=False)
-    installation_additional_info = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}),\
-        help_text=_('i.e. Wath kind of PC are you bringing? Leave blank if doesn\'t apply'), required=False)
+    installation_additional_info = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}), help_text=_(
+        'i.e. Wath kind of PC are you bringing? Leave blank if doesn\'t apply'), required=False)
+
     class Meta:
         model = Attendee
         widgets = {'eventUser': forms.HiddenInput()}

@@ -270,7 +270,6 @@
 
             if (event_place !== "") {
                 event_place = JSON.parse(event_place);
-                console.log(event_place);
                 $("#geocomplete").geocomplete("find", event_place.formatted_address);
             }
 

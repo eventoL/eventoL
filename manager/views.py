@@ -16,7 +16,7 @@ from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
-    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm
+    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm
 from manager.models import *
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer
@@ -357,6 +357,27 @@ def attendee_search(request, event_slug):
         messages.error(request, _("The attendee hasn't been successfully registered (check form errors)"))
 
     return render(request, 'registration/attendee/search.html', update_event_info(event_slug, {'form': form}))
+
+
+@login_required
+@user_passes_test(is_organizer)
+def add_organizer(request, event_slug):
+    form = RegisteredEventUserSearchForm(event_slug, request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            event_user = form.cleaned_data['eventUser']
+            if event_user:
+                organizer = Organizer(eventUser=event_user)
+                organizer.save()
+                messages.success(request,
+                                 _("%s has been successfully added as an Organizer." % event_user.user.username))
+            return HttpResponseRedirect(reverse("add_organizer", args=[event_slug]))
+
+        messages.error(request, _("Something went wrong (please check form errors)"))
+
+    organizers = Organizer.objects.filter(eventUser__event__slug__iexact=event_slug)
+    return render(request, 'event/organizers.html',
+                  update_event_info(event_slug, {'form': form, 'organizers': organizers}))
 
 
 @login_required
