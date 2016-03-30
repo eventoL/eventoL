@@ -33,7 +33,7 @@ class HardwareManufacturerAutocomplete(autocomplete.AutocompleteModelBase):
     search_fields = ('name',)
 
 
-class AttendeeByEventAutocomplete(autocomplete.AutocompleteModelBase):
+class EventUserAutocomplete(autocomplete.AutocompleteModelBase):
     autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
 
     def choices_for_request(self):
@@ -41,21 +41,26 @@ class AttendeeByEventAutocomplete(autocomplete.AutocompleteModelBase):
         event_slug = self.request.GET.get('event_slug', None)
 
         choices = []
-
         if event_slug:
             choices = self.choices.all()
-            choices = choices.filter(eventUser__event__slug__iexact=event_slug)
+            choices = choices.filter(event__slug__iexact=event_slug).filter(assisted=False)
             if q:
                 choices = choices.filter(
-                    Q(eventUser__user__first_name__icontains=q) | Q(eventUser__user__last_name__icontains=q) | Q(
-                        eventUser__user__username__icontains=q) | Q(eventUser__user__email__icontains=q))
+                    Q(user__first_name__icontains=q)
+                    | Q(user__last_name__icontains=q)
+                    | Q(user__username__icontains=q)
+                    | Q(user__email__icontains=q)
+                    | Q(nonregisteredattendee__first_name__icontains=q)
+                    | Q(nonregisteredattendee__last_name__icontains=q)
+                    | Q(nonregisteredattendee__email__icontains=q)
+                    )
 
         return self.order_choices(choices)[0:self.limit_choices]
 
 
 autocomplete.register(Attendee, AttendeeAutocomplete)
 autocomplete.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
-autocomplete.register(Attendee, AttendeeByEventAutocomplete)
+autocomplete.register(EventUser, EventUserAutocomplete)
 
 
 def sorted_choices(choices_list):
@@ -63,12 +68,13 @@ def sorted_choices(choices_list):
     return sorted(set(choices_list))
 
 
-class AttendeeSearchForm(forms.Form):
+class EventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
-        super(AttendeeSearchForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = Attendee.objects.filter(eventUser__event__slug=event)
+        super(EventUserSearchForm, self).__init__(*args, **kwargs)
+        #Los EventUser para el evento que todavia no registraron asistencia
+        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug=event).filter(assisted=False)
 
-    attendee = autocomplete.ModelChoiceField('AttendeeByEventAutocomplete', required=False)
+    eventUser = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
 
 
 class RegistrationForm(DeferredForm):
