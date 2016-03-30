@@ -33,9 +33,9 @@ event_patterns = patterns(
     url(r'^talk/registration/(?P<pk>\d+)$', views.talk_registration, name='talk_registration'),
     url(r'^schedule$', views.schedule, name='schedule'),
     url(r'^contact$', views.contact, name='contact'),
-    url(r'^confirm/(?P<token>\w+)$', views.confirm_registration, name='confirm_registration'),
     url(r'^reports$', views.reports, name='reports'),
     url(r'^organizers$', views.add_organizer, name='add_organizer'),
+    url(r'^registration_people', views.add_registration_people, name='add_registration_people'),
 )
 
 urlpatterns = patterns(

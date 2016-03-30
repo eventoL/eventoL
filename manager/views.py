@@ -4,6 +4,7 @@ import itertools
 import autocomplete_light
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.contrib.auth.models import Permission
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelformset_factory
@@ -11,8 +12,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
+from manager import security
 
-from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
@@ -191,13 +192,6 @@ def installation(request, event_slug):
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
-def confirm_registration(request, event_slug, token):
-    messages.success(request, _(
-        'Thanks for your confirmation! You don\'t need to bring any paper to the event. You\'ll be asked for the '
-        'email you registered with'))
-    return confirm_by_get(request, token, success_url='/event/' + event_slug)
-
-
 @login_required
 def talk_proposal(request, event_slug, pk=None):
     event = Event.objects.get(slug__iexact=event_slug)
@@ -338,7 +332,7 @@ def upload_presentation(request, event_slug, pk):
 
 
 @login_required
-@permission_required('manager.add_attendee', raise_exception=True)
+@permission_required('manager.can_take_attendance', raise_exception=True)
 def attendee_search(request, event_slug):
     form = EventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
@@ -381,7 +375,34 @@ def add_organizer(request, event_slug):
 
 
 @login_required
-@permission_required('manager.add_attendee', raise_exception=True)
+@user_passes_test(is_organizer)
+def add_registration_people(request, event_slug):
+    form = RegisteredEventUserSearchForm(event_slug, request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            event_user = form.cleaned_data['eventUser']
+            if event_user:
+                Collaborator.objects.get_or_create(eventUser=event_user)
+                security.add_attendance_permission(event_user.user)
+                messages.success(request,
+                                 _("%s has been successfully added to manage attendance." % event_user.user.username))
+            return HttpResponseRedirect(reverse("add_registration_people", args=[event_slug]))
+
+        messages.error(request, _("Something went wrong (please check form errors)"))
+
+    if Permission.objects.filter(codename='can_take_attendance').exists():
+        permission = Permission.objects.get(codename='can_take_attendance')
+        registration_people = Collaborator.objects.filter(eventUser__user__user_permissions=permission,
+                                                      eventUser__event__slug__iexact=event_slug)
+    else:
+        registration_people = []
+
+    return render(request, 'event/registration_people.html',
+                  update_event_info(event_slug, {'form': form, 'registration_people': registration_people}))
+
+
+@login_required
+@permission_required('manager.can_take_attendance', raise_exception=True)
 def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     attendee = NonRegisteredAttendee()

@@ -39,18 +39,22 @@ def is_odd(number):
     """Return True if the number is odd"""
     return number & 1
 
+
 @register.filter(name='can_register')
-def can_register(user,event_slug):
+def can_register(user, event_slug):
     """Search if the user is registered for the event as an attendee"""
-    eventuser = EventUser.objects.filter(user=user,event__slug=event_slug)
+    eventuser = EventUser.objects.filter(user=user, event__slug=event_slug)
     if eventuser:
-        return not Attendee.objects.filter(eventUser=eventuser).exists() and not InstallationAttendee.objects.filter(eventUser=eventuser).exist()
+        return not Attendee.objects.filter(eventUser=eventuser).exists() and not InstallationAttendee.objects.filter(
+            eventUser=eventuser).exist()
     else:
         return True
+
 
 @register.filter(name='is_installer')
 def is_installer(user):
     return Installer.objects.filter(eventUser__user=user).exists()
+
 
 @register.filter(name='is_collaborator')
 def is_collaborator(user):
@@ -61,9 +65,10 @@ def is_collaborator(user):
 def is_organizer(user):
     return Organizer.objects.filter(eventUser__user=user).exists()
 
+
 @register.filter(name='can_take_attendance')
 def can_take_attendance(user):
-    return (is_organizer(user) or is_collaborator(user)) and user.has_perm('manager.add_attendee')
+    return (is_organizer(user) or is_collaborator(user)) and user.has_perm('manager.can_take_attendance')
 
 
 @register.filter(name='is_event_staff')
@@ -71,7 +76,8 @@ def is_event_staff(event_slug, user):
     if user.is_superuser:
         return True
     try:
-        exists_collaborator = Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
+        exists_collaborator = Collaborator.objects.filter(eventUser__user=user,
+                                                          eventUser__event__slug=event_slug).exists()
         return exists_collaborator and user.is_staff
     except Exception:
         return False
