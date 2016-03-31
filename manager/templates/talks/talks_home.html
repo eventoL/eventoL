@@ -4,8 +4,8 @@
 {% load filters %}
 {% load cropping %}
 {% block other-head %}
-    <link rel="stylesheet/less" type="text/css"
-          href="{% static "manager/bower_components/bootstrap-timepicker/css/timepicker.less" %}">
+    <link rel="stylesheet"
+          href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
 {% endblock %}
 {% block page-header %}
     <div class="row">
@@ -64,7 +64,7 @@
                                         </p>
 
                                         <p><strong>{% trans "Type" %}:</strong> {{ talk.type }}</p>
-                                        
+
                                         <p><strong>{% trans "Room" %}:</strong> {{ talk.activity.room }}</p>
 
                                         <p><strong>{% trans "Start" %}:</strong> {{ talk.activity.start_date }}</p>
@@ -102,7 +102,8 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             {% if proposal.image %}
-                                                <img src="{% cropped_thumbnail proposal.image "cropping" %}" width="100%">
+                                                <img src="{% cropped_thumbnail proposal.image "cropping" %}"
+                                                     width="100%">
                                             {% else %}
                                                 <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                             {% endif %}
@@ -110,7 +111,9 @@
                                         </div>
                                         <div class="col-sm-8">
                                             <div id="proposal-info-{{ forloop.counter }}">
-                                                <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.activity.abstract }}</p>
+                                                <p>
+                                                    <strong>{% trans "Abstract" %}:</strong> {{ proposal.activity.abstract }}
+                                                </p>
 
                                                 <p>
                                                     <strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}
@@ -154,7 +157,8 @@
         </div>
         {% if not event.schedule_confirm and user|is_event_staff:event_slug %}
             <div class="row">
-                <a type="button" class="btn btn-raised btn-success btn-xs" href="/event/{{ event_slug }}/talk/confirm_schedule/">
+                <a type="button" class="btn btn-raised btn-success btn-xs"
+                   href="/event/{{ event_slug }}/talk/confirm_schedule/">
                     <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
                 </a>
             </div>
@@ -169,8 +173,9 @@
     {% endif %}
 {% endblock %}
 {% block other-script %}
-    <script src="{% static "manager/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js" %}"
-            type="text/javascript"></script>
+    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
     <script>
 
         function becomeTalk(source, target) {
@@ -195,11 +200,15 @@
                         .toggleClass('fa-chevron-down fa-chevron-up');
             }
 
-            $('.time').timepicker({
-                showMeridian: false
-            }).on('show.time', function(e) {
-                $('.icon-chevron-up').addClass('fa fa-chevron-up').removeClass('icon-chevron-up');
-                $('.icon-chevron-down').addClass('fa fa-chevron-down').removeClass('icon-chevron-down');
+            $('.timepicker').datetimepicker({
+                format  : 'LT',
+                icons   : {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up  : "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                },
+                stepping: 15
             });
 
             $('#accordion')
