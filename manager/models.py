@@ -254,22 +254,10 @@ class Software(models.Model):
         ('OT', _('Other'))
     )
     name = models.CharField(_('Name'), max_length=200)
-    version = models.CharField(_('Version'), max_length=200)
     type = models.CharField(_('Type'), choices=software_choices, max_length=200)
 
     def __unicode__(self):
-        return u"%s - %s v.%s" % (self.type, self.name, self.version)
-
-
-class HardwareManufacturer(models.Model):
-    name = models.CharField(_('Name'), max_length=200, blank=True, null=True)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _('Hardware Manufacturer')
-        verbose_name_plural = _('Hardware Manufacturers')
+        return u"%s - %s" % (self.type, self.name)
 
 
 class Hardware(models.Model):
@@ -282,9 +270,8 @@ class Hardware(models.Model):
         ('OTH', _('Other'))
     )
     type = models.CharField(_('Type'), choices=hardware_choices, max_length=200)
-    manufacturer = models.ForeignKey(HardwareManufacturer, verbose_name=_('Manufacturer'), blank=True, null=True)
+    manufacturer = models.CharField(_('Manufacturer'), max_length=200, blank=True, null=True)
     model = models.CharField(_('Model'), max_length=200, blank=True, null=True)
-    serial = models.CharField(_('Serial'), max_length=200, blank=True, null=True)
 
     def __unicode__(self):
         return u"%s, %s, %s" % (self.type, self.manufacturer, self.model)
@@ -429,9 +416,9 @@ class Comment(models.Model):
 class Installation(models.Model):
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'), blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'), blank=True, null=True)
-    attendee = models.ForeignKey(InstallationAttendee, verbose_name=_('Attendee'),
+    attendee = models.ForeignKey(EventUser, verbose_name=_('Attendee'),
                                  help_text=_('The owner of the installed hardware'))
-    installer = models.ForeignKey(Installer, verbose_name=_('Installer'), related_name='installed_by', blank=True,
+    installer = models.ForeignKey(EventUser, verbose_name=_('Installer'), related_name='installed_by', blank=True,
                                   null=True)
     notes = models.TextField(_('Notes'), blank=True, null=True,
                              help_text=_('Any information or trouble you found and consider relevant to document'))
@@ -442,7 +429,7 @@ class Installation(models.Model):
     @classmethod
     def filter_by(cls, queryset, field, value):
         if field == 'event':
-            return queryset.filter(attendee__eventUser__event__pk=value)
+            return queryset.filter(attendee__event__pk=value)
         return queryset
 
     class Meta:

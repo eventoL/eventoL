@@ -41,7 +41,6 @@ router.register(r'images', ViewSetBuilder(models.Image).build())
 
 # Device Model
 router.register(r'hardwares', ViewSetBuilder(models.Hardware).build())
-router.register(r'hardwaremanufacturers', ViewSetBuilder(models.HardwareManufacturer).build())
 router.register(r'softwares', ViewSetBuilder(models.Software).build())
 
 # Route External

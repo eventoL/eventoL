@@ -1,486 +1,5 @@
 [
   {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Aberdeen"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "ABS Computer Technologies"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Acer"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Alienware"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "ALUSA"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Apple"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Area51 Computers"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Asus"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "pk": 1,
-    "fields": {
-      "name": "AtomixPC"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Averatec"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Clevo"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Compaq"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Commodore Gaming"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "CyberPower PC"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Dell"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "EBS"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Egenera"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "eMachines"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Fabric7"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Falcon Northwest"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Fujitsu"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Fujitsu-Siemens"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "GamePC"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Gateway"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Groupe Bull"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Hewlett-Packard"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Hitachi"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Huawei"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Hypersonic"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "IBM"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "IBuyPower"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Iron Systems"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Lenovo"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "LG"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "MainGear"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "MPC"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Microtel Computer Systems"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Nade Computers"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "NEC"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Olidata"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Olivetti"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Packard Bell"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Panasonic"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Polywell Computers"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Radioactive PC"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Rugged Notebooks"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Sager"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Samsung"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Servers Direct"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "SGI"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Sharp"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Shuttle"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Sony"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "System 76"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Spectec"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Sun Microsystems"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "SuperMicro"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Toshiba"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Tyan"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Unisys"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Velocity Micro"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Vigor Gaming"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "VoodooPC"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Vpr Matrix"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "WidowPC"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "WinBook"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Newsan"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Admiral"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Talent"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Audinac"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Ken Brown"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Banghó"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Positivo-BGH"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "CRD"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "CX"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "EXO"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Noblex"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Philco"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Eurocase"
-    }
-  },
-  {
-    "model": "manager.HardwareManufacturer",
-    "fields": {
-      "name": "Otro"
-    }
-  },
-  {
     "model": "manager.TalkType",
     "fields": {
       "name": "Charla"
@@ -508,47 +27,13 @@
     "model": "manager.Software",
     "fields": {
       "name": "Otro",
-      "version": "Otro",
-      "type": "Otro"
+      "type": "OT"
     }
   },
   {
     "model": "manager.Software",
     "fields": {
       "name": "Ubuntu",
-      "version": "12.04",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Ubuntu",
-      "version": "12.10",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Ubuntu",
-      "version": "13.04",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Ubuntu",
-      "version": "13.10",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Ubuntu",
-      "version": "14.04",
       "type": "OS"
     }
   },
@@ -556,39 +41,6 @@
     "model": "manager.Software",
     "fields": {
       "name": "Debian",
-      "version": "6 - Squeeze - 32bits",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Debian",
-      "version": "6 - Squeeze - 64bits",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Debian",
-      "version": "7 - Wheezy/Stable",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Debian",
-      "version": "Jessie/Testing",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Debian",
-      "version": "Sid/Unstable",
       "type": "OS"
     }
   },
@@ -596,15 +48,6 @@
     "model": "manager.Software",
     "fields": {
       "name": "Fedora",
-      "version": "20 - Heisenbug",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Fedora",
-      "version": "19 - Schrodinger's Cat",
       "type": "OS"
     }
   },
@@ -612,23 +55,6 @@
     "model": "manager.Software",
     "fields": {
       "name": "Linux Mint",
-      "version": "16 - Petra",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Linux Mint",
-      "version": "15 - Olivia",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Linux Mint",
-      "version": "LMDE (Rolling Release)",
       "type": "OS"
     }
   },
@@ -636,15 +62,6 @@
     "model": "manager.Software",
     "fields": {
       "name": "Huayra",
-      "version": "1.0",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Huayra",
-      "version": "1.1",
       "type": "OS"
     }
   },
@@ -652,15 +69,6 @@
     "model": "manager.Software",
     "fields": {
       "name": "Trisquel",
-      "version": "6.0",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Trisquel",
-      "version": "5.5",
       "type": "OS"
     }
   },
@@ -668,15 +76,6 @@
     "model": "manager.Software",
     "fields": {
       "name": "CentOS",
-      "version": "6.5",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "CentOS",
-      "version": "5.10",
       "type": "OS"
     }
   },
@@ -684,15 +83,6 @@
     "model": "manager.Software",
     "fields": {
       "name": "Puppy Linux",
-      "version": "5.6.1",
-      "type": "OS"
-    }
-  },
-  {
-    "model": "manager.Software",
-    "fields": {
-      "name": "Puppy Linux",
-      "version": "5.5",
       "type": "OS"
     }
   },
@@ -746,48 +136,11 @@
     }
   },
   {
-    "model": "manager.Event",
-    "fields": {
-      "name": "FLISol-CABA",
-      "date": "2016-04-25",
-      "limit_proposal_date": "2016-04-22",
-      "slug": "caba",
-      "email": "flisol@gmail.com",
-      "place": "{}"
-    },
-    "pk": 1
-  },
-  {
+    "model": "manager.Room",
     "fields": {
       "event": 1,
       "name": "Sala Blanca"
     },
-    "model": "manager.Room",
-    "pk": 1
-  },
-  {
-    "fields": {
-      "event": 1,
-      "title": "Linux para tu familia entera",
-      "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.",
-      "abstract": "Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies.",
-      "room":1,
-      "start_date": "2016-04-25T08:30:00",
-      "end_date": "2016-04-25T09:00:00"
-    },
-    "model": "manager.Activity",
-    "pk":1
-  },
-  {
-    "fields": {
-      "activity": 1,
-      "level": 2,
-      "type":1,
-      "speakers_names": "Sergio Orbe, Agustín Ignacio Guido Croce Villanustre",
-      "speakers_email": "reyiyo@gmail.com, agustin.crocevillanustre@gmail.com",
-      "labels": "Linux, Software Libre, It's Free"
-    },
-    "model": "manager.talkproposal",
     "pk": 1
   }
 ]

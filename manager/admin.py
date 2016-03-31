@@ -5,7 +5,6 @@ from import_export.admin import ExportMixin
 
 
 class EventoLAdmin(admin.ModelAdmin):
-
     def filter_event(self, event, queryset):
         return queryset.filter(event=event)
 
@@ -30,7 +29,6 @@ class TalkProposalAdmin(ExportMixin, EventoLAdmin):
 
 
 class EventAdmin(EventoLAdmin):
-
     def filter_event(self, event, queryset):
         return queryset.filter(name=event.name)
 
@@ -61,10 +59,8 @@ class InstallerAdmin(ExportMixin, EventoLAdmin):
 class InstallationResource(resources.ModelResource):
     class Meta:
         model = Installation
-        fields = (
-            'hardware__type', 'hardware__manufacturer__name', 'hardware__model', 'hardware__serial', 'software__type',
-            'software__name', 'software__version', 'attendee__eventUser__user__email', 'installer__eventUser__user__username',
-            'notes')
+        fields = ('hardware__type', 'hardware__manufacturer', 'hardware__model', 'software__type', 'software__name',
+                  'attendee__user__email', 'installer__user__username', 'notes')
         export_order = fields
 
 
@@ -72,7 +68,7 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallationResource
 
     def filter_event(self, event, queryset):
-        return queryset.filter(installer__eventUser__event=event)
+        return queryset.filter(installer__event=event)
 
 
 class AttendeeResource(resources.ModelResource):
@@ -91,11 +87,9 @@ class AttendeeAdmin(ExportMixin, EventoLAdmin):
 class CollaboratorResource(resources.ModelResource):
     class Meta:
         model = Collaborator
-        fields = (
-            'eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-            'eventUser__user__email', 'eventUser__user__date_joined', 'phone',
-            'address',
-            'eventUser__assisted', 'assignation', 'time_availability', 'additional_info')
+        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
+                  'eventUser__user__email', 'eventUser__user__date_joined', 'phone', 'address', 'eventUser__assisted',
+                  'assignation', 'time_availability', 'additional_info')
 
         export_order = fields
 
@@ -111,7 +105,6 @@ admin.site.register(TalkProposal, TalkProposalAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Organizer)
 admin.site.register(Collaborator, CollaboratorAdmin)
-admin.site.register(HardwareManufacturer)
 admin.site.register(Hardware)
 admin.site.register(Software)
 admin.site.register(Installer, InstallerAdmin)

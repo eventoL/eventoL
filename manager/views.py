@@ -13,7 +13,6 @@ from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
-from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
@@ -156,39 +155,6 @@ def room_available(request, talk_form, event_slug):
         return False
     return True
 
-'''
-@login_required
-def become_installer(request, event_slug):
-    forms = []
-    errors = []
-    installer = None
-
-    if request.POST:
-        eventUser = EventUser.objects.get(user=request.user)
-        installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
-                                                                   instance=Installer(eventUser=eventUser))
-        forms = [installer_form]
-        if installer_form.is_valid():
-            try:
-                installer = installer_form.save()
-                installer.save()
-                messages.success(request, _("You've become an installer!"))
-                return HttpResponseRedirect('/event/' + event_slug)
-            except Exception as e:
-                if installer is not None:
-                    Installer.delete(installer)
-        messages.error(request, _("You haven't become an installer (check form errors)"))
-        errors = get_forms_errors(forms)
-
-    else:
-        installer_form = InstallerRegistrationFromCollaboratorForm(instance=Installer())
-        forms = [installer_form]
-
-    return render(request,
-                  'registration/become_installer.html',
-                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
-'''
-
 
 @login_required
 @user_passes_test(is_installer, 'installer_registration')
@@ -198,38 +164,27 @@ def installation(request, event_slug):
     forms = [installation_form, hardware_form]
     errors = []
     if request.POST:
-        if hardware_form.is_valid():
-            hardware = hardware_form.save()
-            install = None
+        if hardware_form.is_valid() and installation_form.is_valid():
             try:
-                if installation_form.is_valid():
-                    install = installation_form.save()
-                    install.hardware = hardware
-                    install.installer = Installer.objects.get(eventUser__user=request.user)
-                    install.save()
-                    messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
-                    return HttpResponseRedirect('/event/' + event_slug)
-                else:
-                    if hardware is not None:
-                        Hardware.delete(hardware)
-            except Exception:
+                hardware = hardware_form.save()
+                install = None
+                install = installation_form.save()
+                install.hardware = hardware
+                install.installer = EventUser.objects.get(user=request.user)
+                install.save()
+                messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
+                return HttpResponseRedirect('/event/' + event_slug)
+            except Exception as e:
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if install is not None:
                     Installation.delete(install)
-        messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
+        messages.error(request, _("The installation couldn't be registered (check form errors)"))
         errors = get_forms_errors(forms)
 
     return render(request,
                   'installation/installation-form.html',
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
-
-
-def confirm_registration(request, event_slug, token):
-    messages.success(request, _(
-        'Thanks for your confirmation! You don\'t need to bring any paper to the event. You\'ll be asked for the '
-        'email you registered with'))
-    return confirm_by_get(request, token, success_url='/event/' + event_slug)
 
 
 @login_required
