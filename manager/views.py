@@ -16,7 +16,7 @@ from django.utils.translation import ugettext_lazy as _
 from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
-    EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, \
+    EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm
 from manager.models import *
 from manager.schedule import Schedule
@@ -599,7 +599,6 @@ def generic_registration(request, event_slug, registration_model, registration_f
             except Exception:
                 pass
         messages.error(request, msg_error)
-        errors = get_forms_errors(forms)
     else:
         eventUser_form = EventUserRegistrationForm(instance=eventUser)
         registration_form = registration_form(instance=registration)
@@ -708,3 +707,47 @@ def edit_event(request, event_slug):
                   update_event_info(event_slug,
                                     {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
                                      'contacts_formset': contacts_formset}), context_instance=RequestContext(request))
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def rooms(request, event_slug):
+    rooms_list = Room.objects.filter(event__slug__iexact=event_slug)
+    return render(request, 'room/rooms.html', update_event_info(event_slug, {'rooms': rooms_list}))
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def remove_room(request, event_slug, pk):
+    room = Room.objects.get(pk=pk)
+    activities = Activity.objects.filter(room=room)
+    if activities.count() > 0:
+        messages.error(request, "The room hasn't been removed successfully because the room have confirmed activities.")
+    else:
+        room.delete()
+        messages.success(request, _("The room has been removed successfully!"))
+    return HttpResponseRedirect(reverse('rooms', args=[event_slug]))
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def add_room(request, event_slug, pk=None):
+    room = None
+    if pk:
+        room = Room.objects.get(pk=pk)
+        room_form = RoomForm(request.POST or None, instance=room)
+    else:
+        room_form = RoomForm(request.POST or None)
+    if request.POST:
+        if room_form.is_valid():
+            try:
+                room = room_form.save()
+                room.event = Event.objects.get(slug__iexact=event_slug)
+                room.save()
+                messages.success(request, _("The room has been added successfully!"))
+                return HttpResponseRedirect(reverse('rooms', args=[event_slug]))
+            except Exception:
+                if room is not None:
+                    Room.delete(room)
+        messages.error(request, "The room hasn't been added successfully. Please check the form for errors.")
+    return render(request, 'room/add_room.html', update_event_info(event_slug, {'form': room_form, 'errors': get_forms_errors([room_form])}))

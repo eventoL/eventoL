@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load filters %}
+{% load cropping %}
+{% block page-header %}
+    <div class="row">
+        {% trans "Rooms" %}
+        <div id="buttons" class="pull-right">
+            <a href="/event/{{ event_slug }}/rooms/add/" type="button" class="btn btn-raised btn-success">
+                {% trans 'Add Room' %}
+            </a>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    {% if rooms %}
+        <div class="row">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr class="alert alert-success">
+                        <th>{% trans "Name" %}</th>
+                        <th>{% trans "Action" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                        <tr>
+                            <td>{{ room.name }}</td>
+                            <td>
+                                <div class="pull-right">
+                                    <a href="/event/{{ event_slug }}/rooms/remove/{{ room.pk }}/" class="btn btn-sm btn-raised btn-danger">
+                                        <i class="fa fa-trash-o"></i>  {% trans 'Remove' %}
+                                    </a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/event/{{ event_slug }}/rooms/edit/{{ room.pk }}/" class="btn btn-sm btn-raised btn-success">
+                                        <i class="fa fa-pencil-square-o"></i>  {% trans 'Edit' %}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="well">
+            <p>
+                {% trans "There isn't any room yet." %} <a
+                    href="{% url "add_room" event_slug %}">{% trans "Submit yours!" %}</a>
+            </p>
+        </div>
+    {% endif %}
+{% endblock %}
+{% block other-script %}
+    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
+    <script>
+
+        function becomeTalk(source, target) {
+            $('#' + source).attr("style", "visibility: hidden; position: absolute");
+            $('#' + target).removeClass('collapse');
+        }
+
+        function showAll() {
+            $('.panel-collapse').collapse('show');
+        }
+
+        function hideAll() {
+            $('.panel-collapse.in').collapse('hide');
+        }
+
+        $(document).ready(function() {
+
+            function toggleChevron(e) {
+                $(e.target)
+                        .prev('.panel-heading')
+                        .find("i.indicator")
+                        .toggleClass('fa-chevron-down fa-chevron-up');
+            }
+
+            $('.timepicker').datetimepicker({
+                format  : 'LT',
+                icons   : {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up  : "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                },
+                stepping: 15
+            });
+
+            $('#accordion')
+                    .on('hidden.bs.collapse', toggleChevron)
+                    .on('shown.bs.collapse', toggleChevron);
+
+        });
+    </script>
+{% endblock %}

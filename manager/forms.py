@@ -222,6 +222,12 @@ class ImageCroppingForm(ModelForm):
         fields = ('image', 'cropping')
 
 
+class RoomForm(ModelForm):
+    class Meta:
+        model = Room
+        exclude = ['event']
+
+
 class ActivityForm(ModelForm):
     class Meta:
         model = Activity
