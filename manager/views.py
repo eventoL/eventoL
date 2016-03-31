@@ -80,8 +80,8 @@ def talk_registration(request, event_slug, pk):
     # FIXME: Esto es lo que se llama una buena chanchada!
     post = None
     if request.POST:
-        start_time = datetime.datetime.strptime(request.POST.get('start_date', None), '%H:%M')
-        end_time = datetime.datetime.strptime(request.POST.get('end_date', None), '%H:%M')
+        start_time = datetime.datetime.strptime(request.POST.get('start_date', None), '%I:%M %p')
+        end_time = datetime.datetime.strptime(request.POST.get('end_date', None), '%I:%M %p')
 
         start_time_posta = datetime.datetime.combine(event.date, start_time.time())
         end_time_posta = datetime.datetime.combine(event.date, end_time.time())

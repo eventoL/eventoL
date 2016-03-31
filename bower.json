@@ -20,7 +20,6 @@
   "dependencies": {
     "bootstrap": "~3.3.2",
     "bootstrap-datepicker": "~1.6",
-    "bootstrap-timepicker": "~0.5.2",
     "roboto-fontface": "~0.4.5",
     "leaflet": "~0.7.7",
     "slick-carousel": "1.5.9",
@@ -29,7 +28,8 @@
     "q": "~1.0.1",
     "geocomplete": "^1.6.5",
     "bootstrap-material-design": "v0.5.9",
-    "font-awesome": "^4.5.0"
+    "font-awesome": "^4.5.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37"
   },
   "resolutions": {
     "bootstrap": "~3.3.2",
