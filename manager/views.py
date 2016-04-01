@@ -7,6 +7,7 @@ import pyqrcode
 import json
 import os, io
 
+import autocomplete_light
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
@@ -600,13 +601,6 @@ def generic_registration(request, event_slug, registration_model, registration_f
                     registration.eventUser = eventUser
                     registration.save()
 
-                if not eventUser.ticket:
-                    try:
-                        send_event_ticket(eventUser)
-                        eventUser.ticket = True
-                        eventUser.save()
-                    except Exception:
-                        pass
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
