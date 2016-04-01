@@ -601,6 +601,13 @@ def generic_registration(request, event_slug, registration_model, registration_f
                     registration.eventUser = eventUser
                     registration.save()
 
+                if not eventUser.ticket:
+                    try:
+                        send_event_ticket(eventUser)
+                        eventUser.ticket = True
+                        eventUser.save()
+                    except Exception:
+                        pass
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:

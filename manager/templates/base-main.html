@@ -57,10 +57,18 @@
                             <li><a href="/event/{{ event_slug }}/registration">{% trans "Registration" %}</a>
                             </li>
                         {% endif %}
+<<<<<<< Updated upstream
                         <li>
                             <a href="/event/{{ event_slug }}/schedule">
                                 <i class="fa fa-calendar"></i> {% trans "Schedule" %}
                             </a>
+=======
+                        {% if user.is_authenticated and not user|can_register:event_slug %}
+                            <li><a href="/event/{{ event_slug }}/ticket">{% trans "View Ticket" %}</a>
+                            </li>
+                        {% endif %}
+                        <li><a href="/event/{{ event_slug }}/schedule">{% trans "Schedule" %}</a>
+>>>>>>> Stashed changes
                         </li>
                         {% if user.is_authenticated and not user|can_register:event_slug %}
                             <li><a href="/event/{{ event_slug }}/ticket">{% trans "View Ticket" %}</a>
