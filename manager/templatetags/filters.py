@@ -46,8 +46,8 @@ def can_register(user, event_slug):
     eventuser = EventUser.objects.filter(user=user, event__slug__iexact=event_slug)
     if eventuser:
         is_attendee = Attendee.objects.filter(eventUser=eventuser).exists()
-        is_installation_attendee = InstallationAttendee.objects.filter(eventUser=eventuser).exist()
-        return not (is_attendee or is_installation_attendee)
+        is_installation_attendee = InstallationAttendee.objects.filter(eventUser=eventuser).exists()
+        return not(is_attendee or is_installation_attendee)
     return True
 
 

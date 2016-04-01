@@ -134,7 +134,7 @@ class CollaboratorRegistrationForm(ModelForm):
 class EventUserRegistrationForm(ModelForm):
     class Meta:
         model = EventUser
-        exclude = ['user', 'assisted', 'nonregisteredattendee']
+        exclude = ['user', 'assisted', 'nonregisteredattendee', 'ticket']
         widgets = {'event': forms.HiddenInput()}
 
 

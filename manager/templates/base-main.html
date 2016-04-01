@@ -62,6 +62,10 @@
                                 <i class="fa fa-calendar"></i> {% trans "Schedule" %}
                             </a>
                         </li>
+                        {% if user.is_authenticated and not user|can_register:event_slug %}
+                            <li><a href="/event/{{ event_slug }}/ticket">{% trans "View Ticket" %}</a>
+                            </li>
+                        {% endif %}
                         {% if user.is_authenticated %}
                             <li class="dropdown">
                                 <a href="#" data-target="#" class="dropdown-toggle"
@@ -87,7 +91,8 @@
                         {% endif %}
                         <li class="dropdown">
                             <a href="#" data-target="#" class="dropdown-toggle"
-                               data-toggle="dropdown"><i class="fa fa-group"></i> {% trans "Collaborators" %} <b class="caret"></b></a>
+                               data-toggle="dropdown"><i class="fa fa-group"></i> {% trans "Collaborators" %} <b
+                                    class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="/event/{{ event_slug }}/talks">
@@ -142,7 +147,8 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" data-target="#" class="dropdown-toggle"
-                               data-toggle="dropdown"><i class="fa fa-at"></i> {% trans "Follow Us!" %} <b class="caret"></b></a>
+                               data-toggle="dropdown"><i class="fa fa-at"></i> {% trans "Follow Us!" %} <b
+                                    class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 {% for contact in contacts %}
                                     <li><a href="{{ contact.url }}" target="_blank">
