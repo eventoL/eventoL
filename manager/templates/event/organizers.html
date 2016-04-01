@@ -66,7 +66,7 @@
 
 {% block form-name %}{% trans "Add Organizers" %}{% endblock %}
 
-{% block form-action %}"/event/{{ event_slug }}/organizers"{% endblock %}
+{% block form-action %}"{% url "add_organizer" event_slug %}"{% endblock %}
 
 {% block submit-button %}{% trans "Add Organizer" %}{% endblock %}
 

@@ -65,7 +65,7 @@
 
 {% block form-name %}{% trans "Add" %}{% endblock %}
 
-{% block form-action %}"/event/{{ event_slug }}/registration_people"{% endblock %}
+{% block form-action %}"{% url "add_registration_people" event_slug %}"{% endblock %}
 
 {% block submit-button %}{% trans "Add" %}{% endblock %}
 

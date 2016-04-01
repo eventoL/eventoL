@@ -41,7 +41,7 @@
 
             <div class="row">
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-question-circle"></i> <a href="/event/{{ event_slug }}/FAQ">¿Qué es el
+                    <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_slug %}">¿Qué es el
                         FLISoL?</a>
                     </h3>
 
@@ -49,12 +49,12 @@
                         ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-usd"></i> <a href="/event/{{ event_slug }}/event">¿Cuánto cuesta?</a></h3>
+                    <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_slug %}">¿Cuánto cuesta?</a></h3>
 
                     <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-pencil"></i> <a href="/event/{{ event_slug }}/registration">Anotate!</a></h3>
+                    <h3><i class="fa fa-pencil"></i> <a href="{% url "registration" event_slug %}">Anotate!</a></h3>
 
                     <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
                         traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
