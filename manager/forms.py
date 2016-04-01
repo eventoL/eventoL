@@ -85,7 +85,7 @@ class EventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(EventUserSearchForm, self).__init__(*args, **kwargs)
         # Los EventUser para el evento que todavia no registraron asistencia
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug=event).filter(assisted=False)
+        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event).filter(assisted=False)
 
     eventUser = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
 
@@ -93,7 +93,7 @@ class EventUserSearchForm(forms.Form):
 class RegisteredEventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(RegisteredEventUserSearchForm, self).__init__(*args, **kwargs)
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug=event)
+        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event)
 
     eventUser = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
 
@@ -109,7 +109,7 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 class InstallationForm(autocomplete.ModelForm):
     def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = EventUser.objects.filter(event__slug=event)
+        self.fields['attendee'].queryset = EventUser.objects.filter(event__slug__iexact=event)
 
     attendee = autocomplete.ModelChoiceField('EventUserAutocomplete', required=True)
 
@@ -180,7 +180,7 @@ class TalkForm(ModelForm):
     def __init__(self, event, *args, **kwargs):
         super(TalkForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(event__slug=event)
+            self.fields['room'].queryset = Room.objects.filter(event__slug__iexact=event)
 
 
 class ImageCroppingForm(ModelForm):

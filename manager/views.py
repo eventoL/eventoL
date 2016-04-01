@@ -19,7 +19,7 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, Hardwa
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission
+from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator
 from voting.models import Vote
 
 autocomplete_light.autodiscover()
@@ -136,11 +136,11 @@ def room_available(request, talk_form, event_slug):
     activities_room = Activity.objects.filter(room=talk_form.room, event__slug__iexact=event_slug)
     if talk_form.start_date == talk_form.end_date:
         messages.error(request, _(
-            "The talk wasn't registered successfully because schedule isn't available (start time equals end time)"))
+            "The talk couldn't be registered because the schedule not available (start time equals end time)"))
         return False
     if talk_form.end_date < talk_form.start_date:
         messages.error(request, _(
-            "The talk wasn't registered successfully because schedule isn't available (start time is after end time)"))
+            "The talk couldn't be registered because the schedule is not available (start time is after end time)"))
         return False
 
     one_second = datetime.timedelta(seconds=1)
@@ -151,7 +151,7 @@ def room_available(request, talk_form, event_slug):
                 start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
             or activities_room.filter(end_date=talk_form.end_date, start_date=talk_form.start_date).exists():
         messages.error(request,
-                       _("The talk wasn't registered successfully because the room or schedule isn't available"))
+                       _("The talk couldn't be registered because the room or the schedule is not available"))
         return False
     return True
 
@@ -174,7 +174,7 @@ def installation(request, event_slug):
                 install.save()
                 messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                 return HttpResponseRedirect('/event/' + event_slug)
-            except Exception as e:
+            except Exception:
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if install is not None:
@@ -328,6 +328,7 @@ def upload_presentation(request, event_slug, pk):
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
+@user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_search(request, event_slug):
     form = EventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
@@ -398,6 +399,7 @@ def add_registration_people(request, event_slug):
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
+@user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     attendee = NonRegisteredAttendee()
@@ -458,6 +460,7 @@ def contact(request, event_slug):
 
 
 @login_required
+@user_passes_test(is_organizer, 'index')
 def delete_comment(request, event_slug, pk, comment_pk=None):
     """Delete comment(s) with primary key `pk` or with pks in POST."""
     if request.user.is_staff:
@@ -497,6 +500,7 @@ def cancel_vote(request, event_slug, pk):
 
 
 @login_required
+@user_passes_test(is_organizer, 'index')
 def confirm_schedule(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     event.schedule_confirm = True
@@ -585,7 +589,7 @@ def installer_registration(request, event_slug):
 @login_required
 def collaborator_registration(request, event_slug):
     msg_success = _("You have successfully registered as a collaborator")
-    msg_error = _("You have not successfully registered (check form errors)")
+    msg_error = _("There is a problem with the registration (check form errors)")
     template = 'registration/collaborator-registration.html'
     return generic_registration(request, event_slug, Collaborator,
                                 CollaboratorRegistrationForm, msg_success, msg_error, template)

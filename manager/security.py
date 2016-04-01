@@ -9,7 +9,9 @@ from manager.models import Installer, Organizer, EventUser, NonRegisteredAttende
 
 
 def is_installer(user, event_slug=None, *args, **kwargs):
-    return event_slug and Installer.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
+    return event_slug and (
+        Installer.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
+        is_organizer(user, event_slug=event_slug))
 
 
 def add_attendance_permission(user):
@@ -35,11 +37,14 @@ def add_attendance_permission(user):
 
 
 def is_organizer(user, event_slug=None, *args, **kwargs):
-    return event_slug and Organizer.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
+    return event_slug and Organizer.objects.filter(eventUser__user=user,
+                                                   eventUser__event__slug__iexact=event_slug).exists()
 
 
 def is_collaborator(user, event_slug=None, *args, **kwargs):
-    return event_slug and Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
+    return event_slug and (
+        Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
+        is_collaborator(user, event_slug=event_slug))
 
 
 def user_passes_test(test_func, name_redirect):
@@ -55,5 +60,7 @@ def user_passes_test(test_func, name_redirect):
             if test_func(request.user, *args, **kwargs):
                 return view_func(request, *args, **kwargs)
             return HttpResponseRedirect(reverse(name_redirect, args=[kwargs['event_slug']]))
+
         return _wrapped_view
+
     return decorator

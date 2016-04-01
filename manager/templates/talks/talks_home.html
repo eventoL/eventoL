@@ -123,7 +123,7 @@
                                                 </p>
 
                                                 <p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>
-                                                {% if user|is_event_staff:event_slug %}
+                                                {% if user|is_organizer:event_slug %}
                                                     <p><a id='become-{{ forloop.counter }}'
                                                           class="accordion-toggle"
                                                           data-toggle="collapse"
@@ -137,7 +137,7 @@
                                                     {% trans "View Proposal" %}
                                                 </a></p>
 
-                                            {% if user|is_event_staff:event_slug %}
+                                            {% if user|is_organizer:event_slug %}
                                                 <div id="to_talk-{{ forloop.counter }}"
                                                      class="panel-collapse collapse">
                                                     <div class="container col-sm-12">
@@ -155,7 +155,7 @@
                 {% endfor %}
             </div>
         </div>
-        {% if not event.schedule_confirm and user|is_event_staff:event_slug %}
+        {% if not event.schedule_confirm and user|is_organizer:event_slug %}
             <div class="row">
                 <a type="button" class="btn btn-raised btn-success btn-xs"
                    href="/event/{{ event_slug }}/talk/confirm_schedule/">

@@ -55,7 +55,7 @@
                                             <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
                                         </strong></p>
                                     </a>
-                                    {% if user|is_event_staff:event_slug %}
+                                    {% if user|is_organizer:event_slug %}
                                         <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
                                             <i class="fa fa-pencil"></i>
                                             {% if talk %}
@@ -73,7 +73,7 @@
                                         </div>
                                     {% endif %}
                                 {% endif %}
-                                {% if user|is_event_staff:event_slug and talk %}
+                                {% if user|is_organizer:event_slug and talk %}
                                     <p><strong><a class="accordion-toggle" data-toggle="collapse"
                                                   href="#upload_presentation">
                                         <i class="fa fa-upload"></i> {% trans "Upload Presentation" %}
