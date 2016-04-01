@@ -57,24 +57,28 @@
                             <li><a href="/event/{{ event_slug }}/registration">{% trans "Registration" %}</a>
                             </li>
                         {% endif %}
-                        <li><a href="/event/{{ event_slug }}/schedule">{% trans "Schedule" %}</a>
+                        <li>
+                            <a href="/event/{{ event_slug }}/schedule">
+                                <i class="fa fa-calendar"></i> {% trans "Schedule" %}
+                            </a>
                         </li>
                         {% if user.is_authenticated %}
                             <li class="dropdown">
                                 <a href="#" data-target="#" class="dropdown-toggle"
-                                   data-toggle="dropdown">{% trans "Activities" %} <b class="caret"></b></a>
+                                   data-toggle="dropdown"><i class="fa fa-list-alt"></i> {% trans "Activities" %} <b
+                                        class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     {% if user|is_organizer:event_slug %}
                                         <li>
                                             <a href="/event/{{ event_slug }}/rooms">
-                                                <i class="fa fa-cogs"></i> {% trans "Manage Rooms" %}
+                                                <i class="fa fa-map-marker"></i> {% trans "Manage Rooms" %}
                                             </a>
                                         </li>
                                     {% endif %}
                                     {% if event.talk_proposal_is_open %}
                                         <li>
                                             <a href="/event/{{ event_slug }}/talk/proposal">
-                                                <i class="fa fa-pencil-square-o"></i> {% trans "Submit your talk" %}
+                                                <i class="fa fa-commenting"></i> {% trans "Submit your talk" %}
                                             </a>
                                         </li>
                                     {% endif %}
@@ -83,7 +87,7 @@
                         {% endif %}
                         <li class="dropdown">
                             <a href="#" data-target="#" class="dropdown-toggle"
-                               data-toggle="dropdown">{% trans "Collaborators" %} <b class="caret"></b></a>
+                               data-toggle="dropdown"><i class="fa fa-group"></i> {% trans "Collaborators" %} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="/event/{{ event_slug }}/talks">
@@ -124,12 +128,12 @@
                                     {% if user|is_organizer:event_slug %}
                                         <li>
                                             <a href="/event/{{ event_slug }}/organizers">
-                                                <i class="fa fa-check-square-o"></i> {% trans "Manage Organizers" %}
+                                                <i class="fa fa-child"></i> {% trans "Manage Organizers" %}
                                             </a>
                                         </li>
                                         <li>
                                             <a href="/event/{{ event_slug }}/registration_people">
-                                                <i class="fa fa-check-square-o"></i> {% trans "Manage Registration People" %}
+                                                <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
                                             </a>
                                         </li>
                                     {% endif %}
@@ -138,7 +142,7 @@
                         </li>
                         <li class="dropdown">
                             <a href="#" data-target="#" class="dropdown-toggle"
-                               data-toggle="dropdown">{% trans "Follow Us!" %} <b class="caret"></b></a>
+                               data-toggle="dropdown"><i class="fa fa-at"></i> {% trans "Follow Us!" %} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 {% for contact in contacts %}
                                     <li><a href="{{ contact.url }}" target="_blank">
