@@ -6,12 +6,8 @@ from django.utils.safestring import mark_safe
 
 autocomplete.autodiscover()
 
-from django.core.mail import send_mail
 from django.forms.models import ModelForm
-from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
-from generic_confirmation.forms import DeferredForm
-from eventoL.settings import EMAIL_FROM
 from allauth.account.forms import LoginForm as AllAuthLoginForm
 from allauth.account.forms import SignupForm as AllAuthSignUpForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignUpForm
@@ -20,17 +16,12 @@ from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKe
 from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 
-from manager.models import Attendee, InstallationAttendee, NonRegisteredAttendee, Installation, Hardware, \
+from manager.models import Attendee, NonRegisteredAttendee, Installation, Hardware, \
     Collaborator, \
-    Installer, TalkProposal, HardwareManufacturer, ContactMessage, Image, Comment, Room, EventUser, Activity, Event
+    Installer, TalkProposal, ContactMessage, Image, Comment, Room, EventUser, Activity, Event, Software
 
 
-class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
-    search_fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-                     'eventUser__user__email')
-
-
-class HardwareManufacturerAutocomplete(autocomplete.AutocompleteModelBase):
+class SoftwareAutocomplete(autocomplete.AutocompleteModelBase):
     search_fields = ('name',)
 
 
@@ -80,10 +71,9 @@ class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
         return self.order_choices(choices)[0:self.limit_choices]
 
 
-autocomplete.register(Attendee, AttendeeAutocomplete)
-autocomplete.register(HardwareManufacturer, HardwareManufacturerAutocomplete)
 autocomplete.register(EventUser, EventUserAutocomplete)
 autocomplete.register(EventUser, RegisteredEventUserAutocomplete)
+autocomplete.register(Software, SoftwareAutocomplete)
 
 
 def sorted_choices(choices_list):
@@ -95,7 +85,7 @@ class EventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(EventUserSearchForm, self).__init__(*args, **kwargs)
         # Los EventUser para el evento que todavia no registraron asistencia
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug=event).filter(assisted=False)
+        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event).filter(assisted=False)
 
     eventUser = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
 
@@ -103,33 +93,9 @@ class EventUserSearchForm(forms.Form):
 class RegisteredEventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(RegisteredEventUserSearchForm, self).__init__(*args, **kwargs)
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug=event)
+        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event)
 
     eventUser = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
-
-
-class RegistrationForm(DeferredForm):
-    def __init__(self, *args, **kwargs):
-        self.domain = kwargs.pop('domain', None)
-        self.protocol = kwargs.pop('protocol', None)
-        super(RegistrationForm, self).__init__(*args, **kwargs)
-
-    def send_notification(self, user=None, instance=None):
-        send_mail(_("FLISoL Registration Confirmation"),
-                  render_to_string(
-                      "mail/registration_confirmation.txt",
-                      {'token': instance.token, 'form': self,
-                       'event_slug': self.cleaned_data['event'].url,
-                       'domain': self.domain, 'protocol': self.protocol}),
-                  EMAIL_FROM,
-                  recipient_list=[self.cleaned_data['email'], ],
-                  fail_silently=False)
-
-    class Meta:
-        model = Attendee
-        fields = ['eventUser', 'additional_info']
-        widgets = {'eventUser': forms.HiddenInput(),
-                   'additional_info': forms.Textarea(attrs={'rows': 3})}
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
@@ -143,19 +109,20 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 class InstallationForm(autocomplete.ModelForm):
     def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
-        if self.instance:
-            self.fields['attendee'].queryset = InstallationAttendee.objects.filter(eventUser__event__slug=event)
+        self.fields['attendee'].queryset = EventUser.objects.filter(event__slug__iexact=event)
+
+    attendee = autocomplete.ModelChoiceField('EventUserAutocomplete', required=True)
 
     class Meta:
         model = Installation
-        exclude = ('installer', 'hardware')
-        autocomplete_fields = ('attendee',)
+        fields = ('attendee', 'notes', 'software')
+        autocomplete_fields = ('attendee', 'software')
+        widgets = {'notes': forms.Textarea(attrs={'rows': 3})}
 
 
 class HardwareForm(autocomplete.ModelForm):
     class Meta:
         model = Hardware
-        autocomplete_fields = ('manufacturer',)
 
 
 class CollaboratorRegistrationForm(ModelForm):
@@ -167,7 +134,7 @@ class CollaboratorRegistrationForm(ModelForm):
 class EventUserRegistrationForm(ModelForm):
     class Meta:
         model = EventUser
-        exclude = ['user', 'assisted', 'nonregisteredattendee']
+        exclude = ['user', 'assisted', 'nonregisteredattendee', 'ticket']
         widgets = {'event': forms.HiddenInput()}
 
 
@@ -213,7 +180,7 @@ class TalkForm(ModelForm):
     def __init__(self, event, *args, **kwargs):
         super(TalkForm, self).__init__(*args, **kwargs)
         if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(event__slug=event)
+            self.fields['room'].queryset = Room.objects.filter(event__slug__iexact=event)
 
 
 class ImageCroppingForm(ModelForm):

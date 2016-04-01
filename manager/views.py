@@ -1,30 +1,34 @@
 # encoding: UTF-8
 import itertools
-
 import autocomplete_light
+import svglue
+import cairosvg
+import pyqrcode
+import json
+import os, io
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.forms.models import modelformset_factory
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
 
-from generic_confirmation.views import confirm_by_get
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission
+from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator
 from voting.models import Vote
 
 autocomplete_light.autodiscover()
-
 
 def update_event_info(event_slug, render_dict=None, event=None):
     event = event or Event.objects.get(slug__iexact=event_slug)
@@ -137,11 +141,11 @@ def room_available(request, talk_form, event_slug):
     activities_room = Activity.objects.filter(room=talk_form.room, event__slug__iexact=event_slug)
     if talk_form.start_date == talk_form.end_date:
         messages.error(request, _(
-            "The talk wasn't registered successfully because schedule isn't available (start time equals end time)"))
+            "The talk couldn't be registered because the schedule not available (start time equals end time)"))
         return False
     if talk_form.end_date < talk_form.start_date:
         messages.error(request, _(
-            "The talk wasn't registered successfully because schedule isn't available (start time is after end time)"))
+            "The talk couldn't be registered because the schedule is not available (start time is after end time)"))
         return False
 
     one_second = datetime.timedelta(seconds=1)
@@ -152,43 +156,9 @@ def room_available(request, talk_form, event_slug):
                 start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
             or activities_room.filter(end_date=talk_form.end_date, start_date=talk_form.start_date).exists():
         messages.error(request,
-                       _("The talk wasn't registered successfully because the room or schedule isn't available"))
+                       _("The talk couldn't be registered because the room or the schedule is not available"))
         return False
     return True
-
-'''
-@login_required
-def become_installer(request, event_slug):
-    forms = []
-    errors = []
-    installer = None
-
-    if request.POST:
-        eventUser = EventUser.objects.get(user=request.user)
-        installer_form = InstallerRegistrationFromCollaboratorForm(request.POST,
-                                                                   instance=Installer(eventUser=eventUser))
-        forms = [installer_form]
-        if installer_form.is_valid():
-            try:
-                installer = installer_form.save()
-                installer.save()
-                messages.success(request, _("You've become an installer!"))
-                return HttpResponseRedirect('/event/' + event_slug)
-            except Exception as e:
-                if installer is not None:
-                    Installer.delete(installer)
-        messages.error(request, _("You haven't become an installer (check form errors)"))
-        errors = get_forms_errors(forms)
-
-    else:
-        installer_form = InstallerRegistrationFromCollaboratorForm(instance=Installer())
-        forms = [installer_form]
-
-    return render(request,
-                  'registration/become_installer.html',
-                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
-'''
-
 
 @login_required
 @user_passes_test(is_installer, 'installer_registration')
@@ -198,39 +168,27 @@ def installation(request, event_slug):
     forms = [installation_form, hardware_form]
     errors = []
     if request.POST:
-        if hardware_form.is_valid():
-            hardware = hardware_form.save()
-            install = None
+        if hardware_form.is_valid() and installation_form.is_valid():
             try:
-                if installation_form.is_valid():
-                    install = installation_form.save()
-                    install.hardware = hardware
-                    install.installer = Installer.objects.get(eventUser__user=request.user)
-                    install.save()
-                    messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
-                    return HttpResponseRedirect('/event/' + event_slug)
-                else:
-                    if hardware is not None:
-                        Hardware.delete(hardware)
+                hardware = hardware_form.save()
+                install = None
+                install = installation_form.save()
+                install.hardware = hardware
+                install.installer = EventUser.objects.get(user=request.user)
+                install.save()
+                messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
+                return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if install is not None:
                     Installation.delete(install)
-        messages.error(request, _("The installation hasn't been registered successfully (check form errors)"))
+        messages.error(request, _("The installation couldn't be registered (check form errors)"))
         errors = get_forms_errors(forms)
 
     return render(request,
                   'installation/installation-form.html',
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
-
-
-def confirm_registration(request, event_slug, token):
-    messages.success(request, _(
-        'Thanks for your confirmation! You don\'t need to bring any paper to the event. You\'ll be asked for the '
-        'email you registered with'))
-    return confirm_by_get(request, token, success_url='/event/' + event_slug)
-
 
 @login_required
 def talk_proposal(request, event_slug, pk=None):
@@ -373,6 +331,7 @@ def upload_presentation(request, event_slug, pk):
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
+@user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_search(request, event_slug):
     form = EventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
@@ -443,6 +402,7 @@ def add_registration_people(request, event_slug):
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
+@user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     attendee = NonRegisteredAttendee()
@@ -503,6 +463,7 @@ def contact(request, event_slug):
 
 
 @login_required
+@user_passes_test(is_organizer, 'index')
 def delete_comment(request, event_slug, pk, comment_pk=None):
     """Delete comment(s) with primary key `pk` or with pks in POST."""
     if request.user.is_staff:
@@ -542,6 +503,7 @@ def cancel_vote(request, event_slug, pk):
 
 
 @login_required
+@user_passes_test(is_organizer, 'index')
 def confirm_schedule(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     event.schedule_confirm = True
@@ -552,6 +514,44 @@ def confirm_schedule(request, event_slug):
 def reports(request, event_slug):
     return render(request, 'reports/dashboard.html', update_event_info(event_slug))
 
+
+def generate_ticket(eventUser):
+    ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT,'manager/img/ticket_template_p.svg'))
+    ticket_template.set_text('event_name', eventUser.event.name[:30])
+    ticket_template.set_text('event_date', eventUser.event.date.strftime("%A %d de %B de %Y") )
+    place = json.loads(eventUser.event.place)
+    ticket_template.set_text('event_place_name', place["name"])
+    ticket_template.set_text('event_place_address', place["formatted_address"])
+    ticket_template.set_text('ticket_type', u'Entrada General')
+    qr = pyqrcode.create(eventUser.id)
+    code = io.BytesIO()
+    qr.png(code,scale=7,quiet_zone=0)
+    ticket_template.set_image('qr_code',code.getvalue(),mimetype='image/png')
+    ticket_template.set_text('eventUser_PK', str(eventUser.id).zfill(12))
+    ticket_template.set_text('eventUser_email', eventUser.user.email) #No se enviara a los NonRegisteredAttendee
+
+    userName_l1 = u"%s %s" %(eventUser.user.first_name,eventUser.user.last_name)
+    userName_l2 = ''
+    if(len(userName_l1) > 30):
+        userName_l1 = eventUser.user.first_name[:30] #Por si tiene mas de 30 caracteres
+        userName_l2 = eventUser.user.last_name[:30]
+
+    ticket_template.set_text('eventUser_name_l1', userName_l1)
+    ticket_template.set_text('eventUser_name_l2', userName_l2)
+
+    return str(ticket_template)
+
+def send_event_ticket(eventUser):
+    ticket = generate_ticket(eventUser)
+
+    email = EmailMessage()
+    email.subject = unicode(_("Ticket for %s event" %(eventUser.event.name)))
+    email.body = unicode(_("Hello %s %s,\n Here is your ticket for %s event. \
+    Please remember to print it and bring it with you the day of the event. \
+    \n Regards, %s team." %(eventUser.user.first_name,eventUser.user.last_name, eventUser.event.name,eventUser.event.name)))
+    email.to = [eventUser.user.email]
+    email.attach('Ticket.pdf',cairosvg.svg2pdf(bytestring=ticket),'application/pdf')
+    email.send(fail_silently=False)
 
 @login_required
 def generic_registration(request, event_slug, registration_model, registration_form, msg_success, msg_error, template):
@@ -594,6 +594,13 @@ def generic_registration(request, event_slug, registration_model, registration_f
                     registration.eventUser = eventUser
                     registration.save()
 
+                if not eventUser.ticket:
+                    try:
+                        send_event_ticket(eventUser)
+                        eventUser.ticket = True
+                        eventUser.save()
+                    except Exception:
+                        pass
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
@@ -630,7 +637,7 @@ def installer_registration(request, event_slug):
 @login_required
 def collaborator_registration(request, event_slug):
     msg_success = _("You have successfully registered as a collaborator")
-    msg_error = _("You have not successfully registered (check form errors)")
+    msg_error = _("There is a problem with the registration (check form errors)")
     template = 'registration/collaborator-registration.html'
     return generic_registration(request, event_slug, Collaborator,
                                 CollaboratorRegistrationForm, msg_success, msg_error, template)
@@ -751,3 +758,12 @@ def add_room(request, event_slug, pk=None):
                     Room.delete(room)
         messages.error(request, "The room hasn't been added successfully. Please check the form for errors.")
     return render(request, 'room/add_room.html', update_event_info(event_slug, {'form': room_form, 'errors': get_forms_errors([room_form])}))
+
+def view_ticket(request,event_slug):
+    eventuser = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
+    if(eventuser):
+        ticket = generate_ticket(eventuser)
+        response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
+        response["Content-Disposition"] = 'filename=ticket.pdf'
+        return response
+    #TODO: else:
