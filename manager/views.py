@@ -524,8 +524,13 @@ def generate_ticket(eventUser):
     ticket_template.set_text('event_name', eventUser.event.name[:30])
     ticket_template.set_text('event_date', eventUser.event.date.strftime("%A %d de %B de %Y"))
     place = json.loads(eventUser.event.place)
-    ticket_template.set_text('event_place_name', place["name"])
-    ticket_template.set_text('event_place_address', place["formatted_address"])
+    if place.get("name"): #Si tiene nombre cargado
+        ticket_template.set_text('event_place_name', place.get("name"))
+        ticket_template.set_text('event_place_address', place.get("formatted_address"))
+    else:
+        ticket_template.set_text('event_place_name', place.get("formatted_address"))
+        ticket_template.set_text('event_place_address', '')
+
     ticket_template.set_text('ticket_type', u'Entrada General')
     qr = pyqrcode.create(eventUser.id)
     code = io.BytesIO()
@@ -556,7 +561,7 @@ def send_event_ticket(eventUser):
     \n Regards, %s team." % (
     eventUser.user.first_name, eventUser.user.last_name, eventUser.event.name, eventUser.event.name)))
     email.to = [eventUser.user.email]
-    email.attach('Ticket.pdf', cairosvg.svg2pdf(bytestring=ticket), 'application/pdf')
+    email.attach('Ticket-'+str(eventUser.id).zfill(12)+'.pdf', cairosvg.svg2pdf(bytestring=ticket), 'application/pdf')
     email.send(fail_silently=False)
 
 
@@ -606,8 +611,9 @@ def generic_registration(request, event_slug, registration_model, registration_f
                         send_event_ticket(eventUser)
                         eventUser.ticket = True
                         eventUser.save()
+                        msg_success += ". Please check your email for the corresponding ticket."
                     except Exception:
-                        pass
+                        msg_success += " but we couldn't send you your ticket. Please, check it out from the menu."
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
@@ -768,11 +774,14 @@ def add_room(request, event_slug, pk=None):
                   update_event_info(event_slug, {'form': room_form, 'errors': get_forms_errors([room_form])}))
 
 
-def view_ticket(request, event_slug):
+@login_required
+def view_ticket(request,event_slug):
     eventuser = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
     if eventuser:
         ticket = generate_ticket(eventuser)
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
-        response["Content-Disposition"] = 'filename=ticket.pdf'
+        response["Content-Disposition"] = 'filename=Ticket-'+str(eventuser.id).zfill(12)+'.pdf'
         return response
-    # TODO: else:
+    else:
+        messages.error(request, "You are not registered for this event")
+        return HttpResponseRedirect(reverse("index", args=(event_slug,)))
