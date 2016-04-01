@@ -11,7 +11,7 @@
     <div class="row">
         {% trans "Talks" %}
         <div id="buttons" class="pull-right">
-            {% if user|is_event_staff:event_slug %}
+            {% if user|is_organizer:event_slug %}
                 <a href="/event/{{ event_slug }}/activities/activity" class="btn btn-raised btn-success">
                     {% trans 'Submit activity' %}
                 </a>
@@ -76,7 +76,7 @@
 
                                         <p><strong>{% trans "End" %}:</strong> {{ talk.activity.end_date }}</p>
 
-                                        <p><a href="/event/{{ event_slug }}/talk/detail/talk/{{ talk.pk }}/">
+                                        <p><a href="{% url "talk_detail" event_slug talk.pk %}">
                                             {% trans "View Talk" %}
                                         </a></p>
                                     </div>
@@ -138,7 +138,7 @@
                                                 {% endif %}
                                             </div>
                                             <p>
-                                                <a href="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/">
+                                                <a href="{% url "proposal_detail" event_slug proposal.pk %}/">
                                                     {% trans "View Proposal" %}
                                                 </a></p>
 
@@ -163,7 +163,7 @@
         {% if not event.schedule_confirm and user|is_organizer:event_slug %}
             <div class="row">
                 <a type="button" class="btn btn-raised btn-success btn-xs"
-                   href="/event/{{ event_slug }}/talk/confirm_schedule/">
+                   href="{% url "confirm_schedule" event_slug %}">
                     <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
                 </a>
             </div>

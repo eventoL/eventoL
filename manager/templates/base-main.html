@@ -63,7 +63,7 @@
                             </a>
 			</li>
                         {% if user.is_authenticated and not user|can_register:event_slug %}
-                            <li><a href="/event/{{ event_slug }}/ticket">{% trans "View Ticket" %}</a>
+                            <li><a href="{% url "view_ticket" event_slug %}">{% trans "View Ticket" %}</a>
                             </li>
                         {% endif %}
                         {% if user.is_authenticated %}
@@ -121,7 +121,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/event/{{ event_slug }}/registration_people">
+                                            <a href="{% url "add_registration_people" event_slug %}">
                                                 <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
                                             </a>
                                         </li>

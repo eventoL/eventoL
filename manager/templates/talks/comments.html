@@ -2,7 +2,7 @@
 {% load filters %}
 {% if comments %}
     <h2>{% trans "Comments" %}</h2>
-    <form action="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/" method="POST">{% csrf_token %}
+    <form action="{% url "delete_comment" event_slug proposal.pk %}" method="POST">{% csrf_token %}
         {% for comment in comments %}
             <div class="panel-group">
                 <div class="panel panel-default">
@@ -39,7 +39,7 @@
                         {% if user|is_organizer:event_slug %}
                             <div class="pull-right">
                                 <label>
-                                    <a href="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/delete_comment/{{ comment.id }}">{% trans "Delete comment" %}</a>
+                                    <a href="{% url "delete_comment" event_slug proposal.pk comment.id %}">{% trans "Delete comment" %}</a>
                                 </label>
                             </div>
                         {% endif %}
@@ -65,7 +65,7 @@
             <strong>{% trans 'This comment is public' %}</strong>
         </div>
         <div class="row" style="margin-left: 10px; margin-right: 10px;">
-            <form action="/event/{{ event_slug }}/talk/detail/proposal/{{ proposal.pk }}/add_comment/" method="POST">{% csrf_token %}
+            <form action="{% url "add_comment" event_slug proposal.pk %}" method="POST">{% csrf_token %}
                 <div id="cform">
                     {% include "form_field.html" with field=form.body only %}
                 </div>

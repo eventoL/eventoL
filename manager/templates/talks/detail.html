@@ -42,7 +42,7 @@
                                         <p><strong>{% trans "Start" %}:</strong> {{ talk.activity.start_date }}</p>
                                         <p><strong>{% trans "End" %}:</strong> {{ talk.activity.end_date }}</p><br>
                                         {% if event.registration_is_open %}
-                                            <p><a href="../talk/{{ talk.pk }}/delete">
+                                            <p><a href="{% url "talk_delete" event_slug talk.pk %}">
                                                 <strong><i class="fa fa-times"></i> {% trans "Disconfirm talk" %}
                                                 </strong>
                                             </a></p>
@@ -50,7 +50,7 @@
                                     {% endif %}
                                 </div>
                                 {% if event.registration_is_open %}
-                                    <a href="/event/{{ event_slug }}/talk/proposal/{{ proposal.pk }}/">
+                                    <a href="{% url "proposal_detail" event_slug proposal.pk %}/">
                                         <p><strong>
                                             <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
                                         </strong></p>
