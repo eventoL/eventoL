@@ -1,7 +1,7 @@
 {% load filters %}
 {% load i18n %}
 <form id="{{ form_id }}" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
-      method="post" action="/event/{{ event_slug }}/talk/registration/{{ form_id }}">
+      method="post" action="{% url "talk_registration" event_slug form_id %}">
     {% csrf_token %}
 
     {% if form.non_field_errors|length > 0 %}

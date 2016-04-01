@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="row">
-    <form id={{ form_id }} enctype="multipart/form-data" method="post" action='/event/{{ event.slug }}/talk/detail/proposal/{{ form_id }}/upload_presentation'>
+    <form id={{ form_id }} enctype="multipart/form-data" method="post" action='{% url "upload_presentation" event_slug form_id %}'>
         {% csrf_token %}
 
         {% if form.non_field_errors|length > 0 %}

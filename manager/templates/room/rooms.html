@@ -7,7 +7,7 @@
     <div class="row">
         {% trans "Rooms" %}
         <div id="buttons" class="pull-right">
-            <a href="/event/{{ event_slug }}/rooms/add/" type="button" class="btn btn-raised btn-success">
+            <a href="{% url "add_room" event_slug %}" type="button" class="btn btn-raised btn-success">
                 {% trans 'Add Room' %}
             </a>
         </div>
@@ -29,12 +29,12 @@
                             <td>{{ room.name }}</td>
                             <td>
                                 <div class="pull-right">
-                                    <a href="/event/{{ event_slug }}/rooms/remove/{{ room.pk }}/" class="btn btn-sm btn-raised btn-danger">
+                                    <a href="{% url "remove_room" event_slug room.pk %}" class="btn btn-sm btn-raised btn-danger">
                                         <i class="fa fa-trash-o"></i>  {% trans 'Remove' %}
                                     </a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="/event/{{ event_slug }}/rooms/edit/{{ room.pk }}/" class="btn btn-sm btn-raised btn-success">
+                                    <a href="{% url "edit_room" event_slug room.pk %}" class="btn btn-sm btn-raised btn-success">
                                         <i class="fa fa-pencil-square-o"></i>  {% trans 'Edit' %}
                                     </a>
                                 </div>
