@@ -8,7 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from manager.models import Installer, Organizer, EventUser, NonRegisteredAttendee, Collaborator
 
 
-def is_installer(user, event_slug=None):
+def is_installer(user, event_slug=None, *args, **kwargs):
     return event_slug and Installer.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
 
 
@@ -34,11 +34,11 @@ def add_attendance_permission(user):
     user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='change_eventuser'))
 
 
-def is_organizer(user, event_slug=None):
+def is_organizer(user, event_slug=None, *args, **kwargs):
     return event_slug and Organizer.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
 
 
-def is_collaborator(user, event_slug=None):
+def is_collaborator(user, event_slug=None, *args, **kwargs):
     return event_slug and Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug=event_slug).exists()
 
 

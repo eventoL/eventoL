@@ -278,7 +278,7 @@ class Hardware(models.Model):
 
 
 class Room(models.Model):
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'), blank=True, null=True)
     name = models.CharField(_('Name'), max_length=200, help_text=_('i.e. Classroom 256'))
 
     def __unicode__(self):
