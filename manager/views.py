@@ -7,6 +7,7 @@ import pyqrcode
 import json
 import os, io
 
+import autocomplete_light
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
@@ -29,6 +30,7 @@ from manager.security import is_installer, is_organizer, user_passes_test, add_a
 from voting.models import Vote
 
 autocomplete_light.autodiscover()
+
 
 def update_event_info(event_slug, render_dict=None, event=None):
     event = event or Event.objects.get(slug__iexact=event_slug)
@@ -160,6 +162,7 @@ def room_available(request, talk_form, event_slug):
         return False
     return True
 
+
 @login_required
 @user_passes_test(is_installer, 'installer_registration')
 def installation(request, event_slug):
@@ -189,6 +192,7 @@ def installation(request, event_slug):
     return render(request,
                   'installation/installation-form.html',
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
+
 
 @login_required
 def talk_proposal(request, event_slug, pk=None):
@@ -516,24 +520,24 @@ def reports(request, event_slug):
 
 
 def generate_ticket(eventUser):
-    ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT,'manager/img/ticket_template_p.svg'))
+    ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
     ticket_template.set_text('event_name', eventUser.event.name[:30])
-    ticket_template.set_text('event_date', eventUser.event.date.strftime("%A %d de %B de %Y") )
+    ticket_template.set_text('event_date', eventUser.event.date.strftime("%A %d de %B de %Y"))
     place = json.loads(eventUser.event.place)
     ticket_template.set_text('event_place_name', place["name"])
     ticket_template.set_text('event_place_address', place["formatted_address"])
     ticket_template.set_text('ticket_type', u'Entrada General')
     qr = pyqrcode.create(eventUser.id)
     code = io.BytesIO()
-    qr.png(code,scale=7,quiet_zone=0)
-    ticket_template.set_image('qr_code',code.getvalue(),mimetype='image/png')
+    qr.png(code, scale=7, quiet_zone=0)
+    ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
     ticket_template.set_text('eventUser_PK', str(eventUser.id).zfill(12))
-    ticket_template.set_text('eventUser_email', eventUser.user.email) #No se enviara a los NonRegisteredAttendee
+    ticket_template.set_text('eventUser_email', eventUser.user.email)  # No se enviara a los NonRegisteredAttendee
 
-    userName_l1 = u"%s %s" %(eventUser.user.first_name,eventUser.user.last_name)
+    userName_l1 = u"%s %s" % (eventUser.user.first_name, eventUser.user.last_name)
     userName_l2 = ''
-    if(len(userName_l1) > 30):
-        userName_l1 = eventUser.user.first_name[:30] #Por si tiene mas de 30 caracteres
+    if (len(userName_l1) > 30):
+        userName_l1 = eventUser.user.first_name[:30]  # Por si tiene mas de 30 caracteres
         userName_l2 = eventUser.user.last_name[:30]
 
     ticket_template.set_text('eventUser_name_l1', userName_l1)
@@ -541,17 +545,20 @@ def generate_ticket(eventUser):
 
     return str(ticket_template)
 
+
 def send_event_ticket(eventUser):
     ticket = generate_ticket(eventUser)
 
     email = EmailMessage()
-    email.subject = unicode(_("Ticket for %s event" %(eventUser.event.name)))
+    email.subject = unicode(_("Ticket for %s event" % (eventUser.event.name)))
     email.body = unicode(_("Hello %s %s,\n Here is your ticket for %s event. \
     Please remember to print it and bring it with you the day of the event. \
-    \n Regards, %s team." %(eventUser.user.first_name,eventUser.user.last_name, eventUser.event.name,eventUser.event.name)))
+    \n Regards, %s team." % (
+    eventUser.user.first_name, eventUser.user.last_name, eventUser.event.name, eventUser.event.name)))
     email.to = [eventUser.user.email]
-    email.attach('Ticket.pdf',cairosvg.svg2pdf(bytestring=ticket),'application/pdf')
+    email.attach('Ticket.pdf', cairosvg.svg2pdf(bytestring=ticket), 'application/pdf')
     email.send(fail_silently=False)
+
 
 @login_required
 def generic_registration(request, event_slug, registration_model, registration_form, msg_success, msg_error, template):
@@ -757,13 +764,15 @@ def add_room(request, event_slug, pk=None):
                 if room is not None:
                     Room.delete(room)
         messages.error(request, "The room hasn't been added successfully. Please check the form for errors.")
-    return render(request, 'room/add_room.html', update_event_info(event_slug, {'form': room_form, 'errors': get_forms_errors([room_form])}))
+    return render(request, 'room/add_room.html',
+                  update_event_info(event_slug, {'form': room_form, 'errors': get_forms_errors([room_form])}))
 
-def view_ticket(request,event_slug):
+
+def view_ticket(request, event_slug):
     eventuser = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
-    if(eventuser):
+    if eventuser:
         ticket = generate_ticket(eventuser)
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
         response["Content-Disposition"] = 'filename=ticket.pdf'
         return response
-    #TODO: else:
+    # TODO: else:

@@ -60,6 +60,9 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.windowslive',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -233,7 +236,11 @@ SOCIALACCOUNT_PROVIDERS = \
                   'EXCHANGE_TOKEN': True,
                   'LOCALE_FUNC': lambda request: 'es_AR',
                   'VERIFIED_EMAIL': False,
-                  'VERSION': 'v2.4'}}
+                  'VERSION': 'v2.4'},
+     'google': {
+         'SCOPE': ['profile', 'email'],
+         'AUTH_PARAMS': {'access_type': 'online'}
+     }}
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"

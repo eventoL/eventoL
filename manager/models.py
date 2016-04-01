@@ -132,7 +132,7 @@ class EventUser(models.Model):
                                               blank=True, null=True)
     event = models.ForeignKey(Event, verbose_name=_noop('Event'))
     assisted = models.BooleanField(_('Assisted'), default=False)
-    ticket = models.BooleanField(_('Ticket send'), default=False)
+    ticket = models.BooleanField(_('Ticket sent'), default=False)
 
     def __unicode__(self):
         if self.user:

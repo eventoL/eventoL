@@ -18,6 +18,7 @@ $ sudo apt-get install python build-essential python-setuptools python-dev pytho
 $ sudo apt-get install binutils libproj-dev gdal-bin libgeoip1 python-gdal
 $ sudo apt-get install libjpeg-dev libpng3 libpng12-dev libfreetype6-dev zlib1g-dev
 $ sudo apt-get install jpegoptim optipng
+$ sudo apt-get install libffi-dev libxml2-dev libxslt1-dev
 $ sudo apt-get install postgresql-server-dev-9.4
 ```
 
