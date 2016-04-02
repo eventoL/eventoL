@@ -504,7 +504,7 @@ def contact(request, event_slug):
             email.to = [event.email]
             email.extra_headers = {'Reply-To': contact_message.email}
             email.send(fail_silently=False)
-
+            contact_message.event = Event.objects.get(slug__iexact=event_slug)
             contact_message.save()
             messages.success(request, _("The message has been sent. You will receive a reply by email"))
             return HttpResponseRedirect('/event/' + event_slug)

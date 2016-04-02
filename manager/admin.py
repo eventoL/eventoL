@@ -12,8 +12,22 @@ class EventoLAdmin(admin.ModelAdmin):
         queryset = super(EventoLAdmin, self).queryset(request)
         if request.user.is_superuser:
             return queryset
-        collaborator = Collaborator.objects.get(user=request.user)
-        return self.filter_event(collaborator.eventUser.event, queryset)
+        organizer = Organizer.objects.get(user=request.user)
+        return self.filter_event(organizer.eventUser.event, queryset)
+
+
+class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
+    def filter_event(self, event, queryset):
+        return queryset.filter(eventUser__event=event)
+
+
+class NonRegisteredAttendeeAdmin(ExportMixin, EventoLAdmin):
+    def filter_event(self, event, queryset):
+        attendees = []
+        for attendee in queryset.all():
+            if EventUser.objects.get(nonregisteredattendee=attendee, event=event).exists():
+                attendees.append(attendee)
+        return attendees
 
 
 class TalkProposalResource(resources.ModelResource):
@@ -49,11 +63,9 @@ class InstallerResource(resources.ModelResource):
         export_order = fields
 
 
-class InstallerAdmin(ExportMixin, EventoLAdmin):
+class InstallerAdmin(EventoLEventUserAdmin):
     resource_class = InstallerResource
-
-    def filter_event(self, event, queryset):
-        return queryset.filter(eventUser__event=event)
+    pass
 
 
 class InstallationResource(resources.ModelResource):
@@ -79,7 +91,7 @@ class AttendeeResource(resources.ModelResource):
         export_order = fields
 
 
-class AttendeeAdmin(ExportMixin, EventoLAdmin):
+class AttendeeAdmin(EventoLEventUserAdmin):
     resource_class = AttendeeResource
     pass
 
@@ -94,16 +106,17 @@ class CollaboratorResource(resources.ModelResource):
         export_order = fields
 
 
-class CollaboratorAdmin(ExportMixin, EventoLAdmin):
+class CollaboratorAdmin(EventoLEventUserAdmin):
     resource_class = CollaboratorResource
     pass
+
 
 
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(TalkProposal, TalkProposalAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
-admin.site.register(Organizer)
+admin.site.register(Organizer, EventoLEventUserAdmin)
 admin.site.register(Collaborator, CollaboratorAdmin)
 admin.site.register(Hardware)
 admin.site.register(Software)
@@ -113,10 +126,10 @@ admin.site.register(TalkType)
 admin.site.register(Room, EventoLAdmin)
 admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
-admin.site.register(Activity)
-admin.site.register(ContactMessage)
-admin.site.register(EventUser)
+admin.site.register(Activity, EventoLAdmin)
+admin.site.register(ContactMessage, EventoLAdmin)
+admin.site.register(EventUser, EventoLAdmin)
 admin.site.register(Image)
-admin.site.register(InstallationAttendee)
-admin.site.register(NonRegisteredAttendee)
-admin.site.register(Speaker)
+admin.site.register(InstallationAttendee, EventoLEventUserAdmin)
+admin.site.register(NonRegisteredAttendee, NonRegisteredAttendeeAdmin)
+admin.site.register(Speaker, EventoLEventUserAdmin)

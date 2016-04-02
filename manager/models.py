@@ -70,6 +70,7 @@ class ContactMessage(models.Model):
     name = models.CharField(max_length=255, verbose_name=_('Name'))
     email = models.EmailField(verbose_name=_('Email'))
     message = models.TextField(verbose_name=_('Message'))
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('Contact Message')
