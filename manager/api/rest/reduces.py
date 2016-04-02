@@ -13,9 +13,8 @@ def talks(talks):
 
 def proposals(proposals):
     data = {
-        'talks_not_confirmed': proposals.filter(confirmed=False).count(),
-        'talks_confirmed': proposals.filter(confirmed=True).count(),
-        'talks_dummys': proposals.filter(dummy_talk=True).count(),
+        'talks_not_confirmed': proposals.filter(confirmed_talk=False).count(),
+        'talks_confirmed': proposals.filter(confirmed_talk=True).count(),
         'total': proposals.count()
     }
     return data
@@ -23,9 +22,8 @@ def proposals(proposals):
 
 def attendees(attendees):
     data = {
-        'not_confirmed': attendees.filter(assisted=False).count(),
-        'confirmed': attendees.filter(assisted=True).count(),
-        'is_going_to_install': attendees.filter(is_going_to_install=True).count(),
+        'not_confirmed': attendees.filter(eventUser__assisted=False).count(),
+        'confirmed': attendees.filter(eventUser__assisted=True).count(),
         'total': attendees.count()
     }
     return data
