@@ -1,0 +1,82 @@
+[
+{
+    "fields": {
+        "verified": true,
+        "user": 1,
+        "primary": true,
+        "email": "user_1@yopmail.com"
+    },
+    "model": "account.emailaddress",
+    "pk": 1
+},
+{
+    "fields": {
+        "verified": true,
+        "user": 2,
+        "primary": true,
+        "email": "user_2@yopmail.com"
+    },
+    "model": "account.emailaddress",
+    "pk": 2
+},
+{
+    "fields": {
+        "verified": true,
+        "user": 3,
+        "primary": true,
+        "email": "user_3@yopmail.com"
+    },
+    "model": "account.emailaddress",
+    "pk": 3
+},
+{
+    "fields": {
+        "verified": true,
+        "user": 4,
+        "primary": true,
+        "email": "user_4@yopmail.com"
+    },
+    "model": "account.emailaddress",
+    "pk": 4
+},
+{
+    "fields": {
+        "verified": true,
+        "user": 5,
+        "primary": true,
+        "email": "user_5@yopmail.com"
+    },
+    "model": "account.emailaddress",
+    "pk": 5
+},
+{
+    "fields": {
+        "verified": true,
+        "user": 6,
+        "primary": true,
+        "email": "user_6@yopmail.com"
+    },
+    "model": "account.emailaddress",
+    "pk": 6
+},
+{
+    "fields": {
+        "verified": true,
+        "user": 7,
+        "primary": true,
+        "email": "user_7@yopmail.com"
+    },
+    "model": "account.emailaddress",
+    "pk": 7
+},
+{
+    "fields": {
+        "verified": true,
+        "user": 8,
+        "primary": true,
+        "email": "user_8@yopmail.com"
+    },
+    "model": "account.emailaddress",
+    "pk": 8
+}
+]
