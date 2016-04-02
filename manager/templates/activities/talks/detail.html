@@ -10,10 +10,10 @@
     {% endblock %}
 {% endif %}
 {% block page-header %}
-    {% if talk %}{{ talk.talk_proposal.title }}{% elif proposal %}{{ proposal.title }}{% endif %}
+    {% if proposal %}{{ proposal.activity.title }}{% elif proposal %}{{ proposal.activity.title }}{% endif %}
 {% endblock %}
 {% block page-name %}
-    {% if talk %}{{ talk.talk_proposal.title }}{% elif proposal %}{{ proposal.title }}{% endif %}
+    {% if proposal %}{{ proposal.activity.title }}{% elif proposal %}{{ proposal.activity.title }}{% endif %}
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -29,7 +29,7 @@
                                     <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                 {% endif %}
                                 <br><br>
-                                {% include 'talks/proposal/votes.html' %}
+                                {% include 'activities/talks/proposal/votes.html' %}
                             </div>
                             <div class="col-md-8 col-lg-8" id="accordion" style="padding-top: 10px">
                                 <div id="talk_information">
@@ -50,7 +50,7 @@
                                     {% endif %}
                                 </div>
                                 {% if event.registration_is_open %}
-                                    <a href="{% url "proposal_detail" event_slug proposal.pk %}/">
+                                    <a href="{% url "talk_proposal" event_slug proposal.pk %}">
                                         <p><strong>
                                             <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
                                         </strong></p>
@@ -67,7 +67,7 @@
                                         <div id="become_talk">
                                             <div id="to_talk" class="panel-collapse collapse">
                                                 <div class="container col-md-12 col-lg-12">
-                                                    {% include 'talks/to_talk_form.html' with form_id=proposal.pk %}
+                                                    {% include 'activities/talks/to_talk_form.html' with form_id=proposal.pk %}
                                                 </div>
                                             </div>
                                         </div>
@@ -81,7 +81,7 @@
                                     <div id="presentation">
                                         <div id="upload_presentation" class="panel-collapse collapse">
                                             <div class="container col-md-12 col-lg-12">
-                                                {% include 'talks/upload_presentation.html' with form=form_presentation form_id=proposal.pk %}
+                                                {% include 'activities/talks/upload_presentation.html' with form=form_presentation form_id=proposal.pk %}
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            {% include 'talks/comments.html' with form=comment_form %}
+            {% include 'activities/talks/comments.html' with form=comment_form %}
         </div>
     </div>
 {% endblock %}

@@ -134,13 +134,5 @@
       "name": "Google+",
       "icon_class": "fa-google-plus-square"
     }
-  },
-  {
-    "model": "manager.Room",
-    "fields": {
-      "event": 1,
-      "name": "Sala Blanca"
-    },
-    "pk": 1
   }
 ]
