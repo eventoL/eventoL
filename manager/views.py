@@ -22,7 +22,6 @@ from django.conf import settings
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
-    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm,
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, \
     RegisteredEventUserSearchForm, ActivityCompleteForm, ContactForm
 
