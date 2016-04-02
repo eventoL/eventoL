@@ -13,6 +13,10 @@ from easy_thumbnails.conf import Settings as thumbnail_settings
 from easy_thumbnails.optimize.conf import OptimizeSettings
 import os
 
+
+def str_to_bool(s):
+    return s == 'True'
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -26,9 +30,8 @@ MEDIA_URL = '/media/'
 SECRET_KEY = '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
+DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', False))
+TEMPLATE_DEBUG = str_to_bool(os.getenv('DJANGO_TEMPLATE_DEBUG', False))
 
 ALLOWED_HOSTS = []
 
@@ -85,11 +88,11 @@ WSGI_APPLICATION = 'eventoL.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'eventol',
-        'USER': 'eventol',
-        'PASSWORD': 'secret',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('PSQL_NAME', 'eventol'),
+        'USER': os.getenv('PSQL_USER', 'eventol'),
+        'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
+        'HOST': os.getenv('PSQL_HOST', 'localhost'),
+        'PORT': os.getenv('PSQL_PORT', '5432'),
     }
 }
 
@@ -129,19 +132,6 @@ TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
 )
 
-CITIES_FILES = {
-    'city': {
-        'filename': 'AR.zip',
-        'urls': ['http://download.geonames.org/export/dump/' + '{filename}']
-    },
-}
-
-CITIES_LOCALES = ['es-AR']
-
-CITIES_POSTAL_CODES = ['ARG']
-
-CITIES_PLUGINS = []
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -158,11 +148,6 @@ LOGGING = {
         },
     },
     'loggers': {
-        'cities': {
-            'handlers': ['log_to_stdout'],
-            'level': 'INFO',
-            'propagate': True,
-        },
         'django': {
             'handlers': ['log_to_stdout'],
             'propagate': True,
@@ -171,12 +156,12 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'YOUR USERNAME'
-EMAIL_HOST_PASSWORD = 'YOUR PASSWORD'
-EMAIL_USE_TLS = True
-EMAIL_FROM = 'FROM@YOURACCOUNT'
+EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'smtp.unset')
+EMAIL_PORT = os.getenv('DJANGO_EMAIL_PORT', '587')
+EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', 'change_unset@mail.com')
+EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', 'secret')
+EMAIL_USE_TLS = str_to_bool(os.getenv('DJANGO_EMAIL_USE_TLS', True))
+EMAIL_FROM = os.getenv('DJANGO_EMAIL_FROM', 'change_unset@mail.com')
 LOGIN_URL = '/accounts/login/'
 
 OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
@@ -185,7 +170,7 @@ OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
     'jpg': '/usr/bin/jpegoptim {filename}'
 }
 
-GRAPPELLI_ADMIN_TITLE = 'Flisol 2015'
+GRAPPELLI_ADMIN_TITLE = os.getenv('DJANGO_ADMIN_TITLE', 'EventoL')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -218,29 +203,33 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = \
-    {'facebook': {'METHOD': 'oauth2',
-                  'SCOPE': ['email', 'public_profile'],
-                  'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-                  'FIELDS': [
-                      'id',
-                      'email',
-                      'name',
-                      'first_name',
-                      'last_name',
-                      'verified',
-                      'locale',
-                      'timezone',
-                      'link',
-                      'gender',
-                      'updated_time'],
-                  'EXCHANGE_TOKEN': True,
-                  'LOCALE_FUNC': lambda request: 'es_AR',
-                  'VERIFIED_EMAIL': False,
-                  'VERSION': 'v2.4'},
-     'google': {
-         'SCOPE': ['profile', 'email'],
-         'AUTH_PARAMS': {'access_type': 'online'}
-     }}
+    {
+        'facebook': {
+            'METHOD': 'oauth2',
+            'SCOPE': ['email', 'public_profile'],
+            'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+            'FIELDS': [
+                'id',
+                'email',
+                'name',
+                'first_name',
+                'last_name',
+                'verified',
+                'locale',
+                'timezone',
+                'link',
+                'gender',
+                'updated_time'],
+            'EXCHANGE_TOKEN': True,
+            'LOCALE_FUNC': lambda request: 'es_AR',
+            'VERIFIED_EMAIL': False,
+            'VERSION': 'v2.4'
+        },
+        'google': {
+            'SCOPE': ['profile', 'email'],
+            'AUTH_PARAMS': {'access_type': 'online'}
+        }
+    }
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
