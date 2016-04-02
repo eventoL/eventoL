@@ -22,7 +22,7 @@ from django.conf import settings
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
-    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm,\
+    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, \
     RegisteredEventUserSearchForm, ActivityCompleteForm
 from manager.models import *
 from manager.schedule import Schedule
@@ -299,7 +299,8 @@ def image_cropping(request, event_slug, image_id):
             messages.success(request, _("The proposal has been registered successfully!"))
             return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
         messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
-    return render(request, 'activities/talks/proposal/image-cropping.html', update_event_info(event_slug, {'form': form}))
+    return render(request, 'activities/talks/proposal/image-cropping.html',
+                  update_event_info(event_slug, {'form': form}))
 
 
 def schedule(request, event_slug):
@@ -835,7 +836,10 @@ def view_ticket(request, event_slug):
 
 
 def create_organizer(event_user):
-    organizer = Organizer.objects.create(eventUser=event_user)
+    organizer = Organizer.objects.filter(eventUser=event_user).first()
+    if organizer is None:
+        organizer = Organizer.objects.create(eventUser=event_user)
+
     add_organizer_permissions(organizer.eventUser.user)
     organizer.save()
     return organizer

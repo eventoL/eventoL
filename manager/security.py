@@ -48,11 +48,10 @@ def create_organizers_group():
                  'change_installer', 'delete_installer', 'add_speaker', 'change_speaker', 'delete_speaker', 'add_room',
                  'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
                  'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
-                 'delete_installation', 'can_take_attendance']
+                 'delete_installation']
         organizers = Group.objects.create(name='Organizers')
-        permissions = Permission.objects.filter(codename__in=perms)
-        for perm in permissions:
-            organizers.permissions.add()
+        for perm in perms:
+            organizers.permissions.add(Permission.objects.get(codename=perm))
 
         organizers.save()
     else:

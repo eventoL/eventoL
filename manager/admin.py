@@ -12,7 +12,7 @@ class EventoLAdmin(admin.ModelAdmin):
         queryset = super(EventoLAdmin, self).queryset(request)
         if request.user.is_superuser:
             return queryset
-        organizer = Organizer.objects.get(user=request.user)
+        organizer = Organizer.objects.get(eventUser__user=request.user)
         return self.filter_event(organizer.eventUser.event, queryset)
 
 
