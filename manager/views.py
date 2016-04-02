@@ -1,6 +1,5 @@
 # encoding: UTF-8
 import itertools
-import autocomplete_light
 import svglue
 import cairosvg
 import pyqrcode
@@ -23,10 +22,14 @@ from django.conf import settings
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
-    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm, ContactForm
+    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm,
+    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, \
+    RegisteredEventUserSearchForm, ActivityCompleteForm, ContactForm
+
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator
+from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
+    add_organizer_permissions
 from voting.models import Vote
 
 autocomplete_light.autodiscover()
@@ -77,13 +80,7 @@ def get_forms_errors(forms):
     return list(itertools.chain.from_iterable(errors))
 
 
-def talk_registration(request, event_slug, pk):
-    errors = []
-    error = False
-    activity = None
-    event = Event.objects.get(slug__iexact=event_slug)
-
-    # FIXME: Esto es lo que se llama una buena chanchada!
+def generateDatetime(request, event):
     post = None
     if request.POST:
         start_time = datetime.datetime.strptime(request.POST.get('start_date', None), '%I:%M %p')
@@ -96,6 +93,17 @@ def talk_registration(request, event_slug, pk):
 
         post['start_date'] = start_time_posta.strftime('%Y-%m-%d %H:%M:%S')
         post['end_date'] = end_time_posta.strftime('%Y-%m-%d %H:%M:%S')
+    return post
+
+
+def talk_registration(request, event_slug, pk):
+    errors = []
+    error = False
+    activity = None
+    event = Event.objects.get(slug__iexact=event_slug)
+
+    # FIXME: Esto es lo que se llama una buena chanchada!
+    post = generateDatetime(request, event)
 
     # Fin de la chanchada
 
@@ -135,7 +143,7 @@ def talk_registration(request, event_slug, pk):
 
     render_dict.update({'multipart': False, 'errors': errors, 'form': talk_form, 'error': error})
     return render(request,
-                  'talks/detail.html',
+                  'activities/talks/detail.html',
                   update_event_info(event_slug, render_dict))
 
 
@@ -235,7 +243,40 @@ def talk_proposal(request, event_slug, pk=None):
         messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
         errors = get_forms_errors(forms)
 
-    return render(request, 'talks/proposal.html',
+    return render(request, 'activities/talks/proposal.html',
+                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
+
+
+@login_required
+def activity(request, event_slug, pk=None):
+    event = Event.objects.get(slug__iexact=event_slug)
+
+    post = generateDatetime(request, event)
+    errors = []
+    new_activity = None
+    activity = Activity.objects.get(pk=pk) if pk else Activity(event=event)
+
+    activity_form = ActivityCompleteForm(event_slug, post or None, instance=activity)
+    forms = [activity_form]
+
+    if request.POST:
+        if activity_form.is_valid() and room_available(request, activity_form.instance, event_slug):
+            try:
+                activity = activity_form.save()
+                activity.confirmed = True
+                activity.start_date = post['start_date']
+                activity.end_date = post['end_date']
+                activity.room = Room.objects.get(pk=request.POST.get('room', None))
+                activity.save()
+                messages.success(request, _("The activity has been registered successfully"))
+                return HttpResponseRedirect(reverse('activities', args=[event_slug]))
+            except Exception, e:
+                if new_activity is not None:
+                    Activity.delete(new_activity)
+                messages.error(request, _("The activity hasn't been registered successfully (check form errors)"))
+                errors = get_forms_errors(forms)
+
+    return render(request, 'activities/activity.html',
                   update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
@@ -260,34 +301,44 @@ def image_cropping(request, event_slug, image_id):
             messages.success(request, _("The proposal has been registered successfully!"))
             return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
         messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
-    return render(request, 'talks/proposal/image-cropping.html', update_event_info(event_slug, {'form': form}))
+    return render(request, 'activities/talks/proposal/image-cropping.html',
+                  update_event_info(event_slug, {'form': form}))
 
 
 def schedule(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     if not event.schedule_confirm:
         messages.info(request, _("While the schedule this unconfirmed, you can only see the list of proposals."))
-        return HttpResponseRedirect(reverse("talks", args=[event_slug]))
+        return HttpResponseRedirect(reverse("activities", args=[event_slug]))
 
     rooms = Room.objects.filter(event=event)
     activities_confirmed = Activity.objects.filter(confirmed=True, event=event)
     if activities_confirmed:
         schedule = Schedule(list(rooms), list(activities_confirmed))
-        return render(request, 'talks/schedule.html',
+        return render(request, 'activities/schedule.html',
                       update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
     messages.warning(_("You don't have confirmed talks, please confirm talks and after confirm schedule"))
-    return talks(request, event_slug)
+    return activities(request, event_slug)
 
 
-def talks(request, event_slug):
+def activities(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
-    talks_list = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True)
-    proposals = TalkProposal.objects.filter(activity__event=event, confirmed_talk=False)
+    talks_list, proposals, activities_not_confirmed, activities_confirmed = [], [], [], []
+    activities_list = Activity.objects.filter(event=event)
+    for activity in activities_list:
+        talk_proposal = TalkProposal.objects.filter(activity=activity).first()
+        if talk_proposal:
+            talks_list.append(talk_proposal) if talk_proposal.confirmed_talk else proposals.append(talk_proposal)
+        else:
+            activities_confirmed.append(activity) if activity.confirmed else activities_not_confirmed.append(activity)
     for proposal in proposals:
         setattr(proposal, 'form', TalkForm(event_slug, instance=proposal.activity))
         setattr(proposal, 'errors', [])
-    return render(request, 'talks/talks_home.html',
-                  update_event_info(event_slug, {'talks': talks_list, 'proposals': proposals, 'event': event}, event))
+    return render(request, 'activities/activities_home.html',
+                  update_event_info(event_slug, {'talks': talks_list, 'proposals': proposals,
+                                                 'activities_confirmed': activities_confirmed,
+                                                 'activities_not_confirmed': activities_not_confirmed,
+                                                 'event': event}, event))
 
 
 def talk_detail(request, event_slug, pk):
@@ -315,7 +366,7 @@ def proposal_detail(request, event_slug, pk):
                             'form_presentation': PresentationForm(instance=proposal), 'errors': []})
     else:
         render_dict.update({'form': TalkForm(event_slug, instance=proposal.activity), 'errors': []})
-    return render(request, 'talks/detail.html', update_event_info(event_slug, render_dict))
+    return render(request, 'activities/talks/detail.html', update_event_info(event_slug, render_dict))
 
 
 def upload_presentation(request, event_slug, pk):
@@ -364,8 +415,7 @@ def add_organizer(request, event_slug):
         if form.is_valid():
             event_user = form.cleaned_data['eventUser']
             if event_user:
-                organizer = Organizer(eventUser=event_user)
-                organizer.save()
+                organizer = create_organizer(event_user)
                 messages.success(request,
                                  _("%s has been successfully added as an Organizer." % event_user.user.username))
             return HttpResponseRedirect(reverse("add_organizer", args=[event_slug]))
@@ -457,7 +507,7 @@ def contact(request, event_slug):
             email.to = [event.email]
             email.extra_headers = {'Reply-To': contact_message.email}
             email.send(fail_silently=False)
-
+            contact_message.event = Event.objects.get(slug__iexact=event_slug)
             contact_message.save()
             messages.success(request, _("The message has been sent. You will receive a reply by email"))
             return HttpResponseRedirect('/event/' + event_slug)
@@ -470,10 +520,9 @@ def contact(request, event_slug):
 @user_passes_test(is_organizer, 'index')
 def delete_comment(request, event_slug, pk, comment_pk=None):
     """Delete comment(s) with primary key `pk` or with pks in POST."""
-    if request.user.is_staff:
-        pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
-        for comment_pk in pklist:
-            Comment.objects.get(pk=comment_pk).delete()
+    pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
+    for comment_pk in pklist:
+        Comment.objects.get(pk=comment_pk).delete()
     return HttpResponseRedirect(reverse("proposal_detail", args=[event_slug, pk]))
 
 
@@ -524,7 +573,7 @@ def generate_ticket(eventUser):
     ticket_template.set_text('event_name', eventUser.event.name[:30])
     ticket_template.set_text('event_date', eventUser.event.date.strftime("%A %d de %B de %Y"))
     place = json.loads(eventUser.event.place)
-    if place.get("name"): #Si tiene nombre cargado
+    if place.get("name"):  # Si tiene nombre cargado
         ticket_template.set_text('event_place_name', place.get("name"))
         ticket_template.set_text('event_place_address', place.get("formatted_address"))
     else:
@@ -559,9 +608,10 @@ def send_event_ticket(eventUser):
     email.body = unicode(_("Hello %s %s,\n Here is your ticket for %s event. \
     Please remember to print it and bring it with you the day of the event. \
     \n Regards, %s team." % (
-    eventUser.user.first_name, eventUser.user.last_name, eventUser.event.name, eventUser.event.name)))
+        eventUser.user.first_name, eventUser.user.last_name, eventUser.event.name, eventUser.event.name)))
     email.to = [eventUser.user.email]
-    email.attach('Ticket-'+str(eventUser.id).zfill(12)+'.pdf', cairosvg.svg2pdf(bytestring=ticket), 'application/pdf')
+    email.attach('Ticket-' + str(eventUser.id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket),
+                 'application/pdf')
     email.send(fail_silently=False)
 
 
@@ -672,7 +722,7 @@ def create_event(request):
             try:
                 the_event = event_form.save()
                 eventUser = EventUser.objects.create(user=request.user, event=the_event)
-                organizer = Organizer.objects.create(eventUser=eventUser)
+                organizer = create_organizer(eventUser)
                 contacts = contacts_formset.save(commit=False)
 
                 for a_contact in contacts:
@@ -775,13 +825,23 @@ def add_room(request, event_slug, pk=None):
 
 
 @login_required
-def view_ticket(request,event_slug):
+def view_ticket(request, event_slug):
     eventuser = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
     if eventuser:
         ticket = generate_ticket(eventuser)
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
-        response["Content-Disposition"] = 'filename=Ticket-'+str(eventuser.id).zfill(12)+'.pdf'
+        response["Content-Disposition"] = 'filename=Ticket-' + str(eventuser.id).zfill(12) + '.pdf'
         return response
     else:
         messages.error(request, "You are not registered for this event")
         return HttpResponseRedirect(reverse("index", args=(event_slug,)))
+
+
+def create_organizer(event_user):
+    organizer = Organizer.objects.filter(eventUser=event_user).first()
+    if organizer is None:
+        organizer = Organizer.objects.create(eventUser=event_user)
+
+    add_organizer_permissions(organizer.eventUser.user)
+    organizer.save()
+    return organizer

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, Group
 from django.utils.decorators import available_attrs
 from functools import wraps
 from django.core.urlresolvers import reverse
@@ -34,6 +34,37 @@ def add_attendance_permission(user):
     user.user_permissions.add(attendance_permission)
 
     user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='change_eventuser'))
+
+
+def create_organizers_group():
+    organizers = None
+    if not Group.objects.filter(name='Organizers').exists():
+        perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_nonregisteredattendee',
+                 'change_nonregisteredattendee', 'delete_nonregisteredattendee', 'add_eventuser', 'change_eventuser',
+                 'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
+                 'change_organizer', 'delete_organizer', 'add_attendee', 'change_attendee', 'delete_attendee',
+                 'add_installationattendee', 'change_installationattendee', 'delete_installationattendee',
+                 'add_installer',
+                 'change_installer', 'delete_installer', 'add_speaker', 'change_speaker', 'delete_speaker', 'add_room',
+                 'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
+                 'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
+                 'delete_installation']
+        organizers = Group.objects.create(name='Organizers')
+        for perm in perms:
+            organizers.permissions.add(Permission.objects.get(codename=perm))
+
+        organizers.save()
+    else:
+        organizers = Group.objects.get(name='Organizers')
+
+    return organizers
+
+
+def add_organizer_permissions(user):
+    organizers = create_organizers_group()
+    user.groups.add(organizers)
+    user.is_staff = True
+    user.save()
 
 
 def is_organizer(user, event_slug=None, *args, **kwargs):
