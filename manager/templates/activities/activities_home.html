@@ -12,7 +12,7 @@
         {% trans "Talks" %}
         <div id="buttons" class="pull-right">
             {% if user|is_organizer:event_slug %}
-                <a href="/event/{{ event_slug }}/activities/activity" class="btn btn-raised btn-success">
+                <a href="{% url "add_activity" event_slug %}" class="btn btn-raised btn-success">
                     {% trans 'Submit activity' %}
                 </a>
             {% endif %}
@@ -35,7 +35,7 @@
                             <h4 class="panel-title">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                    href="#talk-{{ forloop.counter }}">
-                                    {{ talk.activity.title }}
+                                    {{ talk.activity.title }} - {{ talk.activity.schedule }}
                                     <i class="indicator fa fa-chevron-down pull-right"></i>
                                 </a>
                                 {% if user.is_authenticated %}
@@ -92,7 +92,7 @@
                                 <h4 class="panel-title">
                                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                        href="#proposal-{{ forloop.counter }}">
-                                        {{ proposal.activity.title }}
+                                        {{ proposal.activity.title }} - {{ proposal.activity.schedule }}
                                         <i class="indicator fa fa-chevron-down pull-right"></i>
                                     </a>
                                     {% if user.is_authenticated %}
@@ -146,7 +146,7 @@
                                                 <div id="to_talk-{{ forloop.counter }}"
                                                      class="panel-collapse collapse">
                                                     <div class="container col-sm-12">
-                                                        {% include 'talks/to_talk_form.html' with form=proposal.form errors=proposal.errors form_id=proposal.pk %}
+                                                        {% include 'activities/talks/to_talk_form.html' with form=proposal.form errors=proposal.errors form_id=proposal.pk %}
                                                     </div>
                                                 </div>
                                             {% endif %}
@@ -160,14 +160,6 @@
                 {% endfor %}
             </div>
         </div>
-        {% if not event.schedule_confirm and user|is_organizer:event_slug %}
-            <div class="row">
-                <a type="button" class="btn btn-raised btn-success btn-xs"
-                   href="{% url "confirm_schedule" event_slug %}">
-                    <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
-                </a>
-            </div>
-        {% endif %}
     {% else %}
         <div class="well">
             <p>
@@ -176,6 +168,106 @@
             </p>
         </div>
     {% endif %}
+
+    <div class="container">
+        <div class="row">
+            <h2>{% trans "Activities" %}</h2>
+        </div>
+    </div>
+    {% if activities_confirmed or activities_not_confirmed %}
+        <div class="row">
+            <div class="panel-group" id="accordion">
+                {% for activity in activities_confirmed %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                   href="#activity-{{ forloop.counter }}">
+                                    {{ activity.title }} - {{ activity.schedule }}
+                                    <i class="indicator fa fa-chevron-down pull-right"></i>
+                                </a>
+                                {% if user.is_authenticated %}
+                                    <span class="label label-success pull-right"
+                                          style="border-radius: 2px; padding-top: 0.3em">
+                                        {% trans "Confirmed" %}
+                                    </span>
+                                {% endif %}
+                            </h4>
+                        </div>
+                        <div id="activity-{{ forloop.counter }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-8" style="padding-top: 10px">
+                                        <p><strong>{% trans "Abstract" %}:</strong> {{ activity.abstract }}</p>
+
+                                        <p><strong>{% trans "Room" %}:</strong> {{ activity.room }}</p>
+
+                                        <p><strong>{% trans "Start" %}:</strong> {{ activity.start_date }}</p>
+
+                                        <p><strong>{% trans "End" %}:</strong> {{ activity.end_date }}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for activity in activities_not_confirmed %}
+                    {% if not activity.confirmed %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                       href="#activity-{{ forloop.counter }}">
+                                        {{ activity.title }} - {{ activity.schedule }}
+                                        <i class="indicator fa fa-chevron-down pull-right"></i>
+                                    </a>
+                                    {% if user.is_authenticated %}
+                                        <span class="label label-danger pull-right" style="padding-top: 0.3em">
+                                            {% trans "Not Confirmed" %}
+                                        </span>
+                                    {% endif %}
+                                </h4>
+                            </div>
+                            <div id="activity-{{ forloop.counter }}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <div id="activity-info-{{ forloop.counter }}">
+                                                <p><strong>{% trans "Abstract" %}:</strong> {{ activity.abstract }}</p>
+
+                                                <p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names|title }}</p>
+
+                                                <p><strong>{% trans "Labels" %}:</strong> {{ activity.labels|lower }}</p>
+
+                                                <p><strong>{% trans "Type" %}:</strong> {{ activity.type }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="well">
+            <p>
+                {% trans "There isn't any activity yet." %} <a
+                    href="{% url "add_activity" event_slug %}">{% trans "Submit yours!" %}</a>
+            </p>
+        </div>
+    {% endif %}
+    {% if not event.schedule_confirm and user|is_organizer:event_slug %}
+        <div class="row">
+            <a type="button" class="btn btn-raised btn-success btn-xs"
+               href="{% url "confirm_schedule" event_slug %}">
+                <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
+            </a>
+        </div>
+    {% endif %}
+
 {% endblock %}
 {% block other-script %}
     <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
