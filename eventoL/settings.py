@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 ON_OPENSHIFT = 'OPENSHIFT_REPO_DIR' in os.environ
 
-SECRET_KEY = os.environ.get('OPENSHIFT_SECRET_TOKEN', default='!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
+SECRET_KEY = os.environ.get('OPENSHIFT_SECRET_TOKEN', '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not ON_OPENSHIFT
@@ -90,11 +90,11 @@ WSGI_APPLICATION = 'eventoL.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('OPENSHIFT_APP_NAME', default='eventol'),
-        'USER': os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME', default='eventol'),
-        'PASSWORD': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD', default='secret'),
-        'HOST': os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST', default='localhost'),
-        'PORT': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT', default='5432'),
+        'NAME': os.environ.get('OPENSHIFT_APP_NAME', 'eventol'),
+        'USER': os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME', 'eventol'),
+        'PASSWORD': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD', 'secret'),
+        'HOST': os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST', 'localhost'),
+        'PORT': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT', '5432'),
     }
 }
 
@@ -170,12 +170,12 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = os.environ.get('EVENTOL_EMAIL_HOST', default='smtp.gmail.com')
-EMAIL_PORT = os.environ.get('EVENTOL_EMAIL_PORT', default='587')
-EMAIL_HOST_USER = os.environ.get('EVENTOL_EMAIL_HOST_USER', default='YOUR USERNAME')
-EMAIL_HOST_PASSWORD = os.environ.get('EVENTOL_EMAIL_HOST_PASSWORD', default='YOUR PASSWORD')
-EMAIL_USE_TLS = os.environ.get('EVENTOL_EMAIL_USE_TLS', default=True)
-EMAIL_FROM = os.environ.get('EVENTOL_EMAIL_FROM', default='FROM@YOURACCOUNT')
+EMAIL_HOST = os.environ.get('EVENTOL_EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = os.environ.get('EVENTOL_EMAIL_PORT', '587')
+EMAIL_HOST_USER = os.environ.get('EVENTOL_EMAIL_HOST_USER', 'YOUR USERNAME')
+EMAIL_HOST_PASSWORD = os.environ.get('EVENTOL_EMAIL_HOST_PASSWORD', 'YOUR PASSWORD')
+EMAIL_USE_TLS = os.environ.get('EVENTOL_EMAIL_USE_TLS', True)
+EMAIL_FROM = os.environ.get('EVENTOL_EMAIL_FROM', 'FROM@YOURACCOUNT')
 
 LOGIN_URL = '/accounts/login/'
 

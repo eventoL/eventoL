@@ -1,24 +1,34 @@
 #!/bin/bash
 
-source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
+source ${OPENSHIFT_HOMEDIR}python/virtenv/bin/activate
 
-echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py migrate --noinput'"
+# workaround for latest package versions not available
+echo "installing dependencies..."
+pip install -r ${OPENSHIFT_REPO_DIR}requirements.txt
+
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py migrate --noinput'"
 python "$OPENSHIFT_REPO_DIR"/manage.py migrate --noinput
 
-echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py syncdb --noinput'"
-python "$OPENSHIFT_REPO_DIR"/manage.py syncdb --noinput
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py makemigrations --noinput'"
+python "$OPENSHIFT_REPO_DIR"/manage.py makemigrations --noinput
 
-echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py collectstatic --noinput'"
-python "$OPENSHIFT_REPO_DIR"/manage.py collectstatic --noinput
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py migrate --noinput'"
+python "$OPENSHIFT_REPO_DIR"/manage.py migrate --noinput
 
-echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py loaddata manager/initial_data/initial_data.json --noinput'"
-python "$OPENSHIFT_REPO_DIR"/manage.py loaddata manager/initial_data/initial_data.json --noinput
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py syncdb --noinput'"
+python ${OPENSHIFT_REPO_DIR}manage.py syncdb --noinput
 
-echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py loaddata manager/initial_data/social.json --noinput'"
-python "$OPENSHIFT_REPO_DIR"/manage.py loaddata manager/initial_data/social.json --noinput
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py collectstatic --noinput'"
+python ${OPENSHIFT_REPO_DIR}manage.py collectstatic --noinput
 
-echo "Executing 'django-admin makemessages --locale=es'"
-django-admin makemessages --locale=es
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/initial_data.json'"
+python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/initial_data.json
 
-echo "Executing 'django-admin compilemessages'"
-django-admin compilemessages
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/social.json'"
+python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/social.json
+
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py makemessages --locale=es'"
+python ${OPENSHIFT_REPO_DIR}manage.py makemessages --locale=es
+
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py compilemessages'"
+python ${OPENSHIFT_REPO_DIR}manage.py compilemessages
