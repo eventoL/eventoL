@@ -1,6 +1,5 @@
 # encoding: UTF-8
 import itertools
-import autocomplete_light
 import svglue
 import cairosvg
 import pyqrcode
@@ -26,7 +25,8 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, Hardwa
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm
 from manager.models import *
 from manager.schedule import Schedule
-from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator
+from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
+    add_organizer_permissions
 from voting.models import Vote
 
 autocomplete_light.autodiscover()
@@ -364,8 +364,7 @@ def add_organizer(request, event_slug):
         if form.is_valid():
             event_user = form.cleaned_data['eventUser']
             if event_user:
-                organizer = Organizer(eventUser=event_user)
-                organizer.save()
+                organizer = create_organizer(event_user)
                 messages.success(request,
                                  _("%s has been successfully added as an Organizer." % event_user.user.username))
             return HttpResponseRedirect(reverse("add_organizer", args=[event_slug]))
@@ -524,7 +523,7 @@ def generate_ticket(eventUser):
     ticket_template.set_text('event_name', eventUser.event.name[:30])
     ticket_template.set_text('event_date', eventUser.event.date.strftime("%A %d de %B de %Y"))
     place = json.loads(eventUser.event.place)
-    if place.get("name"): #Si tiene nombre cargado
+    if place.get("name"):  # Si tiene nombre cargado
         ticket_template.set_text('event_place_name', place.get("name"))
         ticket_template.set_text('event_place_address', place.get("formatted_address"))
     else:
@@ -559,9 +558,10 @@ def send_event_ticket(eventUser):
     email.body = unicode(_("Hello %s %s,\n Here is your ticket for %s event. \
     Please remember to print it and bring it with you the day of the event. \
     \n Regards, %s team." % (
-    eventUser.user.first_name, eventUser.user.last_name, eventUser.event.name, eventUser.event.name)))
+        eventUser.user.first_name, eventUser.user.last_name, eventUser.event.name, eventUser.event.name)))
     email.to = [eventUser.user.email]
-    email.attach('Ticket-'+str(eventUser.id).zfill(12)+'.pdf', cairosvg.svg2pdf(bytestring=ticket), 'application/pdf')
+    email.attach('Ticket-' + str(eventUser.id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket),
+                 'application/pdf')
     email.send(fail_silently=False)
 
 
@@ -672,7 +672,7 @@ def create_event(request):
             try:
                 the_event = event_form.save()
                 eventUser = EventUser.objects.create(user=request.user, event=the_event)
-                organizer = Organizer.objects.create(eventUser=eventUser)
+                organizer = create_organizer(eventUser)
                 contacts = contacts_formset.save(commit=False)
 
                 for a_contact in contacts:
@@ -775,13 +775,20 @@ def add_room(request, event_slug, pk=None):
 
 
 @login_required
-def view_ticket(request,event_slug):
+def view_ticket(request, event_slug):
     eventuser = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
     if eventuser:
         ticket = generate_ticket(eventuser)
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
-        response["Content-Disposition"] = 'filename=Ticket-'+str(eventuser.id).zfill(12)+'.pdf'
+        response["Content-Disposition"] = 'filename=Ticket-' + str(eventuser.id).zfill(12) + '.pdf'
         return response
     else:
         messages.error(request, "You are not registered for this event")
         return HttpResponseRedirect(reverse("index", args=(event_slug,)))
+
+
+def create_organizer(event_user):
+    organizer = Organizer.objects.create(eventUser=event_user)
+    add_organizer_permissions(organizer.eventUser.user)
+    organizer.save()
+    return organizer
