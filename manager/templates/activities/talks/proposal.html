@@ -1,0 +1,21 @@
+{% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load staticfiles %}
+{% load cropping thumbnail %}
+{% load i18n %}
+{% block other-head %}
+    <script> var jqMin = jQuery.noConflict(); </script>
+    {% for form in forms %}
+        {% if form.media %} {{ form.media }} {% endif %}
+    {% endfor %}
+    <script> jQuery = $ = jqMin;</script>
+{% endblock %}
+
+{% block page-header %}{% trans "Talk Proposal" %}{% endblock %}
+
+{% block page-name %}{% trans "Talk Proposal" %}{% endblock %}
+
+{% block form-id %}"talk_proposal"{% endblock %}
+
+{% block form-name %}{% trans "Talk Proposal" %}{% endblock %}
+
+{% block form-action %}"."{% endblock %}

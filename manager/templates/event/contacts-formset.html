@@ -1,0 +1,156 @@
+{% load formset_tags %}
+{% load i18n %}
+{% load filters %}
+<div class="row">
+    <div id="formset" data-formset-prefix="{{ contacts_formset.prefix }}"
+         class="col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+        {{ contacts_formset.management_form }}
+        <div data-formset-body>
+            {% for contact_form in contacts_formset %}
+                <div data-formset-form>
+                    <div class="row" style="position: relative;">
+                        {{ contact_form.id }}
+                        <div class="col-sm-3" style="margin:0 10px 0 0;">
+                            <div class="form-group {% if contact_form.type.errors|length > 0 %}has-error{% endif %}">
+                                <label class="control-label"
+                                       for="{{ contact_form.type.id_for_label }}">
+                                    {% trans contact_form.type.label %}
+                                    {% if contact_form.type.field.required %}*{% endif %}
+                                </label>
+
+
+                                {{ contact_form.type | addcss:'form-control' }}
+                                {% if contact_form.type.errors|length > 0 %}
+                                    <p class="help-block"><span
+                                            class="fa fa-exclamation-triangle"></span>{{ contact_form.type.errors.as_text }}
+                                    </p>
+                                {% endif %}
+                                {% if contact_form.type.help_text %}
+                                    <p class="help-block">{{ contact_form.type.help_text }}</p>{% endif %}
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="margin:0 5px 0 5px;">
+                            <div class="form-group {% if contact_form.url.errors|length > 0 %}has-error{% endif %}">
+                                <label class="control-label"
+                                       for="{{ contact_form.url.id_for_label }}">
+                                    {% trans contact_form.url.label %}
+                                    {% if contact_form.url.field.required %}*{% endif %}
+                                    {% if contact_form.url.errors|length > 0 %}
+                                        <i class="fa fa-arrow-right"> </i>
+                                        {{ contact_form.url.errors.as_text }}{% endif %}
+                                </label>
+
+
+                                {{ contact_form.url | addcss:'form-control' }}
+                                {% if contact_form.url.help_text %}
+                                    <p class="help-block">{{ contact_form.url.help_text }}</p>{% endif %}
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="margin:0 0 0 5px;">
+                            <div class="form-group {% if contact_form.text.errors|length > 0 %}has-error{% endif %}">
+                                <label class="control-label"
+                                       for="{{ contact_form.text.id_for_label }}">
+                                    {% trans contact_form.text.label %}
+                                    {% if contact_form.text.field.required %}*{% endif %}
+                                    {% if contact_form.text.errors|length > 0 %}
+                                        <i class="fa fa-arrow-right"> </i>
+                                        {{ contact_form.text.errors.as_text }}{% endif %}
+                                </label>
+
+
+                                {{ contact_form.text | addcss:'form-control' }}
+                                {% if contact_form.text.help_text %}
+                                    <p class="help-block">{{ contact_form.text.help_text }}</p>{% endif %}
+                            </div>
+                        </div>
+                        {{ contact_form.event }}
+                        <div class="col-sm-1" style="position:absolute; bottom:10px; right:0">
+                            {% if contact_form.DELETE %}
+                                <div style="display:none">{{ contact_form.DELETE }}</div>
+                                <button type="button" class="btn btn-danger" data-formset-delete-button><i
+                                        class="fa fa-times-circle"></i>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="pull-right">
+            <a href="javascript:void(0)" class="btn btn-success btn-fab" data-formset-add><i
+                    class="material-icons">add</i></a>
+        </div>
+
+        <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+                <div data-formset-form>
+                    <div class="row" style="position:relative;">
+                        {{ contacts_formset.empty_form.id }}
+                        <div class="col-sm-3">
+                            <div class="form-group {% if contacts_formset.empty_form.type.errors|length > 0 %}has-error{% endif %}">
+                                <label class="control-label"
+                                       for="{{ contacts_formset.empty_form.type.id_for_label }}">
+                                    {% trans contacts_formset.empty_form.type.label %}
+                                    {% if contacts_formset.empty_form.type.field.required %}*{% endif %}
+                                </label>
+
+
+                                {{ contacts_formset.empty_form.type }}
+                                {% if contacts_formset.empty_form.type.errors|length > 0 %}
+                                    <p class="help-block"><span
+                                            class="fa fa-exclamation-triangle"></span>{{ contacts_formset.empty_form.type.errors.as_text }}
+                                    </p>
+                                {% endif %}
+                                {% if contacts_formset.empty_form.type.help_text %}
+                                    <p class="help-block">{{ contacts_formset.empty_form.type.help_text }}</p>{% endif %}
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group {% if contacts_formset.empty_form.url.errors|length > 0 %}has-error{% endif %}">
+                                <label class="control-label"
+                                       for="{{ contacts_formset.empty_form.url.id_for_label }}">
+                                    {% trans contacts_formset.empty_form.url.label %}
+                                    {% if contacts_formset.empty_form.url.field.required %}*{% endif %}
+                                    {% if contacts_formset.empty_form.url.errors|length > 0 %}
+                                        <i class="fa fa-arrow-right"> </i>
+                                        {{ contacts_formset.empty_form.url.errors.as_text }}{% endif %}
+                                </label>
+
+
+                                {{ contacts_formset.empty_form.url }}
+                                {% if contacts_formset.empty_form.url.help_text %}
+                                    <p class="help-block">{{ contacts_formset.empty_form.url.help_text }}</p>{% endif %}
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group {% if contacts_formset.empty_form.text.errors|length > 0 %}has-error{% endif %}">
+                                <label class="control-label"
+                                       for="{{ contacts_formset.empty_form.text.id_for_label }}">
+                                    {% trans contacts_formset.empty_form.text.label %}
+                                    {% if contacts_formset.empty_form.text.field.required %}*{% endif %}
+                                    {% if contacts_formset.empty_form.text.errors|length > 0 %}
+                                        <i class="fa fa-arrow-right"> </i>
+                                        {{ contacts_formset.empty_form.text.errors.as_text }}{% endif %}
+                                </label>
+
+
+                                {{ contacts_formset.empty_form.text }}
+                                {% if contacts_formset.empty_form.text.help_text %}
+                                    <p class="help-block">{{ contacts_formset.empty_form.text.help_text }}</p>{% endif %}
+                            </div>
+                        </div>
+                        {{ contacts_formset.empty_form.event }}
+                        <div class="col-sm-1" style="position:absolute; bottom:10px; right:0">
+                            {% if contacts_formset.empty_form.DELETE %}
+                                <div style="display:none">{{ contacts_formset.empty_form.DELETE }}</div>
+                                <button type="button" class="btn btn-danger" data-formset-delete-button><i
+                                        class="fa fa-times-circle"></i>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endescapescript %}
+        </script>
+    </div>
+</div>

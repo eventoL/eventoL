@@ -1,0 +1,9 @@
+{% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load i18n %}
+{% block page-header %}{% trans "Collaborator Registration" %}{% endblock %}
+
+{% block form-id %}"collaborator_registration"{% endblock %}
+
+{% block form-name %}{% trans "Collaborator Registration" %}{% endblock %}
+
+{% block form-action %}"{% url "collaborator_registration" event_slug %}"{% endblock %}

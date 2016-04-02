@@ -1,0 +1,20 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load i18n %}
+{% block page-header %}{% trans "Sign Up" %}{% endblock %}
+{% block page-name %}{% trans "Sign Up" %}{% endblock %}
+
+{% block form-id %}"signup_form"{% endblock %}
+
+{% block form-name %}{% trans "Sign Up" %}{% endblock %}
+
+{% block pre-form %}
+    <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">login</a>.{% endblocktrans %}</p>
+{% endblock %}
+
+{% block form-action %}"{% url 'account_signup' %}"{% endblock %}
+
+{% block extra-fields %}
+    {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load filters %}
+{% load cropping %}
+
+{% block other-head %}
+    <link rel="stylesheet" type="text/css" href="{% static "manager/bower_components/morrisjs/morris.css" %}">
+    <script src="{% static "manager/bower_components/raphael/raphael-min.js" %}"></script>
+    <script src="{% static "manager/bower_components/morrisjs/morris.min.js" %}"></script>
+{% endblock %}
+
+{% block page-header %}
+    <div class="row">
+        {% trans "Reports" %}
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <strong>{% trans "Attendee" %}</strong>
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-users" style="color: #0b62a4"> {% trans "Attendees Confirmed" %} </i><br>
+                <i class="fa fa-users" style="color: #FA5858"> {% trans "Attendees Not Confirmed" %}</i><br><br>
+                <div id="attendee"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-md-6" style="margin-left: 10px">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <strong>{% trans "Staff" %}</strong>
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-users" style="color: #0b62a4"> {% trans "Collaborators" %}</i><br>
+                <i class="fa fa-users" style="color: #FA5858"> {% trans "Installers" %}</i><br>
+                <i class="fa fa-users" style="color: #4da74d"> {% trans "Speakers" %}</i>
+                <div id="staff"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <strong>{% trans "Counts" %}</strong>
+            </div>
+            <div class="panel-body">
+                <div id="counts"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-md-6" style="margin-left: 10px">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <strong>{% trans "Installations" %}</strong>
+            </div>
+            <div class="panel-body">
+                <div id="installations"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <strong>{% trans "Votes For Talks" %}</strong>
+            </div>
+            <div class="panel-body">
+                <div id="votes"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row col-md-6" style="margin-left: 10px">
+        <div class="panel panel-primary">
+            <div class="panel-heading text-center">
+                <strong>{% trans "Installer For Level" %}</strong>
+            </div>
+            <div class="panel-body">
+                <div id="installers"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block other-script %}
+
+    <script src="{% static "manager/bower_components/q/q.js" %}"></script>
+
+    <script>
+
+        $(document).ready(function() {
+
+            Q($.get("/api/attendee/?format=json&event={{ event.pk }}&reduce=True"))
+              .then(function (attendee){
+
+                Morris.Donut({
+                  element: 'attendee',
+                  data: [
+                    {label: "{% trans "Attendees Confirmed" %}", value: attendee.confirmed, color: "#0b62a4"},
+                    {label: "{% trans "Attendees Not Confirmed" %}", value: attendee.not_confirmed, color: "#FA5858"}
+                  ]
+                });
+
+            });
+
+            Q($.get("/api/{{ event_slug }}/event_report"))
+              .then(function (event_report){
+
+                Morris.Donut({
+                  element: 'staff',
+                  data: [
+                    {label: "{% trans "Collaborators" %}", value: event_report.staff.collaborators, color: "#0b62a4"},
+                    {label: "{% trans "Installers" %}", value: event_report.staff.installers, color: "#FA5858"},
+                    {label: "{% trans "Speakers" %}", value: event_report.staff.speakers, color: "#4da74d"}
+                  ]
+                });
+
+                var votes = [];
+                for ( var item in event_report.votes_for_talk ){
+                    votes.push({y: item, a: event_report.votes_for_talk[item]});
+                };
+
+                Morris.Bar({
+                  element: 'votes',
+                  data: votes,
+                  xkey: 'y',
+                  ykeys: ['a'],
+                  labels: ['{% trans "Count" %}']
+                });
+
+            });
+
+            Q($.get("/api/installers/?format=json&event={{ event.pk }}&reduce=True"))
+              .then(function (installer){
+
+                var installers = [];
+                var installer_levels = {
+                  1: '{% trans 'Beginner' %}',
+                  2: '{% trans 'Medium' %}',
+                  3: '{% trans 'Advanced' %}',
+                  4: '{% trans 'Super Hacker' %}'
+                }
+                for ( var item in installer.installers_for_level ){
+                    installers.push({y: installer_levels[item], a: installer.installers_for_level[item]});
+                };
+
+                Morris.Bar({
+                  element: 'installers',
+                  data: installers,
+                  xkey: 'y',
+                  ykeys: ['a'],
+                  labels: ['{% trans "Count" %}']
+                });
+
+            });
+
+            Q([$.get("/api/talks/?format=json&event={{ event.pk }}&reduce=True"),
+               $.get("/api/installations/?format=json&event={{ event.pk }}&reduce=True")])
+              .spread(function (talk, installation){
+                Morris.Bar({
+                  element: 'counts',
+                  data: [
+                    { y: '{% trans "Talks" %}', a: talk.total},
+                    { y: '{% trans "Installations" %}', a: installation.total}
+                  ],
+                  xkey: 'y',
+                  ykeys: ['a'],
+                  labels: ['{% trans "Count" %}']
+                });
+
+                var software = [];
+                for ( var item in installation.installation_for_software ){
+                    software.push({y: item, a: installation.installation_for_software[item]});
+                };
+
+                Morris.Bar({
+                  element: 'installations',
+                  data: software,
+                  xkey: 'y',
+                  ykeys: ['a'],
+                  labels: ['{% trans "Count" %}']
+                });
+
+            });
+
+        });
+
+    </script>
+{% endblock %}

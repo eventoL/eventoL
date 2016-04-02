@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load filters %}
+{% load cropping %}
+{% if proposal %}
+    {% block other-head %}
+        <link rel="stylesheet"
+              href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
+    {% endblock %}
+{% endif %}
+{% block page-header %}
+    {% if proposal %}{{ proposal.activity.title }}{% elif proposal %}{{ proposal.activity.title }}{% endif %}
+{% endblock %}
+{% block page-name %}
+    {% if proposal %}{{ proposal.activity.title }}{% elif proposal %}{{ proposal.activity.title }}{% endif %}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4">
+                                {% if proposal.image %}
+                                    <img src="{% cropped_thumbnail proposal.image "cropping" %}" width="100%">
+                                {% else %}
+                                    <img src="{% static "manager/img/no-image.png" %}" width="100%">
+                                {% endif %}
+                                <br><br>
+                                {% include 'activities/talks/proposal/votes.html' %}
+                            </div>
+                            <div class="col-md-8 col-lg-8" id="accordion" style="padding-top: 10px">
+                                <div id="talk_information">
+                                    <p><strong>{% trans "Abstract" %}:</strong> {{ proposal.activity.abstract }}</p>
+                                    <p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>
+                                    <p><strong>{% trans "Labels" %}:</strong> {{ proposal.labels|lower }}</p>
+                                    <p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>
+                                    {% if confirmed_talk %}
+                                        <p><strong>{% trans "Room" %}:</strong> {{ talk.activity.room }}</p>
+                                        <p><strong>{% trans "Start" %}:</strong> {{ talk.activity.start_date }}</p>
+                                        <p><strong>{% trans "End" %}:</strong> {{ talk.activity.end_date }}</p><br>
+                                        {% if event.registration_is_open %}
+                                            <p><a href="{% url "talk_delete" event_slug talk.pk %}">
+                                                <strong><i class="fa fa-times"></i> {% trans "Disconfirm talk" %}
+                                                </strong>
+                                            </a></p>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                {% if event.registration_is_open %}
+                                    <a href="{% url "talk_proposal" event_slug proposal.pk %}">
+                                        <p><strong>
+                                            <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
+                                        </strong></p>
+                                    </a>
+                                    {% if user|is_organizer:event_slug %}
+                                        <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
+                                            <i class="fa fa-pencil"></i>
+                                            {% if talk %}
+                                                {% trans "Edit Talk" %}
+                                            {% else %}
+                                                {% trans "Become Talk" %}
+                                            {% endif %}
+                                        </a></strong></p>
+                                        <div id="become_talk">
+                                            <div id="to_talk" class="panel-collapse collapse">
+                                                <div class="container col-md-12 col-lg-12">
+                                                    {% include 'activities/talks/to_talk_form.html' with form_id=proposal.pk %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                                {% if user|is_organizer:event_slug and talk %}
+                                    <p><strong><a class="accordion-toggle" data-toggle="collapse"
+                                                  href="#upload_presentation">
+                                        <i class="fa fa-upload"></i> {% trans "Upload Presentation" %}
+                                    </a></strong></p>
+                                    <div id="presentation">
+                                        <div id="upload_presentation" class="panel-collapse collapse">
+                                            <div class="container col-md-12 col-lg-12">
+                                                {% include 'activities/talks/upload_presentation.html' with form=form_presentation form_id=proposal.pk %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if proposal.presentation %}
+                                    <p><a href="{{ proposal.presentation.url }}"><strong><i
+                                            class="fa fa-download"></i> {% trans "Download/View presentation" %}
+                                    </strong></a></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'activities/talks/comments.html' with form=comment_form %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block other-script %}
+    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.timepicker').datetimepicker({
+                format  : 'LT',
+                icons   : {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up  : "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                },
+                stepping: 15
+            });
+
+            function becomeTalkActive() {
+                $('#talk_information').attr("style", "visibility: hidden; position: absolute");
+                $('#become_talk').attr("style", "visibility: block");
+            }
+
+            function becomeTalkDeactive() {
+                $('#talk_information').attr("style", "visibility: block");
+                $('#become_talk').attr("style", "visibility: hidden");
+            }
+
+            $('#accordion').on('hidden.bs.collapse', becomeTalkDeactive);
+            $('#accordion').on('shown.bs.collapse', becomeTalkActive);
+
+            {% if error %}
+                $('.accordion-toggle').trigger('click');
+            {% endif %}
+
+            {% if vote and not proposal.confirmed %}
+                var original_text = $('#score').text();
+                $('#score').hover(
+                        function() {
+                            $(this).text('{% trans 'Cancel my vote' %}');
+                        },
+                        function() {
+                            $(this).text(original_text);
+                        }
+                );
+            {% endif %}
+        });
+
+    </script>
+{% endblock %}

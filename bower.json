@@ -1,0 +1,38 @@
+{
+  "name": "eventoL",
+  "version": "0.0.0",
+  "homepage": "https://github.com/reyiyo/eventoL",
+  "authors": [
+    "Sergio Orbe <reyiyo@gmail.com>",
+    "Federico Gonzalez <federicogonzalez761@gmail.com>",
+    "Agustín Ignacio Guido Croce Villanustre (sí, todo eso) <>"
+  ],
+  "license": "GPL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "bootstrap-datepicker": "~1.6",
+    "roboto-fontface": "~0.4.5",
+    "leaflet": "~0.7.7",
+    "slick-carousel": "1.5.9",
+    "gridline-bootstrap": "*",
+    "morrisjs": "~0.5.1",
+    "q": "~1.0.1",
+    "geocomplete": "^1.6.5",
+    "bootstrap-material-design": "v0.5.9",
+    "font-awesome": "^4.5.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37"
+  },
+  "resolutions": {
+    "bootstrap": "~3.3.2",
+    "jquery": "1.9.1 - 2"
+  }
+}

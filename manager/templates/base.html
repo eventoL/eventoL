@@ -1,0 +1,10 @@
+{% extends "base-main.html" %}
+{% load i18n %}
+{% block main-content %}
+    <div class="container">
+        {% block content-header %}
+            <h2>{% block page-header %}{% endblock %}</h2>
+        {% endblock %}
+        {% block content %}{% endblock %}
+    </div>
+{% endblock %}

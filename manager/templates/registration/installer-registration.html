@@ -1,0 +1,10 @@
+{% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load i18n %}
+{% block page-header %}{% trans "Installer Registration" %}{% endblock %}
+{% block page-name %}{% trans "Installer Registration" %}{% endblock %}
+
+{% block form-id %}"installer_registration"{% endblock %}
+
+{% block form-name %}{% trans "Installer Registration" %}{% endblock %}
+
+{% block form-action %}"{% url "installer_registration" event_slug %}"{% endblock %}

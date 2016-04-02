@@ -1,0 +1,60 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block other-head %}
+    {% include 'autocomplete_light/static.html' %}
+{% endblock %}
+
+{% block page-header %}{% trans "Attendee Registration" %}{% endblock %}
+
+{% block page-name %}{% trans "Attendee Registration" %}{% endblock %}
+
+{% block pre-form %}
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <span class="fa fa-info-circle fa-5x"></span>
+        <ul>
+            <li>Buscar a un asistente para una event, en caso que el asistente se haya registrado. Si no aparece como
+                sugerido en la lista, es porque no terminó correctamente el proceso de registro.
+            </li>
+            <li>Si aparece sugerido en la lista, quiere decir que se registró correctamente. En ese caso, seleccionarlo
+                y presionar "<strong>Marcar como Presente</strong>". Esto hará que se marque como "Presente" (o sea, que
+                asisitió al evento).
+            </li>
+            <li>Si no aparece sugerido, hacer click en "<strong>Registrar Nuevo Asistente</strong>" y cargar los datos
+                del mismo.
+            </li>
+    </div>
+{% endblock %}
+
+{% block form-id %}"registration"{% endblock %}
+
+{% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
+
+{% block form-action %}"{% url "attendee_search" event_slug %}"{% endblock %}
+
+{% block buttons %}
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="button1id"></label>
+
+        <div class="col-md-8">
+            <button id="button1id" name="button1id" class="btn btn-danger">Registrar Nuevo Asistente</button>
+            <button id="button2id" name="button2id" class="btn btn-success">Marcar como Presente</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block other-script %}
+    <script>
+        $(document).ready(function() {
+
+            var attendeeAutocomplete = $('.autocomplete-light-widget');
+            var event = "{{ event_slug }}";
+
+            attendeeAutocomplete.yourlabsWidget().autocomplete.data = {
+                'event_slug': event
+            };
+        });
+    </script>
+{% endblock %}

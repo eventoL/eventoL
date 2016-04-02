@@ -1,0 +1,11 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block page-header %}{% trans "Attendee Registration" %}{% endblock %}
+
+{% block form-id %}"registration"{% endblock %}
+
+{% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
+
+{% block form-action %}"{% url "attendee_registration_by_collaborator" event_slug %}"{% endblock %}

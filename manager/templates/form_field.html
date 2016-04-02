@@ -1,0 +1,44 @@
+{% load filters %}
+{% load i18n %}
+<div class="form-group {{ field.html_name }} {% if not field|is_checkbox and not field|is_fileinput and not field|is_select and not field|is_datetime%}label-floating{% endif %} {% if field.errors %}has-error{% endif %}">
+    {% if not field|is_fileinput and not field|is_checkbox %}
+        <label class="control-label" for="{{ field.id_for_label }}">
+            {% trans field.label %}{% if field.field.required %} *{% endif %}
+            {% if field.errors|length > 0 %} <i class="fa fa-arrow-right"> </i>
+                {{ field.errors.as_text }}{% endif %}
+        </label>
+    {% endif %}
+
+    {% if field.name == 'cropping' %}
+        {{ field }}
+    {% elif field|is_checkbox %}
+        <div class="checkbox">
+            <label>
+                {{ field }}
+                {% trans field.label %}{% if field.field.required %} *{% endif %}
+            </label>
+            {% if field.errors|length > 0 %}
+                <span class="fa fa-exclamation-triangle"
+                      style="color: #f44336">{{ field.errors.as_text }}</span>
+            {% endif %}
+        </div>
+    {% elif field|is_fileinput %}
+
+        {{ field }}
+        <div class="input-group">
+            <input type="text" readonly="" class="form-control"
+                   placeholder="{% trans 'Browse...' %} {% if field.errors|length > 0 %} <i class='fa fa-arrow-right'> </i>{{ field.errors.as_text }}{% endif %}">
+            <span class="input-group-btn input-group-sm">
+                <button type="button" class="btn btn-fab btn-fab-mini">
+                    <i class="fa fa-upload"></i>
+                </button>
+            </span>
+        </div>
+    {% elif field|is_datetime %}
+        <input class="form-control timepicker empty input-small" id="{{ field.id_for_label }}"
+               name="{{ field.html_name }}" type="text">
+    {% else %}
+        {{ field | addcss:"form-control" }}
+    {% endif %}
+    {% if field.help_text %}<p class="help-block">{{ field.help_text }}</p>{% endif %}
+</div>

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block page-header %}{% trans "Registration Closed" %}{% endblock %}
+{% block content %}
+    <div class="well">
+        <h4><b class="fa fa-frown-o"></b> {% blocktrans %}Registration for this event is already
+            closed or the event is no accepting registrations through this page. You can find more
+            info{% endblocktrans %} <a href="{% url "event_info" event_slug %}">{% trans "here" %}.</a></h4>
+    </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load filters %}
+{% load static %}
+{% block page-header %}{% trans "activities Schedule" %}{% endblock %}
+
+{% block content %}
+    <div class="well row text-center {% if schedule.rooms >= 6 %}letra-chiquita{% endif %}"
+         data-columns="{{ schedule.rooms|schedule_cols_total }}">
+        <div class="col-md-{{ schedule.rooms|schedule_cols_first }} hidden-sm hidden-xs">
+            <div class="alert schedule-room row"><strong>{% trans "Hour" %}</strong></div>
+            <div style="height: {{ schedule.size }}px;">
+                {% for reference_hour in schedule.reference_hours %}
+                    <div style="height: {{ reference_hour.size }}%">
+                        <strong>{{ reference_hour.start|date:"H:i" }} - {{ reference_hour.end|date:"H:i" }}</strong>
+                    </div>
+                    {% if not forloop.last %}
+                        <hr style="padding:0px; margin:0px;"/>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% for room in schedule.rooms %}
+            <div class="col-md-{{ schedule.rooms|schedule_cols_other }}">
+                <div class="row alert schedule-room"><strong>{{ room.name|title }}</strong></div>
+                <div style="height: {{ schedule.size }}px;">
+                    {% for activity in room.activities %}
+                        {% if 'dummy' in activity %}
+                            <div class="schedule-dummy hidden-sm hidden-xs" style="height: {{ activity.dummy_size }}%;"></div>
+                        {% else %}
+                            <div class="schedule-talk" style="height: {{ activity.activity_size }}%">
+                                {% if activity.activity_size < 3 %}
+                                    <a href='{% url "talk_detail" event_slug activity.pk %}'>
+                                        <strong>
+                                            {{ activity.title|title|truncatechars:10 }} {{ activity.schedule }}</strong><br>
+                                    </a>
+                                {% else %}
+                                    <a href='{% url "talk_detail" event_slug activity.pk %}'>
+                                        <strong>
+                                            {{ activity.title|title|truncatechars:50 }}</strong><br>
+                                    </a>
+                                    {{ activity.schedule }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        {% if not forloop.last %}
+                            <hr style="padding:0px; margin:0px;"/>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block other-script %}
+    <script type="text/javascript"
+            src="{% static "manager/bower_components/gridline-bootstrap/dist/gridline.min.js" %}">
+    </script>
+{% endblock %}
