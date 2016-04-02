@@ -91,7 +91,7 @@ class ContactType(models.Model):
     name = models.CharField(_('Name'), unique=True, max_length=200)
     icon_class = models.CharField(_('Icon Class'), max_length=200)
     validate = models.CharField(_('Level'), choices=validator_choices, max_length=10,
-                             help_text=_('Type of field validation'))
+                                help_text=_('Type of field validation'))
 
     def __unicode__(self):
         return self.name

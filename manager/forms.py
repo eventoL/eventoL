@@ -18,7 +18,7 @@ from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordFor
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 
 from manager.models import Attendee, NonRegisteredAttendee, Installation, \
-    Hardware, Collaborator, Installer, TalkProposal, ContactMessage, Image,\
+    Hardware, Collaborator, Installer, TalkProposal, ContactMessage, Image, \
     Comment, Room, EventUser, Activity, Event, Software, Contact
 
 
@@ -195,10 +195,12 @@ class RoomForm(ModelForm):
         model = Room
         exclude = ['event']
 
+
 class ContactForm(ModelForm):
     class Meta:
         model = Contact
         exclude = ['event']
+
     def clean(self):
         cleaned_data = super(ContactForm, self).clean()
         type = cleaned_data.get("type")
@@ -218,6 +220,7 @@ class ContactForm(ModelForm):
                 self.add_error('url', 'Enter valid Email')
 
         return cleaned_data
+
 
 class ActivityForm(ModelForm):
     class Meta:
