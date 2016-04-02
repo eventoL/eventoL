@@ -172,7 +172,7 @@ class TalkProposalForm(ModelForm):
 class TalkForm(ModelForm):
     class Meta:
         model = Activity
-        fields = ['start_date', 'end_date', 'room', 'confirmed', 'event']
+        fields = ['start_date', 'end_date', 'room', 'event']
         widgets = {
             'event': forms.HiddenInput()
         }
@@ -204,6 +204,22 @@ class ActivityForm(ModelForm):
             'long_description': forms.Textarea(attrs={'rows': 3}),
             'abstract': forms.Textarea(attrs={'rows': 3})
         }
+
+
+class ActivityCompleteForm(ModelForm):
+    class Meta:
+        model = Activity
+        exclude = ['confirmed']
+        widgets = {
+            'event': forms.HiddenInput(),
+            'long_description': forms.Textarea(attrs={'rows': 3}),
+            'abstract': forms.Textarea(attrs={'rows': 3})
+        }
+
+    def __init__(self, event_slug, *args, **kwargs):
+        super(ActivityCompleteForm, self).__init__(*args, **kwargs)
+        if self.instance:
+            self.fields['room'].queryset = Room.objects.filter(event__slug__iexact=event_slug)
 
 
 class PresentationForm(ModelForm):
