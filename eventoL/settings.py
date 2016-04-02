@@ -7,6 +7,8 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
+import socket
+
 import django.conf.global_settings as DEFAULT_SETTINGS
 from easy_thumbnails.conf import Settings as thumbnail_settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -15,22 +17,25 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+ON_OPENSHIFT = 'OPENSHIFT_REPO_DIR' in os.environ
 
-MEDIA_URL = '/media/'
+SECRET_KEY = os.environ.get('OPENSHIFT_SECRET_TOKEN', default='!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = not ON_OPENSHIFT
+
+if ON_OPENSHIFT and DEBUG:
+    print("*** Warning - Debug mode is on ***")
+
+TEMPLATE_DEBUG = not ON_OPENSHIFT
+
+if ON_OPENSHIFT:
+    ALLOWED_HOSTS = [os.environ['OPENSHIFT_APP_DNS'], socket.gethostname()]
+else:
+    ALLOWED_HOSTS = []
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -85,11 +90,11 @@ WSGI_APPLICATION = 'eventoL.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'eventol',
-        'USER': 'eventol',
-        'PASSWORD': 'secret',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('OPENSHIFT_APP_NAME', default='eventol'),
+        'USER': os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME', default='eventol'),
+        'PASSWORD': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD', default='secret'),
+        'HOST': os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST', default='localhost'),
+        'PORT': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT', default='5432'),
     }
 }
 
@@ -123,24 +128,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '..', 'manager', 'static')
+
+if 'OPENSHIFT_REPO_DIR' in os.environ:
+    STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, '..', 'manager', 'static')
+
+
+if 'OPENSHIFT_DATA_DIR' in os.environ:
+    MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
 )
-
-CITIES_FILES = {
-    'city': {
-        'filename': 'AR.zip',
-        'urls': ['http://download.geonames.org/export/dump/' + '{filename}']
-    },
-}
-
-CITIES_LOCALES = ['es-AR']
-
-CITIES_POSTAL_CODES = ['ARG']
-
-CITIES_PLUGINS = []
 
 LOGGING = {
     'version': 1,
@@ -158,11 +162,6 @@ LOGGING = {
         },
     },
     'loggers': {
-        'cities': {
-            'handlers': ['log_to_stdout'],
-            'level': 'INFO',
-            'propagate': True,
-        },
         'django': {
             'handlers': ['log_to_stdout'],
             'propagate': True,
@@ -171,12 +170,13 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-EMAIL_HOST_USER = 'YOUR USERNAME'
-EMAIL_HOST_PASSWORD = 'YOUR PASSWORD'
-EMAIL_USE_TLS = True
-EMAIL_FROM = 'FROM@YOURACCOUNT'
+EMAIL_HOST = os.environ.get('EVENTOL_EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = os.environ.get('EVENTOL_EMAIL_PORT', default='587')
+EMAIL_HOST_USER = os.environ.get('EVENTOL_EMAIL_HOST_USER', default='YOUR USERNAME')
+EMAIL_HOST_PASSWORD = os.environ.get('EVENTOL_EMAIL_HOST_PASSWORD', default='YOUR PASSWORD')
+EMAIL_USE_TLS = os.environ.get('EVENTOL_EMAIL_USE_TLS', default=True)
+EMAIL_FROM = os.environ.get('EVENTOL_EMAIL_FROM', default='FROM@YOURACCOUNT')
+
 LOGIN_URL = '/accounts/login/'
 
 OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
@@ -185,7 +185,7 @@ OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
     'jpg': '/usr/bin/jpegoptim {filename}'
 }
 
-GRAPPELLI_ADMIN_TITLE = 'Flisol 2015'
+GRAPPELLI_ADMIN_TITLE = 'FLISoL 2016'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

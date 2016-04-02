@@ -1,0 +1,24 @@
+#!/bin/bash
+
+source $OPENSHIFT_HOMEDIR/python/virtenv/bin/activate
+
+echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py migrate --noinput'"
+python "$OPENSHIFT_REPO_DIR"/manage.py migrate --noinput
+
+echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py syncdb --noinput'"
+python "$OPENSHIFT_REPO_DIR"/manage.py syncdb --noinput
+
+echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py collectstatic --noinput'"
+python "$OPENSHIFT_REPO_DIR"/manage.py collectstatic --noinput
+
+echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py loaddata manager/initial_data/initial_data.json --noinput'"
+python "$OPENSHIFT_REPO_DIR"/manage.py loaddata manager/initial_data/initial_data.json --noinput
+
+echo "Executing 'python $OPENSHIFT_REPO_DIR/manage.py loaddata manager/initial_data/social.json --noinput'"
+python "$OPENSHIFT_REPO_DIR"/manage.py loaddata manager/initial_data/social.json --noinput
+
+echo "Executing 'django-admin makemessages --locale=es'"
+django-admin makemessages --locale=es
+
+echo "Executing 'django-admin compilemessages'"
+django-admin compilemessages
