@@ -82,8 +82,15 @@ class ContactType(models.Model):
         Name: Facebook
         Icon Class: fa-facebook-square
     """
+    validator_choices = (
+        ('1', _('Validate URL')),
+        ('2', _('Validate Email')),
+        ('3', _('Don\'t validate'))
+    )
     name = models.CharField(_('Name'), unique=True, max_length=200)
     icon_class = models.CharField(_('Icon Class'), max_length=200)
+    validate = models.CharField(_('Level'), choices=validator_choices, max_length=10,
+                             help_text=_('Type of field validation'))
 
     def __unicode__(self):
         return self.name
@@ -95,7 +102,7 @@ class ContactType(models.Model):
 
 class Contact(models.Model):
     type = models.ForeignKey(ContactType, verbose_name=_('Contact Type'))
-    url = models.URLField(_noop('URL'), help_text=_('i.e. https://twitter.com/flisol'))
+    url = models.CharField(_noop('Direccion'), help_text=_('i.e. https://twitter.com/flisol'), max_length=200)
     text = models.CharField(_('Text'), max_length=200, help_text=_('i.e. @Flisol'))
     # null should be false, but I put true due to a django bug with formsets:
     # https://code.djangoproject.com/ticket/13776

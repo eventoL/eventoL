@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
-from django.forms.models import modelformset_factory
+from django.forms import formset_factory
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
@@ -23,7 +23,7 @@ from django.conf import settings
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
-    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm
+    EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, RegisteredEventUserSearchForm, ContactForm
 from manager.models import *
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator
@@ -659,9 +659,9 @@ def collaborator_registration(request, event_slug):
 @login_required
 def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
-    ContactsFormSet = modelformset_factory(Contact, fields=('type', 'url', 'text'), can_delete=True)
+    ContactsFormSet = formset_factory(ContactForm, can_delete=True)
 
-    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
+    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form')
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid():
@@ -702,9 +702,9 @@ def create_event(request):
 def edit_event(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     event_form = EventForm(request.POST or None, prefix='event', instance=event)
-    ContactsFormSet = modelformset_factory(Contact, fields=('type', 'url', 'text'), can_delete=True)
+    ContactsFormSet = formset_factory(ContactForm, can_delete=True)
 
-    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=event.contacts.all())
+    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form')
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid():

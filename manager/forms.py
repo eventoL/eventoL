@@ -3,6 +3,7 @@ import autocomplete_light as autocomplete
 from django import forms
 from django.db.models.query_utils import Q
 from django.utils.safestring import mark_safe
+from django.core.validators import validate_email, URLValidator
 
 autocomplete.autodiscover()
 
@@ -16,9 +17,9 @@ from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKe
 from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 
-from manager.models import Attendee, NonRegisteredAttendee, Installation, Hardware, \
-    Collaborator, \
-    Installer, TalkProposal, ContactMessage, Image, Comment, Room, EventUser, Activity, Event, Software
+from manager.models import Attendee, NonRegisteredAttendee, Installation, \
+    Hardware, Collaborator, Installer, TalkProposal, ContactMessage, Image,\
+    Comment, Room, EventUser, Activity, Event, Software, Contact
 
 
 class SoftwareAutocomplete(autocomplete.AutocompleteModelBase):
@@ -194,6 +195,29 @@ class RoomForm(ModelForm):
         model = Room
         exclude = ['event']
 
+class ContactForm(ModelForm):
+    class Meta:
+        model = Contact
+        exclude = ['event']
+    def clean(self):
+        cleaned_data = super(ContactForm, self).clean()
+        type = cleaned_data.get("type")
+        value = cleaned_data.get("url")
+
+        if type.validate == '1':
+            try:
+                validator = URLValidator()
+                validator(value)
+            except:
+                self.add_error('url', 'Enter valid URL')
+
+        elif type.validate == '2':
+            try:
+                validate_email(value)
+            except:
+                self.add_error('url', 'Enter valid Email')
+
+        return cleaned_data
 
 class ActivityForm(ModelForm):
     class Meta:
