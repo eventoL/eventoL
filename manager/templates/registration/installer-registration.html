@@ -7,4 +7,4 @@
 
 {% block form-name %}{% trans "Installer Registration" %}{% endblock %}
 
-{% block form-action %}"/sede/{{ sede_url }}/registration/installer"{% endblock %}
+{% block form-action %}"{% url "installer_registration" event_slug %}"{% endblock %}

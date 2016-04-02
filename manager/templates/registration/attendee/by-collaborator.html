@@ -8,4 +8,4 @@
 
 {% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
 
-{% block form-action %}"/sede/{{ sede_url }}/registration/attendee/by-collaborator"{% endblock %}
+{% block form-action %}"{% url "attendee_registration_by_collaborator" event_slug %}"{% endblock %}

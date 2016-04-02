@@ -44,10 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'cities',
     'voting',
-    'generic_confirmation',
-    'django_tables2',
     'easy_thumbnails',
     'easy_thumbnails.optimize',
     'image_cropping',
@@ -55,6 +52,17 @@ INSTALLED_APPS = (
     'import_export',
     'rest_framework',
     'manager',
+    'autofixture',
+    'djangoformsetjs',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.windowslive',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -71,20 +79,23 @@ ROOT_URLCONF = 'eventoL.urls'
 
 WSGI_APPLICATION = 'eventoL.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',  # 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'flisol',
-        'USER': 'flisol',
-        'PASSWORD': 'flisol',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'eventol',
+        'USER': 'eventol',
+        'PASSWORD': 'secret',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+# Travis Configuration
+if 'TRAVIS' in os.environ:
+    DATABASES['default']['PORT'] = 5000
 
 THUMBNAIL_PROCESSORS = ('image_cropping.thumbnail_processors.crop_corners',) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
@@ -107,7 +118,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -196,3 +206,52 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'],
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
 }
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook': {'METHOD': 'oauth2',
+                  'SCOPE': ['email', 'public_profile'],
+                  'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+                  'FIELDS': [
+                      'id',
+                      'email',
+                      'name',
+                      'first_name',
+                      'last_name',
+                      'verified',
+                      'locale',
+                      'timezone',
+                      'link',
+                      'gender',
+                      'updated_time'],
+                  'EXCHANGE_TOKEN': True,
+                  'LOCALE_FUNC': lambda request: 'es_AR',
+                  'VERIFIED_EMAIL': False,
+                  'VERSION': 'v2.4'},
+     'google': {
+         'SCOPE': ['profile', 'email'],
+         'AUTH_PARAMS': {'access_type': 'online'}
+     }}
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+ACCOUNT_FORMS = {'login': 'manager.forms.LoginForm',
+                 'signup': 'manager.forms.SignUpForm',
+                 'reset_password': 'manager.forms.ResetPasswordForm',
+                 'reset_password_from_key': 'manager.forms.ResetPasswordKeyForm',
+                 'change_password': 'manager.forms.ChangePasswordForm',
+                 'set_password': 'manager.forms.SetPasswordForm'}
+
+SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_FORMS = {'signup': 'manager.forms.SocialSignUpForm'}

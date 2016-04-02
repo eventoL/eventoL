@@ -6,4 +6,4 @@
 
 {% block form-name %}{% trans "Collaborator Registration" %}{% endblock %}
 
-{% block form-action %}"/sede/{{ sede_url }}/registration/collaborator"{% endblock %}
+{% block form-action %}"{% url "collaborator_registration" event_slug %}"{% endblock %}

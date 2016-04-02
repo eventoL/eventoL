@@ -1,0 +1,50 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block page-header %}{% trans "Login" %}{% endblock %}
+{% block page-name %}{% trans "Login" %}{% endblock %}
+
+{% block pre-form %}
+    {% get_providers as socialaccount_providers %}
+    {% if socialaccount_providers %}
+        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3 col-xs-12">
+                <h3 style="text-align: center;">{% trans 'or' %}</h3>
+                <hr style="border-top: 2px solid #B6B6B6">
+            </div>
+        </div>
+
+        <p>{% blocktrans with site.name as site_name %}Please sign in with one
+            of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+            for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
+        {% include "socialaccount/snippets/login_extra.html" %}
+
+    {% else %}
+        <p>{% blocktrans %}If you have not created an account yet, then please
+            <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+    {% endif %}
+{% endblock %}
+
+{% block form-id %}"login"{% endblock %}
+
+{% block form-name %}{% trans "Login" %}{% endblock %}
+
+{% block form-action %}"{% url 'account_login' %}"{% endblock %}
+
+{% block submit-button %}{% trans "Login" %}{% endblock %}
+
+{% block extra-fields %}
+    {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
+{% endblock %}
+
+{% block post-form %}
+    <p>
+        <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+    </p>
+{% endblock %}
