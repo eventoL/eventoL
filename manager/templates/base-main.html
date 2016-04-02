@@ -57,11 +57,11 @@
                             <li><a href="{% url "registration" event_slug %}">{% trans "Registration" %}</a>
                             </li>
                         {% endif %}
-			<li>
+                        <li>
                             <a href="{% url "schedule" event_slug %}">
                                 <i class="fa fa-calendar"></i> {% trans "Schedule" %}
                             </a>
-			</li>
+                        </li>
                         {% if user.is_authenticated and not user|can_register:event_slug %}
                             <li><a href="{% url "view_ticket" event_slug %}">{% trans "View Ticket" %}</a>
                             </li>
@@ -125,7 +125,7 @@
                                                 <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
                                             </a>
                                         </li>
-					<li>
+                                        <li>
                                             <a href="{% url "rooms" event_slug %}">
                                                 <i class="fa fa-cogs"></i> {% trans "Manage Rooms" %}
                                             </a>
@@ -166,6 +166,18 @@
                                 <li>
                                     <a href="{% url "user_profile" %}">
                                         <i class="material-icons">assignment_ind</i> {% trans "Profile" %}
+                                    </a>
+                                </li>
+                                {% if not user.has_usable_password %}
+                                    <li>
+                                        <a href="{% url "account_set_password" %}">
+                                            <i class="material-icons">assignment_ind</i> {% trans "Set Password" %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <a href="{% url "account_change_password" %}">
+                                        <i class="material-icons">assignment_ind</i> {% trans "Change Password" %}
                                     </a>
                                 </li>
                                 <li>
