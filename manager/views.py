@@ -470,10 +470,9 @@ def contact(request, event_slug):
 @user_passes_test(is_organizer, 'index')
 def delete_comment(request, event_slug, pk, comment_pk=None):
     """Delete comment(s) with primary key `pk` or with pks in POST."""
-    if request.user.is_staff:
-        pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
-        for comment_pk in pklist:
-            Comment.objects.get(pk=comment_pk).delete()
+    pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
+    for comment_pk in pklist:
+        Comment.objects.get(pk=comment_pk).delete()
     return HttpResponseRedirect(reverse("proposal_detail", args=[event_slug, pk]))
 
 
