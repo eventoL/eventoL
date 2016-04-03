@@ -11,7 +11,7 @@
     <div class="row">
         {% trans "Talks" %}
         <div id="buttons" class="pull-right">
-            {% if user|is_organizer:event_slug %}
+            {% if user.is_authenticated and user|is_organizer:event_slug %}
                 <a href="{% url "add_activity" event_slug %}" class="btn btn-raised btn-success">
                     {% trans 'Submit an activity' %}
                 </a>
@@ -128,7 +128,7 @@
                                                 </p>
 
                                                 <p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>
-                                                {% if user|is_organizer:event_slug %}
+                                                {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                     <p><a id='become-{{ forloop.counter }}'
                                                           class="accordion-toggle"
                                                           data-toggle="collapse"
@@ -142,7 +142,7 @@
                                                     {% trans "View Proposal" %}
                                                 </a></p>
 
-                                            {% if user|is_organizer:event_slug %}
+                                            {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                 <div id="to_talk-{{ forloop.counter }}"
                                                      class="panel-collapse collapse">
                                                     <div class="container col-sm-12">
@@ -259,7 +259,7 @@
             </p>
         </div>
     {% endif %}
-    {% if not event.schedule_confirm and user|is_organizer:event_slug %}
+    {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_slug %}
         <div class="row">
             <a type="button" class="btn btn-raised btn-success btn-xs"
                href="{% url "confirm_schedule" event_slug %}">
