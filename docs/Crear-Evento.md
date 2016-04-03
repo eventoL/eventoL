@@ -6,7 +6,7 @@ estar autenticado.
 Una vez autenticado, en la página principal (https://flisol.usla.org.ar), hacer click en el botón "Creá tu evento" ubicado
 en el medio de la pantalla.
 
-[[https://github.com/GNUtn/eventoL/blob/master/docs/assets/crear-evento.png]]
+![Crear Evento](https://github.com/GNUtn/eventoL/blob/master/docs/assets/crear-evento.png)
 
 ## Datos
 
