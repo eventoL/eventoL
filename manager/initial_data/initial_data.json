@@ -3,25 +3,29 @@
     "model": "manager.TalkType",
     "fields": {
       "name": "Charla"
-    }
+    },
+    "pk": 1
   },
   {
     "model": "manager.TalkType",
     "fields": {
       "name": "Taller"
-    }
+    },
+    "pk": 2
   },
   {
     "model": "manager.TalkType",
     "fields": {
       "name": "Debate"
-    }
+    },
+    "pk": 3
   },
   {
     "model": "manager.TalkType",
     "fields": {
       "name": "Otro"
-    }
+    },
+    "pk": 4
   },
   {
     "model": "manager.ContactType",
@@ -29,7 +33,8 @@
       "name": "Email",
       "icon_class": "fa-envelope",
       "validate": "1"
-    }
+    },
+    "pk": 1
   },
   {
     "model": "manager.ContactType",
@@ -37,7 +42,8 @@
       "name": "IRC/Chat",
       "icon_class": "fa-comments",
       "validate": "1"
-    }
+    },
+    "pk": 2
   },
   {
     "model": "manager.ContactType",
@@ -45,7 +51,8 @@
       "name": "Lista de Correo",
       "icon_class": "fa-group",
       "validate": "2"
-    }
+    },
+    "pk": 3
   },
   {
     "model": "manager.ContactType",
@@ -53,7 +60,8 @@
       "name": "Wiki",
       "icon_class": "fa-puzzle-piece",
       "validate": "1"
-    }
+    },
+    "pk": 4
   },
   {
     "model": "manager.ContactType",
@@ -61,7 +69,8 @@
       "name": "Twitter",
       "icon_class": "fa-twitter-square",
       "validate": "1"
-    }
+    },
+    "pk": 5
   },
   {
     "model": "manager.ContactType",
@@ -69,7 +78,8 @@
       "name": "Facebook",
       "icon_class": "fa-facebook-square",
       "validate": "1"
-    }
+    },
+    "pk": 6
   },
   {
     "model": "manager.ContactType",
@@ -77,6 +87,7 @@
       "name": "Google+",
       "icon_class": "fa-google-plus-square",
       "validate": "1"
-    }
+    },
+    "pk": 7
   }
 ]

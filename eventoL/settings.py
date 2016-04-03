@@ -128,6 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 if 'OPENSHIFT_REPO_DIR' in os.environ:
     STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
@@ -136,10 +137,11 @@ else:
 
 if 'OPENSHIFT_DATA_DIR' in os.environ:
     MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
+    MEDIA_URL = STATIC_URL + 'media/'
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_URL = '/media/'
+
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
@@ -172,7 +174,6 @@ LOGGING = {
 EMAIL_BACKEND = os.environ.get('EVENTOL_EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
 MAILGUN_ACCESS_KEY = os.environ.get('EVENTOL_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
 MAILGUN_SERVER_NAME = os.environ.get('EVENTOL_MAILGUN_SERVER_NAME', 'SERVER-NAME')
-
 
 # EMAIL_HOST = os.environ.get('EVENTOL_EMAIL_HOST', 'smtp.gmail.com')
 # EMAIL_PORT = os.environ.get('EVENTOL_EMAIL_PORT', '587')
