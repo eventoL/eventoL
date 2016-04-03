@@ -9,7 +9,7 @@
           type="text/css" href="{% static "manager/bower_components/slick-carousel/slick/slick-theme.css" %}"/>
 
     <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
-    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.7/leaflet.ie.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.7/leaflet.ie.css" /><![endif]-->
 
     <style>
         .slick-prev:before, .slick-next:before {
@@ -213,8 +213,8 @@
             function map(event_lat, event_lon) {
                 var map = L.map('map').setView([event_lat, event_lon], 14);
 
-                L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
                 }).addTo(map);
                 map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
 
