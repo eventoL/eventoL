@@ -13,7 +13,7 @@
         <div id="buttons" class="pull-right">
             {% if user|is_organizer:event_slug %}
                 <a href="{% url "add_activity" event_slug %}" class="btn btn-raised btn-success">
-                    {% trans 'Submit activity' %}
+                    {% trans 'Submit an activity' %}
                 </a>
             {% endif %}
             <button type="button" class="btn btn-raised btn-success" onclick="javascript:showAll()">
