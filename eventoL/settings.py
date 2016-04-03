@@ -134,7 +134,6 @@ if 'OPENSHIFT_REPO_DIR' in os.environ:
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, '..', 'manager', 'static')
 
-
 if 'OPENSHIFT_DATA_DIR' in os.environ:
     MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
 else:
@@ -170,12 +169,17 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = os.environ.get('EVENTOL_EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = os.environ.get('EVENTOL_EMAIL_PORT', '587')
-EMAIL_HOST_USER = os.environ.get('EVENTOL_EMAIL_HOST_USER', 'YOUR USERNAME')
-EMAIL_HOST_PASSWORD = os.environ.get('EVENTOL_EMAIL_HOST_PASSWORD', 'YOUR PASSWORD')
-EMAIL_USE_TLS = os.environ.get('EVENTOL_EMAIL_USE_TLS', True)
-EMAIL_FROM = os.environ.get('EVENTOL_EMAIL_FROM', 'FROM@YOURACCOUNT')
+EMAIL_BACKEND = os.environ.get('EVENTOL_EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
+MAILGUN_ACCESS_KEY = os.environ.get('EVENTOL_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
+MAILGUN_SERVER_NAME = os.environ.get('EVENTOL_MAILGUN_SERVER_NAME', 'SERVER-NAME')
+
+
+# EMAIL_HOST = os.environ.get('EVENTOL_EMAIL_HOST', 'smtp.gmail.com')
+# EMAIL_PORT = os.environ.get('EVENTOL_EMAIL_PORT', '587')
+# EMAIL_HOST_USER = os.environ.get('EVENTOL_EMAIL_HOST_USER', 'YOUR USERNAME')
+# EMAIL_HOST_PASSWORD = os.environ.get('EVENTOL_EMAIL_HOST_PASSWORD', 'YOUR PASSWORD')
+# EMAIL_USE_TLS = os.environ.get('EVENTOL_EMAIL_USE_TLS', True)
+# EMAIL_FROM = os.environ.get('EVENTOL_EMAIL_FROM', 'FROM@YOURACCOUNT')
 
 LOGIN_URL = '/accounts/login/'
 
