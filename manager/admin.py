@@ -4,8 +4,6 @@ from import_export import resources
 from django.contrib.gis import admin
 from import_export.admin import ExportMixin
 
-create_reporters_group()
-
 
 class EventoLAdmin(admin.ModelAdmin):
 

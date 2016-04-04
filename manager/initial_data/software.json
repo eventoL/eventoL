@@ -1,0 +1,65 @@
+[
+  {
+    "model": "manager.software",
+    "fields": {
+      "type": "OS",
+      "name": "Debian x86"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Debian x64"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Ubuntu x86"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Ubuntu x64"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Mint x86"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Mint x64"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Fedora x86"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Fedora x64"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Huayra x86"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Huayra x64"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Manjaro x64"
+    },
+    "fields": {
+      "type": "OS",
+      "name": "Manjaro x86"
+    },
+    "fields": {
+      "type": "OT",
+      "name": "Other"
+    },
+    "fields": {
+      "type": "SU",
+      "name": "Support"
+    },
+    "fields": {
+      "type": "AP",
+      "name": "Application"
+    }
+  }
+]

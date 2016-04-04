@@ -27,6 +27,12 @@ python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/init
 echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/social.json'"
 python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/social.json
 
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/software.json'"
+python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/software.json
+
+echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/security.json'"
+python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/security.json
+
 echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py makemessages --locale=es'"
 python ${OPENSHIFT_REPO_DIR}manage.py makemessages --locale=es
 
