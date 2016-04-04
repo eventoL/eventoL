@@ -23,8 +23,10 @@
             {% endif %}
         </div>
     {% elif field|is_fileinput %}
-
-        {{ field }}
+        <label class="control-label" for="{{ field.id_for_label }}">
+            {{ field }}
+            {% trans field.label %}{% if field.field.required %} *{% endif %}
+        </label>
         <div class="input-group">
             <input type="text" readonly="" class="form-control"
                    placeholder="{% trans 'Browse...' %} {% if field.errors|length > 0 %} <i class='fa fa-arrow-right'> </i>{{ field.errors.as_text }}{% endif %}">

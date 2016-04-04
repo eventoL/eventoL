@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
-from django.forms import formset_factory
+from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
@@ -132,7 +132,7 @@ def talk_registration(request, event_slug, pk):
         errors = get_forms_errors(forms)
         error = True
         if errors:
-            messages.error(request, _("The talk wasn't registered successfully (check form errors)"))
+            messages.error(request, _("The talk couldn't be registered (check form errors)"))
     comments = Comment.objects.filter(activity=proposal.activity)
     vote = Vote.objects.get_for_user(proposal, request.user)
     score = Vote.objects.get_score(proposal)
@@ -239,7 +239,7 @@ def talk_proposal(request, event_slug, pk=None):
             Activity.delete(new_activity)
         if new_proposal is not None:
             TalkProposal.delete(new_proposal)
-        messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
+        messages.error(request, _("The proposal couldn't be registered (check form errors)"))
         errors = get_forms_errors(forms)
 
     return render(request, 'activities/talks/proposal.html',
@@ -272,7 +272,7 @@ def activity(request, event_slug, pk=None):
             except Exception, e:
                 if new_activity is not None:
                     Activity.delete(new_activity)
-                messages.error(request, _("The activity hasn't been registered successfully (check form errors)"))
+                messages.error(request, _("The activity couldn't be registered (check form errors)"))
                 errors = get_forms_errors(forms)
 
     return render(request, 'activities/activity.html',
@@ -299,7 +299,7 @@ def image_cropping(request, event_slug, image_id):
             form.save()
             messages.success(request, _("The proposal has been registered successfully!"))
             return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
-        messages.error(request, _("The proposal hasn't been registered successfully (check form errors)"))
+        messages.error(request, _("The proposal couldn't be registered (check form errors)"))
     return render(request, 'activities/talks/proposal/image-cropping.html',
                   update_event_info(event_slug, {'form': form}))
 
@@ -307,7 +307,8 @@ def image_cropping(request, event_slug, image_id):
 def schedule(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     if not event.schedule_confirm:
-        messages.info(request, _("While the schedule this unconfirmed, you can only see the list of proposals."))
+        messages.info(request,
+                      _("The schedule is not confirmed yet. Meanwhile, you can see the list of activity proposals."))
         return HttpResponseRedirect(reverse("activities", args=[event_slug]))
 
     rooms = Room.objects.filter(event=event)
@@ -316,7 +317,8 @@ def schedule(request, event_slug):
         schedule = Schedule(list(rooms), list(activities_confirmed))
         return render(request, 'activities/schedule.html',
                       update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
-    messages.warning(_("You don't have confirmed talks, please confirm talks and after confirm schedule"))
+    messages.warning(
+        _("You don't have confirmed activities, please confirm the activitiees and then confirm the schedule"))
     return activities(request, event_slug)
 
 
@@ -379,7 +381,7 @@ def upload_presentation(request, event_slug, pk):
             form.save()
             messages.success(request, _("The presentation has been uploaded successfully!"))
             return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
-        messages.error(request, _("The presentation hasn't been uploaded successfully (check form errors)"))
+        messages.error(request, _("The presentation couldn't be uploaded (check form errors)"))
     return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, pk)))
 
 
@@ -401,7 +403,7 @@ def attendee_search(request, event_slug):
                 return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
             else:
                 return HttpResponseRedirect('/event/' + event_slug + '/registration/attendee/by-collaborator')
-        messages.error(request, _("The attendee hasn't been successfully registered (check form errors)"))
+        messages.error(request, _("The attendee couldn't be registered (check form errors)"))
 
     return render(request, 'registration/attendee/search.html', update_event_info(event_slug, {'form': form}))
 
@@ -708,9 +710,9 @@ def collaborator_registration(request, event_slug):
 @login_required
 def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
-    ContactsFormSet = formset_factory(ContactForm, can_delete=True)
+    ContactsFormSet = modelformset_factory(Contact, form=ContactForm, can_delete=True)
 
-    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form')
+    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid():
@@ -751,9 +753,9 @@ def create_event(request):
 def edit_event(request, event_slug):
     event = Event.objects.get(slug__iexact=event_slug)
     event_form = EventForm(request.POST or None, prefix='event', instance=event)
-    ContactsFormSet = formset_factory(ContactForm, can_delete=True)
+    ContactsFormSet = modelformset_factory(Contact, form=ContactForm, can_delete=True)
 
-    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form')
+    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=event.contacts.all())
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid():

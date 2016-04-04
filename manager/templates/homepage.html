@@ -5,7 +5,7 @@
 {% block other-head %}
     <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/>
     <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
-    <!--[if lte IE 8]><link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.7/leaflet.ie.css" /><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.7/leaflet.ie.css" /><![endif]-->
     <link href='https://fonts.googleapis.com/css?family=Comfortaa:400,700' rel='stylesheet' type='text/css'>
 
     <style>
@@ -19,7 +19,7 @@
     <div class="img-container">
         <div class="container-text">
             <h1>FLISoL Argentina</h1>
-            <a href="{% url "create_event" %}" class="btn btn-raised btn-primary btn-lg">Creá tu evento</a>
+            <a href="{% url "create_event" %}" class="btn btn-raised btn-success btn-lg">Creá tu evento</a>
             <h2>O encontrá tu evento más cercano!</h2>
             <p><i class="fa fa-4x fa-hand-o-down"></i></p>
         </div>
@@ -76,7 +76,7 @@
                     boxZoom        : false
                 }).setView([event_lat, event_lon], 5);
 
-                L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
                     attribution: ''
                 }).addTo(map);
                 map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.

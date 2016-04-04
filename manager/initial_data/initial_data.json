@@ -3,25 +3,29 @@
     "model": "manager.TalkType",
     "fields": {
       "name": "Charla"
-    }
+    },
+    "pk": 1
   },
   {
     "model": "manager.TalkType",
     "fields": {
       "name": "Taller"
-    }
+    },
+    "pk": 2
   },
   {
     "model": "manager.TalkType",
     "fields": {
       "name": "Debate"
-    }
+    },
+    "pk": 3
   },
   {
     "model": "manager.TalkType",
     "fields": {
       "name": "Otro"
-    }
+    },
+    "pk": 4
   },
   {
     "model": "manager.ContactType",
@@ -29,7 +33,8 @@
       "name": "Email",
       "icon_class": "fa-envelope",
       "validate": "1"
-    }
+    },
+    "pk": 1
   },
   {
     "model": "manager.ContactType",
@@ -37,7 +42,8 @@
       "name": "IRC/Chat",
       "icon_class": "fa-comments",
       "validate": "1"
-    }
+    },
+    "pk": 2
   },
   {
     "model": "manager.ContactType",
@@ -45,7 +51,8 @@
       "name": "Lista de Correo",
       "icon_class": "fa-group",
       "validate": "2"
-    }
+    },
+    "pk": 3
   },
   {
     "model": "manager.ContactType",
@@ -53,7 +60,8 @@
       "name": "Wiki",
       "icon_class": "fa-puzzle-piece",
       "validate": "1"
-    }
+    },
+    "pk": 4
   },
   {
     "model": "manager.ContactType",
@@ -61,7 +69,8 @@
       "name": "Twitter",
       "icon_class": "fa-twitter-square",
       "validate": "1"
-    }
+    },
+    "pk": 5
   },
   {
     "model": "manager.ContactType",
@@ -69,7 +78,8 @@
       "name": "Facebook",
       "icon_class": "fa-facebook-square",
       "validate": "1"
-    }
+    },
+    "pk": 6
   },
   {
     "model": "manager.ContactType",
@@ -77,51 +87,7 @@
       "name": "Google+",
       "icon_class": "fa-google-plus-square",
       "validate": "1"
-    }
-  },
-  {
-    "model": "manager.Event",
-    "fields": {
-      "name": "FLISol-CABA",
-      "date": "2016-04-25",
-      "limit_proposal_date": "2016-04-22",
-      "slug": "caba",
-      "email": "flisol@gmail.com",
-      "place": "{}"
     },
-    "pk": 1
-  },
-  {
-    "fields": {
-      "event": 1,
-      "name": "Sala Blanca"
-    },
-    "model": "manager.Room",
-    "pk": 1
-  },
-  {
-    "fields": {
-      "event": 1,
-      "title": "Linux para tu familia entera",
-      "long_description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.",
-      "abstract": "Vivamus fermentum semper porta. Nunc diam velit, adipiscing ut tristique vitae, sagittis vel odio. Maecenas convallis ullamcorper ultricies.",
-      "room":1,
-      "start_date": "2016-04-25T08:30:00",
-      "end_date": "2016-04-25T09:00:00"
-    },
-    "model": "manager.Activity",
-    "pk":1
-  },
-  {
-    "fields": {
-      "activity": 1,
-      "level": 2,
-      "type":1,
-      "speakers_names": "Sergio Orbe, Agustín Ignacio Guido Croce Villanustre",
-      "speakers_email": "reyiyo@gmail.com, agustin.crocevillanustre@gmail.com",
-      "labels": "Linux, Software Libre, It's Free"
-    },
-    "model": "manager.talkproposal",
-    "pk": 1
+    "pk": 7
   }
 ]

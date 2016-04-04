@@ -16,6 +16,7 @@ django-grappelli==2.6.4
 django-image-cropping==0.8.4
 django-import-export==0.2.6
 django-jquery-js==2.1.4
+django-mailgun==0.8.0
 django-voting==0.2
 djangorestframework==3.1.1
 easy-thumbnails==2.2

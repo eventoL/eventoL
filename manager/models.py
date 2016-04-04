@@ -39,7 +39,7 @@ class Event(models.Model):
     email = models.EmailField(verbose_name=_('Email'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
-    schedule_confirm = models.BooleanField(_('Schedule Confirm'), default=False)
+    schedule_confirm = models.BooleanField(_('Confirm Schedule'), default=False)
     place = models.TextField(_('Place'))  # TODO: JsonFIELD
     home_image = models.ForeignKey(Image, related_name="eventol_home_image", verbose_name=_noop('Home Image'),
                                    blank=True, null=True)
@@ -204,7 +204,7 @@ class Attendee(models.Model):
 
 class InstallationAttendee(models.Model):
     eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
-    installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
+    installation_additional_info = models.TextField(_('Installation Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing?'))
 
     class Meta:
@@ -318,7 +318,7 @@ class Activity(models.Model):
     def schedule(self):
         if self.start_date and self.end_date:
             return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
-        return _('Schedule not confirm')
+        return _('Schedule not confirmed yet')
 
     @classmethod
     def filter_by(cls, queryset, field, value):
@@ -370,7 +370,7 @@ class TalkProposal(models.Model):
     presentation = models.FileField(_('Presentation'), upload_to='talks', blank=True, null=True, help_text=_(
         'Any material you are going to use for the talk (optional, but recommended)'))
     level = models.CharField(_('Level'), choices=level_choices, max_length=100,
-                             help_text=_("The talk's Technical level"))
+                             help_text=_("Talk's Technical level"))
 
     def get_schedule_info(self):
         return {

@@ -171,13 +171,13 @@
                                 {% if not user.has_usable_password %}
                                     <li>
                                         <a href="{% url "account_set_password" %}">
-                                            <i class="material-icons">assignment_ind</i> {% trans "Set Password" %}
+                                            <i class="material-icons">vpn_key</i> {% trans "Set Password" %}
                                         </a>
                                     </li>
                                 {% endif %}
                                 <li>
                                     <a href="{% url "account_change_password" %}">
-                                        <i class="material-icons">assignment_ind</i> {% trans "Change Password" %}
+                                        <i class="material-icons">autorenew</i> {% trans "Change Password" %}
                                     </a>
                                 </li>
                                 <li>
