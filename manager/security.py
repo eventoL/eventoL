@@ -60,6 +60,30 @@ def create_organizers_group():
     return organizers
 
 
+def create_reporters_group():
+    reporters = None
+    if not Group.objects.filter(name='Reporters').exists():
+        perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_nonregisteredattendee',
+                 'change_nonregisteredattendee', 'delete_nonregisteredattendee', 'add_eventuser', 'change_eventuser',
+                 'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
+                 'change_organizer', 'delete_organizer', 'add_attendee', 'change_attendee', 'delete_attendee',
+                 'add_installationattendee', 'change_installationattendee', 'delete_installationattendee',
+                 'add_installer',
+                 'change_installer', 'delete_installer', 'add_speaker', 'change_speaker', 'delete_speaker', 'add_room',
+                 'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
+                 'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
+                 'delete_installation']
+        reporters = Group.objects.create(name='Reporters')
+        for perm in perms:
+            reporters.permissions.add(Permission.objects.get(codename=perm))
+
+        reporters.save()
+    else:
+        reporters = Group.objects.get(name='Reporters')
+
+    return reporters
+
+
 def add_organizer_permissions(user):
     organizers = create_organizers_group()
     user.groups.add(organizers)
