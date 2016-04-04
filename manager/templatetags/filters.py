@@ -50,6 +50,11 @@ def can_register(user, event_slug):
         return not(is_attendee or is_installation_attendee)
     return True
 
+@register.filter(name='is_registered')
+def is_registered(user, event_slug):
+    """Search if the user is registered for the event in any way"""
+    return EventUser.objects.filter(user=user, event__slug__iexact=event_slug).exists()
+
 
 @register.filter(name='is_installer')
 def is_installer(user, event_slug):
