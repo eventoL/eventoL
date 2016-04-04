@@ -1,5 +1,6 @@
 site_name: EventoL
 theme: readthedocs
 pages:
-- Login: Login.md
-- Crear un evento: Crear-Evento.md
+  - Inicio: index.md
+  - Login: login.md
+  - Crear un evento: crear_evento.md
