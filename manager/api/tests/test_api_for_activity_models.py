@@ -1,6 +1,6 @@
 import datetime
 import unittest
-from manager.models import Activity, Comment, TalkProposal, Talk, TalkType, Room, Installation
+from manager.models import Activity, Comment, TalkProposal, TalkType, Room, Installation
 from manager.api.tests.test_api import api_test
 
 
@@ -9,33 +9,33 @@ class TestApiActivity():
     fk_models = ['manager.Event']
     str_model = 'manager.Activity'
     model = Activity
-    url_base = '/api/activity/'
+    url_base = '/api/activities/'
     example = {
         'title': 'break',
         'long_description': 'break..break..break',
         'confirmed': True,
-        'abstract': 'zzzzzzzzzz'
+        'abstract': 'zzzzzzzzzz',
+        'start_date': datetime.datetime.now(),
+        'end_date': datetime.datetime.now()
     }
 
 
 @api_test()
 class TestApiComment():
-    fk_models = ['auth.User', 'manager.Event', 'manager.Activity']
+    fk_models = ['auth.User', 'manager.NonRegisteredAttendee', 'manager.Event', 'manager.EventUser', 'manager.Room', 'manager.Activity']
     str_model = 'manager.Comment'
     model = Comment
-    url_base = '/api/comment/'
+    url_base = '/api/comments/'
     example = {
-        'created': datetime.datetime.now(),
         'body': 'blablablablable...'
     }
 
-
 @api_test()
 class TestApiTalkProposal():
-    fk_models = ['manager.Event', 'manager.Activity', 'manager.TalkType']
+    fk_models = ['manager.Event', 'manager.Activity', 'manager.TalkType', 'manager.Image']
     str_model = 'manager.TalkProposal'
     model = TalkProposal
-    url_base = '/api/talkproposal/'
+    url_base = '/api/talkproposals/'
     example = {
         'speakers_names': 'pepe,juan,roberto',
         'speakers_email': 'pepe@pepemail.com',
@@ -44,22 +44,10 @@ class TestApiTalkProposal():
 
 
 @api_test()
-class TestApiTalk():
-    fk_models = ['manager.Event', 'manager.Activity', 'manager.TalkType', 'manager.TalkProposal', 'manager.Room']
-    str_model = 'manager.Talk'
-    model = Talk
-    url_base = '/api/talk/'
-    example = {
-        'start_date': datetime.datetime.now(),
-        'end_date': datetime.datetime.now()
-    }
-
-
-@api_test()
 class TestApiTalkType():
     str_model = 'manager.TalkType'
     model = TalkType
-    url_base = '/api/talktype/'
+    url_base = '/api/talktypes/'
     example = {
         'name': 'conference'
     }
@@ -67,10 +55,10 @@ class TestApiTalkType():
 
 @api_test()
 class TestApiRoom():
-    fk_models = ['manager.Event', 'manager.TalkType']
+    fk_models = ['manager.Event']
     str_model = 'manager.Room'
     model = Room
-    url_base = '/api/room/'
+    url_base = '/api/rooms/'
     example = {
         'name': 'auditorio'
     }
@@ -78,13 +66,14 @@ class TestApiRoom():
 
 @api_test()
 class TestApiInstallation():
-    fk_models = ['manager.HardwareManufacturer', 'manager.Hardware', 'manager.Software', 'auth.User', 'manager.Event', 'manager.EventUser', 'manager.InstallationAttendee','manager.Installer']
+    fk_models = ['manager.Hardware', 'manager.Software', 'auth.User', 'manager.Event', 'manager.EventUser']
     str_model = 'manager.Installation'
     model = Installation
-    url_base = '/api/installation/'
+    url_base = '/api/installations/'
     example = {
         'notes': 'ok'
     }
+
 
 if __name__ == '__main__':
     unittest.main()

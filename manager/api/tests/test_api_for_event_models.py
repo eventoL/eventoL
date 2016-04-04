@@ -10,7 +10,7 @@ class TestApiContact():
     fk_models = ['manager.Event', 'manager.ContactType']
     str_model = 'manager.Contact'
     model = Contact
-    url_base = '/api/contact/'
+    url_base = '/api/contacts/'
     example = {
         'url': 'http://manager..com',
         'text': 'text'
@@ -21,7 +21,7 @@ class TestApiContact():
 class TestApiContactMessage():
     str_model = 'manager.ContactMessage'
     model = ContactMessage
-    url_base = '/api/contactmessage/'
+    url_base = '/api/contactmessages/'
     example = {
         'name': 'Pepe',
         'email': 'pepe@mail.com',
@@ -33,7 +33,7 @@ class TestApiContactMessage():
 class TestApiContactType():
     str_model = 'manager.ContactType'
     model = ContactType
-    url_base = '/api/contacttype/'
+    url_base = '/api/contacttypes/'
     example = {
         'name': 'Facebook',
         'icon_class': 'facebook-ico'
@@ -42,19 +42,20 @@ class TestApiContactType():
 
 @api_test()
 class TestApiEvent():
-    fk_models = []
+    fk_models = ['manager.Image']
     str_model = 'manager.Event'
     model = Event
-    url_base = '/api/event/'
+    url_base = '/api/events/'
     example = {
         'name': 'event',
-        'url': 'event1',
+        'slug': 'event1',
         'external_url': 'http://event1.io',
         'email': 'event@mail.com',
         'event_information': 'best_event',
         'date': datetime.date.today(),
         'limit_proposal_date': datetime.date.today(),
-        'schedule_confirm': False
+        'schedule_confirm': False,
+        'place': "{\"lala\":\"lele\"}"
     }
 
 
@@ -63,12 +64,8 @@ class TestApiImage():
     fk_models = ['manager.Event']
     str_model = 'manager.Image'
     model = Image
-    url_base = '/api/image/'
-    example = {
-        'type': 'png',
-        'url': 'http://image/id',
-        'cropping': '1024x1234',
-    }
+    url_base = '/api/images/'
+    example = {}
 
 if __name__ == '__main__':
     unittest.main()

@@ -80,8 +80,8 @@ class Migration(migrations.Migration):
             name='Contact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('url', models.URLField(verbose_name=b'URL')),
-                ('text', models.CharField(max_length=200, verbose_name='Text')),
+                ('url', models.CharField(help_text='i.e. https://twitter.com/flisol', max_length=200, verbose_name=b'Direccion')),
+                ('text', models.CharField(help_text='i.e. @Flisol', max_length=200, verbose_name='Text')),
             ],
             options={
                 'verbose_name': 'Contact',
@@ -109,6 +109,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(unique=True, max_length=200, verbose_name='Name')),
                 ('icon_class', models.CharField(max_length=200, verbose_name='Icon Class')),
+                ('validate', models.CharField(help_text='Type of field validation', max_length=10, verbose_name='Level', choices=[(b'1', 'Validate URL'), (b'2', 'Validate Email'), (b'3', "Don't validate")])),
             ],
             options={
                 'verbose_name': 'Contact Type',
@@ -123,11 +124,11 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=200, verbose_name='Event Name')),
                 ('date', models.DateField(help_text='When will your event be?', verbose_name='Date')),
                 ('limit_proposal_date', models.DateField(help_text='Limit date to submit talk proposals', verbose_name='Limit Proposals Date')),
-                ('slug', models.CharField(help_text='For example: flisol-caba', max_length=200, verbose_name='URL', validators=[manager.models.validate_url])),
+                ('slug', models.CharField(help_text='For example: flisol-caba', unique=True, max_length=200, verbose_name='URL', validators=[manager.models.validate_url])),
                 ('external_url', models.URLField(default=None, blank=True, help_text='http://www.my-awesome-event.com', null=True, verbose_name='External URL')),
                 ('email', models.EmailField(max_length=75, verbose_name='Email')),
                 ('event_information', ckeditor.fields.RichTextField(help_text='Event Information HTML', null=True, verbose_name='Event Information', blank=True)),
-                ('schedule_confirm', models.BooleanField(default=False, verbose_name='Schedule Confirm')),
+                ('schedule_confirm', models.BooleanField(default=False, verbose_name='Confirm Schedule')),
                 ('place', models.TextField(verbose_name='Place')),
             ],
             options={
@@ -140,8 +141,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('assisted', models.BooleanField(default=False, verbose_name='Assisted')),
+                ('ticket', models.BooleanField(default=False, verbose_name='Ticket sent')),
                 ('event', models.ForeignKey(verbose_name=b'Event', to='manager.Event')),
-                ('user', models.ForeignKey(verbose_name='User', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
                 'verbose_name': 'Event User',
@@ -154,22 +155,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('type', models.CharField(max_length=200, verbose_name='Type', choices=[(b'MOB', 'Mobile'), (b'NOTE', 'Notebook'), (b'NET', 'Netbook'), (b'TAB', 'Tablet'), (b'DES', 'Desktop'), (b'OTH', 'Other')])),
+                ('manufacturer', models.CharField(max_length=200, null=True, verbose_name='Manufacturer', blank=True)),
                 ('model', models.CharField(max_length=200, null=True, verbose_name='Model', blank=True)),
-                ('serial', models.CharField(max_length=200, null=True, verbose_name='Serial', blank=True)),
             ],
             options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='HardwareManufacturer',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=200, null=True, verbose_name='Name', blank=True)),
-            ],
-            options={
-                'verbose_name': 'Hardware Manufacturer',
-                'verbose_name_plural': 'Hardware Manufacturers',
             },
             bases=(models.Model,),
         ),
@@ -191,6 +180,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('notes', models.TextField(help_text='Any information or trouble you found and consider relevant to document', null=True, verbose_name='Notes', blank=True)),
+                ('attendee', models.ForeignKey(verbose_name='Attendee', to='manager.EventUser', help_text='The owner of the installed hardware')),
+                ('hardware', models.ForeignKey(verbose_name='Hardware', blank=True, to='manager.Hardware', null=True)),
+                ('installer', models.ForeignKey(related_name='installed_by', verbose_name='Installer', blank=True, to='manager.EventUser', null=True)),
             ],
             options={
                 'verbose_name': 'Installation',
@@ -202,7 +194,7 @@ class Migration(migrations.Migration):
             name='InstallationAttendee',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('installation_additional_info', models.TextField(help_text='i.e. Wath kind of PC are you bringing?', null=True, verbose_name='Additional Info', blank=True)),
+                ('installation_additional_info', models.TextField(help_text='i.e. Wath kind of PC are you bringing?', null=True, verbose_name='Installation Additional Info', blank=True)),
                 ('eventUser', models.ForeignKey(verbose_name='Event User', blank=True, to='manager.EventUser', null=True)),
             ],
             options={
@@ -225,6 +217,22 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='NonRegisteredAttendee',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('first_name', models.CharField(max_length=30, verbose_name='First Name', blank=True)),
+                ('last_name', models.CharField(max_length=30, verbose_name='Last Name', blank=True)),
+                ('email', models.EmailField(max_length=75, verbose_name='E-mail Address', blank=True)),
+                ('is_installing', models.BooleanField(default=False, help_text='Will you bring a PC for installation?', verbose_name='Is Installing')),
+                ('installation_additional_info', models.TextField(help_text='i.e. Wath kind of PC are you bringing?', null=True, verbose_name='Additional Info', blank=True)),
+            ],
+            options={
+                'verbose_name': 'Non Registered  Attendee',
+                'verbose_name_plural': 'Non Registered Attendees',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Organizer',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -241,7 +249,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(help_text='i.e. Classroom 256', max_length=200, verbose_name='Name')),
-                ('event', models.ForeignKey(verbose_name=b'Event', to='manager.Event')),
+                ('event', models.ForeignKey(verbose_name=b'Event', blank=True, to='manager.Event', null=True)),
             ],
             options={
                 'ordering': ['name'],
@@ -255,7 +263,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200, verbose_name='Name')),
-                ('version', models.CharField(max_length=200, verbose_name='Version')),
                 ('type', models.CharField(max_length=200, verbose_name='Type', choices=[(b'OS', 'Operative System'), (b'AP', 'Application'), (b'SU', 'Support and Problem Fixing'), (b'OT', 'Other')])),
             ],
             options={
@@ -283,7 +290,7 @@ class Migration(migrations.Migration):
                 ('speakers_email', models.CharField(help_text="Comma separated speaker's emails", max_length=600, verbose_name='Speakers Emails')),
                 ('labels', models.CharField(help_text='Comma separated tags. i.e. Linux, Free Software, Debian', max_length=200, verbose_name='Labels')),
                 ('presentation', models.FileField(help_text='Any material you are going to use for the talk (optional, but recommended)', upload_to=b'talks', null=True, verbose_name='Presentation', blank=True)),
-                ('level', models.CharField(help_text="The talk's Technical level", max_length=100, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced')])),
+                ('level', models.CharField(help_text="Talk's Technical level", max_length=100, verbose_name='Level', choices=[(b'1', 'Beginner'), (b'2', 'Medium'), (b'3', 'Advanced')])),
                 ('activity', models.ForeignKey(verbose_name=b'Activity', blank=True, to='manager.Activity', null=True)),
                 ('image', models.ForeignKey(verbose_name=b'Image', blank=True, to='manager.Image', null=True)),
             ],
@@ -313,33 +320,25 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='installation',
-            name='attendee',
-            field=models.ForeignKey(verbose_name='Attendee', to='manager.InstallationAttendee', help_text='The owner of the installed hardware'),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='installation',
-            name='hardware',
-            field=models.ForeignKey(verbose_name='Hardware', blank=True, to='manager.Hardware', null=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='installation',
-            name='installer',
-            field=models.ForeignKey(related_name='installed_by', verbose_name='Installer', blank=True, to='manager.Installer', null=True),
-            preserve_default=True,
-        ),
-        migrations.AddField(
-            model_name='installation',
             name='software',
             field=models.ForeignKey(verbose_name='Software', blank=True, to='manager.Software', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='hardware',
-            name='manufacturer',
-            field=models.ForeignKey(verbose_name='Manufacturer', blank=True, to='manager.HardwareManufacturer', null=True),
+            model_name='eventuser',
+            name='nonregisteredattendee',
+            field=models.ForeignKey(verbose_name='Non Registered Attendee', blank=True, to='manager.NonRegisteredAttendee', null=True),
             preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='eventuser',
+            name='user',
+            field=models.ForeignKey(verbose_name='User', blank=True, to=settings.AUTH_USER_MODEL, null=True),
+            preserve_default=True,
+        ),
+        migrations.AlterUniqueTogether(
+            name='eventuser',
+            unique_together=set([('event', 'user')]),
         ),
         migrations.AddField(
             model_name='event',
@@ -354,9 +353,15 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
+            model_name='contactmessage',
+            name='event',
+            field=models.ForeignKey(verbose_name=b'Event', blank=True, to='manager.Event', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
             model_name='contact',
             name='event',
-            field=models.ForeignKey(related_name='contacts', verbose_name=b'Event', to='manager.Event'),
+            field=models.ForeignKey(related_name='contacts', verbose_name=b'Event', blank=True, to='manager.Event', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
