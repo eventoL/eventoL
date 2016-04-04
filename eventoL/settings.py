@@ -24,8 +24,8 @@ ON_OPENSHIFT = 'OPENSHIFT_REPO_DIR' in os.environ
 if ON_OPENSHIFT:
     import socket
     os.environ.setdefault('DJANGO_SECRET_KEY', os.environ.get('OPENSHIFT_SECRET_TOKEN'))
-    os.environ.setdefault('DJANGO_DEBUG', False)
-    os.environ.setdefault('DJANGO_TEMPLATE_DEBUG', False)
+    os.environ.setdefault('DJANGO_DEBUG', 'False')
+    os.environ.setdefault('DJANGO_TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('PSQL_NAME', os.environ.get('OPENSHIFT_APP_NAME'))
     os.environ.setdefault('PSQL_USER', os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME'))
     os.environ.setdefault('PSQL_PASSWORD', os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD'))
