@@ -18,22 +18,41 @@ def str_to_bool(s):
     return s == 'True'
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+ON_OPENSHIFT = 'OPENSHIFT_REPO_DIR' in os.environ
+if ON_OPENSHIFT:
+    import socket
+    os.environ.setdefault('DJANGO_SECRET_KEY', os.environ.get('OPENSHIFT_SECRET_TOKEN'))
+    os.environ.setdefault('DJANGO_DEBUG', False)
+    os.environ.setdefault('DJANGO_TEMPLATE_DEBUG', False)
+    os.environ.setdefault('PSQL_NAME', os.environ.get('OPENSHIFT_APP_NAME'))
+    os.environ.setdefault('PSQL_USER', os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME'))
+    os.environ.setdefault('PSQL_PASSWORD', os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD'))
+    os.environ.setdefault('PSQL_HOST', os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST'))
+    os.environ.setdefault('PSQL_PORT', os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT'))
+    ALLOWED_HOSTS = [os.environ.get('OPENSHIFT_APP_DNS'), socket.gethostname()]
+    STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, '..', 'manager', 'static')
+    ALLOWED_HOSTS = []
 
-MEDIA_URL = '/media/'
+if 'OPENSHIFT_DATA_DIR' in os.environ:
+    MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
+    MEDIA_URL = STATIC_URL + 'media/'
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', 'True'))
 TEMPLATE_DEBUG = str_to_bool(os.getenv('DJANGO_TEMPLATE_DEBUG', 'True'))
-
-ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -125,9 +144,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '..', 'manager', 'static')
-
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
 )
@@ -156,12 +172,18 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'smtp.unset')
-EMAIL_PORT = os.getenv('DJANGO_EMAIL_PORT', '587')
-EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', 'change_unset@mail.com')
-EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', 'secret')
-EMAIL_USE_TLS = str_to_bool(os.getenv('DJANGO_EMAIL_USE_TLS', True))
-EMAIL_FROM = os.getenv('DJANGO_EMAIL_FROM', 'change_unset@mail.com')
+if 'EVENTOL_EMAIL_BACKEND' in os.environ:
+    EMAIL_BACKEND = os.environ.get('EVENTOL_EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
+    MAILGUN_ACCESS_KEY = os.environ.get('EVENTOL_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
+    MAILGUN_SERVER_NAME = os.environ.get('EVENTOL_MAILGUN_SERVER_NAME', 'SERVER-NAME')
+else:
+    EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'smtp.unset')
+    EMAIL_PORT = os.getenv('DJANGO_EMAIL_PORT', '587')
+    EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', 'change_unset@mail.com')
+    EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', 'secret')
+    EMAIL_USE_TLS = str_to_bool(os.getenv('DJANGO_EMAIL_USE_TLS', True))
+    EMAIL_FROM = os.getenv('DJANGO_EMAIL_FROM', 'change_unset@mail.com')
+
 LOGIN_URL = '/accounts/login/'
 
 OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
