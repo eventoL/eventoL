@@ -30,8 +30,8 @@ MEDIA_URL = '/media/'
 SECRET_KEY = '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', False))
-TEMPLATE_DEBUG = str_to_bool(os.getenv('DJANGO_TEMPLATE_DEBUG', False))
+DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', 'True'))
+TEMPLATE_DEBUG = str_to_bool(os.getenv('DJANGO_TEMPLATE_DEBUG', 'True'))
 
 ALLOWED_HOSTS = []
 
