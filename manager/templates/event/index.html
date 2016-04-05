@@ -148,7 +148,8 @@
 
                             <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte!
                                 <a href="{% url "talk_proposal" event_slug %}">Envianos tu propuesta</a> o <a
-                                        href="{% url "activities" event_slug %}">consultá las charlas propuestas hasta el
+                                        href="{% url "activities" event_slug %}">consultá las charlas propuestas hasta
+                                    el
                                     momento</a>.</p>
                         </div>
                     </div>
@@ -211,7 +212,10 @@
     <script>
         $(document).ready(function() {
             function map(event_lat, event_lon) {
-                var map = L.map('map').setView([event_lat, event_lon], 14);
+                var map = L.map('map', {
+                    scrollWheelZoom: false,
+                    touchZoom      : false,
+                }).setView([event_lat, event_lon], 14);
 
                 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
