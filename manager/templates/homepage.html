@@ -61,7 +61,7 @@
     <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
     <script>
         $(document).ready(function() {
-            // This command is used to initialize some elements and make them work properly
+            $.material.options.autofill = true;
             $.material.init();
 
             function map(event_name, event_lat, event_lon) {
