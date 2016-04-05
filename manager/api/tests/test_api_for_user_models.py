@@ -1,12 +1,13 @@
 import unittest
-from manager.models import Attendee, Collaborator, EventUser, InstallationAttendee, Installer, Speaker
+from manager.models import Attendee, Collaborator, EventUser, InstallationAttendee, Installer, Speaker, \
+    NonRegisteredAttendee
 from manager.api.tests.test_api import api_test
 
 
 # User Models
 @api_test()
 class TestApiAttendee():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.NonRegisteredAttendee', 'manager.EventUser']
     str_model = 'manager.Attendee'
     model = Attendee
     url_base = '/api/attendee/'
@@ -17,10 +18,10 @@ class TestApiAttendee():
 
 @api_test()
 class TestApiCollaborator():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.NonRegisteredAttendee', 'manager.EventUser']
     str_model = 'manager.Collaborator'
     model = Collaborator
-    url_base = '/api/collaborator/'
+    url_base = '/api/collaborators/'
     example = {
         'assignation': 'Coffee',
         'time_availability': 'Morning',
@@ -32,21 +33,22 @@ class TestApiCollaborator():
 
 @api_test()
 class TestApiEventUser():
-    fk_models = ['auth.User', 'manager.Event']
+    fk_models = ['auth.User', 'manager.Event', 'manager.NonRegisteredAttendee']
     str_model = 'manager.EventUser'
     model = EventUser
-    url_base = '/api/eventuser/'
+    url_base = '/api/eventusers/'
     example = {
-        'assisted': True
+        'assisted': True,
+        'ticket': True
     }
 
 
 @api_test()
 class TestApiInstallationAttendee():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.NonRegisteredAttendee', 'manager.EventUser']
     str_model = 'manager.InstallationAttendee'
     model = InstallationAttendee
-    url_base = '/api/installationattendee/'
+    url_base = '/api/installationattendees/'
     example = {
         'installation_additional_info': 'hola'
     }
@@ -54,19 +56,34 @@ class TestApiInstallationAttendee():
 
 @api_test()
 class TestApiSpeaker():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
+    fk_models = ['auth.User', 'manager.Event', 'manager.NonRegisteredAttendee', 'manager.EventUser']
     str_model = 'manager.Speaker'
     model = Speaker
-    url_base = '/api/speaker/'
+    url_base = '/api/speakers/'
     example = {}
 
 
 @api_test()
 class TestApiInstaller():
-    fk_models = ['auth.User', 'manager.Event', 'manager.EventUser']
+    fk_models = []
+    str_model = 'manager.NonRegisteredAttendee'
+    model = NonRegisteredAttendee
+    url_base = '/api/nonregisteredattendees/'
+    example = {
+        'first_name': 'name',
+        'last_name': 'last_name',
+        'email': 'email@eamil.com',
+        'is_installing': True,
+        'installation_additional_info': 'more_info'
+    }
+
+
+@api_test()
+class TestApiInstaller():
+    fk_models = ['auth.User', 'manager.Event', 'manager.NonRegisteredAttendee', 'manager.EventUser']
     str_model = 'manager.Installer'
     model = Installer
-    url_base = '/api/installer/'
+    url_base = '/api/installers/'
     example = {}
 
 if __name__ == '__main__':

@@ -7,35 +7,52 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-import socket
-
 import django.conf.global_settings as DEFAULT_SETTINGS
 from easy_thumbnails.conf import Settings as thumbnail_settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from easy_thumbnails.optimize.conf import OptimizeSettings
 import os
 
+
+def str_to_bool(s):
+    return s == 'True'
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+STATIC_URL = '/static/'
 
 ON_OPENSHIFT = 'OPENSHIFT_REPO_DIR' in os.environ
-
-SECRET_KEY = os.environ.get('OPENSHIFT_SECRET_TOKEN', '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not ON_OPENSHIFT
-
-if ON_OPENSHIFT and DEBUG:
-    print("*** Warning - Debug mode is on ***")
-
-TEMPLATE_DEBUG = not ON_OPENSHIFT
-
 if ON_OPENSHIFT:
-    ALLOWED_HOSTS = [os.environ['OPENSHIFT_APP_DNS'], socket.gethostname()]
+    import socket
+    os.environ.setdefault('DJANGO_SECRET_KEY', os.environ.get('OPENSHIFT_SECRET_TOKEN'))
+    os.environ.setdefault('DJANGO_DEBUG', 'False')
+    os.environ.setdefault('DJANGO_TEMPLATE_DEBUG', 'False')
+    os.environ.setdefault('PSQL_NAME', os.environ.get('OPENSHIFT_APP_NAME'))
+    os.environ.setdefault('PSQL_USER', os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME'))
+    os.environ.setdefault('PSQL_PASSWORD', os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD'))
+    os.environ.setdefault('PSQL_HOST', os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST'))
+    os.environ.setdefault('PSQL_PORT', os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT'))
+    ALLOWED_HOSTS = [os.environ.get('OPENSHIFT_APP_DNS'), socket.gethostname()]
+    STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
 else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'manager', 'static')
     ALLOWED_HOSTS = []
+
+if 'OPENSHIFT_DATA_DIR' in os.environ:
+    MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
+    MEDIA_URL = STATIC_URL + 'media/'
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', 'True'))
+TEMPLATE_DEBUG = str_to_bool(os.getenv('DJANGO_TEMPLATE_DEBUG', 'True'))
 
 # Application definition
 
@@ -90,11 +107,11 @@ WSGI_APPLICATION = 'eventoL.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('OPENSHIFT_APP_NAME', 'eventol'),
-        'USER': os.environ.get('OPENSHIFT_POSTGRESQL_DB_USERNAME', 'eventol'),
-        'PASSWORD': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PASSWORD', 'secret'),
-        'HOST': os.environ.get('OPENSHIFT_POSTGRESQL_DB_HOST', 'localhost'),
-        'PORT': os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT', '5432'),
+        'NAME': os.getenv('PSQL_NAME', 'eventol'),
+        'USER': os.getenv('PSQL_USER', 'eventol'),
+        'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
+        'HOST': os.getenv('PSQL_HOST', 'localhost'),
+        'PORT': os.getenv('PSQL_PORT', '5432'),
     }
 }
 
@@ -127,22 +144,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-
-if 'OPENSHIFT_REPO_DIR' in os.environ:
-    STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, '..', 'manager', 'static')
-
-if 'OPENSHIFT_DATA_DIR' in os.environ:
-    MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
-    MEDIA_URL = STATIC_URL + 'media/'
-else:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
 )
@@ -171,16 +172,17 @@ LOGGING = {
     }
 }
 
-EMAIL_BACKEND = os.environ.get('EVENTOL_EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
-MAILGUN_ACCESS_KEY = os.environ.get('EVENTOL_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
-MAILGUN_SERVER_NAME = os.environ.get('EVENTOL_MAILGUN_SERVER_NAME', 'SERVER-NAME')
-
-# EMAIL_HOST = os.environ.get('EVENTOL_EMAIL_HOST', 'smtp.gmail.com')
-# EMAIL_PORT = os.environ.get('EVENTOL_EMAIL_PORT', '587')
-# EMAIL_HOST_USER = os.environ.get('EVENTOL_EMAIL_HOST_USER', 'YOUR USERNAME')
-# EMAIL_HOST_PASSWORD = os.environ.get('EVENTOL_EMAIL_HOST_PASSWORD', 'YOUR PASSWORD')
-# EMAIL_USE_TLS = os.environ.get('EVENTOL_EMAIL_USE_TLS', True)
-# EMAIL_FROM = os.environ.get('EVENTOL_EMAIL_FROM', 'FROM@YOURACCOUNT')
+if 'EVENTOL_EMAIL_BACKEND' in os.environ:
+    EMAIL_BACKEND = os.environ.get('EVENTOL_EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
+    MAILGUN_ACCESS_KEY = os.environ.get('EVENTOL_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
+    MAILGUN_SERVER_NAME = os.environ.get('EVENTOL_MAILGUN_SERVER_NAME', 'SERVER-NAME')
+else:
+    EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'smtp.unset')
+    EMAIL_PORT = os.getenv('DJANGO_EMAIL_PORT', '587')
+    EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', 'change_unset@mail.com')
+    EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', 'secret')
+    EMAIL_USE_TLS = str_to_bool(os.getenv('DJANGO_EMAIL_USE_TLS', True))
+    EMAIL_FROM = os.getenv('DJANGO_EMAIL_FROM', 'change_unset@mail.com')
 
 LOGIN_URL = '/accounts/login/'
 
@@ -190,7 +192,7 @@ OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
     'jpg': '/usr/bin/jpegoptim {filename}'
 }
 
-GRAPPELLI_ADMIN_TITLE = 'FLISoL 2016'
+GRAPPELLI_ADMIN_TITLE = os.getenv('DJANGO_ADMIN_TITLE', 'EventoL')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -223,29 +225,33 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 SOCIALACCOUNT_PROVIDERS = \
-    {'facebook': {'METHOD': 'oauth2',
-                  'SCOPE': ['email', 'public_profile'],
-                  'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-                  'FIELDS': [
-                      'id',
-                      'email',
-                      'name',
-                      'first_name',
-                      'last_name',
-                      'verified',
-                      'locale',
-                      'timezone',
-                      'link',
-                      'gender',
-                      'updated_time'],
-                  'EXCHANGE_TOKEN': True,
-                  'LOCALE_FUNC': lambda request: 'es_AR',
-                  'VERIFIED_EMAIL': False,
-                  'VERSION': 'v2.4'},
-     'google': {
-         'SCOPE': ['profile', 'email'],
-         'AUTH_PARAMS': {'access_type': 'online'}
-     }}
+    {
+        'facebook': {
+            'METHOD': 'oauth2',
+            'SCOPE': ['email', 'public_profile'],
+            'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+            'FIELDS': [
+                'id',
+                'email',
+                'name',
+                'first_name',
+                'last_name',
+                'verified',
+                'locale',
+                'timezone',
+                'link',
+                'gender',
+                'updated_time'],
+            'EXCHANGE_TOKEN': True,
+            'LOCALE_FUNC': lambda request: 'es_AR',
+            'VERIFIED_EMAIL': False,
+            'VERSION': 'v2.4'
+        },
+        'google': {
+            'SCOPE': ['profile', 'email'],
+            'AUTH_PARAMS': {'access_type': 'online'}
+        }
+    }
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"

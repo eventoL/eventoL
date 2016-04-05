@@ -1,40 +1,29 @@
 import unittest
-from manager.models import HardwareManufacturer, Software, Hardware
+from manager.models import Software, Hardware
 from manager.api.tests.test_api import api_test
 
 
 # Device Models
 @api_test()
-class TestApiHardwareManufacturer():
-    str_model = 'manager.HardwareManufacturer'
-    model = HardwareManufacturer
-    url_base = '/api/hardwaremanufacturer/'
-    example = {
-        'name': 'Manufacturer'
-    }
-
-
-@api_test()
 class TestApiSoftware():
     str_model = 'manager.Software'
     model = Software
-    url_base = '/api/software/'
+    url_base = '/api/softwares/'
     example = {
-        'name': 'eventoL',
-        'version': 'v2.0'
+        'name': 'eventoL'
     }
     # TODO View 'type': 'Other'
 
 
 @api_test()
 class TestApiHardware():
-    fk_models = ['manager.HardwareManufacturer']
+    fk_models = []
     str_model = 'manager.Hardware'
     model = Hardware
-    url_base = '/api/hardware/'
+    url_base = '/api/hardwares/'
     example = {
         'model': 'model',
-        'serial': '19827398172ASDF'
+        'manufacturer': '19827398172ASDF'
     }
     # TODO View 'type': 'Other'
 

@@ -1,0 +1,26 @@
+eventol:
+  build: .
+  ports:
+    - 8000:8000
+  links:
+    - postgres
+  volumes:
+    - ./vol/logs:/var/www/eventol/log
+    - ./vol/gunicorn:/var/www/eventol/gunicorn
+  command: /run.sh
+  restart: always
+  envirotment:
+    - PSQL_HOST=postgres
+postgres:
+  restart: always
+  image: postgres:9.5
+  environment:
+    - POSTGRES_PASSWORD=secret
+    - POSTGRES_USER=eventol
+    - POSTGRES_DB=eventol
+  volumes_from:
+    - data
+data:
+  image: postgres:9.5
+  volumes:
+    - /var/lib/postgresql

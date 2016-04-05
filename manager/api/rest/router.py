@@ -27,10 +27,11 @@ router.register(r'installations', ViewSetBuilder(models.Installation, reduce_fun
 # User Models
 router.register(r'installers', ViewSetBuilder(models.Installer, reduce_func=reduces.installers).build())
 router.register(r'installationattendees', ViewSetBuilder(models.InstallationAttendee).build())
-router.register(r'attendee', ViewSetBuilder(models.Attendee, cls_form=forms.AttendeeRegistrationByCollaboratorForm, reduce_func=reduces.attendees).build())
+router.register(r'attendee', ViewSetBuilder(models.Attendee, cls_form=forms.AttendeeRegistrationForm, reduce_func=reduces.attendees).build())
 router.register(r'collaborators', ViewSetBuilder(models.Collaborator, cls_form=forms.CollaboratorRegistrationForm).build())
 router.register(r'eventusers', ViewSetBuilder(models.EventUser).build())
 router.register(r'speakers', ViewSetBuilder(models.Speaker).build())
+router.register(r'nonregisteredattendees', ViewSetBuilder(models.NonRegisteredAttendee).build())
 
 # Event Model
 router.register(r'contacts', ViewSetBuilder(models.Contact).build())
