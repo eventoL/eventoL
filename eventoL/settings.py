@@ -34,7 +34,7 @@ if ON_OPENSHIFT:
     ALLOWED_HOSTS = [os.environ.get('OPENSHIFT_APP_DNS'), socket.gethostname()]
     STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, '..', 'manager', 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'manager', 'static')
     ALLOWED_HOSTS = []
 
 if 'OPENSHIFT_DATA_DIR' in os.environ:
