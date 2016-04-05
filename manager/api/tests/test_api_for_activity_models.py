@@ -30,6 +30,7 @@ class TestApiComment():
         'body': 'blablablablable...'
     }
 
+
 @api_test()
 class TestApiTalkProposal():
     fk_models = ['manager.Event', 'manager.Activity', 'manager.TalkType', 'manager.Image']
