@@ -1,3 +1,4 @@
+from manager.security import create_reporters_group
 from manager.models import *
 from import_export import resources
 from django.contrib.gis import admin
@@ -5,12 +6,16 @@ from import_export.admin import ExportMixin
 
 
 class EventoLAdmin(admin.ModelAdmin):
+
     def filter_event(self, event, queryset):
         return queryset.filter(event=event)
 
     def queryset(self, request):
         queryset = super(EventoLAdmin, self).queryset(request)
         if request.user.is_superuser:
+            return queryset
+        reporters = create_reporters_group()
+        if request.user.groups.filter(name=reporters.name).exists():
             return queryset
         organizer = Organizer.objects.get(eventUser__user=request.user)
         return self.filter_event(organizer.eventUser.event, queryset)
@@ -109,7 +114,6 @@ class CollaboratorResource(resources.ModelResource):
 class CollaboratorAdmin(EventoLEventUserAdmin):
     resource_class = CollaboratorResource
     pass
-
 
 
 admin.site.register(Comment, CommentAdmin)
