@@ -3,6 +3,7 @@ import unittest
 import datetime
 import autofixture
 from django.test import Client
+from manager.api.rest.reduces import basic_reduce
 from rest_framework.test import APIClient
 
 
@@ -67,6 +68,9 @@ class ApiTest(unittest.TestCase):
         else:
             url += str(self.example[field])
         return url
+
+    def get_reduce_url(self):
+        return self.url_base + '?reduce=True'
 
     def get_model(self, models):
         for model in models:
@@ -151,12 +155,30 @@ class ApiTestBuilder():
                 self.assertEqual(model[filter_field], self.example[filter_field])
         return "test_filter_field_by_" + filter_field, test
 
+    def reduce_tests(self):
+        reduce = None
+        if 'reduce' not in self.origin_cls.__dict__:
+            def reduce(self, queryset):
+                return basic_reduce(queryset)
+        else:
+            reduce = self.origin_cls.reduce
+        self.target_cls.reduce = reduce
+
+        def test(self):
+            url = self.get_reduce_url()
+            response = self.client.get(url)
+            reduce = json.loads(response.content)
+            self.assertEqual(reduce, self.reduce(self.model.objects.all()))
+        return "test_reduce", test
+
     def suite_filter_fields_tests(self):
         for filter_field in self.target_cls.filter_fields:
             fields_tests = [self.generate_filter_field_get_object, self.generate_filter_field_get_list, self.generate_filter_field_check_filter]
             for field_test in fields_tests:
                 test_name, test = field_test(filter_field)
                 self.add_test(test_name, test)
+        test_name, test = self.reduce_tests()
+        self.add_test(test_name, test)
 
 
 def api_test():

@@ -1,6 +1,6 @@
 import unittest
 from manager.models import Software, Hardware
-from manager.api.tests.test_api import api_test
+from manager.tests.api.test_api import api_test
 
 
 # Device Models

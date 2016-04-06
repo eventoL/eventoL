@@ -1,7 +1,8 @@
 import datetime
 import unittest
 from manager.models import Activity, Comment, TalkProposal, TalkType, Room, Installation
-from manager.api.tests.test_api import api_test
+from manager.tests.api.test_api import api_test
+from manager.api.rest import reduces
 
 
 @api_test()
@@ -43,6 +44,9 @@ class TestApiTalkProposal():
         'labels': 'python,django'
     }
 
+    def reduce(self, queryset):
+        return reduces.proposals(queryset)
+
 
 @api_test()
 class TestApiTalkType():
@@ -74,6 +78,9 @@ class TestApiInstallation():
     example = {
         'notes': 'ok'
     }
+
+    def reduce(self, queryset):
+        return reduces.installations(queryset)
 
 
 if __name__ == '__main__':

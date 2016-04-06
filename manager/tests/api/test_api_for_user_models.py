@@ -1,7 +1,8 @@
 import unittest
+from manager.api.rest import reduces
 from manager.models import Attendee, Collaborator, EventUser, InstallationAttendee, Installer, Speaker, \
-    NonRegisteredAttendee
-from manager.api.tests.test_api import api_test
+    NonRegisteredAttendee, Organizer
+from manager.tests.api.test_api import api_test
 
 
 # User Models
@@ -15,6 +16,8 @@ class TestApiAttendee():
         'additional_info': 'hola'
     }
 
+    def reduce(self, queryset):
+        return reduces.attendees(queryset)
 
 @api_test()
 class TestApiCollaborator():
@@ -64,7 +67,7 @@ class TestApiSpeaker():
 
 
 @api_test()
-class TestApiInstaller():
+class TestApiNonRegisteredAttendee():
     fk_models = []
     str_model = 'manager.NonRegisteredAttendee'
     model = NonRegisteredAttendee
@@ -85,6 +88,19 @@ class TestApiInstaller():
     model = Installer
     url_base = '/api/installers/'
     example = {}
+
+    def reduce(self, queryset):
+        return reduces.installers(queryset)
+
+
+@api_test()
+class TestApiOrganizer():
+    fk_models = ['auth.User', 'manager.Event', 'manager.NonRegisteredAttendee', 'manager.EventUser']
+    str_model = 'manager.Organizer'
+    model = Organizer
+    url_base = '/api/organizers/'
+    example = {}
+
 
 if __name__ == '__main__':
     unittest.main()
