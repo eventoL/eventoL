@@ -220,6 +220,14 @@
 {% endblock %}
 
 
+{% block material %}
+    <script>
+        $(document).ready(function() {
+            $.material.init();
+        });
+    </script>
+{% endblock %}
+
 
 {% block other-script %}
     <script src="{% static "manager/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js" %}"
