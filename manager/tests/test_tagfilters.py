@@ -142,7 +142,7 @@ class TestTagFilters(unittest.TestCase):
         self.assertEqual(filters.schedule_cols_other(range(1)), 10)
 
     def test_schedule_cols_other_if_elements_length_equal_2_return_5(self):
-        self.assertEqual(filters.schedule_cols_other(range(1)), 10)
+        self.assertEqual(filters.schedule_cols_other(range(2)), 5)
 
     def test_schedule_cols_other_if_elements_length_less_or_equal_5_and_greater_than_2_return_3_with_4(self):
         self.assertEqual(filters.schedule_cols_other(range(4)), 3)
@@ -256,8 +256,3 @@ class TestTagFilters(unittest.TestCase):
         with mock.patch('manager.templatetags.filters.is_organizer') as is_organizer:
             is_organizer.return_value = True
             self.assertTrue(filters.can_take_attendance(self.user, self.event.slug))
-
-
-if __name__ == '__main__':
-    unittest.main()
-

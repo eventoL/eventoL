@@ -81,7 +81,3 @@ class TestApiInstallation():
 
     def reduce(self, queryset):
         return reduces.installations(queryset)
-
-
-if __name__ == '__main__':
-    unittest.main()

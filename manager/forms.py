@@ -100,7 +100,7 @@ class RegisteredEventUserSearchForm(forms.Form):
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
-    class Meta:
+    class Meta(object):
         model = NonRegisteredAttendee
         fields = ['first_name', 'last_name', 'email', 'installation_additional_info', 'is_installing']
         widgets = {'event': forms.HiddenInput(), 'assisted': forms.HiddenInput(),
@@ -114,7 +114,7 @@ class InstallationForm(autocomplete.ModelForm):
 
     attendee = autocomplete.ModelChoiceField('EventUserAutocomplete', required=True)
 
-    class Meta:
+    class Meta(object):
         model = Installation
         fields = ('attendee', 'notes', 'software')
         autocomplete_fields = ('attendee', 'software')
@@ -122,18 +122,18 @@ class InstallationForm(autocomplete.ModelForm):
 
 
 class HardwareForm(autocomplete.ModelForm):
-    class Meta:
+    class Meta(object):
         model = Hardware
 
 
 class CollaboratorRegistrationForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Collaborator
         widgets = {'eventUser': forms.HiddenInput()}
 
 
 class EventUserRegistrationForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = EventUser
         exclude = ['user', 'assisted', 'nonregisteredattendee', 'ticket']
         widgets = {'event': forms.HiddenInput()}
@@ -144,7 +144,7 @@ class AttendeeRegistrationForm(ModelForm):
     installation_additional_info = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}), help_text=_(
         'i.e. Wath kind of PC are you bringing? Leave blank if doesn\'t apply'), required=False)
 
-    class Meta:
+    class Meta(object):
         model = Attendee
         widgets = {'eventUser': forms.HiddenInput()}
 
@@ -155,13 +155,13 @@ class InstallerRegistrationForm(ModelForm):
            u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
     read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 
-    class Meta:
+    class Meta(object):
         model = Installer
         widgets = {'eventUser': forms.HiddenInput()}
 
 
 class TalkProposalForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = TalkProposal
         exclude = ['confirmed_talk']
         widgets = {
@@ -171,7 +171,7 @@ class TalkProposalForm(ModelForm):
 
 
 class TalkForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Activity
         fields = ['start_date', 'end_date', 'room', 'event']
         widgets = {
@@ -185,19 +185,19 @@ class TalkForm(ModelForm):
 
 
 class ImageCroppingForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Image
         fields = ('image', 'cropping')
 
 
 class RoomForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Room
         exclude = ['event']
 
 
 class ContactForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Contact
         exclude = ['event']
 
@@ -211,13 +211,13 @@ class ContactForm(ModelForm):
                 try:
                     validator = URLValidator()
                     validator(value)
-                except:
+                except Exception:
                     self.add_error('url', 'Enter valid URL')
 
             elif type.validate == '2':
                 try:
                     validate_email(value)
-                except:
+                except Exception:
                     self.add_error('url', 'Enter valid Email')
         else: #type none
             self.add_error('type',_('This field is required'))
@@ -226,7 +226,7 @@ class ContactForm(ModelForm):
 
 
 class ActivityForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Activity
         exclude = ['confirmed', 'room', 'start_date', 'end_date']
         widgets = {
@@ -237,7 +237,7 @@ class ActivityForm(ModelForm):
 
 
 class ActivityCompleteForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Activity
         exclude = ['confirmed']
         widgets = {
@@ -253,26 +253,26 @@ class ActivityCompleteForm(ModelForm):
 
 
 class PresentationForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = TalkProposal
         fields = ('presentation',)
 
 
 class ContactMessageForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = ContactMessage
         fields = ('name', 'email', 'message',)
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
 
 
 class CommentForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Comment
         exclude = ["activity", "user"]
 
 
 class EventForm(ModelForm):
-    class Meta:
+    class Meta(object):
         model = Event
         fields = ('name', 'slug', 'date', 'limit_proposal_date', 'email', 'place', 'external_url', 'event_information')
         widgets = {'date': forms.HiddenInput(),

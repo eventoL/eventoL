@@ -15,7 +15,3 @@ class TestApiUser():
         'email': 'exaple@example.com',
         'is_staff': True
     }
-
-
-if __name__ == '__main__':
-    unittest.main()

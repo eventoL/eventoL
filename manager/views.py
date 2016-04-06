@@ -4,7 +4,9 @@ import svglue
 import cairosvg
 import pyqrcode
 import json
-import os, io
+import os
+import io
+import datetime
 import locale
 
 import autocomplete_light
@@ -26,7 +28,9 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, Hardwa
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, \
     RegisteredEventUserSearchForm, ActivityCompleteForm, ContactForm
 
-from manager.models import *
+from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, InstallationAttendee, TalkProposal, \
+    Activity, Hardware, Installation, Comment, Collaborator, ContactMessage, NonRegisteredAttendee, Installer
+
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
@@ -80,7 +84,7 @@ def get_forms_errors(forms):
     return list(itertools.chain.from_iterable(errors))
 
 
-def generateDatetime(request, event):
+def generate_datetime(request, event):
     post = None
     if request.POST:
         start_time = datetime.datetime.strptime(request.POST.get('start_date', None), '%I:%M %p')
@@ -99,11 +103,10 @@ def generateDatetime(request, event):
 def talk_registration(request, event_slug, pk):
     errors = []
     error = False
-    activity = None
     event = Event.objects.get(slug__iexact=event_slug)
 
     # FIXME: Esto es lo que se llama una buena chanchada!
-    post = generateDatetime(request, event)
+    post = generate_datetime(request, event)
 
     # Fin de la chanchada
 
@@ -251,7 +254,7 @@ def talk_proposal(request, event_slug, pk=None):
 def activity(request, event_slug, pk=None):
     event = Event.objects.get(slug__iexact=event_slug)
 
-    post = generateDatetime(request, event)
+    post = generate_datetime(request, event)
     errors = []
     new_activity = None
     activity = Activity.objects.get(pk=pk) if pk else Activity(event=event)
@@ -270,7 +273,7 @@ def activity(request, event_slug, pk=None):
                 activity.save()
                 messages.success(request, _("The activity has been registered successfully"))
                 return HttpResponseRedirect(reverse('activities', args=[event_slug]))
-            except Exception, e:
+            except Exception:
                 if new_activity is not None:
                     Activity.delete(new_activity)
                 messages.error(request, _("The activity couldn't be registered (check form errors)"))
@@ -319,7 +322,9 @@ def schedule(request, event_slug):
         return render(request, 'activities/schedule.html',
                       update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
     messages.warning(
-        _("You don't have confirmed activities, please confirm the activitiees and then confirm the schedule"))
+        request,
+        _("You don't have confirmed activities, please confirm the activitiees and then confirm the schedule")
+    )
     return activities(request, event_slug)
 
 
@@ -418,8 +423,9 @@ def add_organizer(request, event_slug):
             event_user = form.cleaned_data['eventUser']
             if event_user:
                 organizer = create_organizer(event_user)
-                messages.success(request,
-                                 _("%s has been successfully added as an Organizer." % event_user.user.username))
+                messages.success(
+                    request,
+                    _("%s has been successfully added as an Organizer." % organizer.eventUser.user.username))
             return HttpResponseRedirect(reverse("add_organizer", args=[event_slug]))
 
         messages.error(request, _("Something went wrong (please check form errors)"))
@@ -485,7 +491,7 @@ def attendee_registration_by_collaborator(request, event_slug):
                     attendee.save()
                 messages.success(request, _('The attendee was successfully registered . Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
-            except:
+            except Exception:
                 pass
         messages.error(request, _("The attendee couldn't be registered (check form errors)"))
     return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, {'form': form}))

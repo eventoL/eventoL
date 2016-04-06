@@ -26,7 +26,3 @@ class TestApiHardware():
         'manufacturer': '19827398172ASDF'
     }
     # TODO View 'type': 'Other'
-
-if __name__ == '__main__':
-    unittest.main()
-

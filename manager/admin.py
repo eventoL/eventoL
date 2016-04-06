@@ -1,5 +1,7 @@
 from manager.security import create_reporters_group
-from manager.models import *
+from manager.models import Organizer, Comment, Event, TalkProposal, Attendee, Collaborator, Hardware,\
+    Software, Installer, Installation, TalkType, Room, ContactType, Contact, Activity,\
+    ContactMessage, EventUser, Image, InstallationAttendee, NonRegisteredAttendee, Speaker
 from import_export import resources
 from django.contrib.gis import admin
 from import_export.admin import ExportMixin
@@ -36,7 +38,7 @@ class NonRegisteredAttendeeAdmin(ExportMixin, EventoLAdmin):
 
 
 class TalkProposalResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = TalkProposal
 
 
@@ -60,7 +62,7 @@ class CommentAdmin(EventoLAdmin):
 
 
 class InstallerResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Installer
         fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
                   'eventUser__user__email', 'eventUser__user__date_joined',
@@ -70,11 +72,10 @@ class InstallerResource(resources.ModelResource):
 
 class InstallerAdmin(EventoLEventUserAdmin):
     resource_class = InstallerResource
-    pass
 
 
 class InstallationResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Installation
         fields = ('hardware__type', 'hardware__manufacturer', 'hardware__model', 'software__type', 'software__name',
                   'attendee__user__email', 'installer__user__username', 'notes')
@@ -89,7 +90,7 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
 
 
 class AttendeeResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Attendee
         fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
                   'eventUser__user__email', 'eventUser__assisted', 'additional_info')
@@ -98,22 +99,19 @@ class AttendeeResource(resources.ModelResource):
 
 class AttendeeAdmin(EventoLEventUserAdmin):
     resource_class = AttendeeResource
-    pass
 
 
 class CollaboratorResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Collaborator
         fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
                   'eventUser__user__email', 'eventUser__user__date_joined', 'phone', 'address', 'eventUser__assisted',
                   'assignation', 'time_availability', 'additional_info')
-
         export_order = fields
 
 
 class CollaboratorAdmin(EventoLEventUserAdmin):
     resource_class = CollaboratorResource
-    pass
 
 
 admin.site.register(Comment, CommentAdmin)

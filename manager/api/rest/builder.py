@@ -2,7 +2,7 @@ from rest_framework import serializers, viewsets, filters
 from reduces import basic_reduce
 
 
-class ViewSetBuilder():
+class ViewSetBuilder(object):
 
     def __init__(self, cls, cls_form=None, cls_serializer=None, reduce_func=None):
         self.cls = cls

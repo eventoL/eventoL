@@ -135,6 +135,3 @@ class TestViewSetBuilder(unittest.TestCase):
         self.builder.set_fields(user_filter_fields)
         self.viewset = self.builder.build()
         self.assertEqual(self.viewset.filter_fields, user_filter_fields)
-
-if __name__ == '__main__':
-    unittest.main()

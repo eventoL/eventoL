@@ -4,6 +4,6 @@ from rest_framework import serializers
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
+    class Meta(object):
         model = User
         fields = ('url', 'username', 'email', 'is_staff')

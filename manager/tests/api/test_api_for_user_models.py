@@ -100,7 +100,3 @@ class TestApiOrganizer():
     model = Organizer
     url_base = '/api/organizers/'
     example = {}
-
-
-if __name__ == '__main__':
-    unittest.main()
