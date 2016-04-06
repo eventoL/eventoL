@@ -5,6 +5,7 @@ import cairosvg
 import pyqrcode
 import json
 import os, io
+import locale
 
 import autocomplete_light
 from django.contrib import messages
@@ -569,16 +570,17 @@ def reports(request, event_slug):
     return render(request, 'reports/dashboard.html', update_event_info(event_slug))
 
 
-def generate_ticket(eventUser):
+def generate_ticket(eventUser, lang='en_US.UTF8'):
     ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
     ticket_template.set_text('event_name', eventUser.event.name[:30])
-    ticket_template.set_text('event_date', eventUser.event.date.strftime("%A %d de %B de %Y"))
+    locale.setlocale(locale.LC_TIME, lang) #Locale del request
+    ticket_template.set_text('event_date', (eventUser.event.date.strftime("%A %d de %B de %Y")).decode('utf-8'))
     place = json.loads(eventUser.event.place)
     if place.get("name"):  # Si tiene nombre cargado
         ticket_template.set_text('event_place_name', place.get("name"))
-        ticket_template.set_text('event_place_address', place.get("formatted_address"))
+        ticket_template.set_text('event_place_address', place.get("formatted_address")[:50])
     else:
-        ticket_template.set_text('event_place_name', place.get("formatted_address"))
+        ticket_template.set_text('event_place_name', place.get("formatted_address")[:50])
         ticket_template.set_text('event_place_address', '')
 
     ticket_template.set_text('ticket_type', u'Entrada General')
@@ -601,15 +603,16 @@ def generate_ticket(eventUser):
     return str(ticket_template)
 
 
-def send_event_ticket(eventUser):
-    ticket = generate_ticket(eventUser)
+def send_event_ticket(eventUser, lang):
+    ticket = generate_ticket(eventUser, lang)
 
     email = EmailMessage()
-    email.subject = unicode(_("Ticket for %s event" % (eventUser.event.name)))
-    email.body = unicode(_("Hello %s %s,\n Here is your ticket for %s event. \
+    subject = _(u"Ticket for %(event_name)s event") % {'event_name':eventUser.event.name}
+    body = _(u"Hello %(first_name)s %(last_name)s,\n Here is your ticket for %(event_name)s event. \
     Please remember to print it and bring it with you the day of the event. \
-    \n Regards, %s team." % (
-        eventUser.user.first_name, eventUser.user.last_name, eventUser.event.name, eventUser.event.name)))
+    \n Regards, %(event_name)s team.") % {'event_name': eventUser.event.name, 'first_name': eventUser.user.first_name, 'last_name':eventUser.user.last_name}
+    email.subject = unicode(subject)
+    email.body = unicode(body)
     email.to = [eventUser.user.email]
     email.attach('Ticket-' + str(eventUser.id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket),
                  'application/pdf')
@@ -635,7 +638,7 @@ def generic_registration(request, event_slug, registration_model, registration_f
 
     if registration or installation:
         # Ya esta registrado con ese "rol"
-        messages.error(request, "You are already registered for this event")
+        messages.error(request, _("You are already registered for this event"))
         return HttpResponseRedirect(reverse("index", args=(event_slug,)))
 
     registration = registration_model(eventUser=eventUser)
@@ -659,12 +662,12 @@ def generic_registration(request, event_slug, registration_model, registration_f
 
                 if not eventUser.ticket:
                     try:
-                        send_event_ticket(eventUser)
+                        send_event_ticket(eventUser, request.META.get('LANG'))
                         eventUser.ticket = True
                         eventUser.save()
-                        msg_success += ". Please check your email for the corresponding ticket."
+                        msg_success += unicode(_(". Please check your email for the corresponding ticket."))
                     except Exception:
-                        msg_success += " but we couldn't send you your ticket. Please, check it out from the menu."
+                        msg_success += unicode(_(" but we couldn't send you your ticket. Please, check it out from the menu."))
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
@@ -742,7 +745,7 @@ def create_event(request):
                     for a_contact in contacts:
                         Contact.objects.delete(a_contact)
 
-        messages.error(request, "There is a problem with your event. Please check the form for errors.")
+        messages.error(request, _("There is a problem with your event. Please check the form for errors."))
     return render(request,
                   'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
                                         'contacts_formset': contacts_formset}, context_instance=RequestContext(request))
@@ -772,7 +775,7 @@ def edit_event(request, event_slug):
             except Exception:
                 pass
 
-        messages.error(request, "There is a problem with your event. Please check the form for errors.")
+        messages.error(request, _("There is a problem with your event. Please check the form for errors."))
     return render(request,
                   'event/create.html',
                   update_event_info(event_slug,
@@ -793,7 +796,7 @@ def remove_room(request, event_slug, pk):
     room = Room.objects.get(pk=pk)
     activities = Activity.objects.filter(room=room)
     if activities.count() > 0:
-        messages.error(request, "The room hasn't been removed successfully because the room have confirmed activities.")
+        messages.error(request, _("The room hasn't been removed successfully because the room has confirmed activities."))
     else:
         room.delete()
         messages.success(request, _("The room has been removed successfully!"))
@@ -829,7 +832,7 @@ def add_room(request, event_slug, pk=None):
 def view_ticket(request, event_slug):
     eventuser = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
     if eventuser:
-        ticket = generate_ticket(eventuser)
+        ticket = generate_ticket(eventuser, request.META.get('LANG'))
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
         response["Content-Disposition"] = 'filename=Ticket-' + str(eventuser.id).zfill(12) + '.pdf'
         return response
