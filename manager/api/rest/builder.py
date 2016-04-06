@@ -1,33 +1,5 @@
 from rest_framework import serializers, viewsets, filters
-
-
-def basic_reduce(queryset):
-    return {'total': queryset.count()}
-
-
-def count_if(list, conditions):
-    count = 0
-    for element in list:
-        try:
-            if all(element[key] == value for key, value in conditions.items()):
-                count += 1
-        except Exception:
-            pass
-    return count
-
-
-def count_by(list, getter, increment=None):
-    return_dict = {}
-    for element in list:
-        try:
-            field = getter(element)
-            if field in return_dict:
-                return_dict[field] += increment(element) if increment else 1
-            else:
-                return_dict[field] = increment(element) if increment else 1
-        except Exception:
-            pass
-    return return_dict
+from reduces import basic_reduce
 
 
 class ViewSetBuilder():
