@@ -2,7 +2,7 @@ import json
 
 from django.http import HttpResponse
 from voting.models import Vote
-from manager.api.rest.builder import count_by
+from manager.api.rest.reduces import count_by
 from manager.models import Event, Activity, Collaborator, EventUser, Installer, TalkProposal, Attendee, Installation, Speaker, NonRegisteredAttendee, Organizer
 from manager.api.rest import reduces
 
