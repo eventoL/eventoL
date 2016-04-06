@@ -66,6 +66,3 @@ class TestApiImage():
     model = Image
     url_base = '/api/images/'
     example = {}
-
-if __name__ == '__main__':
-    unittest.main()

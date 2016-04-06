@@ -19,6 +19,7 @@ class TestApiAttendee():
     def reduce(self, queryset):
         return reduces.attendees(queryset)
 
+
 @api_test()
 class TestApiCollaborator():
     fk_models = ['auth.User', 'manager.Event', 'manager.NonRegisteredAttendee', 'manager.EventUser']
@@ -55,6 +56,9 @@ class TestApiInstallationAttendee():
     example = {
         'installation_additional_info': 'hola'
     }
+
+    def reduce(self, queryset):
+        return reduces.attendees(queryset)
 
 
 @api_test()
@@ -100,7 +104,3 @@ class TestApiOrganizer():
     model = Organizer
     url_base = '/api/organizers/'
     example = {}
-
-
-if __name__ == '__main__':
-    unittest.main()

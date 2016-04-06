@@ -18,73 +18,104 @@
 
 {% block content %}
 
-    <div class="row col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Attendee" %}</strong>
+    <div class="row">
+        <div class="row col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Attendee" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_attendee or has_installation_attendee%}
+                        <i class="fa fa-users" style="color: #0b62a4"> {% trans "Attendees Confirmed" %} </i><br>
+                        <i class="fa fa-users" style="color: #FA5858"> {% trans "Attendees Not Confirmed" %}</i><br><br>
+                        <div id="attendee"></div>
+                    {% else %}
+                        <strong>{% trans "There aren't any registered attendees" %}</strong>
+                    {% endif %}
+                </div>
             </div>
-            <div class="panel-body">
-                <i class="fa fa-users" style="color: #0b62a4"> {% trans "Attendees Confirmed" %} </i><br>
-                <i class="fa fa-users" style="color: #FA5858"> {% trans "Attendees Not Confirmed" %}</i><br><br>
-                <div id="attendee"></div>
+        </div>
+
+        <div class="row col-md-6" style="margin-left: 10px">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Staff" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_organizer or has_installers or has_speakers or has_collaborators %}
+                        <i class="fa fa-users" style="color: #FFBB13"> {% trans "Organizers" %}</i><br>
+                        <i class="fa fa-users" style="color: #0b62a4"> {% trans "Collaborators" %}</i><br>
+                        <i class="fa fa-users" style="color: #FA5858"> {% trans "Installers" %}</i><br>
+                        <i class="fa fa-users" style="color: #4da74d"> {% trans "Speakers" %}</i>
+                        <div id="staff"></div>
+                    {% else %}
+                        <strong>{% trans "There isn't any registered staff" %}</strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row col-md-6" style="margin-left: 10px">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Staff" %}</strong>
+    <div class="row">
+        <div class="row col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Totals" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_talk_proposals or has_installations %}
+                        <div id="counts"></div>
+                    {% else %}
+                        <strong>{% trans "There aren't any talks or installations submitted" %}</strong>
+                    {% endif %}
+                </div>
             </div>
-            <div class="panel-body">
-                <i class="fa fa-users" style="color: #0b62a4"> {% trans "Collaborators" %}</i><br>
-                <i class="fa fa-users" style="color: #FA5858"> {% trans "Installers" %}</i><br>
-                <i class="fa fa-users" style="color: #4da74d"> {% trans "Speakers" %}</i>
-                <div id="staff"></div>
+        </div>
+
+        <div class="row col-md-6" style="margin-left: 10px">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Installations" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_installations %}
+                        <div id="installations"></div>
+                    {% else %}
+                        <strong>{% trans "There aren't any registered installations" %}</strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Counts" %}</strong>
-            </div>
-            <div class="panel-body">
-                <div id="counts"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row col-md-6" style="margin-left: 10px">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Installations" %}</strong>
-            </div>
-            <div class="panel-body">
-                <div id="installations"></div>
+    <div class="row">
+        <div class="row col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Votes For Talks" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_talk_proposals %}
+                        <div id="votes"></div>
+                    {% else %}
+                        <strong>{% trans "There aren't any talk proposals submitted" %}</strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Votes For Talks" %}</strong>
-            </div>
-            <div class="panel-body">
-                <div id="votes"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row col-md-6" style="margin-left: 10px">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Installer For Level" %}</strong>
-            </div>
-            <div class="panel-body">
-                <div id="installers"></div>
+        <div class="row col-md-6" style="margin-left: 10px">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Installer For Level" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_installers %}
+                        <div id="installers"></div>
+                    {% else %}
+                        <strong>{% trans "There aren't any registered installations" %}</strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
@@ -99,46 +130,53 @@
 
         $(document).ready(function() {
 
-            Q($.get("/api/attendee/?format=json&event={{ event.pk }}&reduce=True"))
-              .then(function (attendee){
-
-                Morris.Donut({
-                  element: 'attendee',
-                  data: [
-                    {label: "{% trans "Attendees Confirmed" %}", value: attendee.confirmed, color: "#0b62a4"},
-                    {label: "{% trans "Attendees Not Confirmed" %}", value: attendee.not_confirmed, color: "#FA5858"}
-                  ]
+            {% if has_attendee or has_installation_attendee %}
+                Q([$.get("/api/attendee/?format=json&event={{ event.pk }}&reduce=True"),
+                  $.get("/api/installationattendees/?format=json&event={{ event.pk }}&reduce=True"),
+                  $.get("/api/nonregisteredattendees/?format=json&event={{ event.pk }}&reduce=True")])
+                  .spread(function (attendees, installation_attendees, non_registered_attendees){
+                    var confirmed = attendees.confirmed + installation_attendees.confirmed + non_registered_attendees.total;
+                    var not_confirmed = attendees.not_confirmed+installation_attendees.not_confirmed;
+                    Morris.Donut({
+                      element: 'attendee',
+                      data: [
+                        {label: "{% trans "Confirmed Attendees" %}", value: confirmed, color: "#0b62a4"},
+                        {label: "{% trans "Unconfirmed Attendees" %}", value: not_confirmed, color: "#FA5858"}
+                      ]
+                    });
                 });
-
-            });
+            {% endif %}
 
             Q($.get("/api/{{ event_slug }}/event_report"))
-              .then(function (event_report){
+                .then(function (event_report){
+                  {% if has_organizer or has_installers or has_speakers or has_collaborators %}
+                    Morris.Donut({
+                      element: 'staff',
+                      data: [
+                        {label: "{% trans "Collaborators" %}", value: event_report.staff.collaborators, color: "#0b62a4"},
+                        {label: "{% trans "Installers" %}", value: event_report.staff.installers, color: "#FA5858"},
+                        {label: "{% trans "Speakers" %}", value: event_report.staff.speakers, color: "#4da74d"},
+                        {label: "{% trans "Organizers" %}", value: event_report.staff.organizers, color: "#FFBB13"}
+                      ]
+                    });
+                  {% endif %}
+                  {% if has_talk_proposals %}
+                    var votes = [];
+                    for (var item in event_report.votes_for_talk){
+                        votes.push({y: item, a: event_report.votes_for_talk[item]});
+                    };
 
-                Morris.Donut({
-                  element: 'staff',
-                  data: [
-                    {label: "{% trans "Collaborators" %}", value: event_report.staff.collaborators, color: "#0b62a4"},
-                    {label: "{% trans "Installers" %}", value: event_report.staff.installers, color: "#FA5858"},
-                    {label: "{% trans "Speakers" %}", value: event_report.staff.speakers, color: "#4da74d"}
-                  ]
+                    Morris.Bar({
+                      element: 'votes',
+                      data: votes,
+                      xkey: 'y',
+                      ykeys: ['a'],
+                      labels: ['{% trans "Total" %}']
+                    });
+                  {% endif %}
                 });
 
-                var votes = [];
-                for ( var item in event_report.votes_for_talk ){
-                    votes.push({y: item, a: event_report.votes_for_talk[item]});
-                };
-
-                Morris.Bar({
-                  element: 'votes',
-                  data: votes,
-                  xkey: 'y',
-                  ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
-                });
-
-            });
-
+          {% if has_installers %}
             Q($.get("/api/installers/?format=json&event={{ event.pk }}&reduce=True"))
               .then(function (installer){
 
@@ -158,12 +196,13 @@
                   data: installers,
                   xkey: 'y',
                   ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
+                  labels: ['{% trans "Total" %}']
                 });
 
             });
-
-            Q([$.get("/api/talks/?format=json&event={{ event.pk }}&reduce=True"),
+          {% endif %}
+          {% if has_talk_proposals or has_installations %}
+            Q([$.get("/api/talkproposals/?format=json&event={{ event.pk }}&reduce=True"),
                $.get("/api/installations/?format=json&event={{ event.pk }}&reduce=True")])
               .spread(function (talk, installation){
                 Morris.Bar({
@@ -174,7 +213,7 @@
                   ],
                   xkey: 'y',
                   ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
+                  labels: ['{% trans "Total" %}']
                 });
 
                 var software = [];
@@ -187,10 +226,11 @@
                   data: software,
                   xkey: 'y',
                   ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
+                  labels: ['{% trans "Total" %}']
                 });
 
             });
+          {% endif %}
 
         });
 

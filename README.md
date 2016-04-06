@@ -18,7 +18,8 @@ See [Documentation](http://eventol-docs.readthedocs.org/en/master/)
 
 Configure Own server:
 ---------------------
-See [Installation Instructions](https://github.com/GNUtn/eventoL/blob/master/docs/installation.md)
-See [Deploy Instructions](https://github.com/GNUtn/eventoL/blob/master/docs/deploy.md)
+
+- See [Installation Instructions](https://github.com/GNUtn/eventoL/blob/master/docs/installation.md)
+- See [Deploy Instructions](https://github.com/GNUtn/eventoL/blob/master/docs/deploy.md)
 
 

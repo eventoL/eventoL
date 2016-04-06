@@ -4,9 +4,9 @@ def basic_reduce(queryset):
     return {'total': queryset.count()}
 
 
-def count_if(list, conditions):
+def count_if(elements, conditions):
     count = 0
-    for element in list:
+    for element in elements:
         try:
             if all(element[key] == value for key, value in conditions.items()):
                 count += 1
@@ -15,9 +15,9 @@ def count_if(list, conditions):
     return count
 
 
-def count_by(list, getter, increment=None):
+def count_by(elements, getter, increment=None):
     return_dict = {}
-    for element in list:
+    for element in elements:
         try:
             field = getter(element)
             if field in return_dict:
@@ -27,16 +27,6 @@ def count_by(list, getter, increment=None):
         except Exception:
             pass
     return return_dict
-
-
-def talks(talks_list):
-    data = {
-        'total': talks_list.count(),
-        'talks_for_room': count_by(talks_list, lambda talk: talk.room.name),
-        'talks_for_type': count_by(talks_list, lambda talk: talk.talk_proposal.type.name),
-        'talks_for_level': count_by(talks_list, lambda talk: talk.talk_proposal.level)
-    }
-    return data
 
 
 def proposals(proposals_list):

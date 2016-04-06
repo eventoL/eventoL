@@ -22,7 +22,7 @@ class Image(models.Model):
     def __unicode__(self):
         return self.image.name
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Image')
         verbose_name_plural = _('Images')
 
@@ -62,7 +62,7 @@ class Event(models.Model):
     def __unicode__(self):
         return u"%s" % (self.name)
 
-    class Meta:
+    class Meta(object):
         ordering = ['name']
 
 
@@ -72,7 +72,7 @@ class ContactMessage(models.Model):
     message = models.TextField(verbose_name=_('Message'))
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), blank=True, null=True)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Contact Message')
         verbose_name_plural = _('Contact Messages')
 
@@ -96,7 +96,7 @@ class ContactType(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Contact Type')
         verbose_name_plural = _('Contact Types')
 
@@ -112,7 +112,7 @@ class Contact(models.Model):
     def __unicode__(self):
         return u"%s - %s - %s" % (self.event.name, self.type.name, self.text)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Contact')
         verbose_name_plural = _('Contacts')
 
@@ -126,12 +126,21 @@ class NonRegisteredAttendee(models.Model):
     installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing?'))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Non Registered  Attendee')
         verbose_name_plural = _('Non Registered Attendees')
 
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.last_name)
+
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'event':
+            for attendee in queryset:
+                event_user = attendee.eventuser_set.first()
+                if not event_user or event_user.event.pk != value:
+                    queryset = queryset.exclude(pk=attendee.pk)
+        return queryset
 
 
 class EventUser(models.Model):
@@ -148,7 +157,7 @@ class EventUser(models.Model):
         if self.nonregisteredattendee:
             return u'%s %s' % (self.nonregisteredattendee.first_name, self.nonregisteredattendee.last_name)
 
-    class Meta:
+    class Meta(object):
         unique_together = (("event", "user"),)
         verbose_name = _('Event User')
         verbose_name_plural = _('Event Users')
@@ -165,7 +174,7 @@ class Collaborator(models.Model):
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
                                        help_text=_('Any additional info you consider relevant'))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Collaborator')
         verbose_name_plural = _('Collaborators')
 
@@ -177,7 +186,7 @@ class Organizer(models.Model):
     """Event organizer"""
     eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
 
@@ -190,7 +199,7 @@ class Attendee(models.Model):
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
                                        help_text=_('Any additional info you consider relevant'))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Attendee')
         verbose_name_plural = _('Attendees')
 
@@ -207,7 +216,7 @@ class InstallationAttendee(models.Model):
     installation_additional_info = models.TextField(_('Installation Additional Info'), blank=True, null=True,
                                                     help_text=_('i.e. Wath kind of PC are you bringing?'))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Installation Attendee')
         verbose_name_plural = _('Installation Attendees')
 
@@ -230,7 +239,7 @@ class Installer(models.Model):
     level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
                              help_text=_('Knowledge level for an installation'))
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Installer')
         verbose_name_plural = _('Installers')
 
@@ -241,7 +250,7 @@ class Installer(models.Model):
 class Speaker(models.Model):
     eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Speaker')
         verbose_name_plural = _('Speakers')
 
@@ -293,7 +302,7 @@ class Room(models.Model):
     def __unicode__(self):
         return u"%s - %s" % (self.event.name, self.name)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Room')
         verbose_name_plural = _('Rooms')
         ordering = ['name']
@@ -331,7 +340,7 @@ class Activity(models.Model):
                                        self.start_date.strftime("%H:%M") if self.start_date else None,
                                        self.end_date.strftime("%H:%M") if self.end_date else None)
 
-    class Meta:
+    class Meta(object):
         ordering = ['title']
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
@@ -346,7 +355,7 @@ class TalkType(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Talk Type')
         verbose_name_plural = _('Talk Types')
 
@@ -390,7 +399,7 @@ class TalkProposal(models.Model):
     def __unicode__(self):
         return u"%s: %s" % (self.activity.event, self.activity.title)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Talk Proposal')
         verbose_name_plural = _('Talk Proposals')
 
@@ -417,7 +426,7 @@ class Comment(models.Model):
             del kwargs["notify"]
         super(Comment, self).save(*args, **kwargs)
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Comment')
         verbose_name_plural = _('Comments')
 
@@ -441,13 +450,6 @@ class Installation(models.Model):
             return queryset.filter(attendee__event__pk=value)
         return queryset
 
-    class Meta:
+    class Meta(object):
         verbose_name = _('Installation')
         verbose_name_plural = _('Installations')
-
-
-def getUserChoice():
-    user_choice = []
-    for key in userTypes.keys():
-        user_choice.append((key, key))
-    return user_choice

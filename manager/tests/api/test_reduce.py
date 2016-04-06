@@ -1,19 +1,19 @@
 import unittest
 from manager.api.rest import reduces
-import mock
+from mock import Mock
 
 
 class TestTagFilters(unittest.TestCase):
 
     def test_basic_reduce_call_count(self):
-        queryset = mock.Mock()
-        queryset.count = mock.Mock(return_value=3)
+        queryset = Mock()
+        queryset.count = Mock(return_value=3)
         reduces.basic_reduce(queryset)
         self.assertTrue(queryset.count.called)
 
     def test_basic_reduce_return(self):
-        queryset = mock.Mock()
-        queryset.count = mock.Mock(return_value=3)
+        queryset = Mock()
+        queryset.count = Mock(return_value=3)
         self.assertDictEqual(reduces.basic_reduce(queryset), {'total': 3})
 
     def test_count_if_return_two_of_four(self):
@@ -55,6 +55,3 @@ class TestTagFilters(unittest.TestCase):
     def test_count_by_use_with_list_and_increment_with_value_return_count_incremented(self):
         lista = [2]*5+[1]*4
         self.assertDictEqual(reduces.count_by(lista, lambda n: n, lambda n: n), {1: 4, 2: 10})
-
-if __name__ == '__main__':
-    unittest.main()

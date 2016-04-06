@@ -12,4 +12,5 @@ except IOError:
 # IMPORTANT: Put any additional includes below this line.  If placed above this
 # line, it's possible required libraries won't be in your searchable path
 #
-from eventoL.wsgi import application
+from eventoL import wsgi
+application = wsgi.application
