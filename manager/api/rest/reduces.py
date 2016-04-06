@@ -1,4 +1,3 @@
-from manager.models import InstallationAttendee, NonRegisteredAttendee, EventUser
 
 
 def basic_reduce(queryset):
