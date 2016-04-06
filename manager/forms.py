@@ -205,19 +205,22 @@ class ContactForm(ModelForm):
         cleaned_data = super(ContactForm, self).clean()
         type = cleaned_data.get("type")
         value = cleaned_data.get("url")
+        
+        if type:
+            if type.validate == '1':
+                try:
+                    validator = URLValidator()
+                    validator(value)
+                except:
+                    self.add_error('url', 'Enter valid URL')
 
-        if type.validate == '1':
-            try:
-                validator = URLValidator()
-                validator(value)
-            except:
-                self.add_error('url', 'Enter valid URL')
-
-        elif type.validate == '2':
-            try:
-                validate_email(value)
-            except:
-                self.add_error('url', 'Enter valid Email')
+            elif type.validate == '2':
+                try:
+                    validate_email(value)
+                except:
+                    self.add_error('url', 'Enter valid Email')
+        else: #type none
+            self.add_error('type',_('This field is required'))
 
         return cleaned_data
 
