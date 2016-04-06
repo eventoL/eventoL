@@ -18,100 +18,104 @@
 
 {% block content %}
 
-    <div class="row col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Attendee" %}</strong>
+    <div class="row">
+        <div class="row col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Attendee" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_attendee or has_installation_attendee%}
+                        <i class="fa fa-users" style="color: #0b62a4"> {% trans "Attendees Confirmed" %} </i><br>
+                        <i class="fa fa-users" style="color: #FA5858"> {% trans "Attendees Not Confirmed" %}</i><br><br>
+                        <div id="attendee"></div>
+                    {% else %}
+                        <strong>{% trans "Hasn't registered attendees" %}</strong>
+                    {% endif %}
+                </div>
             </div>
-            <div class="panel-body">
-                {% if has_attendee or has_installation_attendee%}
-                    <i class="fa fa-users" style="color: #0b62a4"> {% trans "Attendees Confirmed" %} </i><br>
-                    <i class="fa fa-users" style="color: #FA5858"> {% trans "Attendees Not Confirmed" %}</i><br><br>
-                    <div id="attendee"></div>
-                {% else %}
-                    <strong>{% trans "Hasn't registered attendees" %}</strong>
-                {% endif %}
+        </div>
+
+        <div class="row col-md-6" style="margin-left: 10px">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Staff" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_organizer or has_installers or has_speakers or has_collaborators %}
+                        <i class="fa fa-users" style="color: #FFBB13"> {% trans "Organizers" %}</i><br>
+                        <i class="fa fa-users" style="color: #0b62a4"> {% trans "Collaborators" %}</i><br>
+                        <i class="fa fa-users" style="color: #FA5858"> {% trans "Installers" %}</i><br>
+                        <i class="fa fa-users" style="color: #4da74d"> {% trans "Speakers" %}</i>
+                        <div id="staff"></div>
+                    {% else %}
+                        <strong>{% trans "Hasn't registered staff" %}</strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row col-md-6" style="margin-left: 10px">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Staff" %}</strong>
+    <div class="row">
+        <div class="row col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Counts" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_talk_proposals or has_installations %}
+                        <div id="counts"></div>
+                    {% else %}
+                        <strong>{% trans "Hasn't registered talks or installations" %}</strong>
+                    {% endif %}
+                </div>
             </div>
-            <div class="panel-body">
-                {% if has_organizer or has_installers or has_speakers or has_collaborators %}
-                    <i class="fa fa-users" style="color: #FFBB13"> {% trans "Organizers" %}</i><br>
-                    <i class="fa fa-users" style="color: #0b62a4"> {% trans "Collaborators" %}</i><br>
-                    <i class="fa fa-users" style="color: #FA5858"> {% trans "Installers" %}</i><br>
-                    <i class="fa fa-users" style="color: #4da74d"> {% trans "Speakers" %}</i>
-                    <div id="staff"></div>
-                {% else %}
-                    <strong>{% trans "Hasn't registered staff" %}</strong>
-                {% endif %}
+        </div>
+
+        <div class="row col-md-6" style="margin-left: 10px">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Installations" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_installations %}
+                        <div id="installations"></div>
+                    {% else %}
+                        <strong>{% trans "Hasn't registered isntallations" %}</strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Counts" %}</strong>
-            </div>
-            <div class="panel-body">
-                {% if has_talk_proposals or has_installations %}
-                    <div id="counts"></div>
-                {% else %}
-                    <strong>{% trans "Hasn't registered talks or installations" %}</strong>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-
-    <div class="row col-md-6" style="margin-left: 10px">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Installations" %}</strong>
-            </div>
-            <div class="panel-body">
-                {% if has_installations %}
-                    <div id="installations"></div>
-                {% else %}
-                    <strong>{% trans "Hasn't registered isntallations" %}</strong>
-                {% endif %}
+    <div class="row">
+        <div class="row col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Votes For Talks" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_talk_proposals %}
+                        <div id="votes"></div>
+                    {% else %}
+                        <strong>{% trans "Hasn't registered talk proposals" %}</strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
 
-
-    <div class="row col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Votes For Talks" %}</strong>
-            </div>
-            <div class="panel-body">
-                {% if has_talk_proposals %}
-                    <div id="votes"></div>
-                {% else %}
-                    <strong>{% trans "Hasn't registered talk proposals" %}</strong>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row col-md-6" style="margin-left: 10px">
-        <div class="panel panel-primary">
-            <div class="panel-heading text-center">
-                <strong>{% trans "Installer For Level" %}</strong>
-            </div>
-            <div class="panel-body">
-                {% if has_installers %}
-                    <div id="installers"></div>
-                {% else %}
-                    <strong>{% trans "Hasn't registered isntallations" %}</strong>
-                {% endif %}
+        <div class="row col-md-6" style="margin-left: 10px">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Installer For Level" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if has_installers %}
+                        <div id="installers"></div>
+                    {% else %}
+                        <strong>{% trans "Hasn't registered isntallations" %}</strong>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </div>
