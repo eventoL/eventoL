@@ -203,6 +203,12 @@ class Attendee(models.Model):
         verbose_name = _('Attendee')
         verbose_name_plural = _('Attendees')
 
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'event':
+            return queryset.filter(eventUser__event__pk=value)
+        return queryset
+
     def __unicode__(self):
         if self.eventUser.user:
             return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
@@ -219,6 +225,12 @@ class InstallationAttendee(models.Model):
     class Meta(object):
         verbose_name = _('Installation Attendee')
         verbose_name_plural = _('Installation Attendees')
+
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'event':
+            return queryset.filter(eventUser__event__pk=value)
+        return queryset
 
     def __unicode__(self):
         if self.eventUser.user:
