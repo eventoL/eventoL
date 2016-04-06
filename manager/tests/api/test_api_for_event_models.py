@@ -1,6 +1,6 @@
 import unittest
 import datetime
-from manager.api.tests.test_api import api_test
+from manager.tests.api.test_api import api_test
 from manager.models import Contact, ContactMessage, ContactType, Event, Image
 
 

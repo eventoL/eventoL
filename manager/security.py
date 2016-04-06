@@ -38,7 +38,7 @@ def add_attendance_permission(user):
 
 def create_organizers_group():
     organizers = None
-    if not Group.objects.filter(name='Organizers').exists():
+    if not Group.objects.filter(name__iexact='Organizers').exists():
         perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_nonregisteredattendee',
                  'change_nonregisteredattendee', 'delete_nonregisteredattendee', 'add_eventuser', 'change_eventuser',
                  'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
@@ -49,20 +49,20 @@ def create_organizers_group():
                  'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
                  'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
                  'delete_installation']
-        organizers = Group.objects.create(name='Organizers')
+        organizers = Group.objects.create(name__iexact='Organizers')
         for perm in perms:
             organizers.permissions.add(Permission.objects.get(codename=perm))
 
         organizers.save()
     else:
-        organizers = Group.objects.get(name='Organizers')
+        organizers = Group.objects.get(name__iexact='Organizers')
 
     return organizers
 
 
 def create_reporters_group():
     reporters = None
-    if not Group.objects.filter(name='Reporters').exists():
+    if not Group.objects.filter(name__iexact='Reporters').exists():
         perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_nonregisteredattendee',
                  'change_nonregisteredattendee', 'delete_nonregisteredattendee', 'add_eventuser', 'change_eventuser',
                  'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
@@ -73,13 +73,13 @@ def create_reporters_group():
                  'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
                  'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
                  'delete_installation']
-        reporters = Group.objects.create(name='Reporters')
+        reporters = Group.objects.create(name__iexact='Reporters')
         for perm in perms:
             reporters.permissions.add(Permission.objects.get(codename=perm))
 
         reporters.save()
     else:
-        reporters = Group.objects.get(name='Reporters')
+        reporters = Group.objects.get(name__iexact='Reporters')
 
     return reporters
 

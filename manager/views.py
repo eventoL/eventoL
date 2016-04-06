@@ -466,10 +466,10 @@ def attendee_registration_by_collaborator(request, event_slug):
     if request.POST:
         if form.is_valid():
             email = form.cleaned_data["email"]
-            if EventUser.objects.filter(event=event, user__email=email).count() > 0:
+            if EventUser.objects.filter(event=event, user__email__iexact=email).count() > 0:
                 messages.error(request, _("The attendee has registered for this event, use correct form"))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
-            if EventUser.objects.filter(event=event, nonregisteredattendee__email=email).count() > 0:
+            if EventUser.objects.filter(event=event, nonregisteredattendee__email__iexact=email).count() > 0:
                 form.add_error('email', _("Email already registered for this event"))
             try:
                 form.save()

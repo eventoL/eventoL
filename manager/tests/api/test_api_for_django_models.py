@@ -1,6 +1,6 @@
 import unittest
 from django.contrib.auth.models import User
-from manager.api.tests.test_api import api_test
+from manager.tests.api.test_api import api_test
 
 
 # Django Models
