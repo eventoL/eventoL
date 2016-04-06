@@ -8,8 +8,8 @@ class Schedule(object):
         self.activities = activities
         if self.activities:
             self.activities.sort()
-            self.start_date = self.activities[0].start_date
-            self.end_date = self.activities[-1].end_date
+            self.start_date = min(activity.start_date for activity in self.activities)
+            self.end_date = max(activity.end_date for activity in self.activities)
             self.total_minutes = int(
                 ((self.end_date - self.start_date) + datetime.timedelta(hours=1)).total_seconds() / 60)
             self.size = self.total_minutes * 2
