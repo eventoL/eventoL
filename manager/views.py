@@ -324,7 +324,7 @@ def schedule(request, event_slug):
                       update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
     messages.warning(
         request,
-        _("You don't have confirmed activities, please confirm the activitiees and then confirm the schedule")
+        _("You don't have any confirmed activities. Please confirm the activities first and then confirm the schedule")
     )
     return activities(request, event_slug)
 

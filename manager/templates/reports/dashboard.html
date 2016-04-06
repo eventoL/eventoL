@@ -30,7 +30,7 @@
                         <i class="fa fa-users" style="color: #FA5858"> {% trans "Attendees Not Confirmed" %}</i><br><br>
                         <div id="attendee"></div>
                     {% else %}
-                        <strong>{% trans "Hasn't registered attendees" %}</strong>
+                        <strong>{% trans "There aren't any registered attendees" %}</strong>
                     {% endif %}
                 </div>
             </div>
@@ -49,7 +49,7 @@
                         <i class="fa fa-users" style="color: #4da74d"> {% trans "Speakers" %}</i>
                         <div id="staff"></div>
                     {% else %}
-                        <strong>{% trans "Hasn't registered staff" %}</strong>
+                        <strong>{% trans "There isn't any registered staff" %}</strong>
                     {% endif %}
                 </div>
             </div>
@@ -60,13 +60,13 @@
         <div class="row col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Counts" %}</strong>
+                    <strong>{% trans "Totals" %}</strong>
                 </div>
                 <div class="panel-body">
                     {% if has_talk_proposals or has_installations %}
                         <div id="counts"></div>
                     {% else %}
-                        <strong>{% trans "Hasn't registered talks or installations" %}</strong>
+                        <strong>{% trans "There aren't any talks or installations submitted" %}</strong>
                     {% endif %}
                 </div>
             </div>
@@ -81,7 +81,7 @@
                     {% if has_installations %}
                         <div id="installations"></div>
                     {% else %}
-                        <strong>{% trans "Hasn't registered isntallations" %}</strong>
+                        <strong>{% trans "There aren't any registered installations" %}</strong>
                     {% endif %}
                 </div>
             </div>
@@ -98,7 +98,7 @@
                     {% if has_talk_proposals %}
                         <div id="votes"></div>
                     {% else %}
-                        <strong>{% trans "Hasn't registered talk proposals" %}</strong>
+                        <strong>{% trans "There aren't any talk proposals submitted" %}</strong>
                     {% endif %}
                 </div>
             </div>
@@ -113,7 +113,7 @@
                     {% if has_installers %}
                         <div id="installers"></div>
                     {% else %}
-                        <strong>{% trans "Hasn't registered isntallations" %}</strong>
+                        <strong>{% trans "There aren't any registered installations" %}</strong>
                     {% endif %}
                 </div>
             </div>
@@ -140,8 +140,8 @@
                     Morris.Donut({
                       element: 'attendee',
                       data: [
-                        {label: "{% trans "Attendees Confirmed" %}", value: confirmed, color: "#0b62a4"},
-                        {label: "{% trans "Attendees Not Confirmed" %}", value: not_confirmed, color: "#FA5858"}
+                        {label: "{% trans "Confirmed Attendees" %}", value: confirmed, color: "#0b62a4"},
+                        {label: "{% trans "Unconfirmed Attendees" %}", value: not_confirmed, color: "#FA5858"}
                       ]
                     });
                 });
@@ -171,7 +171,7 @@
                       data: votes,
                       xkey: 'y',
                       ykeys: ['a'],
-                      labels: ['{% trans "Count" %}']
+                      labels: ['{% trans "Total" %}']
                     });
                   {% endif %}
                 });
@@ -196,7 +196,7 @@
                   data: installers,
                   xkey: 'y',
                   ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
+                  labels: ['{% trans "Total" %}']
                 });
 
             });
@@ -213,7 +213,7 @@
                   ],
                   xkey: 'y',
                   ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
+                  labels: ['{% trans "Total" %}']
                 });
 
                 var software = [];
@@ -226,7 +226,7 @@
                   data: software,
                   xkey: 'y',
                   ykeys: ['a'],
-                  labels: ['{% trans "Count" %}']
+                  labels: ['{% trans "Total" %}']
                 });
 
             });
