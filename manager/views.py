@@ -29,7 +29,7 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, Hardwa
     RegisteredEventUserSearchForm, ActivityCompleteForm, ContactForm
 
 from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, InstallationAttendee, TalkProposal, \
-    Activity, Hardware, Installation, Comment, Collaborator, ContactMessage, NonRegisteredAttendee, Installer
+    Activity, Hardware, Installation, Comment, Collaborator, ContactMessage, NonRegisteredAttendee, Installer, Speaker
 
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
@@ -188,6 +188,7 @@ def installation(request, event_slug):
                 install = None
                 install = installation_form.save()
                 install.hardware = hardware
+                install.event = Event.objects.get(slug__iexact=event_slug)
                 install.installer = EventUser.objects.get(user=request.user)
                 install.save()
                 messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
@@ -573,7 +574,26 @@ def confirm_schedule(request, event_slug):
 
 
 def reports(request, event_slug):
-    return render(request, 'reports/dashboard.html', update_event_info(event_slug))
+    event = Event.objects.get(slug__iexact=event_slug)
+    has_attendee = Attendee.objects.filter(eventUser__event=event).exists()
+    has_installation_attendee = InstallationAttendee.objects.filter(eventUser__event=event).exists()
+    has_organizer = Organizer.objects.filter(eventUser__event=event).exists()
+    has_installers = Installer.objects.filter(eventUser__event=event).exists()
+    has_speakers = Speaker.objects.filter(eventUser__event=event).exists()
+    has_collaborators = Collaborator.objects.filter(eventUser__event=event).exists()
+    has_talk_proposals = TalkProposal.objects.filter(activity__event=event).exists()
+    has_installations = Installation.objects.filter(attendee__event=event).exists()
+    template_dict = {
+        'has_attendee': has_attendee,
+        'has_organizer': has_organizer,
+        'has_installers': has_installers,
+        'has_installation_attendee': has_installation_attendee,
+        'has_speakers': has_speakers,
+        'has_collaborators': has_collaborators,
+        'has_talk_proposals': has_talk_proposals,
+        'has_installations': has_installations
+    }
+    return render(request, 'reports/dashboard.html', update_event_info(event_slug, render_dict=template_dict))
 
 
 def generate_ticket(eventUser, lang='en_US.UTF8'):

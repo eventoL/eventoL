@@ -133,6 +133,15 @@ class NonRegisteredAttendee(models.Model):
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.last_name)
 
+    @classmethod
+    def filter_by(cls, queryset, field, value):
+        if field == 'event':
+            for attendee in queryset:
+                event_user = attendee.eventuser_set.first()
+                if not event_user or event_user.event.pk != value:
+                    queryset = queryset.exclude(pk=attendee.pk)
+        return queryset
+
 
 class EventUser(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)
