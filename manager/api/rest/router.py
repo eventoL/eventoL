@@ -31,6 +31,7 @@ router.register(r'attendee', ViewSetBuilder(models.Attendee, cls_form=forms.Atte
 router.register(r'collaborators', ViewSetBuilder(models.Collaborator, cls_form=forms.CollaboratorRegistrationForm).build())
 router.register(r'eventusers', ViewSetBuilder(models.EventUser).build())
 router.register(r'speakers', ViewSetBuilder(models.Speaker).build())
+router.register(r'organizers', ViewSetBuilder(models.Organizer).build())
 router.register(r'nonregisteredattendees', ViewSetBuilder(models.NonRegisteredAttendee).build())
 
 # Event Model
