@@ -34,7 +34,7 @@ echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO
 python ${OPENSHIFT_REPO_DIR}manage.py loaddata ${OPENSHIFT_REPO_DIR}manager/initial_data/security.json
 
 echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py makemessages --locale=es'"
-python ${OPENSHIFT_REPO_DIR}manage.py makemessages --locale=es
+python ${OPENSHIFT_REPO_DIR}manage.py makemessages --locale=es -i {OPENSHIFT_HOMEDIR}python/virtenv*
 
 echo "Executing 'python ${OPENSHIFT_REPO_DIR}manage.py compilemessages'"
 python ${OPENSHIFT_REPO_DIR}manage.py compilemessages
