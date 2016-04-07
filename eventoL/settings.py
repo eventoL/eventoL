@@ -17,12 +17,14 @@ import os
 def str_to_bool(s):
     return s == 'True'
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 STATIC_URL = '/static/'
 
 ON_OPENSHIFT = 'OPENSHIFT_REPO_DIR' in os.environ
 if ON_OPENSHIFT:
     import socket
+
     os.environ.setdefault('DJANGO_SECRET_KEY', os.environ.get('OPENSHIFT_SECRET_TOKEN'))
     os.environ.setdefault('DJANGO_DEBUG', 'False')
     os.environ.setdefault('DJANGO_TEMPLATE_DEBUG', 'False')
@@ -250,6 +252,9 @@ SOCIALACCOUNT_PROVIDERS = \
         'google': {
             'SCOPE': ['profile', 'email'],
             'AUTH_PARAMS': {'access_type': 'online'}
+        },
+        'github': {
+            'SCOPE': ['user:email']
         }
     }
 
