@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 21:41-0300\n"
+"POT-Creation-Date: 2016-04-07 22:08-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1079,6 +1079,10 @@ msgstr "Siguiente"
 #: manager/templates/activities/talks/proposal/image-cropping.html:12
 msgid "Please select the visible area for your image"
 msgstr "Selecciona el área visible de tu imagen"
+
+#: manager/templates/activities/talks/proposal/image-cropping.html:22
+msgid "Upload"
+msgstr "Subir"
 
 #: manager/templates/activities/talks/proposal/votes.html:36
 msgid "Score: "
