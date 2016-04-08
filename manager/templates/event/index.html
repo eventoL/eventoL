@@ -206,6 +206,23 @@
                 'autoplay': true,
                 'dots'    : true
             });
+
+            (function() {
+                var isPlaying = true;
+                $('#slick_charlas').click(function() {
+                    if (isPlaying) {
+                        $('#slick_charlas')
+                                .slick('slickSetOption', 'autoplay', false)
+                                .slick('slickPause');
+                        isPlaying = false;
+                    } else {
+                        $('#slick_charlas')
+                                .slick('slickSetOption', 'autoplay', true)
+                                .slick('slickPlay');
+                        isPlaying = true;
+                    }
+                });
+            })()
         });
     </script>
 
