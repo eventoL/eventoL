@@ -269,5 +269,7 @@ ACCOUNT_FORMS = {'login': 'manager.forms.LoginForm',
                  'change_password': 'manager.forms.ChangePasswordForm',
                  'set_password': 'manager.forms.SetPasswordForm'}
 
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 SOCIALACCOUNT_AUTO_SIGNUP = False
 SOCIALACCOUNT_FORMS = {'signup': 'manager.forms.SocialSignUpForm'}

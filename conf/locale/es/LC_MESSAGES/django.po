@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-06 06:24+0000\n"
+"POT-Creation-Date: 2016-04-07 21:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr "Buscar Asistente"
 msgid "Type to search"
 msgstr "Tipea para buscar"
 
-#: manager/forms.py:56 manager/models.py:147 manager/models.py:411
+#: manager/forms.py:56 manager/models.py:147 manager/models.py:423
 msgid "User"
 msgstr "Usuario"
 
@@ -121,8 +121,8 @@ msgstr "Confirmar Cronograma"
 msgid "Place"
 msgstr "Lugar"
 
-#: manager/models.py:70 manager/models.py:91 manager/models.py:274
-#: manager/models.py:300 manager/models.py:353
+#: manager/models.py:70 manager/models.py:91 manager/models.py:286
+#: manager/models.py:312 manager/models.py:365
 #: manager/templates/room/rooms.html:22
 msgid "Name"
 msgstr "Nombre"
@@ -156,7 +156,7 @@ msgstr "No validar"
 msgid "Icon Class"
 msgstr "Clase CSS del ícono"
 
-#: manager/models.py:93 manager/models.py:239 manager/models.py:381
+#: manager/models.py:93 manager/models.py:251 manager/models.py:393
 msgid "Level"
 msgstr "Nivel "
 
@@ -208,7 +208,7 @@ msgstr "Va a llevar un dispositivo para instalar?"
 msgid "Additional Info"
 msgstr "Información Adicional"
 
-#: manager/models.py:127 manager/models.py:217
+#: manager/models.py:127 manager/models.py:223
 msgid "i.e. Wath kind of PC are you bringing?"
 msgstr "x.ej: Qué clase de dispositivo va a llevar?"
 
@@ -233,8 +233,8 @@ msgid "Ticket sent"
 msgstr "Entrada enviada"
 
 #: manager/models.py:162 manager/models.py:167 manager/models.py:187
-#: manager/models.py:198 manager/models.py:215 manager/models.py:238
-#: manager/models.py:251
+#: manager/models.py:198 manager/models.py:221 manager/models.py:250
+#: manager/models.py:263
 msgid "Event User"
 msgstr "Usuario del evento"
 
@@ -293,7 +293,7 @@ msgstr "Organizador"
 msgid "Organizers"
 msgstr "Organizadores"
 
-#: manager/models.py:203 manager/models.py:437
+#: manager/models.py:203 manager/models.py:449
 #: manager/templates/reports/dashboard.html:25
 msgid "Attendee"
 msgstr "Asistente"
@@ -302,55 +302,55 @@ msgstr "Asistente"
 msgid "Attendees"
 msgstr "Asistentes"
 
-#: manager/models.py:216
+#: manager/models.py:222
 msgid "Installation Additional Info"
 msgstr "Información Adicional sobre la instalación"
 
-#: manager/models.py:220
+#: manager/models.py:226
 msgid "Installation Attendee"
 msgstr "Asistente para instalar"
 
-#: manager/models.py:221
+#: manager/models.py:227
 msgid "Installation Attendees"
 msgstr "Asistentes para instalar"
 
-#: manager/models.py:233 manager/models.py:365
+#: manager/models.py:245 manager/models.py:377
 #: manager/templates/reports/dashboard.html:185
 msgid "Beginner"
 msgstr "Principiante"
 
-#: manager/models.py:234 manager/models.py:366
+#: manager/models.py:246 manager/models.py:378
 #: manager/templates/reports/dashboard.html:186
 msgid "Medium"
 msgstr "Medio"
 
-#: manager/models.py:235 manager/models.py:367
+#: manager/models.py:247 manager/models.py:379
 #: manager/templates/reports/dashboard.html:187
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: manager/models.py:236 manager/templates/reports/dashboard.html:188
+#: manager/models.py:248 manager/templates/reports/dashboard.html:188
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
-#: manager/models.py:240
+#: manager/models.py:252
 msgid "Knowledge level for an installation"
 msgstr "Conocimiento que tiene para realizar una instalación"
 
-#: manager/models.py:243 manager/models.py:439
+#: manager/models.py:255 manager/models.py:451
 msgid "Installer"
 msgstr "Instalador"
 
-#: manager/models.py:244 manager/templates/reports/dashboard.html:48
+#: manager/models.py:256 manager/templates/reports/dashboard.html:48
 #: manager/templates/reports/dashboard.html:157
 msgid "Installers"
 msgstr "Instaladores"
 
-#: manager/models.py:254
+#: manager/models.py:266
 msgid "Speaker"
 msgstr "Disertante"
 
-#: manager/models.py:255 manager/templates/activities/activities_home.html:65
+#: manager/models.py:267 manager/templates/activities/activities_home.html:65
 #: manager/templates/activities/activities_home.html:124
 #: manager/templates/activities/activities_home.html:239
 #: manager/templates/activities/talks/detail.html:37
@@ -360,23 +360,23 @@ msgstr "Disertante"
 msgid "Speakers"
 msgstr "Disertantes"
 
-#: manager/models.py:269
+#: manager/models.py:281
 msgid "Operative System"
 msgstr "Sistema Operativo"
 
-#: manager/models.py:270
+#: manager/models.py:282
 msgid "Application"
 msgstr "Aplicación"
 
-#: manager/models.py:271
+#: manager/models.py:283
 msgid "Support and Problem Fixing"
 msgstr "Soporte y resolución de problemas"
 
-#: manager/models.py:272 manager/models.py:288
+#: manager/models.py:284 manager/models.py:300
 msgid "Other"
 msgstr "Otro"
 
-#: manager/models.py:275 manager/models.py:290 manager/models.py:370
+#: manager/models.py:287 manager/models.py:302 manager/models.py:382
 #: manager/templates/activities/activities_home.html:71
 #: manager/templates/activities/activities_home.html:130
 #: manager/templates/activities/activities_home.html:243
@@ -384,64 +384,64 @@ msgstr "Otro"
 msgid "Type"
 msgstr "Tipo"
 
-#: manager/models.py:283
+#: manager/models.py:295
 msgid "Mobile"
 msgstr "Móvil"
 
-#: manager/models.py:284
+#: manager/models.py:296
 msgid "Notebook"
 msgstr "Notebook"
 
-#: manager/models.py:285
+#: manager/models.py:297
 msgid "Netbook"
 msgstr "Netbook"
 
-#: manager/models.py:286
+#: manager/models.py:298
 msgid "Tablet"
 msgstr "Tablet"
 
-#: manager/models.py:287
+#: manager/models.py:299
 msgid "Desktop"
 msgstr "PC de escritorio"
 
-#: manager/models.py:291
+#: manager/models.py:303
 msgid "Manufacturer"
 msgstr "Fabricante/Marca"
 
-#: manager/models.py:292
+#: manager/models.py:304
 msgid "Model"
 msgstr "Modelo"
 
-#: manager/models.py:300
+#: manager/models.py:312
 msgid "i.e. Classroom 256"
 msgstr "x.ej. Sala 256"
 
-#: manager/models.py:306 manager/models.py:317
+#: manager/models.py:318 manager/models.py:329
 #: manager/templates/activities/activities_home.html:73
 #: manager/templates/activities/activities_home.html:203
 #: manager/templates/activities/talks/detail.html:41
 msgid "Room"
 msgstr "Sala"
 
-#: manager/models.py:307 manager/templates/room/rooms.html:8
+#: manager/models.py:319 manager/templates/room/rooms.html:8
 msgid "Rooms"
 msgstr "Salas"
 
-#: manager/models.py:313
+#: manager/models.py:325
 msgid "Title"
 msgstr "Título"
 
-#: manager/models.py:314
+#: manager/models.py:326
 msgid "Long Description"
 msgstr "Descripción completa"
 
-#: manager/models.py:315 manager/templates/activities/activities_home.html:44
+#: manager/models.py:327 manager/templates/activities/activities_home.html:44
 #: manager/templates/activities/activities_home.html:192
 #: manager/templates/activities/talks/proposal/votes.html:16
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: manager/models.py:316 manager/templates/activities/activities_home.html:61
+#: manager/models.py:328 manager/templates/activities/activities_home.html:61
 #: manager/templates/activities/activities_home.html:120
 #: manager/templates/activities/activities_home.html:201
 #: manager/templates/activities/activities_home.html:237
@@ -449,87 +449,87 @@ msgstr "Confirmada"
 msgid "Abstract"
 msgstr "Resumen"
 
-#: manager/models.py:316
+#: manager/models.py:328
 msgid "Short idea of the talk (Two or three sentences)"
 msgstr "Dos o tres oraciones que describan la actividad"
 
-#: manager/models.py:318
+#: manager/models.py:330
 msgid "Start Time"
 msgstr "Hora de Inicio"
 
-#: manager/models.py:319
+#: manager/models.py:331
 msgid "End Time"
 msgstr "Hora de Fin"
 
-#: manager/models.py:330
+#: manager/models.py:342
 msgid "Schedule not confirmed yet"
 msgstr "Cronograma no confirmado aún"
 
-#: manager/models.py:345 manager/templates/activities/activity.html:15
+#: manager/models.py:357 manager/templates/activities/activity.html:15
 #: manager/templates/activities/activity.html:17
 #: manager/templates/activities/activity.html:21
 msgid "Activity"
 msgstr "Actividad"
 
-#: manager/models.py:346 manager/templates/activities/activities_home.html:174
+#: manager/models.py:358 manager/templates/activities/activities_home.html:174
 msgid "Activities"
 msgstr "Actividades"
 
-#: manager/models.py:359
+#: manager/models.py:371
 msgid "Talk Type"
 msgstr "Tipo de Actividad"
 
-#: manager/models.py:360
+#: manager/models.py:372
 msgid "Talk Types"
 msgstr "Tipos de Actividad"
 
-#: manager/models.py:372
+#: manager/models.py:384
 msgid "Talk Confirmed"
 msgstr "Actividad Confirmada"
 
-#: manager/models.py:373
+#: manager/models.py:385
 msgid "Speakers Names"
 msgstr "Nombre de los disertantes"
 
-#: manager/models.py:374
+#: manager/models.py:386
 msgid "Comma separated speaker's names"
 msgstr "(Separados por coma) Nombre de los disertantes"
 
-#: manager/models.py:375
+#: manager/models.py:387
 msgid "Speakers Emails"
 msgstr "Correo electrónico de los disertantes"
 
-#: manager/models.py:376
+#: manager/models.py:388
 msgid "Comma separated speaker's emails"
 msgstr "(Separados por coma) Correo electrónico de los disertantes"
 
-#: manager/models.py:377 manager/templates/activities/activities_home.html:68
+#: manager/models.py:389 manager/templates/activities/activities_home.html:68
 #: manager/templates/activities/activities_home.html:127
 #: manager/templates/activities/activities_home.html:241
 #: manager/templates/activities/talks/detail.html:38
 msgid "Labels"
 msgstr "Etiquetas/Tags"
 
-#: manager/models.py:378
+#: manager/models.py:390
 msgid "Comma separated tags. i.e. Linux, Free Software, Debian"
 msgstr "(Separados por coma) x.ej. Linux, Software Libre, Debian"
 
-#: manager/models.py:379
+#: manager/models.py:391
 msgid "Presentation"
 msgstr "Presentación"
 
-#: manager/models.py:380
+#: manager/models.py:392
 msgid ""
 "Any material you are going to use for the talk (optional, but recommended)"
 msgstr ""
 "Cualquier material que vayas a usar para la actividad (opcional pero "
 "recomendado)"
 
-#: manager/models.py:382
+#: manager/models.py:394
 msgid "Talk's Technical level"
 msgstr "Nivel técnico de la actividad"
 
-#: manager/models.py:403 manager/templates/activities/talks/proposal.html:13
+#: manager/models.py:415 manager/templates/activities/talks/proposal.html:13
 #: manager/templates/activities/talks/proposal.html:15
 #: manager/templates/activities/talks/proposal.html:19
 #: manager/templates/activities/talks/proposal/image-cropping.html:11
@@ -538,43 +538,43 @@ msgstr "Nivel técnico de la actividad"
 msgid "Talk Proposal"
 msgstr "Propuesta de Actividad"
 
-#: manager/models.py:404
+#: manager/models.py:416
 msgid "Talk Proposals"
 msgstr "Propuestas de Actividad"
 
-#: manager/models.py:430
+#: manager/models.py:442
 msgid "Comment"
 msgstr "Comentario"
 
-#: manager/models.py:431 manager/templates/activities/talks/comments.html:4
+#: manager/models.py:443 manager/templates/activities/talks/comments.html:4
 msgid "Comments"
 msgstr "Comentarios"
 
-#: manager/models.py:435
+#: manager/models.py:447
 msgid "Hardware"
 msgstr "Hardware"
 
-#: manager/models.py:436
+#: manager/models.py:448
 msgid "Software"
 msgstr "Software"
 
-#: manager/models.py:438
+#: manager/models.py:450
 msgid "The owner of the installed hardware"
 msgstr "El dueño del dispositivo instalado"
 
-#: manager/models.py:441
+#: manager/models.py:453
 msgid "Notes"
 msgstr "Notas"
 
-#: manager/models.py:442
+#: manager/models.py:454
 msgid "Any information or trouble you found and consider relevant to document"
 msgstr "Cualquier información o problema que consideres relevante documentar"
 
-#: manager/models.py:454
+#: manager/models.py:466
 msgid "Installation"
 msgstr "Instalación"
 
-#: manager/models.py:455 manager/templates/event/index.html:162
+#: manager/models.py:467 manager/templates/event/index.html:162
 #: manager/templates/reports/dashboard.html:78
 #: manager/templates/reports/dashboard.html:212
 msgid "Installations"
@@ -703,11 +703,7 @@ msgstr ""
 msgid "Login"
 msgstr "Iniciar Sesión"
 
-#: manager/templates/account/login.html:15
-msgid "or"
-msgstr "O"
-
-#: manager/templates/account/login.html:20
+#: manager/templates/account/login.html:9
 #, python-format
 msgid ""
 "Please sign in with one\n"
@@ -719,6 +715,10 @@ msgstr ""
 "            de los siguientes proveedores. O, <a href=\"%(signup_url)s"
 "\">regístrate</a>\n"
 "            para una cuenta del sitio %(site_name)s e inicia sesión abajo:"
+
+#: manager/templates/account/login.html:19
+msgid "or"
+msgstr "O"
 
 #: manager/templates/account/login.html:27
 #, python-format

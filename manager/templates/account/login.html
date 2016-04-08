@@ -6,6 +6,10 @@
 {% block page-name %}{% trans "Login" %}{% endblock %}
 
 {% block pre-form %}
+    <p>{% blocktrans with site.name as site_name %}Please sign in with one
+            of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+            for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
     {% get_providers as socialaccount_providers %}
     {% if socialaccount_providers %}
         {% include "socialaccount/snippets/provider_list.html" with process="login" %}
@@ -16,10 +20,6 @@
                 <hr style="border-top: 2px solid #B6B6B6">
             </div>
         </div>
-
-        <p>{% blocktrans with site.name as site_name %}Please sign in with one
-            of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-            for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
         {% include "socialaccount/snippets/login_extra.html" %}
 
