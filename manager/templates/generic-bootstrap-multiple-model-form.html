@@ -37,7 +37,7 @@
                 {% block buttons %}
                     <div class="form-group">
                         <button type="submit"
-                                class="btn btn-primary btn-raised pull-right">{% trans "Submit" %}</button>
+                                class="btn btn-primary btn-raised pull-right">{% block submit-button %}{% trans "Submit" %}{% endblock %}</button>
                     </div>
                 {% endblock %}
             </form>
