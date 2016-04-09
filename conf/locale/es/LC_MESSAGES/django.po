@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 22:08-0300\n"
+"POT-Creation-Date: 2016-04-09 12:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -698,8 +698,8 @@ msgstr ""
 
 #: manager/templates/account/login.html:5
 #: manager/templates/account/login.html:6
-#: manager/templates/account/login.html:34
-#: manager/templates/account/login.html:38 manager/templates/base-main.html:156
+#: manager/templates/account/login.html:35
+#: manager/templates/account/login.html:39 manager/templates/base-main.html:156
 msgid "Login"
 msgstr "Iniciar Sesión"
 
@@ -707,20 +707,22 @@ msgstr "Iniciar Sesión"
 #, python-format
 msgid ""
 "Please sign in with one\n"
-"            of your existing third party accounts. Or, <a href="
-"\"%(signup_url)s\">sign up</a>\n"
-"            for a %(site_name)s account and sign in below:"
+"        of your existing third party accounts. Or,\n"
+"        <a href=\"%(signup_url)s\" style=\"font-size:18px; font-weight: 500;"
+"\">sign up</a>\n"
+"        for a %(site_name)s account and sign in below:"
 msgstr ""
 "Por favor inicia sesión con alguno\n"
-"            de los siguientes proveedores. O, <a href=\"%(signup_url)s"
+"        con alguno de los siguientes proveedores, o\n"
+"        <a href=\"%(signup_url)s\" style=\"font-size:18px; font-weight: 500;"
 "\">regístrate</a>\n"
-"            para una cuenta del sitio %(site_name)s e inicia sesión abajo:"
+"        para una cuenta del sitio %(site_name)s e inicia sesión abajo:"
 
-#: manager/templates/account/login.html:19
+#: manager/templates/account/login.html:20
 msgid "or"
 msgstr "O"
 
-#: manager/templates/account/login.html:27
+#: manager/templates/account/login.html:28
 #, python-format
 msgid ""
 "If you have not created an account yet, then please\n"
@@ -729,7 +731,7 @@ msgstr ""
 "Si aún no has creado una cuenta, por favor\n"
 "            <a href=\"%(signup_url)s\">regístrate</a> primero."
 
-#: manager/templates/account/login.html:48
+#: manager/templates/account/login.html:49
 msgid "Forgot Password?"
 msgstr "Olvidaste tu contraseña?"
 
