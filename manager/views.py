@@ -21,6 +21,7 @@ from django.shortcuts import get_object_or_404, render
 from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
@@ -413,6 +414,28 @@ def attendee_search(request, event_slug):
         messages.error(request, _("The attendee couldn't be registered (check form errors)"))
 
     return render(request, 'registration/attendee/search.html', update_event_info(event_slug, {'form': form}))
+
+@login_required
+@permission_required('manager.can_take_attendance', raise_exception=True)
+@user_passes_test(is_collaborator, 'collaborator_registration')
+def attendee_registration(request, event_slug, pk):
+    eventUser=None
+    try:
+        eventUser = EventUser.objects.get(pk=pk)
+    except ObjectDoesNotExist:
+        eventUser = None
+
+    if eventUser:
+        if eventUser.assisted:
+            messages.info(request, _('The attendee has already been registered correctly.'))
+        else:
+            eventUser.assisted = True
+            eventUser.save()
+            messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
+        return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
+    else:
+        messages.error(request, _("The user isn't registered for this event."))
+        return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
 
 
 @login_required

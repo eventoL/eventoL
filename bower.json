@@ -29,7 +29,8 @@
     "geocomplete": "^1.6.5",
     "bootstrap-material-design": "v0.5.9",
     "font-awesome": "^4.5.0",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.37"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
+    "html5-qrcode": "https://github.com/dwa012/html5-qrcode.git"
   },
   "resolutions": {
     "bootstrap": "~3.3.2",

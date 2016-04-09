@@ -35,17 +35,37 @@
 {% block form-action %}"{% url "attendee_search" event_slug %}"{% endblock %}
 
 {% block buttons %}
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="button1id"></label>
+<div class="form-group">
+  <label class="col-md-4 control-label" for="button1id"></label>
 
-        <div class="col-md-8">
-            <button id="button1id" name="button1id" class="btn btn-danger">Registrar Nuevo Asistente</button>
-            <button id="button2id" name="button2id" class="btn btn-success">Marcar como Presente</button>
+  <div class="col-md-12">
+    <button id="button1id" name="button1id" class="btn btn-danger">Registrar Nuevo Asistente</button>
+    <button id="button2id" name="button2id" class="btn btn-success">Marcar como Presente</button>
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#QRModal">Scanear QR</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="QRModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{% trans "Center the QR Code in the camara display below "%}</h4>
+      </div>
+      <div class="modal-body">
+        <div id="qr_reader" class="qrcode" style="width:300px;height:300px; margin: 0 auto;">
         </div>
-    </div>
+        <span id="error" class="center"></span>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock %}
 
 {% block other-script %}
+    <script src="{% static "manager/bower_components/html5-qrcode/lib/jsqrcode-combined.min.js" %}"></script>
+    <script src="{% static "manager/bower_components/html5-qrcode/lib/html5-qrcode.min.js" %}"></script>
     <script>
         $(document).ready(function() {
 
@@ -56,5 +76,23 @@
                 'event_slug': event
             };
         });
+        $('#QRModal').on('show.bs.modal', function (e) {
+          $('#qr_reader').empty();//Prevents stacking
+          $('#qr_reader').html5_qrcode(function(data){
+          			//Llamar vista correspondiente
+                var url = $(location).attr('href');
+                $(location).attr("href", url+'/'+data);
+          		},
+              //Puedo poner los trans aca?
+          		function(error){
+          			$('#error').html("Problem reading QR. Try manually");
+          		}, function(videoError){
+          			$('#vid_error').html("Problem with camara. Please, enable access or try manual entry.");
+          		}
+          	);
+          });
+          $('#QRModal').on('hidden.bs.modal', function (e) {
+            $('#qr_reader').html5_qrcode_stop()
+          });
     </script>
 {% endblock %}
