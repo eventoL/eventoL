@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-09 12:52+0000\n"
+"POT-Creation-Date: 2016-04-10 07:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,37 +11,37 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: manager/forms.py:30
+#: manager/forms.py:30 manager/forms.py:54
 msgid "Search Attendee"
 msgstr "Buscar Asistente"
 
-#: manager/forms.py:55
+#: manager/forms.py:79
 msgid "Type to search"
 msgstr "Tipea para buscar"
 
-#: manager/forms.py:56 manager/models.py:147 manager/models.py:423
+#: manager/forms.py:80 manager/models.py:147 manager/models.py:423
 msgid "User"
 msgstr "Usuario"
 
-#: manager/forms.py:143
+#: manager/forms.py:168
 msgid "Bringing a device for installation?"
 msgstr "Llevas un dispositivo para instalar?"
 
-#: manager/forms.py:145
+#: manager/forms.py:170
 msgid "i.e. Wath kind of PC are you bringing? Leave blank if doesn't apply"
 msgstr ""
 "x.ej. Qué clase de dispositivo llevas para instalar? Dejar en blanco si no "
 "aplica."
 
-#: manager/forms.py:223
+#: manager/forms.py:248
 msgid "This field is required"
 msgstr "Este campo es obligatorio"
 
-#: manager/forms.py:292 manager/forms.py:335 manager/models.py:121
+#: manager/forms.py:317 manager/forms.py:360 manager/models.py:121
 msgid "First Name"
 msgstr "Nombre"
 
-#: manager/forms.py:293 manager/forms.py:336 manager/models.py:122
+#: manager/forms.py:318 manager/forms.py:361 manager/models.py:122
 msgid "Last Name"
 msgstr "Apellido"
 
