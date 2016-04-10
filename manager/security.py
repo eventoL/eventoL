@@ -99,7 +99,7 @@ def is_organizer(user, event_slug=None, *args, **kwargs):
 def is_collaborator(user, event_slug=None, *args, **kwargs):
     return event_slug and (
         Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
-        is_collaborator(user, event_slug=event_slug))
+        is_organizer(user, event_slug=event_slug))
 
 
 def user_passes_test(test_func, name_redirect):
