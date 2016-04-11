@@ -53,5 +53,5 @@ class Schedule(object):
         return room_activities
 
     def activity_size(self, start, end):
-        minutes = int((end - start).total_seconds()) / 60
+        minutes = (end - start).total_seconds() / 60
         return minutes * 100 / self.total_minutes
