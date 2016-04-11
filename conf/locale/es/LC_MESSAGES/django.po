@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-11 18:47+0000\n"
+"POT-Creation-Date: 2016-04-11 18:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1532,29 +1532,29 @@ msgstr ""
 "propuestas a través de esta página. Por favor, ponte en contacto con el "
 "equipo de organización del evento para enviarla."
 
-#: manager/views.py:224 manager/views.py:284
+#: manager/views.py:224 manager/views.py:285
 msgid "The proposal couldn't be registered (check form errors)"
 msgstr ""
 "La propuesta no se pudo registrar (verifica los errores en el formulario)"
 
-#: manager/views.py:252
+#: manager/views.py:253
 msgid "The activity has been registered successfully"
 msgstr "La actividad se ha registrado exitosamente!"
 
-#: manager/views.py:257
+#: manager/views.py:258
 msgid "The activity couldn't be registered (check form errors)"
 msgstr ""
 "La actividad no se pudo registrar (verifica los errores en el formulario)"
 
-#: manager/views.py:279
+#: manager/views.py:280
 msgid "Please crop or upload a new image."
 msgstr "Recorta la imagen o sube una nueva."
 
-#: manager/views.py:282
+#: manager/views.py:283
 msgid "The proposal has been registered successfully!"
 msgstr "La propuesta se ha registrado exitosamente!"
 
-#: manager/views.py:293
+#: manager/views.py:294
 msgid ""
 "The schedule is not confirmed yet. Meanwhile, you can see the list of "
 "activity proposals."
@@ -1562,7 +1562,7 @@ msgstr ""
 "El cronograma de actividades todavía no está confirmado. Mientras tanto, se "
 "muestra la lista de actividades propuestas hasta el momento."
 
-#: manager/views.py:304
+#: manager/views.py:305
 msgid ""
 "You don't have any confirmed activities. Please confirm the activities first "
 "and then confirm the schedule"
@@ -1570,84 +1570,84 @@ msgstr ""
 "No tienes actividades confirmadas. Por favor confirma alguna actividad y "
 "luego confirma el cronograma"
 
-#: manager/views.py:371
+#: manager/views.py:372
 msgid "The presentation has been uploaded successfully!"
 msgstr "La presentación ha sido subida exitosamente!"
 
-#: manager/views.py:373
+#: manager/views.py:374
 msgid "The presentation couldn't be uploaded (check form errors)"
 msgstr ""
 "No se pudo subir la presentación (verifica los errores en el formulario)"
 
-#: manager/views.py:387
+#: manager/views.py:388
 msgid "The attendee has already been registered correctly."
 msgstr "El asistente se ha registrado exitosamente!"
 
-#: manager/views.py:391
+#: manager/views.py:392
 msgid "The attendee has been successfully registered. Happy Hacking!"
 msgstr "El asistente se ha registrado exitosamente!"
 
-#: manager/views.py:395 manager/views.py:479
+#: manager/views.py:396 manager/views.py:480
 msgid "The attendee couldn't be registered (check form errors)"
 msgstr ""
 "No se pudo registrar el asistente (verifica los errores en el formulario)"
 
-#: manager/views.py:411
+#: manager/views.py:412
 #, python-format
 msgid "%s has been successfully added as an Organizer."
 msgstr "%s ha sido añadido como organizador."
 
-#: manager/views.py:414 manager/views.py:435
+#: manager/views.py:415 manager/views.py:436
 msgid "Something went wrong (please check form errors)"
 msgstr "Algo malió sal (verifica los errores en el formulario)"
 
-#: manager/views.py:432
+#: manager/views.py:433
 #, python-format
 msgid "%s has been successfully added to manage attendance."
 msgstr "%s ha sido añadido como miembro de registración."
 
-#: manager/views.py:459
+#: manager/views.py:460
 msgid "The attendee has registered for this event, use correct form"
 msgstr "El asistente ya está registrado para este evento."
 
-#: manager/views.py:462
+#: manager/views.py:463
 msgid "Email already registered for this event"
 msgstr "Email ya registrado para este evento."
 
-#: manager/views.py:475
+#: manager/views.py:476
 msgid "The attendee was successfully registered . Happy Hacking!"
 msgstr "El asistente se ha registrado existosamente!"
 
-#: manager/views.py:490
+#: manager/views.py:491
 msgid "Message received from "
 msgstr "Mensaje recibido de "
 
-#: manager/views.py:491
+#: manager/views.py:492
 msgid "User email: "
 msgstr "Email del usuario: "
 
-#: manager/views.py:495
+#: manager/views.py:496
 msgid "eventoL Contact Message from "
 msgstr "Mensaje de contacto de eventoL de "
 
-#: manager/views.py:503
+#: manager/views.py:504
 msgid "The message has been sent. You will receive a reply by email"
 msgstr ""
 "El mensaje ha sido enviado. Recibirás una respueta por correo electrónico"
 
-#: manager/views.py:505
+#: manager/views.py:506
 msgid ""
 "There was a problem sending your message. Please try again in a few minutes."
 msgstr ""
 "Hubo un problema al enviar tu mensaje. Por favor intenta nuevamente en unos "
 "minutos."
 
-#: manager/views.py:618
+#: manager/views.py:619
 #, python-format
 msgid "Ticket for %(event_name)s event"
 msgstr "Entrada para el evento FLISoL %(event_name)s"
 
-#: manager/views.py:619
+#: manager/views.py:620
 #, python-format
 msgid ""
 "Hello %(first_name)s %(last_name)s,\n"
@@ -1660,57 +1660,57 @@ msgstr ""
 "imprimirla y traerla el dia del evento. \n"
 " Saludos, el equipo de FLISoL %(event_name)s."
 
-#: manager/views.py:649
+#: manager/views.py:650
 msgid "You are already registered for this event"
 msgstr "Ya estas registrado en este evento."
 
-#: manager/views.py:676
+#: manager/views.py:677
 msgid ". Please check your email for the corresponding ticket."
 msgstr " Por favor, comprueba tu email para acceder a la entrada."
 
-#: manager/views.py:678
+#: manager/views.py:679
 msgid ""
 " but we couldn't send you your ticket. Please, check it out from the menu."
 msgstr ""
 " Sin embargo, no pudimos enviar su entrada por email.puede verla desde el "
 "menu."
 
-#: manager/views.py:696
+#: manager/views.py:697
 msgid "You have successfully registered to attend"
 msgstr "Te has registrado exitosamente para asistir!"
 
-#: manager/views.py:697 manager/views.py:706 manager/views.py:715
+#: manager/views.py:698 manager/views.py:707 manager/views.py:716
 msgid "There is a problem with the registration (check form errors)"
 msgstr ""
 "Hay algún problema con los datos ingresados (verifica los errores en el "
 "formulario) "
 
-#: manager/views.py:705
+#: manager/views.py:706
 msgid "You have successfully registered as an installer"
 msgstr "Te has registrado exitosamente como instalador!"
 
-#: manager/views.py:714
+#: manager/views.py:715
 msgid "You have successfully registered as a collaborator"
 msgstr "Te has registrado exitosamente como colaborador"
 
-#: manager/views.py:756 manager/views.py:786
+#: manager/views.py:757 manager/views.py:787
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
 "Hay algún problema con los datos ingresados (verifica los errores en el "
 "formulario) "
 
-#: manager/views.py:807
+#: manager/views.py:808
 msgid ""
 "The room hasn't been removed successfully because the room has confirmed "
 "activities."
 msgstr ""
 "La sala no se ha borrado exitosamente ya que posee actividades confirmadas"
 
-#: manager/views.py:810
+#: manager/views.py:811
 msgid "The room has been removed successfully!"
 msgstr "La sala se ha borrado exitosamente"
 
-#: manager/views.py:829
+#: manager/views.py:830
 msgid "The room has been added successfully!"
 msgstr "La sala se ha agregado exitosamente"
 
