@@ -1579,7 +1579,7 @@ msgstr ""
 
 #: manager/views.py:406 manager/views.py:430
 msgid "The attendee has already been registered correctly."
-msgstr "El asistente se ha registrado exitosamente!"
+msgstr "El asistente ya habia sido registrado."
 
 #: manager/views.py:410 manager/views.py:434
 msgid "The attendee has been successfully registered. Happy Hacking!"
