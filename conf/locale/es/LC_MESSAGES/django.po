@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-11 18:59+0000\n"
+"POT-Creation-Date: 2016-04-11 19:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1086,15 +1086,15 @@ msgstr "Editar propuesta"
 msgid "Edit Talk"
 msgstr "Editar Actividad"
 
-#: manager/templates/activities/talks/detail.html:79
+#: manager/templates/activities/talks/detail.html:78
 msgid "Upload Presentation"
 msgstr "Subir Presentación"
 
-#: manager/templates/activities/talks/detail.html:91
+#: manager/templates/activities/talks/detail.html:90
 msgid "Download/View presentation"
 msgstr "Bajar/Ver presentación"
 
-#: manager/templates/activities/talks/detail.html:142
+#: manager/templates/activities/talks/detail.html:141
 msgid "Cancel my vote"
 msgstr "Cancelar mi voto"
 
