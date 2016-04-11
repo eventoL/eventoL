@@ -13,14 +13,19 @@ class EventoLAdmin(admin.ModelAdmin):
         return queryset.filter(event=event)
 
     def queryset(self, request):
-        queryset = super(EventoLAdmin, self).queryset(request)
+        self.get_queryset(request)
+
+    def get_queryset(self, request):
+        queryset = super(EventoLAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return queryset
         reporters = create_reporters_group()
         if request.user.groups.filter(name=reporters.name).exists():
             return queryset
-        organizer = Organizer.objects.get(eventUser__user=request.user)
-        return self.filter_event(organizer.eventUser.event, queryset)
+        organizer = Organizer.objects.filter(eventUser__user=request.user).first()
+        if organizer:
+            return self.filter_event(organizer.eventUser.event, queryset)
+        return queryset.none()
 
 
 class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
