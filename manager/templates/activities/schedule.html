@@ -30,12 +30,12 @@
                         {% else %}
                             <div class="schedule-talk" style="height: {{ activity.activity_size }}%">
                                 {% if activity.activity_size < 3 %}
-                                    {% if activity.is_talk %}<a href='{% url "talk_detail" event_slug activity.pk %}'>{% endif %}
+                                    {% if activity.is_talk %}<a href='{% url "activity_detail" event_slug activity.pk %}'>{% endif %}
                                         <strong>
                                             {{ activity.title|title|truncatechars:10 }} {{ activity.schedule }}</strong><br>
                                     {% if activity.is_talk %}</a>{% endif %}
                                 {% else %}
-                                    {% if activity.is_talk %}<a href='{% url "talk_detail" event_slug activity.pk %}'>{% endif %}
+                                    {% if activity.is_talk %}<a href='{% url "activity_detail" event_slug activity.pk %}'>{% endif %}
                                         <strong>
                                             {{ activity.title|title|truncatechars:50 }}</strong><br>
                                     {% if activity.is_talk %}</a>{% endif %}
