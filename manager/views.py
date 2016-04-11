@@ -241,7 +241,8 @@ def activity(request, event_slug, pk=None):
     forms = [activity_form]
 
     if request.POST:
-        if activity_form.is_valid() and room_available(request, activity_form.instance, event_slug):
+        if activity_form.is_valid() and \
+                Activity.room_available(request=request, instance=activity_form.instance, event_slug=event_slug):
             try:
                 activity = activity_form.save()
                 activity.confirmed = True
