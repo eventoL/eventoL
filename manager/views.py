@@ -326,6 +326,11 @@ def activities(request, event_slug):
                                                  'event': event}, event))
 
 
+def activity_detail(request, event_slug, pk):
+    proposal = TalkProposal.objects.get(activity__pk=pk)
+    return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
+
+
 def talk_detail(request, event_slug, pk):
     return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, pk)))
 
