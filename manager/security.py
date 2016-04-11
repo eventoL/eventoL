@@ -49,7 +49,7 @@ def create_organizers_group():
                  'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
                  'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
                  'delete_installation']
-        organizers = Group.objects.create(name__iexact='Organizers')
+        organizers = Group.objects.create(name='Organizers')
         for perm in perms:
             organizers.permissions.add(Permission.objects.get(codename=perm))
 
@@ -73,7 +73,7 @@ def create_reporters_group():
                  'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
                  'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
                  'delete_installation']
-        reporters = Group.objects.create(name__iexact='Reporters')
+        reporters = Group.objects.create(name='Reporters')
         for perm in perms:
             reporters.permissions.add(Permission.objects.get(codename=perm))
 

@@ -22,7 +22,10 @@ class ApiTest(unittest.TestCase):
             raise unittest.SkipTest("Skip ApiTest tests, it's a base test class")
         cls.client = Client()
         cls.api_client = APIClient()
-        cls.admin = autofixture.create_one('auth.User', field_values={'is_superuser': True, 'is_staff': True})
+        cls.admin = autofixture.create_one('auth.User', field_values={
+            'is_active': True, 'is_superuser': True, 'is_staff': True})
+        cls.admin.set_password('secret')
+        cls.admin.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -36,8 +39,8 @@ class ApiTest(unittest.TestCase):
             for fk_model in self.fk_models:
                 autofixture.create_one(fk_model)
         self.example_generate = autofixture.create_one(self.str_model, field_values=self.example)
-        self.client.login(username=self.admin.username, password=self.admin.password)
-        self.api_client.login(username=self.admin.username, password=self.admin.password)
+        self.client.login(username=self.admin.username, password='secret')
+        self.api_client.login(username=self.admin.username, password='secret')
 
     def tearDown(self):
         self.client.logout()
@@ -83,15 +86,11 @@ class ApiTest(unittest.TestCase):
         response = self.client.get(self.url_base)
         self.assertEqual(response.status_code, 200)
 
-    # def test_create_example_for_api_status_code(self):
-    #     self.example_generate.delete()
-    #     response = self.api_client.post(self.url_base, self.example)
-    #     self.assertEqual(response.status_code, 200)
-    #
-    # def test_create_example_for_api_instance(self):
-    #     self.example_generate.delete()
-    #     response = self.client.post(self.url_base, self.example)
-    #     self.assertEqual(response.data, 200)
+    def test_if_logout_get_url_base_return_403(self):
+        self.client.logout()
+        self.api_client.logout()
+        response = self.client.get(self.url_base)
+        self.assertEqual(response.status_code, 403)
 
 
 class ApiTestBuilder():
@@ -171,6 +170,16 @@ class ApiTestBuilder():
             self.assertEqual(reduce, self.reduce(self.model.objects.all()))
         return "test_reduce", test
 
+    def reduce_tests_not_login(self):
+        def test(self):
+            self.client.logout()
+            self.api_client.logout()
+            url = self.get_reduce_url()
+            response = self.client.get(url)
+            reduce = json.loads(response.content)
+            self.assertDictEqual(reduce, {u'detail': u'Authentication credentials were not provided.'})
+        return "test_reduce_with_user_logout", test
+
     def suite_filter_fields_tests(self):
         for filter_field in self.target_cls.filter_fields:
             fields_tests = [self.generate_filter_field_get_object, self.generate_filter_field_get_list, self.generate_filter_field_check_filter]
@@ -178,6 +187,8 @@ class ApiTestBuilder():
                 test_name, test = field_test(filter_field)
                 self.add_test(test_name, test)
         test_name, test = self.reduce_tests()
+        self.add_test(test_name, test)
+        test_name, test = self.reduce_tests_not_login()
         self.add_test(test_name, test)
 
 
