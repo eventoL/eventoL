@@ -1,5 +1,6 @@
 # encoding: UTF-8
 import datetime
+from manager.models import TalkProposal
 
 
 class Schedule(object):
@@ -41,6 +42,7 @@ class Schedule(object):
         activities = [activity for activity in self.activities if activity.room == room]
         activities.sort()
         for activity in activities:
+            setattr(activity, 'is_talk', TalkProposal.objects.filter(activity=activity).exists())
             if activity.start_date.time() > date_anterior.time():
                 room_activities.append({'dummy': True, 'dummy_size': self.activity_size(date_anterior, activity.start_date)})
             activity.activity_size = self.activity_size(activity.start_date, activity.end_date)
