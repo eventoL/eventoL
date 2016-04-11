@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-10 07:22+0000\n"
+"POT-Creation-Date: 2016-04-10 19:31-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -278,7 +278,7 @@ msgstr "Cualquier información que considere relevante para la organización"
 msgid "Collaborator"
 msgstr "Colaborador"
 
-#: manager/models.py:179 manager/templates/base-main.html:78
+#: manager/models.py:179 manager/templates/base-main.html:79
 #: manager/templates/reports/dashboard.html:47
 #: manager/templates/reports/dashboard.html:156
 msgid "Collaborators"
@@ -699,7 +699,7 @@ msgstr ""
 #: manager/templates/account/login.html:5
 #: manager/templates/account/login.html:6
 #: manager/templates/account/login.html:35
-#: manager/templates/account/login.html:39 manager/templates/base-main.html:156
+#: manager/templates/account/login.html:39 manager/templates/base-main.html:157
 msgid "Login"
 msgstr "Iniciar Sesión"
 
@@ -738,7 +738,7 @@ msgstr "Olvidaste tu contraseña?"
 #: manager/templates/account/logout.html:3
 #: manager/templates/account/logout.html:4
 #: manager/templates/account/logout.html:19
-#: manager/templates/base-main.html:185
+#: manager/templates/base-main.html:186
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
@@ -754,7 +754,7 @@ msgstr "Estás seguro que deseas cerrar sesión?"
 #: manager/templates/account/password_reset_from_key.html:4
 #: manager/templates/account/password_reset_from_key.html:8
 #: manager/templates/account/password_reset_from_key_done.html:10
-#: manager/templates/base-main.html:180
+#: manager/templates/base-main.html:181
 msgid "Change Password"
 msgstr "Cambiar Contraseña"
 
@@ -822,37 +822,41 @@ msgstr "cambiar contraseña"
 #: manager/templates/account/password_set.html:4
 #: manager/templates/account/password_set.html:8
 #: manager/templates/account/password_set.html:12
-#: manager/templates/base-main.html:174
+#: manager/templates/base-main.html:175
 msgid "Set Password"
 msgstr "Establecer Contraseña"
 
-#: manager/templates/account/profile.html:14
+#: manager/templates/account/profile.html:13
+msgid "Home"
+msgstr "Inicio"
+
+#: manager/templates/account/profile.html:23
 #, python-format
 msgid "Welcome, %(user_display)s!"
 msgstr "Bienvenido, %(user_display)s!"
 
-#: manager/templates/account/profile.html:18
+#: manager/templates/account/profile.html:27
 msgid "Username:"
 msgstr "Nombre de Usuario"
 
-#: manager/templates/account/profile.html:19
+#: manager/templates/account/profile.html:28
 msgid "First Name:"
 msgstr "Nombre"
 
-#: manager/templates/account/profile.html:20
+#: manager/templates/account/profile.html:29
 msgid "Last Name:"
 msgstr "Apellido"
 
-#: manager/templates/account/profile.html:21
+#: manager/templates/account/profile.html:30
 msgid "Email:"
 msgstr "Correo Electrónico"
 
-#: manager/templates/account/profile.html:29
+#: manager/templates/account/profile.html:38
 #: manager/templates/socialaccount/snippets/account_connections.html:2
 msgid "Account Connections"
 msgstr "Conexiones de cuenta"
 
-#: manager/templates/account/profile.html:33
+#: manager/templates/account/profile.html:42
 msgid ""
 "You can sign in to your account using any of the following third party\n"
 "                        accounts:"
@@ -860,7 +864,7 @@ msgstr ""
 "Puedes iniciar sesión usando cualquiera de los siguientes\n"
 "                        proveedores:"
 
-#: manager/templates/account/profile.html:47
+#: manager/templates/account/profile.html:56
 msgid ""
 "You don't have any social account connected. You can connect one\n"
 "                        below"
@@ -868,7 +872,7 @@ msgstr ""
 "No tienes ninguna cuenta social conectada. Puedes conectar una\n"
 "                        abajo"
 
-#: manager/templates/account/profile.html:57
+#: manager/templates/account/profile.html:66
 #: manager/templates/socialaccount/connections.html:17
 msgid "Add a 3rd Party Account"
 msgstr "Agregar una cuenta social"
@@ -1094,75 +1098,75 @@ msgstr "Puntaje: "
 msgid "Score"
 msgstr "Puntaje"
 
-#: manager/templates/base-main.html:52
+#: manager/templates/base-main.html:53
 msgid "Manage event"
 msgstr "Administrar evento"
 
-#: manager/templates/base-main.html:57
+#: manager/templates/base-main.html:58
 msgid "Registration"
 msgstr "Registrame"
 
-#: manager/templates/base-main.html:62
+#: manager/templates/base-main.html:63
 msgid "Schedule"
 msgstr "Cronograma"
 
-#: manager/templates/base-main.html:66
+#: manager/templates/base-main.html:67
 msgid "View Ticket"
 msgstr "Ver mi entrada"
 
-#: manager/templates/base-main.html:72
+#: manager/templates/base-main.html:73
 msgid "Submit your talk"
 msgstr "Proponé tu Actividad!"
 
-#: manager/templates/base-main.html:83
+#: manager/templates/base-main.html:84
 msgid "Activities List"
 msgstr "Lista de actividades"
 
-#: manager/templates/base-main.html:88
+#: manager/templates/base-main.html:89
 msgid "View Reports"
 msgstr "Ver reportes"
 
-#: manager/templates/base-main.html:93
+#: manager/templates/base-main.html:94
 msgid "Register as a Collaborator"
 msgstr "Registrame como colaborador"
 
-#: manager/templates/base-main.html:99
+#: manager/templates/base-main.html:100
 msgid "Register as an Installer"
 msgstr "Registrarme como instalador"
 
-#: manager/templates/base-main.html:106
+#: manager/templates/base-main.html:107
 msgid "Manage Attendance"
 msgstr "Administrar asistencia"
 
-#: manager/templates/base-main.html:113
+#: manager/templates/base-main.html:114
 msgid "Submit an installation"
 msgstr "Cargar una instalación"
 
-#: manager/templates/base-main.html:120
+#: manager/templates/base-main.html:121
 msgid "Manage Organizers"
 msgstr "Administrar organizadores"
 
-#: manager/templates/base-main.html:125
+#: manager/templates/base-main.html:126
 msgid "Manage Registration People"
 msgstr "Administrar miembros de registración"
 
-#: manager/templates/base-main.html:130
+#: manager/templates/base-main.html:131
 msgid "Manage Rooms"
 msgstr "Administrar Salas"
 
-#: manager/templates/base-main.html:139
+#: manager/templates/base-main.html:140
 msgid "Follow Us!"
 msgstr "Síguenos!"
 
-#: manager/templates/base-main.html:148
+#: manager/templates/base-main.html:149
 msgid "Contact Us!"
 msgstr "Contactanos!"
 
-#: manager/templates/base-main.html:168
+#: manager/templates/base-main.html:169
 msgid "Profile"
 msgstr "Perfil"
 
-#: manager/templates/base-main.html:213
+#: manager/templates/base-main.html:214
 msgid "You have the power!"
 msgstr "You have the power!"
 

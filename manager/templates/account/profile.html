@@ -6,8 +6,17 @@
 {% user_display user as user_display %}
 {% get_social_accounts user as accounts %}
 
-{% block content %}
+{% block extra-nav %}
+<ul class="nav navbar-nav">
+  <li>
+    <a href="/">
+      {% trans "Home" %}
+    </a>
+  </li>
+</ul>
+{% endblock %}
 
+{% block content %}
     <div class="well">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
