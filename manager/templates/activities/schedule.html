@@ -23,7 +23,7 @@
         {% for room in schedule.rooms %}
             <div class="col-md-{{ schedule.rooms|schedule_cols_other }}">
                 <div class="row alert schedule-room"><strong>{{ room.name|title }}</strong></div>
-                <div style="height: {{ schedule.size }}px;">
+                <div style="height: {{ schedule.size }}px; font-size: 14px">
                     {% for activity in room.activities %}
                         {% if 'dummy' in activity %}
                             <div class="schedule-dummy hidden-sm hidden-xs" style="height: {{ activity.dummy_size }}%;"></div>
