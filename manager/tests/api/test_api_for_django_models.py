@@ -9,9 +9,7 @@ class TestApiUser():
     str_model = 'auth.User'
     model = User
     url_base = '/api/users/'
-    filter_fields = ['username', 'email', 'is_staff']
+    filter_fields = ['username']
     example = {
         'username': 'Example username',
-        'email': 'exaple@example.com',
-        'is_staff': True
     }

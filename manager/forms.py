@@ -261,6 +261,13 @@ class ActivityForm(ModelForm):
         }
 
 
+class ActivityAdminForm(ModelForm):
+    def clean(self):
+        obj = self.instance
+        if obj.start_date or obj.end_date:
+            Activity.room_available(error=True, instance=obj, event_slug=obj.event.slug)
+
+
 class ActivityCompleteForm(ModelForm):
     class Meta(object):
         model = Activity
