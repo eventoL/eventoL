@@ -2,6 +2,7 @@ from manager.security import create_reporters_group
 from manager.models import Organizer, Comment, Event, TalkProposal, Attendee, Collaborator, Hardware,\
     Software, Installer, Installation, TalkType, Room, ContactType, Contact, Activity,\
     ContactMessage, EventUser, Image, InstallationAttendee, NonRegisteredAttendee, Speaker
+from manager.forms import ActivityAdminForm
 from import_export import resources
 from django.contrib.gis import admin
 from import_export.admin import ExportMixin
@@ -13,14 +14,19 @@ class EventoLAdmin(admin.ModelAdmin):
         return queryset.filter(event=event)
 
     def queryset(self, request):
-        queryset = super(EventoLAdmin, self).queryset(request)
+        self.get_queryset(request)
+
+    def get_queryset(self, request):
+        queryset = super(EventoLAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return queryset
         reporters = create_reporters_group()
         if request.user.groups.filter(name=reporters.name).exists():
             return queryset
-        organizer = Organizer.objects.get(eventUser__user=request.user)
-        return self.filter_event(organizer.eventUser.event, queryset)
+        organizer = Organizer.objects.filter(eventUser__user=request.user).first()
+        if organizer:
+            return self.filter_event(organizer.eventUser.event, queryset)
+        return queryset.none()
 
 
 class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
@@ -101,6 +107,10 @@ class AttendeeAdmin(EventoLEventUserAdmin):
     resource_class = AttendeeResource
 
 
+class ActivityAdmin(EventoLAdmin):
+    form = ActivityAdminForm
+
+
 class CollaboratorResource(resources.ModelResource):
     class Meta(object):
         model = Collaborator
@@ -128,7 +138,7 @@ admin.site.register(TalkType)
 admin.site.register(Room, EventoLAdmin)
 admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
-admin.site.register(Activity, EventoLAdmin)
+admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ContactMessage, EventoLAdmin)
 admin.site.register(EventUser, EventoLAdmin)
 admin.site.register(Image)

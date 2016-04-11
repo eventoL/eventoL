@@ -218,7 +218,7 @@
                             <div class="panel-heading">
                                 <h4 class="panel-title">
                                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
-                                       href="#activity-{{ forloop.counter }}">
+                                       href="#activity-proposal-{{ forloop.counter }}">
                                         {{ activity.title }} - {{ activity.schedule }}
                                         <i class="indicator fa fa-chevron-down pull-right"></i>
                                     </a>
@@ -229,11 +229,11 @@
                                     {% endif %}
                                 </h4>
                             </div>
-                            <div id="activity-{{ forloop.counter }}" class="panel-collapse collapse">
+                            <div id="activity-proposal-{{ forloop.counter }}" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-sm-8">
-                                            <div id="activity-info-{{ forloop.counter }}">
+                                            <div id="activity-proposal-info-{{ forloop.counter }}">
                                                 <p><strong>{% trans "Abstract" %}:</strong> {{ activity.abstract }}</p>
 
                                                 <p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names|title }}</p>
