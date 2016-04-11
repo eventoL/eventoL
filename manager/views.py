@@ -341,7 +341,7 @@ def talk_delete(request, event_slug, pk):
 def proposal_detail(request, event_slug, pk):
     proposal = TalkProposal.objects.get(pk=pk)
     comments = Comment.objects.filter(activity=proposal.activity)
-    render_dict = dict(comments=comments, comment_form=CommentForm(), user=request.user, proposal=proposal)
+    render_dict = dict(comments=comments, comment_form=CommentForm(), proposal=proposal)
     vote = Vote.objects.get_for_user(proposal, request.user)
     score = Vote.objects.get_score(proposal)
     if vote or score:
