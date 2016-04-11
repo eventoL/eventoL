@@ -2,6 +2,7 @@ from manager.security import create_reporters_group
 from manager.models import Organizer, Comment, Event, TalkProposal, Attendee, Collaborator, Hardware,\
     Software, Installer, Installation, TalkType, Room, ContactType, Contact, Activity,\
     ContactMessage, EventUser, Image, InstallationAttendee, NonRegisteredAttendee, Speaker
+from manager.forms import ActivityAdminForm
 from import_export import resources
 from django.contrib.gis import admin
 from import_export.admin import ExportMixin
@@ -106,6 +107,10 @@ class AttendeeAdmin(EventoLEventUserAdmin):
     resource_class = AttendeeResource
 
 
+class ActivityAdmin(EventoLAdmin):
+    form = ActivityAdminForm
+
+
 class CollaboratorResource(resources.ModelResource):
     class Meta(object):
         model = Collaborator
@@ -133,7 +138,7 @@ admin.site.register(TalkType)
 admin.site.register(Room, EventoLAdmin)
 admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
-admin.site.register(Activity, EventoLAdmin)
+admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ContactMessage, EventoLAdmin)
 admin.site.register(EventUser, EventoLAdmin)
 admin.site.register(Image)
