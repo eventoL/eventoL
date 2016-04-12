@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-11 19:19+0000\n"
+"POT-Creation-Date: 2016-04-12 03:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr "Buscar Asistente"
 msgid "Type to search"
 msgstr "Tipea para buscar"
 
-#: manager/forms.py:80 manager/models.py:148 manager/models.py:457
+#: manager/forms.py:80 manager/models.py:148 manager/models.py:455
 msgid "User"
 msgstr "Usuario"
 
@@ -122,7 +122,7 @@ msgid "Place"
 msgstr "Lugar"
 
 #: manager/models.py:71 manager/models.py:92 manager/models.py:287
-#: manager/models.py:313 manager/models.py:399
+#: manager/models.py:313 manager/models.py:397
 #: manager/templates/room/rooms.html:22
 msgid "Name"
 msgstr "Nombre"
@@ -156,7 +156,7 @@ msgstr "No validar"
 msgid "Icon Class"
 msgstr "Clase CSS del ícono"
 
-#: manager/models.py:94 manager/models.py:252 manager/models.py:427
+#: manager/models.py:94 manager/models.py:252 manager/models.py:425
 msgid "Level"
 msgstr "Nivel "
 
@@ -293,7 +293,7 @@ msgstr "Organizador"
 msgid "Organizers"
 msgstr "Organizadores"
 
-#: manager/models.py:204 manager/models.py:483
+#: manager/models.py:204 manager/models.py:481
 #: manager/templates/reports/dashboard.html:25
 msgid "Attendee"
 msgstr "Asistente"
@@ -314,17 +314,17 @@ msgstr "Asistente para instalar"
 msgid "Installation Attendees"
 msgstr "Asistentes para instalar"
 
-#: manager/models.py:246 manager/models.py:411
+#: manager/models.py:246 manager/models.py:409
 #: manager/templates/reports/dashboard.html:185
 msgid "Beginner"
 msgstr "Principiante"
 
-#: manager/models.py:247 manager/models.py:412
+#: manager/models.py:247 manager/models.py:410
 #: manager/templates/reports/dashboard.html:186
 msgid "Medium"
 msgstr "Medio"
 
-#: manager/models.py:248 manager/models.py:413
+#: manager/models.py:248 manager/models.py:411
 #: manager/templates/reports/dashboard.html:187
 msgid "Advanced"
 msgstr "Avanzado"
@@ -337,7 +337,7 @@ msgstr "Super Hacker"
 msgid "Knowledge level for an installation"
 msgstr "Conocimiento que tiene para realizar una instalación"
 
-#: manager/models.py:256 manager/models.py:485
+#: manager/models.py:256 manager/models.py:483
 msgid "Installer"
 msgstr "Instalador"
 
@@ -376,7 +376,7 @@ msgstr "Soporte y resolución de problemas"
 msgid "Other"
 msgstr "Otro"
 
-#: manager/models.py:288 manager/models.py:303 manager/models.py:416
+#: manager/models.py:288 manager/models.py:303 manager/models.py:414
 #: manager/templates/activities/activities_home.html:71
 #: manager/templates/activities/activities_home.html:130
 #: manager/templates/activities/activities_home.html:243
@@ -461,19 +461,19 @@ msgstr "Hora de Inicio"
 msgid "End Time"
 msgstr "Hora de Fin"
 
-#: manager/models.py:338
+#: manager/models.py:345
 msgid ""
 "The talk couldn't be registered because the schedule not available (start "
 "time equals end time)"
 msgstr "Error: La hora de inicio es igual a la de fin."
 
-#: manager/models.py:345
+#: manager/models.py:349
 msgid ""
 "The talk couldn't be registered because the schedule is not available (start "
 "time is after end time)"
 msgstr "Error: La hora de inicio es posterior a la de fin."
 
-#: manager/models.py:359
+#: manager/models.py:360
 msgid ""
 "The talk couldn't be registered because the room or the schedule is not "
 "available"
@@ -481,75 +481,75 @@ msgstr ""
 "La actividad no se pudo registrar porque la sala o el horario no están "
 "disponibles"
 
-#: manager/models.py:376
+#: manager/models.py:374
 msgid "Schedule not confirmed yet"
 msgstr "Cronograma no confirmado aún"
 
-#: manager/models.py:391 manager/templates/activities/activity.html:15
+#: manager/models.py:389 manager/templates/activities/activity.html:15
 #: manager/templates/activities/activity.html:17
 #: manager/templates/activities/activity.html:21
 msgid "Activity"
 msgstr "Actividad"
 
-#: manager/models.py:392 manager/templates/activities/activities_home.html:174
+#: manager/models.py:390 manager/templates/activities/activities_home.html:174
 msgid "Activities"
 msgstr "Actividades"
 
-#: manager/models.py:405
+#: manager/models.py:403
 msgid "Talk Type"
 msgstr "Tipo de Actividad"
 
-#: manager/models.py:406
+#: manager/models.py:404
 msgid "Talk Types"
 msgstr "Tipos de Actividad"
 
-#: manager/models.py:418
+#: manager/models.py:416
 msgid "Talk Confirmed"
 msgstr "Actividad Confirmada"
 
-#: manager/models.py:419
+#: manager/models.py:417
 msgid "Speakers Names"
 msgstr "Nombre de los disertantes"
 
-#: manager/models.py:420
+#: manager/models.py:418
 msgid "Comma separated speaker's names"
 msgstr "(Separados por coma) Nombre de los disertantes"
 
-#: manager/models.py:421
+#: manager/models.py:419
 msgid "Speakers Emails"
 msgstr "Correo electrónico de los disertantes"
 
-#: manager/models.py:422
+#: manager/models.py:420
 msgid "Comma separated speaker's emails"
 msgstr "(Separados por coma) Correo electrónico de los disertantes"
 
-#: manager/models.py:423 manager/templates/activities/activities_home.html:68
+#: manager/models.py:421 manager/templates/activities/activities_home.html:68
 #: manager/templates/activities/activities_home.html:127
 #: manager/templates/activities/activities_home.html:241
 #: manager/templates/activities/talks/detail.html:38
 msgid "Labels"
 msgstr "Etiquetas/Tags"
 
-#: manager/models.py:424
+#: manager/models.py:422
 msgid "Comma separated tags. i.e. Linux, Free Software, Debian"
 msgstr "(Separados por coma) x.ej. Linux, Software Libre, Debian"
 
-#: manager/models.py:425
+#: manager/models.py:423
 msgid "Presentation"
 msgstr "Presentación"
 
-#: manager/models.py:426
+#: manager/models.py:424
 msgid ""
 "Any material you are going to use for the talk (optional, but recommended)"
 msgstr ""
 "Cualquier material que vayas a usar para la actividad (opcional pero "
 "recomendado)"
 
-#: manager/models.py:428
+#: manager/models.py:426
 msgid "Talk's Technical level"
 msgstr "Nivel técnico de la actividad"
 
-#: manager/models.py:449 manager/templates/activities/talks/proposal.html:13
+#: manager/models.py:447 manager/templates/activities/talks/proposal.html:13
 #: manager/templates/activities/talks/proposal.html:15
 #: manager/templates/activities/talks/proposal.html:19
 #: manager/templates/activities/talks/proposal/image-cropping.html:11
@@ -558,43 +558,43 @@ msgstr "Nivel técnico de la actividad"
 msgid "Talk Proposal"
 msgstr "Propuesta de Actividad"
 
-#: manager/models.py:450
+#: manager/models.py:448
 msgid "Talk Proposals"
 msgstr "Propuestas de Actividad"
 
-#: manager/models.py:476
+#: manager/models.py:474
 msgid "Comment"
 msgstr "Comentario"
 
-#: manager/models.py:477 manager/templates/activities/talks/comments.html:4
+#: manager/models.py:475 manager/templates/activities/talks/comments.html:4
 msgid "Comments"
 msgstr "Comentarios"
 
-#: manager/models.py:481
+#: manager/models.py:479
 msgid "Hardware"
 msgstr "Hardware"
 
-#: manager/models.py:482
+#: manager/models.py:480
 msgid "Software"
 msgstr "Software"
 
-#: manager/models.py:484
+#: manager/models.py:482
 msgid "The owner of the installed hardware"
 msgstr "El dueño del dispositivo instalado"
 
-#: manager/models.py:487
+#: manager/models.py:485
 msgid "Notes"
 msgstr "Notas"
 
-#: manager/models.py:488
+#: manager/models.py:486
 msgid "Any information or trouble you found and consider relevant to document"
 msgstr "Cualquier información o problema que consideres relevante documentar"
 
-#: manager/models.py:500
+#: manager/models.py:498
 msgid "Installation"
 msgstr "Instalación"
 
-#: manager/models.py:501 manager/templates/event/index.html:162
+#: manager/models.py:499 manager/templates/event/index.html:162
 #: manager/templates/reports/dashboard.html:78
 #: manager/templates/reports/dashboard.html:212
 msgid "Installations"
@@ -1332,6 +1332,30 @@ msgstr "Cargar una instalación"
 msgid "Attendee Registration"
 msgstr "Registrar asistente"
 
+#: manager/templates/registration/attendee/search.html:42
+msgid "Register new attendee"
+msgstr "Registrar nuevo asistente"
+
+#: manager/templates/registration/attendee/search.html:43
+msgid "Mark as present"
+msgstr "Marcar como presente"
+
+#: manager/templates/registration/attendee/search.html:45
+msgid "Scan QR"
+msgstr "Escanear QR"
+
+#: manager/templates/registration/attendee/search.html:56
+msgid "Center the QR Code in the camera display below "
+msgstr "Centra el código QR en la cámara"
+
+#: manager/templates/registration/attendee/search.html:93
+msgid ""
+"There is a problem with the camera. Please, enable access or try manual "
+"entry."
+msgstr ""
+"Hay algún problema con la cámara. Por favor habilita el acceso o ingresa el "
+"código manualmente."
+
 #: manager/templates/registration/become_installer.html:3
 #: manager/templates/registration/become_installer.html:4
 #: manager/templates/registration/become_installer.html:8
@@ -1505,25 +1529,25 @@ msgstr ""
 "Puedes iniciar sesión utilizando alguno de los siguientes\n"
 "    proveedores:"
 
-#: manager/views.py:128
+#: manager/views.py:129
 msgid "The talk was registered successfully!"
 msgstr "La actividad se ha registrado exitosamente!"
 
-#: manager/views.py:140
+#: manager/views.py:141
 msgid "The talk couldn't be registered (check form errors)"
 msgstr ""
 "La actividad no se pudo registrar (verifica los errores en el formulario)"
 
-#: manager/views.py:171
+#: manager/views.py:172
 msgid "The installation has been registered successfully. Happy Hacking!"
 msgstr "La instalación se ha registrado existosamente. Happy Hacking!"
 
-#: manager/views.py:178
+#: manager/views.py:179
 msgid "The installation couldn't be registered (check form errors)"
 msgstr ""
 "La instalación no se pudo registrar (verifica los errores en el formulario)"
 
-#: manager/views.py:192
+#: manager/views.py:193
 msgid ""
 "The talk proposal is already close or the event is not accepting proposals "
 "through thispage. Please contact the Event Organization Team to submit it."
@@ -1532,29 +1556,29 @@ msgstr ""
 "propuestas a través de esta página. Por favor, ponte en contacto con el "
 "equipo de organización del evento para enviarla."
 
-#: manager/views.py:224 manager/views.py:285
+#: manager/views.py:225 manager/views.py:286
 msgid "The proposal couldn't be registered (check form errors)"
 msgstr ""
 "La propuesta no se pudo registrar (verifica los errores en el formulario)"
 
-#: manager/views.py:253
+#: manager/views.py:254
 msgid "The activity has been registered successfully"
 msgstr "La actividad se ha registrado exitosamente!"
 
-#: manager/views.py:258
+#: manager/views.py:259
 msgid "The activity couldn't be registered (check form errors)"
 msgstr ""
 "La actividad no se pudo registrar (verifica los errores en el formulario)"
 
-#: manager/views.py:280
+#: manager/views.py:281
 msgid "Please crop or upload a new image."
 msgstr "Recorta la imagen o sube una nueva."
 
-#: manager/views.py:283
+#: manager/views.py:284
 msgid "The proposal has been registered successfully!"
 msgstr "La propuesta se ha registrado exitosamente!"
 
-#: manager/views.py:294
+#: manager/views.py:295
 msgid ""
 "The schedule is not confirmed yet. Meanwhile, you can see the list of "
 "activity proposals."
@@ -1562,7 +1586,7 @@ msgstr ""
 "El cronograma de actividades todavía no está confirmado. Mientras tanto, se "
 "muestra la lista de actividades propuestas hasta el momento."
 
-#: manager/views.py:305
+#: manager/views.py:306
 msgid ""
 "You don't have any confirmed activities. Please confirm the activities first "
 "and then confirm the schedule"
@@ -1570,84 +1594,88 @@ msgstr ""
 "No tienes actividades confirmadas. Por favor confirma alguna actividad y "
 "luego confirma el cronograma"
 
-#: manager/views.py:372
+#: manager/views.py:373
 msgid "The presentation has been uploaded successfully!"
 msgstr "La presentación ha sido subida exitosamente!"
 
-#: manager/views.py:374
+#: manager/views.py:375
 msgid "The presentation couldn't be uploaded (check form errors)"
 msgstr ""
 "No se pudo subir la presentación (verifica los errores en el formulario)"
 
-#: manager/views.py:388
+#: manager/views.py:389 manager/views.py:413
 msgid "The attendee has already been registered correctly."
 msgstr "El asistente se ha registrado exitosamente!"
 
-#: manager/views.py:392
+#: manager/views.py:393 manager/views.py:417
 msgid "The attendee has been successfully registered. Happy Hacking!"
 msgstr "El asistente se ha registrado exitosamente!"
 
-#: manager/views.py:396 manager/views.py:480
+#: manager/views.py:397 manager/views.py:503
 msgid "The attendee couldn't be registered (check form errors)"
 msgstr ""
 "No se pudo registrar el asistente (verifica los errores en el formulario)"
 
-#: manager/views.py:412
+#: manager/views.py:420
+msgid "The user isn't registered for this event."
+msgstr "El usuario no está registrado en este evento."
+
+#: manager/views.py:435
 #, python-format
 msgid "%s has been successfully added as an Organizer."
 msgstr "%s ha sido añadido como organizador."
 
-#: manager/views.py:415 manager/views.py:436
+#: manager/views.py:438 manager/views.py:459
 msgid "Something went wrong (please check form errors)"
 msgstr "Algo malió sal (verifica los errores en el formulario)"
 
-#: manager/views.py:433
+#: manager/views.py:456
 #, python-format
 msgid "%s has been successfully added to manage attendance."
 msgstr "%s ha sido añadido como miembro de registración."
 
-#: manager/views.py:460
+#: manager/views.py:483
 msgid "The attendee has registered for this event, use correct form"
 msgstr "El asistente ya está registrado para este evento."
 
-#: manager/views.py:463
+#: manager/views.py:486
 msgid "Email already registered for this event"
 msgstr "Email ya registrado para este evento."
 
-#: manager/views.py:476
+#: manager/views.py:499
 msgid "The attendee was successfully registered . Happy Hacking!"
 msgstr "El asistente se ha registrado existosamente!"
 
-#: manager/views.py:491
+#: manager/views.py:514
 msgid "Message received from "
 msgstr "Mensaje recibido de "
 
-#: manager/views.py:492
+#: manager/views.py:515
 msgid "User email: "
 msgstr "Email del usuario: "
 
-#: manager/views.py:496
+#: manager/views.py:519
 msgid "eventoL Contact Message from "
 msgstr "Mensaje de contacto de eventoL de "
 
-#: manager/views.py:504
+#: manager/views.py:527
 msgid "The message has been sent. You will receive a reply by email"
 msgstr ""
 "El mensaje ha sido enviado. Recibirás una respueta por correo electrónico"
 
-#: manager/views.py:506
+#: manager/views.py:529
 msgid ""
 "There was a problem sending your message. Please try again in a few minutes."
 msgstr ""
 "Hubo un problema al enviar tu mensaje. Por favor intenta nuevamente en unos "
 "minutos."
 
-#: manager/views.py:619
+#: manager/views.py:642
 #, python-format
 msgid "Ticket for %(event_name)s event"
 msgstr "Entrada para el evento FLISoL %(event_name)s"
 
-#: manager/views.py:620
+#: manager/views.py:643
 #, python-format
 msgid ""
 "Hello %(first_name)s %(last_name)s,\n"
@@ -1660,57 +1688,57 @@ msgstr ""
 "imprimirla y traerla el dia del evento. \n"
 " Saludos, el equipo de FLISoL %(event_name)s."
 
-#: manager/views.py:650
+#: manager/views.py:673
 msgid "You are already registered for this event"
 msgstr "Ya estas registrado en este evento."
 
-#: manager/views.py:677
+#: manager/views.py:700
 msgid ". Please check your email for the corresponding ticket."
 msgstr " Por favor, comprueba tu email para acceder a la entrada."
 
-#: manager/views.py:679
+#: manager/views.py:702
 msgid ""
 " but we couldn't send you your ticket. Please, check it out from the menu."
 msgstr ""
 " Sin embargo, no pudimos enviar su entrada por email.puede verla desde el "
 "menu."
 
-#: manager/views.py:697
+#: manager/views.py:720
 msgid "You have successfully registered to attend"
 msgstr "Te has registrado exitosamente para asistir!"
 
-#: manager/views.py:698 manager/views.py:707 manager/views.py:716
+#: manager/views.py:721 manager/views.py:730 manager/views.py:739
 msgid "There is a problem with the registration (check form errors)"
 msgstr ""
 "Hay algún problema con los datos ingresados (verifica los errores en el "
 "formulario) "
 
-#: manager/views.py:706
+#: manager/views.py:729
 msgid "You have successfully registered as an installer"
 msgstr "Te has registrado exitosamente como instalador!"
 
-#: manager/views.py:715
+#: manager/views.py:738
 msgid "You have successfully registered as a collaborator"
 msgstr "Te has registrado exitosamente como colaborador"
 
-#: manager/views.py:757 manager/views.py:787
+#: manager/views.py:780 manager/views.py:810
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
 "Hay algún problema con los datos ingresados (verifica los errores en el "
 "formulario) "
 
-#: manager/views.py:808
+#: manager/views.py:831
 msgid ""
 "The room hasn't been removed successfully because the room has confirmed "
 "activities."
 msgstr ""
 "La sala no se ha borrado exitosamente ya que posee actividades confirmadas"
 
-#: manager/views.py:811
+#: manager/views.py:834
 msgid "The room has been removed successfully!"
 msgstr "La sala se ha borrado exitosamente"
 
-#: manager/views.py:830
+#: manager/views.py:853
 msgid "The room has been added successfully!"
 msgstr "La sala se ha agregado exitosamente"
 
