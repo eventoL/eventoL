@@ -1,18 +1,18 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-11 19:19+0000\n"
-"PO-Revision-Date: 2016-04-12 15:56+0000\n"
+"PO-Revision-Date: 2016-04-12 11:58-0300\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
-"Language-Team: Spanish "
-"<https://hosted.weblate.org/projects/eventol/django/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
+"es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.6-dev\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: manager/forms.py:30 manager/forms.py:54
 msgid "Search Attendee"
@@ -500,15 +500,15 @@ msgstr "Actividades"
 
 #: manager/models.py:405
 msgid "Talk Type"
-msgstr "Tipo de Actividad"
+msgstr "Tipo de Charla"
 
 #: manager/models.py:406
 msgid "Talk Types"
-msgstr "Tipos de Actividad"
+msgstr "Tipos de Charla"
 
 #: manager/models.py:418
 msgid "Talk Confirmed"
-msgstr "Actividad Confirmada"
+msgstr "Charla Confirmada"
 
 #: manager/models.py:419
 msgid "Speakers Names"
@@ -550,7 +550,7 @@ msgstr ""
 
 #: manager/models.py:428
 msgid "Talk's Technical level"
-msgstr "Nivel técnico de la actividad"
+msgstr "Nivel técnico de la charla"
 
 #: manager/models.py:449 manager/templates/activities/talks/proposal.html:13
 #: manager/templates/activities/talks/proposal.html:15
@@ -559,11 +559,11 @@ msgstr "Nivel técnico de la actividad"
 #: manager/templates/activities/talks/proposal/image-cropping.html:14
 #: manager/templates/activities/talks/proposal/image-cropping.html:18
 msgid "Talk Proposal"
-msgstr "Propuesta de Actividad"
+msgstr "Propuesta de charla"
 
 #: manager/models.py:450
 msgid "Talk Proposals"
-msgstr "Propuestas de Actividad"
+msgstr "Propuestas de charla"
 
 #: manager/models.py:476
 msgid "Comment"
