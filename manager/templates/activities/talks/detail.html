@@ -49,31 +49,30 @@
                                         {% endif %}
                                     {% endif %}
                                 </div>
-                                {% if event.registration_is_open %}
+                                {% if event.registration_is_open and user.is_authenticated and user|is_organizer:event_slug %}
                                     <a href="{% url "talk_proposal" event_slug proposal.pk %}">
                                         <p><strong>
                                             <i class="fa fa-pencil"></i> {% trans "Edit Proposal" %}
                                         </strong></p>
                                     </a>
-                                    {% if user|is_organizer:event_slug %}
-                                        <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
-                                            <i class="fa fa-pencil"></i>
-                                            {% if talk %}
-                                                {% trans "Edit Talk" %}
-                                            {% else %}
-                                                {% trans "Become Talk" %}
-                                            {% endif %}
-                                        </a></strong></p>
-                                        <div id="become_talk">
-                                            <div id="to_talk" class="panel-collapse collapse">
-                                                <div class="container col-md-12 col-lg-12">
-                                                    {% include 'activities/talks/to_talk_form.html' with form_id=proposal.pk %}
-                                                </div>
+
+                                    <p><strong><a class="accordion-toggle" data-toggle="collapse" href="#to_talk">
+                                        <i class="fa fa-pencil"></i>
+                                        {% if talk %}
+                                            {% trans "Edit Talk" %}
+                                        {% else %}
+                                            {% trans "Become Talk" %}
+                                        {% endif %}
+                                    </a></strong></p>
+                                    <div id="become_talk">
+                                        <div id="to_talk" class="panel-collapse collapse">
+                                            <div class="container col-md-12 col-lg-12">
+                                                {% include 'activities/talks/to_talk_form.html' with form_id=proposal.pk %}
                                             </div>
                                         </div>
-                                    {% endif %}
+                                    </div>
                                 {% endif %}
-                                {% if user|is_organizer:event_slug and talk %}
+                                {% if user.is_authenticated and user|is_organizer:event_slug and talk %}
                                     <p><strong><a class="accordion-toggle" data-toggle="collapse"
                                                   href="#upload_presentation">
                                         <i class="fa fa-upload"></i> {% trans "Upload Presentation" %}

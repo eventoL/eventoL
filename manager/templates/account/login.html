@@ -7,8 +7,9 @@
 
 {% block pre-form %}
     <p>{% blocktrans with site.name as site_name %}Please sign in with one
-            of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-            for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+        of your existing third party accounts. Or,
+        <a href="{{ signup_url }}" style="font-size:18px; font-weight: 500;">sign up</a>
+        for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
     {% get_providers as socialaccount_providers %}
     {% if socialaccount_providers %}

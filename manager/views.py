@@ -115,7 +115,8 @@ def talk_registration(request, event_slug, pk):
     proposal = TalkProposal.objects.get(pk=pk)
     forms = [talk_form]
     if request.POST:
-        if talk_form.is_valid() and room_available(request, talk_form.instance, event_slug):
+        if talk_form.is_valid() and \
+                Activity.room_available(request=request, instance=talk_form.instance, event_slug=event_slug):
             try:
                 proposal.confirmed_talk = True
                 activity = proposal.activity
@@ -149,30 +150,6 @@ def talk_registration(request, event_slug, pk):
     return render(request,
                   'activities/talks/detail.html',
                   update_event_info(event_slug, render_dict))
-
-
-def room_available(request, talk_form, event_slug):
-    activities_room = Activity.objects.filter(room=talk_form.room, event__slug__iexact=event_slug)
-    if talk_form.start_date == talk_form.end_date:
-        messages.error(request, _(
-            "The talk couldn't be registered because the schedule not available (start time equals end time)"))
-        return False
-    if talk_form.end_date < talk_form.start_date:
-        messages.error(request, _(
-            "The talk couldn't be registered because the schedule is not available (start time is after end time)"))
-        return False
-
-    one_second = datetime.timedelta(seconds=1)
-    if activities_room.filter(
-            end_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
-            or activities_room.filter(end_date__gt=talk_form.end_date, start_date__lt=talk_form.start_date).exists() \
-            or activities_room.filter(
-                start_date__range=(talk_form.start_date + one_second, talk_form.end_date - one_second)).exists() \
-            or activities_room.filter(end_date=talk_form.end_date, start_date=talk_form.start_date).exists():
-        messages.error(request,
-                       _("The talk couldn't be registered because the room or the schedule is not available"))
-        return False
-    return True
 
 
 @login_required
@@ -265,7 +242,8 @@ def activity(request, event_slug, pk=None):
     forms = [activity_form]
 
     if request.POST:
-        if activity_form.is_valid() and room_available(request, activity_form.instance, event_slug):
+        if activity_form.is_valid() and \
+                Activity.room_available(request=request, instance=activity_form.instance, event_slug=event_slug):
             try:
                 activity = activity_form.save()
                 activity.confirmed = True
@@ -350,6 +328,11 @@ def activities(request, event_slug):
                                                  'event': event}, event))
 
 
+def activity_detail(request, event_slug, pk):
+    proposal = TalkProposal.objects.get(activity__pk=pk)
+    return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
+
+
 def talk_detail(request, event_slug, pk):
     return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, pk)))
 
@@ -365,7 +348,7 @@ def talk_delete(request, event_slug, pk):
 def proposal_detail(request, event_slug, pk):
     proposal = TalkProposal.objects.get(pk=pk)
     comments = Comment.objects.filter(activity=proposal.activity)
-    render_dict = dict(comments=comments, comment_form=CommentForm(), user=request.user, proposal=proposal)
+    render_dict = dict(comments=comments, comment_form=CommentForm(), proposal=proposal)
     vote = Vote.objects.get_for_user(proposal, request.user)
     score = Vote.objects.get_score(proposal)
     if vote or score:

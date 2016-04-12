@@ -50,6 +50,30 @@ class EventUserAutocomplete(autocomplete.AutocompleteModelBase):
 
         return self.order_choices(choices)[0:self.limit_choices]
 
+class EventUserInstallAutocomplete(autocomplete.AutocompleteModelBase):
+    autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
+
+    def choices_for_request(self):
+        q = self.request.GET.get('q', '')
+        event_slug = self.request.GET.get('event_slug', None)
+
+        choices = []
+        if event_slug:
+            choices = self.choices.all()
+            choices = choices.filter(event__slug__iexact=event_slug).filter(assisted=True)
+            if q:
+                choices = choices.filter(
+                    Q(user__first_name__icontains=q)
+                    | Q(user__last_name__icontains=q)
+                    | Q(user__username__icontains=q)
+                    | Q(user__email__icontains=q)
+                    | Q(nonregisteredattendee__first_name__icontains=q)
+                    | Q(nonregisteredattendee__last_name__icontains=q)
+                    | Q(nonregisteredattendee__email__icontains=q)
+                )
+
+        return self.order_choices(choices)[0:self.limit_choices]
+
 
 class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
     autocomplete_js_attributes = {'placeholder': _('Type to search'),
@@ -73,6 +97,7 @@ class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
 
 
 autocomplete.register(EventUser, EventUserAutocomplete)
+autocomplete.register(EventUser, EventUserInstallAutocomplete)
 autocomplete.register(EventUser, RegisteredEventUserAutocomplete)
 autocomplete.register(Software, SoftwareAutocomplete)
 
@@ -112,7 +137,7 @@ class InstallationForm(autocomplete.ModelForm):
         super(InstallationForm, self).__init__(*args, **kwargs)
         self.fields['attendee'].queryset = EventUser.objects.filter(event__slug__iexact=event)
 
-    attendee = autocomplete.ModelChoiceField('EventUserAutocomplete', required=True)
+    attendee = autocomplete.ModelChoiceField('EventUserInstallAutocomplete', required=True)
 
     class Meta(object):
         model = Installation
@@ -205,7 +230,7 @@ class ContactForm(ModelForm):
         cleaned_data = super(ContactForm, self).clean()
         type = cleaned_data.get("type")
         value = cleaned_data.get("url")
-        
+
         if type:
             if type.validate == '1':
                 try:
@@ -234,6 +259,13 @@ class ActivityForm(ModelForm):
             'long_description': forms.Textarea(attrs={'rows': 3}),
             'abstract': forms.Textarea(attrs={'rows': 3})
         }
+
+
+class ActivityAdminForm(ModelForm):
+    def clean(self):
+        obj = self.instance
+        if obj.start_date or obj.end_date:
+            Activity.room_available(error=True, instance=obj, event_slug=obj.event.slug)
 
 
 class ActivityCompleteForm(ModelForm):
