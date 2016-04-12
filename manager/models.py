@@ -332,35 +332,33 @@ class Activity(models.Model):
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
 
     @classmethod
+    def check_status(cls, message, error=None, request=None):
+        if error:
+            raise ValidationError(message)
+        if request:
+            messages.error(request, message)
+
+    @classmethod
     def room_available(cls, request=None, instance=None, event_slug=None, error=False):
         activities_room = Activity.objects.filter(room=instance.room, event__slug__iexact=event_slug)
         if instance.start_date == instance.end_date:
             message = _("The talk couldn't be registered because the schedule not available (start time equals end time)")
-            if error:
-                raise ValidationError(message)
-            if request:
-                messages.error(request, message)
+            cls.check_status(message, error=error, request=request)
             return False
         if instance.end_date < instance.start_date:
             message = _("The talk couldn't be registered because the schedule is not available (start time is after end time)")
-            if error:
-                raise ValidationError(message)
-            if request:
-                messages.error(request, message)
+            cls.check_status(message, error=error, request=request)
             return False
 
         one_second = datetime.timedelta(seconds=1)
         if activities_room.filter(
-                end_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exists() \
-                or activities_room.filter(end_date__gt=instance.end_date, start_date__lt=instance.start_date).exists() \
+                end_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exclude(pk=instance.pk).exists() \
+                or activities_room.filter(end_date__gt=instance.end_date, start_date__lt=instance.start_date).exclude(pk=instance.pk).exists() \
+                or activities_room.filter(start_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exclude(pk=instance.pk).exists() \
                 or activities_room.filter(
-                    start_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exists() \
-                or activities_room.filter(end_date=instance.end_date, start_date=instance.start_date).exists():
+                    end_date=instance.end_date, start_date=instance.start_date).exclude(pk=instance.pk).exists():
                 message = _("The talk couldn't be registered because the room or the schedule is not available")
-                if error:
-                    raise ValidationError(message)
-                if request:
-                    messages.error(request, message)
+                cls.check_status(message, error=error, request=request)
                 return False
         return True
 
