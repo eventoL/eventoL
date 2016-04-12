@@ -11,7 +11,7 @@
             <div class="alert schedule-room row"><strong>{% trans "Hour" %}</strong></div>
             <div style="height: {{ schedule.size }}px;">
                 {% for reference_hour in schedule.reference_hours %}
-                    <div style="height: {{ reference_hour.size }}%">
+                    <div style="height: {{ reference_hour.size | safe }}%">
                         <strong>{{ reference_hour.start|date:"H:i" }} - {{ reference_hour.end|date:"H:i" }}</strong>
                     </div>
                     {% if not forloop.last %}
@@ -26,9 +26,9 @@
                 <div style="height: {{ schedule.size }}px; font-size: 14px">
                     {% for activity in room.activities %}
                         {% if 'dummy' in activity %}
-                            <div class="schedule-dummy hidden-sm hidden-xs" style="height: {{ activity.dummy_size }}%;"></div>
+                            <div class="schedule-dummy hidden-sm hidden-xs" style="height: {{ activity.dummy_size | safe }}%;"></div>
                         {% else %}
-                            <div class="schedule-talk" style="height: {{ activity.activity_size }}%">
+                            <div class="schedule-talk" style="height: {{ activity.activity_size | safe }}%">
                                 {% if activity.activity_size < 3 %}
                                     {% if activity.is_talk %}<a href='{% url "activity_detail" event_slug activity.pk %}'>{% endif %}
                                         <strong>
