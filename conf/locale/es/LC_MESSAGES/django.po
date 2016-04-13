@@ -2,14 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-12 03:53+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2016-04-13 15:16+0000\n"
+"PO-Revision-Date: 2016-04-12 15:56+0000\n"
+"Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.6-dev\n"
 
 #: manager/forms.py:30 manager/forms.py:54
 msgid "Search Attendee"
@@ -30,7 +32,7 @@ msgstr "Llevas un dispositivo para instalar?"
 #: manager/forms.py:170
 msgid "i.e. Wath kind of PC are you bringing? Leave blank if doesn't apply"
 msgstr ""
-"x.ej. Qué clase de dispositivo llevas para instalar? Dejar en blanco si no "
+"ej. Qué clase de dispositivo llevas para instalar? Dejar en blanco si no "
 "aplica."
 
 #: manager/forms.py:248
@@ -158,7 +160,7 @@ msgstr "Clase CSS del ícono"
 
 #: manager/models.py:94 manager/models.py:252 manager/models.py:425
 msgid "Level"
-msgstr "Nivel "
+msgstr "Nivel"
 
 #: manager/models.py:95
 msgid "Type of field validation"
@@ -1353,8 +1355,8 @@ msgid ""
 "There is a problem with the camera. Please, enable access or try manual "
 "entry."
 msgstr ""
-"Hay algún problema con la cámara. Por favor habilita el acceso o ingresa el "
-"código manualmente."
+"Hay algún problema con los datos ingresados (verifica los errores en el "
+"formulario) "
 
 #: manager/templates/registration/become_installer.html:3
 #: manager/templates/registration/become_installer.html:4
@@ -1549,8 +1551,8 @@ msgstr ""
 
 #: manager/views.py:193
 msgid ""
-"The talk proposal is already close or the event is not accepting proposals "
-"through thispage. Please contact the Event Organization Team to submit it."
+"The talk proposal is already closed or the event is not accepting proposals "
+"through this page. Please contact the Event Organization Team to submit it."
 msgstr ""
 "La propuesta de actividades ya está cerrada o el evento no está aceptando "
 "propuestas a través de esta página. Por favor, ponte en contacto con el "
@@ -1618,7 +1620,7 @@ msgstr ""
 
 #: manager/views.py:420
 msgid "The user isn't registered for this event."
-msgstr "El usuario no está registrado en este evento."
+msgstr "Ya estas registrado en este evento."
 
 #: manager/views.py:435
 #, python-format
@@ -1741,9 +1743,3 @@ msgstr "La sala se ha borrado exitosamente"
 #: manager/views.py:853
 msgid "The room has been added successfully!"
 msgstr "La sala se ha agregado exitosamente"
-
-#~ msgid "Counts"
-#~ msgstr "Contadores"
-
-#~ msgid "Count"
-#~ msgstr "Contadores"
