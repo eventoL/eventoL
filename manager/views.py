@@ -189,7 +189,7 @@ def talk_proposal(request, event_slug, pk=None):
 
     if not event.talk_proposal_is_open:
         messages.error(request,
-                       _("The talk proposal is already close or the event is not accepting proposals through this"
+                       _("The talk proposal is already closed or the event is not accepting proposals through this "
                          "page. Please contact the Event Organization Team to submit it."))
         return HttpResponseRedirect(reverse('index', args=(event_slug,)))
 
