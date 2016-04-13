@@ -113,7 +113,11 @@ $ python manage.py collectstatic
 ### If you want to populate the db with some initial example data
 
 ```sh
-$ python manage.py loaddata manager/initial_data.json
+$ python manage.py loaddata manager/initial_data/initial_data.json
+$ python manage.py loaddata manager/initial_data/security.json
+$ python manage.py loaddata manager/initial_data/software.json
+$ python manage.py loaddata manager/initial_data/attendee_data.json
+$ python manage.py loaddata manager/initial_data/email_addresses.json
 ```
 
 ### Update translations
