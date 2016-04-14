@@ -25,7 +25,7 @@
                     <strong>{% trans "Attendee" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_attendee or has_installation_attendee%}
+                    {% if confirmed_attendees_count > 0 or not_confirmed_attendees_count > 0 %}
                         <i class="fa fa-users" style="color: #0b62a4"> {% trans "Attendees Confirmed" %} </i><br>
                         <i class="fa fa-users" style="color: #FA5858"> {% trans "Attendees Not Confirmed" %}</i><br><br>
                         <div id="attendee"></div>
@@ -42,14 +42,14 @@
                     <strong>{% trans "Staff" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_organizer or has_installers or has_speakers or has_collaborators %}
+                    {% if collaborators_count > 0 or installers_count > 0 or speakers_count > 0 or organizers_count > 0 %}
                         <i class="fa fa-users" style="color: #FFBB13"> {% trans "Organizers" %}</i><br>
                         <i class="fa fa-users" style="color: #0b62a4"> {% trans "Collaborators" %}</i><br>
                         <i class="fa fa-users" style="color: #FA5858"> {% trans "Installers" %}</i><br>
                         <i class="fa fa-users" style="color: #4da74d"> {% trans "Speakers" %}</i>
                         <div id="staff"></div>
                     {% else %}
-                        <strong>{% trans "There isn't any registered staff" %}</strong>
+                        <strong>{% trans "There aren't any registered staff" %}</strong>
                     {% endif %}
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     <strong>{% trans "Totals" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_talk_proposals or has_installations %}
+                    {% if talk_proposals_count > 0 or installations_count > 0 %}
                         <div id="counts"></div>
                     {% else %}
                         <strong>{% trans "There aren't any talks or installations submitted" %}</strong>
@@ -78,7 +78,7 @@
                     <strong>{% trans "Installations" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_installations %}
+                    {% if installation_for_software %}
                         <div id="installations"></div>
                     {% else %}
                         <strong>{% trans "There aren't any registered installations" %}</strong>
@@ -95,7 +95,7 @@
                     <strong>{% trans "Votes For Talks" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_talk_proposals %}
+                    {% if votes_for_talk %}
                         <div id="votes"></div>
                     {% else %}
                         <strong>{% trans "There aren't any talk proposals submitted" %}</strong>
@@ -107,10 +107,10 @@
         <div class="row col-md-6" style="margin-left: 10px">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Installer For Level" %}</strong>
+                    <strong>{% trans "Installer Per Level" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_installers %}
+                    {% if installers_for_level %}
                         <div id="installers"></div>
                     {% else %}
                         <strong>{% trans "There aren't any registered installations" %}</strong>
@@ -126,110 +126,84 @@
 
     <script src="{% static "manager/bower_components/q/q.js" %}"></script>
 
-    <script>
+    <script type="text/javascript">
 
         $(document).ready(function() {
 
-            {% if has_attendee or has_installation_attendee %}
-                Q([$.get("/api/attendee/?format=json&event={{ event.pk }}&reduce=True"),
-                  $.get("/api/installationattendees/?format=json&event={{ event.pk }}&reduce=True"),
-                  $.get("/api/nonregisteredattendees/?format=json&event={{ event.pk }}&reduce=True")])
-                  .spread(function (attendees, installation_attendees, non_registered_attendees){
-                    var confirmed = attendees.confirmed + installation_attendees.confirmed + non_registered_attendees.total;
-                    var not_confirmed = attendees.not_confirmed+installation_attendees.not_confirmed;
-                    Morris.Donut({
-                      element: 'attendee',
-                      data: [
-                        {label: "{% trans "Confirmed Attendees" %}", value: confirmed, color: "#0b62a4"},
-                        {label: "{% trans "Unconfirmed Attendees" %}", value: not_confirmed, color: "#FA5858"}
-                      ]
-                    });
-                });
-            {% endif %}
+          {% if confirmed_attendees_count > 0 or not_confirmed_attendees_count > 0 %}
 
-            Q($.get("/api/{{ event_slug }}/event_report"))
-                .then(function (event_report){
-                  {% if has_organizer or has_installers or has_speakers or has_collaborators %}
-                    Morris.Donut({
-                      element: 'staff',
-                      data: [
-                        {label: "{% trans "Collaborators" %}", value: event_report.staff.collaborators, color: "#0b62a4"},
-                        {label: "{% trans "Installers" %}", value: event_report.staff.installers, color: "#FA5858"},
-                        {label: "{% trans "Speakers" %}", value: event_report.staff.speakers, color: "#4da74d"},
-                        {label: "{% trans "Organizers" %}", value: event_report.staff.organizers, color: "#FFBB13"}
-                      ]
-                    });
-                  {% endif %}
-                  {% if has_talk_proposals %}
-                    var votes = [];
-                    for (var item in event_report.votes_for_talk){
-                        votes.push({y: item, a: event_report.votes_for_talk[item]});
-                    };
+                Morris.Donut({
+                  element: 'attendee',
+                  data: [
+                    {label: "{% trans "Confirmed Attendees" %}", value: {{confirmed_attendees_count}}, color: "#0b62a4"},
+                    {label: "{% trans "Unconfirmed Attendees" %}", value: {{not_confirmed_attendees_count}}, color: "#FA5858"}
+                  ]
+                });;
+          {% endif %}
 
-                    Morris.Bar({
-                      element: 'votes',
-                      data: votes,
-                      xkey: 'y',
-                      ykeys: ['a'],
-                      labels: ['{% trans "Total" %}']
-                    });
-                  {% endif %}
-                });
 
-          {% if has_installers %}
-            Q($.get("/api/installers/?format=json&event={{ event.pk }}&reduce=True"))
-              .then(function (installer){
+          {% if collaborators_count > 0 or installers_count > 0 or speakers_count > 0 or organizers_count > 0 %}
+              Morris.Donut({
+                element: 'staff',
+                data: [
+                  {label: "{% trans "Collaborators" %}", value: {{collaborators_count}}, color: "#0b62a4"},
+                  {label: "{% trans "Installers" %}", value: {{installers_count}}, color: "#FA5858"},
+                  {label: "{% trans "Speakers" %}", value: {{speakers_count}}, color: "#4da74d"},
+                  {label: "{% trans "Organizers" %}", value: {{organizers_count}}, color: "#FFBB13"}
+                ]
+              });
+          {% endif %}
 
-                var installers = [];
-                var installer_levels = {
+          {% if votes_for_talk %}
+              Morris.Bar({
+                element: 'votes',
+                data: [{% for item, value in votes_for_talk.items%}
+                          { y: '{{item}}', a: {{value}}},
+                      {% endfor %}],
+                xkey: 'y',
+                ykeys: ['a'],
+                labels: ['{% trans "Total" %}']
+              });
+          {% endif %}
+          {% if installers_for_level %}
+              var installer_levels = {
                   1: '{% trans 'Beginner' %}',
                   2: '{% trans 'Medium' %}',
                   3: '{% trans 'Advanced' %}',
                   4: '{% trans 'Super Hacker' %}'
                 }
-                for ( var item in installer.installers_for_level ){
-                    installers.push({y: installer_levels[item], a: installer.installers_for_level[item]});
-                };
-
                 Morris.Bar({
                   element: 'installers',
-                  data: installers,
+                  data: [{% for item, value in installers_for_level.items%}
+                            { y: installer_levels[{{item}}], a: {{value}}},
+                        {% endfor %}],
                   xkey: 'y',
                   ykeys: ['a'],
                   labels: ['{% trans "Total" %}']
                 });
-
-            });
           {% endif %}
-          {% if has_talk_proposals or has_installations %}
-            Q([$.get("/api/talkproposals/?format=json&event={{ event.pk }}&reduce=True"),
-               $.get("/api/installations/?format=json&event={{ event.pk }}&reduce=True")])
-              .spread(function (talk, installation){
+          {% if talk_proposals_count > 0 or installations_count > 0 %}
                 Morris.Bar({
                   element: 'counts',
                   data: [
-                    { y: '{% trans "Talks" %}', a: talk.total},
-                    { y: '{% trans "Installations" %}', a: installation.total}
+                    { y: '{% trans "Talks" %}', a: {{talk_proposals_count}} },
+                    { y: '{% trans "Installations" %}', a: {{installations_count}} }
                   ],
                   xkey: 'y',
                   ykeys: ['a'],
                   labels: ['{% trans "Total" %}']
                 });
-
-                var software = [];
-                for ( var item in installation.installation_for_software ){
-                    software.push({y: item, a: installation.installation_for_software[item]});
-                };
-
+          {% endif %}
+          {% if installation_for_software %}
                 Morris.Bar({
                   element: 'installations',
-                  data: software,
+                  data: [{% for item, value in installation_for_software.items%}
+                            { y: '{{item}}', a: {{value}}},
+                        {% endfor %}],
                   xkey: 'y',
                   ykeys: ['a'],
                   labels: ['{% trans "Total" %}']
                 });
-
-            });
           {% endif %}
 
         });
