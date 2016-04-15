@@ -656,13 +656,14 @@ def confirm_schedule(request, event_slug):
 
 
 def reports(request,event_slug):
-    confirmed_attendees_count, not_confirmed_attendees_count = 0,0
-    votes_for_talk, installers_for_level, installation_for_software = None, None, None
+    confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0,0,0
+    installers_for_level, installation_for_software = None, None
 
     event = Event.objects.get(slug__iexact=event_slug)
     votes = Vote.objects.all()
     installers = Installer.objects.filter(eventUser__event=event)
     installations = Installation.objects.filter(attendee__event=event)
+    talks = TalkProposal.objects.filter(activity__event=event)
 
     confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
     confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
@@ -671,16 +672,22 @@ def reports(request,event_slug):
     not_confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=False).count()
     not_confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=False).count()
 
+    #TODO: Tener en cuenta que si se empiezan a cargar los Speakers en alguna instancia
+    #Va a tener que revisarse esto mejor
+    for talk in talks:
+        speakers_count += len(talk.speakers_names.split(','))
+
     template_dict = {
         'confirmed_attendees_count' : confirmed_attendees_count,
         'not_confirmed_attendees_count' : not_confirmed_attendees_count,
         'collaborators_count' : Collaborator.objects.filter(eventUser__event=event).count(),
         'installers_count' :Installer.objects.filter(eventUser__event=event).count(),
-        'speakers_count' : Speaker.objects.filter(eventUser__event=event).count(),
+        'speakers_count' : Speaker.objects.filter(eventUser__event=event).count() + speakers_count,
         'organizers_count' : Organizer.objects.filter(eventUser__event=event).count(),
         'talk_proposals_count': TalkProposal.objects.filter(activity__event=event).count(),
         'installations_count': Installation.objects.filter(attendee__event=event).count(),
-        'votes_for_talk' : count_by(votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id, activity__event=event).activity.title, lambda vote: vote.vote),
+        'votes_for_talk' : count_by
+(votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id, activity__event=event).activity.title, lambda vote: vote.vote),
         'installers_for_level': count_by(installers, lambda inst: inst.level),
         'installation_for_software':count_by(installations, lambda inst: inst.software.name),
     }
