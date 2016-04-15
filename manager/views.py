@@ -657,7 +657,6 @@ def confirm_schedule(request, event_slug):
 
 def reports(request,event_slug):
     confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0,0,0
-    installers_for_level, installation_for_software = None, None
 
     event = Event.objects.get(slug__iexact=event_slug)
     votes = Vote.objects.all()
