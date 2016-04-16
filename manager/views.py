@@ -663,6 +663,7 @@ def reports(request,event_slug):
     installers = Installer.objects.filter(eventUser__event=event)
     installations = Installation.objects.filter(attendee__event=event)
     talks = TalkProposal.objects.filter(activity__event=event)
+    collaborators = Collaborator.objects.filter(eventUser__event=event)
 
     confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
     confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
@@ -679,8 +680,10 @@ def reports(request,event_slug):
     template_dict = {
         'confirmed_attendees_count' : confirmed_attendees_count,
         'not_confirmed_attendees_count' : not_confirmed_attendees_count,
-        'collaborators_count' : Collaborator.objects.filter(eventUser__event=event).count(),
-        'installers_count' :Installer.objects.filter(eventUser__event=event).count(),
+        'confirmed_collaborators_count' : collaborators.filter(eventUser__assisted=True).count(),
+        'not_confirmed_collaborators_count' : collaborators.filter(eventUser__assisted=False).count(),
+        'confirmed_installers_count' : installers.filter(eventUser__assisted=True).count(),
+        'not_confirmed_installers_count' : installers.filter(eventUser__assisted=False).count(),
         'speakers_count' : Speaker.objects.filter(eventUser__event=event).count() + speakers_count,
         'organizers_count' : Organizer.objects.filter(eventUser__event=event).count(),
         'talk_proposals_count': TalkProposal.objects.filter(activity__event=event).count(),
@@ -688,6 +691,7 @@ def reports(request,event_slug):
         'votes_for_talk' : count_by
 (votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id, activity__event=event).activity.title, lambda vote: vote.vote),
         'installers_for_level': count_by(installers, lambda inst: inst.level),
+        'installers_count': installers.count(),
         'installation_for_software':count_by(installations, lambda inst: inst.software.name),
     }
     return render(request, 'reports/dashboard.html', update_event_info(event_slug, render_dict=template_dict))

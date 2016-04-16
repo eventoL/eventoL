@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-14 08:35-0300\n"
+"POT-Creation-Date: 2016-04-16 01:30-0300\n"
 "PO-Revision-Date: 2016-04-12 15:56+0000\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -282,8 +282,7 @@ msgid "Collaborator"
 msgstr "Colaborador"
 
 #: manager/models.py:180 manager/templates/base-main.html:79
-#: manager/templates/reports/dashboard.html:47
-#: manager/templates/reports/dashboard.html:149
+#: manager/templates/reports/dashboard.html:133
 msgid "Collaborators"
 msgstr "Colaboradores"
 
@@ -291,8 +290,9 @@ msgstr "Colaboradores"
 msgid "Organizer"
 msgstr "Organizador"
 
-#: manager/models.py:192 manager/templates/reports/dashboard.html:46
-#: manager/templates/reports/dashboard.html:152
+#: manager/models.py:192 manager/templates/reports/dashboard.html:64
+#: manager/templates/reports/dashboard.html:71
+#: manager/templates/reports/dashboard.html:330
 msgid "Organizers"
 msgstr "Organizadores"
 
@@ -318,21 +318,25 @@ msgid "Installation Attendees"
 msgstr "Asistentes para instalar"
 
 #: manager/models.py:246 manager/models.py:409
-#: manager/templates/reports/dashboard.html:170
+#: manager/templates/reports/dashboard.html:348
+#: manager/templatetags/filters.py:122
 msgid "Beginner"
 msgstr "Principiante"
 
 #: manager/models.py:247 manager/models.py:410
-#: manager/templates/reports/dashboard.html:171
+#: manager/templates/reports/dashboard.html:349
+#: manager/templatetags/filters.py:124
 msgid "Medium"
 msgstr "Medio"
 
 #: manager/models.py:248 manager/models.py:411
-#: manager/templates/reports/dashboard.html:172
+#: manager/templates/reports/dashboard.html:350
+#: manager/templatetags/filters.py:126
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: manager/models.py:249 manager/templates/reports/dashboard.html:173
+#: manager/models.py:249 manager/templates/reports/dashboard.html:351
+#: manager/templatetags/filters.py:128
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
@@ -344,8 +348,7 @@ msgstr "Conocimiento que tiene para realizar una instalación"
 msgid "Installer"
 msgstr "Instalador"
 
-#: manager/models.py:257 manager/templates/reports/dashboard.html:48
-#: manager/templates/reports/dashboard.html:150
+#: manager/models.py:257 manager/templates/reports/dashboard.html:96
 msgid "Installers"
 msgstr "Instaladores"
 
@@ -358,8 +361,7 @@ msgstr "Disertante"
 #: manager/templates/activities/activities_home.html:239
 #: manager/templates/activities/talks/detail.html:37
 #: manager/templates/event/index.html:123
-#: manager/templates/reports/dashboard.html:49
-#: manager/templates/reports/dashboard.html:151
+#: manager/templates/reports/dashboard.html:329
 msgid "Speakers"
 msgstr "Disertantes"
 
@@ -598,8 +600,9 @@ msgid "Installation"
 msgstr "Instalación"
 
 #: manager/models.py:499 manager/templates/event/index.html:162
-#: manager/templates/reports/dashboard.html:78
-#: manager/templates/reports/dashboard.html:190
+#: manager/templates/reports/dashboard.html:177
+#: manager/templates/reports/dashboard.html:253
+#: manager/templates/reports/dashboard.html:368
 msgid "Installations"
 msgstr "Instalaciones"
 
@@ -984,7 +987,7 @@ msgstr ""
 "correo</a>."
 
 #: manager/templates/activities/activities_home.html:12
-#: manager/templates/reports/dashboard.html:189
+#: manager/templates/reports/dashboard.html:367
 msgid "Talks"
 msgstr "Charlas"
 
@@ -1398,67 +1401,118 @@ msgstr "Registro de Instaladores"
 
 #: manager/templates/reports/dashboard.html:15
 msgid "Reports"
-msgstr "Reportes"
+msgstr "Ver reportes"
 
 #: manager/templates/reports/dashboard.html:29
-msgid "Attendees Confirmed"
-msgstr "Asistentes confirmados"
-
-#: manager/templates/reports/dashboard.html:30
-msgid "Attendees Not Confirmed"
-msgstr "Asistentes no confirmados"
-
-#: manager/templates/reports/dashboard.html:33
-msgid "There aren't any registered attendees"
-msgstr "No hay asistentes registrados"
-
-#: manager/templates/reports/dashboard.html:42
-msgid "Staff"
-msgstr "Staff"
-
-#: manager/templates/reports/dashboard.html:52
-msgid "There aren't any registered staff"
-msgstr "No hay ninguna persona del staff registrada"
-
-#: manager/templates/reports/dashboard.html:63
-msgid "Totals"
-msgstr "Totales"
-
-#: manager/templates/reports/dashboard.html:69
-msgid "There aren't any talks or installations submitted"
-msgstr "No hay ninguna propuesta de charla o instalación registrada"
-
-#: manager/templates/reports/dashboard.html:84
-#: manager/templates/reports/dashboard.html:116
-msgid "There aren't any registered installations"
-msgstr "No hay instalaciones registradas"
-
-#: manager/templates/reports/dashboard.html:95
-msgid "Votes For Talks"
-msgstr "Votos por actividades"
-
-#: manager/templates/reports/dashboard.html:101
-msgid "There aren't any talk proposals submitted"
-msgstr "No hay ninguna propuesta de charla registrada"
-
-#: manager/templates/reports/dashboard.html:110
-msgid "Installer Per Level"
-msgstr "Instaladores por nivel"
-
-#: manager/templates/reports/dashboard.html:138
+#: manager/templates/reports/dashboard.html:36
+#: manager/templates/reports/dashboard.html:298
 msgid "Confirmed Attendees"
 msgstr "Asistentes confirmados"
 
-#: manager/templates/reports/dashboard.html:139
+#: manager/templates/reports/dashboard.html:30
+#: manager/templates/reports/dashboard.html:37
+msgid "Not Confirmed Attendees"
+msgstr "Asistentes no confirmados"
+
+#: manager/templates/reports/dashboard.html:38
+#: manager/templates/reports/dashboard.html:73
+#: manager/templates/reports/dashboard.html:109
+#: manager/templates/reports/dashboard.html:146
+#: manager/templates/reports/dashboard.html:209
+#: manager/templates/reports/dashboard.html:343
+#: manager/templates/reports/dashboard.html:360
+#: manager/templates/reports/dashboard.html:372
+#: manager/templates/reports/dashboard.html:383
+msgid "Total"
+msgstr "Total"
+
+#: manager/templates/reports/dashboard.html:51
+msgid "There aren't any registered attendees"
+msgstr "No hay asistentes registrados"
+
+#: manager/templates/reports/dashboard.html:60
+msgid "Organizers and Speakers"
+msgstr "Organizadores y Disertantes"
+
+#: manager/templates/reports/dashboard.html:65
+#: manager/templates/reports/dashboard.html:72
+msgid "Registered Speakers"
+msgstr "Disertantes registrados"
+
+#: manager/templates/reports/dashboard.html:86
+msgid "There aren't any registered staff"
+msgstr "No hay personal registrado"
+
+#: manager/templates/reports/dashboard.html:100
+#: manager/templates/reports/dashboard.html:107
+#: manager/templates/reports/dashboard.html:318
+msgid "Confirmed Installers"
+msgstr "Instaladores confirmados"
+
+#: manager/templates/reports/dashboard.html:101
+#: manager/templates/reports/dashboard.html:108
+msgid "Not Confirmed installers"
+msgstr "Instaladores no confirmados"
+
+#: manager/templates/reports/dashboard.html:122
+msgid "There aren't any registered installers"
+msgstr "No hay instaladores registrados"
+
+#: manager/templates/reports/dashboard.html:137
+#: manager/templates/reports/dashboard.html:144
+#: manager/templates/reports/dashboard.html:308
+msgid "Confirmed Collaborators"
+msgstr "Colaboradores confirmados"
+
+#: manager/templates/reports/dashboard.html:138
+#: manager/templates/reports/dashboard.html:145
+msgid "Not Confirmed Collaborators"
+msgstr "Colaboradores no confirmados"
+
+#: manager/templates/reports/dashboard.html:159
+msgid "There aren't any registered collaborators"
+msgstr "No hay colaboradores registrados"
+
+#: manager/templates/reports/dashboard.html:167
+msgid "Totals"
+msgstr "Totales"
+
+#: manager/templates/reports/dashboard.html:176
+msgid "Talk Proporsals"
+msgstr "Propuestas de charla"
+
+#: manager/templates/reports/dashboard.html:189
+msgid "There aren't any talks or installations submitted"
+msgstr "No hay ninguna instalacion o charla cargada aun."
+
+#: manager/templates/reports/dashboard.html:197
+msgid "Installer Per Level"
+msgstr "Instaladores por nivel"
+
+#: manager/templates/reports/dashboard.html:223
+#: manager/templates/reports/dashboard.html:277
+msgid "There aren't any registered installations"
+msgstr "No hay instalaciones registradas"
+
+#: manager/templates/reports/dashboard.html:235
+msgid "Votes For Talks"
+msgstr "Votos por charla"
+
+#: manager/templates/reports/dashboard.html:245
+msgid "There aren't any talk proposals submitted"
+msgstr "No hay ninguna propuesta de charla aún."
+
+#: manager/templates/reports/dashboard.html:299
 msgid "Unconfirmed Attendees"
 msgstr "Asistentes no confirmados"
 
-#: manager/templates/reports/dashboard.html:165
-#: manager/templates/reports/dashboard.html:182
-#: manager/templates/reports/dashboard.html:194
-#: manager/templates/reports/dashboard.html:205
-msgid "Total"
-msgstr "Total"
+#: manager/templates/reports/dashboard.html:309
+msgid "Unconfirmed Collaborators"
+msgstr "Colaboradores no confirmados"
+
+#: manager/templates/reports/dashboard.html:319
+msgid "Unconfirmed Installers"
+msgstr "Instaladores no confirmados"
 
 #: manager/templates/room/add_room.html:3
 #: manager/templates/room/add_room.html:4
@@ -1531,6 +1585,10 @@ msgid ""
 msgstr ""
 "Puedes iniciar sesión utilizando alguno de los siguientes\n"
 "    proveedores:"
+
+#: manager/templatetags/filters.py:130
+msgid "None"
+msgstr ""
 
 #: manager/views.py:113
 #, python-format
@@ -1691,56 +1749,65 @@ msgstr ""
 "Hubo un problema al enviar tu mensaje. Por favor intenta nuevamente en unos "
 "minutos."
 
-#: manager/views.py:709
+#: manager/views.py:719
 msgid "You are already registered for this event"
 msgstr "Ya estas registrado en este evento."
 
-#: manager/views.py:736
+#: manager/views.py:746
 msgid ". Please check your email for the corresponding ticket."
 msgstr " Por favor, comprueba tu email para acceder a la entrada."
 
-#: manager/views.py:738
+#: manager/views.py:748
 msgid ""
 " but we couldn't send you your ticket. Please, check it out from the menu."
 msgstr ""
 " Sin embargo, no pudimos enviar su entrada por email.puede verla desde el "
 "menu."
 
-#: manager/views.py:756
+#: manager/views.py:766
 msgid "You have successfully registered to attend"
 msgstr "Te has registrado exitosamente para asistir!"
 
-#: manager/views.py:757 manager/views.py:766 manager/views.py:775
+#: manager/views.py:767 manager/views.py:776 manager/views.py:785
 msgid "There is a problem with the registration (check form errors)"
 msgstr ""
 "Hay algún problema con los datos ingresados (verifica los errores en el "
 "formulario) "
 
-#: manager/views.py:765
+#: manager/views.py:775
 msgid "You have successfully registered as an installer"
 msgstr "Te has registrado exitosamente como instalador!"
 
-#: manager/views.py:774
+#: manager/views.py:784
 msgid "You have successfully registered as a collaborator"
 msgstr "Te has registrado exitosamente como colaborador"
 
-#: manager/views.py:816 manager/views.py:846
+#: manager/views.py:826 manager/views.py:856
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
 "Hay algún problema con los datos ingresados (verifica los errores en el "
 "formulario) "
 
-#: manager/views.py:867
+#: manager/views.py:877
 msgid ""
 "The room hasn't been removed successfully because the room has confirmed "
 "activities."
 msgstr ""
 "La sala no se ha borrado exitosamente ya que posee actividades confirmadas"
 
-#: manager/views.py:870
+#: manager/views.py:880
 msgid "The room has been removed successfully!"
 msgstr "La sala se ha borrado exitosamente"
 
-#: manager/views.py:889
+#: manager/views.py:899
 msgid "The room has been added successfully!"
 msgstr "La sala se ha agregado exitosamente"
+
+#~ msgid "Attendees Confirmed"
+#~ msgstr "Asistentes confirmados"
+
+#~ msgid "Attendees Not Confirmed"
+#~ msgstr "Asistentes no confirmados"
+
+#~ msgid "Staff"
+#~ msgstr "Staff"

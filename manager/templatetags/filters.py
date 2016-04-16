@@ -1,5 +1,6 @@
 from django import template, forms
 from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee, InstallationAttendee
+from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
 
@@ -110,3 +111,20 @@ def schedule_cols_other(elements):
     elif elems <= 5:
         return 3
     return 2
+
+@register.filter(name='add')
+def add(base, value_to_sum):
+    return base + value_to_sum
+
+@register.filter(name='installer_level')
+def installer_level(value):
+    if value == '1':
+        return _('Beginner')
+    elif value == '2':
+        return _('Medium')
+    elif value == '3':
+        return _('Advanced')
+    elif value == '4':
+        return _('Super Hacker')
+    else:
+        return _('N/A')
