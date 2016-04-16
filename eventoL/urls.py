@@ -12,7 +12,6 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^$', views.home, name="home"),
-    url(r'^api/', include('manager.api.urls')),
     url(r'^create-event/$', views.create_event, name="create_event"),
     url(r'^event/', include('manager.urls'), name='event'),
     url(r'^admin/', include(admin.site.urls), name='admin'),

@@ -40,6 +40,7 @@ from voting.models import Vote
 autocomplete_light.autodiscover()
 
 
+# Auxiliary functions
 def update_event_info(event_slug, render_dict=None, event=None):
     event = event or Event.objects.get(slug__iexact=event_slug)
     contacts = Contact.objects.filter(event=event)
@@ -50,6 +51,87 @@ def update_event_info(event_slug, render_dict=None, event=None):
         'contacts': contacts
     })
     return render_dict
+
+
+def count_by(elements, getter, increment=None):
+    return_dict = {}
+    for element in elements:
+        try:
+            field = getter(element)
+            if field in return_dict:
+                return_dict[field] += increment(element) if increment else 1
+            else:
+                return_dict[field] = increment(element) if increment else 1
+        except Exception:
+            pass
+    return return_dict
+
+
+def get_forms_errors(forms):
+    field_errors = [form.non_field_errors() for form in forms]
+    errors = [error for error in field_errors]
+    return list(itertools.chain.from_iterable(errors))
+
+
+def generate_ticket(eventUser, lang='en_US.UTF8'):
+    ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
+    ticket_template.set_text('event_name', eventUser.event.name[:30])
+    locale.setlocale(locale.LC_TIME, lang)  # Locale del request
+    ticket_template.set_text('event_date', (eventUser.event.date.strftime("%A %d de %B de %Y")).decode('utf-8'))
+    place = json.loads(eventUser.event.place)
+    if place.get("name"):  # Si tiene nombre cargado
+        ticket_template.set_text('event_place_name', place.get("name"))
+        ticket_template.set_text('event_place_address', place.get("formatted_address")[:50])
+    else:
+        ticket_template.set_text('event_place_name', place.get("formatted_address")[:50])
+        ticket_template.set_text('event_place_address', '')
+
+    ticket_template.set_text('ticket_type', u'Entrada General')
+    qr = pyqrcode.create(eventUser.id)
+    code = io.BytesIO()
+    qr.png(code, scale=7, quiet_zone=0)
+    ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
+    ticket_template.set_text('eventUser_PK', str(eventUser.id).zfill(12))
+    ticket_template.set_text('eventUser_email', eventUser.user.email)  # No se enviara a los NonRegisteredAttendee
+
+    userName_l1 = u"%s %s" % (eventUser.user.first_name, eventUser.user.last_name)
+    userName_l2 = ''
+    if (len(userName_l1) > 30):
+        userName_l1 = eventUser.user.first_name[:30]  # Por si tiene mas de 30 caracteres
+        userName_l2 = eventUser.user.last_name[:30]
+
+    ticket_template.set_text('eventUser_name_l1', userName_l1)
+    ticket_template.set_text('eventUser_name_l2', userName_l2)
+
+    return str(ticket_template)
+
+
+def send_event_ticket(eventUser, lang):
+    ticket = generate_ticket(eventUser, lang)
+
+    email = EmailMessage()
+    subject = _(u"Ticket for %(event_name)s event") % {'event_name': eventUser.event.name}
+    body = _(u"Hello %(first_name)s %(last_name)s,\n Here is your ticket for %(event_name)s event. \
+    Please remember to print it and bring it with you the day of the event. \
+    \n Regards, %(event_name)s team.") % {'event_name': eventUser.event.name, 'first_name': eventUser.user.first_name, 'last_name': eventUser.user.last_name}
+    email.subject = unicode(subject)
+    email.body = unicode(body)
+    email.to = [eventUser.user.email]
+    email.attach('Ticket-' + str(eventUser.id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket),
+                 'application/pdf')
+    email.send(fail_silently=False)
+
+
+def create_organizer(event_user):
+    organizer = Organizer.objects.filter(eventUser=event_user).first()
+    if organizer is None:
+        organizer = Organizer.objects.create(eventUser=event_user)
+
+    add_organizer_permissions(organizer.eventUser.user)
+    organizer.save()
+    return organizer
+
+# Views
 
 
 def index(request, event_slug):
@@ -77,12 +159,6 @@ def event_view(request, event_slug, html='index.html'):
 def home(request):
     events = Event.objects.all()
     return render(request, 'homepage.html', {'events': events})
-
-
-def get_forms_errors(forms):
-    field_errors = [form.non_field_errors() for form in forms]
-    errors = [error for error in field_errors]
-    return list(itertools.chain.from_iterable(errors))
 
 
 def generate_datetime(request, event):
@@ -579,76 +655,46 @@ def confirm_schedule(request, event_slug):
     return schedule(request, event_slug)
 
 
-def reports(request, event_slug):
+def reports(request,event_slug):
+    confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0,0,0
+
     event = Event.objects.get(slug__iexact=event_slug)
-    has_attendee = Attendee.objects.filter(eventUser__event=event).exists()
-    has_installation_attendee = InstallationAttendee.objects.filter(eventUser__event=event).exists()
-    has_organizer = Organizer.objects.filter(eventUser__event=event).exists()
-    has_installers = Installer.objects.filter(eventUser__event=event).exists()
-    has_speakers = Speaker.objects.filter(eventUser__event=event).exists()
-    has_collaborators = Collaborator.objects.filter(eventUser__event=event).exists()
-    has_talk_proposals = TalkProposal.objects.filter(activity__event=event).exists()
-    has_installations = Installation.objects.filter(attendee__event=event).exists()
+    votes = Vote.objects.all()
+    installers = Installer.objects.filter(eventUser__event=event)
+    installations = Installation.objects.filter(attendee__event=event)
+    talks = TalkProposal.objects.filter(activity__event=event)
+    collaborators = Collaborator.objects.filter(eventUser__event=event)
+
+    confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
+    confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
+    confirmed_attendees_count += EventUser.objects.filter(event=event).filter(nonregisteredattendee__isnull=False).count()
+
+    not_confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=False).count()
+    not_confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=False).count()
+
+    #TODO: Tener en cuenta que si se empiezan a cargar los Speakers en alguna instancia
+    #Va a tener que revisarse esto mejor
+    for talk in talks:
+        speakers_count += len(talk.speakers_names.split(','))
+
     template_dict = {
-        'has_attendee': has_attendee,
-        'has_organizer': has_organizer,
-        'has_installers': has_installers,
-        'has_installation_attendee': has_installation_attendee,
-        'has_speakers': has_speakers,
-        'has_collaborators': has_collaborators,
-        'has_talk_proposals': has_talk_proposals,
-        'has_installations': has_installations
+        'confirmed_attendees_count' : confirmed_attendees_count,
+        'not_confirmed_attendees_count' : not_confirmed_attendees_count,
+        'confirmed_collaborators_count' : collaborators.filter(eventUser__assisted=True).count(),
+        'not_confirmed_collaborators_count' : collaborators.filter(eventUser__assisted=False).count(),
+        'confirmed_installers_count' : installers.filter(eventUser__assisted=True).count(),
+        'not_confirmed_installers_count' : installers.filter(eventUser__assisted=False).count(),
+        'speakers_count' : Speaker.objects.filter(eventUser__event=event).count() + speakers_count,
+        'organizers_count' : Organizer.objects.filter(eventUser__event=event).count(),
+        'talk_proposals_count': TalkProposal.objects.filter(activity__event=event).count(),
+        'installations_count': Installation.objects.filter(attendee__event=event).count(),
+        'votes_for_talk' : count_by
+(votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id, activity__event=event).activity.title, lambda vote: vote.vote),
+        'installers_for_level': count_by(installers, lambda inst: inst.level),
+        'installers_count': installers.count(),
+        'installation_for_software':count_by(installations, lambda inst: inst.software.name),
     }
     return render(request, 'reports/dashboard.html', update_event_info(event_slug, render_dict=template_dict))
-
-
-def generate_ticket(eventUser, lang='en_US.UTF8'):
-    ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
-    ticket_template.set_text('event_name', eventUser.event.name[:30])
-    locale.setlocale(locale.LC_TIME, lang) #Locale del request
-    ticket_template.set_text('event_date', (eventUser.event.date.strftime("%A %d de %B de %Y")).decode('utf-8'))
-    place = json.loads(eventUser.event.place)
-    if place.get("name"):  # Si tiene nombre cargado
-        ticket_template.set_text('event_place_name', place.get("name"))
-        ticket_template.set_text('event_place_address', place.get("formatted_address")[:50])
-    else:
-        ticket_template.set_text('event_place_name', place.get("formatted_address")[:50])
-        ticket_template.set_text('event_place_address', '')
-
-    ticket_template.set_text('ticket_type', u'Entrada General')
-    qr = pyqrcode.create(eventUser.id)
-    code = io.BytesIO()
-    qr.png(code, scale=7, quiet_zone=0)
-    ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
-    ticket_template.set_text('eventUser_PK', str(eventUser.id).zfill(12))
-    ticket_template.set_text('eventUser_email', eventUser.user.email)  # No se enviara a los NonRegisteredAttendee
-
-    userName_l1 = u"%s %s" % (eventUser.user.first_name, eventUser.user.last_name)
-    userName_l2 = ''
-    if (len(userName_l1) > 30):
-        userName_l1 = eventUser.user.first_name[:30]  # Por si tiene mas de 30 caracteres
-        userName_l2 = eventUser.user.last_name[:30]
-
-    ticket_template.set_text('eventUser_name_l1', userName_l1)
-    ticket_template.set_text('eventUser_name_l2', userName_l2)
-
-    return str(ticket_template)
-
-
-def send_event_ticket(eventUser, lang):
-    ticket = generate_ticket(eventUser, lang)
-
-    email = EmailMessage()
-    subject = _(u"Ticket for %(event_name)s event") % {'event_name':eventUser.event.name}
-    body = _(u"Hello %(first_name)s %(last_name)s,\n Here is your ticket for %(event_name)s event. \
-    Please remember to print it and bring it with you the day of the event. \
-    \n Regards, %(event_name)s team.") % {'event_name': eventUser.event.name, 'first_name': eventUser.user.first_name, 'last_name':eventUser.user.last_name}
-    email.subject = unicode(subject)
-    email.body = unicode(body)
-    email.to = [eventUser.user.email]
-    email.attach('Ticket-' + str(eventUser.id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket),
-                 'application/pdf')
-    email.send(fail_silently=False)
 
 
 @login_required
@@ -871,13 +917,3 @@ def view_ticket(request, event_slug):
     else:
         messages.error(request, "You are not registered for this event")
         return HttpResponseRedirect(reverse("index", args=(event_slug,)))
-
-
-def create_organizer(event_user):
-    organizer = Organizer.objects.filter(eventUser=event_user).first()
-    if organizer is None:
-        organizer = Organizer.objects.create(eventUser=event_user)
-
-    add_organizer_permissions(organizer.eventUser.user)
-    organizer.save()
-    return organizer

@@ -6,7 +6,7 @@
 
 {% block other-head %}
     <link rel="stylesheet" type="text/css" href="{% static "manager/bower_components/morrisjs/morris.css" %}">
-    <script src="{% static "manager/bower_components/raphael/raphael-min.js" %}"></script>
+    <script src="{% static "manager/bower_components/raphael/raphael.min.js" %}"></script>
     <script src="{% static "manager/bower_components/morrisjs/morris.min.js" %}"></script>
 {% endblock %}
 
@@ -19,37 +19,106 @@
 {% block content %}
 
     <div class="row">
-        <div class="row col-md-6">
+        <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Attendee" %}</strong>
+                    <strong>{% trans "Attendees" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_attendee or has_installation_attendee%}
-                        <i class="fa fa-users" style="color: #0b62a4"> {% trans "Attendees Confirmed" %} </i><br>
-                        <i class="fa fa-users" style="color: #FA5858"> {% trans "Attendees Not Confirmed" %}</i><br><br>
+                    {% if confirmed_attendees_count > 0 or not_confirmed_attendees_count > 0 %}
                         <div id="attendee"></div>
+                        <div class="col-md-12">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>{% trans "Assisted" %} <i class="fa fa-users"
+                                                                  style="color: #0b62a4"></i></th>
+                                    <th>{% trans "Not Assisted" %} <i class="fa fa-users"
+                                                                     style="color: #FA5858"></i></th>
+                                    <th>{% trans "Enrolled" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ confirmed_attendees_count }}</td>
+                                    <td>{{ not_confirmed_attendees_count }}</td>
+                                    <td>{{ confirmed_attendees_count|add:not_confirmed_attendees_count }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %}
-                        <strong>{% trans "There aren't any registered attendees" %}</strong>
+                        <strong>{% trans "There aren't any enrolled attendees" %}</strong>
                     {% endif %}
                 </div>
             </div>
         </div>
 
-        <div class="row col-md-6" style="margin-left: 10px">
+        <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Staff" %}</strong>
+                    <strong>{% trans "Organizers and Speakers" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_organizer or has_installers or has_speakers or has_collaborators %}
-                        <i class="fa fa-users" style="color: #FFBB13"> {% trans "Organizers" %}</i><br>
-                        <i class="fa fa-users" style="color: #0b62a4"> {% trans "Collaborators" %}</i><br>
-                        <i class="fa fa-users" style="color: #FA5858"> {% trans "Installers" %}</i><br>
-                        <i class="fa fa-users" style="color: #4da74d"> {% trans "Speakers" %}</i>
+                    {% if speakers_count > 0 or organizers_count > 0 %}
                         <div id="staff"></div>
+                        <div class="col-md-12">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>{% trans "Organizers" %} <i class="fa fa-users" style="color: #0b62a4"></i></th>
+                                    <th>{% trans "Speakers" %} <i class="fa fa-users"
+                                                                  style="color: #FA5858"></i></th>
+                                    <th>{% trans "Total" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ organizers_count }}</td>
+                                    <td>{{ speakers_count }}</td>
+                                    <td>{{ speakers_count|add:organizers_count }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %}
-                        <strong>{% trans "There isn't any registered staff" %}</strong>
+                        <strong>{% trans "There aren't any enrolled staff" %}</strong>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Installers" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if confirmed_installers_count > 0 or not_confirmed_installers_count > 0 %}
+                        <div id="installers_assistance"></div>
+                        <div class="col-md-12">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>{% trans "Assisted" %} <i class="fa fa-users"
+                                                                  style="color: #0b62a4"></i></th>
+                                    <th>{% trans "Not Assisted" %} <i class="fa fa-users"
+                                                                      style="color: #FA5858"></i></th>
+                                    <th>{% trans "Enrolled" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ confirmed_installers_count }}</td>
+                                    <td>{{ not_confirmed_installers_count }}</td>
+                                    <td>{{ confirmed_installers_count|add:not_confirmed_installers_count }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <strong>{% trans "There aren't any enrolled installers" %}</strong>
                     {% endif %}
                 </div>
             </div>
@@ -57,29 +126,100 @@
     </div>
 
     <div class="row">
-        <div class="row col-md-6">
+        <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Totals" %}</strong>
+                    <strong>{% trans "Collaborators" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_talk_proposals or has_installations %}
-                        <div id="counts"></div>
+                    {% if confirmed_collaborators_count > 0 or not_confirmed_collaborators_count > 0 %}
+                        <div id="collaborators"></div>
+                        <div class="col-md-12">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>{% trans "Assisted" %} <i class="fa fa-users"
+                                                                  style="color: #0b62a4"></i></th>
+                                    <th>{% trans "Not Assisted" %} <i class="fa fa-users"
+                                                                      style="color: #FA5858"></i></th>
+                                    <th>{% trans "Enrolled" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ confirmed_collaborators_count }}</td>
+                                    <td>{{ not_confirmed_collaborators_count }}</td>
+                                    <td>{{ confirmed_collaborators_count|add:not_confirmed_collaborators_count }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %}
-                        <strong>{% trans "There aren't any talks or installations submitted" %}</strong>
+                        <strong>{% trans "There aren't any enrolled collaborators" %}</strong>
                     {% endif %}
                 </div>
             </div>
         </div>
-
-        <div class="row col-md-6" style="margin-left: 10px">
+        <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Installations" %}</strong>
+                    <strong>{% trans "Activities and Installations" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_installations %}
-                        <div id="installations"></div>
+                    {% if talk_proposals_count > 0 or installations_count > 0 %}
+                        <div id="counts"></div>
+                        <div class="col-md-offset-1 col-md-10">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>{% trans "Activities" %}</th>
+                                    <th>{% trans "Installations" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{{ talk_proposals_count }}</td>
+                                    <td>{{ installations_count }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                        </div>
+                    {% else %}
+                        <strong>{% trans "There aren't any activities or installations submitted" %}</strong>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Installers Per Level" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if installers_for_level %}
+                        <div id="installers"></div>
+                        <div class="col-md-offset-1 col-md-10">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    {% for item, value in installers_for_level.items %}
+                                        <th>{{ item|installer_level }}</th>
+                                    {% endfor %}
+                                    <th>{% trans "Total" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {% for item, value in installers_for_level.items %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                    <td>{{ installers_count }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                        </div>
                     {% else %}
                         <strong>{% trans "There aren't any registered installations" %}</strong>
                     {% endif %}
@@ -89,29 +229,50 @@
     </div>
 
     <div class="row">
-        <div class="row col-md-6">
+        <div class="col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
                     <strong>{% trans "Votes For Talks" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_talk_proposals %}
+                    {% if votes_for_talk %}
                         <div id="votes"></div>
+                        <!--
+                        No tiene tabla porque cuando tenga muchas talk_proposal,
+                        va a verse muy mal
+                       -->
                     {% else %}
-                        <strong>{% trans "There aren't any talk proposals submitted" %}</strong>
+                        <strong>{% trans "There aren't any submitted activities" %}</strong>
                     {% endif %}
                 </div>
             </div>
         </div>
-
-        <div class="row col-md-6" style="margin-left: 10px">
+        <div class="col-md-6">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Installer For Level" %}</strong>
+                    <strong>{% trans "Installations" %}</strong>
                 </div>
                 <div class="panel-body">
-                    {% if has_installers %}
-                        <div id="installers"></div>
+                    {% if installation_for_software %}
+                        <div id="installations"></div>
+                        <div class="col-md-offset-1 col-md-10">
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    {% for item, value in installation_for_software.items %}
+                                        <th>{{ item }}</th>
+                                    {% endfor %}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {% for item, value in installation_for_software.items %}
+                                        <td>{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %}
                         <strong>{% trans "There aren't any registered installations" %}</strong>
                     {% endif %}
@@ -126,113 +287,138 @@
 
     <script src="{% static "manager/bower_components/q/q.js" %}"></script>
 
-    <script>
+    <script type="text/javascript">
 
         $(document).ready(function() {
 
-            {% if has_attendee or has_installation_attendee %}
-                Q([$.get("/api/attendee/?format=json&event={{ event.pk }}&reduce=True"),
-                  $.get("/api/installationattendees/?format=json&event={{ event.pk }}&reduce=True"),
-                  $.get("/api/nonregisteredattendees/?format=json&event={{ event.pk }}&reduce=True")])
-                  .spread(function (attendees, installation_attendees, non_registered_attendees){
-                    var confirmed = attendees.confirmed + installation_attendees.confirmed + non_registered_attendees.total;
-                    var not_confirmed = attendees.not_confirmed+installation_attendees.not_confirmed;
-                    Morris.Donut({
-                      element: 'attendee',
-                      data: [
-                        {label: "{% trans "Confirmed Attendees" %}", value: confirmed, color: "#0b62a4"},
-                        {label: "{% trans "Unconfirmed Attendees" %}", value: not_confirmed, color: "#FA5858"}
-                      ]
-                    });
+            {% if confirmed_attendees_count > 0 or not_confirmed_attendees_count > 0 %}
+                Morris.Donut({
+                    element: 'attendee',
+                    data   : [
+                        {
+                            label: "{% trans "Assisted" %}",
+                            value: {{confirmed_attendees_count}},
+                            color: "#0b62a4"
+                        },
+                        {
+                            label: "{% trans "Not Assisted" %}",
+                            value: {{not_confirmed_attendees_count}},
+                            color: "#FA5858"
+                        }
+                    ]
                 });
             {% endif %}
 
-            Q($.get("/api/{{ event_slug }}/event_report"))
-                .then(function (event_report){
-                  {% if has_organizer or has_installers or has_speakers or has_collaborators %}
-                    Morris.Donut({
-                      element: 'staff',
-                      data: [
-                        {label: "{% trans "Collaborators" %}", value: event_report.staff.collaborators, color: "#0b62a4"},
-                        {label: "{% trans "Installers" %}", value: event_report.staff.installers, color: "#FA5858"},
-                        {label: "{% trans "Speakers" %}", value: event_report.staff.speakers, color: "#4da74d"},
-                        {label: "{% trans "Organizers" %}", value: event_report.staff.organizers, color: "#FFBB13"}
-                      ]
-                    });
-                  {% endif %}
-                  {% if has_talk_proposals %}
-                    var votes = [];
-                    for (var item in event_report.votes_for_talk){
-                        votes.push({y: item, a: event_report.votes_for_talk[item]});
-                    };
-
-                    Morris.Bar({
-                      element: 'votes',
-                      data: votes,
-                      xkey: 'y',
-                      ykeys: ['a'],
-                      labels: ['{% trans "Total" %}']
-                    });
-                  {% endif %}
+            {% if confirmed_collaborators_count > 0 or not_confirmed_collaborators_count > 0 %}
+                Morris.Donut({
+                    element: 'collaborators',
+                    data   : [
+                        {
+                            label: "{% trans "Assisted" %}",
+                            value: {{confirmed_collaborators_count}},
+                            color: "#0b62a4"
+                        },
+                        {
+                            label: "{% trans "Not Assisted" %}",
+                            value: {{not_confirmed_collaborators_count}},
+                            color: "#FA5858"
+                        }
+                    ]
                 });
+            {% endif %}
 
-          {% if has_installers %}
-            Q($.get("/api/installers/?format=json&event={{ event.pk }}&reduce=True"))
-              .then(function (installer){
+            {% if confirmed_installers_count > 0 or not_confirmed_installers_count > 0 %}
+                Morris.Donut({
+                    element: 'installers_assistance',
+                    data   : [
+                        {
+                            label: "{% trans "Assisted" %}",
+                            value: {{confirmed_installers_count}},
+                            color: "#0b62a4"
+                        },
+                        {
+                            label: "{% trans "Not Assisted" %}",
+                            value: {{not_confirmed_installers_count}},
+                            color: "#FA5858"
+                        }
+                    ]
+                });
+            {% endif %}
 
-                var installers = [];
+            {% if speakers_count > 0 or organizers_count > 0 %}
+                Morris.Donut({
+                    element: 'staff',
+                    data   : [
+                        {
+                            label: "{% trans "Speakers" %}",
+                            value: {{speakers_count}},
+                            color: "#0b62a4"
+                        },
+                        {
+                            label: "{% trans "Organizers" %}",
+                            value: {{organizers_count}},
+                            color: "#ffbb13"
+                        }
+                    ]
+                });
+            {% endif %}
+
+            {% if votes_for_talk %}
+                Morris.Bar({
+                    element: 'votes',
+                    data   : [{% for item, value in votes_for_talk.items%}
+                        {y: '{{item}}', a: {{value}}},
+                    {% endfor %}],
+                    xkey   : 'y',
+                    ykeys  : ['a'],
+                    labels : ['{% trans "Total" %}']
+                });
+            {% endif %}
+
+            {% if installers_for_level %}
                 var installer_levels = {
-                  1: '{% trans 'Beginner' %}',
-                  2: '{% trans 'Medium' %}',
-                  3: '{% trans 'Advanced' %}',
-                  4: '{% trans 'Super Hacker' %}'
-                }
-                for ( var item in installer.installers_for_level ){
-                    installers.push({y: installer_levels[item], a: installer.installers_for_level[item]});
+                    1: '{% trans 'Beginner' %}',
+                    2: '{% trans 'Medium' %}',
+                    3: '{% trans 'Advanced' %}',
+                    4: '{% trans 'Super Hacker' %}'
                 };
 
                 Morris.Bar({
-                  element: 'installers',
-                  data: installers,
-                  xkey: 'y',
-                  ykeys: ['a'],
-                  labels: ['{% trans "Total" %}']
+                    element: 'installers',
+                    data   : [{% for item, value in installers_for_level.items%}
+                        {y: installer_levels[{{item}}], a: {{value}}},
+                    {% endfor %}],
+                    xkey   : 'y',
+                    ykeys  : ['a'],
+                    labels : ['{% trans "Total" %}']
                 });
+            {% endif %}
 
-            });
-          {% endif %}
-          {% if has_talk_proposals or has_installations %}
-            Q([$.get("/api/talkproposals/?format=json&event={{ event.pk }}&reduce=True"),
-               $.get("/api/installations/?format=json&event={{ event.pk }}&reduce=True")])
-              .spread(function (talk, installation){
+            {% if talk_proposals_count > 0 or installations_count > 0 %}
                 Morris.Bar({
-                  element: 'counts',
-                  data: [
-                    { y: '{% trans "Talks" %}', a: talk.total},
-                    { y: '{% trans "Installations" %}', a: installation.total}
-                  ],
-                  xkey: 'y',
-                  ykeys: ['a'],
-                  labels: ['{% trans "Total" %}']
+                    element: 'counts',
+                    data   : [
+                        {y: '{% trans "Talks" %}', a: {{talk_proposals_count}}},
+                        {y: '{% trans "Installations" %}', a: {{installations_count}}}
+                    ],
+                    xkey   : 'y',
+                    ykeys  : ['a'],
+                    labels : ['{% trans "Total" %}']
                 });
+            {% endif %}
 
-                var software = [];
-                for ( var item in installation.installation_for_software ){
-                    software.push({y: item, a: installation.installation_for_software[item]});
-                };
-
+            {% if installation_for_software %}
                 Morris.Bar({
-                  element: 'installations',
-                  data: software,
-                  xkey: 'y',
-                  ykeys: ['a'],
-                  labels: ['{% trans "Total" %}']
+                    element: 'installations',
+                    data   : [{% for item, value in installation_for_software.items%}
+                        {y: '{{item}}', a: {{value}}},
+                    {% endfor %}],
+                    xkey   : 'y',
+                    ykeys  : ['a'],
+                    labels : ['{% trans "Total" %}']
                 });
-
-            });
-          {% endif %}
+            {% endif %}
 
         });
-
     </script>
 {% endblock %}
