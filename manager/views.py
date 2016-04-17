@@ -1,37 +1,35 @@
 # encoding: UTF-8
-import itertools
-import svglue
-import cairosvg
-import pyqrcode
-import json
-import os
-import io
 import datetime
-import locale
+import io
+import itertools
+import json
 
 import autocomplete_light
+import cairosvg
+import locale
+import os
+import pyqrcode
+import svglue
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
+from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, render_to_response
 from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
-
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, \
     RegisteredEventUserSearchForm, ActivityCompleteForm, ContactForm
-
 from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, InstallationAttendee, TalkProposal, \
     Activity, Hardware, Installation, Comment, Collaborator, ContactMessage, NonRegisteredAttendee, Installer, Speaker
-
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
@@ -113,7 +111,8 @@ def send_event_ticket(eventUser, lang):
     subject = _(u"Ticket for %(event_name)s event") % {'event_name': eventUser.event.name}
     body = _(u"Hello %(first_name)s %(last_name)s,\n Here is your ticket for %(event_name)s event. \
     Please remember to print it and bring it with you the day of the event. \
-    \n Regards, %(event_name)s team.") % {'event_name': eventUser.event.name, 'first_name': eventUser.user.first_name, 'last_name': eventUser.user.last_name}
+    \n Regards, %(event_name)s team.") % {'event_name': eventUser.event.name, 'first_name': eventUser.user.first_name,
+                                          'last_name': eventUser.user.last_name}
     email.subject = unicode(subject)
     email.body = unicode(body)
     email.to = [eventUser.user.email]
@@ -131,25 +130,29 @@ def create_organizer(event_user):
     organizer.save()
     return organizer
 
+
 # Views
 
 
 def index(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
+    try:
+        event = Event.objects.get(slug__iexact=event_slug)
 
-    if event.external_url:
-        msgs = messages.get_messages(request)
-        if msgs:
-            return render(request, 'base.html', update_event_info(event_slug, {messages: msgs}, event))
+        if event.external_url:
+            msgs = messages.get_messages(request)
+            if msgs:
+                return render(request, 'base.html', update_event_info(event_slug, {messages: msgs}, event))
 
-        return HttpResponseRedirect(event.external_url)
+            return HttpResponseRedirect(event.external_url)
 
-    talk_proposals = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True) \
-        .exclude(image__isnull=True) \
-        .distinct()
+        talk_proposals = TalkProposal.objects.filter(activity__event=event, confirmed_talk=True) \
+            .exclude(image__isnull=True) \
+            .distinct()
 
-    render_dict = {'talk_proposals': talk_proposals}
-    return render(request, 'event/index.html', update_event_info(event_slug, render_dict, event))
+        render_dict = {'talk_proposals': talk_proposals}
+        return render(request, 'event/index.html', update_event_info(event_slug, render_dict, event))
+    except Event.DoesNotExist:
+        raise Http404(_("The event you're looking for does not exists."))
 
 
 def event_view(request, event_slug, html='index.html'):
@@ -474,11 +477,12 @@ def attendee_search(request, event_slug):
 
     return render(request, 'registration/attendee/search.html', update_event_info(event_slug, {'form': form}))
 
+
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_registration(request, event_slug, pk):
-    eventUser=None
+    eventUser = None
     try:
         eventUser = EventUser.objects.get(pk=pk)
     except ObjectDoesNotExist:
@@ -655,8 +659,8 @@ def confirm_schedule(request, event_slug):
     return schedule(request, event_slug)
 
 
-def reports(request,event_slug):
-    confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0,0,0
+def reports(request, event_slug):
+    confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0, 0, 0
 
     event = Event.objects.get(slug__iexact=event_slug)
     votes = Vote.objects.all()
@@ -666,33 +670,38 @@ def reports(request,event_slug):
     collaborators = Collaborator.objects.filter(eventUser__event=event)
 
     confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
-    confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
-    confirmed_attendees_count += EventUser.objects.filter(event=event).filter(nonregisteredattendee__isnull=False).count()
+    confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(
+        eventUser__assisted=True).count()
+    confirmed_attendees_count += EventUser.objects.filter(event=event).filter(
+        nonregisteredattendee__isnull=False).count()
 
-    not_confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=False).count()
-    not_confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=False).count()
+    not_confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(
+        eventUser__assisted=False).count()
+    not_confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(
+        eventUser__assisted=False).count()
 
-    #TODO: Tener en cuenta que si se empiezan a cargar los Speakers en alguna instancia
-    #Va a tener que revisarse esto mejor
+    # TODO: Tener en cuenta que si se empiezan a cargar los Speakers en alguna instancia
+    # Va a tener que revisarse esto mejor
     for talk in talks:
         speakers_count += len(talk.speakers_names.split(','))
 
     template_dict = {
-        'confirmed_attendees_count' : confirmed_attendees_count,
-        'not_confirmed_attendees_count' : not_confirmed_attendees_count,
-        'confirmed_collaborators_count' : collaborators.filter(eventUser__assisted=True).count(),
-        'not_confirmed_collaborators_count' : collaborators.filter(eventUser__assisted=False).count(),
-        'confirmed_installers_count' : installers.filter(eventUser__assisted=True).count(),
-        'not_confirmed_installers_count' : installers.filter(eventUser__assisted=False).count(),
-        'speakers_count' : Speaker.objects.filter(eventUser__event=event).count() + speakers_count,
-        'organizers_count' : Organizer.objects.filter(eventUser__event=event).count(),
+        'confirmed_attendees_count': confirmed_attendees_count,
+        'not_confirmed_attendees_count': not_confirmed_attendees_count,
+        'confirmed_collaborators_count': collaborators.filter(eventUser__assisted=True).count(),
+        'not_confirmed_collaborators_count': collaborators.filter(eventUser__assisted=False).count(),
+        'confirmed_installers_count': installers.filter(eventUser__assisted=True).count(),
+        'not_confirmed_installers_count': installers.filter(eventUser__assisted=False).count(),
+        'speakers_count': Speaker.objects.filter(eventUser__event=event).count() + speakers_count,
+        'organizers_count': Organizer.objects.filter(eventUser__event=event).count(),
         'talk_proposals_count': TalkProposal.objects.filter(activity__event=event).count(),
         'installations_count': Installation.objects.filter(attendee__event=event).count(),
-        'votes_for_talk' : count_by
-(votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id, activity__event=event).activity.title, lambda vote: vote.vote),
+        'votes_for_talk': count_by
+        (votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id, activity__event=event).activity.title,
+         lambda vote: vote.vote),
         'installers_for_level': count_by(installers, lambda inst: inst.level),
         'installers_count': installers.count(),
-        'installation_for_software':count_by(installations, lambda inst: inst.software.name),
+        'installation_for_software': count_by(installations, lambda inst: inst.software.name),
     }
     return render(request, 'reports/dashboard.html', update_event_info(event_slug, render_dict=template_dict))
 
@@ -745,7 +754,8 @@ def generic_registration(request, event_slug, registration_model, registration_f
                         eventUser.save()
                         msg_success += unicode(_(". Please check your email for the corresponding ticket."))
                     except Exception:
-                        msg_success += unicode(_(" but we couldn't send you your ticket. Please, check it out from the menu."))
+                        msg_success += unicode(
+                            _(" but we couldn't send you your ticket. Please, check it out from the menu."))
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
@@ -874,7 +884,8 @@ def remove_room(request, event_slug, pk):
     room = Room.objects.get(pk=pk)
     activities = Activity.objects.filter(room=room)
     if activities.count() > 0:
-        messages.error(request, _("The room hasn't been removed successfully because the room has confirmed activities."))
+        messages.error(request,
+                       _("The room hasn't been removed successfully because the room has confirmed activities."))
     else:
         room.delete()
         messages.success(request, _("The room has been removed successfully!"))
@@ -917,3 +928,17 @@ def view_ticket(request, event_slug):
     else:
         messages.error(request, "You are not registered for this event")
         return HttpResponseRedirect(reverse("index", args=(event_slug,)))
+
+
+def handler404(request):
+    response = render_to_response('404.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+
+def handler500(request):
+    response = render_to_response('500.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
