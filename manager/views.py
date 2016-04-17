@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
 from django.http import Http404
@@ -29,7 +29,8 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, Hardwa
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, \
     RegisteredEventUserSearchForm, ActivityCompleteForm, ContactForm
 from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, InstallationAttendee, TalkProposal, \
-    Activity, Hardware, Installation, Comment, Collaborator, ContactMessage, NonRegisteredAttendee, Installer, Speaker
+    Activity, Hardware, Installation, Comment, Collaborator, ContactMessage, NonRegisteredAttendee, Installer, Speaker, \
+    InstallationMessage
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
@@ -245,9 +246,27 @@ def installation(request, event_slug):
                 install = None
                 install = installation_form.save()
                 install.hardware = hardware
-                install.event = Event.objects.get(slug__iexact=event_slug)
+                event = Event.objects.get(slug__iexact=event_slug)
+                install.event = event
                 install.installer = EventUser.objects.get(user=request.user)
                 install.save()
+                #Send post-install email if its defined
+                postinstallemail = InstallationMessage.objects.get(event=event)
+                if postinstallemail:
+                    attendee = install.attendee
+                    email = EmailMultiAlternatives()
+                    subject = _(u"%(first_name)s %(last_name)s, thank you for participating in FLISoL %(event_name)s") % {
+    'event_name': event.name, 'first_name': attendee.user.first_name, 'last_name': attendee.user.last_name}
+                    email.from_email = postinstallemail.contact_email
+                    email.subject = unicode(subject)
+                    email.body = ''
+                    email.attach_alternative(postinstallemail.message, "text/html")
+                    email.to = [attendee.user.email]
+                    try:
+                        email.send(fail_silently=False)
+                    except Exception:
+                        #Don't raise email exception to form exception
+                        pass
                 messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
