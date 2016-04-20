@@ -668,12 +668,12 @@ def reports(request, event_slug):
     installations = Installation.objects.filter(attendee__event=event)
     talks = TalkProposal.objects.filter(activity__event=event)
     collaborators = Collaborator.objects.filter(eventUser__event=event)
+    users = EventUser.objects.filter(event=event)
 
     confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
     confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(
         eventUser__assisted=True).count()
-    confirmed_attendees_count += EventUser.objects.filter(event=event).filter(
-        nonregisteredattendee__isnull=False).count()
+    confirmed_attendees_count += users.filter(nonregisteredattendee__isnull=False).count()
 
     not_confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(
         eventUser__assisted=False).count()
@@ -702,6 +702,7 @@ def reports(request, event_slug):
         'installers_for_level': count_by(installers, lambda inst: inst.level),
         'installers_count': installers.count(),
         'installation_for_software': count_by(installations, lambda inst: inst.software.name),
+        'registered_in_time': count_by(users, lambda user: user.user.date_joined.date())
     }
     return render(request, 'reports/dashboard.html', update_event_info(event_slug, render_dict=template_dict))
 
