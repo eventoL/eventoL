@@ -858,3 +858,11 @@ def create_organizer(event_user):
     add_organizer_permissions(organizer.eventUser.user)
     organizer.save()
     return organizer
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def draw(request, event_slug):
+    users = EventUser.objects.filter(event__slug__iexact=event_slug, assisted=True).order_by('?')
+    users = [str(user) for user in users]
+    return render(request, 'event/draw.html', update_event_info(event_slug, {'eventusers': users}))
