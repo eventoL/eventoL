@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-20 04:52+0000\n"
+"POT-Creation-Date: 2016-04-20 21:00+0000\n"
 "PO-Revision-Date: 2016-04-12 15:56+0000\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -767,7 +767,7 @@ msgstr ""
 #: manager/templates/account/login.html:5
 #: manager/templates/account/login.html:6
 #: manager/templates/account/login.html:35
-#: manager/templates/account/login.html:39 manager/templates/base-main.html:159
+#: manager/templates/account/login.html:39 manager/templates/base-main.html:164
 msgid "Login"
 msgstr "Iniciar Sesión"
 
@@ -806,7 +806,7 @@ msgstr "Olvidaste tu contraseña?"
 #: manager/templates/account/logout.html:3
 #: manager/templates/account/logout.html:4
 #: manager/templates/account/logout.html:19
-#: manager/templates/base-main.html:188
+#: manager/templates/base-main.html:193
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
@@ -822,7 +822,7 @@ msgstr "Estás seguro que deseas cerrar sesión?"
 #: manager/templates/account/password_reset_from_key.html:4
 #: manager/templates/account/password_reset_from_key.html:8
 #: manager/templates/account/password_reset_from_key_done.html:10
-#: manager/templates/base-main.html:183
+#: manager/templates/base-main.html:188
 msgid "Change Password"
 msgstr "Cambiar Contraseña"
 
@@ -890,7 +890,7 @@ msgstr "cambiar contraseña"
 #: manager/templates/account/password_set.html:4
 #: manager/templates/account/password_set.html:8
 #: manager/templates/account/password_set.html:12
-#: manager/templates/base-main.html:177
+#: manager/templates/base-main.html:182
 msgid "Set Password"
 msgstr "Establecer Contraseña"
 
@@ -1211,30 +1211,34 @@ msgid "Submit an installation"
 msgstr "Cargar una instalación"
 
 #: manager/templates/base-main.html:123
+msgid "Draw"
+msgstr "Sorteo"
+
+#: manager/templates/base-main.html:128
 msgid "Manage Organizers"
 msgstr "Administrar organizadores"
 
-#: manager/templates/base-main.html:128
+#: manager/templates/base-main.html:133
 msgid "Manage Registration People"
 msgstr "Administrar miembros de registración"
 
-#: manager/templates/base-main.html:133
+#: manager/templates/base-main.html:138
 msgid "Manage Rooms"
 msgstr "Administrar Salas"
 
-#: manager/templates/base-main.html:142
+#: manager/templates/base-main.html:147
 msgid "Follow Us!"
 msgstr "Síguenos!"
 
-#: manager/templates/base-main.html:151
+#: manager/templates/base-main.html:156
 msgid "Contact Us!"
 msgstr "Contactanos!"
 
-#: manager/templates/base-main.html:171
+#: manager/templates/base-main.html:176
 msgid "Profile"
 msgstr "Perfil"
 
-#: manager/templates/base-main.html:216
+#: manager/templates/base-main.html:221
 msgid "You have the power!"
 msgstr "You have the power!"
 
@@ -1290,6 +1294,18 @@ msgstr ""
 #: manager/templates/event/create.html:203
 msgid "Please provide as much information you can about your event"
 msgstr "Ingresa todos los detalles que puedas acerca de tu evento"
+
+#: manager/templates/event/draw.html:14
+msgid "Winners"
+msgstr "Ganadores"
+
+#: manager/templates/event/draw.html:26
+msgid "Draw !!"
+msgstr "Sortear !!"
+
+#: manager/templates/event/draw.html:61
+msgid "There aren't any more participants"
+msgstr "No hay mas participantes"
 
 #: manager/templates/event/index.html:95
 msgid "About the event"
@@ -1622,7 +1638,7 @@ msgstr ""
 
 #: manager/views.py:156
 msgid "The event you're looking for does not exists."
-msgstr ""
+msgstr "El evento que está buscando no existe."
 
 #: manager/views.py:209
 msgid "The talk was registered successfully!"
