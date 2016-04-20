@@ -168,7 +168,7 @@
                 <div class="panel-body">
                     {% if talk_proposals_count > 0 or installations_count > 0 %}
                         <div id="counts"></div>
-                        <div class="col-md-offset-1 col-md-10">
+                        <div class="col-md-12">
                             <table class="table table-striped table-condensed">
                                 <thead>
                                 <tr>
@@ -183,7 +183,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <br>
                         </div>
                     {% else %}
                         <strong>{% trans "There aren't any activities or installations submitted" %}</strong>
@@ -199,7 +198,7 @@
                 <div class="panel-body">
                     {% if installers_for_level %}
                         <div id="installers"></div>
-                        <div class="col-md-offset-1 col-md-10">
+                        <div class="col-md-12">
                             <table class="table table-striped table-condensed">
                                 <thead>
                                 <tr>
@@ -218,7 +217,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <br>
                         </div>
                     {% else %}
                         <strong>{% trans "There aren't any registered installations" %}</strong>
@@ -255,7 +253,7 @@
                 <div class="panel-body">
                     {% if installation_for_software %}
                         <div id="installations"></div>
-                        <div class="col-md-offset-1 col-md-10">
+                        <div class="col-md-12">
                             <table class="table table-striped table-condensed">
                                 <thead>
                                 <tr>
@@ -280,6 +278,22 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <strong>{% trans "Registered users in time" %}</strong>
+                </div>
+                <div class="panel-body">
+                    {% if registered_in_time %}
+                        <div id="users_time"></div>
+                    {% else %}
+                        <strong>{% trans "There aren't any users registered yet" %}</strong>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+      </div>
 
 {% endblock %}
 
@@ -419,6 +433,18 @@
                 });
             {% endif %}
 
+            {% if registered_in_time %}
+              Morris.Line({
+                element: 'users_time',
+                xLabels : "day",
+                data: [{% for item, value in registered_in_time.items%}
+                    {y: '{{item|date:"Y-m-d"}}', a: {{value}}},
+                {% endfor %}],
+                xkey: 'y',
+                ykeys: ['a'],
+                labels: ['{% trans "Users" %}']
+              });
+            {% endif %}
         });
     </script>
 {% endblock %}
