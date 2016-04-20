@@ -248,10 +248,10 @@ def installation(request, event_slug):
                 install.hardware = hardware
                 event = Event.objects.get(slug__iexact=event_slug)
                 install.event = event
-                install.installer = EventUser.objects.get(user=request.user)
+                install.installer = EventUser.objects.filter(user=request.user).filter(event=event).first()
                 install.save()
                 #Send post-install email if its defined
-                postinstallemail = InstallationMessage.objects.get(event=event)
+                postinstallemail = InstallationMessage.objects.filter(event=event).first()
                 if postinstallemail:
                     attendee = install.attendee
                     email = EmailMultiAlternatives()
