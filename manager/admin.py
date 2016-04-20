@@ -39,7 +39,8 @@ class NonRegisteredAttendeeAdmin(ExportMixin, EventoLAdmin):
     def filter_event(self, event, queryset):
         attendees = []
         for attendee in queryset.all():
-            if EventUser.objects.get(nonregisteredattendee=attendee, event=event).exists():
+            event_user = EventUser.objects.filter(nonregisteredattendee=attendee, event=event).first()
+            if event_user:
                 attendees.append(attendee)
         return attendees
 
