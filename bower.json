@@ -29,7 +29,8 @@
     "geocomplete": "^1.6.5",
     "bootstrap-material-design": "v0.5.9",
     "font-awesome": "^4.5.0",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.37"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
+    "jquery-slotmachine": "~3.0.1"
   },
   "resolutions": {
     "bootstrap": "~3.3.2",
