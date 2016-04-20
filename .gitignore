@@ -48,3 +48,12 @@ manager/static/manager/bower_components/
 /manager/static/manager/css/flisol.css
 media/
 env/
+manager/static/admin/
+manager/static/autocomplete_light/
+manager/static/ckeditor/
+manager/static/facebook/
+manager/static/gis/
+manager/static/grappelli/
+manager/static/image_cropping/
+manager/static/js/
+manager/static/rest_framework/
