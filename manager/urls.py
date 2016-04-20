@@ -10,7 +10,8 @@ event_patterns = patterns(
     url(r'^registration$', views.registration, name='registration'),
     url(r'^registration/collaborator$', views.collaborator_registration, name='collaborator_registration'),
     url(r'^registration/installer$', views.installer_registration, name='installer_registration'),
-    url(r'^registration/attendee/search$', views.attendee_search, name='attendee_search'),
+    url(r'^registration/attendee/search/(?P<pk>\d+)$', views.attendee_registration, name='attendee_registration'),
+    url(r'^registration/attendee/search', views.attendee_search, name='attendee_search'),
     url(r'^registration/attendee/by-collaborator$', views.attendee_registration_by_collaborator,
         name='attendee_registration_by_collaborator'),
     url(r'^installation$', views.installation, name='installation'),
@@ -43,7 +44,7 @@ event_patterns = patterns(
     url(r'^reports$', views.reports, name='reports'),
     url(r'^organizers$', views.add_organizer, name='add_organizer'),
     url(r'^registration_people', views.add_registration_people, name='add_registration_people'),
-    url(r'^ticket$', views.view_ticket, name='view_ticket'),    
+    url(r'^ticket$', views.view_ticket, name='view_ticket'),
 )
 
 urlpatterns = patterns(

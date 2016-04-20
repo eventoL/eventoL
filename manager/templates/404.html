@@ -1,0 +1,24 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Page not found</title>
+    <style>
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body style="background-color: black;">
+<div class="centered">
+    <img src="https://http.cat/404" alt="Not Found"/>
+</div>
+<div style="text-align: center; color: white; padding-top: 25px">
+    {% blocktrans %}The page you're looking for is not here. Please try <a href="/">here</a>.{% endblocktrans %}
+</div>
+</body>
+</html>

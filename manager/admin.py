@@ -1,7 +1,8 @@
 from manager.security import create_reporters_group
 from manager.models import Organizer, Comment, Event, TalkProposal, Attendee, Collaborator, Hardware,\
     Software, Installer, Installation, TalkType, Room, ContactType, Contact, Activity,\
-    ContactMessage, EventUser, Image, InstallationAttendee, NonRegisteredAttendee, Speaker
+    ContactMessage, EventUser, Image, InstallationAttendee, NonRegisteredAttendee, Speaker,\
+    InstallationMessage
 from manager.forms import ActivityAdminForm
 from import_export import resources
 from django.contrib.gis import admin
@@ -38,7 +39,8 @@ class NonRegisteredAttendeeAdmin(ExportMixin, EventoLAdmin):
     def filter_event(self, event, queryset):
         attendees = []
         for attendee in queryset.all():
-            if EventUser.objects.get(nonregisteredattendee=attendee, event=event).exists():
+            event_user = EventUser.objects.filter(nonregisteredattendee=attendee, event=event).first()
+            if event_user:
                 attendees.append(attendee)
         return attendees
 
@@ -94,7 +96,6 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
     def filter_event(self, event, queryset):
         return queryset.filter(installer__event=event)
 
-
 class AttendeeResource(resources.ModelResource):
     class Meta(object):
         model = Attendee
@@ -134,6 +135,7 @@ admin.site.register(Hardware)
 admin.site.register(Software)
 admin.site.register(Installer, InstallerAdmin)
 admin.site.register(Installation, InstallationAdmin)
+admin.site.register(InstallationMessage, EventoLAdmin)
 admin.site.register(TalkType)
 admin.site.register(Room, EventoLAdmin)
 admin.site.register(ContactType)
