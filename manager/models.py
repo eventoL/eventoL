@@ -240,6 +240,19 @@ class InstallationAttendee(models.Model):
             return u'%s %s' % (
                 self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
 
+class InstallationMessage(models.Model):
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
+    message = RichTextField(verbose_name=_('Message Body'), help_text=_(
+        'Email message HTML Body'), blank=True, null=True)
+    contact_email = models.EmailField(verbose_name=_('Contatc Email'))
+
+    class Meta(object):
+        verbose_name = _('Post-install Email')
+        verbose_name_plural = _('Post-install Emails')
+
+    def __unicode__(self):
+        return "%s post-install message" %(self.event.name)
+
 
 class Installer(models.Model):
     installer_choices = (
