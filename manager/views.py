@@ -40,8 +40,10 @@ autocomplete_light.autodiscover()
 
 
 # Auxiliary functions
-def update_event_info(event_slug, render_dict=None, event=None):
-    event = event or Event.objects.get(slug__iexact=event_slug)
+def update_event_info(event_slug, request, render_dict=None, event=None):
+    event = event or Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
     contacts = Contact.objects.filter(event=event)
     render_dict = render_dict or {}
     render_dict.update({
@@ -137,12 +139,13 @@ def create_organizer(event_user):
 
 def index(request, event_slug):
     try:
-        event = Event.objects.get(slug__iexact=event_slug)
-
+        event = Event.objects.filter(slug__iexact=event_slug).first()
+        if not event:
+            return handler404(request)
         if event.external_url:
             msgs = messages.get_messages(request)
             if msgs:
-                return render(request, 'base.html', update_event_info(event_slug, {messages: msgs}, event))
+                return render(request, 'base.html', update_event_info(event_slug, request, {messages: msgs}, event))
 
             return HttpResponseRedirect(event.external_url)
 
@@ -151,13 +154,13 @@ def index(request, event_slug):
             .distinct()
 
         render_dict = {'talk_proposals': talk_proposals}
-        return render(request, 'event/index.html', update_event_info(event_slug, render_dict, event))
+        return render(request, 'event/index.html', update_event_info(event_slug, request, render_dict, event))
     except Event.DoesNotExist:
         raise Http404(_("The event you're looking for does not exists."))
 
 
 def event_view(request, event_slug, html='index.html'):
-    return render(request, html, update_event_info(event_slug))
+    return render(request, html, update_event_info(event_slug, request))
 
 
 def home(request):
@@ -184,7 +187,9 @@ def generate_datetime(request, event):
 def talk_registration(request, event_slug, pk):
     errors = []
     error = False
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
 
     # FIXME: Esto es lo que se llama una buena chanchada!
     post = generate_datetime(request, event)
@@ -192,7 +197,9 @@ def talk_registration(request, event_slug, pk):
     # Fin de la chanchada
 
     talk_form = TalkForm(event_slug, post)
-    proposal = TalkProposal.objects.get(pk=pk)
+    proposal = TalkProposal.objects.filter(pk=pk).first()
+    if not proposal:
+        return handler404(request)
     forms = [talk_form]
     if request.POST:
         if talk_form.is_valid() and \
@@ -202,7 +209,10 @@ def talk_registration(request, event_slug, pk):
                 activity = proposal.activity
                 activity.start_date = post['start_date']
                 activity.end_date = post['end_date']
-                activity.room = Room.objects.get(pk=request.POST.get('room', None))
+                room = Room.objects.filter(pk=request.POST.get('room')).first()
+                if not room:
+                    return handler404(request)
+                activity.room = room
                 activity.confirmed = True
                 activity.save()
                 proposal.save()
@@ -229,7 +239,7 @@ def talk_registration(request, event_slug, pk):
     render_dict.update({'multipart': False, 'errors': errors, 'form': talk_form, 'error': error})
     return render(request,
                   'activities/talks/detail.html',
-                  update_event_info(event_slug, render_dict))
+                  update_event_info(event_slug, request, render_dict))
 
 
 @login_required
@@ -246,7 +256,9 @@ def installation(request, event_slug):
                 install = None
                 install = installation_form.save()
                 install.hardware = hardware
-                event = Event.objects.get(slug__iexact=event_slug)
+                event = Event.objects.filter(slug__iexact=event_slug).first()
+                if not event:
+                    return handler404(request)
                 install.event = event
                 install.installer = EventUser.objects.filter(user=request.user).filter(event=event).first()
                 install.save()
@@ -279,12 +291,14 @@ def installation(request, event_slug):
 
     return render(request,
                   'installation/installation-form.html',
-                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(event_slug, request, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 @login_required
 def talk_proposal(request, event_slug, pk=None):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
 
     if not event.talk_proposal_is_open:
         messages.error(request,
@@ -296,7 +310,9 @@ def talk_proposal(request, event_slug, pk=None):
     new_activity, new_proposal = None, None
 
     if pk:
-        proposal = TalkProposal.objects.get(pk=pk)
+        proposal = TalkProposal.objects.filter(pk=pk).first()
+        if not proposal:
+            return handler404(request)
         activity = proposal.activity
     else:
         activity = Activity(event=event)
@@ -324,17 +340,21 @@ def talk_proposal(request, event_slug, pk=None):
         errors = get_forms_errors(forms)
 
     return render(request, 'activities/talks/proposal.html',
-                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(event_slug, request, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 @login_required
 def activity(request, event_slug, pk=None):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
 
     post = generate_datetime(request, event)
     errors = []
     new_activity = None
-    activity = Activity.objects.get(pk=pk) if pk else Activity(event=event)
+    activity = Activity.objects.filter(pk=pk).first() if pk else Activity(event=event)
+    if not activity:
+        return handler404(request)
 
     activity_form = ActivityCompleteForm(event_slug, post or None, instance=activity)
     forms = [activity_form]
@@ -347,7 +367,10 @@ def activity(request, event_slug, pk=None):
                 activity.confirmed = True
                 activity.start_date = post['start_date']
                 activity.end_date = post['end_date']
-                activity.room = Room.objects.get(pk=request.POST.get('room', None))
+                room = Room.objects.filter(pk=request.POST.get('room')).first()
+                if not room:
+                    return handler404(request)
+                activity.room = room
                 activity.save()
                 messages.success(request, _("The activity has been registered successfully"))
                 return HttpResponseRedirect(reverse('activities', args=[event_slug]))
@@ -358,7 +381,7 @@ def activity(request, event_slug, pk=None):
                 errors = get_forms_errors(forms)
 
     return render(request, 'activities/activity.html',
-                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(event_slug, request, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 @login_required
@@ -383,11 +406,13 @@ def image_cropping(request, event_slug, image_id):
             return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
         messages.error(request, _("The proposal couldn't be registered (check form errors)"))
     return render(request, 'activities/talks/proposal/image-cropping.html',
-                  update_event_info(event_slug, {'form': form}))
+                  update_event_info(event_slug, request, {'form': form}))
 
 
 def schedule(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
     if not event.schedule_confirm:
         messages.info(request,
                       _("The schedule is not confirmed yet. Meanwhile, you can see the list of activity proposals."))
@@ -398,7 +423,7 @@ def schedule(request, event_slug):
     if activities_confirmed:
         schedule = Schedule(list(rooms), list(activities_confirmed))
         return render(request, 'activities/schedule.html',
-                      update_event_info(event_slug, event=event, render_dict={'schedule': schedule}))
+                      update_event_info(event_slug, request, event=event, render_dict={'schedule': schedule}))
     messages.warning(
         request,
         _("You don't have any confirmed activities. Please confirm the activities first and then confirm the schedule")
@@ -407,7 +432,9 @@ def schedule(request, event_slug):
 
 
 def activities(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
     talks_list, proposals, activities_not_confirmed, activities_confirmed = [], [], [], []
     activities_list = Activity.objects.filter(event=event)
     for activity in activities_list:
@@ -420,14 +447,16 @@ def activities(request, event_slug):
         setattr(proposal, 'form', TalkForm(event_slug, instance=proposal.activity))
         setattr(proposal, 'errors', [])
     return render(request, 'activities/activities_home.html',
-                  update_event_info(event_slug, {'talks': talks_list, 'proposals': proposals,
+                  update_event_info(event_slug, request, {'talks': talks_list, 'proposals': proposals,
                                                  'activities_confirmed': activities_confirmed,
                                                  'activities_not_confirmed': activities_not_confirmed,
                                                  'event': event}, event))
 
 
 def activity_detail(request, event_slug, pk):
-    proposal = TalkProposal.objects.get(activity__pk=pk)
+    proposal = TalkProposal.objects.filter(activity__pk=pk).first()
+    if not proposal:
+        return handler404(request)
     return HttpResponseRedirect(reverse('proposal_detail', args=(event_slug, proposal.pk)))
 
 
@@ -436,7 +465,9 @@ def talk_detail(request, event_slug, pk):
 
 
 def talk_delete(request, event_slug, pk):
-    talk = TalkProposal.objects.get(pk=pk)
+    talk = TalkProposal.objects.filter(pk=pk).first()
+    if not talk:
+        return handler404(request)
     talk.talk_proposal.confirmed = False
     talk.talk_proposal.save()
     talk.delete()
@@ -444,7 +475,9 @@ def talk_delete(request, event_slug, pk):
 
 
 def proposal_detail(request, event_slug, pk):
-    proposal = TalkProposal.objects.get(pk=pk)
+    proposal = TalkProposal.objects.filter(pk=pk).first()
+    if not proposal:
+        return handler404(request)
     comments = Comment.objects.filter(activity=proposal.activity)
     render_dict = dict(comments=comments, comment_form=CommentForm(), proposal=proposal)
     vote = Vote.objects.get_for_user(proposal, request.user)
@@ -456,7 +489,7 @@ def proposal_detail(request, event_slug, pk):
                             'form_presentation': PresentationForm(instance=proposal), 'errors': []})
     else:
         render_dict.update({'form': TalkForm(event_slug, instance=proposal.activity), 'errors': []})
-    return render(request, 'activities/talks/detail.html', update_event_info(event_slug, render_dict))
+    return render(request, 'activities/talks/detail.html', update_event_info(event_slug, request, render_dict))
 
 
 def upload_presentation(request, event_slug, pk):
@@ -494,18 +527,14 @@ def attendee_search(request, event_slug):
                 return HttpResponseRedirect('/event/' + event_slug + '/registration/attendee/by-collaborator')
         messages.error(request, _("The attendee couldn't be registered (check form errors)"))
 
-    return render(request, 'registration/attendee/search.html', update_event_info(event_slug, {'form': form}))
+    return render(request, 'registration/attendee/search.html', update_event_info(event_slug, request, {'form': form}))
 
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_registration(request, event_slug, pk):
-    eventUser = None
-    try:
-        eventUser = EventUser.objects.get(pk=pk)
-    except ObjectDoesNotExist:
-        eventUser = None
+    eventUser = EventUser.objects.filter(pk=pk).first()
 
     if eventUser:
         if eventUser.assisted:
@@ -538,7 +567,7 @@ def add_organizer(request, event_slug):
 
     organizers = Organizer.objects.filter(eventUser__event__slug__iexact=event_slug)
     return render(request, 'event/organizers.html',
-                  update_event_info(event_slug, {'form': form, 'organizers': organizers}))
+                  update_event_info(event_slug, request, {'form': form, 'organizers': organizers}))
 
 
 @login_required
@@ -565,14 +594,16 @@ def add_registration_people(request, event_slug):
         registration_people = []
 
     return render(request, 'event/registration_people.html',
-                  update_event_info(event_slug, {'form': form, 'registration_people': registration_people}))
+                  update_event_info(event_slug, request, {'form': form, 'registration_people': registration_people}))
 
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_registration_by_collaborator(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
     attendee = NonRegisteredAttendee()
     form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
     if request.POST:
@@ -600,11 +631,13 @@ def attendee_registration_by_collaborator(request, event_slug):
             except Exception:
                 pass
         messages.error(request, _("The attendee couldn't be registered (check form errors)"))
-    return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, {'form': form}))
+    return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, request, {'form': form}))
 
 
 def contact(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
     contact_message = ContactMessage()
     form = ContactMessageForm(request.POST or None, instance=contact_message)
     if request.POST:
@@ -621,13 +654,16 @@ def contact(request, event_slug):
             email.to = [event.email]
             email.extra_headers = {'Reply-To': contact_message.email}
             email.send(fail_silently=False)
-            contact_message.event = Event.objects.get(slug__iexact=event_slug)
+            event = Event.objects.filter(slug__iexact=event_slug).first()
+            if not event:
+                return handler404(request)
+            contact_message.event = event
             contact_message.save()
             messages.success(request, _("The message has been sent. You will receive a reply by email"))
             return HttpResponseRedirect('/event/' + event_slug)
         messages.error(request, _("There was a problem sending your message. Please try again in a few minutes."))
 
-    return render(request, 'contact-message.html', update_event_info(event_slug, {'form': form}, event))
+    return render(request, 'contact-message.html', update_event_info(event_slug, request, {'form': form}, event))
 
 
 @login_required
@@ -636,14 +672,19 @@ def delete_comment(request, event_slug, pk, comment_pk=None):
     """Delete comment(s) with primary key `pk` or with pks in POST."""
     pklist = request.POST.getlist("delete") if not comment_pk else [comment_pk]
     for comment_pk in pklist:
-        Comment.objects.get(pk=comment_pk).delete()
+        comment = Comment.objects.filter(pk=comment_pk).first()
+        if comment:
+            comment.delete()
     return HttpResponseRedirect(reverse("proposal_detail", args=[event_slug, pk]))
 
 
 @login_required
 def add_comment(request, event_slug, pk):
     """Add a new comment."""
-    comment = Comment(activity=TalkProposal.objects.get(pk=pk).activity, user=request.user)
+    proposal = TalkProposal.objects.filter(pk=pk).first()
+    if not proposal:
+        return handler404(request)
+    comment = Comment(activity=proposal.activity, user=request.user)
     comment_form = CommentForm(request.POST, instance=comment)
     if comment_form.is_valid():
         comment = comment_form.save(commit=False)
@@ -653,7 +694,9 @@ def add_comment(request, event_slug, pk):
 
 @login_required
 def vote_proposal(request, event_slug, pk, vote):
-    proposal = TalkProposal.objects.get(pk=pk)
+    proposal = TalkProposal.objects.filter(pk=pk).first()
+    if not proposal:
+        return handler404(request)
     exits_vote = Vote.objects.get_for_user(proposal, request.user)
     if not exits_vote and vote in ("1", "0"):
         Vote.objects.record_vote(proposal, request.user, 1 if vote == '1' else -1)
@@ -662,7 +705,9 @@ def vote_proposal(request, event_slug, pk, vote):
 
 @login_required
 def cancel_vote(request, event_slug, pk):
-    proposal = TalkProposal.objects.get(pk=pk)
+    proposal = TalkProposal.objects.filter(pk=pk).first()
+    if not proposal:
+        return handler404(request)
     vote = Vote.objects.get_for_user(proposal, request.user)
     if vote:
         vote.delete()
@@ -672,16 +717,27 @@ def cancel_vote(request, event_slug, pk):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def confirm_schedule(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
     event.schedule_confirm = True
     event.save()
     return schedule(request, event_slug)
 
 
+def titleFromVote(vote, event):
+    proposal = TalkProposal.objects.filter(pk=vote.object_id, activity__event=event).first()
+    if not proposal:
+        return {}
+    return proposal.activity.title
+
+
 def reports(request, event_slug):
     confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0, 0, 0
 
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
     votes = Vote.objects.all()
     installers = Installer.objects.filter(eventUser__event=event)
     installations = Installation.objects.filter(attendee__event=event)
@@ -715,23 +771,23 @@ def reports(request, event_slug):
         'organizers_count': Organizer.objects.filter(eventUser__event=event).count(),
         'talk_proposals_count': TalkProposal.objects.filter(activity__event=event).count(),
         'installations_count': Installation.objects.filter(attendee__event=event).count(),
-        'votes_for_talk': count_by
-        (votes, lambda vote: TalkProposal.objects.get(pk=vote.object_id, activity__event=event).activity.title,
-         lambda vote: vote.vote),
+        'votes_for_talk': count_by(votes, lambda vote: titleFromVote(vote, event), lambda vote: vote.vote),
         'installers_for_level': count_by(installers, lambda inst: inst.level),
         'installers_count': installers.count(),
         'installation_for_software': count_by(installations, lambda inst: inst.software.name),
         'registered_in_time': count_by(users, lambda user: user.user.date_joined.date())
     }
-    return render(request, 'reports/dashboard.html', update_event_info(event_slug, render_dict=template_dict))
+    return render(request, 'reports/dashboard.html', update_event_info(event_slug, request, render_dict=template_dict))
 
 
 @login_required
 def generic_registration(request, event_slug, registration_model, registration_form, msg_success, msg_error, template):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
 
     if not event.registration_is_open:
-        return render(request, 'registration/closed-registration.html', update_event_info(event_slug))
+        return render(request, 'registration/closed-registration.html', update_event_info(event_slug, request))
 
     errors = []
     eventUser = EventUser.objects.filter(event=event, user=request.user).first()
@@ -788,7 +844,7 @@ def generic_registration(request, event_slug, registration_model, registration_f
 
     return render(request,
                   template,
-                  update_event_info(event_slug, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(event_slug, request, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 @login_required
@@ -862,7 +918,9 @@ def create_event(request):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def edit_event(request, event_slug):
-    event = Event.objects.get(slug__iexact=event_slug)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
     event_form = EventForm(request.POST or None, prefix='event', instance=event)
     ContactsFormSet = modelformset_factory(Contact, form=ContactForm, can_delete=True)
 
@@ -886,7 +944,7 @@ def edit_event(request, event_slug):
         messages.error(request, _("There is a problem with your event. Please check the form for errors."))
     return render(request,
                   'event/create.html',
-                  update_event_info(event_slug,
+                  update_event_info(event_slug, request,
                                     {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
                                      'contacts_formset': contacts_formset}), context_instance=RequestContext(request))
 
@@ -895,13 +953,15 @@ def edit_event(request, event_slug):
 @user_passes_test(is_organizer, 'index')
 def rooms(request, event_slug):
     rooms_list = Room.objects.filter(event__slug__iexact=event_slug)
-    return render(request, 'room/rooms.html', update_event_info(event_slug, {'rooms': rooms_list}))
+    return render(request, 'room/rooms.html', update_event_info(event_slug, request, {'rooms': rooms_list}))
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
 def remove_room(request, event_slug, pk):
-    room = Room.objects.get(pk=pk)
+    room = Room.objects.filter(pk=pk).first()
+    if not room:
+        return handler404(request)
     activities = Activity.objects.filter(room=room)
     if activities.count() > 0:
         messages.error(request,
@@ -917,7 +977,9 @@ def remove_room(request, event_slug, pk):
 def add_room(request, event_slug, pk=None):
     room = None
     if pk:
-        room = Room.objects.get(pk=pk)
+        room = Room.objects.filter(pk=pk).first()
+        if not room:
+            return handler404(request)
         room_form = RoomForm(request.POST or None, instance=room)
     else:
         room_form = RoomForm(request.POST or None)
@@ -925,7 +987,10 @@ def add_room(request, event_slug, pk=None):
         if room_form.is_valid():
             try:
                 room = room_form.save()
-                room.event = Event.objects.get(slug__iexact=event_slug)
+                event = Event.objects.filter(slug__iexact=event_slug).first()
+                if not event:
+                    return handler404(request)
+                room.event = event
                 room.save()
                 messages.success(request, _("The room has been added successfully!"))
                 return HttpResponseRedirect(reverse('rooms', args=[event_slug]))
@@ -934,7 +999,7 @@ def add_room(request, event_slug, pk=None):
                     Room.delete(room)
         messages.error(request, "The room hasn't been added successfully. Please check the form for errors.")
     return render(request, 'room/add_room.html',
-                  update_event_info(event_slug, {'form': room_form, 'errors': get_forms_errors([room_form])}))
+                  update_event_info(event_slug, request, {'form': room_form, 'errors': get_forms_errors([room_form])}))
 
 
 @login_required
@@ -951,14 +1016,12 @@ def view_ticket(request, event_slug):
 
 
 def handler404(request):
-    response = render_to_response('404.html', {},
-                                  context_instance=RequestContext(request))
+    response = render_to_response('404.html', {}, context_instance=RequestContext(request))
     response.status_code = 404
     return response
 
 
 def handler500(request):
-    response = render_to_response('500.html', {},
-                                  context_instance=RequestContext(request))
+    response = render_to_response('500.html', {}, context_instance=RequestContext(request))
     response.status_code = 500
     return response
