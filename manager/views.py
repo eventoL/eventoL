@@ -962,3 +962,11 @@ def handler500(request):
                                   context_instance=RequestContext(request))
     response.status_code = 500
     return response
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def draw(request, event_slug):
+    users = EventUser.objects.filter(event__slug__iexact=event_slug, assisted=True).order_by('?')
+    users = [str(user) for user in users]
+    return render(request, 'event/draw.html', update_event_info(event_slug, {'eventusers': users}))

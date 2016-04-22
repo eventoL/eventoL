@@ -6,6 +6,7 @@ event_patterns = patterns(
     url(r'^$', views.index, name="index"),
     url(r'^FAQ$', views.event_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
     url(r'^edit$', views.edit_event, name='edit_event'),
+    url(r'^draw', views.draw, name='draw'),
     url(r'^registration$', views.registration, name='registration'),
     url(r'^registration/collaborator$', views.collaborator_registration, name='collaborator_registration'),
     url(r'^registration/installer$', views.installer_registration, name='installer_registration'),

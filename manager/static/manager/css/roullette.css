@@ -1,0 +1,104 @@
+ @charset "utf-8";
+/* CSS Document */
+/*
+ * SlotMachine
+ */
+#randomize {
+    height: 400px;
+    border-bottom: 10px solid rgb(72, 158, 48);
+    background-color: #EB6B56;
+    border-top: 20px dotted #B8312F;
+}
+
+#randomize .row > div.col-xs-4 {
+    padding-left: 35px;
+}
+
+#randomize .row > div.col-xs-4 > div {
+    padding-top: 40px;
+    padding-left: 40px;
+    width: 175px;
+    height: 175px;
+    background-color: #fff;
+    border-radius: 50%;
+    margin: auto;
+}
+
+.randomizeMachine {
+    width: 100px;
+    height: 100px;
+}
+
+.btn-group-randomize {
+    margin: 0 auto;
+    margin-top: 30px;
+    width: auto;
+}
+
+.btn-group-randomize div {
+    width: auto !important;
+}
+
+/*
+ * Casino
+ */
+#casino {}
+
+#casino h1 {
+    margin: 0px;
+}
+
+#casino .content:nth-child(1) {
+    text-align: center;
+    background: url('../img/machine.png') no-repeat 50% 50%;
+    height: 400px;
+}
+
+#casino .content > div {
+    clear:both;
+    padding-top: 100px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.machineContainer{
+	background-color: #000;
+	padding: 5px 1px 5px 1px;
+	overflow: hidden;
+	height: 135px;
+}
+
+.slotMachine{
+	margin-top: 75px;
+    height: 65px;
+	overflow: hidden;
+	display: inline-block;
+	text-align: center;
+	background-color: #ffffff;
+}
+
+.btn-group-casino {
+    margin-top: 150px;
+    margin-left: -32px;
+}
+
+.btn-group-casino .btn {
+    border: none;
+    background-color: rgb(209, 79, 119);
+}
+.btn-group-casino .btn:hover, .btn-group-casino .btn:focus {
+    background-color: rgb(180, 75, 119);
+}
+
+.wheel {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255,255,255,1);
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(207,205,239,1) 0%, rgba(230,225,245,1) 48%, rgba(218,213,241,1) 57%, rgba(218,213,241,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,255,255,1)), color-stop(0%, rgba(207,205,239,1)), color-stop(48%, rgba(230,225,245,1)), color-stop(57%, rgba(218,213,241,1)), color-stop(100%, rgba(218,213,241,1)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(207,205,239,1) 0%, rgba(230,225,245,1) 48%, rgba(218,213,241,1) 57%, rgba(218,213,241,1) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(207,205,239,1) 0%, rgba(230,225,245,1) 48%, rgba(218,213,241,1) 57%, rgba(218,213,241,1) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(207,205,239,1) 0%, rgba(230,225,245,1) 48%, rgba(218,213,241,1) 57%, rgba(218,213,241,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(207,205,239,1) 0%, rgba(230,225,245,1) 48%, rgba(218,213,241,1) 57%, rgba(218,213,241,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dad5f1', GradientType=0 );
+}

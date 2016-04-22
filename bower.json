@@ -30,6 +30,7 @@
     "bootstrap-material-design": "v0.5.9",
     "font-awesome": "^4.5.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.37",
+    "jquery-slotmachine": "~3.0.1",
     "html5-qrcode": "https://github.com/dwa012/html5-qrcode.git"
   },
   "resolutions": {
