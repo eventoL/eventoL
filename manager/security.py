@@ -58,7 +58,7 @@ def create_organizers_group():
 
 def create_reporters_group():
     reporters = Group.objects.filter(name__iexact='Reporters').first()
-    if reporters:
+    if not reporters:
         perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_nonregisteredattendee',
                  'change_nonregisteredattendee', 'delete_nonregisteredattendee', 'add_eventuser', 'change_eventuser',
                  'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
