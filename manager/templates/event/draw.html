@@ -26,7 +26,7 @@
                                     <div id="draw" class="wheel"><h1>{% trans 'Draw!!' %}</h1></div>
                                     {% for eventuser in eventusers %}
                                         <div id="{{ forloop.counter0 }}" class="wheel"><h1>
-                                            {{ eventuser|truncatechars:25 }}
+                                            {{ eventuser|truncatechars:20 }}
                                         </h1></div>
                                     {% endfor %}
                                 </div>
