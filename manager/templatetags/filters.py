@@ -77,7 +77,7 @@ def is_organizer(user, event_slug):
 
 @register.filter(name='can_take_attendance')
 def can_take_attendance(user, event_slug):
-    return is_collaborator(user, event_slug) or user.has_perm('manager.add_attendee') or user.has_perm('manager.can_take_attendance')
+    return user.has_perm('manager.add_attendee') or user.has_perm('manager.can_take_attendance')
 
 
 @register.filter(name='schedule_cols_total')
