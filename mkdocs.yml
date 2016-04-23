@@ -4,3 +4,4 @@ pages:
   - Inicio: index.md
   - Login: login.md
   - Crear un evento: crear_evento.md
+  - Administración de asistencia: Administracion-de-asistencia.md
