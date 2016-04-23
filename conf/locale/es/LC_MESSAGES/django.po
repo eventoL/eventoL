@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-23 11:21+0000\n"
+"POT-Creation-Date: 2016-04-23 14:09+0000\n"
 "PO-Revision-Date: 2016-04-12 15:56+0000\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -342,24 +342,24 @@ msgstr "Emails post-instalación"
 
 #: manager/models.py:259 manager/models.py:422
 #: manager/templates/reports/dashboard.html:394
-#: manager/templatetags/filters.py:122
+#: manager/templatetags/filters.py:121
 msgid "Beginner"
 msgstr "Principiante"
 
 #: manager/models.py:260 manager/models.py:423
 #: manager/templates/reports/dashboard.html:395
-#: manager/templatetags/filters.py:124
+#: manager/templatetags/filters.py:123
 msgid "Medium"
 msgstr "Medio"
 
 #: manager/models.py:261 manager/models.py:424
 #: manager/templates/reports/dashboard.html:396
-#: manager/templatetags/filters.py:126
+#: manager/templatetags/filters.py:125
 msgid "Advanced"
 msgstr "Avanzado"
 
 #: manager/models.py:262 manager/templates/reports/dashboard.html:397
-#: manager/templatetags/filters.py:128
+#: manager/templatetags/filters.py:127
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
@@ -1614,7 +1614,7 @@ msgstr ""
 "Puedes iniciar sesión utilizando alguno de los siguientes\n"
 "    proveedores:"
 
-#: manager/templatetags/filters.py:130
+#: manager/templatetags/filters.py:129
 msgid "N/A"
 msgstr "N/A"
 
