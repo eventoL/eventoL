@@ -74,7 +74,6 @@ INSTALLED_APPS = (
     'image_cropping',
     'autocomplete_light',
     'import_export',
-    'rest_framework',
     'manager',
     'autofixture',
     'djangoformsetjs',

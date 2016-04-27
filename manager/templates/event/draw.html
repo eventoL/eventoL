@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load filters %}
+{% load cropping %}
+{% block other-head %}
+    <link rel="stylesheet" href="{% static "manager/bower_components/jquery-slotmachine/dist/jquery.slotmachine.min.css" %}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{% static "manager/css/roullette.css" %}" type="text/css" media="screen" />
+{% endblock %}
+{% block main-content %}
+    <div class="container" style="padding-top: 30px;">
+        <div class="well col-lg-3">
+            <div class="row" style="text-align: center">
+                <div class="col-lg-12"><strong><h4>{% trans 'Winners' %}</h4></strong></div>
+                <div class="col-lg-12" id="winners1"></div>
+            </div>
+        </div>
+        <div class="well col-lg-8 col-lg-offset-1">
+            <div class="row" style="text-align: center">
+                <div class="col-lg-12">
+
+                    <div id="casino">
+                        <div class="content">
+                            <div>
+                                <div id="casino1" class="slotMachine" style="margin-left: -65px;">
+                                    <div id="draw" class="wheel"><h1>{% trans 'Draw!!' %}</h1></div>
+                                    {% for eventuser in eventusers %}
+                                        <div id="{{ forloop.counter0 }}" class="wheel"><h1 style="font-size: 20px;">
+                                            {{ eventuser|truncatechars:20 }}
+                                        </h1></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div id="slotMachineButtonShuffle" type="button" class="btn btn-raised btn-danger btn-lg">Shuffle!</div>
+                    <div id="slotMachineButtonStop" type="button" class="btn btn-raised btn-danger btn-lg">Stop!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block other-script %}
+    <script type="text/javascript" src="{% static "manager/bower_components/jquery-slotmachine/dist/jquery.slotmachine.min.js" %}"></script>
+    <script>
+
+        $(document).ready(function(){
+                var machine, to_delete;
+                $("#slotMachineButtonStop").hide();
+
+				$("#slotMachineButtonShuffle").click(function(){
+                    if ($('#draw').length > 0) $('#draw').remove();
+                    $("#slotMachineButtonShuffle").hide();
+                    $("#slotMachineButtonStop").show();
+                    if (to_delete) {
+                        var divs = $(".slotMachineContainer").children("div");
+                        if (divs.length === 3){
+                            $('#casino1').html("<h1 class='wheel' style='background-color: #EEEEEE'>{% trans "There aren't any more participants" %}</h1>");
+                            $("#slotMachineButtonStop").hide();
+                            $("#slotMachineButtonShuffle").hide();
+                            return;
+                        };
+                        var id = divs[to_delete].id;
+                        while ($('#'+id).length > 0){$('#'+id).remove();}
+                    }
+                    if (machine) machine.destroy();
+                    machine = $("#casino1").slotMachine({delay: 1000});
+                    machine.shuffle();
+				});
+
+				$("#slotMachineButtonStop").click(function(){
+                    $("#slotMachineButtonShuffle").show();
+                    $("#slotMachineButtonStop").hide();
+					machine.stop();
+                    to_delete = machine.active+1;
+                    var divs = $(".slotMachineContainer").children("div");
+                    var id = divs[to_delete].id;
+                    var winner = eventusers[id];
+                    winners.push(winner);
+                    renderWinners();
+				});
+			});
+
+        var eventusers = {{ eventusers | safe }};
+        var winners = [];
+
+        function renderWinner(winner, div){
+            var html = '<div class="alert alert-dismissible alert-success"><strong> (' + winners.indexOf(winner).toString() + ') ' + winner + '<br></strong></div>';
+            $(div).html($(div).html()+html);
+        }
+
+        function renderWinners(){
+            $('#winners1').html('');
+            if (winners.length >= 6){
+                winners.slice(winners.length - 6, winners.length + 1).forEach(function (w){renderWinner(w, '#winners1')});
+            } else winners.forEach(function (w){renderWinner(w, '#winners1')});
+        }
+
+    </script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Page not found</title>
+    <style>
+        .centered {
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body style="background-color: black;">
+<div class="centered">
+    <img src="https://http.cat/500" alt="Not Found"/>
+</div>
+<div style="text-align: center; color: white; padding-top: 15px">
+    {% blocktrans %}Something, somewhere went terribly wrong. Please,
+        <a href="https://github.com/GNUtn/eventoL/issues" target="_blank">let us know!</a>{% endblocktrans %}
+</div>
+</body>
+</html>
