@@ -35,6 +35,48 @@ class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
         return queryset.filter(eventUser__event=event)
 
 
+class OrganizerResource(resources.ModelResource):
+    class Meta(object):
+        model = Organizer
+        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
+                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
+                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
+                  'eventUser__assisted', 'eventUser__user__date_joined')
+        export_order = fields
+
+
+class OrganizerAdmin(EventoLEventUserAdmin):
+    resource_class = OrganizerResource
+
+
+class InstallationAttendeeResource(resources.ModelResource):
+    class Meta(object):
+        model = InstallationAttendee
+        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
+                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
+                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
+                  'eventUser__assisted', 'eventUser__user__date_joined', 'installation_additional_info')
+        export_order = fields
+
+
+class InstallationAttendeeAdmin(EventoLEventUserAdmin):
+    resource_class = InstallationAttendeeResource
+
+
+class SpeakerResource(resources.ModelResource):
+    class Meta(object):
+        model = Speaker
+        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
+                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
+                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
+                  'eventUser__assisted', 'eventUser__user__date_joined')
+        export_order = fields
+
+
+class SpeakerAdmin(EventoLEventUserAdmin):
+    resource_class = SpeakerResource
+
+
 class NonRegisteredAttendeeAdmin(ExportMixin, EventoLAdmin):
     def filter_event(self, event, queryset):
         attendees = []
@@ -57,6 +99,20 @@ class TalkProposalAdmin(ExportMixin, EventoLAdmin):
         return queryset.filter(activity__event=event)
 
 
+class EventUserResource(resources.ModelResource):
+    class Meta(object):
+        model = EventUser
+        fields = ('user__first_name', 'user__last_name', 'user__username', 'user__email',
+                  'nonregisteredattendee__first_name', 'nonregisteredattendee__last_name', 'nonregisteredattendee__email',
+                  'nonregisteredattendee__is_installing', 'nonregisteredattendee__installation_additional_info',
+                  'assisted', 'user__date_joined')
+        export_order = fields
+
+
+class EventUserAdmin(ExportMixin, EventoLAdmin):
+    resource_class = EventUserResource
+
+
 class EventAdmin(EventoLAdmin):
     def filter_event(self, event, queryset):
         return queryset.filter(name=event.name)
@@ -72,9 +128,10 @@ class CommentAdmin(EventoLAdmin):
 class InstallerResource(resources.ModelResource):
     class Meta(object):
         model = Installer
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-                  'eventUser__user__email', 'eventUser__user__date_joined',
-                  'eventUser__assisted', 'level')
+        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
+                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
+                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
+                  'eventUser__assisted', 'level', 'eventUser__user__date_joined')
         export_order = fields
 
 
@@ -86,7 +143,8 @@ class InstallationResource(resources.ModelResource):
     class Meta(object):
         model = Installation
         fields = ('hardware__type', 'hardware__manufacturer', 'hardware__model', 'software__type', 'software__name',
-                  'attendee__user__email', 'installer__user__username', 'notes')
+                  'attendee__user__email', 'attendee__nonregisteredattendee__email', 'installer__user__username',
+                  'installer__nonregisteredattendee__email', 'notes')
         export_order = fields
 
 
@@ -96,11 +154,14 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
     def filter_event(self, event, queryset):
         return queryset.filter(installer__event=event)
 
+
 class AttendeeResource(resources.ModelResource):
     class Meta(object):
         model = Attendee
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-                  'eventUser__user__email', 'eventUser__assisted', 'additional_info')
+        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
+                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
+                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
+                  'eventUser__assisted', 'additional_info', 'eventUser__user__date_joined')
         export_order = fields
 
 
@@ -117,6 +178,8 @@ class CollaboratorResource(resources.ModelResource):
         model = Collaborator
         fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
                   'eventUser__user__email', 'eventUser__user__date_joined', 'phone', 'address', 'eventUser__assisted',
+                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
+                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
                   'assignation', 'time_availability', 'additional_info')
         export_order = fields
 
@@ -129,7 +192,7 @@ admin.site.register(Comment, CommentAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(TalkProposal, TalkProposalAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
-admin.site.register(Organizer, EventoLEventUserAdmin)
+admin.site.register(Organizer, OrganizerAdmin)
 admin.site.register(Collaborator, CollaboratorAdmin)
 admin.site.register(Hardware)
 admin.site.register(Software)
@@ -142,8 +205,8 @@ admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ContactMessage, EventoLAdmin)
-admin.site.register(EventUser, EventoLAdmin)
+admin.site.register(EventUser, EventUserAdmin)
 admin.site.register(Image)
-admin.site.register(InstallationAttendee, EventoLEventUserAdmin)
+admin.site.register(InstallationAttendee, InstallationAttendeeAdmin)
 admin.site.register(NonRegisteredAttendee, NonRegisteredAttendeeAdmin)
-admin.site.register(Speaker, EventoLEventUserAdmin)
+admin.site.register(Speaker, SpeakerAdmin)
