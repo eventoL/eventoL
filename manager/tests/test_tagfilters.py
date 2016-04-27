@@ -252,7 +252,7 @@ class TestTagFilters(unittest.TestCase):
             self.user.has_perm = mock.Mock(return_value=True)
             self.assertTrue(filters.can_take_attendance(self.user, self.event.slug))
 
-    def test_if_is_organizer_can_take_attendance_return_true(self):
+    def test_if_is_organizer_and_not_has_perm_can_take_attendance_return_false(self):
         with mock.patch('manager.templatetags.filters.is_organizer') as is_organizer:
             is_organizer.return_value = True
-            self.assertTrue(filters.can_take_attendance(self.user, self.event.slug))
+            self.assertFalse(filters.can_take_attendance(self.user, self.event.slug))
