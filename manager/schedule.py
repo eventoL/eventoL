@@ -19,12 +19,13 @@ class Schedule(object):
 
     def calculate_reference_hours(self):
         one_hour = datetime.timedelta(hours=1)
-        first_hour = {'start': self.start_date, 'end': self.start_date + one_hour}
+        delta_hours = datetime.timedelta(hours=3)
+        first_hour = {'start': self.start_date + delta_hours, 'end': self.start_date + one_hour + delta_hours}
         first_hour['size'] = self.activity_size(first_hour['start'], first_hour['end'])
         hours = [first_hour]
 
         last_hour = hours[-1]['end']
-        while last_hour.hour < self.end_date.hour:
+        while last_hour.hour < (self.end_date+delta_hours).hour:
             new_hour = {'start': last_hour, 'end': last_hour + one_hour}
             new_hour['size'] = self.activity_size(new_hour['start'], new_hour['end'])
             hours.append(new_hour)
