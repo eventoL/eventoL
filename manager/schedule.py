@@ -25,7 +25,7 @@ class Schedule(object):
         hours = [first_hour]
 
         last_hour = hours[-1]['end']
-        while last_hour.hour < (self.end_date+delta_hours).hour:
+        while last_hour < (self.end_date+delta_hours):
             new_hour = {'start': last_hour, 'end': last_hour + one_hour}
             new_hour['size'] = self.activity_size(new_hour['start'], new_hour['end'])
             hours.append(new_hour)
