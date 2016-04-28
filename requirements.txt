@@ -34,3 +34,4 @@ requests-oauthlib==0.6.1
 six==1.9.0
 svglue==0.2.dev0
 tablib==0.11.2
+django-debug-toolbar==1.4
