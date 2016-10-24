@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-04-22 22:30-0300\n"
-"PO-Revision-Date: 2016-10-24 20:45+0000\n"
+"PO-Revision-Date: 2017-12-07 20:44+0000\n"
 "Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
-"es/>\n"
+"Language-Team: Spanish "
+"<https://hosted.weblate.org/projects/eventol/django/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.9-dev\n"
+"X-Generator: Weblate 2.18-dev\n"
 
 #: manager/forms.py:103 manager/models.py:202 manager/models.py:392
 msgid "Attendee"
@@ -1507,7 +1507,7 @@ msgstr "Organizadores y Oradores"
 #: manager/templates/reports/dashboard.html:403
 #: manager/templates/reports/dashboard.html:415
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #: manager/templates/reports/dashboard.html:84
 msgid "There aren't any enrolled staff"
