@@ -57,3 +57,5 @@ manager/static/grappelli/
 manager/static/image_cropping/
 manager/static/js/
 manager/static/rest_framework/
+
+venv/

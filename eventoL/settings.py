@@ -67,7 +67,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
+    #'django.contrib.gis',
     'voting',
     'easy_thumbnails',
     'easy_thumbnails.optimize',

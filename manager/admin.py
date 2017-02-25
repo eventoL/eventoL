@@ -5,7 +5,7 @@ from manager.models import Organizer, Comment, Event, TalkProposal, Attendee, Co
     InstallationMessage
 from manager.forms import ActivityAdminForm
 from import_export import resources
-from django.contrib.gis import admin
+from django.contrib import admin
 from import_export.admin import ExportMixin
 
 
