@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-25 16:37-0300\n"
+"POT-Creation-Date: 2017-02-26 11:22-0300\n"
 "PO-Revision-Date: 2016-10-24 20:45+0000\n"
 "Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -26,25 +26,25 @@ msgstr "Tipea para buscar"
 msgid "User"
 msgstr "Usuario"
 
-#: manager/forms.py:168
+#: manager/forms.py:170
 msgid "Bringing a device for installation?"
 msgstr "Llevas un dispositivo para instalar?"
 
-#: manager/forms.py:170
+#: manager/forms.py:172
 msgid "i.e. Wath kind of PC are you bringing? Leave blank if doesn't apply"
 msgstr ""
 "ej. Qué clase de dispositivo llevas para instalar? Dejar en blanco si no "
 "aplica"
 
-#: manager/forms.py:248
+#: manager/forms.py:252
 msgid "This field is required"
 msgstr "Este campo es obligatorio"
 
-#: manager/forms.py:324 manager/forms.py:367 manager/models.py:122
+#: manager/forms.py:328 manager/forms.py:371 manager/models.py:122
 msgid "First Name"
 msgstr "Nombre"
 
-#: manager/forms.py:325 manager/forms.py:368 manager/models.py:123
+#: manager/forms.py:329 manager/forms.py:372 manager/models.py:123
 msgid "Last Name"
 msgstr "Apellido"
 
@@ -648,7 +648,7 @@ msgstr ""
 "        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
 "\">infórmanos!</a>"
 
-#: manager/templates/FAQ.html:3 manager/templates/FAQ.html.py:5
+#: manager/templates/FAQ.html:3 manager/templates/FAQ.html:5
 msgid "FAQ"
 msgstr "FAQ"
 

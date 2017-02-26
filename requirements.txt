@@ -1,7 +1,7 @@
 cairocffi==0.8
 CairoSVG==1.0.22
 cffi==1.9.1
-Django==1.8.17
+Django==1.9.12
 django-allauth==0.30.0
 django-appconf==1.0.2
 django-autocomplete-light==2.3.3
@@ -13,11 +13,11 @@ django-image-cropping==1.0.4
 django-import-export==0.5.1
 django-jquery-js==2.2.4
 django-mailgun==0.9.1
-django-voting==0.2
-djangorestframework==3.3.2
+django-voting==0.3.dev52+ngf07707c
+djangorestframework==3.5.4
 easy-thumbnails==2.3
 Pillow==4.0.0
 pypng==0.0.18
 PyQRCode==1.2.1
-psycopg2==2.6
-svglue==0.2.1
+psycopg2==2.6.2
+svglue==0.3.0

@@ -4,7 +4,7 @@ import io
 import itertools
 import json
 
-import autocomplete_light
+from autocomplete_light import shortcuts as autocomplete_light
 import cairosvg
 import locale
 import os
