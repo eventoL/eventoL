@@ -3,7 +3,7 @@ language: python
 python:
   - "2.7"
 env:
-  - DJANGO=1.9.12 DB=postgres
+  - DJANGO=1.10.5 DB=postgres
 services:
   - docker
 cache: pip

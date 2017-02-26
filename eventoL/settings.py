@@ -1,13 +1,3 @@
-"""
-Django settings for eventoL project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
-import django.conf.global_settings as DEFAULT_SETTINGS
 from easy_thumbnails.conf import Settings as thumbnail_settings
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from easy_thumbnails.optimize.conf import OptimizeSettings
@@ -54,7 +44,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '!a44%)(r2!1wp89@ds(tqzpo#f0qgf
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', 'True'))
-TEMPLATE_DEBUG = str_to_bool(os.getenv('DJANGO_TEMPLATE_DEBUG', 'True'))
 
 # Application definition
 
@@ -141,11 +130,27 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + [
-    'django.core.context_processors.request',
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # insert your TEMPLATE_DIRS here
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': os.getenv('DJANGO_TEMPLATE_DEBUG', 'True'),
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request'
+            ],
+        },
+    },
 ]
 
 LOGGING = {

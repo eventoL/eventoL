@@ -912,7 +912,7 @@ def create_event(request):
         messages.error(request, _("There is a problem with your event. Please check the form for errors."))
     return render(request,
                   'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
-                                        'contacts_formset': contacts_formset}, context_instance=RequestContext(request))
+                                        'contacts_formset': contacts_formset})
 
 
 @login_required
@@ -946,7 +946,7 @@ def edit_event(request, event_slug):
                   'event/create.html',
                   update_event_info(event_slug, request,
                                     {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
-                                     'contacts_formset': contacts_formset}), context_instance=RequestContext(request))
+                                     'contacts_formset': contacts_formset}))
 
 
 @login_required
@@ -1016,13 +1016,13 @@ def view_ticket(request, event_slug):
 
 
 def handler404(request):
-    response = render_to_response('404.html', {}, context_instance=RequestContext(request))
+    response = render_to_response(request, '404.html', {})
     response.status_code = 404
     return response
 
 
 def handler500(request):
-    response = render_to_response('500.html', {}, context_instance=RequestContext(request))
+    response = render_to_response(request, '500.html', {})
     response.status_code = 500
     return response
 

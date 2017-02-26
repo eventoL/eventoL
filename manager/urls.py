@@ -1,8 +1,7 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 from manager import views
 
-event_patterns = patterns(
-    '',
+event_patterns = [
     url(r'^$', views.index, name="index"),
     url(r'^FAQ$', views.event_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
     url(r'^edit$', views.edit_event, name='edit_event'),
@@ -45,10 +44,9 @@ event_patterns = patterns(
     url(r'^organizers$', views.add_organizer, name='add_organizer'),
     url(r'^registration_people', views.add_registration_people, name='add_registration_people'),
     url(r'^ticket$', views.view_ticket, name='view_ticket'),
-)
+]
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)/', include(event_patterns)),
     url(r'^autocomplete/', include('autocomplete_light.urls')),
-)
+]
