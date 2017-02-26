@@ -1,7 +1,7 @@
 cairocffi==0.8
 CairoSVG==1.0.22
 cffi==1.9.1
-Django==1.7.7
+Django==1.8.17
 django-allauth==0.30.0
 django-appconf==1.0.2
 django-autocomplete-light==2.3.3

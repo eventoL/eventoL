@@ -149,12 +149,14 @@ class InstallationForm(autocomplete.ModelForm):
 class HardwareForm(autocomplete.ModelForm):
     class Meta(object):
         model = Hardware
+        fields = ('type', 'manufacturer', 'model')
 
 
 class CollaboratorRegistrationForm(ModelForm):
     class Meta(object):
         model = Collaborator
         widgets = {'eventUser': forms.HiddenInput()}
+        exclude = ()
 
 
 class EventUserRegistrationForm(ModelForm):
@@ -172,6 +174,7 @@ class AttendeeRegistrationForm(ModelForm):
     class Meta(object):
         model = Attendee
         widgets = {'eventUser': forms.HiddenInput()}
+        exclude = ()
 
 
 class InstallerRegistrationForm(ModelForm):
@@ -183,6 +186,7 @@ class InstallerRegistrationForm(ModelForm):
     class Meta(object):
         model = Installer
         widgets = {'eventUser': forms.HiddenInput()}
+        exclude = ()
 
 
 class TalkProposalForm(ModelForm):
