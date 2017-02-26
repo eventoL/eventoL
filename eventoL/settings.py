@@ -59,7 +59,6 @@ TEMPLATE_DEBUG = str_to_bool(os.getenv('DJANGO_TEMPLATE_DEBUG', 'True'))
 # Application definition
 
 INSTALLED_APPS = (
-    'grappelli',
     'ckeditor',
     'ckeditor_uploader',
     'django.contrib.admin',
@@ -192,8 +191,6 @@ OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
     'jpeg': '/usr/bin/jpegoptim {filename}',
     'jpg': '/usr/bin/jpegoptim {filename}'
 }
-
-GRAPPELLI_ADMIN_TITLE = os.getenv('DJANGO_ADMIN_TITLE', 'EventoL')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

@@ -15,7 +15,6 @@ urlpatterns = patterns(
     url(r'^create-event/$', views.create_event, name="create_event"),
     url(r'^event/', include('manager.urls'), name='event'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
-    url(r'^grappelli/', include('grappelli.urls'), name='grappelli'),
     url(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
     url(r'^accounts/profile/', TemplateView.as_view(template_name='account/profile.html'), name="user_profile"),
     url(r'^accounts/', include('allauth.urls'))

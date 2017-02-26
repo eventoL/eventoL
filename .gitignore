@@ -53,9 +53,9 @@ manager/static/autocomplete_light/
 manager/static/ckeditor/
 manager/static/facebook/
 manager/static/gis/
-manager/static/grappelli/
 manager/static/image_cropping/
 manager/static/js/
 manager/static/rest_framework/
+manager/static/import_export/
 
 venv/
