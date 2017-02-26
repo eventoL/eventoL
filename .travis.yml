@@ -12,6 +12,7 @@ before_install:
 install:
   - pip install -U pip wheel
   - pip install coverage coveralls
+  - pip install git+https://github.com/pjdelport/django-voting.git@master
   - pip install -r requirements.txt
   - git clone https://github.com/arneb/django-generic-confirmation.git
   - cd django-generic-confirmation
