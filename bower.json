@@ -18,23 +18,18 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.2",
-    "bootstrap-datepicker": "~1.6",
-    "roboto-fontface": "~0.4.5",
-    "leaflet": "~0.7.7",
-    "slick-carousel": "1.5.9",
+    "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "~1.6.4",
+    "roboto-fontface": "~0.7.0",
+    "leaflet": "~1.0.3",
+    "slick-carousel": "1.6.0",
     "gridline-bootstrap": "*",
     "morrisjs": "~0.5.1",
-    "q": "~1.0.1",
-    "geocomplete": "^1.6.5",
-    "bootstrap-material-design": "v0.5.9",
-    "font-awesome": "^4.5.0",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
-    "jquery-slotmachine": "~3.0.1",
-    "html5-qrcode": "https://github.com/dwa012/html5-qrcode.git"
-  },
-  "resolutions": {
-    "bootstrap": "~3.3.2",
-    "jquery": "1.9.1 - 2"
+    "q": "~1.4.1",
+    "geocomplete": "^1.7.0",
+    "bootstrap-material-design": "v0.5.10",
+    "font-awesome": "^4.7.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.45",
+    "jquery-slotmachine": "~3.0.1"
   }
 }
