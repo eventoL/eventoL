@@ -406,33 +406,6 @@
   },
   {
     "fields": {
-      "codename": "add_nonregisteredattendee",
-      "name": "Can add Non Registered  Attendee",
-      "content_type": 16
-    },
-    "model": "auth.permission",
-    "pk": 46
-  },
-  {
-    "fields": {
-      "codename": "change_nonregisteredattendee",
-      "name": "Can change Non Registered  Attendee",
-      "content_type": 16
-    },
-    "model": "auth.permission",
-    "pk": 47
-  },
-  {
-    "fields": {
-      "codename": "delete_nonregisteredattendee",
-      "name": "Can delete Non Registered  Attendee",
-      "content_type": 16
-    },
-    "model": "auth.permission",
-    "pk": 48
-  },
-  {
-    "fields": {
       "codename": "add_eventuser",
       "name": "Can add Event User",
       "content_type": 17
@@ -538,33 +511,6 @@
     },
     "model": "auth.permission",
     "pk": 60
-  },
-  {
-    "fields": {
-      "codename": "add_installationattendee",
-      "name": "Can add Installation Attendee",
-      "content_type": 21
-    },
-    "model": "auth.permission",
-    "pk": 61
-  },
-  {
-    "fields": {
-      "codename": "change_installationattendee",
-      "name": "Can change Installation Attendee",
-      "content_type": 21
-    },
-    "model": "auth.permission",
-    "pk": 62
-  },
-  {
-    "fields": {
-      "codename": "delete_installationattendee",
-      "name": "Can delete Installation Attendee",
-      "content_type": 21
-    },
-    "model": "auth.permission",
-    "pk": 63
   },
   {
     "fields": {

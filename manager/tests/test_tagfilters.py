@@ -2,7 +2,7 @@ import unittest
 import autofixture
 from django import forms
 from manager.templatetags import filters
-from manager.models import EventUser, Attendee, InstallationAttendee, Installer, Organizer, Collaborator
+from manager.models import EventUser, Attendee, Installer, Organizer, Collaborator
 import mock
 
 
@@ -167,13 +167,6 @@ class TestTagFilters(unittest.TestCase):
         self.assertFalse(filters.can_register(self.user, self.event.slug))
         self.deleteAllFromModel(EventUser)
         self.deleteAllFromModel(Attendee)
-
-    def test_if_eventuser_and_installation_attendee_can_register_return_false(self):
-        self.genetateEventUser()
-        self.generateUserWithRol(InstallationAttendee)
-        self.assertFalse(filters.can_register(self.user, self.event.slug))
-        self.deleteAllFromModel(EventUser)
-        self.deleteAllFromModel(InstallationAttendee)
 
     def test_if_not_eventuser_is_registered_return_false(self):
         self.assertFalse(filters.is_registered(self.user, self.event.slug))

@@ -27,7 +27,7 @@ if ON_OPENSHIFT:
     STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'manager', 'static')
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['*']
 
 if 'OPENSHIFT_DATA_DIR' in os.environ:
     MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
@@ -182,11 +182,12 @@ if 'EVENTOL_EMAIL_BACKEND' in os.environ:
     MAILGUN_ACCESS_KEY = os.environ.get('EVENTOL_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
     MAILGUN_SERVER_NAME = os.environ.get('EVENTOL_MAILGUN_SERVER_NAME', 'SERVER-NAME')
 else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'smtp.unset')
     EMAIL_PORT = os.getenv('DJANGO_EMAIL_PORT', '587')
     EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', 'change_unset@mail.com')
     EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', 'secret')
-    EMAIL_USE_TLS = str_to_bool(os.getenv('DJANGO_EMAIL_USE_TLS', True))
+    EMAIL_USE_TLS = True
     EMAIL_FROM = os.getenv('DJANGO_EMAIL_FROM', 'change_unset@mail.com')
 
 LOGIN_URL = '/accounts/login/'

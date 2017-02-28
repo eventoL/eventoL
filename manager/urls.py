@@ -3,6 +3,7 @@ from manager import views
 
 event_patterns = [
     url(r'^$', views.index, name="index"),
+    url(r'^attendee/confirm/(?P<pk>\d+)/(?P<token>\w+)$', views.attendee_confirm_email, name='attendee_confirm_email'),
     url(r'^FAQ$', views.event_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
     url(r'^edit$', views.edit_event, name='edit_event'),
     url(r'^draw', views.draw, name='draw'),

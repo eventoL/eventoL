@@ -118,45 +118,15 @@ class Contact(models.Model):
         verbose_name_plural = _('Contacts')
 
 
-class NonRegisteredAttendee(models.Model):
-    first_name = models.CharField(_('First Name'), max_length=30, blank=True)
-    last_name = models.CharField(_('Last Name'), max_length=30, blank=True)
-    email = models.EmailField(_('E-mail Address'), blank=True)
-    is_installing = models.BooleanField(_('Is Installing'), default=False,
-                                        help_text=_('Will you bring a PC for installation?'))
-    installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
-                                                    help_text=_('i.e. Wath kind of PC are you bringing?'))
-
-    class Meta(object):
-        verbose_name = _('Non Registered  Attendee')
-        verbose_name_plural = _('Non Registered Attendees')
-
-    def __unicode__(self):
-        return u'%s %s' % (self.first_name, self.last_name)
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            for attendee in queryset:
-                event_user = attendee.eventuser_set.first()
-                if not event_user or event_user.event.pk != value:
-                    queryset = queryset.exclude(pk=attendee.pk)
-        return queryset
-
-
 class EventUser(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)
-    nonregisteredattendee = models.ForeignKey(NonRegisteredAttendee, verbose_name=_('Non Registered Attendee'),
-                                              blank=True, null=True)
     event = models.ForeignKey(Event, verbose_name=_noop('Event'))
-    assisted = models.BooleanField(_('Assisted'), default=False)
+    attended = models.BooleanField(_('Attended'), default=False)
     ticket = models.BooleanField(_('Ticket sent'), default=False)
 
     def __unicode__(self):
         if self.user:
             return u'%s %s' % (self.user.first_name, self.user.last_name)
-        if self.nonregisteredattendee:
-            return u'%s %s' % (self.nonregisteredattendee.first_name, self.nonregisteredattendee.last_name)
 
     class Meta(object):
         unique_together = (("event", "user"),)
@@ -196,9 +166,20 @@ class Organizer(models.Model):
 
 
 class Attendee(models.Model):
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    first_name = models.CharField(_('First Name'), max_length=200, blank=True, null=True)
+    last_name = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
+    nickname = models.CharField(_('Nickname'), max_length=200, blank=True, null=True)
+    email = models.EmailField(_('Email'))
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
+    attended = models.BooleanField(_('Attended'), default=False)
+    ticket = models.BooleanField(_('Ticket sent'), default=False)
+    is_installing = models.BooleanField(_('Is going to install?'), default=False)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
-                                       help_text=_('Any additional info you consider relevant'))
+                                       help_text=_('Any additional info you consider relevant for the organizers'))
+    email_confirmed = models.BooleanField(_('Email confirmed?'), default=False)
+    email_token = models.CharField(_('Confirmation Token'), max_length=200, blank=True, null=True)
+    registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
+    attendance_date = models.DateTimeField(_('Attendance Date'), blank=True, null=True)
 
     class Meta(object):
         verbose_name = _('Attendee')
@@ -207,51 +188,25 @@ class Attendee(models.Model):
     @classmethod
     def filter_by(cls, queryset, field, value):
         if field == 'event':
-            return queryset.filter(eventUser__event__pk=value)
+            return queryset.filter(event__pk=value)
         return queryset
 
     def __unicode__(self):
-        if self.eventUser.user:
-            return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-        if self.eventUser.nonregisteredattendee:
-            return u'%s %s' % (
-                self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
+        return u'%s %s - %s - %s' % (self.first_name, self.last_name, self.nickname, self.email)
 
-
-class InstallationAttendee(models.Model):
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
-    installation_additional_info = models.TextField(_('Installation Additional Info'), blank=True, null=True,
-                                                    help_text=_('i.e. Wath kind of PC are you bringing?'))
-
-    class Meta(object):
-        verbose_name = _('Installation Attendee')
-        verbose_name_plural = _('Installation Attendees')
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(eventUser__event__pk=value)
-        return queryset
-
-    def __unicode__(self):
-        if self.eventUser.user:
-            return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-        if self.eventUser.nonregisteredattendee:
-            return u'%s %s' % (
-                self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
 
 class InstallationMessage(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'))
     message = RichTextField(verbose_name=_('Message Body'), help_text=_(
         'Email message HTML Body'), blank=True, null=True)
-    contact_email = models.EmailField(verbose_name=_('Contatc Email'))
+    contact_email = models.EmailField(verbose_name=_('Contact Email'))
 
     class Meta(object):
         verbose_name = _('Post-install Email')
         verbose_name_plural = _('Post-install Emails')
 
     def __unicode__(self):
-        return "%s post-install message" %(self.event.name)
+        return "%s post-install message" % (self.event.name)
 
 
 class Installer(models.Model):
@@ -279,15 +234,6 @@ class Speaker(models.Model):
     class Meta(object):
         verbose_name = _('Speaker')
         verbose_name_plural = _('Speakers')
-
-
-userTypes = {
-    'Collaborators': Collaborator,
-    'Attendees': Attendee,
-    'Installation Attendees': InstallationAttendee,
-    'Speakers': Speaker,
-    'Intallers': Installer
-}
 
 
 class Software(models.Model):
@@ -355,24 +301,30 @@ class Activity(models.Model):
     def room_available(cls, request=None, instance=None, event_slug=None, error=False):
         activities_room = Activity.objects.filter(room=instance.room, event__slug__iexact=event_slug)
         if instance.start_date == instance.end_date:
-            message = _("The talk couldn't be registered because the schedule not available (start time equals end time)")
+            message = _(
+                "The talk couldn't be registered because the schedule not available (start time equals end time)")
             cls.check_status(message, error=error, request=request)
             return False
         if instance.end_date < instance.start_date:
-            message = _("The talk couldn't be registered because the schedule is not available (start time is after end time)")
+            message = _(
+                "The talk couldn't be registered because the schedule is not available (start time is after end time)")
             cls.check_status(message, error=error, request=request)
             return False
 
         one_second = datetime.timedelta(seconds=1)
         if activities_room.filter(
-                end_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exclude(pk=instance.pk).exists() \
-                or activities_room.filter(end_date__gt=instance.end_date, start_date__lt=instance.start_date).exclude(pk=instance.pk).exists() \
-                or activities_room.filter(start_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exclude(pk=instance.pk).exists() \
+                end_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exclude(
+            pk=instance.pk).exists() \
+                or activities_room.filter(end_date__gt=instance.end_date, start_date__lt=instance.start_date).exclude(
+                    pk=instance.pk).exists() \
+                or activities_room.filter(
+                    start_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exclude(
+                    pk=instance.pk).exists() \
                 or activities_room.filter(
                     end_date=instance.end_date, start_date=instance.start_date).exclude(pk=instance.pk).exists():
-                message = _("The talk couldn't be registered because the room or the schedule is not available")
-                cls.check_status(message, error=error, request=request)
-                return False
+            message = _("The talk couldn't be registered because the room or the schedule is not available")
+            cls.check_status(message, error=error, request=request)
+            return False
         return True
 
     def __cmp__(self, other):
@@ -491,7 +443,7 @@ class Comment(models.Model):
 class Installation(models.Model):
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'), blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'), blank=True, null=True)
-    attendee = models.ForeignKey(EventUser, verbose_name=_('Attendee'),
+    attendee = models.ForeignKey(Attendee, verbose_name=_('Attendee'),
                                  help_text=_('The owner of the installed hardware'))
     installer = models.ForeignKey(EventUser, verbose_name=_('Installer'), related_name='installed_by', blank=True,
                                   null=True)

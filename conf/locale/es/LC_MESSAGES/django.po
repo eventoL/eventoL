@@ -233,7 +233,7 @@ msgstr "Asistente no registrado"
 #: manager/templates/reports/dashboard.html:313
 #: manager/templates/reports/dashboard.html:331
 #: manager/templates/reports/dashboard.html:349
-msgid "Assisted"
+msgid "Attended"
 msgstr "Asistieron"
 
 #: manager/models.py:153
@@ -1467,7 +1467,7 @@ msgstr "Ver reportes"
 #: manager/templates/reports/dashboard.html:318
 #: manager/templates/reports/dashboard.html:336
 #: manager/templates/reports/dashboard.html:354
-msgid "Not Assisted"
+msgid "Not Attended"
 msgstr "No Asistieron"
 
 #: manager/templates/reports/dashboard.html:38

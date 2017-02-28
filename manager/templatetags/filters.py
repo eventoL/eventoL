@@ -1,5 +1,5 @@
 from django import template, forms
-from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee, InstallationAttendee
+from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee
 from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -44,12 +44,7 @@ def is_odd(number):
 @register.filter(name='can_register')
 def can_register(user, event_slug):
     """Search if the user is registered for the event as an attendee"""
-    eventuser = EventUser.objects.filter(user=user, event__slug__iexact=event_slug).first()
-    if eventuser:
-        is_attendee = Attendee.objects.filter(eventUser=eventuser).exists()
-        is_installation_attendee = InstallationAttendee.objects.filter(eventUser=eventuser).exists()
-        return not(is_attendee or is_installation_attendee)
-    return True
+    return Attendee.objects.filter(event__slug__iexact=event_slug, first_name=user.first_name).exists()
 
 
 @register.filter(name='is_registered')

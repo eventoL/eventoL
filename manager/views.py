@@ -3,7 +3,9 @@ import datetime
 import io
 import itertools
 import json
+import uuid
 
+from allauth.utils import build_absolute_uri
 from autocomplete_light import shortcuts as autocomplete_light
 import cairosvg
 import locale
@@ -14,22 +16,20 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
 from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response
-from django.template.context import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
-    EventUserSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
+    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
     EventForm, ContactMessageForm, TalkProposalForm, ImageCroppingForm, \
     RegisteredEventUserSearchForm, ActivityCompleteForm, ContactForm
-from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, InstallationAttendee, TalkProposal, \
-    Activity, Hardware, Installation, Comment, Collaborator, ContactMessage, NonRegisteredAttendee, Installer, Speaker, \
+from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, TalkProposal, \
+    Activity, Hardware, Installation, Comment, Collaborator, ContactMessage, Installer, Speaker, \
     InstallationMessage
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
@@ -74,12 +74,12 @@ def get_forms_errors(forms):
     return list(itertools.chain.from_iterable(errors))
 
 
-def generate_ticket(eventUser, lang='en_US.UTF8'):
+def generate_ticket(attendee, lang='en_US.UTF8'):
     ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
-    ticket_template.set_text('event_name', eventUser.event.name[:30])
+    ticket_template.set_text('event_name', attendee.event.name[:30])
     locale.setlocale(locale.LC_TIME, lang)  # Locale del request
-    ticket_template.set_text('event_date', (eventUser.event.date.strftime("%A %d de %B de %Y")).decode('utf-8'))
-    place = json.loads(eventUser.event.place)
+    ticket_template.set_text('event_date', (attendee.event.date.strftime("%A %d de %B de %Y")).decode('utf-8'))
+    place = json.loads(attendee.event.place)
     if place.get("name"):  # Si tiene nombre cargado
         ticket_template.set_text('event_place_name', place.get("name"))
         ticket_template.set_text('event_place_address', place.get("formatted_address")[:50])
@@ -88,21 +88,21 @@ def generate_ticket(eventUser, lang='en_US.UTF8'):
         ticket_template.set_text('event_place_address', '')
 
     ticket_template.set_text('ticket_type', u'Entrada General')
-    qr = pyqrcode.create(eventUser.id)
+    qr = pyqrcode.create(attendee.id)
     code = io.BytesIO()
     qr.png(code, scale=7, quiet_zone=0)
     ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
-    ticket_template.set_text('eventUser_PK', str(eventUser.id).zfill(12))
-    ticket_template.set_text('eventUser_email', eventUser.user.email)  # No se enviara a los NonRegisteredAttendee
+    ticket_template.set_text('eventUser_PK', str(attendee.id).zfill(12))
+    ticket_template.set_text('eventUser_email', attendee.email)
 
-    userName_l1 = u"%s %s" % (eventUser.user.first_name, eventUser.user.last_name)
-    userName_l2 = ''
-    if (len(userName_l1) > 30):
-        userName_l1 = eventUser.user.first_name[:30]  # Por si tiene mas de 30 caracteres
-        userName_l2 = eventUser.user.last_name[:30]
+    user_name_l1 = u"%s %s" % (attendee.first_name, attendee.last_name)
+    user_name_l2 = ''
+    if (len(user_name_l1) > 30):
+        user_name_l1 = attendee.first_name[:30]  # Por si tiene mas de 30 caracteres
+        user_name_l2 = attendee.last_name[:30]
 
-    ticket_template.set_text('eventUser_name_l1', userName_l1)
-    ticket_template.set_text('eventUser_name_l2', userName_l2)
+    ticket_template.set_text('eventUser_name_l1', user_name_l1)
+    ticket_template.set_text('eventUser_name_l2', user_name_l2)
 
     return str(ticket_template)
 
@@ -253,7 +253,6 @@ def installation(request, event_slug):
         if hardware_form.is_valid() and installation_form.is_valid():
             try:
                 hardware = hardware_form.save()
-                install = None
                 install = installation_form.save()
                 install.hardware = hardware
                 event = Event.objects.filter(slug__iexact=event_slug).first()
@@ -262,22 +261,24 @@ def installation(request, event_slug):
                 install.event = event
                 install.installer = EventUser.objects.filter(user=request.user).filter(event=event).first()
                 install.save()
-                #Send post-install email if its defined
-                postinstallemail = InstallationMessage.objects.filter(event=event).first()
-                if postinstallemail:
+                # Send post-install email if its defined
+                postinstall_email = InstallationMessage.objects.filter(event=event).first()
+                if postinstall_email:
                     attendee = install.attendee
                     email = EmailMultiAlternatives()
-                    subject = _(u"%(first_name)s %(last_name)s, thank you for participating in FLISoL %(event_name)s") % {
-    'event_name': event.name, 'first_name': attendee.user.first_name, 'last_name': attendee.user.last_name}
-                    email.from_email = postinstallemail.contact_email
+                    subject = _(
+                        u"%(first_name)s %(last_name)s, thank you for participating in FLISoL %(event_name)s") % {
+                                  'event_name': event.name, 'first_name': attendee.first_name,
+                                  'last_name': attendee.last_name}
+                    email.from_email = postinstall_email.contact_email
                     email.subject = unicode(subject)
                     email.body = ''
-                    email.attach_alternative(postinstallemail.message, "text/html")
-                    email.to = [attendee.user.email]
+                    email.attach_alternative(postinstall_email.message, "text/html")
+                    email.to = [attendee.email]
                     try:
                         email.send(fail_silently=False)
                     except Exception:
-                        #Don't raise email exception to form exception
+                        # Don't raise email exception to form exception
                         pass
                 messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                 return HttpResponseRedirect('/event/' + event_slug)
@@ -448,9 +449,9 @@ def activities(request, event_slug):
         setattr(proposal, 'errors', [])
     return render(request, 'activities/activities_home.html',
                   update_event_info(event_slug, request, {'talks': talks_list, 'proposals': proposals,
-                                                 'activities_confirmed': activities_confirmed,
-                                                 'activities_not_confirmed': activities_not_confirmed,
-                                                 'event': event}, event))
+                                                          'activities_confirmed': activities_confirmed,
+                                                          'activities_not_confirmed': activities_not_confirmed,
+                                                          'event': event}, event))
 
 
 def activity_detail(request, event_slug, pk):
@@ -511,16 +512,16 @@ def upload_presentation(request, event_slug, pk):
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_search(request, event_slug):
-    form = EventUserSearchForm(event_slug, request.POST or None)
+    form = AttendeeSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
-            eventUser = form.cleaned_data['eventUser']
-            if eventUser:
-                if eventUser.assisted:
+            attendee = form.cleaned_data['attendee']
+            if attendee:
+                if attendee.attended:
                     messages.info(request, _('The attendee has already been registered correctly.'))
                 else:
-                    eventUser.assisted = True
-                    eventUser.save()
+                    attendee.attended = True
+                    attendee.save()
                     messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
             else:
@@ -534,14 +535,14 @@ def attendee_search(request, event_slug):
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def attendee_registration(request, event_slug, pk):
-    eventUser = EventUser.objects.filter(pk=pk).first()
+    attendee = Attendee.objects.filter(pk=pk).first()
 
-    if eventUser:
-        if eventUser.assisted:
+    if attendee:
+        if attendee.attended:
             messages.info(request, _('The attendee has already been registered correctly.'))
         else:
-            eventUser.assisted = True
-            eventUser.save()
+            attendee.attended = True
+            attendee.save()
             messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
         return HttpResponseRedirect(reverse("attendee_search", args=[event_slug]))
     else:
@@ -604,34 +605,22 @@ def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.filter(slug__iexact=event_slug).first()
     if not event:
         return handler404(request)
-    attendee = NonRegisteredAttendee()
-    form = AttendeeRegistrationByCollaboratorForm(request.POST or None, instance=attendee)
+    form = AttendeeRegistrationByCollaboratorForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             email = form.cleaned_data["email"]
-            if EventUser.objects.filter(event=event, user__email__iexact=email).count() > 0:
-                messages.error(request, _("The attendee has registered for this event, use correct form"))
+            if Attendee.objects.filter(event=event, email__iexact=email).count() > 0:
+                messages.error(request, _("The attendee is already registered for this event, use correct form"))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
-            if EventUser.objects.filter(event=event, nonregisteredattendee__email__iexact=email).count() > 0:
-                form.add_error('email', _("Email already registered for this event"))
             try:
                 form.save()
-                eventuser = EventUser(event=event, nonregisteredattendee=attendee, assisted=True)
-                eventuser.save()
-                if form.cleaned_data["is_installing"]:
-                    installer = InstallationAttendee(eventUser=eventuser,
-                                                     installation_additional_info=form.cleaned_data[
-                                                         "installation_additional_info"])
-                    installer.save()
-                else:
-                    attendee = Attendee(eventUser=eventuser)
-                    attendee.save()
                 messages.success(request, _('The attendee was successfully registered . Happy Hacking!'))
                 return HttpResponseRedirect(reverse("attendee_search", args=(event_slug,)))
             except Exception:
                 pass
         messages.error(request, _("The attendee couldn't be registered (check form errors)"))
-    return render(request, 'registration/attendee/by-collaborator.html', update_event_info(event_slug, request, {'form': form}))
+    return render(request, 'registration/attendee/by-collaborator.html',
+                  update_event_info(event_slug, request, {'form': form}))
 
 
 def contact(request, event_slug):
@@ -743,17 +732,11 @@ def reports(request, event_slug):
     installations = Installation.objects.filter(attendee__event=event)
     talks = TalkProposal.objects.filter(activity__event=event)
     collaborators = Collaborator.objects.filter(eventUser__event=event)
-    users = EventUser.objects.filter(event=event)
+    attendees = Attendee.objects.filter(event=event)
 
-    confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(eventUser__assisted=True).count()
-    confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(
-        eventUser__assisted=True).count()
-    confirmed_attendees_count += users.filter(nonregisteredattendee__isnull=False).count()
+    confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=True).count()
 
-    not_confirmed_attendees_count = Attendee.objects.filter(eventUser__event=event).filter(
-        eventUser__assisted=False).count()
-    not_confirmed_attendees_count += InstallationAttendee.objects.filter(eventUser__event=event).filter(
-        eventUser__assisted=False).count()
+    not_confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=False).count()
 
     # TODO: Tener en cuenta que si se empiezan a cargar los Speakers en alguna instancia
     # Va a tener que revisarse esto mejor
@@ -763,10 +746,10 @@ def reports(request, event_slug):
     template_dict = {
         'confirmed_attendees_count': confirmed_attendees_count,
         'not_confirmed_attendees_count': not_confirmed_attendees_count,
-        'confirmed_collaborators_count': collaborators.filter(eventUser__assisted=True).count(),
-        'not_confirmed_collaborators_count': collaborators.filter(eventUser__assisted=False).count(),
-        'confirmed_installers_count': installers.filter(eventUser__assisted=True).count(),
-        'not_confirmed_installers_count': installers.filter(eventUser__assisted=False).count(),
+        'confirmed_collaborators_count': collaborators.filter(eventUser__attended=True).count(),
+        'not_confirmed_collaborators_count': collaborators.filter(eventUser__attended=False).count(),
+        'confirmed_installers_count': installers.filter(eventUser__attended=True).count(),
+        'not_confirmed_installers_count': installers.filter(eventUser__attended=False).count(),
         'speakers_count': Speaker.objects.filter(eventUser__event=event).count() + speakers_count,
         'organizers_count': Organizer.objects.filter(eventUser__event=event).count(),
         'talk_proposals_count': TalkProposal.objects.filter(activity__event=event).count(),
@@ -775,13 +758,13 @@ def reports(request, event_slug):
         'installers_for_level': count_by(installers, lambda inst: inst.level),
         'installers_count': installers.count(),
         'installation_for_software': count_by(installations, lambda inst: inst.software.name),
-        'registered_in_time': count_by(users, lambda user: user.user.date_joined.date())
+        'registered_in_time': count_by(attendees, lambda attendee: attendee.registration_date.date())
     }
     return render(request, 'reports/dashboard.html', update_event_info(event_slug, request, render_dict=template_dict))
 
 
 @login_required
-def generic_registration(request, event_slug, registration_model, registration_form, msg_success, msg_error, template):
+def generic_registration(request, event_slug, registration_model, new_role_form, msg_success, msg_error, template):
     event = Event.objects.filter(slug__iexact=event_slug).first()
     if not event:
         return handler404(request)
@@ -790,70 +773,116 @@ def generic_registration(request, event_slug, registration_model, registration_f
         return render(request, 'registration/closed-registration.html', update_event_info(event_slug, request))
 
     errors = []
-    eventUser = EventUser.objects.filter(event=event, user=request.user).first()
-    if not eventUser:
-        eventUser = EventUser(event=event, user=request.user)
+    event_user = EventUser.objects.filter(event=event, user=request.user).first()
+    if not event_user:
+        event_user = EventUser(event=event, user=request.user)
 
-    registration = registration_model.objects.filter(eventUser=eventUser)
+    new_role = registration_model.objects.filter(eventUser=event_user)
 
-    # FIXME: Chanchada
-    installation = InstallationAttendee.objects.filter(eventUser=eventUser)
-
-    if registration or installation:
+    if new_role:
         # Ya esta registrado con ese "rol"
         messages.error(request, _("You are already registered for this event"))
         return HttpResponseRedirect(reverse("index", args=(event_slug,)))
 
-    registration = registration_model(eventUser=eventUser)
+    new_role = registration_model(eventUser=event_user)
     if request.POST:
-        eventUser_form = EventUserRegistrationForm(request.POST, instance=eventUser)
-        registration_form = registration_form(request.POST, instance=registration)
-        forms = [eventUser_form, registration_form]
-        if eventUser_form.is_valid() and registration_form.is_valid():
+        event_user_form = EventUserRegistrationForm(request.POST, instance=event_user)
+        new_role_form = new_role_form(request.POST, instance=new_role)
+        forms = [event_user_form, new_role_form]
+        if event_user_form.is_valid() and new_role_form.is_valid():
             try:
-                eventUser = eventUser_form.save()
-                # FIXME: Chanchada
-                if registration_model is Attendee and registration_form.cleaned_data["is_installing"]:
-                    installation = InstallationAttendee(eventUser=eventUser,
-                                                        installation_additional_info=registration_form.cleaned_data[
-                                                            "installation_additional_info"])
-                    installation.save()
-                else:
-                    registration = registration_form.save()
-                    registration.eventUser = eventUser
-                    registration.save()
+                event_user = event_user_form.save()
+                new_role = new_role_form.save()
+                new_role.eventUser = event_user
+                new_role.save()
 
-                if not eventUser.ticket:
-                    try:
-                        send_event_ticket(eventUser, request.META.get('LANG'))
-                        eventUser.ticket = True
-                        eventUser.save()
-                        msg_success += unicode(_(". Please check your email for the corresponding ticket."))
-                    except Exception:
-                        msg_success += unicode(
-                            _(" but we couldn't send you your ticket. Please, check it out from the menu."))
+                #                if not event_user.ticket:
+                #                    try:
+                #                        send_event_ticket(event_user, request.META.get('LANG'))
+                #                        event_user.ticket = True
+                #                        event_user.save()
+                #                        msg_success += unicode(_(". Please check your email for the corresponding ticket."))
+                #                    except Exception:
+                #                        msg_success += unicode(
+                #                            _(" but we couldn't send you your ticket. Please, check it out from the menu."))
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
                 pass
         messages.error(request, msg_error)
     else:
-        eventUser_form = EventUserRegistrationForm(instance=eventUser)
-        registration_form = registration_form(instance=registration)
-        forms = [eventUser_form, registration_form]
+        event_user_form = EventUserRegistrationForm(instance=event_user)
+        new_role_form = new_role_form(instance=new_role)
+        forms = [event_user_form, new_role_form]
 
     return render(request,
                   template,
                   update_event_info(event_slug, request, {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
-@login_required
+def get_email_confirmation_url(request, event_slug, attendee_id, token):
+    url = reverse(
+        "attendee_confirm_email",
+        args=[event_slug, attendee_id, token])
+    ret = build_absolute_uri(
+        request,
+        url)
+    return ret
+
+
 def registration(request, event_slug):
-    msg_success = _("You have successfully registered to attend")
-    msg_error = _("There is a problem with the registration (check form errors)")
-    template = 'registration/attendee-registration.html'
-    return generic_registration(request, event_slug, Attendee,
-                                AttendeeRegistrationForm, msg_success, msg_error, template)
+    event = Event.objects.filter(slug__iexact=event_slug).first()
+    if not event:
+        return handler404(request)
+
+    if not event.registration_is_open:
+        return render(request, 'registration/closed-registration.html',
+                      update_event_info(event_slug, request, event=event))
+
+    attendee_form = AttendeeRegistrationForm(request.POST or None,
+                                             initial={'event': event})
+    if request.POST:
+        if attendee_form.is_valid():
+            try:
+                attendee = attendee_form.save(commit=False)
+                attendee.event = event
+                attendee.registration_date = datetime.datetime.now()
+                attendee.email_token = uuid.uuid4().hex
+                attendee.save()
+
+                body = _(u"Hi! You're receiving this message because you've registered to attend to " +
+                         u"FLISoL %(event_name)s.\n\nPlease follow this link to confirm your email address and we'll " +
+                         u"send you your ticket.\n\n%(confirm_url)s") % {'event_name': event.name,
+                                                                         'confirm_url': get_email_confirmation_url(
+                                                                             request,
+                                                                             event_slug,
+                                                                             attendee.id,
+                                                                             attendee.email_token)}
+
+                email = EmailMessage()
+                email.subject = unicode(_(u"[FLISoL] Please confirm your email"))
+                email.body = unicode(body)
+                email.from_email = settings.EMAIL_FROM
+                email.to = [attendee.email]
+                email.extra_headers = {'Reply-To': settings.EMAIL_FROM}
+                email.send(fail_silently=False)
+                messages.success(request, _("You have successfully registered to attend"))
+                return HttpResponseRedirect('/event/' + event_slug)
+            except Exception:
+                if attendee is not None:
+                    attendee.delete()
+        messages.error(request, _("There is a problem with the registration (check form errors)"))
+
+    return render(request, 'registration/attendee-registration.html', update_event_info(event_slug, request,
+                                                                                        {'form': attendee_form,
+                                                                                         'errors': get_forms_errors(
+                                                                                             [attendee_form]),
+                                                                                         'multipart': False},
+                                                                                        event=event))
+
+
+def attendee_confirm_email(request, event_slug):
+    pass
 
 
 @login_required
@@ -1030,6 +1059,6 @@ def handler500(request):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def draw(request, event_slug):
-    users = EventUser.objects.filter(event__slug__iexact=event_slug, assisted=True).order_by('?')
+    users = Attendee.objects.filter(event__slug__iexact=event_slug, attended=True).order_by('?')
     users = [str(user) for user in users]
     return render(request, 'event/draw.html', update_event_info(event_slug, request, {'eventusers': users}))
