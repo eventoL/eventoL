@@ -1,12 +1,12 @@
-from manager.security import create_reporters_group
+from django.contrib import admin
+from import_export import resources
+from import_export.admin import ExportMixin
+
+from manager.forms import ActivityAdminForm
 from manager.models import Organizer, Comment, Event, TalkProposal, Attendee, Collaborator, Hardware, \
     Software, Installer, Installation, TalkType, Room, ContactType, Contact, Activity, \
-    ContactMessage, EventUser, Image, Speaker, \
-    InstallationMessage
-from manager.forms import ActivityAdminForm
-from import_export import resources
-from django.contrib import admin
-from import_export.admin import ExportMixin
+    ContactMessage, EventUser, Image, Speaker, InstallationMessage, Ticket
+from manager.security import create_reporters_group
 
 
 class EventoLAdmin(admin.ModelAdmin):
@@ -121,6 +121,17 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
         return queryset.filter(installer__event=event)
 
 
+class TicketResource(resources.ModelResource):
+    class Meta(object):
+        model = Ticket
+        fields = ('sent',)
+        export_order = fields
+
+
+class TicketAdmin(EventoLEventUserAdmin):
+    resource_class = TicketResource
+
+
 class AttendeeResource(resources.ModelResource):
     class Meta(object):
         model = Attendee
@@ -153,6 +164,7 @@ class CollaboratorAdmin(EventoLEventUserAdmin):
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(TalkProposal, TalkProposalAdmin)
+admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
 admin.site.register(Collaborator, CollaboratorAdmin)
