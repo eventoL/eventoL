@@ -74,12 +74,13 @@ def get_forms_errors(forms):
     return list(itertools.chain.from_iterable(errors))
 
 
-def generate_ticket(attendee, lang='en_US.UTF8'):
+def generate_ticket(user, lang='en_US.UTF8'):
+    ticket_data = user.get_ticket_data()
     ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
-    ticket_template.set_text('event_name', attendee.event.name[:30])
+    ticket_template.set_text('event_name', ticket_data.event.name[:30])
     locale.setlocale(locale.LC_TIME, lang)  # Locale del request
-    ticket_template.set_text('event_date', (attendee.event.date.strftime("%A %d de %B de %Y")).decode('utf-8'))
-    place = json.loads(attendee.event.place)
+    ticket_template.set_text('event_date', (ticket_data.event.date.strftime("%A %d de %B de %Y")).decode('utf-8'))
+    place = json.loads(ticket_data.event.place)
     if place.get("name"):  # Si tiene nombre cargado
         ticket_template.set_text('event_place_name', place.get("name"))
         ticket_template.set_text('event_place_address', place.get("formatted_address")[:50])
@@ -87,19 +88,26 @@ def generate_ticket(attendee, lang='en_US.UTF8'):
         ticket_template.set_text('event_place_name', place.get("formatted_address")[:50])
         ticket_template.set_text('event_place_address', '')
 
-    ticket_template.set_text('ticket_type', u'Entrada General')
-    qr = pyqrcode.create(attendee.id)
+    ticket_template.set_text('ticket_type', _("General Ticket"))
+    qr = pyqrcode.create(ticket_data.ticket.id)
     code = io.BytesIO()
     qr.png(code, scale=7, quiet_zone=0)
     ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
-    ticket_template.set_text('eventUser_PK', str(attendee.id).zfill(12))
-    ticket_template.set_text('eventUser_email', attendee.email)
+    ticket_template.set_text('eventUser_PK', str(ticket_data.user.id).zfill(12))
+    ticket_template.set_text('eventUser_email', ticket_data.user.email)
 
-    user_name_l1 = u"%s %s" % (attendee.first_name, attendee.last_name)
-    user_name_l2 = ''
-    if (len(user_name_l1) > 30):
-        user_name_l1 = attendee.first_name[:30]  # Por si tiene mas de 30 caracteres
-        user_name_l2 = attendee.last_name[:30]
+    if ticket_data.first_name is not None or ticket_data.last_name is not None:
+        user_name_l1 = u"%s %s" % (ticket_data.first_name, ticket_data.last_name)
+        user_name_l2 = ''
+        if len(user_name_l1) > 30:
+            user_name_l1 = ticket_data.first_name[:30]  # Por si tiene mas de 30 caracteres
+            user_name_l2 = ticket_data.last_name[:30]
+    elif ticket_data.nickname is not None:
+        user_name_l1 = u"%s" % ticket_data.nickname[:30]
+        user_name_l2 = ''
+    elif ticket_data.email is not None:
+        user_name_l1 = u"%s" % ticket_data.email[:30]
+        user_name_l2 = ''
 
     ticket_template.set_text('eventUser_name_l1', user_name_l1)
     ticket_template.set_text('eventUser_name_l2', user_name_l2)
@@ -107,21 +115,30 @@ def generate_ticket(attendee, lang='en_US.UTF8'):
     return str(ticket_template)
 
 
-def send_event_ticket(eventUser, lang):
-    ticket = generate_ticket(eventUser, lang)
+def send_event_ticket(user, lang):
+    ticket_svg = generate_ticket(user, lang)
+    ticket_data = user.get_ticket_data()
 
-    email = EmailMessage()
-    subject = _(u"Ticket for %(event_name)s event") % {'event_name': eventUser.event.name}
-    body = _(u"Hello %(first_name)s %(last_name)s,\n Here is your ticket for %(event_name)s event. \
-    Please remember to print it and bring it with you the day of the event. \
-    \n Regards, %(event_name)s team.") % {'event_name': eventUser.event.name, 'first_name': eventUser.user.first_name,
-                                          'last_name': eventUser.user.last_name}
-    email.subject = unicode(subject)
-    email.body = unicode(body)
-    email.to = [eventUser.user.email]
-    email.attach('Ticket-' + str(eventUser.id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket),
-                 'application/pdf')
-    email.send(fail_silently=False)
+    try:
+        email = EmailMessage()
+        subject = _(u"Ticket for %(event_name)s event") % {'event_name': ticket_data.event.name}
+        body = _(u"Hello %(first_name)s %(last_name)s,\n Here is your ticket for %(event_name)s event. \
+        Please remember to print it and bring it with you the day of the event. \
+        \n Regards, FLISoL %(event_name)s team.") % {'event_name': ticket_data.event.name,
+                                                     'first_name': ticket_data.first_name,
+                                                     'last_name': ticket_data.last_name}
+        email.subject = unicode(subject)
+        email.body = unicode(body)
+        email.to = [ticket_data.email]
+        email.attach('Ticket-' + str(ticket_data.ticket.id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket_svg),
+                     'application/pdf')
+        email.send(fail_silently=False)
+        ticket_data.ticket.sent = True
+        ticket_data.ticket.save()
+    except Exception as e:
+        ticket_data.ticket.sent = False
+        ticket_data.ticket.save()
+        raise e
 
 
 def create_organizer(event_user):
@@ -1033,11 +1050,11 @@ def add_room(request, event_slug, pk=None):
 
 @login_required
 def view_ticket(request, event_slug):
-    eventuser = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
-    if eventuser:
-        ticket = generate_ticket(eventuser, request.META.get('LANG'))
+    event_user = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
+    if event_user:
+        ticket = generate_ticket(event_user, request.META.get('LANG'))
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
-        response["Content-Disposition"] = 'filename=Ticket-' + str(eventuser.id).zfill(12) + '.pdf'
+        response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.id).zfill(12) + '.pdf'
         return response
     else:
         messages.error(request, "You are not registered for this event")

@@ -118,15 +118,26 @@ class Contact(models.Model):
         verbose_name_plural = _('Contacts')
 
 
+class Ticket(models.Model):
+    sent = models.BooleanField(_('Sent'), default=False)
+
+
 class EventUser(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
+    event = models.ForeignKey(Event, verbose_name=_('Event'))
     attended = models.BooleanField(_('Attended'), default=False)
-    ticket = models.BooleanField(_('Ticket sent'), default=False)
+    ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
 
     def __unicode__(self):
         if self.user:
             return u'%s %s' % (self.user.first_name, self.user.last_name)
+
+    def get_ticket_data(self):
+        if self.ticket is None:
+            self.ticket = Ticket()
+            self.save()
+        return {'first_name': self.user.first_name, 'last_name': self.user.last_name, 'nickname': self.user.username,
+                'email': self.user.email, 'event': self.event, 'ticket': self.ticket}
 
     class Meta(object):
         unique_together = (("event", "user"),)
@@ -170,9 +181,9 @@ class Attendee(models.Model):
     last_name = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
     nickname = models.CharField(_('Nickname'), max_length=200, blank=True, null=True)
     email = models.EmailField(_('Email'))
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
+    event = models.ForeignKey(Event, verbose_name=_('Event'))
     attended = models.BooleanField(_('Attended'), default=False)
-    ticket = models.BooleanField(_('Ticket sent'), default=False)
+    ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
     is_installing = models.BooleanField(_('Is going to install?'), default=False)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
                                        help_text=_('Any additional info you consider relevant for the organizers'))
@@ -184,6 +195,7 @@ class Attendee(models.Model):
     class Meta(object):
         verbose_name = _('Attendee')
         verbose_name_plural = _('Attendees')
+        unique_together = (("event", "email"),)
 
     @classmethod
     def filter_by(cls, queryset, field, value):
@@ -193,6 +205,13 @@ class Attendee(models.Model):
 
     def __unicode__(self):
         return u'%s %s - %s - %s' % (self.first_name, self.last_name, self.nickname, self.email)
+
+    def get_ticket_data(self):
+        if self.ticket is None:
+            self.ticket = Ticket()
+            self.save()
+        return {'first_name': self.first_name, 'last_name': self.last_name, 'nickname': self.nickname,
+                'email': self.email, 'event': self.event, 'ticket': self.ticket}
 
 
 class InstallationMessage(models.Model):
