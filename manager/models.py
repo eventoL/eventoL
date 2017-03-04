@@ -121,6 +121,9 @@ class Contact(models.Model):
 class Ticket(models.Model):
     sent = models.BooleanField(_('Sent'), default=False)
 
+    def __unicode__(self):
+        return u"%d" % (self.id)
+
 
 class EventUser(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)

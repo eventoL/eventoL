@@ -10,7 +10,7 @@ from manager.models import Installer, Organizer, EventUser, Collaborator, Attend
 
 def is_installer(user, event_slug=None, *args, **kwargs):
     return event_slug and (
-        Installer.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
+        Installer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))
 
 
@@ -76,13 +76,13 @@ def add_organizer_permissions(user):
 
 
 def is_organizer(user, event_slug=None, *args, **kwargs):
-    return event_slug and Organizer.objects.filter(eventUser__user=user,
-                                                   eventUser__event__slug__iexact=event_slug).exists()
+    return event_slug and Organizer.objects.filter(event_user__user=user,
+                                                   event_user__event__slug__iexact=event_slug).exists()
 
 
 def is_collaborator(user, event_slug=None, *args, **kwargs):
     return event_slug and (
-        Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
+        Collaborator.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))
 
 

@@ -93,7 +93,7 @@ class RegisteredEventUserSearchForm(forms.Form):
         super(RegisteredEventUserSearchForm, self).__init__(*args, **kwargs)
         self.fields['event_user'].queryset = EventUser.objects.filter(event__slug__iexact=event)
 
-    eventUser = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
+    event_user = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):

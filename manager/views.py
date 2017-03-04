@@ -3,15 +3,15 @@ import datetime
 import io
 import itertools
 import json
-import uuid
-
-from allauth.utils import build_absolute_uri
-from autocomplete_light import shortcuts as autocomplete_light
-import cairosvg
 import locale
 import os
+import uuid
+
+import cairosvg
 import pyqrcode
 import svglue
+from allauth.utils import build_absolute_uri
+from autocomplete_light import shortcuts as autocomplete_light
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -23,6 +23,8 @@ from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.utils.translation import ugettext_lazy as _
+from voting.models import Vote
+
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, CommentForm, PresentationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, TalkForm, RoomForm, \
@@ -34,7 +36,6 @@ from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact,
 from manager.schedule import Schedule
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
-from voting.models import Vote
 
 autocomplete_light.autodiscover()
 
@@ -142,11 +143,11 @@ def send_event_ticket(user, lang):
 
 
 def create_organizer(event_user):
-    organizer = Organizer.objects.filter(eventUser=event_user).first()
+    organizer = Organizer.objects.filter(event_user=event_user).first()
     if organizer is None:
-        organizer = Organizer.objects.create(eventUser=event_user)
+        organizer = Organizer.objects.create(event_user=event_user)
 
-    add_organizer_permissions(organizer.eventUser.user)
+    add_organizer_permissions(organizer.event_user.user)
     organizer.save()
     return organizer
 
@@ -578,12 +579,12 @@ def add_organizer(request, event_slug):
                 organizer = create_organizer(event_user)
                 messages.success(
                     request,
-                    _("%s has been successfully added as an Organizer." % organizer.eventUser.user.username))
+                    _("%s has been successfully added as an Organizer." % organizer.event_user.user.username))
             return HttpResponseRedirect(reverse("add_organizer", args=[event_slug]))
 
         messages.error(request, _("Something went wrong (please check form errors)"))
 
-    organizers = Organizer.objects.filter(eventUser__event__slug__iexact=event_slug)
+    organizers = Organizer.objects.filter(event_user__event__slug__iexact=event_slug)
     return render(request, 'event/organizers.html',
                   update_event_info(event_slug, request, {'form': form, 'organizers': organizers}))
 
@@ -596,7 +597,7 @@ def add_registration_people(request, event_slug):
         if form.is_valid():
             event_user = form.cleaned_data['event_user']
             if event_user:
-                Collaborator.objects.get_or_create(eventUser=event_user)
+                Collaborator.objects.get_or_create(event_user=event_user)
                 add_attendance_permission(event_user.user)
                 messages.success(request,
                                  _("%s has been successfully added to manage attendance." % event_user.user.username))
@@ -606,8 +607,8 @@ def add_registration_people(request, event_slug):
 
     if Permission.objects.filter(codename='can_take_attendance').exists():
         permission = Permission.objects.get(codename='can_take_attendance')
-        registration_people = Collaborator.objects.filter(eventUser__user__user_permissions=permission,
-                                                          eventUser__event__slug__iexact=event_slug)
+        registration_people = Collaborator.objects.filter(event_user__user__user_permissions=permission,
+                                                          event_user__event__slug__iexact=event_slug)
     else:
         registration_people = []
 
@@ -745,10 +746,10 @@ def reports(request, event_slug):
     if not event:
         return handler404(request)
     votes = Vote.objects.all()
-    installers = Installer.objects.filter(eventUser__event=event)
+    installers = Installer.objects.filter(event_user__event=event)
     installations = Installation.objects.filter(attendee__event=event)
     talks = TalkProposal.objects.filter(activity__event=event)
-    collaborators = Collaborator.objects.filter(eventUser__event=event)
+    collaborators = Collaborator.objects.filter(event_user__event=event)
     attendees = Attendee.objects.filter(event=event)
 
     confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=True).count()
@@ -763,12 +764,12 @@ def reports(request, event_slug):
     template_dict = {
         'confirmed_attendees_count': confirmed_attendees_count,
         'not_confirmed_attendees_count': not_confirmed_attendees_count,
-        'confirmed_collaborators_count': collaborators.filter(eventUser__attended=True).count(),
-        'not_confirmed_collaborators_count': collaborators.filter(eventUser__attended=False).count(),
-        'confirmed_installers_count': installers.filter(eventUser__attended=True).count(),
-        'not_confirmed_installers_count': installers.filter(eventUser__attended=False).count(),
-        'speakers_count': Speaker.objects.filter(eventUser__event=event).count() + speakers_count,
-        'organizers_count': Organizer.objects.filter(eventUser__event=event).count(),
+        'confirmed_collaborators_count': collaborators.filter(event_user__attended=True).count(),
+        'not_confirmed_collaborators_count': collaborators.filter(event_user__attended=False).count(),
+        'confirmed_installers_count': installers.filter(event_user__attended=True).count(),
+        'not_confirmed_installers_count': installers.filter(event_user__attended=False).count(),
+        'speakers_count': Speaker.objects.filter(event_user__event=event).count() + speakers_count,
+        'organizers_count': Organizer.objects.filter(event_user__event=event).count(),
         'talk_proposals_count': TalkProposal.objects.filter(activity__event=event).count(),
         'installations_count': Installation.objects.filter(attendee__event=event).count(),
         'votes_for_talk': count_by(votes, lambda vote: titleFromVote(vote, event), lambda vote: vote.vote),
@@ -794,14 +795,14 @@ def generic_registration(request, event_slug, registration_model, new_role_form,
     if not event_user:
         event_user = EventUser(event=event, user=request.user)
 
-    new_role = registration_model.objects.filter(eventUser=event_user)
+    new_role = registration_model.objects.filter(event_user=event_user)
 
     if new_role:
         # Ya esta registrado con ese "rol"
         messages.error(request, _("You are already registered for this event"))
         return HttpResponseRedirect(reverse("index", args=(event_slug,)))
 
-    new_role = registration_model(eventUser=event_user)
+    new_role = registration_model(event_user=event_user)
     if request.POST:
         event_user_form = EventUserRegistrationForm(request.POST, instance=event_user)
         new_role_form = new_role_form(request.POST, instance=new_role)
@@ -810,7 +811,7 @@ def generic_registration(request, event_slug, registration_model, new_role_form,
             try:
                 event_user = event_user_form.save()
                 new_role = new_role_form.save()
-                new_role.eventUser = event_user
+                new_role.event_user = event_user
                 new_role.save()
 
                 #                if not event_user.ticket:
@@ -930,13 +931,13 @@ def create_event(request):
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid():
             organizer = None
-            eventUser = None
+            event_user = None
             the_event = None
             contacts = None
             try:
                 the_event = event_form.save()
-                eventUser = EventUser.objects.create(user=request.user, event=the_event)
-                organizer = create_organizer(eventUser)
+                event_user = EventUser.objects.create(user=request.user, event=the_event)
+                organizer = create_organizer(event_user)
                 contacts = contacts_formset.save(commit=False)
 
                 for a_contact in contacts:
@@ -947,8 +948,8 @@ def create_event(request):
             except Exception:
                 if organizer is not None:
                     Organizer.delete(organizer)
-                if eventUser is not None:
-                    EventUser.delete(eventUser)
+                if event_user is not None:
+                    EventUser.delete(event_user)
                 if the_event is not None:
                     Event.delete(the_event)
                 if contacts is not None:
