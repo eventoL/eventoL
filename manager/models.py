@@ -134,7 +134,9 @@ class EventUser(models.Model):
 
     def get_ticket_data(self):
         if self.ticket is None:
-            self.ticket = Ticket()
+            ticket = Ticket()
+            ticket.save()
+            self.ticket = ticket
             self.save()
         return {'first_name': self.user.first_name, 'last_name': self.user.last_name, 'nickname': self.user.username,
                 'email': self.user.email, 'event': self.event, 'ticket': self.ticket}
@@ -146,7 +148,7 @@ class EventUser(models.Model):
 
 
 class Collaborator(models.Model):
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     assignation = models.CharField(_('Assignation'), max_length=200, blank=True, null=True,
                                    help_text=_('Anything you can help with (i.e. Talks, Coffee...)'))
     time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_(
@@ -161,19 +163,19 @@ class Collaborator(models.Model):
         verbose_name_plural = _('Collaborators')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
+        return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
 class Organizer(models.Model):
     """Event organizer"""
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
     class Meta(object):
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
+        return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
 class Attendee(models.Model):
@@ -208,7 +210,9 @@ class Attendee(models.Model):
 
     def get_ticket_data(self):
         if self.ticket is None:
-            self.ticket = Ticket()
+            ticket = Ticket()
+            ticket.save()
+            self.ticket = ticket
             self.save()
         return {'first_name': self.first_name, 'last_name': self.last_name, 'nickname': self.nickname,
                 'email': self.email, 'event': self.event, 'ticket': self.ticket}
@@ -235,7 +239,7 @@ class Installer(models.Model):
         ('3', _('Advanced')),
         ('4', _('Super Hacker'))
     )
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
                              help_text=_('Knowledge level for an installation'))
 
@@ -244,11 +248,11 @@ class Installer(models.Model):
         verbose_name_plural = _('Installers')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
+        return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
 class Speaker(models.Model):
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
     class Meta(object):
         verbose_name = _('Speaker')

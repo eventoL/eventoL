@@ -77,10 +77,10 @@ def get_forms_errors(forms):
 def generate_ticket(user, lang='en_US.UTF8'):
     ticket_data = user.get_ticket_data()
     ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
-    ticket_template.set_text('event_name', ticket_data.event.name[:30])
+    ticket_template.set_text('event_name', ticket_data['event'].name[:30])
     locale.setlocale(locale.LC_TIME, lang)  # Locale del request
-    ticket_template.set_text('event_date', (ticket_data.event.date.strftime("%A %d de %B de %Y")).decode('utf-8'))
-    place = json.loads(ticket_data.event.place)
+    ticket_template.set_text('event_date', (ticket_data['event'].date.strftime("%A %d de %B de %Y")).decode('utf-8'))
+    place = json.loads(ticket_data['event'].place)
     if place.get("name"):  # Si tiene nombre cargado
         ticket_template.set_text('event_place_name', place.get("name"))
         ticket_template.set_text('event_place_address', place.get("formatted_address")[:50])
@@ -88,25 +88,25 @@ def generate_ticket(user, lang='en_US.UTF8'):
         ticket_template.set_text('event_place_name', place.get("formatted_address")[:50])
         ticket_template.set_text('event_place_address', '')
 
-    ticket_template.set_text('ticket_type', _("General Ticket"))
-    qr = pyqrcode.create(ticket_data.ticket.id)
+    ticket_template.set_text('ticket_type', unicode(_(u"General Ticket")))
+    qr = pyqrcode.create(ticket_data['ticket'].id)
     code = io.BytesIO()
     qr.png(code, scale=7, quiet_zone=0)
     ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
-    ticket_template.set_text('eventUser_PK', str(ticket_data.user.id).zfill(12))
-    ticket_template.set_text('eventUser_email', ticket_data.user.email)
+    ticket_template.set_text('eventUser_PK', str(ticket_data['ticket'].id).zfill(12))
+    ticket_template.set_text('eventUser_email', ticket_data['email'])
 
-    if ticket_data.first_name is not None or ticket_data.last_name is not None:
-        user_name_l1 = u"%s %s" % (ticket_data.first_name, ticket_data.last_name)
+    if ticket_data['first_name'] is not None or ticket_data['last_name'] is not None:
+        user_name_l1 = u"%s %s" % (ticket_data['first_name'], ticket_data['last_name'])
         user_name_l2 = ''
         if len(user_name_l1) > 30:
-            user_name_l1 = ticket_data.first_name[:30]  # Por si tiene mas de 30 caracteres
-            user_name_l2 = ticket_data.last_name[:30]
+            user_name_l1 = ticket_data['first_name'][:30]  # Por si tiene mas de 30 caracteres
+            user_name_l2 = ticket_data['last_name'][:30]
     elif ticket_data.nickname is not None:
-        user_name_l1 = u"%s" % ticket_data.nickname[:30]
+        user_name_l1 = u"%s" % ticket_data['nickname'][:30]
         user_name_l2 = ''
-    elif ticket_data.email is not None:
-        user_name_l1 = u"%s" % ticket_data.email[:30]
+    elif ticket_data['email'] is not None:
+        user_name_l1 = u"%s" % ticket_data['email'][:30]
         user_name_l2 = ''
 
     ticket_template.set_text('eventUser_name_l1', user_name_l1)
@@ -573,7 +573,7 @@ def add_organizer(request, event_slug):
     form = RegisteredEventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
-            event_user = form.cleaned_data['eventUser']
+            event_user = form.cleaned_data['event_user']
             if event_user:
                 organizer = create_organizer(event_user)
                 messages.success(
@@ -594,7 +594,7 @@ def add_registration_people(request, event_slug):
     form = RegisteredEventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
-            event_user = form.cleaned_data['eventUser']
+            event_user = form.cleaned_data['event_user']
             if event_user:
                 Collaborator.objects.get_or_create(eventUser=event_user)
                 add_attendance_permission(event_user.user)
@@ -1052,6 +1052,8 @@ def add_room(request, event_slug, pk=None):
 def view_ticket(request, event_slug):
     event_user = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
     if event_user:
+        print 'HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+        print event_user.get_ticket_data()
         ticket = generate_ticket(event_user, request.META.get('LANG'))
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
         response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.id).zfill(12) + '.pdf'

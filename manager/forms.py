@@ -82,7 +82,7 @@ def sorted_choices(choices_list):
 class AttendeeSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(AttendeeSearchForm, self).__init__(*args, **kwargs)
-        # Los EventUser para el evento que todavia no registraron asistencia
+        # Los Attendee para el evento que todavia no registraron asistencia
         self.fields['attendee'].queryset = Attendee.objects.filter(event__slug__iexact=event).filter(attended=False)
 
     attendee = autocomplete.ModelChoiceField('AttendeeAutocomplete', required=False)
@@ -91,7 +91,7 @@ class AttendeeSearchForm(forms.Form):
 class RegisteredEventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(RegisteredEventUserSearchForm, self).__init__(*args, **kwargs)
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event)
+        self.fields['event_user'].queryset = EventUser.objects.filter(event__slug__iexact=event)
 
     eventUser = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
 
@@ -128,7 +128,7 @@ class HardwareForm(autocomplete.ModelForm):
 class CollaboratorRegistrationForm(ModelForm):
     class Meta(object):
         model = Collaborator
-        widgets = {'eventUser': forms.HiddenInput()}
+        widgets = {'event_user': forms.HiddenInput()}
         exclude = ()
 
 
@@ -156,7 +156,7 @@ class InstallerRegistrationForm(ModelForm):
 
     class Meta(object):
         model = Installer
-        widgets = {'eventUser': forms.HiddenInput()}
+        widgets = {'event_user': forms.HiddenInput()}
         exclude = ()
 
 

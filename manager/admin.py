@@ -23,22 +23,22 @@ class EventoLAdmin(admin.ModelAdmin):
         reporters = create_reporters_group()
         if request.user.groups.filter(name=reporters.name).exists():
             return queryset
-        organizer = Organizer.objects.filter(eventUser__user=request.user).first()
+        organizer = Organizer.objects.filter(event_user__user=request.user).first()
         if organizer:
-            return self.filter_event(organizer.eventUser.event, queryset)
+            return self.filter_event(organizer.event_user.event, queryset)
         return queryset.none()
 
 
 class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
     def filter_event(self, event, queryset):
-        return queryset.filter(eventUser__event=event)
+        return queryset.filter(event_user__event=event)
 
 
 class OrganizerResource(resources.ModelResource):
     class Meta(object):
         model = Organizer
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-                  'eventUser__user__email', 'eventUser__attended', 'eventUser__user__date_joined')
+        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'event_user__attended', 'event_user__user__date_joined')
         export_order = fields
 
 
@@ -49,8 +49,8 @@ class OrganizerAdmin(EventoLEventUserAdmin):
 class SpeakerResource(resources.ModelResource):
     class Meta(object):
         model = Speaker
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-                  'eventUser__user__email', 'eventUser__attended', 'eventUser__user__date_joined')
+        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'event_user__attended', 'event_user__user__date_joined')
         export_order = fields
 
 
@@ -97,8 +97,8 @@ class CommentAdmin(EventoLAdmin):
 class InstallerResource(resources.ModelResource):
     class Meta(object):
         model = Installer
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-                  'eventUser__user__email', 'eventUser__attended', 'level', 'eventUser__user__date_joined')
+        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'event_user__attended', 'level', 'event_user__user__date_joined')
         export_order = fields
 
 
@@ -128,7 +128,7 @@ class TicketResource(resources.ModelResource):
         export_order = fields
 
 
-class TicketAdmin(EventoLEventUserAdmin):
+class TicketAdmin(EventoLAdmin):
     resource_class = TicketResource
 
 
@@ -140,7 +140,7 @@ class AttendeeResource(resources.ModelResource):
         export_order = fields
 
 
-class AttendeeAdmin(EventoLEventUserAdmin):
+class AttendeeAdmin(ExportMixin, EventoLAdmin):
     resource_class = AttendeeResource
 
 
@@ -151,8 +151,8 @@ class ActivityAdmin(EventoLAdmin):
 class CollaboratorResource(resources.ModelResource):
     class Meta(object):
         model = Collaborator
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-                  'eventUser__user__email', 'eventUser__user__date_joined', 'phone', 'address', 'eventUser__attended',
+        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'event_user__user__date_joined', 'phone', 'address', 'event_user__attended',
                   'assignation', 'time_availability', 'additional_info')
         export_order = fields
 

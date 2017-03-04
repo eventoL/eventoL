@@ -1,6 +1,7 @@
 from django import template, forms
-from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee
 from django.utils.translation import ugettext_lazy as _
+
+from manager.models import Installer, Collaborator, Organizer, EventUser
 
 register = template.Library()
 
@@ -41,12 +42,6 @@ def is_odd(number):
     return bool(number & 1)
 
 
-@register.filter(name='can_register')
-def can_register(user, event_slug):
-    """Search if the user is registered for the event as an attendee"""
-    return Attendee.objects.filter(event__slug__iexact=event_slug, first_name=user.first_name).exists()
-
-
 @register.filter(name='is_registered')
 def is_registered(user, event_slug):
     """Search if the user is registered for the event in any way"""
@@ -55,19 +50,19 @@ def is_registered(user, event_slug):
 
 @register.filter(name='is_installer')
 def is_installer(user, event_slug):
-    return Installer.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
+    return Installer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or \
         is_organizer(user, event_slug)
 
 
 @register.filter(name='is_collaborator')
 def is_collaborator(user, event_slug):
-    return Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
+    return Collaborator.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or \
         is_organizer(user, event_slug)
 
 
 @register.filter(name='is_organizer')
 def is_organizer(user, event_slug):
-    return Organizer.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists()
+    return Organizer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists()
 
 
 @register.filter(name='can_take_attendance')
