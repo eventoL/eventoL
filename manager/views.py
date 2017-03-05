@@ -623,7 +623,7 @@ def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.filter(slug__iexact=event_slug).first()
     if not event:
         return handler404(request)
-    form = AttendeeRegistrationByCollaboratorForm(request.POST or None)
+    form = AttendeeRegistrationByCollaboratorForm(request.POST or None, initial={'event': event, 'attended': True})
     if request.POST:
         if form.is_valid():
             email = form.cleaned_data["email"]
@@ -884,8 +884,7 @@ def registration(request, event_slug):
                 email.to = [attendee.email]
                 email.extra_headers = {'Reply-To': settings.EMAIL_FROM}
                 email.send(fail_silently=False)
-                messages.success(request, _("You have successfully registered to attend"))
-                return HttpResponseRedirect('/event/' + event_slug)
+                return HttpResponseRedirect(reverse("attendee_email_sent", args=[event_slug]))
             except Exception:
                 if attendee is not None:
                     attendee.delete()
