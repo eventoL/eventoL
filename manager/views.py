@@ -122,23 +122,23 @@ def send_event_ticket(user, lang):
 
     try:
         email = EmailMessage()
-        subject = _(u"Ticket for %(event_name)s event") % {'event_name': ticket_data.event.name}
-        body = _(u"Hello %(first_name)s %(last_name)s,\n Here is your ticket for %(event_name)s event. \
-        Please remember to print it and bring it with you the day of the event. \
-        \n Regards, FLISoL %(event_name)s team.") % {'event_name': ticket_data.event.name,
-                                                     'first_name': ticket_data.first_name,
-                                                     'last_name': ticket_data.last_name}
+        subject = _(u"Ticket for %(event_name)s event") % {'event_name': ticket_data['event'].name}
+        body = _(u"Hello %(first_name)s %(last_name)s,\nHere is your ticket for %(event_name)s event." +
+        u" Please remember to print it and bring it with you the day of the event.\n" +
+        u"Regards, FLISoL %(event_name)s team.") % {'event_name': ticket_data['event'].name,
+                                                     'first_name': ticket_data['first_name'],
+                                                     'last_name': ticket_data['last_name']}
         email.subject = unicode(subject)
         email.body = unicode(body)
-        email.to = [ticket_data.email]
-        email.attach('Ticket-' + str(ticket_data.ticket.id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket_svg),
+        email.to = [ticket_data['email']]
+        email.attach('Ticket-' + str(ticket_data['ticket'].id).zfill(12) + '.pdf', cairosvg.svg2pdf(bytestring=ticket_svg),
                      'application/pdf')
         email.send(fail_silently=False)
-        ticket_data.ticket.sent = True
-        ticket_data.ticket.save()
+        ticket_data['ticket'].sent = True
+        ticket_data['ticket'].save()
     except Exception as e:
-        ticket_data.ticket.sent = False
-        ticket_data.ticket.save()
+        ticket_data['ticket'].sent = False
+        ticket_data['ticket'].save()
         raise e
 
 
@@ -286,8 +286,8 @@ def installation(request, event_slug):
                     email = EmailMultiAlternatives()
                     subject = _(
                         u"%(first_name)s %(last_name)s, thank you for participating in FLISoL %(event_name)s") % {
-                                  'event_name': event.name, 'first_name': attendee.first_name,
-                                  'last_name': attendee.last_name}
+                        'event_name': event.name, 'first_name': attendee.first_name,
+                        'last_name': attendee.last_name}
                     email.from_email = postinstall_email.contact_email
                     email.subject = unicode(subject)
                     email.body = ''
@@ -822,7 +822,8 @@ def generic_registration(request, event_slug, registration_model, new_role_form,
                 #                        msg_success += unicode(_(". Please check your email for the corresponding ticket."))
                 #                    except Exception:
                 #                        msg_success += unicode(
-                #                            _(" but we couldn't send you your ticket. Please, check it out from the menu."))
+                # _(" but we couldn't send you your ticket. Please, check it out from the
+                # menu."))
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
             except Exception:
@@ -890,16 +891,27 @@ def registration(request, event_slug):
                     attendee.delete()
         messages.error(request, _("There is a problem with the registration (check form errors)"))
 
-    return render(request, 'registration/attendee-registration.html', update_event_info(event_slug, request,
-                                                                                        {'form': attendee_form,
-                                                                                         'errors': get_forms_errors(
-                                                                                             [attendee_form]),
-                                                                                         'multipart': False},
-                                                                                        event=event))
+    return render(request, 'registration/attendee-registration.html', update_event_info(event_slug, request, {'form': attendee_form, 'errors': get_forms_errors([attendee_form]), 'multipart': False}, event=event))
 
 
-def attendee_confirm_email(request, event_slug):
-    pass
+def attendee_confirm_email(request, event_slug, pk, token):
+    # IDEA: with pk get attendee and compare ate.token vs token
+    # if token ===, send_event_ticket(ate) -> ok: new view with info and 'go back'
+    attendee = Attendee.objects.get(pk=pk)
+    title = _("Email verification")
+    message = _("We've sent you your ticket to your email! In case it doesn't arrive, don't worry! You're already registered and we'll ask for your email address.")
+    if not attendee.email_confirmed:
+        if attendee.email_token == token:
+            try:
+                attendee.email_confirmed = True
+                attendee.save()
+                send_event_ticket(attendee, request.META.get('LANG'))
+            except Exception as e:
+                pass
+        else:
+            message = _("The verification URL is invalid. Try again. ")
+
+    return render(request, 'registration/attendee/ticket-sent.html', {'message': message, 'title':title, 'event_slug': event_slug })
 
 
 @login_required
