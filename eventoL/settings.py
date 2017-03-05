@@ -1,7 +1,7 @@
-from easy_thumbnails.conf import Settings as thumbnail_settings
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from easy_thumbnails.optimize.conf import OptimizeSettings
 import os
+
+from easy_thumbnails.conf import Settings as thumbnail_settings
+from easy_thumbnails.optimize.conf import OptimizeSettings
 
 
 def str_to_bool(s):
@@ -25,6 +25,8 @@ if ON_OPENSHIFT:
     os.environ.setdefault('PSQL_PORT', os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT'))
     ALLOWED_HOSTS = [os.environ.get('OPENSHIFT_APP_DNS'), socket.gethostname()]
     STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
+    RECAPTCHA_PROXY = os.environ.get('OPENSHIFT_APP_DNS')
+    os.environ.setdefault('DJANGO_RECAPTCHA_USE_SSL', 'True')
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'manager', 'static')
     ALLOWED_HOSTS = ['*']
@@ -74,6 +76,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.windowslive',
+    'captcha'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -278,3 +281,8 @@ SOCIALACCOUNT_FORMS = {'signup': 'manager.forms.SocialSignUpForm'}
 
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 LOGIN_REDIRECT_URL = '/'
+
+RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+NOCAPTCHA = True
+RECAPTCHA_USE_SSL = str_to_bool(os.getenv('DJANGO_RECAPTCHA_USE_SSL', 'False'))

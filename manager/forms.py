@@ -16,6 +16,7 @@ from allauth.account.forms import ResetPasswordForm as AllAuthResetPasswordForm
 from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKeyForm
 from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
+from captcha.fields import ReCaptchaField
 
 from manager.models import Attendee, Installation, \
     Hardware, Collaborator, Installer, TalkProposal, ContactMessage, Image, \
@@ -140,6 +141,8 @@ class EventUserRegistrationForm(ModelForm):
 
 
 class AttendeeRegistrationForm(ModelForm):
+    captcha = ReCaptchaField()
+
     class Meta(object):
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email', 'additional_info', 'is_installing', 'event',
