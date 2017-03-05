@@ -12,6 +12,7 @@ django-image-cropping==1.0.4
 django-import-export==0.5.1
 django-jquery-js==2.2.4
 django-mailgun==0.9.1
+django-recaptcha==1.2.1
 django-voting==0.3.dev52+ngf07707c
 djangorestframework==3.5.4
 easy-thumbnails==2.3

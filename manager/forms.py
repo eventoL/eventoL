@@ -1,9 +1,9 @@
 # encoding: UTF-8
 from autocomplete_light import shortcuts as autocomplete
 from django import forms
+from django.core.validators import validate_email, URLValidator
 from django.db.models.query_utils import Q
 from django.utils.safestring import mark_safe
-from django.core.validators import validate_email, URLValidator
 
 autocomplete.autodiscover()
 
@@ -16,8 +16,9 @@ from allauth.account.forms import ResetPasswordForm as AllAuthResetPasswordForm
 from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKeyForm
 from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
+from captcha.fields import ReCaptchaField
 
-from manager.models import Attendee, NonRegisteredAttendee, Installation, \
+from manager.models import Attendee, Installation, \
     Hardware, Collaborator, Installer, TalkProposal, ContactMessage, Image, \
     Comment, Room, EventUser, Activity, Event, Software, Contact
 
@@ -26,56 +27,29 @@ class SoftwareAutocomplete(autocomplete.AutocompleteModelBase):
     search_fields = ('name',)
 
 
+class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
+    autocomplete_js_attributes = {'placeholder': _(u"Search Attendee")}
+
+    def choices_for_request(self):
+        q = self.request.GET.get('q', '')
+        event_slug = self.request.GET.get('event_slug', None)
+
+        choices = []
+        if event_slug:
+            choices = self.choices.all()
+            choices = choices.filter(event__slug__iexact=event_slug).filter(attended=False)
+            if q:
+                choices = choices.filter(
+                    Q(first_name__icontains=q)
+                    | Q(last_name__icontains=q)
+                    | Q(nickname__icontains=q)
+                    | Q(email__icontains=q)
+                )
+
+        return self.order_choices(choices)[0:self.limit_choices]
+
+
 class EventUserAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
-
-    def choices_for_request(self):
-        q = self.request.GET.get('q', '')
-        event_slug = self.request.GET.get('event_slug', None)
-
-        choices = []
-        if event_slug:
-            choices = self.choices.all()
-            choices = choices.filter(event__slug__iexact=event_slug).filter(assisted=False)
-            if q:
-                choices = choices.filter(
-                    Q(user__first_name__icontains=q)
-                    | Q(user__last_name__icontains=q)
-                    | Q(user__username__icontains=q)
-                    | Q(user__email__icontains=q)
-                    | Q(nonregisteredattendee__first_name__icontains=q)
-                    | Q(nonregisteredattendee__last_name__icontains=q)
-                    | Q(nonregisteredattendee__email__icontains=q)
-                )
-
-        return self.order_choices(choices)[0:self.limit_choices]
-
-class EventUserInstallAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
-
-    def choices_for_request(self):
-        q = self.request.GET.get('q', '')
-        event_slug = self.request.GET.get('event_slug', None)
-
-        choices = []
-        if event_slug:
-            choices = self.choices.all()
-            choices = choices.filter(event__slug__iexact=event_slug).filter(assisted=True)
-            if q:
-                choices = choices.filter(
-                    Q(user__first_name__icontains=q)
-                    | Q(user__last_name__icontains=q)
-                    | Q(user__username__icontains=q)
-                    | Q(user__email__icontains=q)
-                    | Q(nonregisteredattendee__first_name__icontains=q)
-                    | Q(nonregisteredattendee__last_name__icontains=q)
-                    | Q(nonregisteredattendee__email__icontains=q)
-                )
-
-        return self.order_choices(choices)[0:self.limit_choices]
-
-
-class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
     autocomplete_js_attributes = {'placeholder': _('Type to search'),
                                   'label': _('User')}
 
@@ -89,16 +63,17 @@ class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
             choices = choices.filter(event__slug__iexact=event_slug)
             if q:
                 choices = choices.filter(
-                    Q(user__first_name__icontains=q) | Q(user__last_name__icontains=q) | Q(
-                        user__username__icontains=q) | Q(user__email__icontains=q)
+                    Q(user__first_name__icontains=q)
+                    | Q(user__last_name__icontains=q)
+                    | Q(user__username__icontains=q)
+                    | Q(user__email__icontains=q)
                 )
 
         return self.order_choices(choices)[0:self.limit_choices]
 
 
+autocomplete.register(Attendee, AttendeeAutocomplete)
 autocomplete.register(EventUser, EventUserAutocomplete)
-autocomplete.register(EventUser, EventUserInstallAutocomplete)
-autocomplete.register(EventUser, RegisteredEventUserAutocomplete)
 autocomplete.register(Software, SoftwareAutocomplete)
 
 
@@ -107,37 +82,41 @@ def sorted_choices(choices_list):
     return sorted(set(choices_list))
 
 
+class AttendeeSearchForm(forms.Form):
+
+    def __init__(self, event, *args, **kwargs):
+        super(AttendeeSearchForm, self).__init__(*args, **kwargs)
+        # Los Attendee para el evento que todavia no registraron asistencia
+        self.fields['attendee'].queryset = Attendee.objects.filter(event__slug__iexact=event).filter(attended=False)
+
+    attendee = autocomplete.ModelChoiceField('AttendeeAutocomplete', required=False)
+
+
 class EventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
         super(EventUserSearchForm, self).__init__(*args, **kwargs)
-        # Los EventUser para el evento que todavia no registraron asistencia
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event).filter(assisted=False)
+        self.fields['event_user'].queryset = EventUser.objects.filter(event__slug__iexact=event)
 
-    eventUser = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
-
-
-class RegisteredEventUserSearchForm(forms.Form):
-    def __init__(self, event, *args, **kwargs):
-        super(RegisteredEventUserSearchForm, self).__init__(*args, **kwargs)
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event)
-
-    eventUser = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
+    event_user = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
+
     class Meta(object):
-        model = NonRegisteredAttendee
-        fields = ['first_name', 'last_name', 'email', 'installation_additional_info', 'is_installing']
-        widgets = {'event': forms.HiddenInput(), 'assisted': forms.HiddenInput(),
-                   'installation_additional_info': forms.TextInput()}
+        model = Attendee
+        fields = ['first_name', 'last_name', 'nickname', 'email', 'additional_info', 'is_installing', 'event',
+                  'attended', 'registration_date']
+        widgets = {'event': forms.HiddenInput(), 'attended': forms.HiddenInput(),
+                   'registration_date': forms.HiddenInput(), 'additional_info': forms.TextInput()}
 
 
 class InstallationForm(autocomplete.ModelForm):
+
     def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = EventUser.objects.filter(event__slug__iexact=event)
+        self.fields['attendee'].queryset = Attendee.objects.filter(event__slug__iexact=event)
 
-    attendee = autocomplete.ModelChoiceField('EventUserInstallAutocomplete', required=True)
+    attendee = autocomplete.ModelChoiceField('AttendeeAutocomplete', required=True)
 
     class Meta(object):
         model = Installation
@@ -147,34 +126,53 @@ class InstallationForm(autocomplete.ModelForm):
 
 
 class HardwareForm(autocomplete.ModelForm):
+
     class Meta(object):
         model = Hardware
         fields = ('type', 'manufacturer', 'model')
 
 
 class CollaboratorRegistrationForm(ModelForm):
+
     class Meta(object):
         model = Collaborator
-        widgets = {'eventUser': forms.HiddenInput()}
+        widgets = {'event_user': forms.HiddenInput()}
         exclude = ()
 
 
 class EventUserRegistrationForm(ModelForm):
+
     class Meta(object):
         model = EventUser
-        exclude = ['user', 'assisted', 'nonregisteredattendee', 'ticket']
+        exclude = ['user', 'attended', 'ticket']
         widgets = {'event': forms.HiddenInput()}
 
 
 class AttendeeRegistrationForm(ModelForm):
-    is_installing = forms.BooleanField(label=_('Bringing a device for installation?'), required=False)
-    installation_additional_info = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}), help_text=_(
-        'i.e. Wath kind of PC are you bringing? Leave blank if doesn\'t apply'), required=False)
+    email_validation = forms.EmailField()
+    captcha = ReCaptchaField()
+
+    field_order = ['first_name', 'last_name', 'nickname', 'email', 'is_installing', 'email_validation', 'additional_info', 'captcha', 'event',
+              'registration_date']
 
     class Meta(object):
         model = Attendee
-        widgets = {'eventUser': forms.HiddenInput()}
-        exclude = ()
+        fields = ['first_name', 'last_name', 'nickname', 'email', 'additional_info', 'is_installing', 'event',
+                  'registration_date']
+        widgets = {'event': forms.HiddenInput(), 'additional_info': forms.TextInput(),
+                   'registration_date': forms.HiddenInput(), }
+
+
+    def clean(self):
+        cleaned_data = super(AttendeeRegistrationForm, self).clean()
+        email = cleaned_data.get("email")
+        email_validation = cleaned_data.get("email_validation")
+
+        if email and email_validation:
+            if email != email_validation:
+                raise forms.ValidationError({'email':_("Emails do not match."), 'email_validation':_("Emails do not match.")})
+
+        return cleaned_data
 
 
 class InstallerRegistrationForm(ModelForm):
@@ -185,11 +183,12 @@ class InstallerRegistrationForm(ModelForm):
 
     class Meta(object):
         model = Installer
-        widgets = {'eventUser': forms.HiddenInput()}
+        widgets = {'event_user': forms.HiddenInput()}
         exclude = ()
 
 
 class TalkProposalForm(ModelForm):
+
     class Meta(object):
         model = TalkProposal
         exclude = ['confirmed_talk']
@@ -200,6 +199,7 @@ class TalkProposalForm(ModelForm):
 
 
 class TalkForm(ModelForm):
+
     class Meta(object):
         model = Activity
         fields = ['start_date', 'end_date', 'room', 'event']
@@ -214,18 +214,21 @@ class TalkForm(ModelForm):
 
 
 class ImageCroppingForm(ModelForm):
+
     class Meta(object):
         model = Image
         fields = ('image', 'cropping')
 
 
 class RoomForm(ModelForm):
+
     class Meta(object):
         model = Room
         exclude = ['event']
 
 
 class ContactForm(ModelForm):
+
     class Meta(object):
         model = Contact
         exclude = ['event']
@@ -248,13 +251,14 @@ class ContactForm(ModelForm):
                     validate_email(value)
                 except Exception:
                     self.add_error('url', 'Enter valid Email')
-        else: #type none
-            self.add_error('type',_('This field is required'))
+        else:  # type none
+            self.add_error('type', _('This field is required'))
 
         return cleaned_data
 
 
 class ActivityForm(ModelForm):
+
     class Meta(object):
         model = Activity
         exclude = ['confirmed', 'room', 'start_date', 'end_date']
@@ -266,6 +270,7 @@ class ActivityForm(ModelForm):
 
 
 class ActivityAdminForm(ModelForm):
+
     def clean(self):
         obj = self.instance
         if obj.start_date or obj.end_date:
@@ -273,6 +278,7 @@ class ActivityAdminForm(ModelForm):
 
 
 class ActivityCompleteForm(ModelForm):
+
     class Meta(object):
         model = Activity
         exclude = ['confirmed']
@@ -289,12 +295,14 @@ class ActivityCompleteForm(ModelForm):
 
 
 class PresentationForm(ModelForm):
+
     class Meta(object):
         model = TalkProposal
         fields = ('presentation',)
 
 
 class ContactMessageForm(ModelForm):
+
     class Meta(object):
         model = ContactMessage
         fields = ('name', 'email', 'message',)
@@ -302,12 +310,14 @@ class ContactMessageForm(ModelForm):
 
 
 class CommentForm(ModelForm):
+
     class Meta(object):
         model = Comment
         exclude = ["activity", "user"]
 
 
 class EventForm(ModelForm):
+
     class Meta(object):
         model = Event
         fields = ('name', 'slug', 'date', 'limit_proposal_date', 'email', 'place', 'external_url', 'event_information')
@@ -317,6 +327,7 @@ class EventForm(ModelForm):
 
 
 class LoginForm(AllAuthLoginForm):
+
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['login'].label = self.fields['login'].widget.attrs['placeholder']
@@ -340,6 +351,7 @@ class SignUpForm(AllAuthSignUpForm):
 
 
 class ResetPasswordForm(AllAuthResetPasswordForm):
+
     def __init__(self, *args, **kwargs):
         super(ResetPasswordForm, self).__init__(*args, **kwargs)
         for field in ['email']:
@@ -347,6 +359,7 @@ class ResetPasswordForm(AllAuthResetPasswordForm):
 
 
 class ResetPasswordKeyForm(AllAuthResetPasswordKeyForm):
+
     def __init__(self, *args, **kwargs):
         super(ResetPasswordKeyForm, self).__init__(*args, **kwargs)
         for field in ['password1', 'password2']:
@@ -354,6 +367,7 @@ class ResetPasswordKeyForm(AllAuthResetPasswordKeyForm):
 
 
 class ChangePasswordForm(AllAuthChangePasswordForm):
+
     def __init__(self, *args, **kwargs):
         super(ChangePasswordForm, self).__init__(*args, **kwargs)
         for field in ['oldpassword', 'password1', 'password2']:
@@ -361,6 +375,7 @@ class ChangePasswordForm(AllAuthChangePasswordForm):
 
 
 class SetPasswordForm(AllAuthSetPasswordForm):
+
     def __init__(self, *args, **kwargs):
         super(SetPasswordForm, self).__init__(*args, **kwargs)
         for field in ['password1', 'password2']:

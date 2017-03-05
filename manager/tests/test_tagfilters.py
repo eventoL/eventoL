@@ -1,9 +1,11 @@
 import unittest
+
 import autofixture
-from django import forms
-from manager.templatetags import filters
-from manager.models import EventUser, Attendee, InstallationAttendee, Installer, Organizer, Collaborator
 import mock
+from django import forms
+
+from manager.models import EventUser, Organizer
+from manager.templatetags import filters
 
 
 class TestTagFilters(unittest.TestCase):
@@ -36,7 +38,7 @@ class TestTagFilters(unittest.TestCase):
         self.event_user = autofixture.create_one('manager.EventUser', {'user': self.user, 'event': self.event})
 
     def generateUserWithRol(self, model):
-        self.user_with_rol = autofixture.create_one('manager.'+str(model.__name__), {'eventUser': self.event_user})
+        self.user_with_rol = autofixture.create_one('manager.'+str(model.__name__), {'event_user': self.event_user})
 
     def test_addcss_call_field_as_widget(self):
         field = mock.Mock()
@@ -153,28 +155,6 @@ class TestTagFilters(unittest.TestCase):
     def test_schedule_cols_other_if_elements_length_greater_than_2_return_2_with_7(self):
         self.assertEqual(filters.schedule_cols_other(range(7)), 2)
 
-    def test_if_not_eventuser_can_register_return_true(self):
-        self.assertTrue(filters.can_register(self.user, self.event.slug))
-
-    def test_if_eventuser_and_not_attendee_can_register_return_true(self):
-        self.genetateEventUser()
-        self.assertTrue(filters.can_register(self.user, self.event.slug))
-        self.deleteAllFromModel(EventUser)
-
-    def test_if_eventuser_and_attendee_can_register_return_false(self):
-        self.genetateEventUser()
-        self.generateUserWithRol(Attendee)
-        self.assertFalse(filters.can_register(self.user, self.event.slug))
-        self.deleteAllFromModel(EventUser)
-        self.deleteAllFromModel(Attendee)
-
-    def test_if_eventuser_and_installation_attendee_can_register_return_false(self):
-        self.genetateEventUser()
-        self.generateUserWithRol(InstallationAttendee)
-        self.assertFalse(filters.can_register(self.user, self.event.slug))
-        self.deleteAllFromModel(EventUser)
-        self.deleteAllFromModel(InstallationAttendee)
-
     def test_if_not_eventuser_is_registered_return_false(self):
         self.assertFalse(filters.is_registered(self.user, self.event.slug))
 
@@ -196,13 +176,6 @@ class TestTagFilters(unittest.TestCase):
             is_organizer.return_value = True
             self.assertTrue(filters.is_installer(self.user, self.event.slug))
 
-    def test_if_eventuser_and_installer_is_installer_return_true(self):
-        self.genetateEventUser()
-        self.generateUserWithRol(Installer)
-        self.assertTrue(filters.can_register(self.user, self.event.slug))
-        self.deleteAllFromModel(EventUser)
-        self.deleteAllFromModel(Installer)
-    
     def test_if_not_eventuser_is_collaborator_return_false(self):
         self.assertFalse(filters.is_collaborator(self.user, self.event.slug))
 
@@ -217,13 +190,6 @@ class TestTagFilters(unittest.TestCase):
         self.assertTrue(filters.is_collaborator(self.user, self.event.slug))
         self.deleteAllFromModel(EventUser)
         self.deleteAllFromModel(Organizer)
-
-    def test_if_eventuser_and_collaborator_is_collaborator_return_true(self):
-        self.genetateEventUser()
-        self.generateUserWithRol(Collaborator)
-        self.assertTrue(filters.can_register(self.user, self.event.slug))
-        self.deleteAllFromModel(EventUser)
-        self.deleteAllFromModel(Collaborator)
 
     def test_if_not_eventuser_is_organizer_return_false(self):
         self.assertFalse(filters.is_organizer(self.user, self.event.slug))

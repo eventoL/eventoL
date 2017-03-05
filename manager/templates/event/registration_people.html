@@ -28,13 +28,13 @@
         <div class="col-sm-8 col-sm-offset-2 col-xs-12">
             <div class="list-group">
                 {% for registration_person in registration_people %}
-                    {% user_display registration_person.eventUser.user as user_display %}
-                    {% get_social_accounts registration_person.eventUser.user as accounts %}
+                    {% user_display registration_person.event_user.user as user_display %}
+                    {% get_social_accounts registration_person.event_user.user as accounts %}
                     <div class="list-group-item">
                         <div class="row-picture">
-                            {% if registration_person.eventUser.user.socialaccount_set.all|length > 0 %}
+                            {% if registration_person.event_user.user.socialaccount_set.all|length > 0 %}
                                 <img class="circle"
-                                     src="{{ registration_person.eventUser.user.socialaccount_set.all.0.get_avatar_url }}"/>
+                                     src="{{ registration_person.event_user.user.socialaccount_set.all.0.get_avatar_url }}"/>
                             {% else %}
                                 <img class="circle" src="https://www.lessonpaths.com/avatars/no_avatar_large.jpg"/>
 
@@ -43,7 +43,7 @@
                         <div class="row-content">
                             <h4 class="list-group-item-heading">{{ user_display }}</h4>
 
-                            <p class="list-group-item-text">{{ registration_person.eventUser.user.first_name }} {{ organizer.eventUser.user.last_name }}</p>
+                            <p class="list-group-item-text">{{ registration_person.event_user.user.first_name }} {{ organizer.event_user.user.last_name }}</p>
                         </div>
                     </div>
                     <div class="list-group-separator"></div>

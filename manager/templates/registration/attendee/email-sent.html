@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block page-header %}{% trans "Please confirm your email" %}{% endblock %}
+{% block content %}
+    <div class="well">
+        <p>{% blocktrans %}We've sent you an email to the address you provided. Please
+            confirm your email by following the instructions on it so we can send you your ticket for the event.
+        {% endblocktrans %}</p>
+        <p>{% blocktrans %}If you don't receive the email within a few minutes, please check your spam folder. If it
+            isn't there, you can contact us at eventol@flisol.org.ar so we can help you.
+        {% endblocktrans %}</p>
+
+        <a href="{% url "index" event_slug %}" class="btn btn-raised btn-primary">
+            <i class="fa fa-arrow-left"></i> {% trans "Return to the event" %}
+        </a>
+    </div>
+{% endblock %}

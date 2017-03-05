@@ -1,18 +1,23 @@
 from django.conf.urls import url, include
+from django.views.generic.base import TemplateView
+
 from manager import views
 
 event_patterns = [
     url(r'^$', views.index, name="index"),
+    url(r'^attendee/confirm/(?P<pk>\d+)/(?P<token>\w+)$', views.attendee_confirm_email, name='attendee_confirm_email'),
     url(r'^FAQ$', views.event_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
     url(r'^edit$', views.edit_event, name='edit_event'),
     url(r'^draw', views.draw, name='draw'),
-    url(r'^registration$', views.registration, name='registration'),
-    url(r'^registration/collaborator$', views.collaborator_registration, name='collaborator_registration'),
-    url(r'^registration/installer$', views.installer_registration, name='installer_registration'),
-    url(r'^registration/attendee/search/(?P<pk>\d+)$', views.attendee_registration, name='attendee_registration'),
-    url(r'^registration/attendee/search', views.attendee_search, name='attendee_search'),
+    url(r'^registration$', views.attendee_registration, name='attendee_registration'),
+    url(r'^registration/attendee/email-sent$',
+        TemplateView.as_view(template_name='registration/attendee/email-sent.html'), name='attendee_email_sent'),
+    url(r'^registration/attendee/search/(?P<pk>\d+)$', views.attendance_by_ticket, name='attendance_by_ticket'),
+    url(r'^registration/attendee/search', views.manage_attendance, name='manage_attendance'),
     url(r'^registration/attendee/by-collaborator$', views.attendee_registration_by_collaborator,
         name='attendee_registration_by_collaborator'),
+    url(r'^registration/collaborator$', views.collaborator_registration, name='collaborator_registration'),
+    url(r'^registration/installer$', views.installer_registration, name='installer_registration'),
     url(r'^installation$', views.installation, name='installation'),
     url(r'^activities$', views.activities, name='activities'),
     url(r'^activities/activity/add/$', views.activity, name='add_activity'),

@@ -1,6 +1,6 @@
 @import "../bower_components/bootstrap-material-design/less/bootstrap-material-design";
 @import "../bower_components/bootstrap-material-design/less/ripples";
-@import "../bower_components/roboto-fontface/css/roboto-fontface";
+@import "../bower_components/roboto-fontface/css/roboto/less/roboto-fontface";
 @import "../bower_components/font-awesome/less/font-awesome";
 
 @fa-font-path: "../bower_components/font-awesome/fonts";
@@ -36,6 +36,7 @@ body {
 
 .asd {
   height: 180px;
+  z-index: 1000 !important;
 }
 
 .event-title {
@@ -182,4 +183,13 @@ body {
 
 .navbar .dropdown-menu li > a, .navbar.navbar-default .dropdown-menu li > a {
   font-size: unset !important;
+}
+
+.alert.alert-info {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+.autocomplete-light-widget {
+  width: 100%;
 }
