@@ -899,21 +899,20 @@ def attendee_confirm_email(request, event_slug, pk, token):
     # IDEA: with pk get attendee and compare ate.token vs token
     # if token ===, send_event_ticket(ate) -> ok: new view with info and 'go back'
     attendee = Attendee.objects.get(pk=pk)
-    message = ""
-    if attendee.email_token == token and not attendee.email_confirmed:
-        attendee.email_confirmed = True
-        attendee.save()
-        try:
-            send_event_ticket(attendee, request.META.get('LANG'))
-        except Exception as e:
-            print e
-            pass
-        message = _("We've send your ticket to your email! In case it doesn't arrive, don't worry! You're already registered and we'll ask for your email address.")
-    else:
-        # invalid link or mail already condfirmed
-        message = _("The email is already verified. If you didn't receive your ticket by mail, don't worry! We'll ask for your email address.")
+    title = _("Email verification")
+    message = _("We've sent you your ticket to your email! In case it doesn't arrive, don't worry! You're already registered and we'll ask for your email address.")
+    if not attendee.email_confirmed:
+        if attendee.email_token == token:
+            try:
+                attendee.email_confirmed = True
+                attendee.save()
+                send_event_ticket(attendee, request.META.get('LANG'))
+            except Exception as e:
+                pass
+        else:
+            message = _("The verification URL is invalid. Try again. ")
 
-    return render(request, 'registration/email-verification.html', {'message': message})
+    return render(request, 'registration/attendee/ticket-sent.html', {'message': message, 'title':title, 'event_slug': event_slug })
 
 
 @login_required
