@@ -55,7 +55,7 @@
                             </li>
                         {% endif %}
                         {% if not user.is_authenticated %}
-                            <li><a href="{% url "registration" event_slug %}">{% trans "Registration" %}</a>
+                            <li><a href="{% url "attendee_registration" event_slug %}">{% trans "Registration" %}</a>
                             </li>
                         {% endif %}
                         <li>
@@ -105,7 +105,7 @@
                                 {% if user.is_authenticated %}
                                     {% if user|can_take_attendance:event_slug %}
                                         <li>
-                                            <a href="{% url "attendee_search" event_slug %}">
+                                            <a href="{% url "manage_attendance" event_slug %}">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Manage Attendance" %}
                                             </a>
                                         </li>

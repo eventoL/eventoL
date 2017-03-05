@@ -28,7 +28,7 @@ class SoftwareAutocomplete(autocomplete.AutocompleteModelBase):
 
 
 class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
+    autocomplete_js_attributes = {'placeholder': _(u"Search Attendee")}
 
     def choices_for_request(self):
         q = self.request.GET.get('q', '')
@@ -49,7 +49,7 @@ class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
         return self.order_choices(choices)[0:self.limit_choices]
 
 
-class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
+class EventUserAutocomplete(autocomplete.AutocompleteModelBase):
     autocomplete_js_attributes = {'placeholder': _('Type to search'),
                                   'label': _('User')}
 
@@ -63,15 +63,17 @@ class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
             choices = choices.filter(event__slug__iexact=event_slug)
             if q:
                 choices = choices.filter(
-                    Q(user__first_name__icontains=q) | Q(user__last_name__icontains=q) | Q(
-                        user__username__icontains=q) | Q(user__email__icontains=q)
+                    Q(user__first_name__icontains=q)
+                    | Q(user__last_name__icontains=q)
+                    | Q(user__username__icontains=q)
+                    | Q(user__email__icontains=q)
                 )
 
         return self.order_choices(choices)[0:self.limit_choices]
 
 
 autocomplete.register(Attendee, AttendeeAutocomplete)
-autocomplete.register(EventUser, RegisteredEventUserAutocomplete)
+autocomplete.register(EventUser, EventUserAutocomplete)
 autocomplete.register(Software, SoftwareAutocomplete)
 
 
@@ -89,12 +91,12 @@ class AttendeeSearchForm(forms.Form):
     attendee = autocomplete.ModelChoiceField('AttendeeAutocomplete', required=False)
 
 
-class RegisteredEventUserSearchForm(forms.Form):
+class EventUserSearchForm(forms.Form):
     def __init__(self, event, *args, **kwargs):
-        super(RegisteredEventUserSearchForm, self).__init__(*args, **kwargs)
+        super(EventUserSearchForm, self).__init__(*args, **kwargs)
         self.fields['event_user'].queryset = EventUser.objects.filter(event__slug__iexact=event)
 
-    event_user = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
+    event_user = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
