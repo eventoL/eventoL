@@ -1091,8 +1091,6 @@ def add_room(request, event_slug, pk=None):
 def view_ticket(request, event_slug):
     event_user = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
     if event_user:
-        print 'HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
-        print event_user.get_ticket_data()
         ticket = generate_ticket(event_user, request.META.get('LANG'))
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
         response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.id).zfill(12) + '.pdf'
