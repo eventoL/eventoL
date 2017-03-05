@@ -1772,7 +1772,7 @@ msgstr ""
 
 #: manager/views.py:567
 msgid "The user isn't registered for this event."
-msgstr "Ya estas registrado en este evento."
+msgstr "El usuario no se encuentra registrado para este evento."
 
 #: manager/views.py:582
 #, python-format
