@@ -28,22 +28,19 @@
         {% for event in events %}
             <div class="col-md-4">
                 <div class="well" style="padding:0;">
-
-                    <div class="container-fluid" style="padding:0;">
-                        <div class="mapbox">
-                            <div class="row-fluid" id="{{ event.name }}" style="height: 180px">
+                    <div class="mapbox">
+                        <div class="row-fluid" id="{{ event.name }}" style="height: 180px">
+                        </div>
+                        <div class="row-fluid overlay asd">
+                            <div class="event-title">
+                                {{ event.name }}
                             </div>
-                            <div class="row-fluid overlay asd">
-                                <div class="event-title">
-                                    {{ event.name }}
-                                </div>
-                            </div>
-                            <div class="row-fluid overlay asd"
-                                 style="top: 70%; padding-left:80%;">
-                                <a href='{% url "index" event.slug %}'>
-                                    <i class="fa fa-3x fa-plus-circle"></i>
-                                </a>
-                            </div>
+                        </div>
+                        <div class="row-fluid overlay asd"
+                             style="top: 70%; padding-left:80%;">
+                            <a href='{% url "index" event.slug %}'>
+                                <i class="fa fa-3x fa-plus-circle"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
