@@ -19,8 +19,8 @@ from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 from captcha.fields import ReCaptchaField
 
 from manager.models import Attendee, Installation, \
-    Hardware, Collaborator, Installer, TalkProposal, ContactMessage, Image, \
-    Comment, Room, EventUser, Activity, Event, Software, Contact
+    Hardware, Collaborator, Installer, ContactMessage, Image, \
+    EventUser, Event, Software, Contact, Activity
 
 
 class SoftwareAutocomplete(autocomplete.AutocompleteModelBase):
@@ -83,7 +83,6 @@ def sorted_choices(choices_list):
 
 
 class AttendeeSearchForm(forms.Form):
-
     def __init__(self, event, *args, **kwargs):
         super(AttendeeSearchForm, self).__init__(*args, **kwargs)
         # Los Attendee para el evento que todavia no registraron asistencia
@@ -101,7 +100,6 @@ class EventUserSearchForm(forms.Form):
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
-
     class Meta(object):
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email', 'additional_info', 'is_installing', 'event',
@@ -111,7 +109,6 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 
 
 class InstallationForm(autocomplete.ModelForm):
-
     def __init__(self, event, *args, **kwargs):
         super(InstallationForm, self).__init__(*args, **kwargs)
         self.fields['attendee'].queryset = Attendee.objects.filter(event__slug__iexact=event)
@@ -126,14 +123,12 @@ class InstallationForm(autocomplete.ModelForm):
 
 
 class HardwareForm(autocomplete.ModelForm):
-
     class Meta(object):
         model = Hardware
         fields = ('type', 'manufacturer', 'model')
 
 
 class CollaboratorRegistrationForm(ModelForm):
-
     class Meta(object):
         model = Collaborator
         widgets = {'event_user': forms.HiddenInput()}
@@ -141,7 +136,6 @@ class CollaboratorRegistrationForm(ModelForm):
 
 
 class EventUserRegistrationForm(ModelForm):
-
     class Meta(object):
         model = EventUser
         exclude = ['user', 'attended', 'ticket']
@@ -149,11 +143,12 @@ class EventUserRegistrationForm(ModelForm):
 
 
 class AttendeeRegistrationForm(ModelForm):
-    email_validation = forms.EmailField()
-    captcha = ReCaptchaField()
+    repeat_email = forms.EmailField(label=_("Repeat Email"))
+    captcha = ReCaptchaField(label=_("Are you a human?"))
 
-    field_order = ['first_name', 'last_name', 'nickname', 'email', 'is_installing', 'email_validation', 'additional_info', 'captcha', 'event',
-              'registration_date']
+    field_order = ['first_name', 'last_name', 'nickname', 'email', 'is_installing', 'repeat_email',
+                   'additional_info', 'captcha', 'event',
+                   'registration_date']
 
     class Meta(object):
         model = Attendee
@@ -162,15 +157,15 @@ class AttendeeRegistrationForm(ModelForm):
         widgets = {'event': forms.HiddenInput(), 'additional_info': forms.TextInput(),
                    'registration_date': forms.HiddenInput(), }
 
-
     def clean(self):
         cleaned_data = super(AttendeeRegistrationForm, self).clean()
         email = cleaned_data.get("email")
-        email_validation = cleaned_data.get("email_validation")
+        repeat_email = cleaned_data.get("repeat_email")
 
-        if email and email_validation:
-            if email != email_validation:
-                raise forms.ValidationError({'email':_("Emails do not match."), 'email_validation':_("Emails do not match.")})
+        if email and repeat_email:
+            if email != repeat_email:
+                raise forms.ValidationError(
+                    {'email': _("Emails do not match."), 'repeat_email': _("Emails do not match.")})
 
         return cleaned_data
 
@@ -187,48 +182,13 @@ class InstallerRegistrationForm(ModelForm):
         exclude = ()
 
 
-class TalkProposalForm(ModelForm):
-
-    class Meta(object):
-        model = TalkProposal
-        exclude = ['confirmed_talk']
-        widgets = {
-            'image': forms.HiddenInput(),
-            'activity': forms.HiddenInput()
-        }
-
-
-class TalkForm(ModelForm):
-
-    class Meta(object):
-        model = Activity
-        fields = ['start_date', 'end_date', 'room', 'event']
-        widgets = {
-            'event': forms.HiddenInput()
-        }
-
-    def __init__(self, event, *args, **kwargs):
-        super(TalkForm, self).__init__(*args, **kwargs)
-        if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(event__slug__iexact=event)
-
-
 class ImageCroppingForm(ModelForm):
-
     class Meta(object):
         model = Image
         fields = ('image', 'cropping')
 
 
-class RoomForm(ModelForm):
-
-    class Meta(object):
-        model = Room
-        exclude = ['event']
-
-
 class ContactForm(ModelForm):
-
     class Meta(object):
         model = Contact
         exclude = ['event']
@@ -257,67 +217,14 @@ class ContactForm(ModelForm):
         return cleaned_data
 
 
-class ActivityForm(ModelForm):
-
-    class Meta(object):
-        model = Activity
-        exclude = ['confirmed', 'room', 'start_date', 'end_date']
-        widgets = {
-            'event': forms.HiddenInput(),
-            'long_description': forms.Textarea(attrs={'rows': 3}),
-            'abstract': forms.Textarea(attrs={'rows': 3})
-        }
-
-
-class ActivityAdminForm(ModelForm):
-
-    def clean(self):
-        obj = self.instance
-        if obj.start_date or obj.end_date:
-            Activity.room_available(error=True, instance=obj, event_slug=obj.event.slug)
-
-
-class ActivityCompleteForm(ModelForm):
-
-    class Meta(object):
-        model = Activity
-        exclude = ['confirmed']
-        widgets = {
-            'event': forms.HiddenInput(),
-            'long_description': forms.Textarea(attrs={'rows': 3}),
-            'abstract': forms.Textarea(attrs={'rows': 3})
-        }
-
-    def __init__(self, event_slug, *args, **kwargs):
-        super(ActivityCompleteForm, self).__init__(*args, **kwargs)
-        if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(event__slug__iexact=event_slug)
-
-
-class PresentationForm(ModelForm):
-
-    class Meta(object):
-        model = TalkProposal
-        fields = ('presentation',)
-
-
 class ContactMessageForm(ModelForm):
-
     class Meta(object):
         model = ContactMessage
         fields = ('name', 'email', 'message',)
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
 
 
-class CommentForm(ModelForm):
-
-    class Meta(object):
-        model = Comment
-        exclude = ["activity", "user"]
-
-
 class EventForm(ModelForm):
-
     class Meta(object):
         model = Event
         fields = ('name', 'slug', 'date', 'limit_proposal_date', 'email', 'place', 'external_url', 'event_information')
@@ -326,8 +233,13 @@ class EventForm(ModelForm):
                    'limit_proposal_date': forms.HiddenInput()}
 
 
-class LoginForm(AllAuthLoginForm):
+class PresentationForm(ModelForm):
+    class Meta(object):
+        model = Activity
+        fields = ('presentation',)
 
+
+class LoginForm(AllAuthLoginForm):
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['login'].label = self.fields['login'].widget.attrs['placeholder']
@@ -351,7 +263,6 @@ class SignUpForm(AllAuthSignUpForm):
 
 
 class ResetPasswordForm(AllAuthResetPasswordForm):
-
     def __init__(self, *args, **kwargs):
         super(ResetPasswordForm, self).__init__(*args, **kwargs)
         for field in ['email']:
@@ -359,7 +270,6 @@ class ResetPasswordForm(AllAuthResetPasswordForm):
 
 
 class ResetPasswordKeyForm(AllAuthResetPasswordKeyForm):
-
     def __init__(self, *args, **kwargs):
         super(ResetPasswordKeyForm, self).__init__(*args, **kwargs)
         for field in ['password1', 'password2']:
@@ -367,7 +277,6 @@ class ResetPasswordKeyForm(AllAuthResetPasswordKeyForm):
 
 
 class ChangePasswordForm(AllAuthChangePasswordForm):
-
     def __init__(self, *args, **kwargs):
         super(ChangePasswordForm, self).__init__(*args, **kwargs)
         for field in ['oldpassword', 'password1', 'password2']:
@@ -375,7 +284,6 @@ class ChangePasswordForm(AllAuthChangePasswordForm):
 
 
 class SetPasswordForm(AllAuthSetPasswordForm):
-
     def __init__(self, *args, **kwargs):
         super(SetPasswordForm, self).__init__(*args, **kwargs)
         for field in ['password1', 'password2']:
@@ -395,3 +303,36 @@ class SocialSignUpForm(AllAuthSocialSignUpForm):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.save()
+
+
+class ActivityProposalForm(ModelForm):
+    repeat_email = forms.EmailField(label=_("Repeat Email"))
+    captcha = ReCaptchaField(label=_("Are you a human?"))
+
+    field_order = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'image', 'speaker_contact',
+                  'repeat_email', 'labels', 'level', 'presentation', 'additional_info', 'status', 'captcha']
+
+    def clean(self):
+        cleaned_data = super(ActivityProposalForm, self).clean()
+        email = cleaned_data.get("email")
+        repeat_email = cleaned_data.get("repeat_email")
+
+        if email and repeat_email:
+            if email != repeat_email:
+                raise forms.ValidationError(
+                    {'email': _("Emails do not match."), 'repeat_email': _("Emails do not match.")})
+
+        return cleaned_data
+
+    class Meta(object):
+        model = Activity
+        fields = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'image', 'speaker_contact',
+                  'labels', 'presentation', 'level', 'additional_info', 'status']
+        widgets = {
+            'event': forms.HiddenInput(),
+            'image': forms.HiddenInput(),
+            'status': forms.HiddenInput(),
+            'abstract': forms.Textarea(attrs={'rows': 3}),
+            'long_description': forms.Textarea(attrs={'rows': 3}),
+            'additional_info': forms.Textarea(attrs={'rows': 3})
+        }

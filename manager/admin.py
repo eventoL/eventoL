@@ -2,9 +2,9 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ExportMixin
 
-from manager.forms import ActivityAdminForm
-from manager.models import Organizer, Comment, Event, TalkProposal, Attendee, Collaborator, Hardware, \
-    Software, Installer, Installation, TalkType, Room, ContactType, Contact, Activity, \
+# from manager.forms import ActivityAdminForm
+from manager.models import Organizer, Event, Attendee, Collaborator, Hardware, \
+    Software, Installer, Installation, Room, ContactType, Contact, Activity, \
     ContactMessage, EventUser, Image, Speaker, InstallationMessage, Ticket
 from manager.security import create_reporters_group
 
@@ -58,18 +58,6 @@ class SpeakerAdmin(EventoLEventUserAdmin):
     resource_class = SpeakerResource
 
 
-class TalkProposalResource(resources.ModelResource):
-    class Meta(object):
-        model = TalkProposal
-
-
-class TalkProposalAdmin(ExportMixin, EventoLAdmin):
-    resource_class = TalkProposalResource
-
-    def filter_event(self, event, queryset):
-        return queryset.filter(activity__event=event)
-
-
 class EventUserResource(resources.ModelResource):
     class Meta(object):
         model = EventUser
@@ -85,13 +73,6 @@ class EventUserAdmin(ExportMixin, EventoLAdmin):
 class EventAdmin(EventoLAdmin):
     def filter_event(self, event, queryset):
         return queryset.filter(name=event.name)
-
-
-class CommentAdmin(EventoLAdmin):
-    display_fields = ["activity", "created", "user"]
-
-    def filter_event(self, event, queryset):
-        return queryset.filter(activity__event=event)
 
 
 class InstallerResource(resources.ModelResource):
@@ -144,15 +125,16 @@ class AttendeeAdmin(ExportMixin, EventoLAdmin):
     resource_class = AttendeeResource
 
 
-class ActivityAdmin(EventoLAdmin):
-    form = ActivityAdminForm
+# class ActivityAdmin(EventoLAdmin):
+#    form = ActivityAdminForm
 
 
 class CollaboratorResource(resources.ModelResource):
     class Meta(object):
         model = Collaborator
         fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
-                  'event_user__user__email', 'event_user__user__date_joined', 'phone', 'address', 'event_user__attended',
+                  'event_user__user__email', 'event_user__user__date_joined', 'phone', 'address',
+                  'event_user__attended',
                   'assignation', 'time_availability', 'additional_info')
         export_order = fields
 
@@ -161,9 +143,7 @@ class CollaboratorAdmin(EventoLEventUserAdmin):
     resource_class = CollaboratorResource
 
 
-admin.site.register(Comment, CommentAdmin)
 admin.site.register(Event, EventAdmin)
-admin.site.register(TalkProposal, TalkProposalAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
@@ -173,11 +153,10 @@ admin.site.register(Software)
 admin.site.register(Installer, InstallerAdmin)
 admin.site.register(Installation, InstallationAdmin)
 admin.site.register(InstallationMessage, EventoLAdmin)
-admin.site.register(TalkType)
 admin.site.register(Room, EventoLAdmin)
 admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
-admin.site.register(Activity, ActivityAdmin)
+admin.site.register(Activity)
 admin.site.register(ContactMessage, EventoLAdmin)
 admin.site.register(EventUser, EventUserAdmin)
 admin.site.register(Image)

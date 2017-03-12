@@ -69,7 +69,7 @@
                         {% endif %}
                         {% if user.is_authenticated and not user|is_organizer:event_slug %}
                             <li>
-                                <a href="{% url "talk_proposal" event_slug %}">
+                                <a href="{% url "activity_proposal" event_slug %}">
                                     {% trans "Submit your talk" %}
                                 </a>
                             </li>
@@ -79,11 +79,6 @@
                                data-toggle="dropdown"><i class="fa fa-group"></i> {% trans "Collaborators" %} <b
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{% url "activities" event_slug %}">
-                                        <i class="fa fa-list"></i> {% trans "Activities List" %}
-                                    </a>
-                                </li>
                                 {% if user.is_authenticated %}
                                     <li>
                                         <a href="{% url "reports" event_slug %}">
@@ -131,11 +126,6 @@
                                         <li>
                                             <a href="{% url "add_registration_people" event_slug %}">
                                                 <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url "rooms" event_slug %}">
-                                                <i class="fa fa-cogs"></i> {% trans "Manage Rooms" %}
                                             </a>
                                         </li>
                                     {% endif %}
