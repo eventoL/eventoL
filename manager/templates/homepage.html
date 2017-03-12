@@ -3,7 +3,7 @@
 {% load filters %}
 {% load i18n %}
 {% block other-head %}
-    <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/>
+    <!-- <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/> -->
     <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
     <!--[if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.7/leaflet.ie.css" /><![endif]-->
     <link href='https://fonts.googleapis.com/css?family=Comfortaa:400,700' rel='stylesheet' type='text/css'>
@@ -15,45 +15,40 @@
     </style>
 {% endblock %}
 
-{% block main-content %}
-    <div class="img-container">
-        <div class="container-text">
-            <h1>FLISoL Argentina</h1>
-            <a href="{% url "create_event" %}" class="btn btn-raised btn-success btn-lg">Creá tu evento</a>
-            <h2>O encontrá tu evento más cercano!</h2>
-            <p><i class="fa fa-4x fa-hand-o-down"></i></p>
-        </div>
+{% block content %}
+    <div class="jumbotron jumbotron-clear">
+      <div class="container container-text">
+        <h1>FLISoL Argentina</h1>
+        <h2>Encontrá tu evento más cercano!</h2>
+        <p><i class="fa fa-4x fa-hand-o-down"></i></p>
+      </div>
     </div>
 
+    <div class="row">
+        {% for event in events %}
+            <div class="col-md-4">
+                <div class="well" style="padding:0;">
 
-    <div class="container" style="margin-top:40px;">
-        <div class="row">
-            {% for event in events %}
-                <div class="col-md-4">
-                    <div class="well" style="padding:0;">
-
-                        <div class="container-fluid" style="padding:0;">
-                            <div class="mapbox">
-                                <div class="row-fluid" id="{{ event.name }}" style="height: 180px">
+                    <div class="container-fluid" style="padding:0;">
+                        <div class="mapbox">
+                            <div class="row-fluid" id="{{ event.name }}" style="height: 180px">
+                            </div>
+                            <div class="row-fluid overlay asd">
+                                <div class="event-title">
+                                    {{ event.name }}
                                 </div>
-                                <div class="row-fluid overlay asd">
-                                    <div class="event-title">
-                                        {{ event.name }}
-                                    </div>
-                                </div>
-                                <div class="row-fluid overlay asd"
-                                     style="top: 70%; padding-left:80%;">
-                                    <a href='{% url "index" event.slug %}'>
-                                        <i class="fa fa-3x fa-plus-circle"></i>
-                                    </a>
-                                </div>
+                            </div>
+                            <div class="row-fluid overlay asd"
+                                 style="top: 70%; padding-left:80%;">
+                                <a href='{% url "index" event.slug %}'>
+                                    <i class="fa fa-3x fa-plus-circle"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 
