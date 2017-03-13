@@ -18,3 +18,7 @@ urlpatterns = [
     url(r'^accounts/profile/', TemplateView.as_view(template_name='account/profile.html'), name="user_profile"),
     url(r'^accounts/', include('allauth.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
