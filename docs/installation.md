@@ -27,7 +27,7 @@ $ sudo apt-get install postgresql-server-dev-9.4
 Install postgre, python and some dependencies
 ```sh
 $ sudo apt-get install python build-essential python-setuptools python-dev python-pip
-$ sudo apt-get install postgresql postgresql-client-9.4 postgresql-server-dev-9.4 
+$ sudo apt-get install postgresql postgresql-client-9.4 postgresql-server-dev-9.4
 $ sudo apt-get install binutils libproj-dev gdal-bin libgeoip1 python-gdal
 $ sudo apt-get install postgresql-9.4-postgis-2.2
 $ sudo apt-get install libjpeg-dev libpng3 libpng12-dev libfreetype6-dev zlib1g-dev

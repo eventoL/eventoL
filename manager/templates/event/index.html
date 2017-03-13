@@ -22,8 +22,7 @@
         }
     </style>
 {% endblock %}
-{% block main-content %}
-    <div class="container" style="padding-top: 30px;">
+{% block content %}
         <div class="well">
             <div class="row" style="text-align: center">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -54,7 +53,8 @@
                     <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-pencil"></i> <a href="{% url "registration" event_slug %}">Anotate!</a></h3>
+                    <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_slug %}">Anotate!</a>
+                    </h3>
 
                     <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
                         traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
@@ -106,21 +106,21 @@
                 <h2>{% trans 'Talks and Workshops' %}</h2>
             </div>
             <div id="slick_charlas">
-                {% if talk_proposals %}
-                    {% for talk_proposal in talk_proposals %}
+                {% if activities %}
+                    {% for activity in activities %}
                         <div class="row">
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <img src="{% cropped_thumbnail talk_proposal.image "cropping" %}"
-                                     alt="{{ talk_proposal.activity.title }}" width="100%" heigth="100%">
+                            <div class="col-sm-6">
+                                <img src="{% cropped_thumbnail activity "cropping" %}"
+                                     alt="{{ activity.title }}" width="100%" heigth="100%">
                             </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <h2>{{ talk_proposal.activity.title }}</h2>
+                            <div class="col-sm-6">
+                                <h2>{{ activity.title }}</h2>
 
-                                <p><strong>{{ talk_proposal.activity.abstract }}</strong></p>
+                                <p><strong>{{ activity.abstract }}</strong></p>
 
-                                <p>{{ talk_proposal.activity.long_description }}</p>
+                                <p>{{ activity.long_description }}</p>
 
-                                <p>{% trans 'Speakers' %}: {{ talk_proposal.speakers_names|title }}</p>
+                                <p><strong>{% trans 'Speakers' %}:</strong> {{ activity.speakers_names|title }}</p>
                             </div>
                         </div>
                     {% endfor %}
@@ -146,11 +146,8 @@
                                 Licencias, Construcción Colaborativa de Conocimiento, Software Libre y Trabajo, Hardware
                                 Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
 
-                            <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte!
-                                <a href="{% url "talk_proposal" event_slug %}">Envianos tu propuesta</a> o <a
-                                        href="{% url "activities" event_slug %}">consultá las charlas propuestas hasta
-                                    el
-                                    momento</a>.</p>
+                            <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte.
+                                <a href="{% url "activity_proposal" event_slug %}">Envianos tu propuesta!</a></p>
                         </div>
                     </div>
                 {% endif %}
@@ -162,7 +159,7 @@
                 <h2>{% trans 'Installations' %}</h2>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <p style="padding-top: 15px">Durante toda la jornada entusiastas voluntarios del software libre,
                         celebrarán charlas, conferencias, encuentros, talleres, <b>te ayudarán a instalar software libre
                             en tu PC o notebook</b> para que puedas probarlo y además <b>te orientarán en cómo
@@ -170,7 +167,7 @@
                         que quieras para llevártelo instalado, hacer consultas o aprender!
                     </p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-sm-6">
                     <img src="{% static "manager/img/installations.png" %}" width="100%">
                 </div>
             </div>
@@ -193,7 +190,6 @@
                 </div>
             </div>
         {% endif %}
-    </div>
 {% endblock %}
 
 {% block other-script %}
@@ -201,24 +197,24 @@
     <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#slick_charlas').slick({
                 'autoplay': true,
-                'dots'    : true
+                'dots': true
             });
 
-            (function() {
+            (function () {
                 var isPlaying = true;
-                $('#slick_charlas').click(function() {
+                $('#slick_charlas').click(function () {
                     if (isPlaying) {
                         $('#slick_charlas')
-                                .slick('slickSetOption', 'autoplay', false)
-                                .slick('slickPause');
+                            .slick('slickSetOption', 'autoplay', false)
+                            .slick('slickPause');
                         isPlaying = false;
                     } else {
                         $('#slick_charlas')
-                                .slick('slickSetOption', 'autoplay', true)
-                                .slick('slickPlay');
+                            .slick('slickSetOption', 'autoplay', true)
+                            .slick('slickPlay');
                         isPlaying = true;
                     }
                 });
@@ -227,11 +223,11 @@
     </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             function map(event_lat, event_lon) {
                 var map = L.map('map', {
                     scrollWheelZoom: false,
-                    touchZoom      : false,
+                    touchZoom: false,
                 }).setView([event_lat, event_lon], 14);
 
                 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
@@ -249,20 +245,20 @@
             $('#address1').html(event_place.adr_address);
 
             $('#directions-car').attr('href',
-                    'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                    event_place.geometry.location.lng + '&dirflg=d');
+                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
+                event_place.geometry.location.lng + '&dirflg=d');
 
             $('#directions-walk').attr('href',
-                    'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                    event_place.geometry.location.lng + '&dirflg=w');
+                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
+                event_place.geometry.location.lng + '&dirflg=w');
 
             $('#directions-bus').attr('href',
-                    'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                    event_place.geometry.location.lng + '&dirflg=r');
+                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
+                event_place.geometry.location.lng + '&dirflg=r');
 
             $('#directions-bike').attr('href',
-                    'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                    event_place.geometry.location.lng + '&dirflg=b');
+                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
+                event_place.geometry.location.lng + '&dirflg=b');
         });
     </script>
 {% endblock %}

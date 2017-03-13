@@ -2,19 +2,17 @@
 {% load static %}
 {% load i18n %}
 {% load filters %}
-{% if proposal %}
-    {% block other-head %}
-        <link rel="stylesheet" type="text/css"
-              href="{% static "manager/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" %}">
+{% block other-head %}
+    <link rel="stylesheet" type="text/css"
+          href="{% static "manager/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" %}">
 
-        <style type="text/css">
-            .map_canvas {
-                width: 100%;
-                height: 300px;
-            }
-        </style>
-    {% endblock %}
-{% endif %}
+    <style type="text/css">
+        .map_canvas {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+{% endblock %}
 {% block page-header %}
     {% trans 'Create an event' %}
 {% endblock %}
@@ -37,7 +35,6 @@
                         </ul>
                     </div>
                 {% endif %}
-
 
                 <div class="col-sm-10 col-sm-offset-1 col-xs-12">
                     <h4>{% trans "What's the name of your event?" %}</h4>
@@ -222,7 +219,7 @@
 
 {% block material %}
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $.material.init();
         });
     </script>
@@ -242,16 +239,16 @@
     {{ form.media }}
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.event-date-picker')
-                    .datepicker({
-                        format: 'yyyy-mm-dd'
-                    })
-                    .on("changeDate", function(event) {
-                        $("#{{ form.date.id_for_label }}").val(
-                                $(".event-date-picker").datepicker('getFormattedDate')
-                        );
-                    });
+                .datepicker({
+                    format: 'yyyy-mm-dd'
+                })
+                .on("changeDate", function (event) {
+                    $("#{{ form.date.id_for_label }}").val(
+                        $(".event-date-picker").datepicker('getFormattedDate')
+                    );
+                });
 
             var event_date = $("#{{ form.date.id_for_label }}").val();
             if (event_date !== "") {
@@ -260,16 +257,16 @@
 
 
             $("#geocomplete").geocomplete({
-                map  : ".map_canvas",
+                map: ".map_canvas",
                 types: [
                     'geocode',
                     'establishment'
                 ]
             });
 
-            $("#geocomplete").bind("geocode:result", function(event, result) {
+            $("#geocomplete").bind("geocode:result", function (event, result) {
                 $("#{{ form.place.id_for_label }}").val(
-                        JSON.stringify(result)
+                    JSON.stringify(result)
                 );
             });
 
@@ -281,14 +278,14 @@
             }
 
             $('.limit-proposal-picker')
-                    .datepicker({
-                        format: 'yyyy-mm-dd'
-                    })
-                    .on("changeDate", function(event) {
-                        $("#{{ form.limit_proposal_date.id_for_label }}").val(
-                                $(".limit-proposal-picker").datepicker('getFormattedDate')
-                        );
-                    });
+                .datepicker({
+                    format: 'yyyy-mm-dd'
+                })
+                .on("changeDate", function (event) {
+                    $("#{{ form.limit_proposal_date.id_for_label }}").val(
+                        $(".limit-proposal-picker").datepicker('getFormattedDate')
+                    );
+                });
 
             var limit_proposal_date = $("#{{ form.limit_proposal_date.id_for_label }}").val();
             if (limit_proposal_date !== "") {
@@ -303,9 +300,9 @@
                 animateForms: true
             });
 
-            $('#formset').on('formAdded', function(event) {
+            $('#formset').on('formAdded', function (event) {
                 var inputs = $(event.target).find(':input');
-                $.each(inputs, function(index, input) {
+                $.each(inputs, function (index, input) {
                     var $input = $(input);
                     if ($input.attr('type') !== 'button') {
                         $(input).addClass('form-control');
