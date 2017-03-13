@@ -12,16 +12,18 @@
 @brand-warning: @deep-orange;
 @brand-info: @light-blue;
 
-.form-group label.control-label {
-  color: #009688 !important;
-}
-
-.form-group.has-error label.control-label, .form-group.has-error .help-block {
-  color: #f44336 !important;
-}
+/* Global overrides */
 
 body {
   font-family: Roboto;
+}
+
+
+/* Classes */
+
+.jumbotron-clear {
+  background-color: unset !important;
+  box-shadow: none !important;
 }
 
 .mapbox {
@@ -46,23 +48,23 @@ body {
   font-size: 1.8em;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+
+.form-group label.control-label {
+  color: #009688 !important;
 }
 
-.img-container {
-  min-height: 400px;
-  background-image: url('/static/manager/img/portada.png');
-  background-repeat: no-repeat;
-  background-size: 1920px 400px;
-  background-position: center top;
-  text-align: center;
+.form-group.has-error label.control-label, .form-group.has-error .help-block {
+  color: #f44336 !important;
 }
 
 .navbar {
   margin-bottom: 0 !important;
+}
+
+/* Container text */
+
+.container-text {
+  text-align: center;
 }
 
 .container-text > h1 {
@@ -91,6 +93,7 @@ body {
   font-weight: 400;
 }
 
+/*  */
 .event-location-address {
   font-size: 18px;
   color: #727272;
