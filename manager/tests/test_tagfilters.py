@@ -110,51 +110,6 @@ class TestTagFilters(unittest.TestCase):
     def test_if_number_not_is_odd_is_odd(self):
         self.assertFalse(filters.is_odd(2))
 
-    def test_schedule_cols_total_if_elements_length_less_or_equal_than_3_return_12_with_1(self):
-        self.assertEqual(filters.schedule_cols_total(range(1)), 12)
-
-    def test_schedule_cols_total_if_elements_length_less_or_equal_than_3_return_12_with_3(self):
-        self.assertEqual(filters.schedule_cols_total(range(3)), 12)
-
-    def test_schedule_cols_total_if_elements_length_less_or_equal_than_5_and_greater_3_with_4(self):
-        self.assertEqual(filters.schedule_cols_total(range(4)), 4 * 3 + 1)
-
-    def test_schedule_cols_total_if_elements_length_less_or_equal_than_5_and_greater_3_with_5(self):
-        self.assertEqual(filters.schedule_cols_total(range(5)), 5 * 3 + 1)
-
-    def test_schedule_cols_total_if_elements_length_greater_5_with_6(self):
-        self.assertEqual(filters.schedule_cols_total(range(6)), 6 * 2 + 1)
-
-    def test_schedule_cols_total_if_elements_length_greater_5_with_15(self):
-        self.assertEqual(filters.schedule_cols_total(range(15)), 15 * 2 + 1)
-
-    def test_schedule_cols_first_if_elements_length_less_or_equal_than_2_return_2_with_1(self):
-        self.assertEqual(filters.schedule_cols_first(range(1)), 2)
-
-    def test_schedule_cols_first_if_elements_length_less_or_equal_than_2_return_2_with_2(self):
-        self.assertEqual(filters.schedule_cols_first(range(2)), 2)
-    
-    def test_schedule_cols_first_if_elements_length_equal_3_return_3(self):
-        self.assertEqual(filters.schedule_cols_first(range(3)), 3)
-    
-    def test_schedule_cols_first_if_elements_length_greater_than_3_return_1_with_5(self):
-        self.assertEqual(filters.schedule_cols_first(range(5)), 1)
-
-    def test_schedule_cols_other_if_elements_length_equal_1_return_10(self):
-        self.assertEqual(filters.schedule_cols_other(range(1)), 10)
-
-    def test_schedule_cols_other_if_elements_length_equal_2_return_5(self):
-        self.assertEqual(filters.schedule_cols_other(range(2)), 5)
-
-    def test_schedule_cols_other_if_elements_length_less_or_equal_5_and_greater_than_2_return_3_with_4(self):
-        self.assertEqual(filters.schedule_cols_other(range(4)), 3)
-
-    def test_schedule_cols_other_if_elements_length_less_or_equal_5_and_greater_than_2_return_3_with_5(self):
-        self.assertEqual(filters.schedule_cols_other(range(5)), 3)
-
-    def test_schedule_cols_other_if_elements_length_greater_than_2_return_2_with_7(self):
-        self.assertEqual(filters.schedule_cols_other(range(7)), 2)
-
     def test_if_not_eventuser_is_registered_return_false(self):
         self.assertFalse(filters.is_registered(self.user, self.event.slug))
 

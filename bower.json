@@ -23,14 +23,14 @@
     "roboto-fontface": "~0.7.0",
     "leaflet": "~1.0.3",
     "slick-carousel": "1.6.0",
-    "gridline-bootstrap": "*",
     "morrisjs": "~0.5.1",
     "q": "~1.4.1",
     "geocomplete": "^1.7.0",
     "bootstrap-material-design": "v0.5.10",
     "font-awesome": "^4.7.0",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.45",
     "jquery-slotmachine": "~3.0.1",
-    "html5-qrcode": "https://github.com/dwa012/html5-qrcode.git"
+    "html5-qrcode": "https://github.com/dwa012/html5-qrcode.git",
+    "fullcalendar": "^3.2.0",
+    "fullcalendar-scheduler": "^1.5.1"
   }
 }

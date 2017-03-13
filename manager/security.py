@@ -14,14 +14,9 @@ def is_installer(user, event_slug=None, *args, **kwargs):
         is_organizer(user, event_slug=event_slug))
 
 
-def add_attendance_permission(user):
-    content_type = ContentType.objects.get_for_model(Attendee)
-    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='add_attendee'))
-    user.user_permissions.add(
-        Permission.objects.get(content_type=content_type, codename='change_attendee'))
-
+def get_or_create_attendance_permission():
     attendance_permission = None
-
+    content_type = ContentType.objects.get_for_model(Attendee)
     if Permission.objects.filter(codename='can_take_attendance', name='Can Take Attendance',
                                  content_type=content_type).exists():
         attendance_permission = Permission.objects.get(codename='can_take_attendance', name='Can Take Attendance',
@@ -29,19 +24,30 @@ def add_attendance_permission(user):
     else:
         attendance_permission = Permission.objects.create(codename='can_take_attendance', name='Can Take Attendance',
                                                           content_type=content_type)
+    return attendance_permission
+
+
+def add_attendance_permission(user):
+    content_type = ContentType.objects.get_for_model(Attendee)
+    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='add_attendee'))
+    user.user_permissions.add(
+        Permission.objects.get(content_type=content_type, codename='change_attendee'))
+
+    attendance_permission = get_or_create_attendance_permission()
 
     user.user_permissions.add(attendance_permission)
 
 
 def create_organizers_group():
     organizers = Group.objects.filter(name__iexact='Organizers').first()
+    get_or_create_attendance_permission()
     if not organizers:
-        perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_attendee',
-                 'change_attendee', 'delete_attendee', 'add_eventuser', 'change_eventuser', 'delete_eventuser',
-                 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer', 'change_organizer',
-                 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer', 'add_speaker',
-                 'change_speaker', 'delete_speaker', 'add_room', 'change_room', 'delete_room', 'add_activity',
-                 'change_activity', 'delete_activity', 'add_talkproposal', 'change_talkproposal', 'delete_talkproposal',
+        perms = ['add_event', 'change_event', 'delete_event', 'add_contactmessage', 'change_contactmessage',
+                 'delete_contactmessage', 'add_attendee', 'can_take_attendance', 'add_contact', 'change_contact',
+                 'delete_contact', 'change_attendee', 'delete_attendee', 'add_eventuser', 'change_eventuser',
+                 'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
+                 'change_organizer', 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer',
+                 'add_room', 'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity',
                  'add_installation', 'change_installation', 'delete_installation', 'add_installationmessage',
                  'change_installationmessage', 'delete_installationmessage']
         organizers = Group.objects.create(name='Organizers')
@@ -57,10 +63,9 @@ def create_reporters_group():
         perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_attendee',
                  'change_attendee', 'delete_attendee', 'add_eventuser', 'change_eventuser', 'delete_eventuser',
                  'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer', 'change_organizer',
-                 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer', 'add_speaker',
-                 'change_speaker', 'delete_speaker', 'add_room', 'change_room', 'delete_room', 'add_activity',
-                 'change_activity', 'delete_activity', 'add_talkproposal', 'change_talkproposal', 'delete_talkproposal',
-                 'add_installation', 'change_installation', 'delete_installation']
+                 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer', 'add_room', 'change_room',
+                 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_installation',
+                 'change_installation', 'delete_installation']
         reporters = Group.objects.create(name='Reporters')
         for perm in perms:
             reporters.permissions.add(Permission.objects.get(codename=perm))
