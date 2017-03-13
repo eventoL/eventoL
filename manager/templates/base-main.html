@@ -11,9 +11,13 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description"
-              content="Página principal para FLISol {{ event.name }}. Festival Latinoamericano de Instalación de Software Libre">
-
+        {% if event %}
+            <meta name="description"
+                  content="Página principal para FLISol {{ event.name }}. Festival Latinoamericano de Instalación de Software Libre">
+        {% else %}
+            <meta name="description"
+                  content="Página principal para FLISol. Festival Latinoamericano de Instalación de Software Libre">
+        {% endif %}
         <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
         <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/>
 
@@ -217,7 +221,7 @@
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
     {% block material %}
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $.material.options.autofill = true;
                 $.material.init();
             });

@@ -163,33 +163,6 @@
   },
   {
     "fields": {
-      "codename": "add_vote",
-      "name": "Can add vote",
-      "content_type": 7
-    },
-    "model": "auth.permission",
-    "pk": 19
-  },
-  {
-    "fields": {
-      "codename": "change_vote",
-      "name": "Can change vote",
-      "content_type": 7
-    },
-    "model": "auth.permission",
-    "pk": 20
-  },
-  {
-    "fields": {
-      "codename": "delete_vote",
-      "name": "Can delete vote",
-      "content_type": 7
-    },
-    "model": "auth.permission",
-    "pk": 21
-  },
-  {
-    "fields": {
       "codename": "add_source",
       "name": "Can add source",
       "content_type": 8
@@ -541,33 +514,6 @@
   },
   {
     "fields": {
-      "codename": "add_speaker",
-      "name": "Can add Speaker",
-      "content_type": 23
-    },
-    "model": "auth.permission",
-    "pk": 67
-  },
-  {
-    "fields": {
-      "codename": "change_speaker",
-      "name": "Can change Speaker",
-      "content_type": 23
-    },
-    "model": "auth.permission",
-    "pk": 68
-  },
-  {
-    "fields": {
-      "codename": "delete_speaker",
-      "name": "Can delete Speaker",
-      "content_type": 23
-    },
-    "model": "auth.permission",
-    "pk": 69
-  },
-  {
-    "fields": {
       "codename": "add_software",
       "name": "Can add software",
       "content_type": 24
@@ -673,87 +619,6 @@
     },
     "model": "auth.permission",
     "pk": 81
-  },
-  {
-    "fields": {
-      "codename": "add_talktype",
-      "name": "Can add Talk Type",
-      "content_type": 28
-    },
-    "model": "auth.permission",
-    "pk": 82
-  },
-  {
-    "fields": {
-      "codename": "change_talktype",
-      "name": "Can change Talk Type",
-      "content_type": 28
-    },
-    "model": "auth.permission",
-    "pk": 83
-  },
-  {
-    "fields": {
-      "codename": "delete_talktype",
-      "name": "Can delete Talk Type",
-      "content_type": 28
-    },
-    "model": "auth.permission",
-    "pk": 84
-  },
-  {
-    "fields": {
-      "codename": "add_talkproposal",
-      "name": "Can add Talk Proposal",
-      "content_type": 29
-    },
-    "model": "auth.permission",
-    "pk": 85
-  },
-  {
-    "fields": {
-      "codename": "change_talkproposal",
-      "name": "Can change Talk Proposal",
-      "content_type": 29
-    },
-    "model": "auth.permission",
-    "pk": 86
-  },
-  {
-    "fields": {
-      "codename": "delete_talkproposal",
-      "name": "Can delete Talk Proposal",
-      "content_type": 29
-    },
-    "model": "auth.permission",
-    "pk": 87
-  },
-  {
-    "fields": {
-      "codename": "add_comment",
-      "name": "Can add Comment",
-      "content_type": 30
-    },
-    "model": "auth.permission",
-    "pk": 88
-  },
-  {
-    "fields": {
-      "codename": "change_comment",
-      "name": "Can change Comment",
-      "content_type": 30
-    },
-    "model": "auth.permission",
-    "pk": 89
-  },
-  {
-    "fields": {
-      "codename": "delete_comment",
-      "name": "Can delete Comment",
-      "content_type": 30
-    },
-    "model": "auth.permission",
-    "pk": 90
   },
   {
     "fields": {

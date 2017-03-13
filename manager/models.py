@@ -39,12 +39,8 @@ class Event(models.Model):
     email = models.EmailField(verbose_name=_('Email'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
-    schedule_confirm = models.BooleanField(_('Confirm Schedule'), default=False)
+    schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
     place = models.TextField(_('Place'))  # TODO: JsonFIELD
-    home_image = models.ForeignKey(Image, related_name="eventol_home_image", verbose_name=_noop('Home Image'),
-                                   blank=True, null=True)
-    cover_image = models.ForeignKey(Image, related_name="eventol_cover_image", verbose_name=_noop('Cover Image'),
-                                    blank=True, null=True)
 
     def get_absolute_url(self):
         if self.external_url:
@@ -231,7 +227,7 @@ class InstallationMessage(models.Model):
         verbose_name_plural = _('Post-install Emails')
 
     def __unicode__(self):
-        return "%s post-install message" % (self.event.name)
+        return "%s post-install message" % self.event.name
 
 
 class Installer(models.Model):
@@ -251,14 +247,6 @@ class Installer(models.Model):
 
     def __unicode__(self):
         return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
-
-
-class Speaker(models.Model):
-    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
-
-    class Meta(object):
-        verbose_name = _('Speaker')
-        verbose_name_plural = _('Speakers')
 
 
 class Software(models.Model):

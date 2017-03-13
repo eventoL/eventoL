@@ -233,12 +233,6 @@ class EventForm(ModelForm):
                    'limit_proposal_date': forms.HiddenInput()}
 
 
-class PresentationForm(ModelForm):
-    class Meta(object):
-        model = Activity
-        fields = ('presentation',)
-
-
 class LoginForm(AllAuthLoginForm):
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
@@ -310,7 +304,7 @@ class ActivityProposalForm(ModelForm):
     captcha = ReCaptchaField(label=_("Are you a human?"))
 
     field_order = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'image', 'speaker_contact',
-                  'repeat_email', 'labels', 'level', 'presentation', 'additional_info', 'status', 'captcha']
+                   'repeat_email', 'labels', 'level', 'presentation', 'additional_info', 'status', 'captcha']
 
     def clean(self):
         cleaned_data = super(ActivityProposalForm, self).clean()

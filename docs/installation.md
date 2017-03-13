@@ -64,14 +64,6 @@ $ sudo apt-get install pgadmin3
 
 ### Install python requirements
 
-django-voting latest release is not yet ready for django 1.9. Until they make a new release, we need to install it like this before installing all the requirements:
-
-```sh
-$ pip install git+https://github.com/pjdelport/django-voting.git@master
-```
-
-And then:
-
 ```sh
 $ pip install -U -r requirements.txt
 ```

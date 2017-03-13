@@ -15,7 +15,7 @@ def addcss(field, css):
 def is_checkbox(boundfield):
     """Return True if this field's widget is a CheckboxInput."""
     return isinstance(boundfield.field.widget, forms.CheckboxInput) or \
-        isinstance(boundfield.field.widget, forms.CheckboxSelectMultiple)
+           isinstance(boundfield.field.widget, forms.CheckboxSelectMultiple)
 
 
 @register.filter(name='is_datetime')
@@ -51,13 +51,13 @@ def is_registered(user, event_slug):
 @register.filter(name='is_installer')
 def is_installer(user, event_slug):
     return Installer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or \
-        is_organizer(user, event_slug)
+           is_organizer(user, event_slug)
 
 
 @register.filter(name='is_collaborator')
 def is_collaborator(user, event_slug):
     return Collaborator.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or \
-        is_organizer(user, event_slug)
+           is_organizer(user, event_slug)
 
 
 @register.filter(name='is_organizer')
@@ -70,40 +70,10 @@ def can_take_attendance(user, event_slug):
     return user.has_perm('manager.add_attendee') or user.has_perm('manager.can_take_attendance')
 
 
-@register.filter(name='schedule_cols_total')
-def schedule_cols_total(elements):
-    elems = len(elements)
-    if elems <= 3:
-        return 12
-    elif elems <= 5:
-        return len(elements) * 3 + 1
-    return len(elements) * 2 + 1
-
-
-@register.filter(name='schedule_cols_first')
-def schedule_cols_first(elements):
-    elems = len(elements)
-    if elems <= 2:
-        return 2
-    elif elems == 3:
-        return 3
-    return 1
-
-
-@register.filter(name='schedule_cols_other')
-def schedule_cols_other(elements):
-    elems = len(elements)
-    if elems == 1:
-        return 10
-    elif elems == 2:
-        return 5
-    elif elems <= 5:
-        return 3
-    return 2
-
 @register.filter(name='add')
 def add(base, value_to_sum):
     return base + value_to_sum
+
 
 @register.filter(name='installer_level')
 def installer_level(value):

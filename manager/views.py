@@ -19,19 +19,17 @@ from django.contrib.auth.models import Permission
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
-from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.utils.translation import ugettext_lazy as _
-from voting.models import Vote
 
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, \
     EventForm, ContactMessageForm, ImageCroppingForm, \
-    EventUserSearchForm, ContactForm, PresentationForm, ActivityProposalForm
+    EventUserSearchForm, ContactForm, ActivityProposalForm
 from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, \
-    Activity, Hardware, Installation, Collaborator, ContactMessage, Installer, Speaker, \
+    Activity, Hardware, Installation, Collaborator, ContactMessage, Installer, \
     InstallationMessage
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
@@ -420,7 +418,7 @@ def reports(request, event_slug):
         'not_confirmed_collaborators_count': collaborators.filter(event_user__attended=False).count(),
         'confirmed_installers_count': installers.filter(event_user__attended=True).count(),
         'not_confirmed_installers_count': installers.filter(event_user__attended=False).count(),
-        'speakers_count': Speaker.objects.filter(event_user__event=event).count() + speakers_count,
+        'speakers_count': speakers_count,
         'organizers_count': Organizer.objects.filter(event_user__event=event).count(),
         'activities_count': talks.count(),
         'installations_count': Installation.objects.filter(attendee__event=event).count(),
@@ -745,7 +743,7 @@ def schedule(request, event_slug):
         .filter(status='2') \
         .order_by('start_date')
 
-    if not event.schedule_confirm or activities.count() <= 0:
+    if not event.schedule_confirmed or activities.count() <= 0:
         return render(request, 'activities/schedule_not_confirmed.html',
                       update_event_info(event_slug, request, {}, event=event))
 
