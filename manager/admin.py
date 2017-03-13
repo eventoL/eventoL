@@ -2,10 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from import_export import resources
 from import_export.admin import ExportMixin
+from image_cropping import ImageCroppingMixin
 
 from manager.models import Organizer, Event, Attendee, Collaborator, Hardware, \
     Software, Installer, Installation, Room, ContactType, Contact, Activity, \
-    ContactMessage, EventUser, Image, InstallationMessage, Ticket
+    ContactMessage, EventUser, InstallationMessage, Ticket
 from manager.security import create_reporters_group
 
 
@@ -134,7 +135,7 @@ class ActivityResource(resources.ModelResource):
         model = Activity
 
 
-class ActivityAdmin(ExportMixin, EventoLAdmin):
+class ActivityAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
     resource_class = ActivityResource
 
 
@@ -168,4 +169,3 @@ admin.site.register(Contact, EventoLAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ContactMessage, EventoLAdmin)
 admin.site.register(EventUser, EventUserAdmin)
-admin.site.register(Image)

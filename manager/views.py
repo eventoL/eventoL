@@ -706,7 +706,7 @@ def activity_proposal(request, event_slug):
 
 def image_cropping(request, event_slug, activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
-    form = ImageCroppingForm(request.POST or None, request.FILES, instance=activity.image)
+    form = ImageCroppingForm(request.POST or None, request.FILES, instance=activity)
     if request.POST:
         if form.is_valid():
             # If a new file is being upload
@@ -715,8 +715,7 @@ def image_cropping(request, event_slug, activity_id):
                 if request.POST.get('image-clear') or request.FILES:
                     form.cleaned_data['image'] = None
                 # Save the changes and redirect to upload a new one or crop the new one
-                image = form.save()
-                activity.image = image
+                activity = form.save()
                 activity.save()
                 messages.success(request, _("Please crop or upload a new image."))
                 return HttpResponseRedirect(reverse('image_cropping', args=(event_slug, activity.pk)))

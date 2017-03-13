@@ -244,33 +244,6 @@
   },
   {
     "fields": {
-      "codename": "add_image",
-      "name": "Can add Image",
-      "content_type": 11
-    },
-    "model": "auth.permission",
-    "pk": 31
-  },
-  {
-    "fields": {
-      "codename": "change_image",
-      "name": "Can change Image",
-      "content_type": 11
-    },
-    "model": "auth.permission",
-    "pk": 32
-  },
-  {
-    "fields": {
-      "codename": "delete_image",
-      "name": "Can delete Image",
-      "content_type": 11
-    },
-    "model": "auth.permission",
-    "pk": 33
-  },
-  {
-    "fields": {
       "codename": "add_event",
       "name": "Can add event",
       "content_type": 12

@@ -40,7 +40,7 @@
                         </div>
                         <div class="col-md-6 col-sm-12">
                             {% if activity.image %}
-                                <img src="{% cropped_thumbnail activity.image "cropping" %}" width="100%">
+                                <img src="{% cropped_thumbnail activity "cropping" %}" width="100%">
                             {% else %}
                                 <img src="{% static "manager/img/no-image.png" %}" width="100%">
                             {% endif %}

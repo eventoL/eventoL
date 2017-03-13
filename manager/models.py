@@ -14,19 +14,6 @@ def validate_url(url):
         raise ValidationError(_('URL can only contain letters or numbers'))
 
 
-class Image(models.Model):
-    image = ImageCropField(upload_to='images_thumbnails', verbose_name=_('Image'), blank=True, null=True)
-    cropping = ImageRatioField('image', '700x450', size_warning=True, verbose_name=_('Cropping'),
-                               help_text=_('The image must be 700x450 px. You can crop it here.'))
-
-    def __unicode__(self):
-        return self.image.name
-
-    class Meta(object):
-        verbose_name = _('Image')
-        verbose_name_plural = _('Images')
-
-
 class Event(models.Model):
     name = models.CharField(_('Event Name'), max_length=200)
     date = models.DateField(_('Date'), help_text=_('When will your event be?'))
@@ -305,7 +292,6 @@ class Activity(models.Model):
     start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
     type = models.CharField(_('Type'), max_length=50, blank=True, null=True)
-    image = models.ForeignKey(Image, verbose_name=_('Image'), blank=True, null=True)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
                                       help_text=_("Comma separated speaker's names"))
     speaker_contact = models.EmailField(_('Speaker Contact'),
@@ -332,6 +318,10 @@ class Activity(models.Model):
 
     status = models.CharField(_('Status'), choices=status_choices, max_length=20,
                               help_text=_("Activity proposal status"))
+
+    image = ImageCropField(upload_to='images_thumbnails', verbose_name=_('Image'), blank=True, null=True)
+    cropping = ImageRatioField('image', '700x450', size_warning=True, verbose_name=_('Cropping'),
+                               help_text=_('The image must be 700x450 px. You can crop it here.'))
 
     is_dummy = models.BooleanField(_('Is a dummy Activity?'), default=False, help_text=_(
         "A dummy activity is used for example for coffee breaks. We use this to exclude it from the index page and other places"))

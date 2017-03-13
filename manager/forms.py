@@ -19,7 +19,7 @@ from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 from captcha.fields import ReCaptchaField
 
 from manager.models import Attendee, Installation, \
-    Hardware, Collaborator, Installer, ContactMessage, Image, \
+    Hardware, Collaborator, Installer, ContactMessage, \
     EventUser, Event, Software, Contact, Activity
 
 
@@ -184,7 +184,7 @@ class InstallerRegistrationForm(ModelForm):
 
 class ImageCroppingForm(ModelForm):
     class Meta(object):
-        model = Image
+        model = Activity
         fields = ('image', 'cropping')
 
 
@@ -303,7 +303,7 @@ class ActivityProposalForm(ModelForm):
     repeat_email = forms.EmailField(label=_("Repeat Email"))
     captcha = ReCaptchaField(label=_("Are you a human?"))
 
-    field_order = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'image', 'speaker_contact',
+    field_order = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'speaker_contact',
                    'repeat_email', 'labels', 'level', 'presentation', 'additional_info', 'status', 'captcha']
 
     def clean(self):
@@ -320,11 +320,10 @@ class ActivityProposalForm(ModelForm):
 
     class Meta(object):
         model = Activity
-        fields = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'image', 'speaker_contact',
+        fields = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'speaker_contact',
                   'labels', 'presentation', 'level', 'additional_info', 'status']
         widgets = {
             'event': forms.HiddenInput(),
-            'image': forms.HiddenInput(),
             'status': forms.HiddenInput(),
             'abstract': forms.Textarea(attrs={'rows': 3}),
             'long_description': forms.Textarea(attrs={'rows': 3}),
