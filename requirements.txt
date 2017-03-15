@@ -4,7 +4,7 @@ cffi==1.9.1
 Django==1.10.5
 django-allauth==0.30.0
 django-appconf==1.0.2
-django-autocomplete-light==2.3.3
+django-autocomplete-light==3.2.1
 django-autofixture==0.12.1
 django-ckeditor==5.2.1
 django-debug-toolbar==1.7

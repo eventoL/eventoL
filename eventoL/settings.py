@@ -50,6 +50,8 @@ DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', 'True'))
 # Application definition
 
 INSTALLED_APPS = (
+    'dal',
+    'dal_select2',
     'ckeditor',
     'ckeditor_uploader',
     'django.contrib.admin',
@@ -61,7 +63,6 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'easy_thumbnails.optimize',
     'image_cropping',
-    'autocomplete_light',
     'import_export',
     'manager',
     'autofixture',
@@ -76,7 +77,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.windowslive',
     'debug_toolbar',
-    'captcha'
+    'captcha',
+    'django.contrib.postgres'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -214,13 +216,6 @@ CKEDITOR_CONFIGS = {
 }
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
-}
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
