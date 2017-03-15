@@ -11,7 +11,6 @@ import cairosvg
 import pyqrcode
 import svglue
 from allauth.utils import build_absolute_uri
-from autocomplete_light import shortcuts as autocomplete_light
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -33,8 +32,6 @@ from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact,
     InstallationMessage
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
-
-autocomplete_light.autodiscover()
 
 
 # Auxiliary functions
@@ -178,7 +175,7 @@ def home(request):
 @login_required
 @user_passes_test(is_installer, 'installer_registration')
 def installation(request, event_slug):
-    installation_form = InstallationForm(event_slug, request.POST or None, prefix='installation')
+    installation_form = InstallationForm(request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
     forms = [installation_form, hardware_form]
     errors = []
@@ -232,8 +229,8 @@ def installation(request, event_slug):
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def manage_attendance(request, event_slug):
-    attendee_form = AttendeeSearchForm(event_slug, request.POST or None)
-    collaborator_form = EventUserSearchForm(event_slug, request.POST or None)
+    attendee_form = AttendeeSearchForm(request.POST or None)
+    collaborator_form = EventUserSearchForm(request.POST or None)
     forms = [attendee_form, collaborator_form]
     errors = []
     if request.POST:

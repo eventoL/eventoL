@@ -1,11 +1,9 @@
 # encoding: UTF-8
-from autocomplete_light import shortcuts as autocomplete
+from dal import autocomplete
 from django import forms
 from django.core.validators import validate_email, URLValidator
 from django.db.models.query_utils import Q
 from django.utils.safestring import mark_safe
-
-autocomplete.autodiscover()
 
 from django.forms.models import ModelForm
 from django.utils.translation import ugettext as _
@@ -23,80 +21,73 @@ from manager.models import Attendee, Installation, \
     EventUser, Event, Software, Contact, Activity
 
 
-class SoftwareAutocomplete(autocomplete.AutocompleteModelBase):
-    search_fields = ('name',)
+class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return Software.objects.none()
+
+        qs = Software.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__unaccent__icontains=self.q)
+
+        return qs[:5]
 
 
-class AttendeeAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _(u"Search Attendee")}
+class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return Attendee.objects.none()
 
-    def choices_for_request(self):
-        q = self.request.GET.get('q', '')
-        event_slug = self.request.GET.get('event_slug', None)
+        event_user = EventUser.objects.filter(user=self.request.user).first()
 
-        choices = []
-        if event_slug:
-            choices = self.choices.all()
-            choices = choices.filter(event__slug__iexact=event_slug).filter(attended=False)
-            if q:
-                choices = choices.filter(
-                    Q(first_name__icontains=q)
-                    | Q(last_name__icontains=q)
-                    | Q(nickname__icontains=q)
-                    | Q(email__icontains=q)
-                )
+        qs = Attendee.objects.filter(event=event_user.event).filter(attended=False)
 
-        return self.order_choices(choices)[0:self.limit_choices]
+        if event_user and self.q:
+            qs = qs.filter(
+                Q(first_name__unaccent__icontains=self.q)
+                | Q(last_name__unaccent__icontains=self.q)
+                | Q(nickname__unaccent__icontains=self.q)
+                | Q(email__icontains=self.q)
+            )
+
+        return qs[:5]
 
 
-class EventUserAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _('Type to search'),
-                                  'label': _('User')}
+class EventUserAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return EventUser.objects.none()
 
-    def choices_for_request(self):
-        q = self.request.GET.get('q', '')
-        event_slug = self.request.GET.get('event_slug', None)
+        event_user = EventUser.objects.filter(user=self.request.user).first()
 
-        choices = []
-        if event_slug:
-            choices = self.choices.all()
-            choices = choices.filter(event__slug__iexact=event_slug)
-            if q:
-                choices = choices.filter(
-                    Q(user__first_name__icontains=q)
-                    | Q(user__last_name__icontains=q)
-                    | Q(user__username__icontains=q)
-                    | Q(user__email__icontains=q)
-                )
+        qs = EventUser.objects.filter(event=event_user.event)
 
-        return self.order_choices(choices)[0:self.limit_choices]
+        if event_user and self.q:
+            qs = qs.filter(
+                Q(user__first_name__unaccent__icontains=self.q)
+                | Q(user__last_name__unaccent__icontains=self.q)
+                | Q(user__username__unaccent__icontains=self.q)
+                | Q(user__email__icontains=self.q)
+            )
 
-
-autocomplete.register(Attendee, AttendeeAutocomplete)
-autocomplete.register(EventUser, EventUserAutocomplete)
-autocomplete.register(Software, SoftwareAutocomplete)
-
-
-def sorted_choices(choices_list):
-    choices_list += [('', '-------------')]
-    return sorted(set(choices_list))
+        return qs[:5]
 
 
 class AttendeeSearchForm(forms.Form):
-    def __init__(self, event, *args, **kwargs):
-        super(AttendeeSearchForm, self).__init__(*args, **kwargs)
-        # Los Attendee para el evento que todavia no registraron asistencia
-        self.fields['attendee'].queryset = Attendee.objects.filter(event__slug__iexact=event).filter(attended=False)
-
-    attendee = autocomplete.ModelChoiceField('AttendeeAutocomplete', required=False)
+    attendee = forms.ModelChoiceField(
+        queryset=Attendee.objects.all(),
+        widget=autocomplete.ModelSelect2(url='attendee-autocomplete'),
+        required=False
+    )
 
 
 class EventUserSearchForm(forms.Form):
-    def __init__(self, event, *args, **kwargs):
-        super(EventUserSearchForm, self).__init__(*args, **kwargs)
-        self.fields['event_user'].queryset = EventUser.objects.filter(event__slug__iexact=event)
-
-    event_user = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
+    event_user = forms.ModelChoiceField(
+        queryset=EventUser.objects.all(),
+        widget=autocomplete.ModelSelect2(url='eventuser-autocomplete'),
+        required=False
+    )
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
@@ -108,21 +99,17 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
                    'registration_date': forms.HiddenInput(), 'additional_info': forms.TextInput()}
 
 
-class InstallationForm(autocomplete.ModelForm):
-    def __init__(self, event, *args, **kwargs):
-        super(InstallationForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = Attendee.objects.filter(event__slug__iexact=event)
-
-    attendee = autocomplete.ModelChoiceField('AttendeeAutocomplete', required=True)
-
+class InstallationForm(forms.ModelForm):
     class Meta(object):
         model = Installation
         fields = ('attendee', 'notes', 'software')
-        autocomplete_fields = ('attendee', 'software')
-        widgets = {'notes': forms.Textarea(attrs={'rows': 3})}
+        widgets = {'notes': forms.Textarea(attrs={'rows': 3}),
+                   'attendee': autocomplete.ModelSelect2(url='attendee-autocomplete'),
+                   'software': autocomplete.ModelSelect2(url='software-autocomplete')
+                   }
 
 
-class HardwareForm(autocomplete.ModelForm):
+class HardwareForm(forms.ModelForm):
     class Meta(object):
         model = Hardware
         fields = ('type', 'manufacturer', 'model')

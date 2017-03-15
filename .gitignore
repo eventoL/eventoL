@@ -57,5 +57,6 @@ manager/static/image_cropping/
 manager/static/js/
 manager/static/rest_framework/
 manager/static/import_export/
+manager/static/debug_toolbar/
 
 venv/

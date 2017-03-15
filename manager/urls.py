@@ -2,6 +2,7 @@ from django.conf.urls import url, include
 from django.views.generic.base import TemplateView
 
 from manager import views
+from manager.forms import SoftwareAutocomplete, AttendeeAutocomplete, EventUserAutocomplete
 
 event_patterns = [
     url(r'^$', views.index, name="index"),
@@ -33,5 +34,7 @@ event_patterns = [
 
 urlpatterns = [
     url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)/', include(event_patterns)),
-    url(r'^autocomplete/', include('autocomplete_light.urls')),
+    url(r'^software-autocomplete', SoftwareAutocomplete.as_view(), name='software-autocomplete'),
+    url(r'^attendee-autocomplete', AttendeeAutocomplete.as_view(), name='attendee-autocomplete'),
+    url(r'^eventuser-autocomplete', EventUserAutocomplete.as_view(), name='eventuser-autocomplete')
 ]

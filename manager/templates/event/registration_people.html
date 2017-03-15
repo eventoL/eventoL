@@ -4,10 +4,6 @@
 {% load account %}
 {% load socialaccount %}
 
-{% block other-head %}
-    {% include 'autocomplete_light/static.html' %}
-{% endblock %}
-
 {% block page-header %}{% trans "Add registration staff" %}{% endblock %}
 
 {% block page-name %}{% trans "Add registration staff" %}{% endblock %}
@@ -70,14 +66,5 @@
 {% block submit-button %}{% trans "Add" %}{% endblock %}
 
 {% block other-script %}
-    <script>
-        $(document).ready(function() {
-
-            var eventUserAutocomplete = $('.autocomplete-light-widget');
-
-            eventUserAutocomplete.yourlabsWidget().autocomplete.data = {
-                'event_slug': "{{ event_slug }}"
-            };
-        });
-    </script>
+    {{ form.media }}
 {% endblock %}

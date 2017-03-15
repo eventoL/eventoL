@@ -2,10 +2,6 @@
 {% load staticfiles %}
 {% load i18n %}
 
-{% block other-head %}
-    {% include 'autocomplete_light/static.html' %}
-{% endblock %}
-
 {% block page-header %}{% trans "Attendee Registration" %}{% endblock %}
 
 {% block page-name %}{% trans "Attendee Registration" %}{% endblock %}
@@ -80,36 +76,25 @@
     <script src="{% static "manager/bower_components/html5-qrcode/lib/html5-qrcode.min.js" %}"></script>
     <script>
         $(document).ready(function () {
-
-            var attendeeAutocomplete = $('#id_attendee-wrapper');
-            var event = "{{ event_slug }}";
-            attendeeAutocomplete.yourlabsWidget().autocomplete.data = {
-                'event_slug': event
-            };
-
-            var collaboratorAutocomplete = $('#id_event_user-wrapper');
-            collaboratorAutocomplete.yourlabsWidget().autocomplete.data = {
-                'event_slug': event
-            };
-        });
-        $('#QRModal').on('show.bs.modal', function (e) {
-            $('#qr_reader').empty();//Prevents stacking
-            $('#qr_reader').html5_qrcode(function (data) {
-                    var url = $(location).attr('href');
-                    $(location).attr("href", url + '/' + data);
-                },
-                function (readError) {
-                    // From module docs:
-                    // The readError wil be called quite often, it is really only useful for debugging.
-                    // console.log(readError);
-                }, function (videoError) {
-                    $('#error').html(
-                        '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
-                }
-            );
-        });
-        $('#QRModal').on('hidden.bs.modal', function (e) {
-            $('#qr_reader').html5_qrcode_stop()
+            $('#QRModal').on('show.bs.modal', function (e) {
+                $('#qr_reader').empty();//Prevents stacking
+                $('#qr_reader').html5_qrcode(function (data) {
+                        var url = $(location).attr('href');
+                        $(location).attr("href", url + '/' + data);
+                    },
+                    function (readError) {
+                        // From module docs:
+                        // The readError wil be called quite often, it is really only useful for debugging.
+                        // console.log(readError);
+                    }, function (videoError) {
+                        $('#error').html(
+                            '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
+                    }
+                );
+            });
+            $('#QRModal').on('hidden.bs.modal', function (e) {
+                $('#qr_reader').html5_qrcode_stop()
+            });
         });
     </script>
 {% endblock %}

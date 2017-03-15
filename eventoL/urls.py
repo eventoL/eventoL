@@ -1,4 +1,3 @@
-from autocomplete_light import shortcuts as autocomplete_light
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -6,7 +5,6 @@ from django.views.generic.base import TemplateView
 from eventoL import settings
 from manager import views
 
-autocomplete_light.autodiscover()
 admin.autodiscover()
 
 urlpatterns = [
