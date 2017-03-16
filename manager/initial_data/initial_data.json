@@ -13,7 +13,7 @@
     "fields": {
       "name": "IRC/Chat",
       "icon_class": "fa-comments",
-      "validate": "3"
+      "validate": "1"
     },
     "pk": 2
   },
@@ -40,7 +40,7 @@
     "fields": {
       "name": "Twitter",
       "icon_class": "fa-twitter-square",
-      "validate": "3"
+      "validate": "1"
     },
     "pk": 5
   },
@@ -67,7 +67,7 @@
     "fields": {
       "name": "Diaspora",
       "icon_class": "fa-asterisk",
-      "validate": "3"
+      "validate": "1"
     },
     "pk": 8
   },
@@ -76,7 +76,7 @@
     "fields": {
       "name": "Identi.ca",
       "icon_class": "fa-commenting-o",
-      "validate": "3"
+      "validate": "1"
     },
     "pk": 9
   },
@@ -85,7 +85,7 @@
     "fields": {
       "name": "GNU Social",
       "icon_class": "fa-commenting-o",
-      "validate": "3"
+      "validate": "1"
     },
     "pk": 10
   }
