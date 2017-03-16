@@ -88,7 +88,7 @@ class EventUserSearchForm(forms.Form):
         queryset=EventUser.objects.all(),
         widget=autocomplete.ModelSelect2(url='eventuser-autocomplete'),
         required=False,
-        label=_("Colaborador/Instalador")
+        label=_("Collaborator/Installer")
     )
 
 
