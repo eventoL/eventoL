@@ -184,12 +184,6 @@ class Attendee(models.Model):
         verbose_name_plural = _('Attendees')
         unique_together = (("event", "email"),)
 
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(event__pk=value)
-        return queryset
-
     def __unicode__(self):
         return u'%s %s - %s - %s' % (self.first_name, self.last_name, self.nickname, self.email)
 
@@ -369,12 +363,6 @@ class Installation(models.Model):
 
     def __unicode__(self):
         return u"%s, %s, %s" % (self.attendee, self.hardware, self.software)
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(attendee__event__pk=value)
-        return queryset
 
     class Meta(object):
         verbose_name = _('Installation')
