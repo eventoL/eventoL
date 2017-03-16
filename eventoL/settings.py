@@ -262,6 +262,7 @@ SOCIALACCOUNT_PROVIDERS = \
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 
 ACCOUNT_FORMS = {'login': 'manager.forms.LoginForm',
                  'signup': 'manager.forms.SignUpForm',
@@ -270,13 +271,32 @@ ACCOUNT_FORMS = {'login': 'manager.forms.LoginForm',
                  'change_password': 'manager.forms.ChangePasswordForm',
                  'set_password': 'manager.forms.SetPasswordForm'}
 
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "mandatory"
 SOCIALACCOUNT_QUERY_EMAIL = True
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 SOCIALACCOUNT_AUTO_SIGNUP = False
 SOCIALACCOUNT_FORMS = {'signup': 'manager.forms.SocialSignUpForm'}
 
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 LOGIN_REDIRECT_URL = '/'
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'

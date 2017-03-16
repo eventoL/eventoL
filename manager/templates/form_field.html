@@ -1,6 +1,6 @@
 {% load filters %}
 {% load i18n %}
-<div class="form-group {{ field.html_name }} {% if not field|is_checkbox and not field|is_fileinput and not field|is_select and not field|is_datetime%}label-floating{% endif %} {% if field.errors %}has-error{% endif %}">
+<div class="form-group {{ field.html_name }} {% if not field|is_checkbox and not field|is_fileinput and not field|is_select and not field|is_datetime %}label-floating{% endif %} {% if field.errors %}has-error{% endif %}">
     {% if not field|is_fileinput and not field|is_checkbox %}
         <label class="control-label" for="{{ field.id_for_label }}">
             {% trans field.label %}{% if field.field.required %} *{% endif %}

@@ -236,7 +236,7 @@ class SignUpForm(AllAuthSignUpForm):
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
-        for field in ['username', 'email', 'password1', 'password2']:
+        for field in ['username', 'email', 'email2', 'password1', 'password2']:
             del self.fields[field].widget.attrs['placeholder']
 
     def signup(self, request, user):
