@@ -168,7 +168,7 @@
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/accounts/login/">
+                                    <a href="{% url "account_login" %}">
                                         <i class="material-icons">account_box</i> {% trans "Login" %}
                                     </a>
                                 </li>
@@ -199,7 +199,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/accounts/logout/">
+                                    <a href="{% url "account_logout" %}">
                                         <i class="material-icons">power_settings_new</i> {% trans "Logout" %}
                                     </a>
                                 </li>

@@ -1,14 +1,15 @@
-from django.contrib.auth.models import Permission, Group
-from django.utils.decorators import available_attrs
 from functools import wraps
+
+from django.contrib.auth.models import Permission, Group
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.contrib.contenttypes.models import ContentType
+from django.utils.decorators import available_attrs
 
-from manager.models import Installer, Organizer, EventUser, Collaborator, Attendee
+from manager.models import Installer, Organizer, Collaborator, Attendee
 
 
-def is_installer(user, event_slug=None, *args, **kwargs):
+def is_installer(user, event_slug=None):
     return event_slug and (
         Installer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))
@@ -80,12 +81,12 @@ def add_organizer_permissions(user):
     user.save()
 
 
-def is_organizer(user, event_slug=None, *args, **kwargs):
+def is_organizer(user, event_slug=None):
     return event_slug and Organizer.objects.filter(event_user__user=user,
                                                    event_user__event__slug__iexact=event_slug).exists()
 
 
-def is_collaborator(user, event_slug=None, *args, **kwargs):
+def is_collaborator(user, event_slug=None):
     return event_slug and (
         Collaborator.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))

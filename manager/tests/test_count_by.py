@@ -1,6 +1,6 @@
 import unittest
+
 from manager.views import count_by
-from mock import Mock
 
 
 class TestTagFilters(unittest.TestCase):
