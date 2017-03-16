@@ -1,33 +1,5 @@
 [
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Charla"
-    },
-    "pk": 1
-  },
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Taller"
-    },
-    "pk": 2
-  },
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Debate"
-    },
-    "pk": 3
-  },
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Otro"
-    },
-    "pk": 4
-  },
-  {
+    {
     "model": "manager.ContactType",
     "fields": {
       "name": "Email",
@@ -89,5 +61,32 @@
       "validate": "1"
     },
     "pk": 7
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Diaspora",
+      "icon_class": "fa-asterisk",
+      "validate": "3"
+    },
+    "pk": 8
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Identi.ca",
+      "icon_class": "fa-commenting-o",
+      "validate": "3"
+    },
+    "pk": 9
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "GNU Social",
+      "icon_class": "fa-commenting-o",
+      "validate": "3"
+    },
+    "pk": 10
   }
 ]
