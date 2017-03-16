@@ -9,7 +9,6 @@ from manager.templatetags import filters
 
 
 class TestTagFilters(unittest.TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.admin = autofixture.create_one('auth.User', field_values={'is_superuser': True, 'is_staff': True})
@@ -38,7 +37,7 @@ class TestTagFilters(unittest.TestCase):
         self.event_user = autofixture.create_one('manager.EventUser', {'user': self.user, 'event': self.event})
 
     def generateUserWithRol(self, model):
-        self.user_with_rol = autofixture.create_one('manager.'+str(model.__name__), {'event_user': self.event_user})
+        self.user_with_rol = autofixture.create_one('manager.' + str(model.__name__), {'event_user': self.event_user})
 
     def test_addcss_call_field_as_widget(self):
         field = mock.Mock()

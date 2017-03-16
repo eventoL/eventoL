@@ -104,7 +104,7 @@ class Ticket(models.Model):
     sent = models.BooleanField(_('Sent'), default=False)
 
     def __unicode__(self):
-        return u"%d" % (self.id)
+        return u"%d" % self.id
 
 
 class EventUser(models.Model):
