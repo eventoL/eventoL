@@ -4,7 +4,7 @@
     "fields": {
       "name": "Email",
       "icon_class": "fa-envelope",
-      "validate": "1"
+      "validate": "2"
     },
     "pk": 1
   },
@@ -13,7 +13,7 @@
     "fields": {
       "name": "IRC/Chat",
       "icon_class": "fa-comments",
-      "validate": "1"
+      "validate": "3"
     },
     "pk": 2
   },
@@ -22,7 +22,7 @@
     "fields": {
       "name": "Lista de Correo",
       "icon_class": "fa-group",
-      "validate": "2"
+      "validate": "1"
     },
     "pk": 3
   },
@@ -40,7 +40,7 @@
     "fields": {
       "name": "Twitter",
       "icon_class": "fa-twitter-square",
-      "validate": "1"
+      "validate": "3"
     },
     "pk": 5
   },
