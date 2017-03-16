@@ -289,7 +289,7 @@ def attendance_by_ticket(request, event_slug, pk):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def add_organizer(request, event_slug):
-    form = EventUserSearchForm(event_slug, request.POST or None)
+    form = EventUserSearchForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             event_user = form.cleaned_data['event_user']
@@ -310,7 +310,7 @@ def add_organizer(request, event_slug):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def add_registration_people(request, event_slug):
-    form = EventUserSearchForm(event_slug, request.POST or None)
+    form = EventUserSearchForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             event_user = form.cleaned_data['event_user']
@@ -552,7 +552,7 @@ def attendee_confirm_email(request, event_slug, pk, token):
                 attendee.email_confirmed = True
                 attendee.save()
                 send_event_ticket(attendee, request.META.get('LANG'))
-            except Exception as e:
+            except Exception:
                 pass
         else:
             message = _("The verification URL is invalid. Try again. ")

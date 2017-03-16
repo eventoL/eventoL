@@ -78,7 +78,8 @@ class AttendeeSearchForm(forms.Form):
     attendee = forms.ModelChoiceField(
         queryset=Attendee.objects.all(),
         widget=autocomplete.ModelSelect2(url='attendee-autocomplete'),
-        required=False
+        required=False,
+        label=_("Attendee")
     )
 
 
@@ -86,7 +87,8 @@ class EventUserSearchForm(forms.Form):
     event_user = forms.ModelChoiceField(
         queryset=EventUser.objects.all(),
         widget=autocomplete.ModelSelect2(url='eventuser-autocomplete'),
-        required=False
+        required=False,
+        label=_("Colaborador/Instalador")
     )
 
 
