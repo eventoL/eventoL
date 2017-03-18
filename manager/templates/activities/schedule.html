@@ -31,17 +31,26 @@
         .fc-time {
             font-weight: 500 !important;
         }
+
         .fc-unthemed td {
-          background-color: unset !important;
+            background-color: unset !important;
         }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="well">
-        <h1>{% trans "Activities Schedule" %}</h1>
-        <div id="calendar"></div>
-    </div>
+    <h1>{% trans "Activities Schedule" %}</h1>
+    {% for date in dates %}
+        <div class="well">
+            <h2>
+                {% blocktrans with day=forloop.counter %}
+                    Day {{ day }}
+                {% endblocktrans %}
+            </h2>
+            <hr/>
+            <div id="calendar-{{ date | escapejs }}"></div>
+        </div>
+    {% endfor %}
 {% endblock %}
 
 {% block other-script %}
@@ -53,32 +62,32 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-            var defaultDate = JSON.parse('{{ default_date | escapejs }}');
             var rooms = JSON.parse('{{ rooms | escapejs }}');
-            var activities = JSON.parse('{{ activities | escapejs }}');
-            var minTime = JSON.parse('{{ min_time | escapejs }}');
-            var maxTime = JSON.parse('{{ max_time | escapejs }}');
+            {% for date, activities_for_date in activities.items %}
 
-            $('#calendar').fullCalendar({
-                schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-                defaultView: 'agendaDay',
-                header: false,
-                height: "auto",
-                timeFormat: 'H:mm',
-                slotLabelFormat: [
-                    'H:mm'
-                ],
-                eventColor: '#0288d1',
-                defaultDate: defaultDate,
-                scrollTime: minTime,
-                minTime: minTime,
-                maxTime: maxTime,
-                slotDuration: '00:15',
-                allDaySlot: false,
-                resources: rooms,
-                events: activities
-            });
+
+                var activities{{ forloop.counter | escapejs }} = JSON.parse('{{ activities_for_date | escapejs}}');
+
+                $('#calendar-{{ date | escapejs }}').fullCalendar({
+                    schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+                    defaultView: 'agendaDay',
+                    header: false,
+                    height: "auto",
+                    timeFormat: 'H:mm',
+                    slotLabelFormat: [
+                        'H:mm'
+                    ],
+                    eventColor: '#0288d1',
+                    defaultDate: activities{{ forloop.counter | escapejs }}.date,
+                    scrollTime: activities{{ forloop.counter | escapejs }}.min_time,
+                    minTime: activities{{ forloop.counter | escapejs }}.min_time,
+                    maxTime: activities{{ forloop.counter | escapejs }}.max_time,
+                    slotDuration: '00:15',
+                    allDaySlot: false,
+                    resources: rooms,
+                    events: activities{{ forloop.counter | escapejs }}.activities
+                });
+            {% endfor %}
         });
     </script>
 {% endblock %}

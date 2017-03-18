@@ -16,7 +16,6 @@ def validate_url(url):
 
 class Event(models.Model):
     name = models.CharField(_('Event Name'), max_length=200)
-    date = models.DateField(_('Date'), help_text=_('When will your event be?'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
     slug = models.CharField(_('URL'), max_length=200, unique=True, help_text=_('For example: flisol-caba'),
@@ -40,13 +39,21 @@ class Event(models.Model):
 
     @property
     def registration_is_open(self):
-        return self.date >= datetime.date.today()
+        return EventDate.objects.filter(event=self).order_by('date').last().date >= datetime.date.today()
 
     def __unicode__(self):
         return u"%s" % self.name
 
     class Meta(object):
         ordering = ['name']
+
+
+class EventDate(models.Model):
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'), blank=True, null=True)
+    date = models.DateField(_('Date'), help_text=_('When will your event be?'))
+
+    def __unicode__(self):
+        return u"%s - %s" % (self.event.name, self.date)
 
 
 class ContactMessage(models.Model):
@@ -123,8 +130,9 @@ class EventUser(models.Model):
             ticket.save()
             self.ticket = ticket
             self.save()
+        date = self.event.eventdate_set.order_by('date').first().date
         return {'first_name': self.user.first_name, 'last_name': self.user.last_name, 'nickname': self.user.username,
-                'email': self.user.email, 'event': self.event, 'ticket': self.ticket}
+                'email': self.user.email, 'event': self.event, 'event_date': date, 'ticket': self.ticket}
 
     class Meta(object):
         unique_together = (("event", "user"),)

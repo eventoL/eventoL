@@ -5,7 +5,7 @@ from django.core.validators import validate_email, URLValidator
 from django.db.models.query_utils import Q
 from django.utils.safestring import mark_safe
 
-from django.forms.models import ModelForm
+from django.forms.models import ModelForm, BaseModelFormSet
 from django.utils.translation import ugettext as _
 from allauth.account.forms import LoginForm as AllAuthLoginForm
 from allauth.account.forms import SignupForm as AllAuthSignUpForm
@@ -18,7 +18,7 @@ from captcha.fields import ReCaptchaField
 
 from manager.models import Attendee, Installation, \
     Hardware, Collaborator, Installer, ContactMessage, \
-    EventUser, Event, Software, Contact, Activity
+    EventUser, Event, Software, Contact, Activity, EventDate
 
 
 class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
@@ -213,12 +213,37 @@ class ContactMessageForm(ModelForm):
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
 
 
+class EventDateForm(ModelForm):
+    class Meta(object):
+        model = EventDate
+        fields = ('date',)
+
+
+class EventDateModelFormset(BaseModelFormSet):
+    def clean(self):
+        super(EventDateModelFormset, self).clean()
+        if any(self.errors):
+            return
+
+        dates = []
+
+        for form in self.forms:
+            if form.cleaned_data:
+                date = form.cleaned_data['date']
+                if date:
+                    if date in dates:
+                        raise forms.ValidationError(
+                            _('One or more dates of the event are the same date'),
+                            code='duplicate_date'
+                        )
+                    dates.append(date)
+
+
 class EventForm(ModelForm):
     class Meta(object):
         model = Event
-        fields = ('name', 'slug', 'date', 'limit_proposal_date', 'email', 'place', 'external_url', 'event_information')
-        widgets = {'date': forms.HiddenInput(),
-                   'place': forms.HiddenInput(),
+        fields = ('name', 'slug', 'limit_proposal_date', 'email', 'place', 'external_url', 'event_information')
+        widgets = {'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
 
 

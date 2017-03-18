@@ -6,13 +6,13 @@ from image_cropping import ImageCroppingMixin
 
 from manager.models import Organizer, Event, Attendee, Collaborator, Hardware, \
     Software, Installer, Installation, Room, ContactType, Contact, Activity, \
-    ContactMessage, EventUser, InstallationMessage, Ticket
+    ContactMessage, EventUser, InstallationMessage, Ticket, EventDate
 from manager.security import create_reporters_group
 
 
 class EventoLAdmin(admin.ModelAdmin):
-    def filter_event(self, event, queryset):
-        return queryset.filter(event=event)
+    def filter_event(self, events, queryset):
+        return queryset.filter(event__in=events)
 
     def queryset(self, request):
         self.get_queryset(request)
@@ -24,31 +24,34 @@ class EventoLAdmin(admin.ModelAdmin):
         reporters = create_reporters_group()
         if request.user.groups.filter(name=reporters.name).exists():
             return queryset
-        organizer = Organizer.objects.filter(event_user__user=request.user).first()
-        if organizer:
-            return self.filter_event(organizer.event_user.event, queryset)
+        organizers = Organizer.objects.filter(event_user__user=request.user)
+        events = [organizer.event_user.event for organizer in organizers]
+        if len(events) > 0:
+            return self.filter_event(events, queryset)
         return queryset.none()
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        organizer = Organizer.objects.filter(event_user__user=request.user).first()
+        if request.user.is_superuser:
+            return super(EventoLAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        events = [organizer.event_user.event for organizer in Organizer.objects.filter(event_user__user=request.user)]
         if db_field.name == "room":
-            kwargs["queryset"] = Room.objects.filter(event=organizer.event_user.event)
+            kwargs["queryset"] = Room.objects.filter(event__in=events).distinct()
         if db_field.name == "event":
-            kwargs["queryset"] = Event.objects.filter(pk=organizer.event_user.event.pk)
+            kwargs["queryset"] = Event.objects.filter(pk__in=[event.pk for event in events]).distinct()
         if db_field.name == "event_user":
-            kwargs["queryset"] = EventUser.objects.filter(event=organizer.event_user.event)
+            kwargs["queryset"] = EventUser.objects.filter(event__in=events).distinct()
         if db_field.name == "attendee":
-            kwargs["queryset"] = Attendee.objects.filter(event=organizer.event_user.event)
+            kwargs["queryset"] = Attendee.objects.filter(event__in=events).distinct()
         if db_field.name == "installer":
-            kwargs["queryset"] = Installer.objects.filter(event_user__event=organizer.event_user.event)
+            kwargs["queryset"] = Installer.objects.filter(event_user__event__in=events).distinct()
         if db_field.name == "user":
             kwargs["queryset"] = User.objects.none()
         return super(EventoLAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
-    def filter_event(self, event, queryset):
-        return queryset.filter(event_user__event=event)
+    def filter_event(self, events, queryset):
+        return queryset.filter(event_user__event__in=events)
 
 
 class OrganizerResource(resources.ModelResource):
@@ -75,9 +78,15 @@ class EventUserAdmin(ExportMixin, EventoLAdmin):
     resource_class = EventUserResource
 
 
+class EventDateAdminInline(admin.TabularInline):
+    model = EventDate
+
+
 class EventAdmin(EventoLAdmin):
-    def filter_event(self, event, queryset):
-        return queryset.filter(pk=event.pk)
+    inlines = [EventDateAdminInline]
+
+    def filter_event(self, events, queryset):
+        return queryset.filter(pk__in=[event.pk for event in events])
 
 
 class InstallerResource(resources.ModelResource):
@@ -103,8 +112,8 @@ class InstallationResource(resources.ModelResource):
 class InstallationAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallationResource
 
-    def filter_event(self, event, queryset):
-        return queryset.filter(installer__event=event)
+    def filter_event(self, events, queryset):
+        return queryset.filter(installer__event__in=events)
 
 
 class TicketResource(resources.ModelResource):

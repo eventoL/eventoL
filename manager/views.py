@@ -21,15 +21,16 @@ from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.utils.translation import ugettext_lazy as _
+from django.utils.formats import localize
 
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, \
     EventForm, ContactMessageForm, ImageCroppingForm, \
-    EventUserSearchForm, ContactForm, ActivityProposalForm
+    EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, EventDateModelFormset
 from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, \
     Activity, Hardware, Installation, Collaborator, ContactMessage, Installer, \
-    InstallationMessage
+    InstallationMessage, EventDate
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
 
@@ -69,12 +70,11 @@ def get_forms_errors(forms):
     return list(itertools.chain.from_iterable(errors))
 
 
-def generate_ticket(user, lang='en_US.UTF8'):
+def generate_ticket(user):
     ticket_data = user.get_ticket_data()
     ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
     ticket_template.set_text('event_name', ticket_data['event'].name[:30])
-    locale.setlocale(locale.LC_TIME, lang)  # Locale del request
-    ticket_template.set_text('event_date', (ticket_data['event'].date.strftime("%A %d de %B de %Y")).decode('utf-8'))
+    ticket_template.set_text('event_date', localize(ticket_data['event_date']).decode('utf-8'))
     place = json.loads(ticket_data['event'].place)
     if place.get("name"):  # Si tiene nombre cargado
         ticket_template.set_text('event_place_name', place.get("name"))
@@ -110,8 +110,8 @@ def generate_ticket(user, lang='en_US.UTF8'):
     return str(ticket_template)
 
 
-def send_event_ticket(user, lang):
-    ticket_svg = generate_ticket(user, lang)
+def send_event_ticket(user):
+    ticket_svg = generate_ticket(user)
     ticket_data = user.get_ticket_data()
 
     try:
@@ -159,7 +159,9 @@ def index(request, event_slug):
         .exclude(image__isnull=True) \
         .distinct()
 
-    render_dict = {'activities': activities}
+    dates = EventDate.objects.filter(event=event)
+
+    render_dict = {'activities': activities, 'dates': dates}
     return render(request, 'event/index.html', update_event_info(event_slug, request, render_dict, event))
 
 
@@ -460,7 +462,7 @@ def generic_registration(request, event_slug, registration_model, new_role_form,
 
                 #                if not event_user.ticket:
                 #                    try:
-                #                        send_event_ticket(event_user, request.META.get('LANG'))
+                #                        send_event_ticket(event_user)
                 #                        event_user.ticket = True
                 #                        event_user.save()
                 #                        msg_success += unicode(_(". Please check your email for the corresponding ticket."))
@@ -551,7 +553,7 @@ def attendee_confirm_email(request, event_slug, pk, token):
             try:
                 attendee.email_confirmed = True
                 attendee.save()
-                send_event_ticket(attendee, request.META.get('LANG'))
+                send_event_ticket(attendee)
             except Exception:
                 pass
         else:
@@ -586,38 +588,55 @@ def create_event(request):
 
     contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
 
+    EventDateFormset = modelformset_factory(EventDate, form=EventDateForm, formset=EventDateModelFormset,
+                                            can_delete=True)
+    event_date_formset = EventDateFormset(request.POST or None, prefix='event-date-form',
+                                          queryset=EventDate.objects.none())
+
     if request.POST:
-        if event_form.is_valid() and contacts_formset.is_valid():
+        if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
             organizer = None
             event_user = None
             the_event = None
             contacts = None
+            event_dates = None
             try:
                 the_event = event_form.save()
                 event_user = EventUser.objects.create(user=request.user, event=the_event)
                 organizer = create_organizer(event_user)
                 contacts = contacts_formset.save(commit=False)
+                event_dates = event_date_formset.save(commit=False)
 
                 for a_contact in contacts:
                     a_contact.event = the_event
                     a_contact.save()
 
-                return HttpResponseRedirect('/event/' + the_event.slug)
+                for event_date in event_dates:
+                    event_date.event = the_event
+                    event_date.save()
+
+                return HttpResponseRedirect(reverse("index", args=(the_event.slug,)))
             except Exception:
-                if organizer is not None:
-                    Organizer.delete(organizer)
-                if event_user is not None:
-                    EventUser.delete(event_user)
-                if the_event is not None:
-                    Event.delete(the_event)
-                if contacts is not None:
-                    for a_contact in contacts:
-                        Contact.objects.delete(a_contact)
+                try:
+                    if organizer is not None:
+                        Organizer.delete(organizer)
+                    if event_user is not None:
+                        EventUser.delete(event_user)
+                    if the_event is not None:
+                        Event.delete(the_event)
+                    if contacts is not None:
+                        for a_contact in contacts:
+                            Contact.objects.delete(a_contact)
+                    if event_dates is not None:
+                        for event_date in event_dates:
+                            EventDate.objects.delete(event_date)
+                except Exception:
+                    pass
 
         messages.error(request, _("There is a problem with your event. Please check the form for errors."))
     return render(request,
                   'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
-                                        'contacts_formset': contacts_formset})
+                                        'contacts_formset': contacts_formset, 'event_date_formset': event_date_formset})
 
 
 @login_required
@@ -629,18 +648,28 @@ def edit_event(request, event_slug):
 
     contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=event.contacts.all())
 
+    EventDateFormset = modelformset_factory(EventDate, form=EventDateForm, formset=EventDateModelFormset,
+                                            can_delete=True)
+    event_date_formset = EventDateFormset(request.POST or None, prefix='event-date-form',
+                                          queryset=EventDate.objects.filter(event=event))
+
     if request.POST:
-        if event_form.is_valid() and contacts_formset.is_valid():
+        if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
             try:
                 the_event = event_form.save()
                 contacts = contacts_formset.save(commit=False)
+                event_dates = event_date_formset.save(commit=False)
 
                 for a_contact in contacts:
                     a_contact.event = the_event
 
-                contacts_formset.save()
+                for event_date in event_dates:
+                    event_date.event = the_event
 
-                return HttpResponseRedirect('/event/' + the_event.slug)
+                contacts_formset.save()
+                event_date_formset.save()
+
+                return HttpResponseRedirect(reverse("index", args=(the_event.slug,)))
             except Exception:
                 pass
 
@@ -649,14 +678,14 @@ def edit_event(request, event_slug):
                   'event/create.html',
                   update_event_info(event_slug, request,
                                     {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
-                                     'contacts_formset': contacts_formset}))
+                                     'contacts_formset': contacts_formset, 'event_date_formset': event_date_formset}))
 
 
 @login_required
 def view_ticket(request, event_slug):
     event_user = EventUser.objects.filter(event__slug__iexact=event_slug).filter(user=request.user).first()
     if event_user:
-        ticket = generate_ticket(event_user, request.META.get('LANG'))
+        ticket = generate_ticket(event_user)
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
         response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.id).zfill(12) + '.pdf'
         return response
@@ -734,30 +763,45 @@ def activity_detail(request, event_slug, activity_id):
 
 def schedule(request, event_slug):
     event = get_object_or_404(Event, slug__iexact=event_slug)
-    activities = Activity.objects.filter(event=event) \
+    event_dates = event.eventdate_set.order_by('date')
+    activities_count = Activity.objects \
+        .filter(event=event) \
         .filter(room__isnull=False) \
         .filter(status='2') \
-        .order_by('start_date')
+        .order_by('start_date') \
+        .count()
 
-    if not event.schedule_confirmed or activities.count() <= 0:
+    if not event.schedule_confirmed or activities_count <= 0:
         return render(request, 'activities/schedule_not_confirmed.html',
                       update_event_info(event_slug, request, {}, event=event))
 
+    activities = {}
+
+    for event_date in event_dates:
+        activities[event_date.date.strftime("%Y%m%d")] = Activity.objects \
+            .filter(event=event, start_date__date=event_date.date) \
+            .filter(room__isnull=False) \
+            .filter(status='2') \
+            .order_by('start_date')
+
     rooms = Room.objects.filter(event=event)
     schedule_rooms = [room.get_schedule_info() for room in rooms]
-    schedule_activities = [activity.get_schedule_info() for activity in activities]
-    default_date = event.date.isoformat()
 
-    min_time = activities.first().start_date.time().strftime("%H:%M")
-    max_time = activities.last().end_date.time().strftime("%H:%M")
+    schedule_activities = {}
+    for date, activities_for_date in activities.items():
+        if activities_for_date.count() > 0:
+            schedule_activities[date] = json.dumps({
+                'activities': [activity.get_schedule_info() for activity in activities_for_date],
+                'min_time': activities_for_date.first().start_date.time().strftime("%H:%M"),
+                'max_time': activities_for_date.last().end_date.time().strftime("%H:%M"),
+                'date': activities_for_date.first().start_date.date().isoformat()
+            })
 
     return render(request, 'activities/schedule.html',
                   update_event_info(event_slug, request, {
                       'rooms': json.dumps(schedule_rooms),
-                      'activities': json.dumps(schedule_activities),
-                      'default_date': json.dumps(default_date),
-                      'min_time': json.dumps(min_time),
-                      'max_time': json.dumps(max_time)
+                      'activities': schedule_activities,
+                      'dates': sorted(schedule_activities.keys())
                   }, event=event))
 
 

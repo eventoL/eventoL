@@ -87,3 +87,8 @@ def installer_level(value):
         return _('Super Hacker')
     else:
         return _('N/A')
+
+
+@register.filter(name='as_days')
+def as_days(dates):
+    return sorted([date.date.day for date in dates])

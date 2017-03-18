@@ -50,7 +50,8 @@ def create_organizers_group():
                  'change_organizer', 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer',
                  'add_room', 'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity',
                  'add_installation', 'change_installation', 'delete_installation', 'add_installationmessage',
-                 'change_installationmessage', 'delete_installationmessage']
+                 'change_installationmessage', 'delete_installationmessage', 'add_eventdate', 'change_eventdate',
+                 'delete_eventdate']
         organizers = Group.objects.create(name='Organizers')
         for perm in perms:
             organizers.permissions.add(Permission.objects.get(codename=perm))

@@ -60,17 +60,13 @@
                     <br>
                     <h4>{% trans 'When will your event be?' %}</h4>
 
-                    {% if form.date.errors|length > 0 %}
-                        <span class="fa fa-exclamation-triangle"
-                              style="color: #f44336">{{ form.date.errors.as_text }}</span>
-                    {% endif %}
                     <div class="row">
-                        <div class="col-sm-4 col-sm-offset-4 col-xs-12">
-                            <div class="event-date-picker" data-date="{% now "f" %}"></div>
+                        <div class="col-xs-10 col-xs-offset-1">
+                            {% trans "If the event is taking place in more than one day, you can add all of them here." %}
                         </div>
                     </div>
 
-                    {{ form.date }}
+                    {% include "event/event-date-formset.html" %}
 
                     <br>
                     <br>
@@ -201,9 +197,7 @@
                     <br>
                     <br>
                     <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
-                            {{ form.event_information }}
-                        </div>
+                        {{ form.event_information }}
                     </div>
 
                     <div class="form-group">
@@ -240,22 +234,6 @@
 
     <script>
         $(document).ready(function () {
-            $('.event-date-picker')
-                .datepicker({
-                    format: 'yyyy-mm-dd'
-                })
-                .on("changeDate", function (event) {
-                    $("#{{ form.date.id_for_label }}").val(
-                        $(".event-date-picker").datepicker('getFormattedDate')
-                    );
-                });
-
-            var event_date = $("#{{ form.date.id_for_label }}").val();
-            if (event_date !== "") {
-                $('.event-date-picker').datepicker('setDate', event_date);
-            }
-
-
             $("#geocomplete").geocomplete({
                 map: ".map_canvas",
                 types: [
@@ -292,15 +270,25 @@
                 $('.limit-proposal-picker').datepicker('setDate', limit_proposal_date);
             }
 
-            $('#{{ contacts_formset.empty_form.type.id_for_label }}').addClass('form-control');
-            $('#{{ contacts_formset.empty_form.url.id_for_label }}').addClass('form-control');
-            $('#{{ contacts_formset.empty_form.text.id_for_label }}').addClass('form-control');
-
-            $("#formset").formset({
+            $("#event-date-formset").formset({
                 animateForms: true
             });
 
-            $('#formset').on('formAdded', function (event) {
+            $('#event-date-formset').on('formAdded', function (event) {
+                var inputs = $(event.target).find(':input');
+                $.each(inputs, function (index, input) {
+                    var $input = $(input);
+                    if ($input.attr('type') !== 'button') {
+                        $(input).addClass('form-control');
+                    }
+                });
+            });
+
+            $("#contacts-formset").formset({
+                animateForms: true
+            });
+
+            $('#contacts-formset').on('formAdded', function (event) {
                 var inputs = $(event.target).find(':input');
                 $.each(inputs, function (index, input) {
                     var $input = $(input);
