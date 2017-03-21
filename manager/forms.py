@@ -1,4 +1,5 @@
 # encoding: UTF-8
+import datetime
 from dal import autocomplete
 from django import forms
 from django.core.validators import validate_email, URLValidator
@@ -18,7 +19,7 @@ from captcha.fields import ReCaptchaField
 
 from manager.models import Attendee, Installation, \
     Hardware, Collaborator, Installer, ContactMessage, \
-    EventUser, Event, Software, Contact, Activity, EventDate
+    EventUser, Event, Software, Contact, Activity, EventDate, AttendeeAttendanceDate, EventUserAttendanceDate
 
 
 class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
@@ -39,9 +40,14 @@ class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated():
             return Attendee.objects.none()
 
-        event_user = EventUser.objects.filter(user=self.request.user).first()
+        event_slug = self.forwarded.get('event_slug', None)
+        event_user = EventUser.objects.filter(user=self.request.user, event__slug__iexact=event_slug).first()
 
-        qs = Attendee.objects.filter(event=event_user.event).filter(attended=False)
+        attended = [attendance_date.attendee.pk for attendance_date in
+                    AttendeeAttendanceDate.objects.filter(attendee__event__slug__iexact=event_slug,
+                                                          date__date=datetime.date.today())]
+
+        qs = Attendee.objects.filter(event__slug=event_slug).exclude(pk__in=attended)
 
         if event_user and self.q:
             qs = qs.filter(
@@ -59,9 +65,14 @@ class EventUserAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated():
             return EventUser.objects.none()
 
-        event_user = EventUser.objects.filter(user=self.request.user).first()
+        event_slug = self.forwarded.get('event_slug', None)
+        event_user = EventUser.objects.filter(user=self.request.user, event__slug__iexact=event_slug).first()
 
-        qs = EventUser.objects.filter(event=event_user.event)
+        attended = [attendance_date.event_user.pk for attendance_date in
+                    EventUserAttendanceDate.objects.filter(event_user__event__slug__iexact=event_slug,
+                                                           date__date=datetime.date.today())]
+
+        qs = EventUser.objects.filter(event=event_user.event).exclude(pk__in=attended)
 
         if event_user and self.q:
             qs = qs.filter(
@@ -75,18 +86,37 @@ class EventUserAutocomplete(autocomplete.Select2QuerySetView):
 
 
 class AttendeeSearchForm(forms.Form):
+    def __init__(self, event_slug, *args, **kwargs):
+
+        kwargs.update(initial={
+            'event_slug': event_slug
+        })
+
+        super(AttendeeSearchForm, self).__init__(*args, **kwargs)
+        self.fields['event_slug'].widget = forms.HiddenInput()
+
+    event_slug = forms.CharField()
+
     attendee = forms.ModelChoiceField(
         queryset=Attendee.objects.all(),
-        widget=autocomplete.ModelSelect2(url='attendee-autocomplete'),
+        widget=autocomplete.ModelSelect2(url='attendee-autocomplete', forward=['event_slug']),
         required=False,
         label=_("Attendee")
     )
 
 
 class EventUserSearchForm(forms.Form):
+    def __init__(self, event_slug, *args, **kwargs):
+        kwargs.update(initial={
+            'event_slug': event_slug
+        })
+        super(EventUserSearchForm, self).__init__(*args, **kwargs)
+        self.fields['event_slug'].widget = forms.HiddenInput()
+
+    event_slug = forms.CharField()
     event_user = forms.ModelChoiceField(
         queryset=EventUser.objects.all(),
-        widget=autocomplete.ModelSelect2(url='eventuser-autocomplete'),
+        widget=autocomplete.ModelSelect2(url='eventuser-autocomplete', forward=['event_slug']),
         required=False,
         label=_("Collaborator/Installer")
     )
@@ -96,8 +126,8 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
     class Meta(object):
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email', 'additional_info', 'is_installing', 'event',
-                  'attended', 'registration_date']
-        widgets = {'event': forms.HiddenInput(), 'attended': forms.HiddenInput(),
+                  'registration_date']
+        widgets = {'event': forms.HiddenInput(),
                    'registration_date': forms.HiddenInput(), 'additional_info': forms.TextInput()}
 
 
@@ -127,7 +157,7 @@ class CollaboratorRegistrationForm(ModelForm):
 class EventUserRegistrationForm(ModelForm):
     class Meta(object):
         model = EventUser
-        exclude = ['user', 'attended', 'ticket']
+        exclude = ['user', 'ticket']
         widgets = {'event': forms.HiddenInput()}
 
 

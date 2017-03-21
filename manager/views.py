@@ -3,7 +3,6 @@ import datetime
 import io
 import itertools
 import json
-import locale
 import os
 import uuid
 
@@ -30,7 +29,7 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, Hardwa
     EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, EventDateModelFormset
 from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, \
     Activity, Hardware, Installation, Collaborator, ContactMessage, Installer, \
-    InstallationMessage, EventDate
+    InstallationMessage, EventDate, AttendeeAttendanceDate, EventUserAttendanceDate
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
 
@@ -231,29 +230,31 @@ def installation(request, event_slug):
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def manage_attendance(request, event_slug):
-    attendee_form = AttendeeSearchForm(request.POST or None)
-    collaborator_form = EventUserSearchForm(request.POST or None)
+    attendee_form = AttendeeSearchForm(event_slug, request.POST or None)
+    collaborator_form = EventUserSearchForm(event_slug, request.POST or None)
     forms = [attendee_form, collaborator_form]
     errors = []
     if request.POST:
         if attendee_form.is_valid():
             attendee = attendee_form.cleaned_data['attendee']
             if attendee:
-                if attendee.attended:
+                if attendee.attended_today():
                     messages.success(request, _('The attendee has already been registered correctly.'))
                 else:
-                    attendee.attended = True
-                    attendee.save()
+                    attendance_date = AttendeeAttendanceDate()
+                    attendance_date.attendee = attendee
+                    attendance_date.save()
                     messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("manage_attendance", args=[event_slug]))
         if collaborator_form.is_valid():
             event_user = collaborator_form.cleaned_data['event_user']
             if event_user:
-                if event_user.attended:
+                if event_user.attended_today():
                     messages.success(request, _('The collaborator has already been registered correctly.'))
                 else:
-                    event_user.attended = True
-                    event_user.save()
+                    attendance_date = EventUserAttendanceDate()
+                    attendance_date.event_user = event_user
+                    attendance_date.save()
                     messages.success(request, _('The collaborator has been successfully registered. Happy Hacking!'))
                 return HttpResponseRedirect(reverse("manage_attendance", args=[event_slug]))
 
@@ -275,11 +276,16 @@ def attendance_by_ticket(request, event_slug, pk):
         attendee = EventUser.objects.filter(ticket__pk=pk).first()
 
     if attendee:
-        if attendee.attended:
+        if attendee.attended_today():
             messages.success(request, _('The attendee has already been registered correctly.'))
         else:
-            attendee.attended = True
-            attendee.save()
+            if hasattr(attendee, 'user'):
+                attendance_date = EventUserAttendanceDate()
+                attendance_date.event_user = attendee
+            else:
+                attendance_date = AttendeeAttendanceDate()
+                attendance_date.attendee = attendee
+            attendance_date.save()
             messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
         return HttpResponseRedirect(reverse("manage_attendance", args=[event_slug]))
 
@@ -291,7 +297,7 @@ def attendance_by_ticket(request, event_slug, pk):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def add_organizer(request, event_slug):
-    form = EventUserSearchForm(request.POST or None)
+    form = EventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
             event_user = form.cleaned_data['event_user']
@@ -312,7 +318,7 @@ def add_organizer(request, event_slug):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def add_registration_people(request, event_slug):
-    form = EventUserSearchForm(request.POST or None)
+    form = EventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
             event_user = form.cleaned_data['event_user']
@@ -343,7 +349,7 @@ def attendee_registration_by_collaborator(request, event_slug):
     event = Event.objects.filter(slug__iexact=event_slug).first()
     if not event:
         return handler404(request)
-    form = AttendeeRegistrationByCollaboratorForm(request.POST or None, initial={'event': event, 'attended': True})
+    form = AttendeeRegistrationByCollaboratorForm(request.POST or None, initial={'event': event})
     if request.POST:
         if form.is_valid():
             email = form.cleaned_data["email"]
@@ -351,11 +357,20 @@ def attendee_registration_by_collaborator(request, event_slug):
                 messages.error(request, _("The attendee is already registered for this event, use correct form"))
                 return HttpResponseRedirect(reverse("manage_attendance", args=(event_slug,)))
             try:
-                form.save()
+                attendee = form.save()
+                attendance_date = AttendeeAttendanceDate()
+                attendance_date.attendee = attendee
+                attendance_date.save()
                 messages.success(request, _('The attendee was successfully registered . Happy Hacking!'))
                 return HttpResponseRedirect(reverse("manage_attendance", args=(event_slug,)))
             except Exception:
-                pass
+                try:
+                    if attendee is not None:
+                        Attendee.objects.delete(attendee)
+                    if attendance_date is not None:
+                        AttendeeAttendanceDate.objects.delete(attendance_date)
+                except Exception:
+                    pass
         messages.error(request, _("The attendee couldn't be registered (check form errors)"))
     return render(request, 'registration/attendee/by-collaborator.html',
                   update_event_info(event_slug, request, {'form': form}))
@@ -394,38 +409,40 @@ def contact(request, event_slug):
 
 
 def reports(request, event_slug):
-    event = get_object_or_404(Event, slug__iexact=event_slug)
-    confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0, 0, 0
+    # event = get_object_or_404(Event, slug__iexact=event_slug)
+    # confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0, 0, 0
+    #
+    # installers = Installer.objects.filter(event_user__event=event)
+    # installations = Installation.objects.filter(attendee__event=event)
+    # talks = Activity.objects.filter(event=event).filter(is_dummy=False)
+    # collaborators = Collaborator.objects.filter(event_user__event=event)
+    # attendees = Attendee.objects.filter(event=event)
+    #
+    # confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=True).count()
+    #
+    # not_confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=False).count()
+    #
+    # for talk in talks:
+    #     speakers_count += len(talk.speakers_names.split(','))
+    #
+    # template_dict = {
+    #     'confirmed_attendees_count': confirmed_attendees_count,
+    #     'not_confirmed_attendees_count': not_confirmed_attendees_count,
+    #     'confirmed_collaborators_count': collaborators.filter(event_user__attended=True).count(),
+    #     'not_confirmed_collaborators_count': collaborators.filter(event_user__attended=False).count(),
+    #     'confirmed_installers_count': installers.filter(event_user__attended=True).count(),
+    #     'not_confirmed_installers_count': installers.filter(event_user__attended=False).count(),
+    #     'speakers_count': speakers_count,
+    #     'organizers_count': Organizer.objects.filter(event_user__event=event).count(),
+    #     'activities_count': talks.count(),
+    #     'installations_count': Installation.objects.filter(attendee__event=event).count(),
+    #     'installers_for_level': count_by(installers, lambda inst: inst.level),
+    #     'installers_count': installers.count(),
+    #     'installation_for_software': count_by(installations, lambda inst: inst.software.name),
+    #     'registered_in_time': count_by(attendees, lambda attendee: attendee.registration_date.date())
+    # }
 
-    installers = Installer.objects.filter(event_user__event=event)
-    installations = Installation.objects.filter(attendee__event=event)
-    talks = Activity.objects.filter(event=event).filter(is_dummy=False)
-    collaborators = Collaborator.objects.filter(event_user__event=event)
-    attendees = Attendee.objects.filter(event=event)
-
-    confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=True).count()
-
-    not_confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=False).count()
-
-    for talk in talks:
-        speakers_count += len(talk.speakers_names.split(','))
-
-    template_dict = {
-        'confirmed_attendees_count': confirmed_attendees_count,
-        'not_confirmed_attendees_count': not_confirmed_attendees_count,
-        'confirmed_collaborators_count': collaborators.filter(event_user__attended=True).count(),
-        'not_confirmed_collaborators_count': collaborators.filter(event_user__attended=False).count(),
-        'confirmed_installers_count': installers.filter(event_user__attended=True).count(),
-        'not_confirmed_installers_count': installers.filter(event_user__attended=False).count(),
-        'speakers_count': speakers_count,
-        'organizers_count': Organizer.objects.filter(event_user__event=event).count(),
-        'activities_count': talks.count(),
-        'installations_count': Installation.objects.filter(attendee__event=event).count(),
-        'installers_for_level': count_by(installers, lambda inst: inst.level),
-        'installers_count': installers.count(),
-        'installation_for_software': count_by(installations, lambda inst: inst.software.name),
-        'registered_in_time': count_by(attendees, lambda attendee: attendee.registration_date.date())
-    }
+    template_dict = {}
     return render(request, 'reports/dashboard.html', update_event_info(event_slug, request, render_dict=template_dict))
 
 
@@ -697,9 +714,11 @@ def view_ticket(request, event_slug):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def draw(request, event_slug):
-    users = Attendee.objects.filter(event__slug__iexact=event_slug, attended=True).order_by('?')
-    users = [str(user) for user in users]
-    return render(request, 'event/draw.html', update_event_info(event_slug, request, {'eventusers': users}))
+    users = [unicode(attendance_date.attendee) for attendance_date in
+             AttendeeAttendanceDate.objects.filter(attendee__event__slug__iexact=event_slug,
+                                                   date__date=datetime.date.today())]
+    return render(request, 'event/draw.html',
+                  update_event_info(event_slug, request, {'eventusers': users, 'eventusersjson': json.dumps(users)}))
 
 
 def activity_proposal(request, event_slug):

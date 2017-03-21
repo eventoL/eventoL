@@ -6,7 +6,7 @@ from image_cropping import ImageCroppingMixin
 
 from manager.models import Organizer, Event, Attendee, Collaborator, Hardware, \
     Software, Installer, Installation, Room, ContactType, Contact, Activity, \
-    ContactMessage, EventUser, InstallationMessage, Ticket, EventDate
+    ContactMessage, EventUser, InstallationMessage, Ticket, EventDate, AttendeeAttendanceDate, EventUserAttendanceDate
 from manager.security import create_reporters_group
 
 
@@ -58,7 +58,7 @@ class OrganizerResource(resources.ModelResource):
     class Meta(object):
         model = Organizer
         fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
-                  'event_user__user__email', 'event_user__attended', 'event_user__user__date_joined')
+                  'event_user__user__email', 'event_user__user__date_joined')
         export_order = fields
 
 
@@ -70,7 +70,7 @@ class EventUserResource(resources.ModelResource):
     class Meta(object):
         model = EventUser
         fields = (
-            'user__first_name', 'user__last_name', 'user__username', 'user__email', 'attended', 'user__date_joined')
+            'user__first_name', 'user__last_name', 'user__username', 'user__email', 'user__date_joined')
         export_order = fields
 
 
@@ -93,7 +93,7 @@ class InstallerResource(resources.ModelResource):
     class Meta(object):
         model = Installer
         fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
-                  'event_user__user__email', 'event_user__attended', 'level', 'event_user__user__date_joined')
+                  'event_user__user__email', 'level', 'event_user__user__date_joined')
         export_order = fields
 
 
@@ -131,7 +131,7 @@ class AttendeeResource(resources.ModelResource):
     class Meta(object):
         model = Attendee
         fields = ('first_name', 'last_name', 'nickname', 'email', 'email_confirmed', 'is_installing',
-                  'attended', 'additional_info', 'registration_date', 'attendance_date')
+                  'additional_info', 'registration_date')
         export_order = fields
 
 
@@ -153,7 +153,6 @@ class CollaboratorResource(resources.ModelResource):
         model = Collaborator
         fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
                   'event_user__user__email', 'event_user__user__date_joined', 'phone', 'address',
-                  'event_user__attended',
                   'assignation', 'time_availability', 'additional_info')
         export_order = fields
 
@@ -178,3 +177,5 @@ admin.site.register(Contact, EventoLAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ContactMessage, EventoLAdmin)
 admin.site.register(EventUser, EventUserAdmin)
+admin.site.register(AttendeeAttendanceDate, EventoLAdmin)
+admin.site.register(EventUserAttendanceDate, EventoLEventUserAdmin)

@@ -117,7 +117,6 @@ class Ticket(models.Model):
 class EventUser(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)
     event = models.ForeignKey(Event, verbose_name=_('Event'))
-    attended = models.BooleanField(_('Attended'), default=False)
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
 
     def __unicode__(self):
@@ -134,10 +133,24 @@ class EventUser(models.Model):
         return {'first_name': self.user.first_name, 'last_name': self.user.last_name, 'nickname': self.user.username,
                 'email': self.user.email, 'event': self.event, 'event_date': date, 'ticket': self.ticket}
 
+    def attended(self):
+        return EventUserAttendanceDate.objects.filter(event_user=self).exists()
+
+    def attended_today(self):
+        return EventUserAttendanceDate.objects.filter(event_user=self, date__date=datetime.date.today()).exists()
+
     class Meta(object):
         unique_together = (("event", "user"),)
         verbose_name = _('Event User')
         verbose_name_plural = _('Event Users')
+
+
+class EventUserAttendanceDate(models.Model):
+    event_user = models.ForeignKey(EventUser, verbose_name=_noop('Event User'), blank=False, null=False)
+    date = models.DateTimeField(_('Date'), help_text=_('The date of the attendance'), auto_now_add=True)
+
+    def __unicode__(self):
+        return u"%s - %s" % (unicode(self.event_user), self.date)
 
 
 class Collaborator(models.Model):
@@ -177,7 +190,6 @@ class Attendee(models.Model):
     nickname = models.CharField(_('Nickname'), max_length=200, blank=True, null=True)
     email = models.EmailField(_('Email'))
     event = models.ForeignKey(Event, verbose_name=_('Event'))
-    attended = models.BooleanField(_('Attended'), default=False)
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
     is_installing = models.BooleanField(_('Is going to install?'), default=False)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
@@ -185,7 +197,6 @@ class Attendee(models.Model):
     email_confirmed = models.BooleanField(_('Email confirmed?'), default=False)
     email_token = models.CharField(_('Confirmation Token'), max_length=200, blank=True, null=True)
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
-    attendance_date = models.DateTimeField(_('Attendance Date'), blank=True, null=True)
 
     class Meta(object):
         verbose_name = _('Attendee')
@@ -203,6 +214,20 @@ class Attendee(models.Model):
             self.save()
         return {'first_name': self.first_name, 'last_name': self.last_name, 'nickname': self.nickname,
                 'email': self.email, 'event': self.event, 'ticket': self.ticket}
+
+    def attended(self):
+        return AttendeeAttendanceDate.objects.filter(attendee=self).exists()
+
+    def attended_today(self):
+        return AttendeeAttendanceDate.objects.filter(attendee=self, date__date=datetime.date.today()).exists()
+
+
+class AttendeeAttendanceDate(models.Model):
+    attendee = models.ForeignKey(Attendee, verbose_name=_noop('Attendee'), blank=False, null=False)
+    date = models.DateTimeField(_('Date'), help_text=_('The date of the attendance'), auto_now_add=True)
+
+    def __unicode__(self):
+        return u"%s - %s" % (unicode(self.attendee), self.date)
 
 
 class InstallationMessage(models.Model):
