@@ -165,8 +165,8 @@ class AttendeeRegistrationForm(ModelForm):
     repeat_email = forms.EmailField(label=_("Repeat Email"))
     captcha = ReCaptchaField(label=_("Are you a human?"))
 
-    field_order = ['first_name', 'last_name', 'nickname', 'email', 'is_installing', 'repeat_email',
-                   'additional_info', 'captcha', 'event',
+    field_order = ['first_name', 'last_name', 'nickname', 'additional_info', 'is_installing', 'email', 'repeat_email',
+                   'captcha', 'event',
                    'registration_date']
 
     class Meta(object):
@@ -288,6 +288,8 @@ class LoginForm(AllAuthLoginForm):
 class SignUpForm(AllAuthSignUpForm):
     first_name = forms.CharField(max_length=30, label=_('First Name'))
     last_name = forms.CharField(max_length=30, label=_('Last Name'))
+
+    field_order = ['first_name', 'last_name', 'password1', 'password2', 'email', 'email2', 'username']
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)

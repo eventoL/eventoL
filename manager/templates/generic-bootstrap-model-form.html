@@ -18,8 +18,6 @@
                     {% for field, errors in form.errors.items %}
                         {% if field.label %}
                             <strong>{% trans field.label %}</strong>
-                        {% else %}
-                            <strong>{{% trans field %}</strong>
                         {% endif %}
                         <ul>
                             {% for error in errors %}
