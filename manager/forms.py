@@ -16,7 +16,7 @@ from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKe
 from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 from captcha.fields import ReCaptchaField
-
+from collections import OrderedDict
 from manager.models import Attendee, Installation, \
     Hardware, Collaborator, Installer, ContactMessage, \
     EventUser, Event, Software, Contact, Activity, EventDate, AttendeeAttendanceDate, EventUserAttendanceDate
@@ -87,7 +87,6 @@ class EventUserAutocomplete(autocomplete.Select2QuerySetView):
 
 class AttendeeSearchForm(forms.Form):
     def __init__(self, event_slug, *args, **kwargs):
-
         kwargs.update(initial={
             'event_slug': event_slug
         })
@@ -289,12 +288,26 @@ class SignUpForm(AllAuthSignUpForm):
     first_name = forms.CharField(max_length=30, label=_('First Name'))
     last_name = forms.CharField(max_length=30, label=_('Last Name'))
 
-    field_order = ['first_name', 'last_name', 'password1', 'password2', 'email', 'email2', 'username']
+    ordered_field_names = ['first_name', 'last_name', 'password1', 'password2', 'email', 'email2', 'username']
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
         for field in ['username', 'email', 'email2', 'password1', 'password2']:
             del self.fields[field].widget.attrs['placeholder']
+
+        original_fields = self.fields
+        new_fields = OrderedDict()
+
+        for field_name in self.ordered_field_names:
+            field = original_fields.get(field_name)
+            if field:
+                new_fields[field_name] = field
+
+        for field in self.fields.keys():
+            if field not in self.ordered_field_names:
+                new_fields[field] = original_fields.get(field)
+
+        self.fields = new_fields
 
     def signup(self, request, user):
         user.first_name = self.cleaned_data['first_name']
@@ -334,10 +347,26 @@ class SocialSignUpForm(AllAuthSocialSignUpForm):
     first_name = forms.CharField(max_length=30, label=_('First Name'))
     last_name = forms.CharField(max_length=30, label=_('Last Name'))
 
+    ordered_field_names = ['email', 'email2', 'first_name', 'last_name', 'username']
+
     def __init__(self, *args, **kwargs):
         super(SocialSignUpForm, self).__init__(*args, **kwargs)
-        for field in ['username', 'email']:
+        for field in ['username', 'email', 'email2']:
             del self.fields[field].widget.attrs['placeholder']
+
+        original_fields = self.fields
+        new_fields = OrderedDict()
+
+        for field_name in self.ordered_field_names:
+            field = original_fields.get(field_name)
+            if field:
+                new_fields[field_name] = field
+
+        for field in self.fields.keys():
+            if field not in self.ordered_field_names:
+                new_fields[field] = original_fields.get(field)
+
+        self.fields = new_fields
 
     def signup(self, request, user):
         user.first_name = self.cleaned_data['first_name']
