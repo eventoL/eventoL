@@ -76,7 +76,7 @@ def get_forms_errors(forms):
 def generate_ticket(user):
     ticket_data = user.get_ticket_data()
     ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
-    ticket_template.set_text('event_name', ticket_data['event'].name[:30])
+    ticket_template.set_text('event_name', "FLISoL " + ticket_data['event'].name[:24])
     ticket_template.set_text('event_date', localize(ticket_data['event_date']).decode('utf-8'))
     place = json.loads(ticket_data['event'].place)
     if place.get("name"):  # Si tiene nombre cargado
@@ -559,6 +559,7 @@ def attendee_registration(request, event_slug):
                 logger.error(e)
                 if attendee is not None:
                     attendee.delete()
+
         messages.error(request, _("There is a problem with the registration (check form errors)"))
 
     return render(request, 'registration/attendee-registration.html', update_event_info(event_slug, request,
