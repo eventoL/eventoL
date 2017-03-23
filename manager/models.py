@@ -212,8 +212,10 @@ class Attendee(models.Model):
             ticket.save()
             self.ticket = ticket
             self.save()
+
+        date = self.event.eventdate_set.order_by('date').first().date
         return {'first_name': self.first_name, 'last_name': self.last_name, 'nickname': self.nickname,
-                'email': self.email, 'event': self.event, 'ticket': self.ticket}
+                'email': self.email, 'event': self.event, 'event_date': date, 'ticket': self.ticket}
 
     def attended(self):
         return AttendeeAttendanceDate.objects.filter(attendee=self).exists()
