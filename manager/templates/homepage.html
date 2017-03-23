@@ -29,7 +29,7 @@
             <div class="col-md-4">
                 <div class="well" style="padding:0;">
                     <div class="mapbox">
-                        <div class="row-fluid" id="{{ event.name }}" style="height: 180px">
+                        <div class="row-fluid" id="{{ event.slug }}" style="height: 180px">
                         </div>
                         <div class="row-fluid overlay asd">
                             <div class="event-title">
@@ -53,8 +53,6 @@
     <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
     <script>
         $(document).ready(function() {
-            $.material.options.autofill = true;
-            $.material.init();
 
             function map(event_name, event_lat, event_lon) {
                 var map = L.map(event_name, {
@@ -78,7 +76,7 @@
             var event_place;
             {% for event in events %}
                 event_place = {{ event.place|safe }};
-                map('{{ event.name }}', event_place.geometry.location.lat, event_place.geometry.location.lng);
+                map('{{ event.slug }}', event_place.geometry.location.lat, event_place.geometry.location.lng);
             {% endfor %}
         });
 
