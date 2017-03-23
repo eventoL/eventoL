@@ -9,6 +9,7 @@ import uuid
 import cairosvg
 import pyqrcode
 import svglue
+import logging
 from allauth.utils import build_absolute_uri
 from django.conf import settings
 from django.contrib import messages
@@ -34,6 +35,8 @@ from manager.security import is_installer, is_organizer, user_passes_test, add_a
     add_organizer_permissions
 
 
+logger = logging.getLogger(__name__)
+
 # Auxiliary functions
 def update_event_info(event_slug, request, render_dict=None, event=None):
     event = event or Event.objects.filter(slug__iexact=event_slug).first()
@@ -58,7 +61,8 @@ def count_by(elements, getter, increment=None):
                 return_dict[field] += increment(element) if increment else 1
             else:
                 return_dict[field] = increment(element) if increment else 1
-        except Exception:
+        except Exception as e:
+            logger.error(e)
             pass
     return return_dict
 
@@ -131,6 +135,7 @@ def send_event_ticket(user):
         ticket_data['ticket'].sent = True
         ticket_data['ticket'].save()
     except Exception as e:
+        logger.error(e)
         ticket_data['ticket'].sent = False
         ticket_data['ticket'].save()
         raise e
@@ -213,7 +218,8 @@ def installation(request, event_slug):
                         pass
                 messages.success(request, _("The installation has been registered successfully. Happy Hacking!"))
                 return HttpResponseRedirect('/event/' + event_slug)
-            except Exception:
+            except Exception as e:
+                logger.error(e)
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if install is not None:
@@ -363,7 +369,8 @@ def attendee_registration_by_collaborator(request, event_slug):
                 attendance_date.save()
                 messages.success(request, _('The attendee was successfully registered . Happy Hacking!'))
                 return HttpResponseRedirect(reverse("manage_attendance", args=(event_slug,)))
-            except Exception:
+            except Exception as e:
+                logger.error(e)
                 try:
                     if attendee is not None:
                         Attendee.objects.delete(attendee)
@@ -489,7 +496,8 @@ def generic_registration(request, event_slug, registration_model, new_role_form,
                 # menu."))
                 messages.success(request, msg_success)
                 return HttpResponseRedirect('/event/' + event_slug)
-            except Exception:
+            except Exception as e:
+                logger.error(e)
                 pass
         messages.error(request, msg_error)
     else:
@@ -547,7 +555,8 @@ def attendee_registration(request, event_slug):
                 email.extra_headers = {'Reply-To': settings.EMAIL_FROM}
                 email.send(fail_silently=False)
                 return HttpResponseRedirect(reverse("attendee_email_sent", args=[event_slug]))
-            except Exception:
+            except Exception as e:
+                logger.error(e)
                 if attendee is not None:
                     attendee.delete()
         messages.error(request, _("There is a problem with the registration (check form errors)"))
@@ -571,7 +580,8 @@ def attendee_confirm_email(request, event_slug, pk, token):
                 attendee.email_confirmed = True
                 attendee.save()
                 send_event_ticket(attendee)
-            except Exception:
+            except Exception as e:
+                logger.error(e)
                 pass
         else:
             message = _("The verification URL is invalid. Try again. ")
@@ -633,7 +643,8 @@ def create_event(request):
                     event_date.save()
 
                 return HttpResponseRedirect(reverse("index", args=(the_event.slug,)))
-            except Exception:
+            except Exception as e:
+                logger.error(e)
                 try:
                     if organizer is not None:
                         Organizer.delete(organizer)
@@ -687,7 +698,8 @@ def edit_event(request, event_slug):
                 event_date_formset.save()
 
                 return HttpResponseRedirect(reverse("index", args=(the_event.slug,)))
-            except Exception:
+            except Exception as e:
+                logger.error(e)
                 pass
 
         messages.error(request, _("There is a problem with your event. Please check the form for errors."))
@@ -739,7 +751,8 @@ def activity_proposal(request, event_slug):
             try:
                 activity = activity_form.save()
                 return HttpResponseRedirect(reverse('image_cropping', args=(event_slug, activity.pk)))
-            except Exception:
+            except Exception as e:
+                logger.error(e)
                 pass
 
         messages.error(request, _("There was a problem submitting the proposal. Please check the form for errors."))
