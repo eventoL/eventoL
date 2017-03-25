@@ -34,8 +34,8 @@ from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact,
 from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
     add_organizer_permissions
 
-
 logger = logging.getLogger(__name__)
+
 
 # Auxiliary functions
 def update_event_info(event_slug, request, render_dict=None, event=None):
@@ -826,7 +826,8 @@ def schedule(request, event_slug):
             schedule_activities[date] = json.dumps({
                 'activities': [activity.get_schedule_info() for activity in activities_for_date],
                 'min_time': activities_for_date.first().start_date.time().strftime("%H:%M"),
-                'max_time': activities_for_date.last().end_date.time().strftime("%H:%M"),
+                'max_time': sorted(activities_for_date, key=lambda o: o.end_date.time())[-1].end_date.time().strftime(
+                    "%H:%M"),
                 'date': activities_for_date.first().start_date.date().isoformat()
             })
 
