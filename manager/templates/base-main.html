@@ -11,42 +11,52 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description"
-              content="Página principal para FLISol {{ event.name }}. Festival Latinoamericano de Instalación de Software Libre">
+        {% if event is not None %}
+            <meta name="description"
+                  content="FLISol {{ event.name }}. Festival Latinoamericano de Instalación de Software Libre">
+            <title>FLISoL {{ event.name }}</title>
+        {% else %}
+            <meta name="description"
+                  content="Página principal para FLISol. Festival Latinoamericano de Instalación de Software Libre">
+            <title>FLISoL Argentina</title>
+        {% endif %}
 
-        <title>FLISoL - Festival Latinoamericano de Instalación de Software Libre</title>
-        <link href="{% static 'manager/img/flisol-banner.png' %}" rel="image_src"/>
-
-        <link rel="stylesheet" type="text/css" media="all"
-              href="{% static "manager/css/flisol-bootstrap.css" %}"/>
+        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol-bootstrap.css" %}"/>
         <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
 
         <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
         {% block other-head %}{% endblock %}
     {% endblock %}
 </head>
 <body>
 {% block navbar %}
-    <div class="navbar navbar-default">
-        <div class="container">
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse"
-                        data-target=".navbar-responsive-collapse">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <a class="pull-left" href="/">
-                    <img src="{% static "manager/img/flisol-top-bar.png" %}" alt="Flisol Logo">
+                    <img class="img-responsive" src="{% static "manager/img/flisol-top-bar.png" %}" alt="Flisol Logo">
                 </a>
-                {% block extra-nav %}{% endblock %}
             </div>
-
-
-            <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    {% if event_slug %}
+                    {% if user.is_authenticated and event_slug is None %}
+                        <li>
+                            <a href="{% url "create_event" %}" class="btn btn-raised btn-warning"
+                               style="padding:0.6em; margin:1em; font-family: Roboto;">
+                                {% trans "Create event" %}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if event_slug is not None %}
                         {% if user.is_authenticated and user|is_organizer:event_slug %}
                             <li>
                                 <a href="{% url "edit_event" event_slug %}">
@@ -54,36 +64,31 @@
                                 </a>
                             </li>
                         {% endif %}
-                        {% if not user.is_authenticated or user|can_register:event_slug and not user|is_organizer:event_slug %}
-                            <li><a href="{% url "registration" event_slug %}">{% trans "Registration" %}</a>
+                        {% if not user.is_authenticated %}
+                            <li>
+                                <a href="{% url "attendee_registration" event_slug %}">{% trans "Registration" %}</a>
                             </li>
                         {% endif %}
                         <li>
                             <a href="{% url "schedule" event_slug %}">
-                                <i class="fa fa-calendar"></i> {% trans "Schedule" %}
+                                <i class="fa pythofa-calendar"></i> {% trans "Schedule" %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url "activity_proposal" event_slug %}">
+                                {% trans "Submit your talk" %}
                             </a>
                         </li>
                         {% if user.is_authenticated and user|is_registered:event_slug %}
-                            <li><a href="{% url "view_ticket" event_slug %}">{% trans "View Ticket" %}</a>
-                            </li>
-                        {% endif %}
-                        {% if user.is_authenticated and not user|is_organizer:event_slug %}
                             <li>
-                                <a href="{% url "talk_proposal" event_slug %}">
-                                    {% trans "Submit your talk" %}
-                                </a>
+                                <a href="{% url "view_ticket" event_slug %}">{% trans "View my Ticket" %}</a>
                             </li>
                         {% endif %}
                         <li class="dropdown">
-                            <a href="#" data-target="#" class="dropdown-toggle"
-                               data-toggle="dropdown"><i class="fa fa-group"></i> {% trans "Collaborators" %} <b
-                                    class="caret"></b></a>
+                            <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-group"></i> {% trans "Collaborators" %} <b class="caret"></b>
+                            </a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{% url "activities" event_slug %}">
-                                        <i class="fa fa-list"></i> {% trans "Activities List" %}
-                                    </a>
-                                </li>
                                 {% if user.is_authenticated %}
                                     <li>
                                         <a href="{% url "reports" event_slug %}">
@@ -92,20 +97,23 @@
                                     </li>
                                 {% endif %}
                                 {% if not user.is_authenticated or not user|is_collaborator:event_slug %}
-                                    <li><a href="{% url "collaborator_registration" event_slug %}"><i
-                                            class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
-                                    </a>
+                                    <li>
+                                        <a href="{% url "collaborator_registration" event_slug %}">
+                                            <i class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
+                                        </a>
                                     </li>
                                 {% endif %}
                                 {% if not user.is_authenticated or not user|is_installer:event_slug %}
-                                    <li><a href="{% url "installer_registration" event_slug %}"><i
-                                            class="fa fa-linux"></i> {% trans "Register as an Installer" %}</a>
+                                    <li>
+                                        <a href="{% url "installer_registration" event_slug %}">
+                                            <i class="fa fa-linux"></i> {% trans "Register as an Installer" %}
+                                        </a>
                                     </li>
                                 {% endif %}
                                 {% if user.is_authenticated %}
                                     {% if user|can_take_attendance:event_slug %}
                                         <li>
-                                            <a href="{% url "attendee_search" event_slug %}">
+                                            <a href="{% url "manage_attendance" event_slug %}">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Manage Attendance" %}
                                             </a>
                                         </li>
@@ -133,11 +141,6 @@
                                                 <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="{% url "rooms" event_slug %}">
-                                                <i class="fa fa-cogs"></i> {% trans "Manage Rooms" %}
-                                            </a>
-                                        </li>
                                     {% endif %}
                                 {% endif %}
                             </ul>
@@ -159,10 +162,17 @@
                         </li>
                     {% endif %}
                     {% if not user.is_authenticated %}
-                        <li>
-                            <a href="/accounts/login/">
-                                <i class="material-icons">account_box</i> {% trans "Login" %}
-                            </a>
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown">{% trans "Organizadores" %} <b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{% url "account_login" %}">
+                                        <i class="material-icons">account_box</i> {% trans "Login" %}
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     {% else %}
                         <li class="dropdown">
@@ -189,7 +199,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/accounts/logout/">
+                                    <a href="{% url "account_logout" %}">
                                         <i class="material-icons">power_settings_new</i> {% trans "Logout" %}
                                     </a>
                                 </li>
@@ -197,10 +207,13 @@
                         </li>
                     {% endif %}
                 </ul>
+                {% block extra-nav %}{% endblock %}
             </div>
         </div>
-    </div>
+    </nav>
+{% endblock %}
 
+<div class="container-fluid">
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{% ifequal  message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center"
@@ -213,13 +226,14 @@
         {% endfor %}
     {% endif %}
 
-{% endblock %}
-
-{% block main-content %}{% endblock %}
-
-<div align="right">
-    <a href="//github.com/gnutn/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}</a>
+    {% block main-content %}{% endblock %}
 </div>
+
+<footer class="footer">
+    <div class="container-fluid pull-right">
+        <a href="//github.com/gnutn/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}</a>
+    </div>
+</footer>
 
 {% block script %}
     <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
@@ -227,7 +241,7 @@
     <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
     {% block material %}
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $.material.options.autofill = true;
                 $.material.init();
             });

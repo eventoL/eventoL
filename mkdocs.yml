@@ -1,7 +1,15 @@
 site_name: EventoL
 theme: readthedocs
 pages:
-  - Inicio: index.md
-  - Login: login.md
-  - Crear un evento: crear_evento.md
-  - Administración de asistencia: Administracion-de-asistencia.md
+  - Inicio: overview.md
+  - Registro/Login: login.md
+  - Crear un evento: crear-evento.md
+  - Registro de Asistentes: registro-de-asistentes.md
+  - Registro de Colaboradores: registro-de-colaboradores.md
+  - Registro de Instaladores: registro-de-instaladores.md
+  - Agregar Organizadores: agregar-organizadores.md
+  - Enviar propuestas de actividad: propuestas-de-actividad.md
+  - Interfaz de administración: interfaz-de-administracion.md
+  - Cargar una Instalación: cargar-una-instalacion.md
+  - Administrar Asistencia: administrar-asistencia.md
+  - Administrar personas registración: administracion-personas-de-asistencia.md

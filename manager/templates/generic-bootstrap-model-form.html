@@ -4,54 +4,61 @@
 {% block content %}
     <div class="well">
         {% block pre-form %}{% endblock %}
+        {% if form %}
+            <form id=
+                          {% block form-id %}{% endblock %} {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+                  method="post" action={% block form-action %}{% endblock %}>
+            <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+            {% csrf_token %}
+
+            {% if form.errors.keys|length > 0 %}
+                <div class="alert alert-dismissable alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {% for field, errors in form.errors.items %}
+                        {% if field.label %}
+                            <strong>{% trans field.label %}</strong>
+                        {% endif %}
+                        <ul>
+                            {% for error in errors %}
+                                <li>{% trans error %}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% for field in form.visible_fields %}
+                <div class="col-lg-6 col-md-6">
+                    {% include "form_field.html" with field=field only %}
+                </div>
+            {% endfor %}
+            {% for field in form.hidden_fields %}
+                {{ field }}
+            {% endfor %}
+
+            {% block extra-fields %}{% endblock %}
+        {% endif %}
+        </div>
+        </div>
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 col-xs-12">
-                {% if form %}
-                    <form id=
-                                  {% block form-id %}{% endblock %} {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
-                          method="post" action={% block form-action %}{% endblock %}>
-                        {% csrf_token %}
-
-                        {% if form.non_field_errors|length > 0 %}
-                            <div class="alert alert-dismissable alert-danger">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                <ul>
-                                    {% for error in form.non_field_errors %}
-                                        <li>{% trans error %}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        {% endif %}
-                        {% for field in form.visible_fields %}
-                            <div class="col-lg-6 col-md-6">
-                                {% include "form_field.html" with field=field only %}
-                            </div>
-                        {% endfor %}
-                        {% for field in form.hidden_fields %}
-                            {{ field }}
-                        {% endfor %}
-
-                        {% block extra-fields %}{% endblock %}
-                        <div class="row">
-                            {% block buttons %}
-                                <div class="form-group">
-                                    <button type="submit"
-                                            class="btn btn-primary btn-raised pull-right">
-                                        {% block submit-button %}{% trans "Submit" %}{% endblock %}</button>
-                                </div>
-                            {% endblock %}
-                        </div>
-                    </form>
-                {% endif %}
+                {% block buttons %}
+                    <div class="form-group">
+                        <button type="submit"
+                                class="btn btn-primary btn-raised pull-right">
+                            {% block submit-button %}{% trans "Submit" %}{% endblock %}</button>
+                    </div>
+                {% endblock %}
             </div>
         </div>
+        </form>
         {% block post-form %}{% endblock %}
     </div>
 {% endblock %}
 
 {% block more-script %}
     <script>
-        $('form').submit(function() {
+        $('form').submit(function () {
             $(this).find('button[type=submit]').attr('disabled', 'disabled');
         });
     </script>

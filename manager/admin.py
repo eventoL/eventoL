@@ -1,18 +1,18 @@
-from manager.security import create_reporters_group
-from manager.models import Organizer, Comment, Event, TalkProposal, Attendee, Collaborator, Hardware,\
-    Software, Installer, Installation, TalkType, Room, ContactType, Contact, Activity,\
-    ContactMessage, EventUser, Image, InstallationAttendee, NonRegisteredAttendee, Speaker,\
-    InstallationMessage
-from manager.forms import ActivityAdminForm
+from django.contrib import admin
+from django.contrib.auth.models import User
 from import_export import resources
-from django.contrib.gis import admin
 from import_export.admin import ExportMixin
+from image_cropping import ImageCroppingMixin
+
+from manager.models import Organizer, Event, Attendee, Collaborator, Hardware, \
+    Software, Installer, Installation, Room, ContactType, Contact, Activity, \
+    ContactMessage, EventUser, InstallationMessage, Ticket, EventDate, AttendeeAttendanceDate, EventUserAttendanceDate
+from manager.security import create_reporters_group
 
 
 class EventoLAdmin(admin.ModelAdmin):
-
-    def filter_event(self, event, queryset):
-        return queryset.filter(event=event)
+    def filter_event(self, events, queryset):
+        return queryset.filter(event__in=events)
 
     def queryset(self, request):
         self.get_queryset(request)
@@ -24,24 +24,41 @@ class EventoLAdmin(admin.ModelAdmin):
         reporters = create_reporters_group()
         if request.user.groups.filter(name=reporters.name).exists():
             return queryset
-        organizer = Organizer.objects.filter(eventUser__user=request.user).first()
-        if organizer:
-            return self.filter_event(organizer.eventUser.event, queryset)
+        organizers = Organizer.objects.filter(event_user__user=request.user)
+        events = [organizer.event_user.event for organizer in organizers]
+        if len(events) > 0:
+            return self.filter_event(events, queryset)
         return queryset.none()
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if request.user.is_superuser:
+            return super(EventoLAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+        events = [organizer.event_user.event for organizer in Organizer.objects.filter(event_user__user=request.user)]
+        if db_field.name == "room":
+            kwargs["queryset"] = Room.objects.filter(event__in=events).distinct()
+        if db_field.name == "event":
+            kwargs["queryset"] = Event.objects.filter(pk__in=[event.pk for event in events]).distinct()
+        if db_field.name == "event_user":
+            kwargs["queryset"] = EventUser.objects.filter(event__in=events).distinct()
+        if db_field.name == "attendee":
+            kwargs["queryset"] = Attendee.objects.filter(event__in=events).distinct()
+        if db_field.name == "installer":
+            kwargs["queryset"] = Installer.objects.filter(event_user__event__in=events).distinct()
+        if db_field.name == "user":
+            kwargs["queryset"] = User.objects.none()
+        return super(EventoLAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
-    def filter_event(self, event, queryset):
-        return queryset.filter(eventUser__event=event)
+    def filter_event(self, events, queryset):
+        return queryset.filter(event_user__event__in=events)
 
 
 class OrganizerResource(resources.ModelResource):
     class Meta(object):
         model = Organizer
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
-                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
-                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
-                  'eventUser__assisted', 'eventUser__user__date_joined')
+        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'event_user__user__date_joined')
         export_order = fields
 
 
@@ -49,63 +66,11 @@ class OrganizerAdmin(EventoLEventUserAdmin):
     resource_class = OrganizerResource
 
 
-class InstallationAttendeeResource(resources.ModelResource):
-    class Meta(object):
-        model = InstallationAttendee
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
-                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
-                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
-                  'eventUser__assisted', 'eventUser__user__date_joined', 'installation_additional_info')
-        export_order = fields
-
-
-class InstallationAttendeeAdmin(EventoLEventUserAdmin):
-    resource_class = InstallationAttendeeResource
-
-
-class SpeakerResource(resources.ModelResource):
-    class Meta(object):
-        model = Speaker
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
-                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
-                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
-                  'eventUser__assisted', 'eventUser__user__date_joined')
-        export_order = fields
-
-
-class SpeakerAdmin(EventoLEventUserAdmin):
-    resource_class = SpeakerResource
-
-
-class NonRegisteredAttendeeAdmin(ExportMixin, EventoLAdmin):
-    def filter_event(self, event, queryset):
-        attendees = []
-        for attendee in queryset.all():
-            event_user = EventUser.objects.filter(nonregisteredattendee=attendee, event=event).first()
-            if event_user:
-                attendees.append(attendee)
-        return attendees
-
-
-class TalkProposalResource(resources.ModelResource):
-    class Meta(object):
-        model = TalkProposal
-
-
-class TalkProposalAdmin(ExportMixin, EventoLAdmin):
-    resource_class = TalkProposalResource
-
-    def filter_event(self, event, queryset):
-        return queryset.filter(activity__event=event)
-
-
 class EventUserResource(resources.ModelResource):
     class Meta(object):
         model = EventUser
-        fields = ('user__first_name', 'user__last_name', 'user__username', 'user__email',
-                  'nonregisteredattendee__first_name', 'nonregisteredattendee__last_name', 'nonregisteredattendee__email',
-                  'nonregisteredattendee__is_installing', 'nonregisteredattendee__installation_additional_info',
-                  'assisted', 'user__date_joined')
+        fields = (
+            'user__first_name', 'user__last_name', 'user__username', 'user__email', 'user__date_joined')
         export_order = fields
 
 
@@ -113,25 +78,22 @@ class EventUserAdmin(ExportMixin, EventoLAdmin):
     resource_class = EventUserResource
 
 
+class EventDateAdminInline(admin.TabularInline):
+    model = EventDate
+
+
 class EventAdmin(EventoLAdmin):
-    def filter_event(self, event, queryset):
-        return queryset.filter(name=event.name)
+    inlines = [EventDateAdminInline]
 
-
-class CommentAdmin(EventoLAdmin):
-    display_fields = ["activity", "created", "user"]
-
-    def filter_event(self, event, queryset):
-        return queryset.filter(activity__event=event)
+    def filter_event(self, events, queryset):
+        return queryset.filter(pk__in=[event.pk for event in events])
 
 
 class InstallerResource(resources.ModelResource):
     class Meta(object):
         model = Installer
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
-                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
-                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
-                  'eventUser__assisted', 'level', 'eventUser__user__date_joined')
+        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'level', 'event_user__user__date_joined')
         export_order = fields
 
 
@@ -143,43 +105,54 @@ class InstallationResource(resources.ModelResource):
     class Meta(object):
         model = Installation
         fields = ('hardware__type', 'hardware__manufacturer', 'hardware__model', 'software__type', 'software__name',
-                  'attendee__user__email', 'attendee__nonregisteredattendee__email', 'installer__user__username',
-                  'installer__nonregisteredattendee__email', 'notes')
+                  'attendee__email', 'installer__user__username', 'notes')
         export_order = fields
 
 
 class InstallationAdmin(ExportMixin, EventoLAdmin):
     resource_class = InstallationResource
 
-    def filter_event(self, event, queryset):
-        return queryset.filter(installer__event=event)
+    def filter_event(self, events, queryset):
+        return queryset.filter(installer__event__in=events)
+
+
+class TicketResource(resources.ModelResource):
+    class Meta(object):
+        model = Ticket
+        fields = ('sent',)
+        export_order = fields
+
+
+class TicketAdmin(EventoLAdmin):
+    resource_class = TicketResource
 
 
 class AttendeeResource(resources.ModelResource):
     class Meta(object):
         model = Attendee
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username', 'eventUser__user__email',
-                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
-                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
-                  'eventUser__assisted', 'additional_info', 'eventUser__user__date_joined')
+        fields = ('first_name', 'last_name', 'nickname', 'email', 'email_confirmed', 'is_installing',
+                  'additional_info', 'registration_date')
         export_order = fields
 
 
-class AttendeeAdmin(EventoLEventUserAdmin):
+class AttendeeAdmin(ExportMixin, EventoLAdmin):
     resource_class = AttendeeResource
 
 
-class ActivityAdmin(EventoLAdmin):
-    form = ActivityAdminForm
+class ActivityResource(resources.ModelResource):
+    class Meta(object):
+        model = Activity
+
+
+class ActivityAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
+    resource_class = ActivityResource
 
 
 class CollaboratorResource(resources.ModelResource):
     class Meta(object):
         model = Collaborator
-        fields = ('eventUser__user__first_name', 'eventUser__user__last_name', 'eventUser__user__username',
-                  'eventUser__user__email', 'eventUser__user__date_joined', 'phone', 'address', 'eventUser__assisted',
-                  'eventUser__nonregisteredattendee__first_name', 'eventUser__nonregisteredattendee__last_name', 'eventUser__nonregisteredattendee__email',
-                  'eventUser__nonregisteredattendee__is_installing', 'eventUser__nonregisteredattendee__installation_additional_info',
+        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'event_user__user__date_joined', 'phone', 'address',
                   'assignation', 'time_availability', 'additional_info')
         export_order = fields
 
@@ -188,9 +161,8 @@ class CollaboratorAdmin(EventoLEventUserAdmin):
     resource_class = CollaboratorResource
 
 
-admin.site.register(Comment, CommentAdmin)
 admin.site.register(Event, EventAdmin)
-admin.site.register(TalkProposal, TalkProposalAdmin)
+admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
 admin.site.register(Collaborator, CollaboratorAdmin)
@@ -199,14 +171,11 @@ admin.site.register(Software)
 admin.site.register(Installer, InstallerAdmin)
 admin.site.register(Installation, InstallationAdmin)
 admin.site.register(InstallationMessage, EventoLAdmin)
-admin.site.register(TalkType)
 admin.site.register(Room, EventoLAdmin)
 admin.site.register(ContactType)
 admin.site.register(Contact, EventoLAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(ContactMessage, EventoLAdmin)
 admin.site.register(EventUser, EventUserAdmin)
-admin.site.register(Image)
-admin.site.register(InstallationAttendee, InstallationAttendeeAdmin)
-admin.site.register(NonRegisteredAttendee, NonRegisteredAttendeeAdmin)
-admin.site.register(Speaker, SpeakerAdmin)
+admin.site.register(AttendeeAttendanceDate, EventoLAdmin)
+admin.site.register(EventUserAttendanceDate, EventoLEventUserAdmin)

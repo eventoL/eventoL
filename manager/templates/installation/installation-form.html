@@ -10,19 +10,3 @@
 {% block form-name %}{% trans "Submit an Installation" %}{% endblock %}
 
 {% block form-action %}"{% url "installation" event_slug %}"{% endblock %}
-
-{% block other-script %}
-    {% include 'autocomplete_light/static.html' %}
-
-    <script>
-        $(document).ready(function() {
-
-            var attendeeAutocomplete = $('.autocomplete-light-widget');
-            var event = "{{ event_slug }}";
-
-            attendeeAutocomplete.yourlabsWidget().autocomplete.data = {
-                'event_slug': event
-            };
-        });
-    </script>
-{% endblock %}

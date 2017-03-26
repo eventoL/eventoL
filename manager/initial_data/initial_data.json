@@ -1,38 +1,10 @@
 [
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Charla"
-    },
-    "pk": 1
-  },
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Taller"
-    },
-    "pk": 2
-  },
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Debate"
-    },
-    "pk": 3
-  },
-  {
-    "model": "manager.TalkType",
-    "fields": {
-      "name": "Otro"
-    },
-    "pk": 4
-  },
-  {
+    {
     "model": "manager.ContactType",
     "fields": {
       "name": "Email",
       "icon_class": "fa-envelope",
-      "validate": "1"
+      "validate": "2"
     },
     "pk": 1
   },
@@ -50,7 +22,7 @@
     "fields": {
       "name": "Lista de Correo",
       "icon_class": "fa-group",
-      "validate": "2"
+      "validate": "1"
     },
     "pk": 3
   },
@@ -89,5 +61,32 @@
       "validate": "1"
     },
     "pk": 7
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Diaspora",
+      "icon_class": "fa-asterisk",
+      "validate": "1"
+    },
+    "pk": 8
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Identi.ca",
+      "icon_class": "fa-commenting-o",
+      "validate": "1"
+    },
+    "pk": 9
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "GNU Social",
+      "icon_class": "fa-commenting-o",
+      "validate": "1"
+    },
+    "pk": 10
   }
 ]

@@ -1,30 +1,30 @@
-{% extends "generic-bootstrap-model-form.html" %}
+{% extends "generic-bootstrap-multiple-model-form.html" %}
 {% load staticfiles %}
 {% load i18n %}
-
-{% block other-head %}
-    {% include 'autocomplete_light/static.html' %}
-{% endblock %}
 
 {% block page-header %}{% trans "Attendee Registration" %}{% endblock %}
 
 {% block page-name %}{% trans "Attendee Registration" %}{% endblock %}
 
 {% block pre-form %}
-    <div class="alert alert-warning alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <span class="fa fa-info-circle fa-5x"></span>
-        <ul>
-            <li>Buscar a un asistente para una event, en caso que el asistente se haya registrado. Si no aparece como
-                sugerido en la lista, es porque no terminó correctamente el proceso de registro.
-            </li>
-            <li>Si aparece sugerido en la lista, quiere decir que se registró correctamente. En ese caso, seleccionarlo
-                y presionar "<strong>Marcar como Presente</strong>". Esto hará que se marque como "Presente" (o sea, que
-                asisitió al evento).
-            </li>
-            <li>Si no aparece sugerido, hacer click en "<strong>Registrar Nuevo Asistente</strong>" y cargar los datos
-                del mismo.
-            </li>
+    <div class="alert alert-info alert-dismissable">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h1><i class="fa fa-info-circle"></i> {% trans "Registration Instructions" %}</h1>
+                <ol>
+                    <li>Buscar un asistente que se pre-registró: Se puede buscar por nombre, apellido o email.
+                        Ingresar algunas letras y esperar que el sistema lo sugiera.
+                    </li>
+                    <li>Si aparece sugerido en la lista, seleccionarlo y presionar "<strong>Marcar como
+                        Presente</strong>". Esto nos idicará que asistió al evento.
+                    </li>
+                    <li>Si no aparece sugerido, hacer click en "<strong>Registrar Nuevo Asistente</strong>" y cargar los
+                        datos del mismo.
+                    </li>
+                </ol>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -32,17 +32,22 @@
 
 {% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
 
-{% block form-action %}"{% url "attendee_search" event_slug %}"{% endblock %}
+{% block form-action %}"{% url "manage_attendance" event_slug %}"{% endblock %}
 
 {% block buttons %}
     <div class="form-group">
         <label class="col-md-4 control-label" for="button1id"></label>
 
-        <div class="col-md-12">
-            <button id="button1id" name="button1id" class="btn btn-danger">{% trans "Register new attendee" %}</button>
-            <button id="button2id" name="button2id" class="btn btn-success">{% trans "Mark as present" %}</button>
-            <button type="button" class="btn btn-info" data-toggle="modal"
-                    data-target="#QRModal">{% trans "Scan QR" %}</button>
+        <div class="col-md-10 col-md-offset-1">
+            <button id="button1id" name="button1id" class="btn btn-raised btn-success">
+                {% trans "Mark as present" %}
+            </button>
+            <a href="{% url "attendee_registration_by_collaborator" event_slug %}" class="btn btn-raised btn-primary">
+                {% trans "Register new attendee" %}
+            </a>
+            <button type="button" class="btn btn-raised btn-info" data-toggle="modal" data-target="#QRModal">
+                {% trans "Scan QR" %}
+            </button>
         </div>
     </div>
 
@@ -51,51 +56,45 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <h4 class="modal-title">{% trans "Center the QR Code in the camera display below " %}</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="qr_reader" class="qrcode" style="width:300px;height:300px; margin: 0 auto;">
-                    </div>
+                    <div id="qr_reader" class="qrcode" style="width:300px;height:300px; margin: 0 auto;"></div>
                     <span id="error" class="center"></span>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            </div>
+            <
+        </div>
+    </div>
 {% endblock %}
 
 {% block other-script %}
     <script src="{% static "manager/bower_components/html5-qrcode/lib/jsqrcode-combined.min.js" %}"></script>
     <script src="{% static "manager/bower_components/html5-qrcode/lib/html5-qrcode.min.js" %}"></script>
     <script>
-        $(document).ready(function() {
-
-            var attendeeAutocomplete = $('.autocomplete-light-widget');
-            var event = "{{ event_slug }}";
-
-            attendeeAutocomplete.yourlabsWidget().autocomplete.data = {
-                'event_slug': event
-            };
-        });
-        $('#QRModal').on('show.bs.modal', function(e) {
-            $('#qr_reader').empty();//Prevents stacking
-            $('#qr_reader').html5_qrcode(function(data) {
+        $(document).ready(function () {
+            $('#QRModal').on('show.bs.modal', function (e) {
+                $('#qr_reader').empty();//Prevents stacking
+                $('#qr_reader').html5_qrcode(function (data) {
                         var url = $(location).attr('href');
                         $(location).attr("href", url + '/' + data);
                     },
-                    function(readError) {
+                    function (readError) {
                         // From module docs:
                         // The readError wil be called quite often, it is really only useful for debugging.
                         // console.log(readError);
-                    }, function(videoError) {
+                    }, function (videoError) {
                         $('#error').html(
-                                '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
+                            '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
                     }
-            );
-        });
-        $('#QRModal').on('hidden.bs.modal', function(e) {
-            $('#qr_reader').html5_qrcode_stop()
+                );
+            });
+            $('#QRModal').on('hidden.bs.modal', function (e) {
+                $('#qr_reader').html5_qrcode_stop()
+            });
         });
     </script>
 {% endblock %}

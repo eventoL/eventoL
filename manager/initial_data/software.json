@@ -1,106 +1,113 @@
-[
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Debian x86"
+[{
+        "fields": {
+            "type": "OS",
+            "name": "Debian x86"
+        },
+        "model": "manager.software",
+        "pk": 1
     },
-    "model": "manager.software",
-    "pk": 1
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Debian x64"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Debian x64"
+        },
+        "model": "manager.software",
+        "pk": 2
     },
-    "model": "manager.software",
-    "pk": 2
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Ubuntu x86"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Ubuntu x86"
+        },
+        "model": "manager.software",
+        "pk": 3
     },
-    "model": "manager.software",
-    "pk": 3
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Ubuntu x64"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Ubuntu x64"
+        },
+        "model": "manager.software",
+        "pk": 4
     },
-    "model": "manager.software",
-    "pk": 4
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Mint x86"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Mint x86"
+        },
+        "model": "manager.software",
+        "pk": 5
     },
-    "model": "manager.software",
-    "pk": 5
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Mint x64"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Mint x64"
+        },
+        "model": "manager.software",
+        "pk": 6
     },
-    "model": "manager.software",
-    "pk": 6
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Fedora x86"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Fedora x86"
+        },
+        "model": "manager.software",
+        "pk": 7
     },
-    "model": "manager.software",
-    "pk": 7
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Fedora x64"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Fedora x64"
+        },
+        "model": "manager.software",
+        "pk": 8
     },
-    "model": "manager.software",
-    "pk": 8
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Huayra x86"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Huayra x86"
+        },
+        "model": "manager.software",
+        "pk": 9
     },
-    "model": "manager.software",
-    "pk": 9
-  },
-  {
-    "fields": {
-      "type": "OS",
-      "name": "Huayra x64"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Huayra x64"
+        },
+        "model": "manager.software",
+        "pk": 10
     },
-    "model": "manager.software",
-    "pk": 10
-  },
-  {
-    "fields": {
-      "type": "AP",
-      "name": "Application"
+    {
+        "fields": {
+            "type": "OS",
+            "name": "Archlinux"
+        },
+        "model": "manager.software",
+        "pk": 11
     },
-    "model": "manager.software",
-    "pk": 11
-  },
-  {
-    "fields": {
-      "type": "OT",
-      "name": "Other"
+    {
+        "fields": {
+            "type": "AP",
+            "name": "Application"
+        },
+        "model": "manager.software",
+        "pk": 12
     },
-    "model": "manager.software",
-    "pk": 12
-  },
-  {
-    "fields": {
-      "type": "SU",
-      "name": "Support"
+    {
+        "fields": {
+            "type": "OT",
+            "name": "Other"
+        },
+        "model": "manager.software",
+        "pk": 13
     },
-    "model": "manager.software",
-    "pk": 13
-  }
+    {
+        "fields": {
+            "type": "SU",
+            "name": "Support"
+        },
+        "model": "manager.software",
+        "pk": 14
+    }
 ]
