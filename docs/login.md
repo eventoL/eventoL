@@ -1,27 +1,25 @@
-# Login
+# Login y Registración
 
-Casi para todo, es necesario estar autenticado. Para esto, primero es necesario tener un usuario de la plataforma eventoL.
+Los colaboradores de una sede, deberán darse de alta como usuarios de la plataforma.
 
 ## Crear usuario
 
-Ingresar a link "Iniciar Sesión" en la esquina superior derecha de la pantalla.
+1. Desplegar el menú "Organizadores" en la esquina superior derecha de la pantalla y seleccionar la opción "Iniciar Sesión".
 
-![Crear Evento](assets/login.png)
+![Login Link](assets/login.png)
 
-Al ingresar, aparecerá una pantalla como la siguiente:
+2. Al ingresar, aparecerá una pantalla como la siguiente:
 
-![Crear Evento](assets/login-screen.png)
+![Pantalla de login](assets/login-screen.png)
 
-Aquí se puede elegir entre crear una cuenta con una red social (oAuth) o crear una cuenta de eventoL. Para crear una cuenta de
-eventoL, hay que seguir el link que dice "regístrate" debajo de los botones de redes sociales.
+Aquí se puede elegir iniciar sesión con alguna red social (proveedor de oAuth) o crear un usuario
+local seleccionando el link "regístrate".
 
-Recomendamos el inicio de sesión con algún proveedor de oAuth por cuestiones de seguridad y sencillez.
+El registro es bastante sencillo. Hay que seguir los pasos para cada red social o llenar los datos que se
+solicitan para un usuario local.
 
-Al hacer click en cualquiera de los botones de redes sociales, serás redirigido al formulario de login de tu red social
-(verifica siempre la url y el certificado ssl en tu navegador). Te pedirá que le des permisos a la app eventoL y te
-redigirá nuevamente a eventoL (no pedimos ni usamos ningún dato más allá de nombre, apellido y mail). De vuelta en
-eventoL, te aparecerá un formulario para cargar los datos faltantes. Una vez cargados, ya tienes creado el usuario y
-podrás ver los datos en tu perfil.
+A veces, es necesario confirmar la dirección de correo electrónico, por lo que la plataforma enviará un mail
+con un enlace de verificación a la dirección provista.
 
 ## Establecer una contraseña
 
@@ -33,9 +31,9 @@ La misma la puedes establecer seleccionando la opción "Establecer contraseña" 
 ## Iniciar sesión
 
 Una vez que tenemos el usuario creado, podemos iniciar sesión en la aplicación. Para esto, ingresar a link 
-"Iniciar Sesión" en la esquina superior derecha de la pantalla.
+"Iniciar Sesión" dentro de "Organizadores", en la esquina superior derecha de la pantalla.
 
-![Crear Evento](assets/login.png)
+![Login Link](assets/login.png)
 
 Y seleccionar la opción con la que el usuario fue creado. Por ejemplo, si el usuario lo creamos seleccionando "Twitter",
 luego iniciaremos sesión seleccionando la opción "Twitter".
