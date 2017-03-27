@@ -1,7 +1,17 @@
 site_name: EventoL
-theme: readthedocs
+theme: 'material'
+extra:
+  palette:
+    primary: 'green'
+    accent: 'orange'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+  social:
+    - type: 'github'
+      link: 'https://github.com/GNUtn'
 pages:
-  - Inicio: overview.md
+  - Inicio: index.md
   - Registro/Login: login.md
   - Crear un evento: crear-evento.md
   - Registro de Asistentes: registro-de-asistentes.md
