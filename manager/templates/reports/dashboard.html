@@ -17,16 +17,6 @@
 {% endblock %}
 
 {% block content %}
-
-    <div class="well">
-        <div class="row">
-            <div class="col-xs-10 col-xs-offset-1">
-                <h2>View under construction</h2>
-            </div>
-        </div>
-    </div>
-
-    {% comment %}
     <div class="row">
         <div class="col-md-4">
             <div class="panel panel-primary">
@@ -273,18 +263,32 @@
         <div class="col-md-12">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Registered users in time" %}</strong>
+                    <strong>{% trans "Registered attendees in time" %}</strong>
                 </div>
                 <div class="panel-body">
                     {% if registered_in_time %}
                         <div id="users_time"></div>
                     {% else %}
-                        <strong>{% trans "There aren't any users registered yet" %}</strong>
+                        <strong>{% trans "There aren't any attendees registered yet" %}</strong>
                     {% endif %}
                 </div>
             </div>
         </div>
       </div>
+      {% for date in event_dates %}
+      <div class="row">
+          <div class="col-md-12">
+              <div class="panel panel-primary">
+                  <div class="panel-heading text-center">
+                      <strong>{% trans "Attendees attendance by hour" %} - {{ date }}</strong>
+                  </div>
+                  <div class="panel-body">
+                    <div id="attendees_hour-{{date}}"></div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        {% endfor %}
 
 {% endblock %}
 
@@ -421,10 +425,22 @@
                 {% endfor %}],
                 xkey: 'y',
                 ykeys: ['a'],
-                labels: ['{% trans "Users" %}']
+                labels: ['{% trans "Attendees" %}']
               });
             {% endif %}
+
+            {% for date in event_dates %}
+              Morris.Line({
+                element: 'attendees_hour-{{date}}',
+                xLabels : "hour",
+                data: [{% with attendance_by_hour=attendance_by_date|keyvalue:date %}{% for item, value in attendance_by_hour.items%}
+                    {y: '{{date}} {{item}}:00', a: {{value}}},
+                {% endfor %}{% endwith %}],
+                xkey: 'y',
+                ykeys: ['a'],
+                labels: ['{% trans "Attendees" %}']
+              });
+            {% endfor %}
         });
     </script>
-    {% endcomment %}
 {% endblock %}
