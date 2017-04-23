@@ -92,3 +92,7 @@ def installer_level(value):
 @register.filter(name='as_days')
 def as_days(dates):
     return sorted([date.date.day for date in dates])
+
+@register.filter(name='keyvalue')
+def keyvalue(dict, key):
+    return dict[key]

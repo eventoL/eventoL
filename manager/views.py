@@ -161,6 +161,7 @@ def index(request, event_slug):
 
     activities = Activity.objects.filter(event=event) \
         .exclude(image__isnull=True) \
+        .exclude(is_dummy=True) \
         .distinct()
 
     dates = EventDate.objects.filter(event=event)
@@ -416,42 +417,58 @@ def contact(request, event_slug):
 
 
 def reports(request, event_slug):
-    # event = get_object_or_404(Event, slug__iexact=event_slug)
-    # confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0, 0, 0
-    #
-    # installers = Installer.objects.filter(event_user__event=event)
-    # installations = Installation.objects.filter(attendee__event=event)
-    # talks = Activity.objects.filter(event=event).filter(is_dummy=False)
-    # collaborators = Collaborator.objects.filter(event_user__event=event)
-    # attendees = Attendee.objects.filter(event=event)
-    #
-    # confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=True).count()
-    #
-    # not_confirmed_attendees_count = Attendee.objects.filter(event=event).filter(attended=False).count()
-    #
-    # for talk in talks:
-    #     speakers_count += len(talk.speakers_names.split(','))
-    #
-    # template_dict = {
-    #     'confirmed_attendees_count': confirmed_attendees_count,
-    #     'not_confirmed_attendees_count': not_confirmed_attendees_count,
-    #     'confirmed_collaborators_count': collaborators.filter(event_user__attended=True).count(),
-    #     'not_confirmed_collaborators_count': collaborators.filter(event_user__attended=False).count(),
-    #     'confirmed_installers_count': installers.filter(event_user__attended=True).count(),
-    #     'not_confirmed_installers_count': installers.filter(event_user__attended=False).count(),
-    #     'speakers_count': speakers_count,
-    #     'organizers_count': Organizer.objects.filter(event_user__event=event).count(),
-    #     'activities_count': talks.count(),
-    #     'installations_count': Installation.objects.filter(attendee__event=event).count(),
-    #     'installers_for_level': count_by(installers, lambda inst: inst.level),
-    #     'installers_count': installers.count(),
-    #     'installation_for_software': count_by(installations, lambda inst: inst.software.name),
-    #     'registered_in_time': count_by(attendees, lambda attendee: attendee.registration_date.date())
-    # }
+    event = get_object_or_404(Event, slug__iexact=event_slug)
+    event_dates = EventDate.objects.filter(event=event)
+    confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0, 0, 0
 
-    template_dict = {}
+    installers = Installer.objects.filter(event_user__event=event)
+    installations = Installation.objects.filter(attendee__event=event)
+    talks = Activity.objects.filter(event=event).filter(is_dummy=False)
+    collaborators = Collaborator.objects.filter(event_user__event=event)
+    collaborators_event_users = [collaborator.event_user for collaborator in collaborators]
+    installers_event_users = [installer.event_user for installer in installers]
+    attendees = Attendee.objects.filter(event=event)
+
+    attendees_attendance = AttendeeAttendanceDate.objects.filter(attendee__event=event).distinct('attendee')
+    confirmed_attendees_count = attendees_attendance.count()
+    not_confirmed_attendees_count = attendees.count() - confirmed_attendees_count
+
+    confirmed_collaborators_count = EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).distinct('event_user').count()
+    not_confirmed_collaborators_count = collaborators.count() - confirmed_collaborators_count
+    confirmed_installers_count =  EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).distinct('event_user').count()
+    not_confirmed_installers_count = installers.count() - confirmed_installers_count
+
+    speakers = []
+    for talk in talks:
+        speakers.append(talk.speakers_names.split(','))
+    speakers_count = len(set(itertools.chain.from_iterable(speakers)))
+
+
+    attendance_by_date = {}
+    for event_date in event_dates:
+        attendance_for_date = AttendeeAttendanceDate.objects.filter(attendee__event=event, date__date=event_date.date).distinct('attendee')
+        attendance_by_date[event_date.date.strftime("%Y-%m-%d")] = count_by(attendance_for_date, lambda attendance: attendance.date.hour - 3)
+
+    template_dict = {
+        'event_dates': [event_date.date.strftime("%Y-%m-%d") for event_date in event_dates],
+        'confirmed_attendees_count': confirmed_attendees_count,
+        'not_confirmed_attendees_count': not_confirmed_attendees_count,
+        'confirmed_collaborators_count': confirmed_collaborators_count,
+        'not_confirmed_collaborators_count': not_confirmed_collaborators_count,
+        'confirmed_installers_count': confirmed_installers_count,
+        'not_confirmed_installers_count': not_confirmed_installers_count,
+        'speakers_count': speakers_count,
+        'organizers_count': Organizer.objects.filter(event_user__event=event).count(),
+        'activities_count': talks.count(),
+        'installations_count': Installation.objects.filter(attendee__event=event).count(),
+        'installers_for_level': count_by(installers, lambda inst: inst.level),
+        'installers_count': installers.count(),
+        'installation_for_software': count_by(installations, lambda inst: inst.software.name),
+        'registered_in_time': count_by(attendees, lambda attendee: attendee.registration_date.date()),
+        'attendance_by_date': attendance_by_date
+    }
+
     return render(request, 'reports/dashboard.html', update_event_info(event_slug, request, render_dict=template_dict))
-
 
 @login_required
 def generic_registration(request, event_slug, registration_model, new_role_form, msg_success, msg_error, template):
