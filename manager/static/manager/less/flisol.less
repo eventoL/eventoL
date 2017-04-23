@@ -1,6 +1,6 @@
 @import "../bower_components/bootstrap-material-design/less/bootstrap-material-design";
 @import "../bower_components/bootstrap-material-design/less/ripples";
-@import "../bower_components/roboto-fontface/css/roboto-fontface";
+@import "../bower_components/roboto-fontface/css/roboto/less/roboto-fontface";
 @import "../bower_components/font-awesome/less/font-awesome";
 
 @fa-font-path: "../bower_components/font-awesome/fonts";
@@ -12,16 +12,18 @@
 @brand-warning: @deep-orange;
 @brand-info: @light-blue;
 
-.form-group label.control-label {
-  color: #009688 !important;
-}
-
-.form-group.has-error label.control-label, .form-group.has-error .help-block {
-  color: #f44336 !important;
-}
+/* Global overrides */
 
 body {
   font-family: Roboto;
+}
+
+
+/* Classes */
+
+.jumbotron-clear {
+  background-color: unset !important;
+  box-shadow: none !important;
 }
 
 .mapbox {
@@ -36,6 +38,7 @@ body {
 
 .asd {
   height: 180px;
+  z-index: 1000 !important;
 }
 
 .event-title {
@@ -45,23 +48,23 @@ body {
   font-size: 1.8em;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+
+.form-group label.control-label {
+  color: #009688 !important;
 }
 
-.img-container {
-  min-height: 400px;
-  background-image: url('/static/manager/img/portada.png');
-  background-repeat: no-repeat;
-  background-size: 1920px 400px;
-  background-position: center top;
-  text-align: center;
+.form-group.has-error label.control-label, .form-group.has-error .help-block {
+  color: #f44336 !important;
 }
 
 .navbar {
   margin-bottom: 0 !important;
+}
+
+/* Container text */
+
+.container-text {
+  text-align: center;
 }
 
 .container-text > h1 {
@@ -90,6 +93,7 @@ body {
   font-weight: 400;
 }
 
+/*  */
 .event-location-address {
   font-size: 18px;
   color: #727272;
@@ -164,22 +168,19 @@ body {
   }
 }
 
-.schedule-room {
-  background-color: #B2DFDB;
-}
-
-.schedule-dummy {
-  background-color: #F1F8E9;
-}
-
-.schedule-talk {
-  background-color: #DFF0D8;
-}
-
 .panel > .panel-heading, .panel.panel-default > .panel-heading {
   background-color: #ffffff;
 }
 
 .navbar .dropdown-menu li > a, .navbar.navbar-default .dropdown-menu li > a {
   font-size: unset !important;
+}
+
+.alert.alert-info {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+.autocomplete-light-widget {
+  width: 100%;
 }

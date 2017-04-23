@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load i18n %}
+{% load l10n %}
 {% load cropping %}
+{% load filters %}
 {% block other-head %}
     <link rel="stylesheet"
           type="text/css" href="{% static "manager/bower_components/slick-carousel/slick/slick.css" %}"/>
@@ -22,178 +24,205 @@
         }
     </style>
 {% endblock %}
-{% block main-content %}
-    <div class="container" style="padding-top: 30px;">
-        <div class="well">
-            <div class="row" style="text-align: center">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    {% if event.registration_is_open %}
-                        <h3><i class="fa fa-calendar"></i> {{ event.date|date:"l d" }} de {{ event.date|date:"F" }}
-                            - Dentro de {{ event.date|timeuntil }}!
-                        </h3>
-                    {% else %}
-                        <h3><i class="fa fa-calendar"></i> {{ event.date|date:"l d" }} de {{ event.date|date:"F" }}
-                            - Este evento fue hace {{ event.date|timesince }}!
-                        </h3>
-                    {% endif %}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_slug %}">¿Qué es el
-                        FLISoL?</a>
+{% block content %}
+    <div class="well">
+        <div class="row" style="text-align: center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                {% regroup dates by date|date:"F"|localize as dates_by_month %}
+                {% if event.registration_is_open %}
+                    <h3><i class="fa fa-calendar"></i>
+                        {% for month in dates_by_month %}
+                            {% blocktrans with days=month.list|as_days|join:", " the_month=month.grouper %}
+                                {{ the_month }} {{ days }}
+                            {% endblocktrans %}
+                            {% if not forloop.last %}
+                                -
+                            {% endif %}
+                        {% endfor %}
+                        {% blocktrans with year=dates.first.date|date:"Y" %}
+                            - {{ year }}
+                        {% endblocktrans %}
                     </h3>
-
-                    <p>¿Quién lo organiza? ¿A quién está dirigido? ¿Cuánto cuesta? ¿Qué beneficios obtengo? Quiero
-                        ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_slug %}">¿Cuánto cuesta?</a></h3>
-
-                    <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <h3><i class="fa fa-pencil"></i> <a href="{% url "registration" event_slug %}">Anotate!</a></h3>
-
-                    <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
-                        traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
-                        todo listo.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="well">
-            <div id="map" class="map"></div>
-            <div style="text-align:center">
-                <h3 id="place_name"></h3>
-                <div id="address1" class="event-location-address"></div>
-                <div class="row">
-                    <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
-                        <hr>
-                    </div>
-                </div>
-                <div class="row" style="margin-bottom: 20px;">
-                    <div class="col-md-6 col-md-offset-3 event-directions">
-                        <a id="directions-car" target="_blank" href="#"><i class="material-icons">directions_car</i></a>
-
-                        <a id="directions-walk" target="_blank" href="#"><i
-                                class="material-icons">directions_walk</i></a>
-
-                        <a id="directions-bus" target="_blank" href="#"><i class="material-icons">directions_bus</i></a>
-
-                        <a id="directions-bike" target="_blank" href="#"><i
-                                class="material-icons">directions_bike</i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="well">
-            <div class="row" style="text-align: center;">
-                <h2>{% trans 'About the event' %}</h2>
-            </div>
-            <div class="row">
-                <div class="col-sm-10 col-sm-offset-1 col-xs-12">
-                    {{ event.event_information | safe }}
-                </div>
-            </div>
-        </div>
-
-        <div class="well">
-            <div class="row" style="text-align: center;">
-                <h2>{% trans 'Talks and Workshops' %}</h2>
-            </div>
-            <div id="slick_charlas">
-                {% if talk_proposals %}
-                    {% for talk_proposal in talk_proposals %}
-                        <div class="row">
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <img src="{% cropped_thumbnail talk_proposal.image "cropping" %}"
-                                     alt="{{ talk_proposal.activity.title }}" width="100%" heigth="100%">
-                            </div>
-                            <div class="col-sm-6 col-md-6 col-lg-6">
-                                <h2>{{ talk_proposal.activity.title }}</h2>
-
-                                <p><strong>{{ talk_proposal.activity.abstract }}</strong></p>
-
-                                <p>{{ talk_proposal.activity.long_description }}</p>
-
-                                <p>{% trans 'Speakers' %}: {{ talk_proposal.speakers_names|title }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
+                    <h4>
+                        {% blocktrans with until=dates.first.date|timeuntil %}
+                            In {{ until }}
+                        {% endblocktrans %}
+                    </h4>
                 {% else %}
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6" style="padding-top: 30px;">
-                            <img src="{% static "manager/img/charlas.png" %}" width="100%" alt="Charlas y Talleres">
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6">
-                            <h2>Charlas y Talleres</h2>
-
-                            <p><strong>Durante todo el día, para que puedas aprender y descubrir más sobre el Software
-                                Libre</strong></p>
-
-                            <p>A lo largo de la jornada, se llevarán a cabo diversas charlas y talleres para todo tipo
-                                de público. No es necesario que sepas algo de informática para asistir al FLISoL. Hay
-                                charlas tanto para principiantes como para entusiastas y expertos.</p>
-
-                            <p>Algunos de los temas propuestos son: Introducción a GNU/Linux, Filosofía del Software
-                                Libre, Recomendaciones para Migrar, Comunidades, Presentación y utilización de algunas
-                                de las principales aplicaciones (paquete de ofimática, navegador web, editor de
-                                imágenes, etc.), Experiencias con Software Libre en Educación, Conocimiento Libre,
-                                Licencias, Construcción Colaborativa de Conocimiento, Software Libre y Trabajo, Hardware
-                                Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
-
-                            <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte!
-                                <a href="{% url "talk_proposal" event_slug %}">Envianos tu propuesta</a> o <a
-                                        href="{% url "activities" event_slug %}">consultá las charlas propuestas hasta
-                                    el
-                                    momento</a>.</p>
-                        </div>
-                    </div>
+                    <h3><i class="fa fa-calendar"></i>
+                        {% for month in dates_by_month %}
+                            {% blocktrans with days=month.list|as_days|join:", " the_month=month.grouper %}
+                                {{ the_month }} {{ days }}
+                            {% endblocktrans %}
+                            {% if not forloop.last %}
+                                -
+                            {% endif %}
+                        {% endfor %}
+                        {% blocktrans with year=dates.first.date|date:"Y" %}
+                            - {{ year }}
+                        {% endblocktrans %}
+                    </h3>
+                    <h4>
+                        {% blocktrans with since=dates.first.date|timesince %}
+                            This event was {{ since }} ago.
+                        {% endblocktrans %}
+                    </h4>
                 {% endif %}
             </div>
         </div>
 
-        <div class="well">
-            <div class="row" style="text-align: center;">
-                <h2>{% trans 'Installations' %}</h2>
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_slug %}">¿Qué es el
+                    FLISoL?</a>
+                </h3>
+
+                <p>¿Quién lo organiza? ¿A quién está dirigido? ¿Cuánto cuesta? ¿Qué beneficios obtengo? Quiero
+                    ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
             </div>
+            <div class="col-lg-4 col-md-4">
+                <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_slug %}">¿Cuánto cuesta?</a></h3>
+
+                <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_slug %}">Anotate!</a>
+                </h3>
+
+                <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
+                    traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
+                    todo listo.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="well">
+        <div id="map" class="map"></div>
+        <div style="text-align:center">
+            <h3 id="place_name"></h3>
+            <div id="address1" class="event-location-address"></div>
             <div class="row">
-                <div class="col-md-6">
-                    <p style="padding-top: 15px">Durante toda la jornada entusiastas voluntarios del software libre,
-                        celebrarán charlas, conferencias, encuentros, talleres, <b>te ayudarán a instalar software libre
-                            en tu PC o notebook</b> para que puedas probarlo y además <b>te orientarán en cómo
-                            usarlo</b>. Podés acercarte de manera libre y gratuita y elegir la distribución o software
-                        que quieras para llevártelo instalado, hacer consultas o aprender!
-                    </p>
+                <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
+                    <hr>
                 </div>
-                <div class="col-md-6">
-                    <img src="{% static "manager/img/installations.png" %}" width="100%">
+            </div>
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-md-6 col-md-offset-3 event-directions">
+                    <a id="directions-car" target="_blank" href="#"><i class="material-icons">directions_car</i></a>
+
+                    <a id="directions-walk" target="_blank" href="#"><i
+                            class="material-icons">directions_walk</i></a>
+
+                    <a id="directions-bus" target="_blank" href="#"><i class="material-icons">directions_bus</i></a>
+
+                    <a id="directions-bike" target="_blank" href="#"><i
+                            class="material-icons">directions_bike</i></a>
                 </div>
             </div>
         </div>
+    </div>
 
-        {% if event.contacts.all|length > 0 %}
-            <div class="well">
-                <h3 style="text-align: center">{% trans 'Follow FLISoL' %} {{ event.name }}!</h3>
-                <div class="event-contacts">
-                    <div class="row" style="padding-top:20px;">
-                        <div class="col-md-10 col-md-offset-1">
-                            {{ contact }}
-                            {% for contact in event.contacts.all %}
-                                <a class="contact-link" href="{{ contact.url }}">
-                                    <i class="fa fa-3x {{ contact.type.icon_class }}"></i>
-                                </a>
-                            {% endfor %}
+
+    <div class="well">
+        <div class="row" style="text-align: center;">
+            <h2>{% trans 'About the event' %}</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                {{ event.event_information | safe }}
+            </div>
+        </div>
+    </div>
+
+    <div class="well">
+        <div class="row" style="text-align: center;">
+            <h2>{% trans 'Talks and Workshops' %}</h2>
+        </div>
+        <div id="slick_charlas">
+            {% if activities %}
+                {% for activity in activities %}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img src="{% cropped_thumbnail activity "cropping" %}"
+                                 alt="{{ activity.title }}" width="100%" heigth="100%">
                         </div>
+                        <div class="col-sm-6">
+                            <h2>{{ activity.title }}</h2>
+
+                            <p><strong>{{ activity.abstract }}</strong></p>
+
+                            <p>{{ activity.long_description }}</p>
+
+                            <p><strong>{% trans 'Speakers' %}:</strong> {{ activity.speakers_names|title }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6" style="padding-top: 30px;">
+                        <img src="{% static "manager/img/charlas.png" %}" width="100%" alt="Charlas y Talleres">
+                    </div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">
+                        <h2>Charlas y Talleres</h2>
+
+                        <p><strong>Durante todo el día, para que puedas aprender y descubrir más sobre el Software
+                            Libre</strong></p>
+
+                        <p>A lo largo de la jornada, se llevarán a cabo diversas charlas y talleres para todo tipo
+                            de público. No es necesario que sepas algo de informática para asistir al FLISoL. Hay
+                            charlas tanto para principiantes como para entusiastas y expertos.</p>
+
+                        <p>Algunos de los temas propuestos son: Introducción a GNU/Linux, Filosofía del Software
+                            Libre, Recomendaciones para Migrar, Comunidades, Presentación y utilización de algunas
+                            de las principales aplicaciones (paquete de ofimática, navegador web, editor de
+                            imágenes, etc.), Experiencias con Software Libre en Educación, Conocimiento Libre,
+                            Licencias, Construcción Colaborativa de Conocimiento, Software Libre y Trabajo, Hardware
+                            Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
+
+                        <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte.
+                            <a href="{% url "activity_proposal" event_slug %}">Envianos tu propuesta!</a></p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="well">
+        <div class="row" style="text-align: center;">
+            <h2>{% trans 'Installations' %}</h2>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <p style="padding-top: 15px">Durante toda la jornada entusiastas voluntarios del software libre,
+                    celebrarán charlas, conferencias, encuentros, talleres, <b>te ayudarán a instalar software libre
+                        en tu PC o notebook</b> para que puedas probarlo y además <b>te orientarán en cómo
+                        usarlo</b>. Podés acercarte de manera libre y gratuita y elegir la distribución o software
+                    que quieras para llevártelo instalado, hacer consultas o aprender!
+                </p>
+            </div>
+            <div class="col-sm-6">
+                <img src="{% static "manager/img/installations.png" %}" width="100%">
+            </div>
+        </div>
+    </div>
+
+    {% if event.contacts.all|length > 0 %}
+        <div class="well">
+            <h3 style="text-align: center">{% trans 'Follow FLISoL' %} {{ event.name }}!</h3>
+            <div class="event-contacts">
+                <div class="row" style="padding-top:20px;">
+                    <div class="col-md-10 col-md-offset-1">
+                        {{ contact }}
+                        {% for contact in event.contacts.all %}
+                            <a class="contact-link" href="{{ contact.url }}">
+                                <i class="fa fa-3x {{ contact.type.icon_class }}"></i>
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block other-script %}
@@ -201,24 +230,24 @@
     <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#slick_charlas').slick({
                 'autoplay': true,
-                'dots'    : true
+                'dots': true
             });
 
-            (function() {
+            (function () {
                 var isPlaying = true;
-                $('#slick_charlas').click(function() {
+                $('#slick_charlas').click(function () {
                     if (isPlaying) {
                         $('#slick_charlas')
-                                .slick('slickSetOption', 'autoplay', false)
-                                .slick('slickPause');
+                            .slick('slickSetOption', 'autoplay', false)
+                            .slick('slickPause');
                         isPlaying = false;
                     } else {
                         $('#slick_charlas')
-                                .slick('slickSetOption', 'autoplay', true)
-                                .slick('slickPlay');
+                            .slick('slickSetOption', 'autoplay', true)
+                            .slick('slickPlay');
                         isPlaying = true;
                     }
                 });
@@ -227,11 +256,11 @@
     </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             function map(event_lat, event_lon) {
                 var map = L.map('map', {
                     scrollWheelZoom: false,
-                    touchZoom      : false,
+                    touchZoom: false
                 }).setView([event_lat, event_lon], 14);
 
                 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
@@ -249,20 +278,20 @@
             $('#address1').html(event_place.adr_address);
 
             $('#directions-car').attr('href',
-                    'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                    event_place.geometry.location.lng + '&dirflg=d');
+                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
+                event_place.geometry.location.lng + '&dirflg=d');
 
             $('#directions-walk').attr('href',
-                    'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                    event_place.geometry.location.lng + '&dirflg=w');
+                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
+                event_place.geometry.location.lng + '&dirflg=w');
 
             $('#directions-bus').attr('href',
-                    'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                    event_place.geometry.location.lng + '&dirflg=r');
+                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
+                event_place.geometry.location.lng + '&dirflg=r');
 
             $('#directions-bike').attr('href',
-                    'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                    event_place.geometry.location.lng + '&dirflg=b');
+                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
+                event_place.geometry.location.lng + '&dirflg=b');
         });
     </script>
 {% endblock %}

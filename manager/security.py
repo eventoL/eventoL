@@ -1,28 +1,23 @@
-from django.contrib.auth.models import Permission, Group
-from django.utils.decorators import available_attrs
 from functools import wraps
+
+from django.contrib.auth.models import Permission, Group
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.contrib.contenttypes.models import ContentType
+from django.utils.decorators import available_attrs
 
-from manager.models import Installer, Organizer, EventUser, NonRegisteredAttendee, Collaborator
+from manager.models import Installer, Organizer, Collaborator, Attendee
 
 
-def is_installer(user, event_slug=None, *args, **kwargs):
+def is_installer(user, event_slug=None):
     return event_slug and (
-        Installer.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
+        Installer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))
 
 
-def add_attendance_permission(user):
-    content_type = ContentType.objects.get_for_model(NonRegisteredAttendee)
-    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='add_nonregisteredattendee'))
-    user.user_permissions.add(
-        Permission.objects.get(content_type=content_type, codename='change_nonregisteredattendee'))
-
-    content_type = ContentType.objects.get_for_model(EventUser)
+def get_or_create_attendance_permission():
     attendance_permission = None
-
+    content_type = ContentType.objects.get_for_model(Attendee)
     if Permission.objects.filter(codename='can_take_attendance', name='Can Take Attendance',
                                  content_type=content_type).exists():
         attendance_permission = Permission.objects.get(codename='can_take_attendance', name='Can Take Attendance',
@@ -30,25 +25,33 @@ def add_attendance_permission(user):
     else:
         attendance_permission = Permission.objects.create(codename='can_take_attendance', name='Can Take Attendance',
                                                           content_type=content_type)
+    return attendance_permission
+
+
+def add_attendance_permission(user):
+    content_type = ContentType.objects.get_for_model(Attendee)
+    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='add_attendee'))
+    user.user_permissions.add(
+        Permission.objects.get(content_type=content_type, codename='change_attendee'))
+
+    attendance_permission = get_or_create_attendance_permission()
 
     user.user_permissions.add(attendance_permission)
-
-    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='change_eventuser'))
 
 
 def create_organizers_group():
     organizers = Group.objects.filter(name__iexact='Organizers').first()
+    get_or_create_attendance_permission()
     if not organizers:
-        perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_nonregisteredattendee',
-                 'change_nonregisteredattendee', 'delete_nonregisteredattendee', 'add_eventuser', 'change_eventuser',
+        perms = ['add_event', 'change_event', 'delete_event', 'add_contactmessage', 'change_contactmessage',
+                 'delete_contactmessage', 'add_attendee', 'can_take_attendance', 'add_contact', 'change_contact',
+                 'delete_contact', 'change_attendee', 'delete_attendee', 'add_eventuser', 'change_eventuser',
                  'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
-                 'change_organizer', 'delete_organizer', 'add_attendee', 'change_attendee', 'delete_attendee',
-                 'add_installationattendee', 'change_installationattendee', 'delete_installationattendee',
-                 'add_installer',
-                 'change_installer', 'delete_installer', 'add_speaker', 'change_speaker', 'delete_speaker', 'add_room',
-                 'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
-                 'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
-                 'delete_installation', 'add_installationmessage','change_installationmessage','delete_installationmessage']
+                 'change_organizer', 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer',
+                 'add_room', 'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity',
+                 'add_installation', 'change_installation', 'delete_installation', 'add_installationmessage',
+                 'change_installationmessage', 'delete_installationmessage', 'add_eventdate', 'change_eventdate',
+                 'delete_eventdate']
         organizers = Group.objects.create(name='Organizers')
         for perm in perms:
             organizers.permissions.add(Permission.objects.get(codename=perm))
@@ -59,16 +62,12 @@ def create_organizers_group():
 def create_reporters_group():
     reporters = Group.objects.filter(name__iexact='Reporters').first()
     if not reporters:
-        perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_nonregisteredattendee',
-                 'change_nonregisteredattendee', 'delete_nonregisteredattendee', 'add_eventuser', 'change_eventuser',
-                 'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
-                 'change_organizer', 'delete_organizer', 'add_attendee', 'change_attendee', 'delete_attendee',
-                 'add_installationattendee', 'change_installationattendee', 'delete_installationattendee',
-                 'add_installer',
-                 'change_installer', 'delete_installer', 'add_speaker', 'change_speaker', 'delete_speaker', 'add_room',
-                 'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_talkproposal',
-                 'change_talkproposal', 'delete_talkproposal', 'add_installation', 'change_installation',
-                 'delete_installation']
+        perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_attendee',
+                 'change_attendee', 'delete_attendee', 'add_eventuser', 'change_eventuser', 'delete_eventuser',
+                 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer', 'change_organizer',
+                 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer', 'add_room', 'change_room',
+                 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_installation',
+                 'change_installation', 'delete_installation']
         reporters = Group.objects.create(name='Reporters')
         for perm in perms:
             reporters.permissions.add(Permission.objects.get(codename=perm))
@@ -83,14 +82,14 @@ def add_organizer_permissions(user):
     user.save()
 
 
-def is_organizer(user, event_slug=None, *args, **kwargs):
-    return event_slug and Organizer.objects.filter(eventUser__user=user,
-                                                   eventUser__event__slug__iexact=event_slug).exists()
+def is_organizer(user, event_slug=None):
+    return event_slug and Organizer.objects.filter(event_user__user=user,
+                                                   event_user__event__slug__iexact=event_slug).exists()
 
 
-def is_collaborator(user, event_slug=None, *args, **kwargs):
+def is_collaborator(user, event_slug=None):
     return event_slug and (
-        Collaborator.objects.filter(eventUser__user=user, eventUser__event__slug__iexact=event_slug).exists() or \
+        Collaborator.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))
 
 

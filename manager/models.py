@@ -1,7 +1,6 @@
 import datetime
 import re
 
-from django.contrib import messages
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -15,22 +14,8 @@ def validate_url(url):
         raise ValidationError(_('URL can only contain letters or numbers'))
 
 
-class Image(models.Model):
-    image = ImageCropField(upload_to='images_thumbnails', verbose_name=_('Image'), blank=True, null=True)
-    cropping = ImageRatioField('image', '700x450', size_warning=True, verbose_name=_('Cropping'),
-                               help_text=_('The image must be 700x450 px. You can crop it here.'))
-
-    def __unicode__(self):
-        return self.image.name
-
-    class Meta(object):
-        verbose_name = _('Image')
-        verbose_name_plural = _('Images')
-
-
 class Event(models.Model):
     name = models.CharField(_('Event Name'), max_length=200)
-    date = models.DateField(_('Date'), help_text=_('When will your event be?'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
     slug = models.CharField(_('URL'), max_length=200, unique=True, help_text=_('For example: flisol-caba'),
@@ -40,12 +25,8 @@ class Event(models.Model):
     email = models.EmailField(verbose_name=_('Email'))
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
-    schedule_confirm = models.BooleanField(_('Confirm Schedule'), default=False)
+    schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
     place = models.TextField(_('Place'))  # TODO: JsonFIELD
-    home_image = models.ForeignKey(Image, related_name="eventol_home_image", verbose_name=_noop('Home Image'),
-                                   blank=True, null=True)
-    cover_image = models.ForeignKey(Image, related_name="eventol_cover_image", verbose_name=_noop('Cover Image'),
-                                    blank=True, null=True)
 
     def get_absolute_url(self):
         if self.external_url:
@@ -53,18 +34,26 @@ class Event(models.Model):
         return "/event/" + self.slug + '/'
 
     @property
-    def talk_proposal_is_open(self):
+    def activity_proposal_is_open(self):
         return self.limit_proposal_date >= datetime.date.today()
 
     @property
     def registration_is_open(self):
-        return self.date >= datetime.date.today()
+        return EventDate.objects.filter(event=self).order_by('date').last().date >= datetime.date.today()
 
     def __unicode__(self):
-        return u"%s" % (self.name)
+        return u"%s" % self.name
 
     class Meta(object):
         ordering = ['name']
+
+
+class EventDate(models.Model):
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'), blank=True, null=True)
+    date = models.DateField(_('Date'), help_text=_('When will your event be?'))
+
+    def __unicode__(self):
+        return u"%s - %s" % (self.event.name, self.date)
 
 
 class ContactMessage(models.Model):
@@ -106,9 +95,9 @@ class Contact(models.Model):
     type = models.ForeignKey(ContactType, verbose_name=_('Contact Type'))
     url = models.CharField(_noop('Direccion'), help_text=_('i.e. https://twitter.com/flisol'), max_length=200)
     text = models.CharField(_('Text'), max_length=200, help_text=_('i.e. @Flisol'))
-    # null should be false, but I put true due to a django bug with formsets:
+    # TODO: null should be false, but I put true due to a django bug with formsets:
     # https://code.djangoproject.com/ticket/13776
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'), related_name='contacts', blank=True, null=True)
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'), related_name='contacts', blank=True, null=False)
 
     def __unicode__(self):
         return u"%s - %s - %s" % (self.event.name, self.type.name, self.text)
@@ -118,45 +107,37 @@ class Contact(models.Model):
         verbose_name_plural = _('Contacts')
 
 
-class NonRegisteredAttendee(models.Model):
-    first_name = models.CharField(_('First Name'), max_length=30, blank=True)
-    last_name = models.CharField(_('Last Name'), max_length=30, blank=True)
-    email = models.EmailField(_('E-mail Address'), blank=True)
-    is_installing = models.BooleanField(_('Is Installing'), default=False,
-                                        help_text=_('Will you bring a PC for installation?'))
-    installation_additional_info = models.TextField(_('Additional Info'), blank=True, null=True,
-                                                    help_text=_('i.e. Wath kind of PC are you bringing?'))
-
-    class Meta(object):
-        verbose_name = _('Non Registered  Attendee')
-        verbose_name_plural = _('Non Registered Attendees')
+class Ticket(models.Model):
+    sent = models.BooleanField(_('Sent'), default=False)
 
     def __unicode__(self):
-        return u'%s %s' % (self.first_name, self.last_name)
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            for attendee in queryset:
-                event_user = attendee.eventuser_set.first()
-                if not event_user or event_user.event.pk != value:
-                    queryset = queryset.exclude(pk=attendee.pk)
-        return queryset
+        return u"%d" % self.id
 
 
 class EventUser(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), blank=True, null=True)
-    nonregisteredattendee = models.ForeignKey(NonRegisteredAttendee, verbose_name=_('Non Registered Attendee'),
-                                              blank=True, null=True)
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
-    assisted = models.BooleanField(_('Assisted'), default=False)
-    ticket = models.BooleanField(_('Ticket sent'), default=False)
+    event = models.ForeignKey(Event, verbose_name=_('Event'))
+    ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
 
     def __unicode__(self):
         if self.user:
             return u'%s %s' % (self.user.first_name, self.user.last_name)
-        if self.nonregisteredattendee:
-            return u'%s %s' % (self.nonregisteredattendee.first_name, self.nonregisteredattendee.last_name)
+
+    def get_ticket_data(self):
+        if self.ticket is None:
+            ticket = Ticket()
+            ticket.save()
+            self.ticket = ticket
+            self.save()
+        date = self.event.eventdate_set.order_by('date').first().date
+        return {'first_name': self.user.first_name, 'last_name': self.user.last_name, 'nickname': self.user.username,
+                'email': self.user.email, 'event': self.event, 'event_date': date, 'ticket': self.ticket}
+
+    def attended(self):
+        return EventUserAttendanceDate.objects.filter(event_user=self).exists()
+
+    def attended_today(self):
+        return EventUserAttendanceDate.objects.filter(event_user=self, date__date=datetime.date.today()).exists()
 
     class Meta(object):
         unique_together = (("event", "user"),)
@@ -164,8 +145,16 @@ class EventUser(models.Model):
         verbose_name_plural = _('Event Users')
 
 
+class EventUserAttendanceDate(models.Model):
+    event_user = models.ForeignKey(EventUser, verbose_name=_noop('Event User'), blank=False, null=False)
+    date = models.DateTimeField(_('Date'), help_text=_('The date of the attendance'), auto_now_add=True)
+
+    def __unicode__(self):
+        return u"%s - %s" % (unicode(self.event_user), self.date)
+
+
 class Collaborator(models.Model):
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     assignation = models.CharField(_('Assignation'), max_length=200, blank=True, null=True,
                                    help_text=_('Anything you can help with (i.e. Talks, Coffee...)'))
     time_availability = models.CharField(_('Time Availability'), max_length=200, blank=True, null=True, help_text=_(
@@ -180,78 +169,81 @@ class Collaborator(models.Model):
         verbose_name_plural = _('Collaborators')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
+        return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
 class Organizer(models.Model):
     """Event organizer"""
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
 
     class Meta(object):
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
+        return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
 class Attendee(models.Model):
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    first_name = models.CharField(_('First Name'), max_length=200, blank=True, null=True)
+    last_name = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
+    nickname = models.CharField(_('Nickname'), max_length=200, blank=True, null=True)
+    email = models.EmailField(_('Email'))
+    event = models.ForeignKey(Event, verbose_name=_('Event'))
+    ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
+    is_installing = models.BooleanField(_('Is going to install?'), default=False)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
-                                       help_text=_('Any additional info you consider relevant'))
+                                       help_text=_('Any additional info you consider relevant for the organizers'))
+    email_confirmed = models.BooleanField(_('Email confirmed?'), default=False)
+    email_token = models.CharField(_('Confirmation Token'), max_length=200, blank=True, null=True)
+    registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
 
     class Meta(object):
         verbose_name = _('Attendee')
         verbose_name_plural = _('Attendees')
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(eventUser__event__pk=value)
-        return queryset
+        unique_together = (("event", "email"),)
 
     def __unicode__(self):
-        if self.eventUser.user:
-            return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-        if self.eventUser.nonregisteredattendee:
-            return u'%s %s' % (
-                self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
+        return u'%s %s - %s - %s' % (self.first_name, self.last_name, self.nickname, self.email)
+
+    def get_ticket_data(self):
+        if self.ticket is None:
+            ticket = Ticket()
+            ticket.save()
+            self.ticket = ticket
+            self.save()
+
+        date = self.event.eventdate_set.order_by('date').first().date
+        return {'first_name': self.first_name, 'last_name': self.last_name, 'nickname': self.nickname,
+                'email': self.email, 'event': self.event, 'event_date': date, 'ticket': self.ticket}
+
+    def attended(self):
+        return AttendeeAttendanceDate.objects.filter(attendee=self).exists()
+
+    def attended_today(self):
+        return AttendeeAttendanceDate.objects.filter(attendee=self, date__date=datetime.date.today()).exists()
 
 
-class InstallationAttendee(models.Model):
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
-    installation_additional_info = models.TextField(_('Installation Additional Info'), blank=True, null=True,
-                                                    help_text=_('i.e. Wath kind of PC are you bringing?'))
-
-    class Meta(object):
-        verbose_name = _('Installation Attendee')
-        verbose_name_plural = _('Installation Attendees')
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(eventUser__event__pk=value)
-        return queryset
+class AttendeeAttendanceDate(models.Model):
+    attendee = models.ForeignKey(Attendee, verbose_name=_noop('Attendee'), blank=False, null=False)
+    date = models.DateTimeField(_('Date'), help_text=_('The date of the attendance'), auto_now_add=True)
 
     def __unicode__(self):
-        if self.eventUser.user:
-            return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-        if self.eventUser.nonregisteredattendee:
-            return u'%s %s' % (
-                self.eventUser.nonregisteredattendee.first_name, self.eventUser.nonregisteredattendee.last_name)
+        return u"%s - %s" % (unicode(self.attendee), self.date)
+
 
 class InstallationMessage(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'))
     message = RichTextField(verbose_name=_('Message Body'), help_text=_(
         'Email message HTML Body'), blank=True, null=True)
-    contact_email = models.EmailField(verbose_name=_('Contatc Email'))
+    contact_email = models.EmailField(verbose_name=_('Contact Email'))
 
     class Meta(object):
         verbose_name = _('Post-install Email')
         verbose_name_plural = _('Post-install Emails')
 
     def __unicode__(self):
-        return "%s post-install message" %(self.event.name)
+        return "%s post-install message" % self.event.name
 
 
 class Installer(models.Model):
@@ -261,7 +253,7 @@ class Installer(models.Model):
         ('3', _('Advanced')),
         ('4', _('Super Hacker'))
     )
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
     level = models.CharField(_('Level'), choices=installer_choices, max_length=200,
                              help_text=_('Knowledge level for an installation'))
 
@@ -270,24 +262,7 @@ class Installer(models.Model):
         verbose_name_plural = _('Installers')
 
     def __unicode__(self):
-        return u'%s %s' % (self.eventUser.user.first_name, self.eventUser.user.last_name)
-
-
-class Speaker(models.Model):
-    eventUser = models.ForeignKey(EventUser, verbose_name=_('Event User'), blank=True, null=True)
-
-    class Meta(object):
-        verbose_name = _('Speaker')
-        verbose_name_plural = _('Speakers')
-
-
-userTypes = {
-    'Collaborators': Collaborator,
-    'Attendees': Attendee,
-    'Installation Attendees': InstallationAttendee,
-    'Speakers': Speaker,
-    'Intallers': Installer
-}
+        return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
 class Software(models.Model):
@@ -328,6 +303,9 @@ class Room(models.Model):
     def __unicode__(self):
         return u"%s - %s" % (self.event.name, self.name)
 
+    def get_schedule_info(self):
+        return {'id': self.pk, 'title': self.name}
+
     class Meta(object):
         verbose_name = _('Room')
         verbose_name_plural = _('Rooms')
@@ -335,67 +313,72 @@ class Room(models.Model):
 
 
 class Activity(models.Model):
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
-    title = models.CharField(_('Title'), max_length=50, blank=True, null=True)
+    event = models.ForeignKey(Event, verbose_name=_('Event'))
+    title = models.CharField(_('Title'), max_length=50, blank=False, null=False)
     long_description = models.TextField(_('Long Description'))
-    confirmed = models.BooleanField(_('Confirmed'), default=False)
     abstract = models.TextField(_('Abstract'), help_text=_('Short idea of the talk (Two or three sentences)'))
     room = models.ForeignKey(Room, verbose_name=_('Room'), blank=True, null=True)
     start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
+    type = models.CharField(_('Type'), max_length=50, blank=True, null=True)
+    speakers_names = models.CharField(_('Speakers Names'), max_length=600,
+                                      help_text=_("Comma separated speaker's names"))
+    speaker_contact = models.EmailField(_('Speaker Contact'),
+                                        help_text=_("Where can whe reach you from the organization team?"))
+    labels = models.CharField(_('Labels'), max_length=200,
+                              help_text=_('Comma separated tags. i.e. Linux, Free Software, Archlinux'))
+    presentation = models.FileField(_('Presentation'), upload_to='talks', blank=True, null=True, help_text=_(
+        'Any material you are going to use for the talk (optional, but recommended)'))
+    level_choices = (
+        ('1', _('Beginner')),
+        ('2', _('Medium')),
+        ('3', _('Advanced')),
+    )
+    level = models.CharField(_('Level'), choices=level_choices, max_length=100,
+                             help_text=_("Talk's Technical level"))
+    additional_info = models.TextField(_('Additional Info'), blank=True, null=True, help_text=_(
+        "Any info you consider relevant for the organizer: i.e. Write here if your activity has any special requirement"))
 
-    @classmethod
-    def check_status(cls, message, error=None, request=None):
-        if error:
-            raise ValidationError(message)
-        if request:
-            messages.error(request, message)
+    status_choices = (
+        ('1', _('Proposal')),
+        ('2', _('Accepted')),
+        ('3', _('Rejected')),
+    )
 
-    @classmethod
-    def room_available(cls, request=None, instance=None, event_slug=None, error=False):
-        activities_room = Activity.objects.filter(room=instance.room, event__slug__iexact=event_slug)
-        if instance.start_date == instance.end_date:
-            message = _("The talk couldn't be registered because the schedule not available (start time equals end time)")
-            cls.check_status(message, error=error, request=request)
-            return False
-        if instance.end_date < instance.start_date:
-            message = _("The talk couldn't be registered because the schedule is not available (start time is after end time)")
-            cls.check_status(message, error=error, request=request)
-            return False
+    status = models.CharField(_('Status'), choices=status_choices, max_length=20,
+                              help_text=_("Activity proposal status"))
 
-        one_second = datetime.timedelta(seconds=1)
-        if activities_room.filter(
-                end_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exclude(pk=instance.pk).exists() \
-                or activities_room.filter(end_date__gt=instance.end_date, start_date__lt=instance.start_date).exclude(pk=instance.pk).exists() \
-                or activities_room.filter(start_date__range=(instance.start_date + one_second, instance.end_date - one_second)).exclude(pk=instance.pk).exists() \
-                or activities_room.filter(
-                    end_date=instance.end_date, start_date=instance.start_date).exclude(pk=instance.pk).exists():
-                message = _("The talk couldn't be registered because the room or the schedule is not available")
-                cls.check_status(message, error=error, request=request)
-                return False
-        return True
+    image = ImageCropField(upload_to='images_thumbnails', verbose_name=_('Image'), blank=True, null=True)
+    cropping = ImageRatioField('image', '700x450', size_warning=True, verbose_name=_('Cropping'),
+                               help_text=_('The image must be 700x450 px. You can crop it here.'))
+
+    is_dummy = models.BooleanField(_('Is a dummy Activity?'), default=False, help_text=_(
+        "A dummy activity is used for example for coffee breaks. We use this to exclude it from the index page and other places"))
 
     def __cmp__(self, other):
         return -1 if self.start_date.time() < other.start_date.time() else 1
 
-    def get_absolute_url(self):
-        return "/event/" + self.event.slug + '/activity/detail/activity/' + str(self.id)
-
-    def schedule(self):
-        if self.start_date and self.end_date:
-            return u"%s - %s" % (self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"))
-        return _('Schedule not confirmed yet')
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(event__pk=value)
-        return queryset
-
     def __unicode__(self):
-        return u"%s - %s (%s - %s)" % (self.event, self.title,
-                                       self.start_date.strftime("%H:%M") if self.start_date else None,
-                                       self.end_date.strftime("%H:%M") if self.end_date else None)
+        return u"%s - %s" % (self.event, self.title)
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('activity_detail', args=(self.event.slug, self.pk))
+
+    def get_schedule_info(self):
+        schedule_info = {
+            'resourceId': self.room.pk,
+            'start': self.start_date.isoformat(),
+            'end': self.end_date.isoformat(),
+            'title': self.title,
+            'id': self.pk,
+            'url': ""
+        }
+
+        if not self.is_dummy:
+            schedule_info['url'] = self.get_absolute_url()
+
+        return schedule_info
 
     class Meta(object):
         ordering = ['title']
@@ -403,95 +386,10 @@ class Activity(models.Model):
         verbose_name_plural = _('Activities')
 
 
-class TalkType(models.Model):
-    """
-    Type of talk. For example: Talk, Workshop, Debate, etc.
-    """
-    name = models.CharField(_('Name'), max_length=200)
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta(object):
-        verbose_name = _('Talk Type')
-        verbose_name_plural = _('Talk Types')
-
-
-class TalkProposal(models.Model):
-    level_choices = (
-        ('1', _('Beginner')),
-        ('2', _('Medium')),
-        ('3', _('Advanced')),
-    )
-    activity = models.ForeignKey(Activity, verbose_name=_noop('Activity'), blank=True, null=True)
-    type = models.ForeignKey(TalkType, verbose_name=_('Type'))
-    image = models.ForeignKey(Image, verbose_name=_noop('Image'), blank=True, null=True)
-    confirmed_talk = models.BooleanField(_('Talk Confirmed'), default=False)
-    speakers_names = models.CharField(_('Speakers Names'), max_length=600,
-                                      help_text=_("Comma separated speaker's names"))
-    speakers_email = models.CharField(_('Speakers Emails'), max_length=600,
-                                      help_text=_("Comma separated speaker's emails"))
-    labels = models.CharField(_('Labels'), max_length=200,
-                              help_text=_('Comma separated tags. i.e. Linux, Free Software, Debian'))
-    presentation = models.FileField(_('Presentation'), upload_to='talks', blank=True, null=True, help_text=_(
-        'Any material you are going to use for the talk (optional, but recommended)'))
-    level = models.CharField(_('Level'), choices=level_choices, max_length=100,
-                             help_text=_("Talk's Technical level"))
-
-    def get_schedule_info(self):
-        return {
-            'room': self.activity.room.name,
-            'start_date': self.activity.start_date.strftime('%m/%d/%Y %H:%M'),
-            'end_date': self.activity.end_date.strftime('%m/%d/%Y %H:%M'),
-            'title': self.activity.title,
-            'speakers': self.speakers_names,
-            'type': self.type.name
-        }
-
-    def get_absolute_url(self):
-        if self.confirmed_talk:
-            return "/event/" + self.activity.event.slug + '/talk/detail/talk/' + str(self.id)
-        return "/event/" + self.activity.event.slug + '/talk/detail/proposal/' + str(self.id)
-
-    def __unicode__(self):
-        return u"%s: %s" % (self.activity.event, self.activity.title)
-
-    class Meta(object):
-        verbose_name = _('Talk Proposal')
-        verbose_name_plural = _('Talk Proposals')
-
-
-class Comment(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    body = models.TextField()
-    activity = models.ForeignKey(Activity, verbose_name=_noop('Activity'))
-    user = models.ForeignKey(User, verbose_name=_('User'))
-
-    def __unicode__(self):
-        return u"%s: %s" % (self.user, self.activity)
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(activity__event__pk=value)
-        return queryset
-
-    def save(self, *args, **kwargs):
-        """Email when a comment is added."""
-        # TODO: Email when a comment is added.
-        if "notify" in kwargs:
-            del kwargs["notify"]
-        super(Comment, self).save(*args, **kwargs)
-
-    class Meta(object):
-        verbose_name = _('Comment')
-        verbose_name_plural = _('Comments')
-
-
 class Installation(models.Model):
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'), blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'), blank=True, null=True)
-    attendee = models.ForeignKey(EventUser, verbose_name=_('Attendee'),
+    attendee = models.ForeignKey(Attendee, verbose_name=_('Attendee'),
                                  help_text=_('The owner of the installed hardware'))
     installer = models.ForeignKey(EventUser, verbose_name=_('Installer'), related_name='installed_by', blank=True,
                                   null=True)
@@ -500,12 +398,6 @@ class Installation(models.Model):
 
     def __unicode__(self):
         return u"%s, %s, %s" % (self.attendee, self.hardware, self.software)
-
-    @classmethod
-    def filter_by(cls, queryset, field, value):
-        if field == 'event':
-            return queryset.filter(attendee__event__pk=value)
-        return queryset
 
     class Meta(object):
         verbose_name = _('Installation')

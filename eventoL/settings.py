@@ -1,17 +1,7 @@
-"""
-Django settings for eventoL project.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/1.6/topics/settings/
-
-For the full list of settings and their values, see
-https://docs.djangoproject.com/en/1.6/ref/settings/
-"""
-import django.conf.global_settings as DEFAULT_SETTINGS
-from easy_thumbnails.conf import Settings as thumbnail_settings
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-from easy_thumbnails.optimize.conf import OptimizeSettings
 import os
+
+from easy_thumbnails.conf import Settings as thumbnail_settings
+from easy_thumbnails.optimize.conf import OptimizeSettings
 
 
 def str_to_bool(s):
@@ -35,9 +25,11 @@ if ON_OPENSHIFT:
     os.environ.setdefault('PSQL_PORT', os.environ.get('OPENSHIFT_POSTGRESQL_DB_PORT'))
     ALLOWED_HOSTS = [os.environ.get('OPENSHIFT_APP_DNS'), socket.gethostname()]
     STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
+    RECAPTCHA_PROXY = os.environ.get('OPENSHIFT_APP_DNS')
+    os.environ.setdefault('DJANGO_RECAPTCHA_USE_SSL', 'True')
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'manager', 'static')
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['*']
 
 if 'OPENSHIFT_DATA_DIR' in os.environ:
     MEDIA_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
@@ -54,25 +46,23 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '!a44%)(r2!1wp89@ds(tqzpo#f0qgf
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', 'True'))
-TEMPLATE_DEBUG = str_to_bool(os.getenv('DJANGO_TEMPLATE_DEBUG', 'True'))
 
 # Application definition
 
 INSTALLED_APPS = (
-    'grappelli',
+    'dal',
+    'dal_select2',
     'ckeditor',
+    'ckeditor_uploader',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
-    'voting',
     'easy_thumbnails',
     'easy_thumbnails.optimize',
     'image_cropping',
-    'autocomplete_light',
     'import_export',
     'manager',
     'autofixture',
@@ -86,6 +76,9 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.windowslive',
+    'debug_toolbar',
+    'captcha',
+    'django.contrib.postgres'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -96,6 +89,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'eventoL.urls'
@@ -142,12 +136,28 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
-    'django.core.context_processors.request',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            # insert your TEMPLATE_DIRS here
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'debug': os.getenv('DJANGO_TEMPLATE_DEBUG', 'True'),
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request'
+            ],
+        },
+    },
+]
 
 LOGGING = {
     'version': 1,
@@ -178,11 +188,12 @@ if 'EVENTOL_EMAIL_BACKEND' in os.environ:
     MAILGUN_ACCESS_KEY = os.environ.get('EVENTOL_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
     MAILGUN_SERVER_NAME = os.environ.get('EVENTOL_MAILGUN_SERVER_NAME', 'SERVER-NAME')
 else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'smtp.unset')
     EMAIL_PORT = os.getenv('DJANGO_EMAIL_PORT', '587')
     EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', 'change_unset@mail.com')
     EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', 'secret')
-    EMAIL_USE_TLS = str_to_bool(os.getenv('DJANGO_EMAIL_USE_TLS', True))
+    EMAIL_USE_TLS = True
     EMAIL_FROM = os.getenv('DJANGO_EMAIL_FROM', 'change_unset@mail.com')
 
 LOGIN_URL = '/accounts/login/'
@@ -192,8 +203,6 @@ OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
     'jpeg': '/usr/bin/jpegoptim {filename}',
     'jpg': '/usr/bin/jpegoptim {filename}'
 }
-
-GRAPPELLI_ADMIN_TITLE = os.getenv('DJANGO_ADMIN_TITLE', 'EventoL')
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -207,13 +216,6 @@ CKEDITOR_CONFIGS = {
 }
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
-}
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -260,6 +262,7 @@ SOCIALACCOUNT_PROVIDERS = \
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 
 ACCOUNT_FORMS = {'login': 'manager.forms.LoginForm',
                  'signup': 'manager.forms.SignUpForm',
@@ -268,10 +271,34 @@ ACCOUNT_FORMS = {'login': 'manager.forms.LoginForm',
                  'change_password': 'manager.forms.ChangePasswordForm',
                  'set_password': 'manager.forms.SetPasswordForm'}
 
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "mandatory"
 SOCIALACCOUNT_QUERY_EMAIL = True
-SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 SOCIALACCOUNT_AUTO_SIGNUP = False
 SOCIALACCOUNT_FORMS = {'signup': 'manager.forms.SocialSignUpForm'}
 
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 LOGIN_REDIRECT_URL = '/'
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+NOCAPTCHA = True
+RECAPTCHA_USE_SSL = str_to_bool(os.getenv('DJANGO_RECAPTCHA_USE_SSL', 'False'))

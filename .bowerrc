@@ -1,4 +1,3 @@
 {
-  "directory": "manager/static/manager/bower_components",
-  "json": "bower.json"
+  "directory": "manager/static/manager/bower_components"
 }

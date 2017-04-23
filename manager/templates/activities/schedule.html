@@ -2,59 +2,92 @@
 {% load i18n %}
 {% load filters %}
 {% load static %}
-{% block page-header %}{% trans "activities Schedule" %}{% endblock %}
+{% block other-head %}
+    <link rel="stylesheet" href="{% static "manager/bower_components/fullcalendar/dist/fullcalendar.css" %}"/>
+    <link rel="stylesheet" href="{% static "manager/bower_components/fullcalendar-scheduler/dist/scheduler.css" %}"/>
+    <style media="screen">
+        /* Styling for each event from Schedule */
+        .fc-time-grid-event.fc-v-event.fc-event {
+            border-color: #01579b !important;
+            padding: 5px;
+            opacity: .65;
+            left: 5% !important;
+            right: 5% !important;
+        }
+
+        /* Bolds the name of the event and inherits the font size */
+        .fc-event {
+            font-size: inherit !important;
+            font-weight: 500 !important;
+        }
+
+        /* Inherits background for each event from Schedule. */
+        .fc-event .fc-bg {
+            z-index: 1 !important;
+            background: inherit !important;
+            opacity: .25 !important;
+        }
+
+        .fc-time {
+            font-weight: 500 !important;
+        }
+
+        .fc-unthemed td {
+            background-color: unset !important;
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
-    <div class="well row text-center {% if schedule.rooms >= 6 %}letra-chiquita{% endif %}"
-         data-columns="{{ schedule.rooms|schedule_cols_total }}">
-        <div class="col-md-{{ schedule.rooms|schedule_cols_first }} hidden-sm hidden-xs">
-            <div class="alert schedule-room row"><strong>{% trans "Hour" %}</strong></div>
-            <div style="height: {{ schedule.size }}px;">
-                {% for reference_hour in schedule.reference_hours %}
-                    <div style="height: {{ reference_hour.size | safe }}%">
-                        <strong>{{ reference_hour.start|date:"H:i" }} - {{ reference_hour.end|date:"H:i" }}</strong>
-                    </div>
-                    {% if not forloop.last %}
-                        <hr style="padding:0px; margin:0px;"/>
-                    {% endif %}
-                {% endfor %}
-            </div>
+    <h1>{% trans "Activities Schedule" %}</h1>
+    {% for date in dates %}
+        <div class="well">
+            <h2>
+                {% blocktrans with day=forloop.counter %}
+                    Day {{ day }}
+                {% endblocktrans %}
+            </h2>
+            <hr/>
+            <div id="calendar-{{ date | escapejs }}"></div>
         </div>
-        {% for room in schedule.rooms %}
-            <div class="col-md-{{ schedule.rooms|schedule_cols_other }}">
-                <div class="row alert schedule-room"><strong>{{ room.name|title }}</strong></div>
-                <div style="height: {{ schedule.size }}px; font-size: 14px">
-                    {% for activity in room.activities %}
-                        {% if 'dummy' in activity %}
-                            <div class="schedule-dummy hidden-sm hidden-xs" style="height: {{ activity.dummy_size | safe }}%;"></div>
-                        {% else %}
-                            <div class="schedule-talk" style="height: {{ activity.activity_size | safe }}%">
-                                {% if activity.activity_size < 3 %}
-                                    {% if activity.is_talk %}<a href='{% url "activity_detail" event_slug activity.pk %}'>{% endif %}
-                                        <strong>
-                                            {{ activity.title|title|truncatechars:10 }} {{ activity.schedule }}</strong><br>
-                                    {% if activity.is_talk %}</a>{% endif %}
-                                {% else %}
-                                    {% if activity.is_talk %}<a href='{% url "activity_detail" event_slug activity.pk %}'>{% endif %}
-                                        <strong>
-                                            {{ activity.title|title|truncatechars:50 }}</strong><br>
-                                    {% if activity.is_talk %}</a>{% endif %}
-                                    {{ activity.schedule }}
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                        {% if not forloop.last %}
-                            <hr style="padding:0px; margin:0px;"/>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
 {% endblock %}
 
 {% block other-script %}
+    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
     <script type="text/javascript"
-            src="{% static "manager/bower_components/gridline-bootstrap/dist/gridline.min.js" %}">
+            src="{% static "manager/bower_components/fullcalendar/dist/fullcalendar.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "manager/bower_components/fullcalendar-scheduler/dist/scheduler.js" %}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var rooms = JSON.parse('{{ rooms | escapejs }}');
+            {% for date, activities_for_date in activities.items %}
+
+
+                var activities{{ forloop.counter | escapejs }} = JSON.parse('{{ activities_for_date | escapejs}}');
+
+                $('#calendar-{{ date | escapejs }}').fullCalendar({
+                    schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+                    defaultView: 'agendaDay',
+                    header: false,
+                    height: "auto",
+                    timeFormat: 'H:mm',
+                    slotLabelFormat: [
+                        'H:mm'
+                    ],
+                    eventColor: '#0288d1',
+                    defaultDate: activities{{ forloop.counter | escapejs }}.date,
+                    scrollTime: activities{{ forloop.counter | escapejs }}.min_time,
+                    minTime: activities{{ forloop.counter | escapejs }}.min_time,
+                    maxTime: activities{{ forloop.counter | escapejs }}.max_time,
+                    slotDuration: '00:15',
+                    allDaySlot: false,
+                    resources: rooms,
+                    events: activities{{ forloop.counter | escapejs }}.activities
+                });
+            {% endfor %}
+        });
     </script>
 {% endblock %}

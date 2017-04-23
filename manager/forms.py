@@ -1,13 +1,12 @@
 # encoding: UTF-8
-import autocomplete_light as autocomplete
+import datetime
+from dal import autocomplete
 from django import forms
+from django.core.validators import validate_email, URLValidator
 from django.db.models.query_utils import Q
 from django.utils.safestring import mark_safe
-from django.core.validators import validate_email, URLValidator
 
-autocomplete.autodiscover()
-
-from django.forms.models import ModelForm
+from django.forms.models import ModelForm, BaseModelFormSet
 from django.utils.translation import ugettext as _
 from allauth.account.forms import LoginForm as AllAuthLoginForm
 from allauth.account.forms import SignupForm as AllAuthSignUpForm
@@ -16,209 +15,195 @@ from allauth.account.forms import ResetPasswordForm as AllAuthResetPasswordForm
 from allauth.account.forms import ResetPasswordKeyForm as AllAuthResetPasswordKeyForm
 from allauth.account.forms import ChangePasswordForm as AllAuthChangePasswordForm
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
-
-from manager.models import Attendee, NonRegisteredAttendee, Installation, \
-    Hardware, Collaborator, Installer, TalkProposal, ContactMessage, Image, \
-    Comment, Room, EventUser, Activity, Event, Software, Contact
-
-
-class SoftwareAutocomplete(autocomplete.AutocompleteModelBase):
-    search_fields = ('name',)
+from captcha.fields import ReCaptchaField
+from collections import OrderedDict
+from manager.models import Attendee, Installation, \
+    Hardware, Collaborator, Installer, ContactMessage, \
+    EventUser, Event, Software, Contact, Activity, EventDate, AttendeeAttendanceDate, EventUserAttendanceDate
 
 
-class EventUserAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
+class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return Software.objects.none()
 
-    def choices_for_request(self):
-        q = self.request.GET.get('q', '')
-        event_slug = self.request.GET.get('event_slug', None)
+        qs = Software.objects.all()
 
-        choices = []
-        if event_slug:
-            choices = self.choices.all()
-            choices = choices.filter(event__slug__iexact=event_slug).filter(assisted=False)
-            if q:
-                choices = choices.filter(
-                    Q(user__first_name__icontains=q)
-                    | Q(user__last_name__icontains=q)
-                    | Q(user__username__icontains=q)
-                    | Q(user__email__icontains=q)
-                    | Q(nonregisteredattendee__first_name__icontains=q)
-                    | Q(nonregisteredattendee__last_name__icontains=q)
-                    | Q(nonregisteredattendee__email__icontains=q)
-                )
+        if self.q:
+            qs = qs.filter(name__unaccent__icontains=self.q)
 
-        return self.order_choices(choices)[0:self.limit_choices]
-
-class EventUserInstallAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _('Search Attendee')}
-
-    def choices_for_request(self):
-        q = self.request.GET.get('q', '')
-        event_slug = self.request.GET.get('event_slug', None)
-
-        choices = []
-        if event_slug:
-            choices = self.choices.all()
-            choices = choices.filter(event__slug__iexact=event_slug).filter(assisted=True)
-            if q:
-                choices = choices.filter(
-                    Q(user__first_name__icontains=q)
-                    | Q(user__last_name__icontains=q)
-                    | Q(user__username__icontains=q)
-                    | Q(user__email__icontains=q)
-                    | Q(nonregisteredattendee__first_name__icontains=q)
-                    | Q(nonregisteredattendee__last_name__icontains=q)
-                    | Q(nonregisteredattendee__email__icontains=q)
-                )
-
-        return self.order_choices(choices)[0:self.limit_choices]
+        return qs[:5]
 
 
-class RegisteredEventUserAutocomplete(autocomplete.AutocompleteModelBase):
-    autocomplete_js_attributes = {'placeholder': _('Type to search'),
-                                  'label': _('User')}
+class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return Attendee.objects.none()
 
-    def choices_for_request(self):
-        q = self.request.GET.get('q', '')
-        event_slug = self.request.GET.get('event_slug', None)
+        event_slug = self.forwarded.get('event_slug', None)
+        event_user = EventUser.objects.filter(user=self.request.user, event__slug__iexact=event_slug).first()
 
-        choices = []
-        if event_slug:
-            choices = self.choices.all()
-            choices = choices.filter(event__slug__iexact=event_slug)
-            if q:
-                choices = choices.filter(
-                    Q(user__first_name__icontains=q) | Q(user__last_name__icontains=q) | Q(
-                        user__username__icontains=q) | Q(user__email__icontains=q)
-                )
+        attended = [attendance_date.attendee.pk for attendance_date in
+                    AttendeeAttendanceDate.objects.filter(attendee__event__slug__iexact=event_slug,
+                                                          date__date=datetime.date.today())]
 
-        return self.order_choices(choices)[0:self.limit_choices]
+        qs = Attendee.objects.filter(event__slug=event_slug).exclude(pk__in=attended)
 
+        if event_user and self.q:
+            qs = qs.filter(
+                Q(first_name__unaccent__icontains=self.q)
+                | Q(last_name__unaccent__icontains=self.q)
+                | Q(nickname__unaccent__icontains=self.q)
+                | Q(email__icontains=self.q)
+            )
 
-autocomplete.register(EventUser, EventUserAutocomplete)
-autocomplete.register(EventUser, EventUserInstallAutocomplete)
-autocomplete.register(EventUser, RegisteredEventUserAutocomplete)
-autocomplete.register(Software, SoftwareAutocomplete)
+        return qs[:5]
 
 
-def sorted_choices(choices_list):
-    choices_list += [('', '-------------')]
-    return sorted(set(choices_list))
+class EventUserAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return EventUser.objects.none()
+
+        event_slug = self.forwarded.get('event_slug', None)
+        event_user = EventUser.objects.filter(user=self.request.user, event__slug__iexact=event_slug).first()
+
+        attended = [attendance_date.event_user.pk for attendance_date in
+                    EventUserAttendanceDate.objects.filter(event_user__event__slug__iexact=event_slug,
+                                                           date__date=datetime.date.today())]
+
+        qs = EventUser.objects.filter(event=event_user.event).exclude(pk__in=attended)
+
+        if event_user and self.q:
+            qs = qs.filter(
+                Q(user__first_name__unaccent__icontains=self.q)
+                | Q(user__last_name__unaccent__icontains=self.q)
+                | Q(user__username__unaccent__icontains=self.q)
+                | Q(user__email__icontains=self.q)
+            )
+
+        return qs[:5]
+
+
+class AttendeeSearchForm(forms.Form):
+    def __init__(self, event_slug, *args, **kwargs):
+        kwargs.update(initial={
+            'event_slug': event_slug
+        })
+
+        super(AttendeeSearchForm, self).__init__(*args, **kwargs)
+        self.fields['event_slug'].widget = forms.HiddenInput()
+
+    event_slug = forms.CharField()
+
+    attendee = forms.ModelChoiceField(
+        queryset=Attendee.objects.all(),
+        widget=autocomplete.ModelSelect2(url='attendee-autocomplete', forward=['event_slug']),
+        required=False,
+        label=_("Attendee")
+    )
 
 
 class EventUserSearchForm(forms.Form):
-    def __init__(self, event, *args, **kwargs):
+    def __init__(self, event_slug, *args, **kwargs):
+        kwargs.update(initial={
+            'event_slug': event_slug
+        })
         super(EventUserSearchForm, self).__init__(*args, **kwargs)
-        # Los EventUser para el evento que todavia no registraron asistencia
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event).filter(assisted=False)
+        self.fields['event_slug'].widget = forms.HiddenInput()
 
-    eventUser = autocomplete.ModelChoiceField('EventUserAutocomplete', required=False)
-
-
-class RegisteredEventUserSearchForm(forms.Form):
-    def __init__(self, event, *args, **kwargs):
-        super(RegisteredEventUserSearchForm, self).__init__(*args, **kwargs)
-        self.fields['eventUser'].queryset = EventUser.objects.filter(event__slug__iexact=event)
-
-    eventUser = autocomplete.ModelChoiceField('EventUserRegisteredEventUserAutocomplete', required=False)
+    event_slug = forms.CharField()
+    event_user = forms.ModelChoiceField(
+        queryset=EventUser.objects.all(),
+        widget=autocomplete.ModelSelect2(url='eventuser-autocomplete', forward=['event_slug']),
+        required=False,
+        label=_("Collaborator/Installer")
+    )
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
     class Meta(object):
-        model = NonRegisteredAttendee
-        fields = ['first_name', 'last_name', 'email', 'installation_additional_info', 'is_installing']
-        widgets = {'event': forms.HiddenInput(), 'assisted': forms.HiddenInput(),
-                   'installation_additional_info': forms.TextInput()}
+        model = Attendee
+        fields = ['first_name', 'last_name', 'nickname', 'email', 'additional_info', 'is_installing', 'event',
+                  'registration_date']
+        widgets = {'event': forms.HiddenInput(),
+                   'registration_date': forms.HiddenInput(), 'additional_info': forms.TextInput()}
 
 
-class InstallationForm(autocomplete.ModelForm):
-    def __init__(self, event, *args, **kwargs):
-        super(InstallationForm, self).__init__(*args, **kwargs)
-        self.fields['attendee'].queryset = EventUser.objects.filter(event__slug__iexact=event)
-
-    attendee = autocomplete.ModelChoiceField('EventUserInstallAutocomplete', required=True)
-
+class InstallationForm(forms.ModelForm):
     class Meta(object):
         model = Installation
         fields = ('attendee', 'notes', 'software')
-        autocomplete_fields = ('attendee', 'software')
-        widgets = {'notes': forms.Textarea(attrs={'rows': 3})}
+        widgets = {'notes': forms.Textarea(attrs={'rows': 3}),
+                   'attendee': autocomplete.ModelSelect2(url='attendee-autocomplete'),
+                   'software': autocomplete.ModelSelect2(url='software-autocomplete')
+                   }
 
 
-class HardwareForm(autocomplete.ModelForm):
+class HardwareForm(forms.ModelForm):
     class Meta(object):
         model = Hardware
+        fields = ('type', 'manufacturer', 'model')
 
 
 class CollaboratorRegistrationForm(ModelForm):
     class Meta(object):
         model = Collaborator
-        widgets = {'eventUser': forms.HiddenInput()}
+        widgets = {'event_user': forms.HiddenInput()}
+        exclude = ()
 
 
 class EventUserRegistrationForm(ModelForm):
     class Meta(object):
         model = EventUser
-        exclude = ['user', 'assisted', 'nonregisteredattendee', 'ticket']
+        exclude = ['user', 'ticket']
         widgets = {'event': forms.HiddenInput()}
 
 
 class AttendeeRegistrationForm(ModelForm):
-    is_installing = forms.BooleanField(label=_('Bringing a device for installation?'), required=False)
-    installation_additional_info = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}), help_text=_(
-        'i.e. Wath kind of PC are you bringing? Leave blank if doesn\'t apply'), required=False)
+    repeat_email = forms.EmailField(label=_("Repeat Email"))
+    captcha = ReCaptchaField(label=_("Are you a human?"))
+
+    field_order = ['first_name', 'last_name', 'nickname', 'additional_info', 'is_installing', 'email', 'repeat_email',
+                   'captcha', 'event',
+                   'registration_date']
 
     class Meta(object):
         model = Attendee
-        widgets = {'eventUser': forms.HiddenInput()}
+        fields = ['first_name', 'last_name', 'nickname', 'email', 'additional_info', 'is_installing', 'event',
+                  'registration_date']
+        widgets = {'event': forms.HiddenInput(), 'additional_info': forms.TextInput(),
+                   'registration_date': forms.HiddenInput(), }
+
+    def clean(self):
+        cleaned_data = super(AttendeeRegistrationForm, self).clean()
+        email = cleaned_data.get("email")
+        repeat_email = cleaned_data.get("repeat_email")
+
+        if email and repeat_email:
+            if email != repeat_email:
+                raise forms.ValidationError(
+                    {'email': _("Emails do not match."), 'repeat_email': _("Emails do not match.")})
+
+        return cleaned_data
 
 
 class InstallerRegistrationForm(ModelForm):
     text = u'Afirmo que he leido la ' \
-           u'"<a href="//wiki.cafelug.org.ar/index.php/Flisol/2016/Guía_del_' \
-           u'buen_instalador" target="_blank">Sagrada Guía del Buen Instalador</a>"'
+           u'"<a href="https://wiki.cafelug.org.ar/index.php?title=Flisol/Guía_del_buen_instalador" ' \
+           u'target="_blank">Sagrada Guía del Buen Instalador</a>"'
     read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 
     class Meta(object):
         model = Installer
-        widgets = {'eventUser': forms.HiddenInput()}
-
-
-class TalkProposalForm(ModelForm):
-    class Meta(object):
-        model = TalkProposal
-        exclude = ['confirmed_talk']
-        widgets = {
-            'image': forms.HiddenInput(),
-            'activity': forms.HiddenInput()
-        }
-
-
-class TalkForm(ModelForm):
-    class Meta(object):
-        model = Activity
-        fields = ['start_date', 'end_date', 'room', 'event']
-        widgets = {
-            'event': forms.HiddenInput()
-        }
-
-    def __init__(self, event, *args, **kwargs):
-        super(TalkForm, self).__init__(*args, **kwargs)
-        if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(event__slug__iexact=event)
+        widgets = {'event_user': forms.HiddenInput()}
+        exclude = ()
 
 
 class ImageCroppingForm(ModelForm):
     class Meta(object):
-        model = Image
+        model = Activity
         fields = ('image', 'cropping')
-
-
-class RoomForm(ModelForm):
-    class Meta(object):
-        model = Room
-        exclude = ['event']
 
 
 class ContactForm(ModelForm):
@@ -244,50 +229,10 @@ class ContactForm(ModelForm):
                     validate_email(value)
                 except Exception:
                     self.add_error('url', 'Enter valid Email')
-        else: #type none
-            self.add_error('type',_('This field is required'))
+        else:  # type none
+            self.add_error('type', _('This field is required'))
 
         return cleaned_data
-
-
-class ActivityForm(ModelForm):
-    class Meta(object):
-        model = Activity
-        exclude = ['confirmed', 'room', 'start_date', 'end_date']
-        widgets = {
-            'event': forms.HiddenInput(),
-            'long_description': forms.Textarea(attrs={'rows': 3}),
-            'abstract': forms.Textarea(attrs={'rows': 3})
-        }
-
-
-class ActivityAdminForm(ModelForm):
-    def clean(self):
-        obj = self.instance
-        if obj.start_date or obj.end_date:
-            Activity.room_available(error=True, instance=obj, event_slug=obj.event.slug)
-
-
-class ActivityCompleteForm(ModelForm):
-    class Meta(object):
-        model = Activity
-        exclude = ['confirmed']
-        widgets = {
-            'event': forms.HiddenInput(),
-            'long_description': forms.Textarea(attrs={'rows': 3}),
-            'abstract': forms.Textarea(attrs={'rows': 3})
-        }
-
-    def __init__(self, event_slug, *args, **kwargs):
-        super(ActivityCompleteForm, self).__init__(*args, **kwargs)
-        if self.instance:
-            self.fields['room'].queryset = Room.objects.filter(event__slug__iexact=event_slug)
-
-
-class PresentationForm(ModelForm):
-    class Meta(object):
-        model = TalkProposal
-        fields = ('presentation',)
 
 
 class ContactMessageForm(ModelForm):
@@ -297,18 +242,37 @@ class ContactMessageForm(ModelForm):
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
 
 
-class CommentForm(ModelForm):
+class EventDateForm(ModelForm):
     class Meta(object):
-        model = Comment
-        exclude = ["activity", "user"]
+        model = EventDate
+        fields = ('date',)
+
+
+class EventDateModelFormset(BaseModelFormSet):
+    def clean(self):
+        super(EventDateModelFormset, self).clean()
+        if any(self.errors):
+            return
+
+        dates = []
+
+        for form in self.forms:
+            if form.cleaned_data:
+                date = form.cleaned_data['date']
+                if date:
+                    if date in dates:
+                        raise forms.ValidationError(
+                            _('One or more dates of the event are the same date'),
+                            code='duplicate_date'
+                        )
+                    dates.append(date)
 
 
 class EventForm(ModelForm):
     class Meta(object):
         model = Event
-        fields = ('name', 'slug', 'date', 'limit_proposal_date', 'email', 'place', 'external_url', 'event_information')
-        widgets = {'date': forms.HiddenInput(),
-                   'place': forms.HiddenInput(),
+        fields = ('name', 'slug', 'limit_proposal_date', 'email', 'place', 'external_url', 'event_information')
+        widgets = {'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
 
 
@@ -324,10 +288,26 @@ class SignUpForm(AllAuthSignUpForm):
     first_name = forms.CharField(max_length=30, label=_('First Name'))
     last_name = forms.CharField(max_length=30, label=_('Last Name'))
 
+    ordered_field_names = ['first_name', 'last_name', 'password1', 'password2', 'email', 'email2', 'username']
+
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
-        for field in ['username', 'email', 'password1', 'password2']:
+        for field in ['username', 'email', 'email2', 'password1', 'password2']:
             del self.fields[field].widget.attrs['placeholder']
+
+        original_fields = self.fields
+        new_fields = OrderedDict()
+
+        for field_name in self.ordered_field_names:
+            field = original_fields.get(field_name)
+            if field:
+                new_fields[field_name] = field
+
+        for field in self.fields.keys():
+            if field not in self.ordered_field_names:
+                new_fields[field] = original_fields.get(field)
+
+        self.fields = new_fields
 
     def signup(self, request, user):
         user.first_name = self.cleaned_data['first_name']
@@ -367,12 +347,60 @@ class SocialSignUpForm(AllAuthSocialSignUpForm):
     first_name = forms.CharField(max_length=30, label=_('First Name'))
     last_name = forms.CharField(max_length=30, label=_('Last Name'))
 
+    ordered_field_names = ['email', 'email2', 'first_name', 'last_name', 'username']
+
     def __init__(self, *args, **kwargs):
         super(SocialSignUpForm, self).__init__(*args, **kwargs)
-        for field in ['username', 'email']:
+        for field in ['username', 'email', 'email2']:
             del self.fields[field].widget.attrs['placeholder']
+
+        original_fields = self.fields
+        new_fields = OrderedDict()
+
+        for field_name in self.ordered_field_names:
+            field = original_fields.get(field_name)
+            if field:
+                new_fields[field_name] = field
+
+        for field in self.fields.keys():
+            if field not in self.ordered_field_names:
+                new_fields[field] = original_fields.get(field)
+
+        self.fields = new_fields
 
     def signup(self, request, user):
         user.first_name = self.cleaned_data['first_name']
         user.last_name = self.cleaned_data['last_name']
         user.save()
+
+
+class ActivityProposalForm(ModelForm):
+    repeat_email = forms.EmailField(label=_("Repeat Email"))
+    captcha = ReCaptchaField(label=_("Are you a human?"))
+
+    field_order = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'speaker_contact',
+                   'repeat_email', 'labels', 'level', 'presentation', 'additional_info', 'status', 'captcha']
+
+    def clean(self):
+        cleaned_data = super(ActivityProposalForm, self).clean()
+        email = cleaned_data.get("email")
+        repeat_email = cleaned_data.get("repeat_email")
+
+        if email and repeat_email:
+            if email != repeat_email:
+                raise forms.ValidationError(
+                    {'email': _("Emails do not match."), 'repeat_email': _("Emails do not match.")})
+
+        return cleaned_data
+
+    class Meta(object):
+        model = Activity
+        fields = ['event', 'title', 'speakers_names', 'abstract', 'long_description', 'speaker_contact',
+                  'labels', 'presentation', 'level', 'additional_info', 'status']
+        widgets = {
+            'event': forms.HiddenInput(),
+            'status': forms.HiddenInput(),
+            'abstract': forms.Textarea(attrs={'rows': 3}),
+            'long_description': forms.Textarea(attrs={'rows': 3}),
+            'additional_info': forms.Textarea(attrs={'rows': 3})
+        }
