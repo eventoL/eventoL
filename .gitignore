@@ -40,23 +40,23 @@ nosetests.xml
 *~
 
 #My files
-eventoL/my_settings.py
+eventol/eventol/my_settings.py
 deploy.txt
-media/talks_thumbnails/
-manager/static/manager/bower_components/
-/manager/static/manager/css/flisol-bootstrap.css
-/manager/static/manager/css/flisol.css
+eventol/media/talks_thumbnails/
+eventol/manager/static/manager/bower_components/
+eventol/manager/static/manager/css/flisol-bootstrap.css
+eventol/manager/static/manager/css/flisol.css
 media/
 env/
-manager/static/admin/
-manager/static/autocomplete_light/
-manager/static/ckeditor/
-manager/static/facebook/
-manager/static/gis/
-manager/static/image_cropping/
-manager/static/js/
-manager/static/rest_framework/
-manager/static/import_export/
-manager/static/debug_toolbar/
+eventol/manager/static/admin/
+eventol/manager/static/autocomplete_light/
+eventol/manager/static/ckeditor/
+eventol/manager/static/facebook/
+eventol/manager/static/gis/
+eventol/manager/static/image_cropping/
+eventol/manager/static/js/
+eventol/manager/static/rest_framework/
+eventol/manager/static/import_export/
+eventol/manager/static/debug_toolbar/
 
 venv/
