@@ -2,6 +2,7 @@
 
 cd /var/www/eventol/
 source venv/bin/activate
+cd eventol/
 python manage.py migrate --noinput
 python manage.py makemigrations manager --noinput
 python manage.py migrate --noinput

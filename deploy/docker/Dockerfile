@@ -38,18 +38,18 @@ RUN cd /var/www/eventol/ && bower install --allow-root
 
 # Compile less files
 RUN npm install -g less
-RUN lessc /var/www/eventol/manager/static/manager/less/flisol.less > /var/www/eventol/manager/static/manager/css/flisol.css
-RUN lessc /var/www/eventol/manager/static/manager/less/flisol-bootstrap.less > /var/www/eventol/manager/static/manager/css/flisol-bootstrap.css
+RUN lessc /var/www/eventol/eventol/manager/static/manager/less/flisol.less > /var/www/eventol/manager/static/manager/css/flisol.css
+RUN lessc /var/www/eventol/eventol/manager/static/manager/less/flisol-bootstrap.less > /var/www/eventol/manager/static/manager/css/flisol-bootstrap.css
 
 # Configure source
-RUN chmod +x /var/www/eventol/manage.py
+RUN chmod +x /var/www/eventol/eventol/manage.py
 
 # Install supervisord and gunicorn
 RUN cd /var/www/eventol/ && . venv/bin/activate && pip install supervisor
 RUN cd /var/www/eventol/ && . venv/bin/activate && pip install gunicorn
 ADD supervisor/supervisord.conf /etc/supervisord.conf
-ADD gunicorn/gunicorn-eventol.sh /var/www/eventol/gunicorn-eventol.sh
-RUN chmod +x /var/www/eventol/gunicorn-eventol.sh
+ADD gunicorn/gunicorn-eventol.sh /var/www/eventol/eventol/gunicorn-eventol.sh
+RUN chmod +x /var/www/eventol/eventol/gunicorn-eventol.sh
 
 # Configure nginx
 RUN rm -rf /etc/nginx/sites-enabled/*
@@ -61,6 +61,7 @@ RUN ln -s /etc/nginx/sites-available/eventol.conf /etc/nginx/sites-enabled/event
 
 # Add run script
 RUN mkdir /var/www/eventol/log
+RUN mkdir /var/www/eventol/eventol/log
 ADD script/run.sh /run.sh
 RUN chmod +x /run.sh
 

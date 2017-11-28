@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME="eventol" # Name of the application
-DJANGODIR=/var/www/eventol/ # Django project directory
+DJANGODIR=/var/www/eventol/eventol/ # Django project directory
 SOCKFILE=/var/www/eventol/gunicorn/gunicorn.sock # we will communicate using this unix socket
 USER=root # the user to run as
 GROUP=root # the group to run as
