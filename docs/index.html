@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EventoL</title>
+  <link rel="icon" href="favicon.ico">
+  <meta name="description" content="EventoL - event management software">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <link rel="stylesheet" href="//unpkg.com/docsify-copy-code/styles.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="//unpkg.com/docsify-copy-code/index.js"></script>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#/es/"><img class="emoji" src="https://assets-cdn.github.com/images/icons/emoji/es.png" alt="es"> Español</a></li>
+      <li><a href="#/en/" class="active"><img class="emoji" src="https://assets-cdn.github.com/images/icons/emoji/uk.png" alt="uk"> English</a></li>
+      <li><a href="#/contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div id="app"></div>
+</body>
+<script>
+  window.$docsify = {
+    loadSidebar: true,
+    coverpage: true,
+    plugins: [
+      window.DocsifyCopyCodePlugin.init(),
+      function (hook, vm) {
+        hook.afterEach(function(html, next) {
+          next(html);
+          if (window.location.hash !== '#/' && window.location.hash.indexOf('?id=') === -1) {
+            const item = document.getElementsByTagName('h1').item(0)
+            let itemId;
+            if (item) titleId = item.id;
+            else titleId = document.getElementsByTagName('h2').item(0).id
+            window.location.hash = window.location.hash + '?id=' + titleId;
+          }
+        })
+      }
+    ]
+  }
+</script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"
+    data-coverpage
+    data-router
+    data-max-level="3"
+    data-repo="https://gitlab.com/EventoL/EventoL"
+  ></script>
+  <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-javascript.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-python.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-c.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-cpp.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-diff.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-django.min.js"></script>
+  <script src="//unpkg.com/prismjs/components/prism-docker.min.js"></script>
+</html>
