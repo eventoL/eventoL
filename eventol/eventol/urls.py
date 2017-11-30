@@ -2,7 +2,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import TemplateView
-from eventoL import settings
+from eventol import settings
 from manager import views
 
 admin.autodiscover()

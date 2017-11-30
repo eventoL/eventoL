@@ -92,9 +92,9 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-ROOT_URLCONF = 'eventoL.urls'
+ROOT_URLCONF = 'eventol.urls'
 
-WSGI_APPLICATION = 'eventoL.wsgi.application'
+WSGI_APPLICATION = 'eventol.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
