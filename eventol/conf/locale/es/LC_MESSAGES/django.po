@@ -576,11 +576,11 @@ msgstr ""
 #: manager/templates/500.html:21
 msgid ""
 "Something, somewhere went terribly wrong. Please,\n"
-"        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
+"        <a href=\"https://github.com/eventoL/eventoL/issues\" target=\"_blank"
 "\">let us know!</a>"
 msgstr ""
 "Algo, en alguna parte, salió terriblemente mal. Por favor,\n"
-"        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
+"        <a href=\"https://github.com/eventoL/eventoL/issues\" target=\"_blank"
 "\">infórmanos!</a>"
 
 #: manager/templates/FAQ.html:3 manager/templates/FAQ.html:5
