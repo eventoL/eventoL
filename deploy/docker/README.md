@@ -1,9 +1,9 @@
-# KAIRÓS
+# Eventol
 
 ## Status
 
-[![pipeline status](https://gitlab.com/eventol-team/eventol/badges/master/pipeline.svg)](https://gitlab.com/eventol-team/eventol/commits/master)
-[![coverage report](https://gitlab.com/eventol-team/eventol/badges/master/coverage.svg)](https://gitlab.com/eventol-team/eventol/commits/master)
+[![pipeline status](https://github.com/eventol/eventol/badges/master/pipeline.svg)](https://github.com/eventol/eventol/commits/master)
+[![coverage report](https://github.com/eventol/eventol/badges/master/coverage.svg)](https://github.com/eventol/eventol/commits/master)
 
 ## Setup developer mode
 
@@ -17,11 +17,11 @@ This creates 3 different containers
 ====================================
 
 ```
-      Name                    Command               State                Ports               
+      Name                    Command               State                Ports
 --------------------------------------------------------------------------------------------
-eventol_reactjs_1   npm start                        Up                  0.0.0.0:3000->3000/tcp, 8000/tcp 
-eventol_redis_1     docker-entrypoint.sh redis ...   Up                  0.0.0.0:32779->6379/tcp          
-eventol_worker_1    python manage.py runserver ...   Up                  0.0.0.0:8000->8000/tcp    
+eventol_reactjs_1   npm start                        Up                  0.0.0.0:3000->3000/tcp, 8000/tcp
+eventol_redis_1     docker-entrypoint.sh redis ...   Up                  0.0.0.0:32779->6379/tcp
+eventol_worker_1    python manage.py runserver ...   Up                  0.0.0.0:8000->8000/tcp
 ```
 
 Running the django server
@@ -84,7 +84,7 @@ docker-compose exec worker python manage.py compilemessages
 
 Although production mode is only meant for servers. Sometimes could be useful
 to test an specific image
-## Install of kairós (production mode) The version of the tag should match the one on the .env file
+## Install of eventol (production mode) The version of the tag should match the one on the .env file
 ```
 $ docker build . -t registry.gitlab.com/eventol-team/eventol:latest
 ```
@@ -111,5 +111,3 @@ $ docker-compose exec worker python manage.py loaddata fixtures/initial_config.j
 ```
 $ docker-compose exec worker python manage.py createsuperuser
 ```
-
-
