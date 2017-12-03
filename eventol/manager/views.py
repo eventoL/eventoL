@@ -429,13 +429,13 @@ def reports(request, event_slug):
     installers_event_users = [installer.event_user for installer in installers]
     attendees = Attendee.objects.filter(event=event)
 
-    attendees_attendance = AttendeeAttendanceDate.objects.filter(attendee__event=event).distinct('attendee')
+    attendees_attendance = AttendeeAttendanceDate.objects.filter(attendee__event=event).order_by('attendee').distinct()
     confirmed_attendees_count = attendees_attendance.count()
     not_confirmed_attendees_count = attendees.count() - confirmed_attendees_count
 
-    confirmed_collaborators_count = EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).distinct('event_user').count()
+    confirmed_collaborators_count = EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).order_by('event_user').distinct().count()
     not_confirmed_collaborators_count = collaborators.count() - confirmed_collaborators_count
-    confirmed_installers_count =  EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).distinct('event_user').count()
+    confirmed_installers_count =  EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).order_by('event_user').distinct().count()
     not_confirmed_installers_count = installers.count() - confirmed_installers_count
 
     speakers = []
@@ -443,10 +443,9 @@ def reports(request, event_slug):
         speakers.append(talk.speakers_names.split(','))
     speakers_count = len(set(itertools.chain.from_iterable(speakers)))
 
-
     attendance_by_date = {}
     for event_date in event_dates:
-        attendance_for_date = AttendeeAttendanceDate.objects.filter(attendee__event=event, date__date=event_date.date).distinct('attendee')
+        attendance_for_date = AttendeeAttendanceDate.objects.filter(attendee__event=event, date__date=event_date.date).order_by('attendee').distinct()
         attendance_by_date[event_date.date.strftime("%Y-%m-%d")] = count_by(attendance_for_date, lambda attendance: attendance.date.hour - 3)
 
     template_dict = {
