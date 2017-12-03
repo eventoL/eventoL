@@ -1,7 +1,5 @@
 <!-- docs/_sidebar.md -->
 
-- [Login](/es/login.md)
-- [Overview](/es/overview.md)
 - [Administración personas de asistencia](/es/administracion_personas_de_asistencia.md)
 - [Administrar asistencia](/es/administrar_asistencia.md)
 - [Administrar salas aulas](/es/administrar_salas_aulas.md)
@@ -11,8 +9,10 @@
 - [Confirmar propuestas de charlas](/es/confirmar_propuestas_de_charlas.md)
 - [Crear evento](/es/crear_evento.md)
 - [Exportacion de datos](/es/exportacion_de_datos.md)
-- [Instalación](/es/installation.md)
+- [Installation](/es/installation.md)
 - [Interfaz de administración](/es/interfaz_de_administracion.md)
+- [Login](/es/login.md)
+- [Overview](/es/overview.md)
 - [Propuestas de actividad](/es/propuestas_de_actividad.md)
 - [Puesta en marcha](/es/puesta_en_marcha.md)
 - [Registro de asistentes](/es/registro_de_asistentes.md)

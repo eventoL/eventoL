@@ -1,6 +1,6 @@
 # A modo general
 
-EventoL es una plataforma para manejar eventos, hecha particularmente para FLISoL. Cada evento es una sede y provee las siguientes funcionalidades:
+eventoL es una plataforma para manejar eventos, hecha particularmente para FLISoL. Cada evento es una sede y provee las siguientes funcionalidades:
 
 * Pre-registro de asistentes
 * Registro de asistencia de asistentes

@@ -1,17 +1,17 @@
-# Base de datos
+# DB
 
-Nosotros estamos usando postgres. Para desarrollar existen 2 opciones:
+We're using postgres. For development there are 2 options:
 
-## Usar la base de datos desde un container de docker
+## Use a docker container for DB
 
-Correr el container:
+Run the container:
 
 ```sh
 docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5432:5432 -d postgres
 ```
-Y la base de datos ahora esta mágicamente habilitada en localhost:5432!
+And the database will be magically available on localhost:5432!
 
-Dependencias necesarios para la maquina servidor (probado para Debian jessie y sid):
+Dependencies needed on dev machine (tested for Debian jessie and sid):
 
 ```sh
 $ sudo apt-get install python build-essential python-setuptools python-dev python-pip
@@ -22,19 +22,18 @@ $ sudo apt-get install libffi-dev libxml2-dev libxslt1-dev
 $ sudo apt-get install postgresql-server-dev-9.4
 ```
 
-## Instalación en sistemas basados en Debian (jessie+):
+## Installation on Debian like systems (jessie+):
 
-Instalamos postgres, python y mas dependencias
+Install postgre, python and some dependencies
 ```sh
 $ sudo apt-get install python build-essential python-setuptools python-dev python-pip
-$ sudo apt-get install postgresql postgresql-client-9.4 postgresql-server-dev-9.4 
+$ sudo apt-get install postgresql postgresql-client-9.4 postgresql-server-dev-9.4
 $ sudo apt-get install binutils libproj-dev gdal-bin libgeoip1 python-gdal
 $ sudo apt-get install postgresql-9.4-postgis-2.2
 $ sudo apt-get install libjpeg-dev libpng3 libpng12-dev libfreetype6-dev zlib1g-dev
 $ sudo apt-get install jpegoptim optipng
 ```
-
-Configuración de postgres
+Configure postgre
 ```sh
 $ sudo passwd postgres
 $ sudo su - postgres
@@ -55,53 +54,53 @@ postgres# CREATE USER eventol PASSWORD 'my_passwd';
 postgres# CREATE DATABASE eventol OWNER eventol ENCODING 'utf8';
 ```
 
-## Si estas buscando alguna herramienta de administración para la base de datos
+## If you want some administration tool for the database
 
 ```sh
 $ sudo apt-get install pgadmin3
 ```
 
-# Dependencias de Python/Django
+# Python/Django project dependencies
 
-### Instalar las dependencias de python
+### Install python requirements
 
 ```sh
 $ pip install -U -r requirements.txt
 ```
 
 ### Bower
-Nosotros estamos usando bower para dependencias en el frontend. Instalación:
+We're using bower for frontend dependencies. So:
 
-* [Instalar npm y nodejs](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
-* [Instalar bower](http://bower.io/#install-bower)
-* Instalar dependencias de bower:
+* [Install nodejs and npm](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+* [Install bower](http://bower.io/#install-bower)
+* Install bower dependencies:
 
 ```sh
 @/project-root$ bower install
 ```
 
-### Compilar less de desarrollo
+### For compiling LESS on dev
 
 ```sh
 $ sudo npm install -g less
 
 ```
 
-### Compilando
+### Compiling
 
-Todo el tiempo que generamos cambios a los archivos less, es necesario que se compilen de nuevo.
-También, la primera vez que clonas del repo, es necesario que compiles los less.
+Every time you make a change to a less file, you'll need to compile it again. Also, the first time you clone the repo, you'll need to compile them
+
 
 ```sh
 @/project-root$ lessc manager/static/manager/less/flisol.less > manager/static/manager/css/flisol.css
 @/project-root$ lessc manager/static/manager/less/flisol-bootstrap.less > manager/static/manager/css/flisol-bootstrap.css
 ```
 
-### Conficuración de Django
+### Django stuff
 
-Primero que todo, hay que cambiar configuraciones en el settings.py URLS, PATHS, DATABASE y EMAIL con tu configuración determinada.
+First of all, change in settings.py URLS, PATHS, DATABASE and EMAIL related settings with your specific configuration.
 
-Entonces, cargamos la base de datos y preparamos los estáticos:
+Then, model related stuff:
 
 ```sh
 $ python manage.py migrate
@@ -111,7 +110,7 @@ $ python manage.py syncdb
 $ python manage.py collectstatic
 ```
 
-### Si estas buscando cargar datos de ejemplo para probar la aplicación
+### If you want to populate the db with some initial example data
 
 ```sh
 $ python manage.py loaddata manager/initial_data/initial_data.json
@@ -121,19 +120,19 @@ $ python manage.py loaddata manager/initial_data/attendee_data.json
 $ python manage.py loaddata manager/initial_data/email_addresses.json
 ```
 
-### Actualizar traducciones
+### Update translations
 
 ```sh
 $ django-admin makemessages --locale=es
 $ django-admin compilemessages
 ```
 
-# Configuración para inicio de sesión desde redes sociales
+# Configure social login
 
-Una vez iniciado el server, visitamos la pagina de administración (Ejemplo: `http://localhost:8000/admin/`) y seguir los siguientes pasos:
+Start your server, visit your admin pages (e.g. `http://localhost:8000/admin/`) and follow these steps:
 
-* Añadir un sitio para su dominio, que se corresponda con `settings.SITE_ID` (` django.contrib.sites app`).
-* Para cada proveedor basado en OAuth, añadir un Social App (socialaccount app).
-* Complete los datos con el sitio y las credenciales de aplicaciones OAuth obtenidos del proveedor.
+* Add a Site for your domain, matching `settings.SITE_ID` (`django.contrib.sites app`).
+* For each OAuth based provider, add a Social App (socialaccount app).
+* Fill in the site and the OAuth app credentials obtained from the provider.
 
-Para cualquier problema con las cuentas sociales, por favor verifique en la [documentación de django-allauth](http://django-allauth.readthedocs.org).
+For any trouble with social accounts, please refer to [django-allauth docs](http://django-allauth.readthedocs.org).
