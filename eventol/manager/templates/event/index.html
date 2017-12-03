@@ -212,7 +212,6 @@
             <div class="event-contacts">
                 <div class="row" style="padding-top:20px;">
                     <div class="col-md-10 col-md-offset-1">
-                        {{ contact }}
                         {% for contact in event.contacts.all %}
                             <a class="contact-link" href="{{ contact.url }}">
                                 <i class="fa fa-3x {{ contact.type.icon_class }}"></i>
