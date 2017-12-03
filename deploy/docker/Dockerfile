@@ -19,9 +19,14 @@ RUN pip install psycopg2
 COPY ./src/front/package.json /usr/src/app/front/
 COPY ./src/front/yarn.lock /usr/src/app/front/
 WORKDIR /usr/src/app/front
-RUN npm install -g yarn webpack
+RUN npm install -g yarn webpack bower less
 RUN yarn install
 WORKDIR /usr/src/app
+
+# Install bower dependencies
+COPY ./src/bower.json /usr/src/app/bower.json
+COPY ./src/.bowerrc /usr/src/app/.bowerrc
+RUN bower install --allow-root
 
 # Copy script for docker-compose wait and start-eventol
 COPY ./scripts/wait-for-it.sh /root
@@ -31,7 +36,7 @@ COPY ./scripts/start_eventol.sh /usr/src/app/start_eventol.sh
 COPY ./test.sh /usr/src/app/test.sh
 
 # Copy python code and collectstatics
-COPY ./src /usr/src/app
+COPY ./eventol /usr/src/app
 RUN python manage.py collectstatic --noinput
 
 # Compile reactjs code
