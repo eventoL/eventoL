@@ -1,3 +1,4 @@
+asgi-redis==1.4.3
 asgiref==1.1.2
 attrs==17.3.0
 autobahn==17.10.1
@@ -18,6 +19,7 @@ django-allauth==0.34.0
 django-appconf==1.0.2
 django-autocomplete-light==3.2.10
 django-autofixture==0.12.1
+django-channels==0.7.0
 django-configurations==2.0
 django-ckeditor==5.3.1
 django-debug-toolbar==1.9.1
@@ -50,6 +52,7 @@ PyQRCode==1.2.1
 python3-openid==3.1.0
 pytz==2017.2
 PyYAML==3.12
+redis==2.10.6
 requests==2.18.4
 requests-oauthlib==0.8.0
 six==1.11.0
