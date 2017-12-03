@@ -41,7 +41,7 @@ class Event(models.Model):
     def registration_is_open(self):
         return EventDate.objects.filter(event=self).order_by('date').last().date >= datetime.date.today()
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s" % self.name
 
     class Meta(object):
@@ -52,7 +52,7 @@ class EventDate(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), blank=True, null=True)
     date = models.DateField(_('Date'), help_text=_('When will your event be?'))
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s - %s" % (self.event.name, self.date)
 
 
@@ -83,7 +83,7 @@ class ContactType(models.Model):
     validate = models.CharField(_('Level'), choices=validator_choices, max_length=10,
                                 help_text=_('Type of field validation'))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta(object):
@@ -99,7 +99,7 @@ class Contact(models.Model):
     # https://code.djangoproject.com/ticket/13776
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), related_name='contacts', blank=True, null=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s - %s - %s" % (self.event.name, self.type.name, self.text)
 
     class Meta(object):
@@ -110,7 +110,7 @@ class Contact(models.Model):
 class Ticket(models.Model):
     sent = models.BooleanField(_('Sent'), default=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%d" % self.id
 
 
@@ -119,7 +119,7 @@ class EventUser(models.Model):
     event = models.ForeignKey(Event, verbose_name=_('Event'))
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.user:
             return u'%s %s' % (self.user.first_name, self.user.last_name)
 
@@ -149,7 +149,7 @@ class EventUserAttendanceDate(models.Model):
     event_user = models.ForeignKey(EventUser, verbose_name=_noop('Event User'), blank=False, null=False)
     date = models.DateTimeField(_('Date'), help_text=_('The date of the attendance'), auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s - %s" % (unicode(self.event_user), self.date)
 
 
@@ -168,7 +168,7 @@ class Collaborator(models.Model):
         verbose_name = _('Collaborator')
         verbose_name_plural = _('Collaborators')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
@@ -180,7 +180,7 @@ class Organizer(models.Model):
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
@@ -203,7 +203,7 @@ class Attendee(models.Model):
         verbose_name_plural = _('Attendees')
         unique_together = (("event", "email"),)
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s %s - %s - %s' % (self.first_name, self.last_name, self.nickname, self.email)
 
     def get_ticket_data(self):
@@ -228,7 +228,7 @@ class AttendeeAttendanceDate(models.Model):
     attendee = models.ForeignKey(Attendee, verbose_name=_noop('Attendee'), blank=False, null=False)
     date = models.DateTimeField(_('Date'), help_text=_('The date of the attendance'), auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s - %s" % (unicode(self.attendee), self.date)
 
 
@@ -242,7 +242,7 @@ class InstallationMessage(models.Model):
         verbose_name = _('Post-install Email')
         verbose_name_plural = _('Post-install Emails')
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s post-install message" % self.event.name
 
 
@@ -261,7 +261,7 @@ class Installer(models.Model):
         verbose_name = _('Installer')
         verbose_name_plural = _('Installers')
 
-    def __unicode__(self):
+    def __str__(self):
         return u'%s %s' % (self.event_user.user.first_name, self.event_user.user.last_name)
 
 
@@ -275,7 +275,7 @@ class Software(models.Model):
     name = models.CharField(_('Name'), max_length=200)
     type = models.CharField(_('Type'), choices=software_choices, max_length=200)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s - %s" % (self.type, self.name)
 
 
@@ -292,7 +292,7 @@ class Hardware(models.Model):
     manufacturer = models.CharField(_('Manufacturer'), max_length=200, blank=True, null=True)
     model = models.CharField(_('Model'), max_length=200, blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s, %s, %s" % (self.type, self.manufacturer, self.model)
 
 
@@ -300,7 +300,7 @@ class Room(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), blank=True, null=True)
     name = models.CharField(_('Name'), max_length=200, help_text=_('i.e. Classroom 256'))
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s - %s" % (self.event.name, self.name)
 
     def get_schedule_info(self):
@@ -358,7 +358,7 @@ class Activity(models.Model):
     def __cmp__(self, other):
         return -1 if self.start_date.time() < other.start_date.time() else 1
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s - %s" % (self.event, self.title)
 
     def get_absolute_url(self):
@@ -396,7 +396,7 @@ class Installation(models.Model):
     notes = models.TextField(_('Notes'), blank=True, null=True,
                              help_text=_('Any information or trouble you found and consider relevant to document'))
 
-    def __unicode__(self):
+    def __str__(self):
         return u"%s, %s, %s" % (self.attendee, self.hardware, self.software)
 
     class Meta(object):
