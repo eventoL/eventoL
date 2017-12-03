@@ -13,14 +13,13 @@ from easy_thumbnails.optimize.conf import OptimizeSettings
 def str_to_bool(str_bool):
     return str_bool == 'True'
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-STATIC_URL = '/static/'
 
 
 class Base(Configuration):
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+    STATIC_URL = '/static/'
 
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu'
@@ -310,20 +309,14 @@ class Staging(Base):
     SECRET_KEY = os.getenv(
         'DJANGO_SECRET_KEY',
         '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
-    os.environ.setdefault('DJANGO_SECRET_KEY', os.getenv('OPENSHIFT_SECRET_TOKEN'))
+    ALLOWED_HOSTS = [os.getenv('OPENSHIFT_APP_DNS'), socket.gethostname()]
+    STATIC_ROOT = os.path.join(os.getenv('REPO_DIR', BASE_DIR), 'wsgi', 'static')
+    RECAPTCHA_PROXY = os.getenv('OPENSHIFT_APP_DNS')
     os.environ.setdefault('DJANGO_DEBUG', 'False')
     os.environ.setdefault('DJANGO_TEMPLATE_DEBUG', 'False')
-    os.environ.setdefault('PSQL_NAME', os.getenv('OPENSHIFT_APP_NAME'))
-    os.environ.setdefault('PSQL_USER', os.getenv('OPENSHIFT_POSTGRESQL_DB_USERNAME'))
-    os.environ.setdefault('PSQL_PASSWORD', os.getenv('OPENSHIFT_POSTGRESQL_DB_PASSWORD'))
-    os.environ.setdefault('PSQL_HOST', os.getenv('OPENSHIFT_POSTGRESQL_DB_HOST'))
-    os.environ.setdefault('PSQL_PORT', os.getenv('OPENSHIFT_POSTGRESQL_DB_PORT'))
-    ALLOWED_HOSTS = [os.getenv('OPENSHIFT_APP_DNS'), socket.gethostname()]
-    STATIC_ROOT = os.path.join(os.getenv('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
-    RECAPTCHA_PROXY = os.getenv('OPENSHIFT_APP_DNS')
     os.environ.setdefault('DJANGO_RECAPTCHA_USE_SSL', 'True')
-    MEDIA_ROOT = os.path.join(os.getenv('OPENSHIFT_REPO_DIR'), 'wsgi', 'static', 'media')
-    MEDIA_URL = STATIC_URL + 'media/'
+    MEDIA_ROOT = os.path.join(os.getenv('REPO_DIR', BASE_DIR), 'wsgi', 'static', 'media')
+    MEDIA_URL = BASE_DIR + 'media/'
     EMAIL_BACKEND = os.getenv('eventol_EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
     MAILGUN_ACCESS_KEY = os.getenv('eventol_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
     MAILGUN_SERVER_NAME = os.getenv('eventol_MAILGUN_SERVER_NAME', 'SERVER-NAME')
