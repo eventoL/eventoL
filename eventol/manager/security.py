@@ -30,12 +30,17 @@ def get_or_create_attendance_permission():
 
 def add_attendance_permission(user):
     content_type = ContentType.objects.get_for_model(Attendee)
-    user.user_permissions.add(Permission.objects.get(content_type=content_type, codename='add_attendee'))
-    user.user_permissions.add(
-        Permission.objects.get(content_type=content_type, codename='change_attendee'))
-
+    if Permission.objects.filter(content_type=content_type, name='Add Attendee', codename='add_attendee').exists():
+        add_attendee_permission = Permission.objects.get(content_type=content_type, name='Add Attendee', codename='add_attendee')
+    else:
+        add_attendee_permission = Permission.objects.create(content_type=content_type, name='Add Attendee', codename='add_attendee')
+    if Permission.objects.filter(content_type=content_type, name='Change Attendee', codename='change_attendee').exists():
+        change_attendee_permission = Permission.objects.get(content_type=content_type, name='Change Attendee', codename='change_attendee')
+    else:
+        change_attendee_permission = Permission.objects.create(content_type=content_type, name='Change Attendee', codename='change_attendee')
+    user.user_permissions.add(add_attendee_permission)
+    user.user_permissions.add(change_attendee_permission)
     attendance_permission = get_or_create_attendance_permission()
-
     user.user_permissions.add(attendance_permission)
 
 
