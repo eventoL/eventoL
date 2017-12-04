@@ -15,6 +15,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
@@ -336,8 +337,9 @@ def add_registration_people(request, event_slug):
 
         messages.error(request, _("Something went wrong (please check form errors)"))
 
-    if Permission.objects.filter(codename='can_take_attendance').exists():
-        permission = Permission.objects.get(codename='can_take_attendance')
+    content_type = ContentType.objects.get_for_model(Attendee)
+    if Permission.objects.filter(codename='can_take_attendance', content_type=content_type).exists():
+        permission = Permission.objects.get(codename='can_take_attendance', content_type=content_type)
         registration_people = Collaborator.objects.filter(event_user__user__user_permissions=permission,
                                                           event_user__event__slug__iexact=event_slug)
     else:
