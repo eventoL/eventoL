@@ -16,7 +16,7 @@ USAGE
 }
 
 function install_js {
-  cd workshop/front
+  cd eventol/front
   npm install -g yarn
   yarn install
   cd -
@@ -46,34 +46,34 @@ function run_install {
 }
 
 function jstest {
-  cd workshop/front
+  cd eventol/front
   npm test
   cd -
 }
 
 function eslint {
-  cd workshop/front
+  cd eventol/front
   npm run eslint
   cd -
 }
 
 function eslintreport {
-  cd workshop/front
+  cd eventol/front
   npm run eslint-report
   cd -
 }
 
 function pythonlint {
-  pylint --output-format=colorized --load-plugins pylint_django workshop/workshop workshop/links
+  pylint --output-format=colorized --load-plugins pylint_django eventol/eventol eventol/manager
 }
 
 function pythontest {
-  cd workshop/front
+  cd eventol/front
   npm install -g yarn webpack
   yarn install
   timeout 20 npm start || true
   cd -
-  cd workshop/
+  cd eventol/
   py.test --cov-report term-missing --cov-report html --cov
   cd -
 }
