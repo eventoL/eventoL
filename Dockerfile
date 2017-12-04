@@ -27,13 +27,7 @@ RUN cd /usr/src/app/eventol/front && yarn install
 COPY ./eventol/front/bower.json /usr/src/app/eventol/front/
 COPY ./eventol/front/.bowerrc /usr/src/app/eventol/front/
 RUN npm install -g bower
-RUN bower install --allow-root
-
-# Compile scss
-RUN npm install -g less
-
-RUN lessc /usr/src/app/eventol/front/eventol/static/less/flisol.less > /usr/src/app/eventol/manager/static/manager/css/flisol.css
-RUN lessc /usr/src/app/eventol/front/eventol/static/less/flisol-bootstrap.less > /usr/src/app/eventol/manager/static/manager/css/flisol-bootstrap.css
+RUN cd /usr/src/app/eventol/front && bower install --allow-root
 
 # Copy test script file
 COPY ./test.sh /usr/src/app/test.sh
@@ -42,6 +36,13 @@ COPY ./test.sh /usr/src/app/test.sh
 COPY ./eventol /usr/src/app/eventol
 RUN mkdir -p /usr/src/app/eventol/manager/static
 RUN mkdir -p /usr/src/app/eventol/front/eventol/static
+
+# Compile scss
+RUN npm install -g less
+RUN mkdir -p /usr/src/app/eventol/manager/static/manager/css/
+RUN mkdir -p /usr/src/app/eventol/manager/static/manager/css/
+RUN lessc /usr/src/app/eventol/front/eventol/static/less/flisol.less > /usr/src/app/eventol/manager/static/manager/css/flisol.css
+RUN lessc /usr/src/app/eventol/front/eventol/static/less/flisol-bootstrap.less > /usr/src/app/eventol/manager/static/manager/css/flisol-bootstrap.css
 
 # Copy script for docker-compose wait and start-eventol
 COPY ./deploy/docker/scripts/wait-for-it.sh /root
