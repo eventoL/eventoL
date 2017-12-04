@@ -294,7 +294,7 @@ class Base(Configuration):
         },
     }
 
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'smtp.unset')
     EMAIL_PORT = os.getenv('DJANGO_EMAIL_PORT', '587')
     EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', 'change_unset@mail.com')
