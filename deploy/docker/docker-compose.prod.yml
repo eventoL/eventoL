@@ -2,7 +2,7 @@ version: "2"
 services:
   daphne:
     restart: always
-    image: registry.gitlab.com/eventol-team/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
     expose:
       - "8000"
     depends_on:
@@ -15,7 +15,7 @@ services:
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     command: bash -c "daphne -b 0.0.0.0 -p 8000 eventol.asgi:channel_layer"
   worker:
-    image: registry.gitlab.com/eventol-team/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
     volumes:
       - /usr/src/apps
     environment:
@@ -26,13 +26,13 @@ services:
     restart: always
     build: ./nginx/
     ports:
-      - "${KAIROS_EXTERNAL_PORT}:80"
+      - "${EXTERNAL_PORT}:80"
     depends_on:
       - daphne
     volumes_from:
       - worker
     environment:
-      - VIRTUAL_HOST=${KAIROS_HOST}
+      - VIRTUAL_HOST=${HOST}
   postgres:
     restart: always
     image: postgres:9.6

@@ -1,13 +1,13 @@
 version: "2"
 services:
   worker:
-    build: .
+    build: ../../.
     volumes:
       - ./src:/usr/src/app
     environment:
       - DJANGO_CONFIGURATION=Dev
   reactjs:
-    build: .
+    build: ../../.
     restart: always
     volumes:
       - ./src:/usr/src/app

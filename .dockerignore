@@ -1,0 +1,77 @@
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+__pycache__
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+.idea/
+
+#Backup files
+*~
+
+#My files
+my_settings.py
+deploy.txt
+eventol/manager/static/manager/bower_components/
+eventol/manager/static/manager/css/flisol-bootstrap.css
+eventol/manager/static/manager/css/flisol.css
+media/
+env/
+eventol/media/talks_thumbnails/
+eventol/manager/static/admin/
+eventol/manager/static/autocomplete_light/
+eventol/manager/static/ckeditor/
+eventol/manager/static/facebook/
+eventol/manager/static/gis/
+eventol/manager/static/image_cropping/
+eventol/manager/static/js/
+eventol/manager/static/rest_framework/
+eventol/manager/static/import_export/
+eventol/manager/static/debug_toolbar/
+node_modules
+db.sqlite3
+*.mo
+webpack-stats-local.json
+eventol/front/eventol/static/*
+!eventol/front/eventol/static/less
+eventol/front/report.html
+.coverage
+.cache
+htmlcov/
+coverage/
+jest_*
+venv/
+deploy/*
+!deploy/docker/scripts/
+docs/
+
