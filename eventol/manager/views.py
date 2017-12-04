@@ -5,11 +5,11 @@ import itertools
 import json
 import os
 import uuid
-
 import cairosvg
 import pyqrcode
 import svglue
 import logging
+
 from allauth.utils import build_absolute_uri
 from django.conf import settings
 from django.contrib import messages
@@ -22,6 +22,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.utils.translation import ugettext_lazy as _
 from django.utils.formats import localize
+from lxml import etree
 
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
@@ -77,7 +78,7 @@ def generate_ticket(user):
     ticket_data = user.get_ticket_data()
     ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
     ticket_template.set_text('event_name', "FLISoL " + ticket_data['event'].name[:24])
-    ticket_template.set_text('event_date', localize(ticket_data['event_date']).decode('utf-8'))
+    ticket_template.set_text('event_date', localize(ticket_data['event_date']))
     place = json.loads(ticket_data['event'].place)
     if place.get("name"):  # Si tiene nombre cargado
         ticket_template.set_text('event_place_name', place.get("name"))
@@ -86,7 +87,7 @@ def generate_ticket(user):
         ticket_template.set_text('event_place_name', place.get("formatted_address")[:50])
         ticket_template.set_text('event_place_address', '')
 
-    ticket_template.set_text('ticket_type', unicode(_(u"General Ticket")))
+    ticket_template.set_text('ticket_type', str(_("General Ticket")))
     qr = pyqrcode.create(ticket_data['ticket'].id)
     code = io.BytesIO()
     qr.png(code, scale=7, quiet_zone=0)
@@ -109,8 +110,7 @@ def generate_ticket(user):
 
     ticket_template.set_text('eventUser_name_l1', user_name_l1)
     ticket_template.set_text('eventUser_name_l2', user_name_l2)
-
-    return str(ticket_template)
+    return etree.tostring(ticket_template._doc, encoding='utf8', method='xml')
 
 
 def send_event_ticket(user):
@@ -119,14 +119,12 @@ def send_event_ticket(user):
 
     try:
         email = EmailMessage()
-        subject = _(u"Ticket for %(event_name)s event") % {'event_name': ticket_data['event'].name}
-        body = _(u"Hello %(first_name)s %(last_name)s,\nHere is your ticket for %(event_name)s event." +
+        email.subject = _(u"Ticket for %(event_name)s event") % {'event_name': ticket_data['event'].name}
+        email.body = _(u"Hello %(first_name)s %(last_name)s,\nHere is your ticket for %(event_name)s event." +
                  u" Please remember to print it and bring it with you the day of the event.\n" +
                  u"Regards, FLISoL %(event_name)s team.") % {'event_name': ticket_data['event'].name,
                                                              'first_name': ticket_data['first_name'],
                                                              'last_name': ticket_data['last_name']}
-        email.subject = unicode(subject)
-        email.body = unicode(body)
         email.to = [ticket_data['email']]
         email.attach('Ticket-' + str(ticket_data['ticket'].id).zfill(12) + '.pdf',
                      cairosvg.svg2pdf(bytestring=ticket_svg),
@@ -203,12 +201,11 @@ def installation(request, event_slug):
                 if postinstall_email:
                     attendee = install.attendee
                     email = EmailMultiAlternatives()
-                    subject = _(
+                    email.subject = _(
                         u"%(first_name)s %(last_name)s, thank you for participating in FLISoL %(event_name)s") % {
                                   'event_name': event.name, 'first_name': attendee.first_name,
                                   'last_name': attendee.last_name}
                     email.from_email = postinstall_email.contact_email
-                    email.subject = unicode(subject)
                     email.body = ''
                     email.attach_alternative(postinstall_email.message, "text/html")
                     email.to = [attendee.email]
@@ -554,9 +551,9 @@ def attendee_registration(request, event_slug):
                 attendee.email_token = uuid.uuid4().hex
                 attendee.save()
 
-                body = _(u"Hi! You're receiving this message because you've registered to attend to " +
-                         u"FLISoL %(event_name)s.\n\nPlease follow this link to confirm your email address and we'll " +
-                         u"send you your ticket.\n\n%(confirm_url)s") % {'event_name': event.name,
+                body = _("Hi! You're receiving this message because you've registered to attend to " +
+                         "FLISoL %(event_name)s.\n\nPlease follow this link to confirm your email address and we'll " +
+                         "send you your ticket.\n\n%(confirm_url)s") % {'event_name': event.name,
                                                                          'confirm_url': get_email_confirmation_url(
                                                                              request,
                                                                              event_slug,
@@ -564,8 +561,8 @@ def attendee_registration(request, event_slug):
                                                                              attendee.email_token)}
 
                 email = EmailMessage()
-                email.subject = unicode(_(u"[FLISoL] Please confirm your email"))
-                email.body = unicode(body)
+                email.subject = _("[FLISoL] Please confirm your email")
+                email.body = body
                 email.from_email = settings.EMAIL_FROM
                 email.to = [attendee.email]
                 email.extra_headers = {'Reply-To': settings.EMAIL_FROM}
@@ -743,7 +740,7 @@ def view_ticket(request, event_slug):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def draw(request, event_slug):
-    users = [unicode(attendance_date.attendee) for attendance_date in
+    users = [str(attendance_date.attendee) for attendance_date in
              AttendeeAttendanceDate.objects.filter(attendee__event__slug__iexact=event_slug,
                                                    date__date=datetime.date.today())]
     return render(request, 'event/draw.html',
