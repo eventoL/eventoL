@@ -20,6 +20,7 @@ from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.formats import localize
 from lxml import etree
@@ -547,7 +548,7 @@ def attendee_registration(request, event_slug):
             try:
                 attendee = attendee_form.save(commit=False)
                 attendee.event = event
-                attendee.registration_date = datetime.datetime.now()
+                attendee.registration_date = timezone.now()
                 attendee.email_token = uuid.uuid4().hex
                 attendee.save()
 
