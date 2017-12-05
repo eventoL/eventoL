@@ -40,9 +40,8 @@ RUN mkdir -p /usr/src/app/eventol/front/eventol/static
 # Compile scss
 RUN npm install -g less
 RUN mkdir -p /usr/src/app/eventol/manager/static/manager/css/
-RUN mkdir -p /usr/src/app/eventol/manager/static/manager/css/
-RUN lessc /usr/src/app/eventol/front/eventol/static/less/flisol.less > /usr/src/app/eventol/manager/static/manager/css/flisol.css
-RUN lessc /usr/src/app/eventol/front/eventol/static/less/flisol-bootstrap.less > /usr/src/app/eventol/manager/static/manager/css/flisol-bootstrap.css
+RUN lessc /usr/src/app/eventol/front/eventol/static/manager/less/flisol.less > /usr/src/app/eventol/manager/static/manager/css/flisol.css
+RUN lessc /usr/src/app/eventol/front/eventol/static/manager/less/flisol-bootstrap.less > /usr/src/app/eventol/manager/static/manager/css/flisol-bootstrap.css
 
 # Copy script for docker-compose wait and start-eventol
 COPY ./deploy/docker/scripts/wait-for-it.sh /root

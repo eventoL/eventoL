@@ -62,8 +62,8 @@ node_modules
 db.sqlite3
 *.mo
 webpack-stats-local.json
-eventol/front/eventol/static/*
-!eventol/front/eventol/static/less
+eventol/front/eventol/static/manager/*
+!eventol/front/eventol/static/manager/less
 eventol/front/report.html
 .coverage
 .cache
