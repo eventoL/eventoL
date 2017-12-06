@@ -15,10 +15,9 @@ Status
 
 Documentation:
 --------------
-See [Documentation](http://eventol-docs.readthedocs.org/en/master/)
+See [Documentation](http://eventol.github.io/eventoL)
 
 Configure Own server:
 ---------------------
-
-- See [Installation Instructions](https://github.com/eventoL/eventoL/blob/master/docs/installation.md)
-- See [Deploy Instructions](https://github.com/eventoL/eventoL/blob/master/docs/deploy.md)
+- See [Installation Instructions](http://eventol.github.io/eventoL/en/installation.md)
+- See [Deploy Instructions](http://eventol.github.io/eventoL/en/deploy.md)
