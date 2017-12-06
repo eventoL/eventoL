@@ -1,0 +1,25 @@
+version: "2"
+services:
+  worker:
+    build: ../../.
+    volumes:
+      - ./src:/usr/src/app
+    environment:
+      - DJANGO_CONFIGURATION=Dev
+  reactjs:
+    build: ../../.
+    restart: always
+    volumes:
+      - ./src:/usr/src/app
+    working_dir: /usr/src/app/front
+    command: npm start
+    ports:
+      - "3000:3000"
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-dev
+    ports:
+      - "8000:80"
+    depends_on:
+      - worker

@@ -1,0 +1,11 @@
+[run]
+source =
+    links/
+    workshop/
+omit =
+    links/migrations/*
+    links/test_*
+    links/tests/*
+    workshop/migrations/*
+    workshop/test_*
+    workshop/tests/*

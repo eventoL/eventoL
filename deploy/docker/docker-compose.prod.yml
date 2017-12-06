@@ -1,0 +1,46 @@
+version: "2"
+services:
+  daphne:
+    restart: always
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
+    expose:
+      - "8000"
+    depends_on:
+      - worker
+      - redis
+    env_file:
+      - .env
+    environment:
+      - DJANGO_CONFIGURATION=Prod
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    command: bash -c "daphne -b 0.0.0.0 -p 8000 eventol.asgi:channel_layer"
+  worker:
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
+    volumes:
+      - /usr/src/apps
+    environment:
+      - DJANGO_CONFIGURATION=Prod
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    command: /root/wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
+  nginx:
+    restart: always
+    build: ./nginx/
+    ports:
+      - "${EXTERNAL_PORT}:80"
+    depends_on:
+      - daphne
+    volumes_from:
+      - worker
+    environment:
+      - VIRTUAL_HOST=${HOST}
+  postgres:
+    restart: always
+    image: postgres:9.6
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - "5432"
+    volumes:
+      - /srv/deploys/eventolpostgres:/var/lib/postgresql/data
