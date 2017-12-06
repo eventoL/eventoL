@@ -1,128 +1,94 @@
-# Base de datos
+# Esta es la instalación para modo desarrollo
+Hay dos opciones:
+- Con docker (recomendada)
+- Directamente en tu maquina
 
-Nosotros estamos usando postgres. Para desarrollar existen 2 opciones:
+## Con Docker
 
-## Usar la base de datos desde un container de docker
+### Obtener imagen de docker
+Podes crear la tuya o tomar la generada de docker hub.
 
-Correr el container:
-
+#### Tomar la imagen de docker hub
 ```bash
-docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5432:5432 -d postgres
-```
-Y la base de datos ahora esta mágicamente habilitada en localhost:5432!
-
-Dependencias necesarios para la maquina servidor (probado para Debian jessie y sid):
-
-```bash
-sudo apt-get install python build-essential python-setuptools python-dev python-pip
-sudo apt-get install binutils libproj-dev gdal-bin libgeoip1 python-gdal
-sudo apt-get install libjpeg-dev libpng3 libpng12-dev libfreetype6-dev zlib1g-dev
-sudo apt-get install jpegoptim optipng
-sudo apt-get install libffi-dev libxml2-dev libxslt1-dev
-sudo apt-get install postgresql-server-dev-9.4
+docker pull eventol/eventol:latest
 ```
 
-## Instalación en sistemas basados en Debian (jessie+):
-
-Instalamos postgres, python y mas dependencias
+#### Crear imagen local con todas las dependencias
 ```bash
-sudo apt-get install python build-essential python-setuptools python-dev python-pip
-sudo apt-get install postgresql postgresql-client-9.4 postgresql-server-dev-9.4
-sudo apt-get install binutils libproj-dev gdal-bin libgeoip1 python-gdal
-sudo apt-get install postgresql-9.4-postgis-2.2
-sudo apt-get install libjpeg-dev libpng3 libpng12-dev libfreetype6-dev zlib1g-dev
-sudo apt-get install jpegoptim optipng
+docker build --tag=eventol/eventol:latest .
 ```
 
-Configuración de postgres
+### Correr un container con esa imagen
 ```bash
-sudo passwd postgres
-sudo su - postgres
-
-pg_dropcluster --stop 9.4 main
-pg_createcluster --start -e UTF-8 9.4 main
-
-psql postgres
-
-postgres=# ALTER ROLE postgres PASSWORD '<password>';
-(ctrl-d)
-createuser --createdb eventol
-postgres=# ALTER ROLE eventol PASSWORD '<password>';
-
-psql
-
-postgres# CREATE USER eventol PASSWORD 'my_passwd';
-postgres# CREATE DATABASE eventol OWNER eventol ENCODING 'utf8';
+docker run -d -it --name eventol -v $PWD:/src -p 8000:8000 --workdir /src eventol/eventol:latest bash
 ```
 
-## Si estas buscando alguna herramienta de administración para la base de datos
-
+### Crear la base de datos y actualizar estaticos
 ```bash
-sudo apt-get install pgadmin3
+docker exec -it eventol ./deploy/scripts/install-container-dev.sh
 ```
 
-# Dependencias de Python/Django
-
-### Instalar las dependencias de python
-
+### Correr el servidor para probar y desarrollar
 ```bash
-pip install -U -r requirements.txt
+docker exec -it eventol ./eventol/manage.py runserver 0.0.0.0:8000
 ```
 
-### Bower
-Nosotros estamos usando bower para dependencias en el frontend. Instalación:
+## Sin docker
 
+### Npm
+Nosotros estamos usando npm para las dependencias del frontend
 * [Instalar npm y nodejs](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
-* [Instalar bower](http://bower.io/#install-bower)
-* Instalar dependencias de bower:
 
+### Python 3
+Nosotros estamos usando python 3.5 para correr el proyecto
+
+### Instalar dependencias, crear la base de datos y actualizar estaticos
+
+#### Hacerlo desde script
 ```bash
+./deploy/scripts/install.sh
+```
+
+#### Hacerlo manualmente
+```bash
+#virtualenv -p python3 venv
+#source venv/bin/activate
+pip3 install -r requirements.txt -r requirements-dev.txt
+cd eventol
+./manage.py migrate
+./manage.py createsuperuser
+./manage.py loaddata manager/initial_data/attendee_data.json
+./manage.py loaddata manager/initial_data/email_addresses.json
+./manage.py loaddata manager/initial_data/initial_data.json
+./manage.py loaddata manager/initial_data/security.json
+./manage.py loaddata manager/initial_data/software.json
+
+sudo npm install -g less bower
+# sudo npm install -g yarn
+cd front
+# yarn install
 bower install
+lessc eventol/static/manager/less/flisol.less > ../manager/static/manager/css/flisol.css
+lessc eventol/static/manager/less/flisol-bootstrap.less > ../manager/static/manager/css/flisol-bootstrap.css
+cd -
+
+./manage.py collectstatic --no-input
 ```
 
-### Compilar less de desarrollo
-
+### Correr el servidor para probar y desarrollar
 ```bash
-sudo npm install -g less
-
+./eventol/manage.py runserver 0.0.0.0:8000
 ```
 
-### Compilando
+# Actualizar traducciones
 
-Todo el tiempo que generamos cambios a los archivos less, es necesario que se compilen de nuevo.
-También, la primera vez que clonas del repo, es necesario que compiles los less.
-
+## Con Docker
 ```bash
-lessc manager/static/manager/less/flisol.less > manager/static/manager/css/flisol.css
-lessc manager/static/manager/less/flisol-bootstrap.less > manager/static/manager/css/flisol-bootstrap.css
+docker exec -it eventol ./eventol/manage.py makemessages --locale=es
+docker exec -it eventol ./eventol/manage.py compilemessages
 ```
 
-### Conficuración de Django
-
-Primero que todo, hay que cambiar configuraciones en el settings.py URLS, PATHS, DATABASE y EMAIL con tu configuración determinada.
-
-Entonces, cargamos la base de datos y preparamos los estáticos:
-
-```bash
-python manage.py migrate
-python manage.py makemigrations manager
-python manage.py migrate
-python manage.py syncdb
-python manage.py collectstatic
-```
-
-### Si estas buscando cargar datos de ejemplo para probar la aplicación
-
-```bash
-python manage.py loaddata manager/initial_data/initial_data.json
-python manage.py loaddata manager/initial_data/security.json
-python manage.py loaddata manager/initial_data/software.json
-python manage.py loaddata manager/initial_data/attendee_data.json
-python manage.py loaddata manager/initial_data/email_addresses.json
-```
-
-### Actualizar traducciones
-
+## Sin Docker
 ```bash
 django-admin makemessages --locale=es
 django-admin compilemessages
