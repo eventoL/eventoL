@@ -1,6 +1,6 @@
 #virtualenv -p python3 venv
 #source venv/bin/activate
-pip install -r requirements.txt -r requirements-dev.txt
+pip3 install -r requirements.txt -r requirements-dev.txt
 cd eventol
 ./manage.py migrate
 ./manage.py createsuperuser
@@ -20,5 +20,3 @@ lessc eventol/static/manager/less/flisol-bootstrap.less > ../manager/static/mana
 cd -
 
 ./manage.py collectstatic --no-input
-./manage.py runserver
-

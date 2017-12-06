@@ -7,5 +7,4 @@ cd eventol
 ./manage.py loaddata manager/initial_data/security.json
 ./manage.py loaddata manager/initial_data/software.json
 ./manage.py collectstatic --no-input
-./manage.py runserver 0.0.0.0:8000
 

@@ -15,5 +15,4 @@ lessc eventol/static/manager/less/flisol-bootstrap.less > ../manager/static/mana
 cd -
 
 ./manage.py collectstatic --no-input
-./manage.py runserver 0.0.0.0:8000
 
