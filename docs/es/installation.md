@@ -50,28 +50,53 @@ Nosotros estamos usando python 3.5 para correr el proyecto
 ```
 
 #### Hacerlo manualmente
+
+##### Si usas virtualenv (si vas a instalar a mano es recomendable):
 ```bash
-#virtualenv -p python3 venv
-#source venv/bin/activate
-pip3 install -r requirements.txt -r requirements-dev.txt
+virtualenv -p python3 venv
+source venv/bin/activate
+```
+
+##### Instalar dependencias de python
+```bash
+pip install -r requirements.txt -r requirements-dev.txt
+```
+
+##### Crear la base de datos y cargar datos de ejemplo
+```bash
 cd eventol
 ./manage.py migrate
-./manage.py createsuperuser
 ./manage.py loaddata manager/initial_data/attendee_data.json
 ./manage.py loaddata manager/initial_data/email_addresses.json
 ./manage.py loaddata manager/initial_data/initial_data.json
 ./manage.py loaddata manager/initial_data/security.json
 ./manage.py loaddata manager/initial_data/software.json
+cd -
+```
 
+##### Crear usuario admin
+```bash
+cd eventol
+./manage.py createsuperuser
+cd -
+```
+
+##### Instalar dependencias de node
+```bash
 sudo npm install -g less bower
-# sudo npm install -g yarn
-cd front
-# yarn install
+```
+
+##### Instalar dependencias del frontend y compilar los css
+```bash
+cd eventol/front
 bower install
 lessc eventol/static/manager/less/flisol.less > ../manager/static/manager/css/flisol.css
 lessc eventol/static/manager/less/flisol-bootstrap.less > ../manager/static/manager/css/flisol-bootstrap.css
 cd -
+```
 
+##### Juntar los archivos estaticos
+```bash
 ./manage.py collectstatic --no-input
 ```
 

@@ -1,138 +1,130 @@
-# DB
+# Esta es la instalación para modo desarrollo
+Hay dos opciones:
+- Con docker (recomendada)
+- Directamente en tu maquina
 
-We're using postgres. For development there are 2 options:
+## Con Docker
 
-## Use a docker container for DB
+### Obtener imagen de docker
+Podes crear la tuya o tomar la generada de docker hub.
 
-Run the container:
-
-```sh
-docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5432:5432 -d postgres
-```
-And the database will be magically available on localhost:5432!
-
-Dependencies needed on dev machine (tested for Debian jessie and sid):
-
-```sh
-$ sudo apt-get install python build-essential python-setuptools python-dev python-pip
-$ sudo apt-get install binutils libproj-dev gdal-bin libgeoip1 python-gdal
-$ sudo apt-get install libjpeg-dev libpng3 libpng12-dev libfreetype6-dev zlib1g-dev
-$ sudo apt-get install jpegoptim optipng
-$ sudo apt-get install libffi-dev libxml2-dev libxslt1-dev
-$ sudo apt-get install postgresql-server-dev-9.4
+#### Tomar la imagen de docker hub
+```bash
+docker pull eventol/eventol:latest
 ```
 
-## Installation on Debian like systems (jessie+):
-
-Install postgre, python and some dependencies
-```sh
-$ sudo apt-get install python build-essential python-setuptools python-dev python-pip
-$ sudo apt-get install postgresql postgresql-client-9.4 postgresql-server-dev-9.4
-$ sudo apt-get install binutils libproj-dev gdal-bin libgeoip1 python-gdal
-$ sudo apt-get install postgresql-9.4-postgis-2.2
-$ sudo apt-get install libjpeg-dev libpng3 libpng12-dev libfreetype6-dev zlib1g-dev
-$ sudo apt-get install jpegoptim optipng
-```
-Configure postgre
-```sh
-$ sudo passwd postgres
-$ sudo su - postgres
-
-$ pg_dropcluster --stop 9.4 main
-$ pg_createcluster --start -e UTF-8 9.4 main
-
-$ psql postgres
-
-postgres=# ALTER ROLE postgres PASSWORD '<password>';
-(ctrl-d)
-$ createuser --createdb eventol
-postgres=# ALTER ROLE eventol PASSWORD '<password>';
-
-$ psql
-
-postgres# CREATE USER eventol PASSWORD 'my_passwd';
-postgres# CREATE DATABASE eventol OWNER eventol ENCODING 'utf8';
+#### Crear imagen local con todas las dependencias
+```bash
+docker build --tag=eventol/eventol:latest .
 ```
 
-## If you want some administration tool for the database
-
-```sh
-$ sudo apt-get install pgadmin3
+### Correr un container con esa imagen
+```bash
+docker run -d -it --name eventol -v $PWD:/src -p 8000:8000 --workdir /src eventol/eventol:latest bash
 ```
 
-# Python/Django project dependencies
-
-### Install python requirements
-
-```sh
-$ pip install -U -r requirements.txt
+### Crear la base de datos y actualizar estaticos
+```bash
+docker exec -it eventol ./deploy/scripts/install-container-dev.sh
 ```
 
-### Bower
-We're using bower for frontend dependencies. So:
-
-* [Install nodejs and npm](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
-* [Install bower](http://bower.io/#install-bower)
-* Install bower dependencies:
-
-```sh
-@/project-root$ bower install
+### Correr el servidor para probar y desarrollar
+```bash
+docker exec -it eventol ./eventol/manage.py runserver 0.0.0.0:8000
 ```
 
-### For compiling LESS on dev
+## Sin docker
 
-```sh
-$ sudo npm install -g less
+### Npm
+Nosotros estamos usando npm para las dependencias del frontend
+* [Instalar npm y nodejs](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
 
+### Python 3
+Nosotros estamos usando python 3.5 para correr el proyecto
+
+### Instalar dependencias, crear la base de datos y actualizar estaticos
+
+#### Hacerlo desde script
+```bash
+./deploy/scripts/install.sh
 ```
 
-### Compiling
+#### Hacerlo manualmente
 
-Every time you make a change to a less file, you'll need to compile it again. Also, the first time you clone the repo, you'll need to compile them
-
-
-```sh
-@/project-root$ lessc manager/static/manager/less/flisol.less > manager/static/manager/css/flisol.css
-@/project-root$ lessc manager/static/manager/less/flisol-bootstrap.less > manager/static/manager/css/flisol-bootstrap.css
+##### Si usas virtualenv (si vas a instalar a mano es recomendable):
+```bash
+virtualenv -p python3 venv
+source venv/bin/activate
 ```
 
-### Django stuff
-
-First of all, change in settings.py URLS, PATHS, DATABASE and EMAIL related settings with your specific configuration.
-
-Then, model related stuff:
-
-```sh
-$ python manage.py migrate
-$ python manage.py makemigrations manager
-$ python manage.py migrate
-$ python manage.py syncdb
-$ python manage.py collectstatic
+##### Instalar dependencias de python
+```bash
+pip install -r requirements.txt -r requirements-dev.txt
 ```
 
-### If you want to populate the db with some initial example data
-
-```sh
-$ python manage.py loaddata manager/initial_data/initial_data.json
-$ python manage.py loaddata manager/initial_data/security.json
-$ python manage.py loaddata manager/initial_data/software.json
-$ python manage.py loaddata manager/initial_data/attendee_data.json
-$ python manage.py loaddata manager/initial_data/email_addresses.json
+##### Crear la base de datos y cargar datos de ejemplo
+```bash
+cd eventol
+./manage.py migrate
+./manage.py loaddata manager/initial_data/attendee_data.json
+./manage.py loaddata manager/initial_data/email_addresses.json
+./manage.py loaddata manager/initial_data/initial_data.json
+./manage.py loaddata manager/initial_data/security.json
+./manage.py loaddata manager/initial_data/software.json
+cd -
 ```
 
-### Update translations
-
-```sh
-$ django-admin makemessages --locale=es
-$ django-admin compilemessages
+##### Crear usuario admin
+```bash
+cd eventol
+./manage.py createsuperuser
+cd -
 ```
 
-# Configure social login
+##### Instalar dependencias de node
+```bash
+sudo npm install -g less bower
+```
 
-Start your server, visit your admin pages (e.g. `http://localhost:8000/admin/`) and follow these steps:
+##### Instalar dependencias del frontend y compilar los css
+```bash
+cd eventol/front
+bower install
+lessc eventol/static/manager/less/flisol.less > ../manager/static/manager/css/flisol.css
+lessc eventol/static/manager/less/flisol-bootstrap.less > ../manager/static/manager/css/flisol-bootstrap.css
+cd -
+```
 
-* Add a Site for your domain, matching `settings.SITE_ID` (`django.contrib.sites app`).
-* For each OAuth based provider, add a Social App (socialaccount app).
-* Fill in the site and the OAuth app credentials obtained from the provider.
+##### Juntar los archivos estaticos
+```bash
+./manage.py collectstatic --no-input
+```
 
-For any trouble with social accounts, please refer to [django-allauth docs](http://django-allauth.readthedocs.org).
+### Correr el servidor para probar y desarrollar
+```bash
+./eventol/manage.py runserver 0.0.0.0:8000
+```
+
+# Actualizar traducciones
+
+## Con Docker
+```bash
+docker exec -it eventol ./eventol/manage.py makemessages --locale=es
+docker exec -it eventol ./eventol/manage.py compilemessages
+```
+
+## Sin Docker
+```bash
+django-admin makemessages --locale=es
+django-admin compilemessages
+```
+
+# Configuración para inicio de sesión desde redes sociales
+
+Una vez iniciado el server, visitamos la pagina de administración (Ejemplo: `http://localhost:8000/admin/`) y seguir los siguientes pasos:
+
+* Añadir un sitio para su dominio, que se corresponda con `settings.SITE_ID` (` django.contrib.sites app`).
+* Para cada proveedor basado en OAuth, añadir un Social App (socialaccount app).
+* Complete los datos con el sitio y las credenciales de aplicaciones OAuth obtenidos del proveedor.
+
+Para cualquier problema con las cuentas sociales, por favor verifique en la [documentación de django-allauth](http://django-allauth.readthedocs.org).
