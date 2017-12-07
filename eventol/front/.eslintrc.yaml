@@ -1,0 +1,57 @@
+parser: babel-eslint
+env:
+ browser: true
+ es6: true
+ jest/globals: true
+globals:
+ gettext: true
+ $: true
+ module: true
+ process: true
+ __dirname: true
+ global: true
+ window: true
+parserOptions:
+ ecmaVersion: 6
+ sourceType: module
+ ecmaFeatures:
+  jsx: true
+plugins:
+ - react
+ - jest
+ - import
+extends:
+ - eslint:recommended
+ - plugin:react/recommended
+ - plugin:import/errors
+ - plugin:import/warnings
+rules:
+ quotes: [2, "single"]
+ no-var: 2
+ no-console: 0
+ prefer-const: 2
+ comma-dangle: [2, "only-multiline"]
+ no-inner-declarations: 0
+ no-unused-vars: [2, { argsIgnorePattern: "^(nextState|prevState|err|error|reject|getState|_|__)$" }]
+ react/no-did-update-set-state: [1]
+ react/no-did-mount-set-state: [1]
+ react/no-unused-prop-types: [1]
+ react/jsx-no-bind: [0]
+ react/self-closing-comp: [1]
+ import/no-duplicates: 2
+ jest/no-disabled-tests: 1
+ jest/no-focused-tests: 2
+ jest/no-identical-title: 2
+ jest/valid-expect: 2
+ import/no-unresolved: [2, {commonjs: true, amd: true}]
+ import/named: 2
+ import/namespace: 2
+ import/default: 2
+ import/export: 2
+settings:
+ import/resolver:
+   node:
+     paths: ['src/']
+     extensions:
+      - .js
+      - .jsx

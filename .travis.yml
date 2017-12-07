@@ -1,9 +1,9 @@
 sudo: required
 language: python
 python:
-  - "2.7"
+  - "3.5"
 env:
-  - DJANGO=1.10.5 DB=postgres
+  - DJANGO=1.11.6 DB=postgres
 services:
   - docker
 cache: pip
@@ -13,7 +13,9 @@ install:
   - pip install -U pip wheel
   - pip install coverage coveralls
   - pip install -r requirements.txt
+  - pip install -r requirements-dev.txt
 script:
+  - cd eventol
   - python manage.py makemigrations manager
   - python manage.py migrate
   - coverage run --source='.' manage.py test -v 3
