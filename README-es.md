@@ -19,5 +19,5 @@ Ver [Documentación](http://eventol.github.io/eventoL)
 
 Configuración de server propio:
 -------------------------------
-- Ver [Instrucciones de Instalación](http://eventol.github.io/eventoL/es/installation.md)
-- Ver [Instrucciones de puesta en marcha](http://eventol.github.io/eventoL/es/deploy.md)
+- Ver [Instrucciones de Instalación](http://eventol.github.io/eventoL/#/es/installation)
+- Ver [Instrucciones de puesta en marcha](http://eventol.github.io/eventoL/#/es/deploy)
