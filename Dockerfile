@@ -51,7 +51,11 @@ COPY ./deploy/docker/scripts/start_eventol.sh /usr/src/app/start_eventol.sh
 RUN cd /usr/src/app/eventol/front && webpack --config webpack.prod.config.js
 
 # Collect statics
+RUN mkdir -p /usr/src/app/eventol/static
 RUN cd /usr/src/app/eventol && python manage.py collectstatic --noinput
+
+# Create media folder
+RUN mkdir -p /usr/src/app/eventol/media
 
 # Compile .po files
 RUN sed -i 's@#~ @@g' /usr/src/app/eventol/conf/locale/*/LC_MESSAGES/djangojs.po

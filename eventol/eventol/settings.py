@@ -13,6 +13,7 @@ from easy_thumbnails.optimize.conf import OptimizeSettings
 def str_to_bool(str_bool):
     return str_bool == 'True'
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -144,7 +145,7 @@ class Base(Configuration):
             },
             'file': {
                 'class': 'logging.handlers.RotatingFileHandler',
-                'filename': '/var/log/kairos.log',
+                'filename': '/var/log/eventol.log',
                 'maxBytes': 1024*1024*10,
                 'backupCount': 10,
                 'formatter': 'logservices',
@@ -272,7 +273,7 @@ class Base(Configuration):
     RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
     RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
     NOCAPTCHA = True
-    RECAPTCHA_USE_SSL = str_to_bool(os.getenv('DJANGO_RECAPTCHA_USE_SSL', 'False'))
+    RECAPTCHA_USE_SSL = str_to_bool(os.getenv('RECAPTCHA_USE_SSL', 'False'))
 
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'front/eventol/static'),
@@ -295,35 +296,32 @@ class Base(Configuration):
     }
 
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', 'smtp.unset')
-    EMAIL_PORT = os.getenv('DJANGO_EMAIL_PORT', '587')
-    EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', 'change_unset@mail.com')
-    EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', 'secret')
+    EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.unset')
+    EMAIL_PORT = os.getenv('EMAIL_PORT', '587')
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'change_unset@mail.com')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'secret')
     EMAIL_USE_TLS = True
-    EMAIL_FROM = os.getenv('DJANGO_EMAIL_FROM', 'change_unset@mail.com')
+    EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
 
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = BASE_DIR + 'media/'
 
 class Staging(Base):
     import socket
-    DEBUG = str_to_bool(os.getenv('DJANGO_DEBUG', 'True'))
+    DEBUG = str_to_bool(os.getenv('DEBUG', 'True'))
     SECRET_KEY = os.getenv(
-        'DJANGO_SECRET_KEY',
+        'SECRET_KEY',
         '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
-    ALLOWED_HOSTS = [os.getenv('OPENSHIFT_APP_DNS'), socket.gethostname()]
-    STATIC_ROOT = os.path.join(os.getenv('REPO_DIR', BASE_DIR), 'wsgi', 'static')
-    RECAPTCHA_PROXY = os.getenv('OPENSHIFT_APP_DNS')
-    os.environ.setdefault('DJANGO_DEBUG', 'False')
-    os.environ.setdefault('DJANGO_TEMPLATE_DEBUG', 'False')
-    os.environ.setdefault('DJANGO_RECAPTCHA_USE_SSL', 'True')
-    MEDIA_ROOT = os.path.join(os.getenv('REPO_DIR', BASE_DIR), 'wsgi', 'static', 'media')
-    MEDIA_URL = BASE_DIR + 'media/'
-    EMAIL_BACKEND = os.getenv('eventol_EMAIL_BACKEND', 'django_mailgun.MailgunBackend')
-    MAILGUN_ACCESS_KEY = os.getenv('eventol_MAILGUN_ACCESS_KEY', 'ACCESS-KEY')
-    MAILGUN_SERVER_NAME = os.getenv('eventol_MAILGUN_SERVER_NAME', 'SERVER-NAME')
+    ALLOWED_HOSTS = [os.getenv('APP_DNS'), socket.gethostname()]
+    RECAPTCHA_PROXY = os.getenv('APP_DNS')
+    os.environ.setdefault('DEBUG', 'False')
+    os.environ.setdefault('TEMPLATE_DEBUG', 'False')
+    os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('PSQL_NAME', 'eventol'),
+            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
             'USER': os.getenv('PSQL_USER', 'eventol'),
             'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
             'HOST': os.getenv('PSQL_HOST', 'localhost'),
@@ -377,10 +375,10 @@ class Staging(Base):
             'CONFIG': {
                 'hosts': [(
                     os.getenv('REDIS_HOST', 'redis'),
-                    os.getenv('REDIS_PORT', '6379'),
+                    int(os.getenv('REDIS_PORT', '6379')),
                 )],
             },
-            'ROUTING': 'kairos.routing.channel_routing',
+            'ROUTING': 'eventol.routing.channel_routing',
         },
     }
 
@@ -390,9 +388,6 @@ class Prod(Staging):
 
 
 class Dev(Base):
-    STATIC_ROOT = os.path.join(BASE_DIR, 'manager', 'static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
     AUTH_PASSWORD_VALIDATORS = []
     WEBPACK_LOADER = {
         'DEFAULT': {

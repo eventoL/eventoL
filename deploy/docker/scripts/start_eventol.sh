@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd eventol
 python manage.py makemigrations manager --noinput
 python manage.py migrate --noinput
 python manage.py collectstatic --noinput

@@ -12,15 +12,13 @@ services:
       - .env
     environment:
       - DJANGO_CONFIGURATION=Prod
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-    command: bash -c "daphne -b 0.0.0.0 -p 8000 eventol.asgi:channel_layer"
+    command: bash -c "cd eventol; daphne -b 0.0.0.0 -p 8000 eventol.asgi:channel_layer"
   worker:
     image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
     volumes:
       - /usr/src/apps
     environment:
       - DJANGO_CONFIGURATION=Prod
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     command: /root/wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
   nginx:
     restart: always
@@ -37,9 +35,9 @@ services:
     restart: always
     image: postgres:9.6
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD=${PSQL_PASSWORD}
+      - POSTGRES_USER=${PSQL_USER}
+      - POSTGRES_DB=${PSQL_DBNAME}
     ports:
       - "5432"
     volumes:
