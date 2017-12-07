@@ -1,16 +1,13 @@
 #!/bin/bash
-set -e
-set -x
-
 cmdname=$(basename $0)
 INSTALL=false
 
 function usage {
     cat << USAGE >&2
 Usage:
-  $cmdname [-i] [-t task]
+  $cmdname [-i] [task task2 task3 ...]
   -i | --install                                     Install dependencies for the task
-  -t TASK | --task=TASK                              Task name to run
+  task                                               Task name to run [js (alias: frontend), python (alias: backend), eslintreport (alias: lint-report) or eslint (alias: lint)]
 USAGE
   exit 1
 }
@@ -28,19 +25,19 @@ function install_python {
 }
 
 function run_install {
-  TASK_NAME=$1
-  if [ "$PLATFORM" == "js" ] || [ "$PLATFORM" == "frontend" ]; then
+  TASK=$1
+  if [ "$TASK" == "js" ] || [ "$TASK" == "frontend" ]; then
     install_js
-  elif [ "$PLATFORM" == "python" ] || [ "$PLATFORM" == "backend" ]; then
+  elif [ "$TASK" == "python" ] || [ "$TASK" == "backend" ]; then
     install_python
-  elif [ "$PLATFORM" == "pylint" ] || [ "$PLATFORM" == "pythonlint" ]; then
+  elif [ "$TASK" == "pylint" ] || [ "$TASK" == "pythonlint" ]; then
     install_python
-  elif [ "$PLATFORM" == "eslint-report" ] || [ "$PLATFORM" == "lint-report" ]; then
+  elif [ "$TASK" == "eslint-report" ] || [ "$TASK" == "lint-report" ]; then
     install_js
-  elif [ "$PLATFORM" == "eslint" ] || [ "$PLATFORM" == "lint" ]; then
+  elif [ "$TASK" == "eslint" ] || [ "$TASK" == "lint" ]; then
     install_js
   else
-    echo "Invalid platform to install. Plataforms: js (alias: frontend, eslintreport, lint-report, eslint, lint) and python (alias: backend)"
+    echo "Invalid task to install. Plataforms: js (alias: frontend, eslintreport, lint-report, eslint, lint) and python (alias: backend)"
     exit 1
   fi
 }
@@ -69,29 +66,29 @@ function pythonlint {
 
 function pythontest {
   cd eventol/front
-  npm install -g yarn webpack
   yarn install
   timeout 20 npm start || true
   cd -
   cd eventol/
-  py.test --cov-report term-missing --cov-report html --cov
+  ./manage.py test -v 3
+  # py.test --cov-report term-missing --cov-report html --cov
   cd -
 }
 
 function run_task {
   TASK=$1
-  if [ "$PLATFORM" == "js" ] || [ "$PLATFORM" == "frontend" ]; then
+  if [ "$TASK" == "js" ] || [ "$TASK" == "frontend" ]; then
     jstest
-  elif [ "$PLATFORM" == "python" ] || [ "$PLATFORM" == "backend" ]; then
+  elif [ "$TASK" == "python" ] || [ "$TASK" == "backend" ]; then
     pythontest
-  elif [ "$PLATFORM" == "pylint" ] || [ "$PLATFORM" == "pythonlint" ]; then
+  elif [ "$TASK" == "pylint" ] || [ "$TASK" == "pythonlint" ]; then
     pythonlint
-  elif [ "$PLATFORM" == "eslint-report" ] || [ "$PLATFORM" == "lint-report" ]; then
+  elif [ "$TASK" == "eslint-report" ] || [ "$TASK" == "lint-report" ]; then
     eslintreport
-  elif [ "$PLATFORM" == "eslint" ] || [ "$PLATFORM" == "lint" ]; then
+  elif [ "$TASK" == "eslint" ] || [ "$TASK" == "lint" ]; then
     eslint
   else
-    echo "Invalid platform. Plataforms: js (alias: frontend), python (alias: backend), eslintreport (alias: lint-report) or eslint (alias: lint)"
+    echo "Invalid task. Plataforms: js (alias: frontend), python (alias: backend), eslintreport (alias: lint-report) or eslint (alias: lint)"
     exit 1
   fi
 }
@@ -108,17 +105,6 @@ do
       INSTALL=true
       shift 1
     ;;
-    -t)
-      TASK="$2"
-      if [[ $TASK == "" ]]; then
-        break;
-      fi
-      shift 2
-    ;;
-    --task=*)
-      TASK="${1#*=}"
-      shift 1
-    ;;
     --help)
       usage
     ;;
@@ -132,11 +118,11 @@ do
     ;;
     *)
       INSTALL=${INSTALL:false}
-      for PLATFORM in "$@"; do
+      for TASK in "$@"; do
         if $INSTALL; then
           run_install $INSTALL
         fi
-        run_task $PLATFORM
+        run_task $TASK
         shift 1
       done
     ;;
