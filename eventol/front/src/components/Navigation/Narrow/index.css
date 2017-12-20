@@ -1,0 +1,18 @@
+.NavigationNarrow ul {
+  opacity: 0.8;
+  z-index: 0;
+  margin-right: 8vw;
+  background: #666a73;
+}
+.NavigationNarrow ul li {
+  font-weight: 400;
+  padding: 7px 10px;
+  font-size: 14px;
+  -webkit-transition: background .125s ease;
+  transition: background .125s ease;
+  border-radius: 3px;
+}
+.NavigationNarrow ul li:hover {
+  background: #1F6879;
+  cursor: pointer;
+}
