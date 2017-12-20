@@ -152,8 +152,6 @@ def create_organizer(event_user):
 
 
 # Views
-
-
 def index(request, event_slug):
     event = get_object_or_404(Event, slug__iexact=event_slug)
     if event.external_url:
@@ -176,7 +174,7 @@ def event_view(request, event_slug, html='index.html'):
 
 def home(request):
     events = Event.objects.all()
-    return render(request, 'homepage.html', {'events': events})
+    return render(request, 'index.html', {'events': list(events)})
 
 
 @login_required
