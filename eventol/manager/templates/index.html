@@ -1,0 +1,22 @@
+<!doctype html>
+{% load render_bundle from webpack_loader %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, scale=1.0" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+     <title>EventoL</title>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    {% render_bundle 'vendors' %}
+    {% render_bundle 'Home' %}
+    <script>
+      window.render_components({
+        events: {{ events|safe }}
+      });
+    </script>
+  </body>
+</html>
