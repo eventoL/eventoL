@@ -3,6 +3,8 @@ import Hero from '../../components/Hero';
 import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
+import ResponsiveSlider from '../../components/ResponsiveSlider';
+
 import './index.css';
 
 
@@ -32,6 +34,7 @@ export default class App extends React.Component {
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
         {searched && <TitleList title='Resultados de busqueda' url={searchUrl} />}
+        <ResponsiveSlider />
         <TitleList title='Eventos Destacados' url='discover/tv?sort_by=popularity.desc&page=1' />
         <TitleList title='Tendencia actual' url='discover/movie?sort_by=popularity.desc&page=1' />
         <TitleList title='Mas recietes' url='genre/27/movies?sort_by=popularity.desc&page=1' />
