@@ -43,6 +43,10 @@ module.exports = {
             enabled: true,
           },
         }
+      },
+      {
+        test: /\.(eot|woff2|woff|ttf)$/,
+        loader: 'file-loader'
       }
     ]
   },
