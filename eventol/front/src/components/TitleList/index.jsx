@@ -1,5 +1,7 @@
 import React from 'react';
-import Item from '../Item';
+
+import SliderItems from '../SliderItems';
+
 import './index.css';
 
 
@@ -49,26 +51,23 @@ export default class TitleList extends React.Component {
     }
   }
 
+  parseItem({id:key, title, attendees, overview, backdrop_path:backdrop}){
+    return {key, title, attendees, overview, backdrop}
+  }
+
   render(){
     const {mounted, data: {results}} = this.state;
     const {title} = this.props;
-    let titles = '';
+    let itemsData = '';
     if(results) {
-      titles = results.map(({id:key, title, attendees, overview, backdrop_path:backdrop}, i) => {
-        if(i < 5) {
-          const item = {key, title, attendees, overview, backdrop}
-          return <Item {...item} />
-        }
-        return <div key></div>;
-      });
+      itemsData = results.map(this.parseItem);
     }
+    console.log('itemsData to send', itemsData);
     return (
       <div ref="titlecategory" className="TitleList" data-loaded={mounted}>
         <div className="CategoryTitle">
           <h1>{title}</h1>
-          <div className="titles-wrapper">
-            {titles}
-          </div>
+          <SliderItems itemsData={itemsData}/>
         </div>
       </div>
     );
