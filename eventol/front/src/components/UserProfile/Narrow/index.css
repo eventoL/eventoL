@@ -42,10 +42,8 @@
 }
 
 .UserProfileNarrow .User:hover {
+  background: #1F6879;
   cursor: pointer;
-}
-.UserProfileNarrow .User:hover .image {
-  border: 3px solid #1F6879;
 }
 .UserProfileNarrow .UserProfileNarrow-menu {
   display: none;
