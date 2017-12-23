@@ -1,6 +1,4 @@
 .Item {
-  width: calc(20% - 10px);
-  min-width: calc(20% - 10px);
   background-color: #000000;
   -webkit-box-flex: 1;
   -webkit-flex: 1 0 auto;
@@ -11,15 +9,12 @@
   height: 200px;
   background-repeat: no-repeat;
   overflow: hidden;
-  margin-right: 10px;
+  margin-right: 30px;
+  padding-rigth: 10px;
   -webkit-transition: background 1s ease;
   transition: background 1s ease;
-}
-.Item:nth-child(n+6) {
-  margin-top: 20px;
-}
-.Item:last-child {
-  margin-right: 0;
+  background-clip: content-box;
+  background-size: cover;
 }
 .Item .overlay {
   /* FF3.6-15 */
