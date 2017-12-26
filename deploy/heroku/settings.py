@@ -1,0 +1,427 @@
+# pylint: disable=missing-docstring
+# pylint: disable=W0232
+# pylint: disable=C0103
+
+import os
+
+from configurations import Configuration
+from django.utils.translation import ugettext_lazy as _
+from easy_thumbnails.conf import Settings as thumbnail_settings
+from easy_thumbnails.optimize.conf import OptimizeSettings
+
+
+def str_to_bool(str_bool):
+    return str_bool == 'True'
+
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+
+class Base(Configuration):
+    # Quick-start development settings - unsuitable for production
+    # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+    STATIC_URL = '/static/'
+
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu'
+
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+    ALLOWED_HOSTS = ['*']
+
+    # Application definition
+
+    INSTALLED_APPS = (
+        'dal',
+        'dal_select2',
+        'ckeditor',
+        'ckeditor_uploader',
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'easy_thumbnails',
+        'easy_thumbnails.optimize',
+        'image_cropping',
+        'import_export',
+        'manager',
+        'autofixture',
+        'djangoformsetjs',
+        'django.contrib.sites',
+        'allauth',
+        'allauth.account',
+        'allauth.socialaccount',
+        'allauth.socialaccount.providers.facebook',
+        'allauth.socialaccount.providers.twitter',
+        'allauth.socialaccount.providers.google',
+        'allauth.socialaccount.providers.github',
+        'allauth.socialaccount.providers.windowslive',
+        'debug_toolbar',
+        'captcha',
+        'django.contrib.postgres',
+        'webpack_loader',
+        'rest_framework',
+        'channels',
+    )
+
+    MIDDLEWARE_CLASSES = (
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.locale.LocaleMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+
+    ROOT_URLCONF = 'eventol.urls'
+    WSGI_APPLICATION = 'eventol.wsgi.application'
+
+    # Database
+    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
+    THUMBNAIL_PROCESSORS = (
+        'image_cropping.thumbnail_processors.crop_corners',
+    ) + thumbnail_settings.THUMBNAIL_PROCESSORS
+
+    # Internationalization
+    # https://docs.djangoproject.com/en/1.11/topics/i18n/
+
+    LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en-US')
+    LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
+    LANGUAGES = (
+        ('es', _('Spanish')),
+        ('en', _('English')),
+    )
+
+    TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
+    USE_I18N = True
+    USE_L10N = True
+    USE_TZ = True
+    TEMPLATES = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'debug': DEBUG,
+                'context_processors': [
+                    'django.contrib.auth.context_processors.auth',
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.i18n',
+                    'django.template.context_processors.media',
+                    'django.template.context_processors.static',
+                    'django.template.context_processors.tz',
+                    'django.contrib.messages.context_processors.messages',
+                    'django.template.context_processors.request'
+                ],
+            },
+        },
+    ]
+
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'logservices': {
+                'format': '[%(asctime)s] [%(levelname)s] %(message)s',
+            },
+
+        },
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'logservices',
+            },
+            'file': {
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': '/var/log/eventol.log',
+                'maxBytes': 1024*1024*10,
+                'backupCount': 10,
+                'formatter': 'logservices',
+            },
+        },
+        'loggers': {
+            'django.request': {
+                'handlers': ['console', 'file'],
+                'level': 'INFO',
+            },
+            'apiservices.util': {
+                'handlers': ['console', 'file'],
+                'level': 'INFO',
+            },
+            'apiservices.views': {
+                'handlers': ['console', 'file'],
+                'level': 'INFO',
+            }
+        }
+    }
+
+    LOGIN_URL = '/accounts/login/'
+    LOGIN_REDIRECT_URL = '/'
+    LOGIN_TITLE = 'EventoL'
+
+    OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
+        'png': '/usr/bin/optipng {filename}',
+        'jpeg': '/usr/bin/jpegoptim {filename}',
+        'jpg': '/usr/bin/jpegoptim {filename}'
+    }
+
+    STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    )
+
+    CKEDITOR_CONFIGS = {
+        'default': {
+            'toolbar': 'full'
+        },
+    }
+
+    CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+    AUTHENTICATION_BACKENDS = (
+        # Needed to login by username in Django admin, regardless of `allauth`
+        'django.contrib.auth.backends.ModelBackend',
+
+        # `allauth` specific authentication methods, such as login by e-mail
+        'allauth.account.auth_backends.AuthenticationBackend',
+    )
+
+    SITE_ID = 1
+
+    SOCIALACCOUNT_PROVIDERS = \
+        {
+            'facebook': {
+                'METHOD': 'oauth2',
+                'SCOPE': ['email', 'public_profile'],
+                'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+                'FIELDS': [
+                    'id',
+                    'email',
+                    'name',
+                    'first_name',
+                    'last_name',
+                    'verified',
+                    'locale',
+                    'timezone',
+                    'link',
+                    'gender',
+                    'updated_time'],
+                'EXCHANGE_TOKEN': True,
+                'LOCALE_FUNC': lambda request: 'es_AR',
+                'VERIFIED_EMAIL': False,
+                'VERSION': 'v2.4'
+            },
+            'google': {
+                'SCOPE': ['profile', 'email'],
+                'AUTH_PARAMS': {'access_type': 'online'}
+            },
+            'github': {
+                'SCOPE': ['user:email']
+            }
+        }
+
+    ACCOUNT_EMAIL_REQUIRED = True
+    ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+    ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+    ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+
+    ACCOUNT_FORMS = {
+        'login': 'manager.forms.LoginForm',
+        'signup': 'manager.forms.SignUpForm',
+        'reset_password': 'manager.forms.ResetPasswordForm',
+        'reset_password_from_key': 'manager.forms.ResetPasswordKeyForm',
+        'change_password': 'manager.forms.ChangePasswordForm',
+        'set_password': 'manager.forms.SetPasswordForm'
+    }
+
+    SOCIALACCOUNT_EMAIL_REQUIRED = True
+    SOCIALACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+    SOCIALACCOUNT_QUERY_EMAIL = True
+    SOCIALACCOUNT_AUTO_SIGNUP = False
+    SOCIALACCOUNT_FORMS = {'signup': 'manager.forms.SocialSignUpForm'}
+
+    ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+            'OPTIONS': {'min_length': 8}
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        },
+    ]
+
+    RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+    RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+    NOCAPTCHA = True
+    RECAPTCHA_USE_SSL = str_to_bool(os.getenv('RECAPTCHA_USE_SSL', 'False'))
+
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'front/eventol/static'),
+    ]
+
+    REST_FRAMEWORK = {
+        'DEFAULT_FILTER_BACKENDS': (
+            'django_filters.rest_framework.DjangoFilterBackend',
+        ),
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated'
+        ]
+    }
+
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'asgi_ipc.IPCChannelLayer',
+            'ROUTING': 'eventol.routing.channel_routing',
+        },
+    }
+
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.unset')
+    EMAIL_PORT = os.getenv('EMAIL_PORT', '587')
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'change_unset@mail.com')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'secret')
+    EMAIL_USE_TLS = str_to_bool(os.getenv('EMAIL_USE_TLS', 'True'))
+    EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = BASE_DIR + 'media/'
+    ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
+
+
+class Staging(Base):
+    import socket
+    DEBUG = str_to_bool(os.getenv('DEBUG', 'True'))
+    SECRET_KEY = os.getenv(
+        'SECRET_KEY',
+        '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
+    ALLOWED_HOSTS = [os.getenv('APP_DNS'), socket.gethostname()]
+    RECAPTCHA_PROXY = os.getenv('APP_DNS')
+    os.environ.setdefault('DEBUG', 'False')
+    os.environ.setdefault('TEMPLATE_DEBUG', 'False')
+    os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
+            'USER': os.getenv('PSQL_USER', 'eventol'),
+            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
+            'HOST': os.getenv('PSQL_HOST', 'localhost'),
+            'PORT': os.getenv('PSQL_PORT', '5432'),
+        }
+    }
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'simple': {
+                'format': '%(levelname)s %(message)s'
+            },
+        },
+        'handlers': {
+            'log_to_stdout': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['log_to_stdout'],
+                'propagate': True,
+                'level': 'DEBUG',
+            },
+        }
+    }
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/prod/',  # end with slash
+            'STATS_FILE': os.path.join(
+                BASE_DIR, 'front', 'webpack-stats-prod.json'),
+        }
+    }
+    REST_FRAMEWORK = {
+        'DEFAULT_FILTER_BACKENDS': (
+            'django_filters.rest_framework.DjangoFilterBackend',
+        ),
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated'
+        ],
+        'DEFAULT_RENDERER_CLASSES': (
+            'rest_framework.renderers.JSONRenderer',
+        )
+    }
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'asgi_redis.RedisChannelLayer',
+            'CONFIG': {
+                'hosts': [(
+                    os.getenv('REDIS_HOST', 'redis'),
+                    int(os.getenv('REDIS_PORT', '6379')),
+                )],
+            },
+            'ROUTING': 'eventol.routing.channel_routing',
+        },
+    }
+
+
+class Prod(Staging):
+    DEBUG = False
+
+
+class Dev(Base):
+    AUTH_PASSWORD_VALIDATORS = []
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/local/',  # end with slash
+            'STATS_FILE': os.path.join(
+                BASE_DIR, 'front', 'webpack-stats-local.json'),
+        }
+    }
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django.request': {
+                'handlers': ['console'],
+                'level': 'INFO',
+            },
+            'apiservices.util': {
+                'handlers': ['console'],
+                'level': 'INFO',
+            },
+            'apiservices.views': {
+                'handlers': ['console'],
+                'level': 'INFO',
+            }
+        },
+    }
+
+
+class Test(Dev):
+    pass

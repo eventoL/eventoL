@@ -1,3 +1,9 @@
+export NODE_ENV=development
+cd eventol/front
+npm install -g yarn
+yarn install
+node_modules/.bin/webpack --config webpack.local.config.js
+cd -
 python eventol/manage.py migrate
 python eventol/manage.py collectstatic --noinput
 python eventol/manage.py loaddata data/social.json
