@@ -18,12 +18,12 @@ config.ip = ip
 
 // Use webpack dev server
 config.entry = {
-  Home: addDevVendors('./src/views/Home'),
+  Home: ['./src/views/Home'],
   vendors: ['react', 'babel-polyfill'],
 }
 
 // override django's STATIC_URL for webpack bundles
-config.output.publicPath = `http://${ip}:${port}/assets/bundles/`
+config.output.publicPath = `/static/bundles/local/`
 
 // Add HotModuleReplacementPlugin and BundleTracker plugins
 config.plugins = config.plugins.concat([
