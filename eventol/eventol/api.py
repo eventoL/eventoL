@@ -33,6 +33,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.annotate(attendees_count=Count('attendee'))
     serializer_class = EventSerializer
+    filter_fields = ('name', 'slug')
     ordering_fields = ('name', 'limit_proposal_date',
                        'attendees_count', 'last_date')
     search_fields = ('name', 'slug', 'abstract')

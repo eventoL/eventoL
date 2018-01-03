@@ -62,6 +62,7 @@ class Base(Configuration):
         'captcha',
         'django.contrib.postgres',
         'webpack_loader',
+        'django_filters',
         'rest_framework',
         'channels',
     )
