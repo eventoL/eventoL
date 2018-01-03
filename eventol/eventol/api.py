@@ -12,6 +12,8 @@ from manager.models import Event
 
 # Serializers define the API representation.
 class EventSerializer(serializers.HyperlinkedModelSerializer):
+    attendees_count = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Event
         fields = ('url', 'name', 'abstract', 'limit_proposal_date', 'slug',
