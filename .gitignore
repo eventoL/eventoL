@@ -45,6 +45,7 @@ deploy.txt
 eventol/manager/static/manager/bower_components/
 eventol/manager/static/manager/css/flisol-bootstrap.css
 eventol/manager/static/manager/css/flisol.css
+eventol/static/
 media/
 env/
 eventol/media/talks_thumbnails/
