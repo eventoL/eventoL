@@ -1,18 +1,19 @@
-import React from 'react';
-import Hero from '../../components/Hero';
-import Header from '../../components/Header';
-import Search from '../../components/Search';
-import TitleList from '../../components/TitleList';
+import React from 'react'
+import Hero from '../../components/Hero'
+import Header from '../../components/Header'
+import Search from '../../components/Search'
+import TitleList from '../../components/TitleList'
 
-import './index.css';
+import './index.css'
 
 
 export default class App extends React.Component {
+
   state = {
     searchTerm: '',
     searchUrl: '',
     searched: false
-  };
+  }
 
   onEnter = () => {
     const {searchTerm} = this.state;
@@ -33,12 +34,8 @@ export default class App extends React.Component {
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
         {searched && <TitleList title='Resultados de busqueda' url={searchUrl} />}
-        <TitleList title='Eventos Destacados' url='discover/tv?sort_by=popularity.desc&page=1' />
-        <TitleList title='Tendencia actual' url='discover/movie?sort_by=popularity.desc&page=1' />
-        <TitleList title='Mas recietes' url='genre/27/movies?sort_by=popularity.desc&page=1' />
-        <TitleList title='Meetups' url='genre/878/movies?sort_by=popularity.desc&page=1' />
-        <TitleList title='Festivales de Instalación' url='genre/35/movies?sort_by=popularity.desc&page=1' />
-        <TitleList title='Conferencias' url='genre/35/movies?sort_by=popularity.desc&page=1' />
+        <TitleList title='Eventos Destacados' url='?ordering=attendees_count' />
+        <TitleList title='Proximos eventos' url='?ordering=last_date' />
       </div>
     );
   }

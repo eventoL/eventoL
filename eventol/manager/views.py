@@ -173,8 +173,7 @@ def event_view(request, event_slug, html='index.html'):
 
 
 def home(request):
-    events = Event.objects.all()
-    return render(request, 'index.html', {'events': list(events)})
+    return render(request, 'index.html')
 
 
 @login_required
