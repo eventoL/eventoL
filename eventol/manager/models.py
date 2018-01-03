@@ -16,6 +16,11 @@ def validate_url(url):
 
 class Event(models.Model):
     name = models.CharField(_('Event Name'), max_length=200)
+    abstract = models.TextField(_('Abstract'), max_length=250,
+                                help_text=_('Short idea of the event (One or two sentences)'))
+    last_date = models.DateField(_('Limit Event Date'), blank=True,
+                                 null=True, default=None,
+                                 help_text=_('Limit date to submit attendees'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
     slug = models.CharField(_('URL'), max_length=200, unique=True, help_text=_('For example: flisol-caba'),
@@ -26,7 +31,17 @@ class Event(models.Model):
     event_information = RichTextField(verbose_name=_('Event Information'), help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
-    place = models.TextField(_('Place'))  # TODO: JsonFIELD
+    place = models.TextField(_('Place')) # TODO: JsonFIELD
+    image = ImageCropField(upload_to='images_thumbnails', verbose_name=_('Image'), blank=True, null=True)
+    cropping = ImageRatioField('image', '700x450', size_warning=True, verbose_name=_('Cropping'),
+                               help_text=_('The image must be 700x450 px. You can crop it here.'))
+
+    def save(self, *args, **kwargs):
+        if self.last_date is None:
+            event_dates = EventDate.objects.filter(event=self)
+            last_date = event_dates.order_by('date').last().date
+            self.last_date = last_date
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         if self.external_url:
@@ -39,7 +54,10 @@ class Event(models.Model):
 
     @property
     def registration_is_open(self):
-        return EventDate.objects.filter(event=self).order_by('date').last().date >= datetime.date.today()
+        return self.last_date >= datetime.date.today()
+
+    def attendees_count(self, obj):
+        return obj.attendees_count
 
     def __str__(self):
         return u"%s" % self.name
