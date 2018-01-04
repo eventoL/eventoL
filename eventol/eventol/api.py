@@ -5,14 +5,17 @@
 # pylint: disable=missing-docstring
 
 from django.contrib.auth.models import User
-from django.db.models import Count
 from rest_framework import serializers, viewsets
+from rest_framework_filters import FilterSet, BooleanFilter
 from manager.models import Event
 
 
 # Serializers define the API representation.
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     attendees_count = serializers.IntegerField(read_only=True)
+    last_date = serializers.DateField(read_only=True)
+    activity_proposal_is_open = serializers.BooleanField(read_only=True)
+    registration_is_open = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Event
@@ -29,11 +32,22 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username', 'email', 'is_staff')
 
 
+# Filters
+class EventFilter(FilterSet):
+    activity_proposal_is_open = BooleanFilter(name='activity_proposal_is_open')
+    registration_is_open = BooleanFilter(name='registration_is_open')
+
+    class Meta:
+        model = Event
+        fields = ('name', 'slug',
+                  'activity_proposal_is_open', 'registration_is_open')
+
+
 # ViewSets define the view behavior.
 class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.annotate(attendees_count=Count('attendee'))
+    queryset = Event.objects.all()
     serializer_class = EventSerializer
-    filter_fields = ('name', 'slug')
+    filter_class = EventFilter
     ordering_fields = ('name', 'limit_proposal_date',
                        'attendees_count', 'last_date')
     search_fields = ('name', 'slug', 'abstract')
