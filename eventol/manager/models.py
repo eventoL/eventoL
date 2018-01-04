@@ -14,7 +14,27 @@ def validate_url(url):
         raise ValidationError(_('URL can only contain letters or numbers'))
 
 
+class EventManager(models.Manager):
+    def get_queryset(self):
+        today = datetime.date.today()
+        return super() \
+            .get_queryset() \
+            .annotate(attendees_count=models.Count('attendee')) \
+            .annotate(last_date=models.Max('eventdate__date')) \
+            .annotate(activity_proposal_is_open=models.Case(
+                models.When(limit_proposal_date__gte=today, then=True),
+                default=False,
+                output_field=models.BooleanField()
+            )) \
+            .annotate(registration_is_open=models.Case(
+                models.When(last_date__gte=today, then=True),
+                default=False,
+                output_field=models.BooleanField()
+            ))
+
+
 class Event(models.Model):
+    objects = EventManager()
     name = models.CharField(_('Event Name'), max_length=200)
     abstract = models.TextField(_('Abstract'), max_length=250,
                                 help_text=_('Short idea of the event (One or two sentences)'))
@@ -37,20 +57,6 @@ class Event(models.Model):
         if self.external_url:
             return self.external_url
         return "/event/" + self.slug + '/'
-
-    @property
-    def last_date(self):
-        event_dates = EventDate.objects.filter(event=self)
-        last_date = event_dates.order_by('date').last().date
-        return last_date
-
-    @property
-    def activity_proposal_is_open(self):
-        return self.limit_proposal_date >= datetime.date.today()
-
-    @property
-    def registration_is_open(self):
-        return self.last_date >= datetime.date.today()
 
     def __str__(self):
         return u"%s" % self.name
