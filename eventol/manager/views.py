@@ -5,10 +5,10 @@ import itertools
 import json
 import os
 import uuid
+import logging
 import cairosvg
 import pyqrcode
 import svglue
-import logging
 
 from allauth.utils import build_absolute_uri
 from django.conf import settings
@@ -26,16 +26,23 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.formats import localize
 from lxml import etree
 
-from manager.forms import CollaboratorRegistrationForm, InstallationForm, HardwareForm, InstallerRegistrationForm, \
+from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
+    HardwareForm, InstallerRegistrationForm, EventDateModelFormset, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, \
     EventForm, ContactMessageForm, ImageCroppingForm, \
-    EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, EventDateModelFormset
-from manager.models import Attendee, Organizer, EventUser, Room, Event, Contact, \
-    Activity, Hardware, Installation, Collaborator, ContactMessage, Installer, \
-    InstallationMessage, EventDate, AttendeeAttendanceDate, EventUserAttendanceDate
-from manager.security import is_installer, is_organizer, user_passes_test, add_attendance_permission, is_collaborator, \
+    EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm
+from manager.models import Attendee, Organizer, EventUser, Room, Event, \
+    Contact, Activity, Hardware, Installation, Collaborator, ContactMessage, \
+    Installer, InstallationMessage, EventDate, \
+    AttendeeAttendanceDate, EventUserAttendanceDate
+from manager.security import is_installer, is_organizer, user_passes_test, \
+    add_attendance_permission, is_collaborator, \
     add_organizer_permissions
+
+
+from .utils import email
+
 
 logger = logging.getLogger(__name__)
 
@@ -64,8 +71,8 @@ def count_by(elements, getter, increment=None):
                 return_dict[field] += increment(element) if increment else 1
             else:
                 return_dict[field] = increment(element) if increment else 1
-        except Exception as e:
-            logger.error(e)
+        except Exception as error:
+            logger.error(error)
             pass
     return return_dict
 
@@ -78,15 +85,21 @@ def get_forms_errors(forms):
 
 def generate_ticket(user):
     ticket_data = user.get_ticket_data()
-    ticket_template = svglue.load(file=os.path.join(settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
-    ticket_template.set_text('event_name', "FLISoL " + ticket_data['event'].name[:24])
-    ticket_template.set_text('event_date', localize(ticket_data['event_date']))
+    ticket_template = svglue.load(
+        file=os.path.join(
+            settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
+    ticket_template.set_text(
+        'event_name', "FLISoL " + ticket_data['event'].name[:24])
+    ticket_template.set_text(
+        'event_date', localize(ticket_data['event_date']))
     place = json.loads(ticket_data['event'].place)
-    if place.get("name"):  # Si tiene nombre cargado
+    if place.get("name"):
         ticket_template.set_text('event_place_name', place.get("name"))
-        ticket_template.set_text('event_place_address', place.get("formatted_address")[:50])
+        ticket_template.set_text(
+            'event_place_address', place.get("formatted_address")[:50])
     else:
-        ticket_template.set_text('event_place_name', place.get("formatted_address")[:50])
+        ticket_template.set_text(
+            'event_place_name', place.get("formatted_address")[:50])
         ticket_template.set_text('event_place_address', '')
 
     ticket_template.set_text('ticket_type', str(_("General Ticket")))
@@ -94,20 +107,24 @@ def generate_ticket(user):
     code = io.BytesIO()
     qr.png(code, scale=7, quiet_zone=0)
     ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
-    ticket_template.set_text('eventUser_PK', str(ticket_data['ticket'].id).zfill(12))
+    ticket_template.set_text(
+        'eventUser_PK', str(ticket_data['ticket'].id).zfill(12))
     ticket_template.set_text('eventUser_email', ticket_data['email'])
 
-    if ticket_data['first_name'] is not None or ticket_data['last_name'] is not None:
-        user_name_l1 = u"%s %s" % (ticket_data['first_name'], ticket_data['last_name'])
+    exists_first_name = ticket_data['first_name'] is not None
+    exists_last_name = ticket_data['last_name'] is not None
+    if exists_first_name or exists_last_name:
+        user_name_l1 = '{} {}'.format(
+            ticket_data['first_name'], ticket_data['last_name'])
         user_name_l2 = ''
         if len(user_name_l1) > 30:
-            user_name_l1 = ticket_data['first_name'][:30]  # Por si tiene mas de 30 caracteres
+            user_name_l1 = ticket_data['first_name'][:30]
             user_name_l2 = ticket_data['last_name'][:30]
     elif ticket_data.nickname is not None:
-        user_name_l1 = u"%s" % ticket_data['nickname'][:30]
+        user_name_l1 = ticket_data['nickname'][:30]
         user_name_l2 = ''
     elif ticket_data['email'] is not None:
-        user_name_l1 = u"%s" % ticket_data['email'][:30]
+        user_name_l1 = ticket_data['email'][:30]
         user_name_l2 = ''
 
     ticket_template.set_text('eventUser_name_l1', user_name_l1)
@@ -118,34 +135,21 @@ def generate_ticket(user):
 def send_event_ticket(user):
     ticket_svg = generate_ticket(user)
     ticket_data = user.get_ticket_data()
-
     try:
-        email = EmailMessage()
-        email.subject = _(u"Ticket for %(event_name)s event") % {'event_name': ticket_data['event'].name}
-        email.body = _(u"Hello %(first_name)s %(last_name)s,\nHere is your ticket for %(event_name)s event." +
-                 u" Please remember to print it and bring it with you the day of the event.\n" +
-                 u"Regards, FLISoL %(event_name)s team.") % {'event_name': ticket_data['event'].name,
-                                                             'first_name': ticket_data['first_name'],
-                                                             'last_name': ticket_data['last_name']}
-        email.to = [ticket_data['email']]
-        email.attach('Ticket-' + str(ticket_data['ticket'].id).zfill(12) + '.pdf',
-                     cairosvg.svg2pdf(bytestring=ticket_svg),
-                     'application/pdf')
-        email.send(fail_silently=False)
+        email.send_ticket_email(ticket_data, ticket_svg)
         ticket_data['ticket'].sent = True
         ticket_data['ticket'].save()
-    except Exception as e:
-        logger.error(e)
+    except Exception as error:
+        logger.error(error)
         ticket_data['ticket'].sent = False
         ticket_data['ticket'].save()
-        raise e
+        raise error
 
 
 def create_organizer(event_user):
     organizer = Organizer.objects.filter(event_user=event_user).first()
     if organizer is None:
         organizer = Organizer.objects.create(event_user=event_user)
-
     add_organizer_permissions(organizer.event_user.user)
     organizer.save()
     return organizer
@@ -165,7 +169,8 @@ def index(request, event_slug):
     dates = EventDate.objects.filter(event=event)
 
     render_dict = {'activities': activities, 'dates': dates}
-    return render(request, 'event/index.html', update_event_info(event_slug, request, render_dict, event))
+    return render(request, 'event/index.html', update_event_info(
+        event_slug, request, render_dict, event))
 
 
 def event_view(request, event_slug, html='index.html'):
@@ -179,7 +184,8 @@ def home(request):
 @login_required
 @user_passes_test(is_installer, 'installer_registration')
 def installation(request, event_slug):
-    installation_form = InstallationForm(request.POST or None, prefix='installation')
+    installation_form = InstallationForm(
+        request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
     forms = [installation_form, hardware_form]
     errors = []
@@ -193,23 +199,16 @@ def installation(request, event_slug):
                 if not event:
                     return handler404(request)
                 install.event = event
-                install.installer = EventUser.objects.filter(user=request.user).filter(event=event).first()
+                install.installer = EventUser.objects \
+                    .filter(user=request.user).filter(event=event).first()
                 install.save()
                 # Send post-install email if its defined
-                postinstall_email = InstallationMessage.objects.filter(event=event).first()
+                postinstall_email = InstallationMessage.objects \
+                    .filter(event=event).first()
                 if postinstall_email:
-                    attendee = install.attendee
-                    email = EmailMultiAlternatives()
-                    email.subject = _(
-                        u"%(first_name)s %(last_name)s, thank you for participating in FLISoL %(event_name)s") % {
-                                  'event_name': event.name, 'first_name': attendee.first_name,
-                                  'last_name': attendee.last_name}
-                    email.from_email = postinstall_email.contact_email
-                    email.body = ''
-                    email.attach_alternative(postinstall_email.message, "text/html")
-                    email.to = [attendee.email]
                     try:
-                        email.send(fail_silently=False)
+                        email.send_installation_email(
+                            event.name, postinstall_email, install.attendee)
                     except Exception:
                         # Don't raise email exception to form exception
                         pass
@@ -226,7 +225,9 @@ def installation(request, event_slug):
 
     return render(request,
                   'installation/installation-form.html',
-                  update_event_info(event_slug, request, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(
+                    event_slug, request,
+                    {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 @login_required
@@ -248,7 +249,8 @@ def manage_attendance(request, event_slug):
                     attendance_date.attendee = attendee
                     attendance_date.save()
                     messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
-                return HttpResponseRedirect(reverse("manage_attendance", args=[event_slug]))
+                return HttpResponseRedirect(
+                    reverse("manage_attendance", args=[event_slug]))
         if collaborator_form.is_valid():
             event_user = collaborator_form.cleaned_data['event_user']
             if event_user:
@@ -259,7 +261,8 @@ def manage_attendance(request, event_slug):
                     attendance_date.event_user = event_user
                     attendance_date.save()
                     messages.success(request, _('The collaborator has been successfully registered. Happy Hacking!'))
-                return HttpResponseRedirect(reverse("manage_attendance", args=[event_slug]))
+                return HttpResponseRedirect(
+                    reverse("manage_attendance", args=[event_slug]))
 
         messages.error(request, _("There was a problem registering the attendee. Please try again."))
 
@@ -267,7 +270,9 @@ def manage_attendance(request, event_slug):
 
     return render(request,
                   'registration/attendee/search.html',
-                  update_event_info(event_slug, request, {'forms': forms, 'errors': errors, 'multipart': False}))
+                  update_event_info(
+                    event_slug, request,
+                    {'forms': forms, 'errors': errors, 'multipart': False}))
 
 
 @login_required
@@ -280,7 +285,9 @@ def attendance_by_ticket(request, event_slug, pk):
 
     if attendee:
         if attendee.attended_today():
-            messages.success(request, _('The attendee has already been registered correctly.'))
+            messages.success(
+                request,
+                _('The attendee has already been registered correctly.'))
         else:
             if hasattr(attendee, 'user'):
                 attendance_date = EventUserAttendanceDate()
@@ -291,10 +298,9 @@ def attendance_by_ticket(request, event_slug, pk):
             attendance_date.save()
             messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
         return HttpResponseRedirect(reverse("manage_attendance", args=[event_slug]))
-
     messages.error(request, _("The user isn't registered for this event."))
-
-    return HttpResponseRedirect(reverse("manage_attendance", args=[event_slug]))
+    return HttpResponseRedirect(
+        reverse("manage_attendance", args=[event_slug]))
 
 
 @login_required
@@ -315,7 +321,9 @@ def add_organizer(request, event_slug):
 
     organizers = Organizer.objects.filter(event_user__event__slug__iexact=event_slug)
     return render(request, 'event/organizers.html',
-                  update_event_info(event_slug, request, {'form': form, 'organizers': organizers}))
+                  update_event_info(
+                    event_slug, request,
+                    {'form': form, 'organizers': organizers}))
 
 
 @login_required
