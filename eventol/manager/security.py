@@ -11,33 +11,50 @@ from manager.models import Installer, Organizer, Collaborator, Attendee
 
 def is_installer(user, event_slug=None):
     return event_slug and (
-        Installer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or
+        Installer.objects.filter(
+            event_user__user=user,
+            event_user__event__slug__iexact=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))
 
 
 def get_or_create_attendance_permission():
     attendance_permission = None
     content_type = ContentType.objects.get_for_model(Attendee)
-    if Permission.objects.filter(codename='can_take_attendance', name='Can Take Attendance',
+    if Permission.objects.filter(codename='can_take_attendance',
+                                 name='Can Take Attendance',
                                  content_type=content_type).exists():
-        attendance_permission = Permission.objects.get(codename='can_take_attendance', name='Can Take Attendance',
-                                                       content_type=content_type)
+        attendance_permission = Permission.objects.get(
+            codename='can_take_attendance', name='Can Take Attendance',
+            content_type=content_type)
     else:
-        attendance_permission = Permission.objects.create(codename='can_take_attendance', name='Can Take Attendance',
-                                                          content_type=content_type)
+        attendance_permission = Permission.objects.create(
+            codename='can_take_attendance', name='Can Take Attendance',
+            content_type=content_type)
     return attendance_permission
 
 
 def add_attendance_permission(user):
     content_type = ContentType.objects.get_for_model(Attendee)
-    if Permission.objects.filter(content_type=content_type, name='Add Attendee', codename='add_attendee').exists():
-        add_attendee_permission = Permission.objects.get(content_type=content_type, name='Add Attendee', codename='add_attendee')
+    if Permission.objects.filter(content_type=content_type,
+                                 name='Add Attendee',
+                                 codename='add_attendee').exists():
+        add_attendee_permission = Permission.objects.get(
+            content_type=content_type, name='Add Attendee',
+            codename='add_attendee')
     else:
-        add_attendee_permission = Permission.objects.create(content_type=content_type, name='Add Attendee', codename='add_attendee')
-    if Permission.objects.filter(content_type=content_type, name='Change Attendee', codename='change_attendee').exists():
-        change_attendee_permission = Permission.objects.get(content_type=content_type, name='Change Attendee', codename='change_attendee')
+        add_attendee_permission = Permission.objects.create(
+            content_type=content_type, name='Add Attendee',
+            codename='add_attendee')
+    if Permission.objects.filter(content_type=content_type,
+                                 name='Change Attendee',
+                                 codename='change_attendee').exists():
+        change_attendee_permission = Permission.objects.get(
+            content_type=content_type, name='Change Attendee',
+            codename='change_attendee')
     else:
-        change_attendee_permission = Permission.objects.create(content_type=content_type, name='Change Attendee', codename='change_attendee')
+        change_attendee_permission = Permission.objects.create(
+            content_type=content_type, name='Change Attendee',
+            codename='change_attendee')
     user.user_permissions.add(add_attendee_permission)
     user.user_permissions.add(change_attendee_permission)
     attendance_permission = get_or_create_attendance_permission()
@@ -48,15 +65,21 @@ def create_organizers_group():
     organizers = Group.objects.filter(name__iexact='Organizers').first()
     get_or_create_attendance_permission()
     if not organizers:
-        perms = ['add_event', 'change_event', 'delete_event', 'add_contactmessage', 'change_contactmessage',
-                 'delete_contactmessage', 'add_attendee', 'can_take_attendance', 'add_contact', 'change_contact',
-                 'delete_contact', 'change_attendee', 'delete_attendee', 'add_eventuser', 'change_eventuser',
-                 'delete_eventuser', 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer',
-                 'change_organizer', 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer',
-                 'add_room', 'change_room', 'delete_room', 'add_activity', 'change_activity', 'delete_activity',
-                 'add_installation', 'change_installation', 'delete_installation', 'add_installationmessage',
-                 'change_installationmessage', 'delete_installationmessage', 'add_eventdate', 'change_eventdate',
-                 'delete_eventdate']
+        perms = ['add_event', 'change_event', 'delete_event',
+                 'add_contactmessage', 'change_contactmessage',
+                 'delete_contactmessage', 'add_attendee',
+                 'can_take_attendance', 'add_contact', 'change_contact',
+                 'delete_contact', 'change_attendee', 'delete_attendee',
+                 'add_eventuser', 'change_eventuser', 'delete_collaborator',
+                 'delete_eventuser', 'add_collaborator', 'change_collaborator',
+                 'add_organizer', 'change_organizer', 'delete_organizer',
+                 'add_installer', 'change_installer', 'delete_installer',
+                 'add_room', 'change_room', 'delete_room', 'add_activity',
+                 'change_activity', 'delete_activity', 'delete_installation',
+                 'add_installation', 'change_installation',
+                 'add_installationmessage', 'change_installationmessage',
+                 'delete_installationmessage', 'add_eventdate',
+                 'change_eventdate', 'delete_eventdate']
         organizers = Group.objects.create(name='Organizers')
         for perm in perms:
             organizers.permissions.add(Permission.objects.get(codename=perm))
@@ -67,11 +90,15 @@ def create_organizers_group():
 def create_reporters_group():
     reporters = Group.objects.filter(name__iexact='Reporters').first()
     if not reporters:
-        perms = ['add_contactmessage', 'change_contactmessage', 'delete_contactmessage', 'add_attendee',
-                 'change_attendee', 'delete_attendee', 'add_eventuser', 'change_eventuser', 'delete_eventuser',
-                 'add_collaborator', 'change_collaborator', 'delete_collaborator', 'add_organizer', 'change_organizer',
-                 'delete_organizer', 'add_installer', 'change_installer', 'delete_installer', 'add_room', 'change_room',
-                 'delete_room', 'add_activity', 'change_activity', 'delete_activity', 'add_installation',
+        perms = ['add_contactmessage', 'change_contactmessage',
+                 'delete_contactmessage', 'add_attendee', 'change_eventuser',
+                 'change_attendee', 'delete_attendee', 'add_eventuser',
+                 'delete_eventuser', 'delete_collaborator', 'change_organizer',
+                 'add_collaborator', 'change_collaborator', 'add_organizer',
+                 'delete_organizer', 'add_installer', 'change_installer',
+                 'delete_installer', 'add_room', 'change_room',
+                 'delete_room', 'add_activity', 'change_activity',
+                 'delete_activity', 'add_installation',
                  'change_installation', 'delete_installation']
         reporters = Group.objects.create(name='Reporters')
         for perm in perms:
@@ -88,13 +115,16 @@ def add_organizer_permissions(user):
 
 
 def is_organizer(user, event_slug=None):
-    return event_slug and Organizer.objects.filter(event_user__user=user,
-                                                   event_user__event__slug__iexact=event_slug).exists()
+    return event_slug and Organizer.objects.filter(
+        event_user__user=user,
+        event_user__event__slug__iexact=event_slug).exists()
 
 
 def is_collaborator(user, event_slug=None):
     return event_slug and (
-        Collaborator.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or
+        Collaborator.objects.filter(
+            event_user__user=user,
+            event_user__event__slug__iexact=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))
 
 
@@ -110,7 +140,8 @@ def user_passes_test(test_func, name_redirect):
         def _wrapped_view(request, *args, **kwargs):
             if test_func(request.user, *args, **kwargs):
                 return view_func(request, *args, **kwargs)
-            return HttpResponseRedirect(reverse(name_redirect, args=[kwargs['event_slug']]))
+            return HttpResponseRedirect(
+                reverse(name_redirect, args=[kwargs['event_slug']]))
 
         return _wrapped_view
 
