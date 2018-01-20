@@ -176,7 +176,7 @@ class EventUser(models.Model):
             event_user=self, date__date=datetime.date.today()).exists()
 
     class Meta(object):
-        unique_together = (('event", "user'),)
+        unique_together = (('event', 'user'),)
         verbose_name = _('Event User')
         verbose_name_plural = _('Event Users')
 
@@ -251,7 +251,7 @@ class Attendee(models.Model):
     class Meta(object):
         verbose_name = _('Attendee')
         verbose_name_plural = _('Attendees')
-        unique_together = (('event", "email'),)
+        unique_together = (('event', 'email'),)
 
     def __str__(self):
         return '{} {} - {} - {}'.format(self.first_name, self.last_name,
