@@ -2,17 +2,24 @@ import React from 'react';
 import './index.css';
 
 
-const Navigation = () => (
-  <div id="navigation" className="NavigationNarrow">
-    <nav>
-      <ul>
-        <li>Buscar</li>
-        <li>Mi lista</li>
-        <li>Destacados</li>
-        <li>Recientes</li>
-      </ul>
-    </nav>
-  </div>
-);
+export default class Navigation extends React.Component {
+  searchFocus(){
+    document.getElementById('search-input').focus();
+  }
 
-export default Navigation;
+  render(){
+    return (
+      <div id="navigation" className="NavigationNarrow">
+        <nav>
+          <ul>
+            <li onClick={this.searchFocus}>Buscar</li>
+            <li>Mi lista</li>
+            <li><a href='#destacados' style={{textDecoration: 'none'}}>Destacados</a></li>
+            <li><a href='#recientes' style={{textDecoration: 'none'}}>Recientes</a></li>
+          </ul>
+        </nav>
+      </div>
+    );
+  }
+
+};

@@ -25,6 +25,7 @@ export default class Search extends React.Component {
     return (
       <div id='search' className='Search'>
         <input
+          id='search-input'
           onKeyUp={this.handleKeyUp}
           onChange={this.handleChange}
           type='search'
