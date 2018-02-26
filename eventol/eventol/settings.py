@@ -289,7 +289,7 @@ class Base(Configuration):
             'django_filters.rest_framework.DjangoFilterBackend',
         ),
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated'
+            'rest_framework.permissions.IsAuthenticatedOrReadOnly'
         ]
     }
 
@@ -374,7 +374,7 @@ class Staging(Base):
             'django_filters.rest_framework.DjangoFilterBackend',
         ),
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated'
+            'rest_framework.permissions.IsAuthenticatedOrReadOnly'
         ],
         'DEFAULT_RENDERER_CLASSES': (
             'rest_framework.renderers.JSONRenderer',
