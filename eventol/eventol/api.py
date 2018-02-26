@@ -23,13 +23,13 @@ class EventSerializer(serializers.HyperlinkedModelSerializer):
                   'external_url', 'email', 'event_information',
                   'schedule_confirmed', 'place', 'image', 'cropping',
                   'activity_proposal_is_open', 'registration_is_open',
-                  'attendees_count', 'last_date')
+                  'attendees_count', 'last_date', 'created')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'is_staff')
+        fields = ('url', 'username', 'is_staff')
 
 
 # Filters
@@ -39,7 +39,7 @@ class EventFilter(FilterSet):
 
     class Meta:
         model = Event
-        fields = ('name', 'slug',
+        fields = ('name', 'slug', 'schedule_confirmed',
                   'activity_proposal_is_open', 'registration_is_open')
 
 
@@ -49,7 +49,7 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     filter_class = EventFilter
     ordering_fields = ('name', 'limit_proposal_date',
-                       'attendees_count', 'last_date')
+                       'attendees_count', 'last_date', 'created')
     search_fields = ('name', 'slug', 'abstract')
 
 

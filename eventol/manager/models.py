@@ -35,6 +35,7 @@ class EventManager(models.Manager):
 
 class Event(models.Model):
     objects = EventManager()
+    created = models.DateTimeField(auto_now_add=True, blank=True)
     name = models.CharField(_('Event Name'), max_length=200)
     abstract = models.TextField(_('Abstract'), max_length=250,
                                 help_text=_('Short idea of the event (One or two sentences)'))
