@@ -1,18 +1,22 @@
 <!doctype html>
 {% load render_bundle from webpack_loader %}
+{% load staticfiles %}
+{% load i18n %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, scale=1.0" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-     <title>EventoL</title>
+    <title>EventoL</title>
+    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
   </head>
   <body>
     <div id="root"></div>
 
     {% render_bundle 'vendors' %}
     {% render_bundle 'Home' %}
+    <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
     <script>
       window.render_components({});
     </script>
