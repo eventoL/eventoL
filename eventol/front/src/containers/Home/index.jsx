@@ -18,7 +18,7 @@ export default class App extends React.Component {
   onEnter = () => {
     const {searchTerm} = this.state;
     if (searchTerm !== '') {
-      const searchUrl = `search/multi?query=${searchTerm}`;
+      const searchUrl = `?search=${searchTerm}`;
       this.setState({searchUrl, searched: true});
     }
   }
@@ -34,8 +34,11 @@ export default class App extends React.Component {
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
         {searched && <TitleList title='Resultados de busqueda' url={searchUrl} />}
-        <TitleList title='Eventos Destacados' url='?ordering=attendees_count' />
-        <TitleList title='Proximos eventos' url='?ordering=last_date' />
+        <TitleList id='recientes' title='Eventos Recientes' url='?ordering=-created&registration_is_open=true' />
+        <TitleList id='destacados' title='Eventos Destacados' url='?ordering=-attendees_count&registration_is_open=true' />
+        <TitleList id='proximos' title='Proximos Eventos' url='?registration_is_open=true&ordering=last_date' />
+        <TitleList id='cronograma_confirmado' title='Eventos con Cronograma Confirmado' url='?schedule_confirmed=true&registration_is_open=true' />
+        <TitleList id='finalizados' title='Eventos Finalizados' url='?registration_is_open=false&ordering=-attendees_count' />
       </div>
     );
   }
