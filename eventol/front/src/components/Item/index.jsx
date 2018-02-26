@@ -1,18 +1,25 @@
 import React from 'react';
 import ListToggle from '../ListToggle';
+import ItemMap from '../ItemMap';
 import './index.css';
 
 
 export default class Item extends React.Component {
+
   render(){
+    const {title, url, attendees, overview, backdrop, slug} = this.props;
+    if (!backdrop) {
+      return <ItemMap {...this.props} />;
+    }
     return (
-      <div className="Item" style={{backgroundImage: 'url(' + this.props.backdrop + ')'}} >
-        <div className="overlay">
-          <div className="title">{this.props.title}</div>
-          <div className="rating">Asistentes: {this.props.attendees}</div>
-          <div className="plot">{this.props.overview}</div>
-          <ListToggle />
-        </div>
+      <div className="Item" style={{backgroundImage: 'url(' + backdrop + ')'}} >
+        <a href={url} style={{textDecoration: 'none'}}>
+          <div className="overlay">
+            <div className="title">{title}</div>
+            <div className="rating">Asistentes: {attendees}</div>
+            <div className="plot">{overview}</div>
+          </div>
+        </a>
       </div>
     );
   }
