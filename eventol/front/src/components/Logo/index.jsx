@@ -5,7 +5,9 @@ import './index.css';
 
 const Logo = () => (
 	<div id="logo" className="Logo">
-	  <img src={eventolLogo} />
+		<a href='#' style={{textDecoration: 'none'}}>
+	  	<img src={eventolLogo} />
+		</a>
   </div>
 );
 
