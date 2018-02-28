@@ -5,6 +5,10 @@
   background: #666a73;
   margin-left: auto;
 }
+.UserProfileNarrow a {
+  float: unset !important;
+  text-decoration: none;
+}
 .UserProfileNarrow .User {
   display: -webkit-box;
   display: -webkit-flex;
@@ -21,6 +25,10 @@
   border: 3px solid transparent;
   -webkit-transition: border .125s ease;
   transition: border .125s ease;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
 }
 .UserProfileNarrow .User .image img {
   width: 100%;

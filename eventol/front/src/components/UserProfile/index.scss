@@ -17,6 +17,11 @@
   border: 3px solid transparent;
   -webkit-transition: border .125s ease;
   transition: border .125s ease;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  vertical-align: middle;
+  align-items: center;
 }
 .UserProfile .User .image img {
   width: 100%;
