@@ -2,6 +2,7 @@ import React from 'react'
 import Logo from '../../../components/Logo';
 import NavigationNarrow from '../../../components/Navigation/Narrow';
 import UserProfileNarrow from '../../../components/UserProfile/Narrow';
+import SignInNarrow from '../../../components/SignIn/Narrow';
 import './index.scss';
 
 
@@ -22,7 +23,8 @@ export default class HeaderNarrow extends React.Component {
           <a href="#" onClick={this.toggle}><i className="fa fa-bars fa-2x"></i></a>
           <div className="narrowLinks">
             <NavigationNarrow />
-            <UserProfileNarrow user={user}/>
+            {user && <UserProfileNarrow user={user}/>}
+            {!user && <SignInNarrow/>}
           </div>
         </div>
       </div>
