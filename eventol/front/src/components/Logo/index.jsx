@@ -1,6 +1,6 @@
 import React from 'react'
 import eventolLogo from '../../assets/imgs/eventol-white.png'
-import './index.css';
+import './index.scss';
 
 
 const Logo = () => (

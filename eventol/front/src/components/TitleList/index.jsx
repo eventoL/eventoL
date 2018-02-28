@@ -1,8 +1,7 @@
 import React from 'react';
-
 import SliderItems from '../SliderItems';
 
-import './index.css';
+import './index.scss';
 
 
 export default class TitleList extends React.Component {

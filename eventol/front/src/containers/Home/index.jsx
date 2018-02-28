@@ -4,7 +4,7 @@ import Header from '../../components/Header'
 import Search from '../../components/Search'
 import TitleList from '../../components/TitleList'
 
-import './index.css'
+import './index.scss'
 
 
 export default class App extends React.Component {

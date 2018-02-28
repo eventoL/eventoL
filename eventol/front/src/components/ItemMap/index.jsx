@@ -1,6 +1,6 @@
 import React from 'react';
 import ListToggle from '../ListToggle';
-import './index.css';
+import './index.scss';
 
 
 export default class ItemMap extends React.Component {

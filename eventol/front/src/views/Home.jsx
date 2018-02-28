@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import Home from '../containers/Home'
 import {Provider} from 'react-redux'
 import eventsStore from '../store/eventsStore'
-import './index.css';
+import './index.scss';
 
 const store = eventsStore();
 window.render_components = properties => {
