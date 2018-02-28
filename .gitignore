@@ -43,8 +43,8 @@ nosetests.xml
 my_settings.py
 deploy.txt
 eventol/manager/static/manager/bower_components/
-eventol/manager/static/manager/css/flisol-bootstrap.css
-eventol/manager/static/manager/css/flisol.css
+eventol/manager/static/manager/css/eventol-bootstrap.css
+eventol/manager/static/manager/css/eventol.css
 eventol/static/
 media/
 env/
