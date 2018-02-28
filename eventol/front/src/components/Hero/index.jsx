@@ -4,10 +4,10 @@ import './index.scss';
 
 export default class Hero extends React.Component {
   render = () => (
-    <div id="hero" className="Hero" style={{backgroundImage: 'url(https://github.com/eventoL/eventoL/blob/master/docs/assets/background.png?raw=true)'}}>
+    <div id="hero" className="Hero" style={{backgroundImage: 'url(/static/manager/img/background.png)'}}>
       <div className="content">
         <p>
-          <img className="logo" src="http://eventol.github.io/eventoL/assets/logo.png" alt="narcos background" />
+          <img className="logo" src="/static/manager/img/logo.png" alt="eventol logo" />
         </p>
         <h2>Event Management Software</h2>
         {this.props.children}
