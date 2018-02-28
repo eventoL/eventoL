@@ -12,7 +12,6 @@ export default class TitleList extends React.Component {
 
   loadContent(){
     const url = `/api/events/${this.props.url}`;
-    console.log('url', url);
     fetch(url)
       .then(response => response.json())
       .then(data => this.setState({data}))

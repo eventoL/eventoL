@@ -5,7 +5,7 @@ import NextArrow from './NextArrow';
 import PrevArrow from './PrevArrow';
 import {SLIDER_BASE_SETTINGS} from '../../utils/constants';
 
-import './index.scss';
+import './index.css';
 
 
 const Slider = ({children:items}) => {

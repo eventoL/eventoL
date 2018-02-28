@@ -32,9 +32,7 @@ export default class ItemMap extends React.Component {
     const {slug} = this.props;
     try {
       this.loadMap();
-    } catch(e){
-      console.error(e);
-    }
+    } catch(e){}
     document.getElementById(slug).classList.remove('max-size')
   }
 
