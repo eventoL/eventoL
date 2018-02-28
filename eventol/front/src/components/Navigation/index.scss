@@ -18,6 +18,9 @@
   transition: background .125s ease;
   border-radius: 3px;
 }
+.Navigation ul li  a {
+  text-decoration: none;
+}
 .Navigation ul li:hover {
   background: #1F6879;
   cursor: pointer;

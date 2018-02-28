@@ -40,7 +40,7 @@ export default class ItemMap extends React.Component {
     const {title, url, attendees, overview, slug} = this.props;
     return (
       <div id={slug} className="Item max-size">
-        <a href={url} style={{textDecoration: 'none'}}>
+        <a href={url}>
           <div className="overlay">
             <div className="title">{title}</div>
             <div className="rating">Asistentes: {attendees}</div>

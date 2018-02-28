@@ -5,7 +5,7 @@ import './index.scss';
 
 const Logo = () => (
 	<div id="logo" className="Logo">
-		<a href='#' style={{textDecoration: 'none'}}>
+		<a href='#'>
 	  	<img src={eventolLogo} />
 		</a>
   </div>

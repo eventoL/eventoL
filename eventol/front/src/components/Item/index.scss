@@ -16,6 +16,9 @@
   background-clip: content-box;
   background-size: cover;
 }
+.Item  a {
+  text-decoration: none;
+}
 .Item .overlay {
   /* FF3.6-15 */
   background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.75) 0%, transparent 100%);

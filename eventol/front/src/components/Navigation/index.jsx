@@ -13,8 +13,8 @@ export default class Navigation extends React.Component {
         <nav>
           <ul>
             <li onClick={this.searchFocus}>Buscar</li>
-            <li><a href='#destacados' style={{textDecoration: 'none'}}>Destacados</a></li>
-            <li><a href='#recientes' style={{textDecoration: 'none'}}>Recientes</a></li>
+            <li><a href='#destacados'>Destacados</a></li>
+            <li><a href='#recientes'>Recientes</a></li>
           </ul>
         </nav>
       </div>

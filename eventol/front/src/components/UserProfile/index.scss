@@ -1,6 +1,9 @@
 .UserProfile {
   margin-left: auto;
 }
+.UserProfile a {
+  text-decoration: none;
+}
 .UserProfile .User {
   display: -webkit-box;
   display: -webkit-flex;

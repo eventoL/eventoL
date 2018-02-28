@@ -4,7 +4,7 @@ import './index.scss';
 
 const UserProfile = ({user}) => (
   <div className="UserProfile">
-    <a href='/accounts/profile/' style={{textDecoration: 'none'}}>
+    <a href='/accounts/profile/'>
       <div className="User">
         <div className="name">{user.first_name} {user.last_name}</div>
         <div className="image">

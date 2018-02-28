@@ -5,6 +5,9 @@
   -webkit-transition: margin .125s ease;
   transition: margin .125s ease;
 }
+.Logo a {
+  text-decoration: none;
+}
 .Logo svg {
   -webkit-transform: scale(0.5);
           transform: scale(0.5);
