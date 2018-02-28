@@ -34,6 +34,9 @@
   color: #fafafa;
   z-index: 500;
 }
+.Item.max-size {
+  max-width: 22vw;
+}
 .Item .overlay .title {
   font-size: 22px;
   font-weight: 200;
