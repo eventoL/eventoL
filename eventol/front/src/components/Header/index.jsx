@@ -3,10 +3,10 @@ import HeaderNarrow from './Narrow';
 import HeaderWide from './Wide';
 import './index.scss';
 
-const Header = () => (
+const Header = ({user}) => (
   <header className='Header'>
-    <HeaderWide />
-    <HeaderNarrow />
+    <HeaderWide user={user}/>
+    <HeaderNarrow user={user}/>
   </header>
 );
 

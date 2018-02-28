@@ -14,6 +14,7 @@ export default class HeaderNarrow extends React.Component {
 	}
 
   render(){
+    const {user} = this.props;
     return (
       <div className="navNarrow">
         <Logo />
@@ -21,7 +22,7 @@ export default class HeaderNarrow extends React.Component {
           <a href="#" onClick={this.toggle}><i className="fa fa-bars fa-2x"></i></a>
           <div className="narrowLinks">
             <NavigationNarrow />
-            <UserProfileNarrow />
+            <UserProfileNarrow user={user}/>
           </div>
         </div>
       </div>

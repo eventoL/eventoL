@@ -10,7 +10,7 @@ window.render_components = properties => {
   window.params = {...properties};
   render(
     (<Provider store={store}>
-       <Home />
+       <Home user={properties.user}/>
     </Provider>), document.getElementById('root'));
 };
 

@@ -27,9 +27,10 @@ export default class App extends React.Component {
 
   render(){
     const {searched, searchUrl} = this.state;
+    const {user} = this.props;
     return (
       <div>
-        <Header />
+        <Header user={user}/>
         <Hero>
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
