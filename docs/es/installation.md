@@ -18,9 +18,13 @@ docker pull eventol/eventol:latest
 docker build --tag=eventol/eventol:latest .
 ```
 
-### Correr un container con esa imagen
+### Correr contenedores con esa imagen
 ```bash
+# python
 docker run -d -it --name eventol -v $PWD:/src -p 8000:8000 --workdir /src eventol/eventol:latest bash
+
+# react
+docker run -d -it --name eventoljs -v $PWD:/src -p 3000:3000 --workdir /src/eventol/front/ eventol/eventol:latest bash
 ```
 
 ### Crear la base de datos y actualizar estaticos
@@ -30,7 +34,11 @@ docker exec -it eventol ./deploy/scripts/install-container-dev.sh
 
 ### Correr el servidor para probar y desarrollar
 ```bash
+# python
 docker exec -it eventol ./eventol/manage.py runserver 0.0.0.0:8000
+
+# react
+docker exec -it eventoljs npm start
 ```
 
 ## Sin docker
@@ -83,12 +91,13 @@ cd -
 
 ##### Instalar dependencias de node
 ```bash
-sudo npm install -g less bower
+sudo npm install -g less bower yarn
 ```
 
 ##### Instalar dependencias del frontend y compilar los css
 ```bash
 cd eventol/front
+yarn install
 bower install
 lessc eventol/static/manager/less/eventol.less > ../manager/static/manager/css/eventol.css
 lessc eventol/static/manager/less/eventol-bootstrap.less > ../manager/static/manager/css/eventol-bootstrap.css
@@ -102,7 +111,12 @@ cd -
 
 ### Correr el servidor para probar y desarrollar
 ```bash
+# python
 ./eventol/manage.py runserver 0.0.0.0:8000
+
+# En otra terminal para react
+cd eventol/front
+npm start
 ```
 
 # Actualizar traducciones

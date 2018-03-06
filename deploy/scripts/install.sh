@@ -11,9 +11,9 @@ cd eventol
 ./manage.py loaddata manager/initial_data/software.json
 
 sudo npm install -g less bower
-# sudo npm install -g yarn
+sudo npm install -g yarn
 cd front
-# yarn install
+yarn install
 bower install
 lessc eventol/static/manager/less/eventol.less > ../manager/static/manager/css/eventol.css
 lessc eventol/static/manager/less/eventol-bootstrap.less > ../manager/static/manager/css/eventol-bootstrap.css
