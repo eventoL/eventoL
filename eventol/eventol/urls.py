@@ -6,12 +6,11 @@ from eventol import settings
 from manager import views
 from rest_framework import routers
 
-from .api import EventViewSet, UserViewSet
+from .api import EventViewSet
 
 
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
 router.register(r'events', EventViewSet)
 
 admin.autodiscover()

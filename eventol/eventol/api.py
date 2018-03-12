@@ -27,12 +27,6 @@ class EventSerializer(QueryFieldsMixin, serializers.HyperlinkedModelSerializer):
                   'attendees_count', 'last_date', 'created')
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'is_staff')
-
-
 # Filters
 class EventFilter(FilterSet):
     activity_proposal_is_open = BooleanFilter(name='activity_proposal_is_open')
@@ -52,8 +46,3 @@ class EventViewSet(viewsets.ModelViewSet):
     ordering_fields = ('name', 'limit_proposal_date',
                        'attendees_count', 'last_date', 'created')
     search_fields = ('name', 'slug', 'abstract')
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
