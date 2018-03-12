@@ -131,44 +131,6 @@ class Base(Configuration):
         },
     ]
 
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'logservices': {
-                'format': '[%(asctime)s] [%(levelname)s] %(message)s',
-            },
-
-        },
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-                'formatter': 'logservices',
-            },
-            'file': {
-                'class': 'logging.handlers.RotatingFileHandler',
-                'filename': '/var/log/eventol.log',
-                'maxBytes': 1024*1024*10,
-                'backupCount': 10,
-                'formatter': 'logservices',
-            },
-        },
-        'loggers': {
-            'django.request': {
-                'handlers': ['console', 'file'],
-                'level': 'INFO',
-            },
-            'apiservices.util': {
-                'handlers': ['console', 'file'],
-                'level': 'INFO',
-            },
-            'apiservices.views': {
-                'handlers': ['console', 'file'],
-                'level': 'INFO',
-            }
-        }
-    }
-
     LOGIN_URL = '/accounts/login/'
     LOGIN_REDIRECT_URL = '/'
     LOGIN_TITLE = 'EventoL'
@@ -314,6 +276,15 @@ class Base(Configuration):
     MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
 
+    ELASTICSEARCH_DSL={
+        'default': {
+            'hosts': '{0}:{1}'.format(
+                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
+                os.getenv('ELASTICSEARCH_PORT', 9200)
+            )
+        }
+    }
+
 
 class Staging(Base):
     import socket
@@ -334,29 +305,6 @@ class Staging(Base):
             'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
             'HOST': os.getenv('PSQL_HOST', 'localhost'),
             'PORT': os.getenv('PSQL_PORT', '5432'),
-        }
-    }
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'simple': {
-                'format': '%(levelname)s %(message)s'
-            },
-        },
-        'handlers': {
-            'log_to_stdout': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                'formatter': 'simple',
-            },
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['log_to_stdout'],
-                'propagate': True,
-                'level': 'DEBUG',
-            },
         }
     }
     WEBPACK_LOADER = {
@@ -393,6 +341,58 @@ class Staging(Base):
             'ROUTING': 'eventol.routing.channel_routing',
         },
     }
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'simple': {
+                'format': '%(levelname)s %(message)s'
+            },
+            'logservices': {
+                'format': '[%(asctime)s] [%(levelname)s] %(message)s'
+            }
+        },
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple'
+            },
+            'file': {
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': os.getenv('LOG_FILE', '/var/log/eventol.log'),
+                'maxBytes': 1024*1024*10,
+                'backupCount': 10,
+                'formatter': 'logservices'
+            },
+            'logstash': {
+                'level': 'DEBUG',
+                'class': 'logstash.TCPLogstashHandler',
+                'host': os.getenv('LOGSTASH_HOST', 'logstash'),
+                'port': os.getenv('LOGSTASH_PORT', 5000),
+                'version': 0,
+                'message_type': 'django',
+                'fqdn': False,
+                'tags': ['logstash', 'django.request']
+            }
+        },
+        'loggers': {
+            'eventol': {
+                'handlers': ['logstash', 'file'],
+                'level': 'DEBUG',
+                'propagate': True
+            },
+            'django.request': {
+                'handlers': ['logstash', 'file'],
+                'level': 'ERROR'
+            },
+            'django': {
+                'handlers': ['console'],
+                'level': 'ERROR',
+                'propagate': True
+            }
+        }
+    }
 
 
 class Prod(Staging):
@@ -411,25 +411,33 @@ class Dev(Base):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-            },
-        },
-        'loggers': {
-            'django.request': {
-                'handlers': ['console'],
-                'level': 'INFO',
-            },
-            'apiservices.util': {
-                'handlers': ['console'],
-                'level': 'INFO',
-            },
-            'apiservices.views': {
-                'handlers': ['console'],
-                'level': 'INFO',
+        'formatters': {
+            'simple': {
+                'format': '%(levelname)s %(message)s'
             }
         },
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple'
+            }
+        },
+        'loggers': {
+            'eventol': {
+                'handlers': ['console'],
+                'level': 'DEBUG'
+            },
+            'django.request': {
+                'handlers': ['console'],
+                'level': 'ERROR'
+            },
+            'django': {
+                'handlers': ['console'],
+                'level': 'ERROR',
+                'propagate': True
+            }
+        }
     }
 
 

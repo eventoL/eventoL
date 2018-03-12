@@ -40,11 +40,10 @@ from manager.security import is_installer, is_organizer, user_passes_test, \
     add_attendance_permission, is_collaborator, \
     add_organizer_permissions
 
-
 from .utils import email
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('eventol')
 
 
 # Auxiliary functions
