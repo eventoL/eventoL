@@ -15,4 +15,3 @@ lessc eventol/static/manager/less/eventol-bootstrap.less > ../manager/static/man
 cd -
 
 ./manage.py collectstatic --no-input
-
