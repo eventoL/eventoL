@@ -65,6 +65,7 @@ class Base(Configuration):
         'django_filters',
         'rest_framework',
         'channels',
+        'django_elasticsearch_dsl',
     )
 
     MIDDLEWARE_CLASSES = (
