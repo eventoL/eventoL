@@ -5,13 +5,14 @@
 # pylint: disable=missing-docstring
 
 from django.contrib.auth.models import User
+from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework_filters import FilterSet, BooleanFilter
 from manager.models import Event
 
 
 # Serializers define the API representation.
-class EventSerializer(serializers.HyperlinkedModelSerializer):
+class EventSerializer(QueryFieldsMixin, serializers.HyperlinkedModelSerializer):
     attendees_count = serializers.IntegerField(read_only=True)
     last_date = serializers.DateField(read_only=True)
     activity_proposal_is_open = serializers.BooleanField(read_only=True)
