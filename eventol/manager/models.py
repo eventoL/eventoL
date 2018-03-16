@@ -35,7 +35,8 @@ class EventManager(models.Manager):
 
 class Event(models.Model):
     objects = EventManager()
-    created = models.DateTimeField(auto_now_add=True, blank=True)
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     name = models.CharField(_('Event Name'), max_length=200)
     abstract = models.TextField(_('Abstract'), max_length=250,
                                 help_text=_('Short idea of the event (One or two sentences)'))
@@ -139,6 +140,8 @@ class Contact(models.Model):
 
 
 class Ticket(models.Model):
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     sent = models.BooleanField(_('Sent'), default=False)
 
     def __str__(self):
@@ -146,6 +149,8 @@ class Ticket(models.Model):
 
 
 class EventUser(models.Model):
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     user = models.ForeignKey(User, verbose_name=_('User'),
                              blank=True, null=True)
     event = models.ForeignKey(Event, verbose_name=_('Event'))
@@ -183,6 +188,8 @@ class EventUser(models.Model):
 
 
 class EventUserAttendanceDate(models.Model):
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_noop('Event User'),
                                    blank=False, null=False)
     date = models.DateTimeField(_('Date'),
@@ -194,6 +201,8 @@ class EventUserAttendanceDate(models.Model):
 
 
 class Collaborator(models.Model):
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
                                    blank=True, null=True)
     assignation = models.CharField(_('Assignation'), max_length=200,
@@ -222,6 +231,8 @@ class Collaborator(models.Model):
 
 class Organizer(models.Model):
     """Event organizer"""
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
                                    blank=True, null=True)
 
@@ -236,6 +247,8 @@ class Organizer(models.Model):
 
 
 class Attendee(models.Model):
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     first_name = models.CharField(_('First Name'), max_length=200, blank=True, null=True)
     last_name = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
     nickname = models.CharField(_('Nickname'), max_length=200, blank=True, null=True)
@@ -279,6 +292,8 @@ class Attendee(models.Model):
 
 
 class AttendeeAttendanceDate(models.Model):
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     attendee = models.ForeignKey(Attendee, verbose_name=_noop('Attendee'),
                                  blank=False, null=False)
     date = models.DateTimeField(_('Date'),
@@ -310,6 +325,8 @@ class Installer(models.Model):
         ('3', _('Advanced')),
         ('4', _('Super Hacker'))
     )
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
                                    blank=True, null=True)
     level = models.CharField(_('Level'), choices=installer_choices,
@@ -379,6 +396,8 @@ class Room(models.Model):
 
 
 class Activity(models.Model):
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event = models.ForeignKey(Event, verbose_name=_('Event'))
     title = models.CharField(_('Title'), max_length=50,
                              blank=False, null=False)
@@ -460,6 +479,8 @@ class Activity(models.Model):
 
 
 class Installation(models.Model):
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'),
                                  blank=True, null=True)
     software = models.ForeignKey(Software, verbose_name=_('Software'),

@@ -35,7 +35,7 @@ export default class App extends React.Component {
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
         {searched && <TitleList title='Resultados de busqueda' url={searchUrl} />}
-        <TitleList id='recientes' title='Eventos Recientes' url='?ordering=-created&registration_is_open=true' />
+        <TitleList id='recientes' title='Eventos Recientes' url='?ordering=-created_at&registration_is_open=true' />
         <TitleList id='destacados' title='Eventos Destacados' url='?ordering=-attendees_count&registration_is_open=true' />
         <TitleList id='proximos' title='Proximos Eventos' url='?registration_is_open=true&ordering=last_date' />
         <TitleList id='cronograma_confirmado' title='Eventos con Cronograma Confirmado' url='?schedule_confirmed=true&registration_is_open=true' />
