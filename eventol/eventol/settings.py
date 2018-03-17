@@ -339,7 +339,7 @@ class Staging(Base):
                 )],
             },
             'ROUTING': 'eventol.routing.channel_routing',
-        },
+        }
     }
     LOGGING = {
         'version': 1,
@@ -359,6 +359,7 @@ class Staging(Base):
                 'formatter': 'simple'
             },
             'file': {
+                'level': 'DEBUG',
                 'class': 'logging.handlers.RotatingFileHandler',
                 'filename': os.getenv('LOG_FILE', '/var/log/eventol.log'),
                 'maxBytes': 1024*1024*10,
@@ -370,10 +371,10 @@ class Staging(Base):
                 'class': 'logstash.TCPLogstashHandler',
                 'host': os.getenv('LOGSTASH_HOST', 'logstash'),
                 'port': os.getenv('LOGSTASH_PORT', 5000),
-                'version': 0,
+                'version': 1,
                 'message_type': 'django',
                 'fqdn': False,
-                'tags': ['logstash', 'django.request', 'django']
+                'tags': ['eventol', 'django.request', 'django.channels', 'django']
             }
         },
         'loggers': {
@@ -382,9 +383,15 @@ class Staging(Base):
                 'level': 'DEBUG',
                 'propagate': True
             },
+            'django.channels': {
+                'handlers': ['logstash', 'file'],
+                'level': 'WARNING',
+                'propagate': True
+            },
             'django.request': {
                 'handlers': ['logstash', 'file'],
-                'level': 'WARNING'
+                'level': 'WARNING',
+                'propagate': True
             },
             'django': {
                 'handlers': ['logstash', 'console'],
