@@ -14,8 +14,10 @@ def addcss(field, css):
 @register.filter(name='is_checkbox')
 def is_checkbox(boundfield):
     """Return True if this field's widget is a CheckboxInput."""
-    return isinstance(boundfield.field.widget, forms.CheckboxInput) or isinstance(boundfield.field.widget,
-                                                                                  forms.CheckboxSelectMultiple)
+    widget = boundfield.field.widget
+    is_checkbox_input = isinstance(widget, forms.CheckboxInput)
+    is_checkbox_select = isinstance(widget, forms.CheckboxSelectMultiple)
+    return is_checkbox_input or is_checkbox_select
 
 
 @register.filter(name='is_datetime')
@@ -45,29 +47,38 @@ def is_odd(number):
 @register.filter(name='is_registered')
 def is_registered(user, event_slug):
     """Search if the user is registered for the event in any way"""
-    return EventUser.objects.filter(user=user, event__slug__iexact=event_slug).exists()
+    return EventUser.objects.filter(
+        user=user, event__slug__iexact=event_slug).exists()
 
 
 @register.filter(name='is_installer')
 def is_installer(user, event_slug):
-    return Installer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or \
-           is_organizer(user, event_slug)
+    exists_installer = Installer.objects.filter(
+        event_user__user=user,
+        event_user__event__slug__iexact=event_slug).exists()
+    return exists_installer or is_organizer(user, event_slug)
 
 
 @register.filter(name='is_collaborator')
 def is_collaborator(user, event_slug):
-    return Collaborator.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists() or \
-           is_organizer(user, event_slug)
+    exists_collaborator = Collaborator.objects.filter(
+        event_user__user=user,
+        event_user__event__slug__iexact=event_slug).exists()
+    return exists_collaborator or is_organizer(user, event_slug)
 
 
 @register.filter(name='is_organizer')
 def is_organizer(user, event_slug):
-    return Organizer.objects.filter(event_user__user=user, event_user__event__slug__iexact=event_slug).exists()
+    return Organizer.objects.filter(
+        event_user__user=user,
+        event_user__event__slug__iexact=event_slug).exists()
 
 
 @register.filter(name='can_take_attendance')
-def can_take_attendance(user, event_slug):
-    return user.has_perm('manager.add_attendee') or user.has_perm('manager.can_take_attendance')
+def can_take_attendance(user, _):
+    has_add = user.has_perm('manager.add_attendee')
+    has_take = user.has_perm('manager.can_take_attendance')
+    return has_add or has_take
 
 
 @register.filter(name='add')
@@ -85,14 +96,14 @@ def installer_level(value):
         return _('Advanced')
     elif value == '4':
         return _('Super Hacker')
-    else:
-        return _('N/A')
+    return _('N/A')
 
 
 @register.filter(name='as_days')
 def as_days(dates):
     return sorted([date.date.day for date in dates])
 
+
 @register.filter(name='keyvalue')
-def keyvalue(dict, key):
-    return dict[key]
+def keyvalue(data, key):
+    return data[key]

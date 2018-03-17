@@ -62,8 +62,10 @@ class Base(Configuration):
         'captcha',
         'django.contrib.postgres',
         'webpack_loader',
+        'django_filters',
         'rest_framework',
         'channels',
+        'django_elasticsearch_dsl',
     )
 
     MIDDLEWARE_CLASSES = (
@@ -128,44 +130,6 @@ class Base(Configuration):
             },
         },
     ]
-
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'logservices': {
-                'format': '[%(asctime)s] [%(levelname)s] %(message)s',
-            },
-
-        },
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-                'formatter': 'logservices',
-            },
-            'file': {
-                'class': 'logging.handlers.RotatingFileHandler',
-                'filename': '/var/log/eventol.log',
-                'maxBytes': 1024*1024*10,
-                'backupCount': 10,
-                'formatter': 'logservices',
-            },
-        },
-        'loggers': {
-            'django.request': {
-                'handlers': ['console', 'file'],
-                'level': 'INFO',
-            },
-            'apiservices.util': {
-                'handlers': ['console', 'file'],
-                'level': 'INFO',
-            },
-            'apiservices.views': {
-                'handlers': ['console', 'file'],
-                'level': 'INFO',
-            }
-        }
-    }
 
     LOGIN_URL = '/accounts/login/'
     LOGIN_REDIRECT_URL = '/'
@@ -280,11 +244,15 @@ class Base(Configuration):
     ]
 
     REST_FRAMEWORK = {
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+        'PAGE_SIZE': 20,
         'DEFAULT_FILTER_BACKENDS': (
+            'rest_framework.filters.SearchFilter',
+            'rest_framework.filters.OrderingFilter',
             'django_filters.rest_framework.DjangoFilterBackend',
         ),
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated'
+            'rest_framework.permissions.IsAuthenticatedOrReadOnly'
         ]
     }
 
@@ -308,6 +276,15 @@ class Base(Configuration):
     MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
 
+    ELASTICSEARCH_DSL={
+        'default': {
+            'hosts': '{0}:{1}'.format(
+                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
+                os.getenv('ELASTICSEARCH_PORT', 9200)
+            )
+        }
+    }
+
 
 class Staging(Base):
     import socket
@@ -330,29 +307,6 @@ class Staging(Base):
             'PORT': os.getenv('PSQL_PORT', '5432'),
         }
     }
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'simple': {
-                'format': '%(levelname)s %(message)s'
-            },
-        },
-        'handlers': {
-            'log_to_stdout': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                'formatter': 'simple',
-            },
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['log_to_stdout'],
-                'propagate': True,
-                'level': 'DEBUG',
-            },
-        }
-    }
     WEBPACK_LOADER = {
         'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/prod/',  # end with slash
@@ -361,11 +315,15 @@ class Staging(Base):
         }
     }
     REST_FRAMEWORK = {
+        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+        'PAGE_SIZE': 20,
         'DEFAULT_FILTER_BACKENDS': (
+            'rest_framework.filters.SearchFilter',
+            'rest_framework.filters.OrderingFilter',
             'django_filters.rest_framework.DjangoFilterBackend',
         ),
         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated'
+            'rest_framework.permissions.IsAuthenticatedOrReadOnly'
         ],
         'DEFAULT_RENDERER_CLASSES': (
             'rest_framework.renderers.JSONRenderer',
@@ -381,7 +339,66 @@ class Staging(Base):
                 )],
             },
             'ROUTING': 'eventol.routing.channel_routing',
+        }
+    }
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'simple': {
+                'format': '%(levelname)s %(message)s'
+            },
+            'logservices': {
+                'format': '[%(asctime)s] [%(levelname)s] %(message)s'
+            }
         },
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple'
+            },
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': os.getenv('LOG_FILE', '/var/log/eventol.log'),
+                'maxBytes': 1024*1024*10,
+                'backupCount': 10,
+                'formatter': 'logservices'
+            },
+            'logstash': {
+                'level': 'DEBUG',
+                'class': 'logstash.TCPLogstashHandler',
+                'host': os.getenv('LOGSTASH_HOST', 'logstash'),
+                'port': os.getenv('LOGSTASH_PORT', 5000),
+                'version': 1,
+                'message_type': 'django',
+                'fqdn': False,
+                'tags': ['eventol', 'django.request', 'django.channels', 'django']
+            }
+        },
+        'loggers': {
+            'eventol': {
+                'handlers': ['logstash', 'file'],
+                'level': 'DEBUG',
+                'propagate': True
+            },
+            'django.channels': {
+                'handlers': ['logstash', 'file'],
+                'level': 'WARNING',
+                'propagate': True
+            },
+            'django.request': {
+                'handlers': ['logstash', 'file'],
+                'level': 'WARNING',
+                'propagate': True
+            },
+            'django': {
+                'handlers': ['logstash', 'console'],
+                'level': 'WARNING',
+                'propagate': True
+            }
+        }
     }
 
 
@@ -401,25 +418,33 @@ class Dev(Base):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'class': 'logging.StreamHandler',
-            },
-        },
-        'loggers': {
-            'django.request': {
-                'handlers': ['console'],
-                'level': 'INFO',
-            },
-            'apiservices.util': {
-                'handlers': ['console'],
-                'level': 'INFO',
-            },
-            'apiservices.views': {
-                'handlers': ['console'],
-                'level': 'INFO',
+        'formatters': {
+            'simple': {
+                'format': '%(levelname)s %(message)s'
             }
         },
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple'
+            }
+        },
+        'loggers': {
+            'eventol': {
+                'handlers': ['console'],
+                'level': 'DEBUG'
+            },
+            'django.request': {
+                'handlers': ['console'],
+                'level': 'ERROR'
+            },
+            'django': {
+                'handlers': ['console'],
+                'level': 'ERROR',
+                'propagate': True
+            }
+        }
     }
 
 

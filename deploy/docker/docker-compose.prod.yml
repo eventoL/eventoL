@@ -8,6 +8,8 @@ services:
     depends_on:
       - worker
       - redis
+      - elasticsearch
+      - logstash
     env_file:
       - .env
     environment:
@@ -23,8 +25,6 @@ services:
   nginx:
     restart: always
     build: ./nginx/
-    ports:
-      - "${EXTERNAL_PORT}:80"
     depends_on:
       - daphne
     volumes_from:
@@ -38,7 +38,50 @@ services:
       - POSTGRES_PASSWORD=${PSQL_PASSWORD}
       - POSTGRES_USER=${PSQL_USER}
       - POSTGRES_DB=${PSQL_DBNAME}
-    ports:
+    expose:
       - "5432"
     volumes:
       - /srv/deploys/eventolpostgres:/var/lib/postgresql/data
+  elasticsearch:
+    restart: always
+    build:
+      context: elk/elasticsearch/
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    environment:
+      - ES_JAVA_OPTS=-Xmx256m -Xms256m
+    expose:
+      - "9300"
+      - "9200"
+  logstash:
+    restart: always
+    build:
+      context: elk/logstash/
+    volumes:
+      - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
+    environment:
+      - LS_JAVA_OPTS=-Xmx256m -Xms256m
+    depends_on:
+      - elasticsearch
+    expose:
+      - "5000"
+  kibana:
+    restart: always
+    build:
+      context: elk/kibana/
+    volumes:
+      - ./elk/kibana/config/:/usr/share/kibana/config:ro
+    environment:
+      - VIRTUAL_HOST=${KIBANA_EXTERNAL_HOST}
+      - VIRTUAL_PORT=5601
+    expose:
+      - "5601"
+    depends_on:
+      - elasticsearch
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "${EXTERNAL_PORT}:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro

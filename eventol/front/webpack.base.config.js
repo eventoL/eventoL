@@ -6,6 +6,7 @@ module.exports = {
 
   entry: {
     // Add as many entry points as you have container-react-components here
+    Home: './src/views/Home',
     vendors: ['react', 'babel-polyfill'],
   },
 
@@ -22,7 +23,32 @@ module.exports = {
   ], // add all common plugins here
 
   module: {
-    loaders: [] // add all common loaders here
+    loaders: [
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
+      },
+      {
+        test: /\.scss$/,
+        loader: 'style-loader!css-loader!sass-loader'
+      },
+      {
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        loader: 'file-loader!image-webpack-loader',
+        options: {
+          optipng: {
+            enabled: true,
+          },
+          svgo: {
+            enabled: true,
+          },
+        }
+      },
+      {
+        test: /\.(eot|woff2|woff|ttf)$/,
+        loader: 'file-loader'
+      }
+    ]
   },
 
   resolve: {

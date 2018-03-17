@@ -9,7 +9,7 @@
 
 ```
 $ cp .env.dist .env (Customize if necessary)
-$ cp ./src/front/webpack.local-settings.js{.sample,}
+$ cp ./eventol/front/webpack.local-settings.js{.sample,}
 $ docker-compose up -d --build
 ```
 

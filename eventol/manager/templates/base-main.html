@@ -12,18 +12,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% if event is not None %}
-            <meta name="description"
-                  content="FLISol {{ event.name }}. Festival Latinoamericano de Instalación de Software Libre">
-            <title>FLISoL {{ event.name }}</title>
+            <meta name="description" content="EventoL - {{ event.name }}. Event Management Software">
+            <title>EventoL - {{ event.name }}</title>
         {% else %}
-            <meta name="description"
-                  content="Página principal para FLISol. Festival Latinoamericano de Instalación de Software Libre">
-            <title>FLISoL Argentina</title>
+            <meta name="description" content="Event Management Software">
+            <title>EventoL</title>
         {% endif %}
 
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
-        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol-bootstrap.css" %}"/>
-        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/flisol.css" %}"/>
+        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/eventol-bootstrap.css" %}"/>
+        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/eventol.css" %}"/>
 
         <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
@@ -44,7 +42,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="pull-left" href="/">
-                    <img class="img-responsive" src="{% static "manager/img/flisol-top-bar.png" %}" alt="Flisol Logo">
+                    <img class="img-responsive eventol-logo" src="{% static "manager/img/eventol-white.png" %}" alt="EventoL Logo">
                 </a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">

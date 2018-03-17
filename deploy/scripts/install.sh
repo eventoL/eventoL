@@ -1,5 +1,3 @@
-#virtualenv -p python3 venv
-#source venv/bin/activate
 pip3 install -r requirements.txt -r requirements-dev.txt
 cd eventol
 ./manage.py migrate
@@ -15,8 +13,8 @@ sudo npm install -g yarn
 cd front
 yarn install
 bower install
-lessc eventol/static/manager/less/flisol.less > ../manager/static/manager/css/flisol.css
-lessc eventol/static/manager/less/flisol-bootstrap.less > ../manager/static/manager/css/flisol-bootstrap.css
+lessc eventol/static/manager/less/eventol.less > ../manager/static/manager/css/eventol.css
+lessc eventol/static/manager/less/eventol-bootstrap.less > ../manager/static/manager/css/eventol-bootstrap.css
 cd -
 
 ./manage.py collectstatic --no-input

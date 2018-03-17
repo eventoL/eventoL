@@ -1,12 +1,17 @@
+# pylint: disable=no-init
+# pylint: disable=too-few-public-methods
+
 from django.contrib import admin
 from django.contrib.auth.models import User
 from import_export import resources
 from import_export.admin import ExportMixin
 from image_cropping import ImageCroppingMixin
 
-from manager.models import Organizer, Event, Attendee, Collaborator, Hardware, \
-    Software, Installer, Installation, Room, ContactType, Contact, Activity, \
-    ContactMessage, EventUser, InstallationMessage, Ticket, EventDate, AttendeeAttendanceDate, EventUserAttendanceDate
+from manager.models import (Organizer, Event, Attendee, Collaborator, Hardware,
+                            Software, Installer, Installation, Room,
+                            ContactType, Contact, Activity, ContactMessage,
+                            EventUser, InstallationMessage, Ticket, EventDate,
+                            AttendeeAttendanceDate, EventUserAttendanceDate)
 from manager.security import create_reporters_group
 
 
@@ -18,7 +23,7 @@ class EventoLAdmin(admin.ModelAdmin):
         self.get_queryset(request)
 
     def get_queryset(self, request):
-        queryset = super(EventoLAdmin, self).get_queryset(request)
+        queryset = super().get_queryset(request)
         if request.user.is_superuser:
             return queryset
         reporters = create_reporters_group()
@@ -26,27 +31,33 @@ class EventoLAdmin(admin.ModelAdmin):
             return queryset
         organizers = Organizer.objects.filter(event_user__user=request.user)
         events = [organizer.event_user.event for organizer in organizers]
-        if len(events) > 0:
+        if events:
             return self.filter_event(events, queryset)
         return queryset.none()
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if request.user.is_superuser:
-            return super(EventoLAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
-        events = [organizer.event_user.event for organizer in Organizer.objects.filter(event_user__user=request.user)]
+            return super() \
+                .formfield_for_foreignkey(db_field, request, **kwargs)
+        organizers = Organizer.objects.filter(event_user__user=request.user)
+        events = [organizer.event_user.event for organizer in organizers]
+        queryset = None
         if db_field.name == "room":
-            kwargs["queryset"] = Room.objects.filter(event__in=events).distinct()
+            queryset = Room.objects.filter(event__in=events).distinct()
         if db_field.name == "event":
-            kwargs["queryset"] = Event.objects.filter(pk__in=[event.pk for event in events]).distinct()
+            events_pks = [event.pk for event in events]
+            queryset = Event.objects.filter(pk__in=events_pks).distinct()
         if db_field.name == "event_user":
-            kwargs["queryset"] = EventUser.objects.filter(event__in=events).distinct()
+            queryset = EventUser.objects.filter(event__in=events).distinct()
         if db_field.name == "attendee":
-            kwargs["queryset"] = Attendee.objects.filter(event__in=events).distinct()
+            queryset = Attendee.objects.filter(event__in=events).distinct()
         if db_field.name == "installer":
-            kwargs["queryset"] = Installer.objects.filter(event_user__event__in=events).distinct()
+            queryset = Installer.objects \
+                .filter(event_user__event__in=events).distinct()
         if db_field.name == "user":
-            kwargs["queryset"] = User.objects.none()
-        return super(EventoLAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+            queryset = User.objects.none()
+        kwargs["queryset"] = queryset
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
@@ -57,7 +68,8 @@ class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
 class OrganizerResource(resources.ModelResource):
     class Meta(object):
         model = Organizer
-        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
+        fields = ('event_user__user__first_name',
+                  'event_user__user__last_name', 'event_user__user__username',
                   'event_user__user__email', 'event_user__user__date_joined')
         export_order = fields
 
@@ -69,8 +81,8 @@ class OrganizerAdmin(EventoLEventUserAdmin):
 class EventUserResource(resources.ModelResource):
     class Meta(object):
         model = EventUser
-        fields = (
-            'user__first_name', 'user__last_name', 'user__username', 'user__email', 'user__date_joined')
+        fields = ('user__first_name', 'user__last_name', 'user__username',
+                  'user__email', 'user__date_joined')
         export_order = fields
 
 
@@ -92,8 +104,10 @@ class EventAdmin(EventoLAdmin):
 class InstallerResource(resources.ModelResource):
     class Meta(object):
         model = Installer
-        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
-                  'event_user__user__email', 'level', 'event_user__user__date_joined')
+        fields = ('event_user__user__first_name',
+                  'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'level',
+                  'event_user__user__date_joined')
         export_order = fields
 
 
@@ -104,7 +118,8 @@ class InstallerAdmin(EventoLEventUserAdmin):
 class InstallationResource(resources.ModelResource):
     class Meta(object):
         model = Installation
-        fields = ('hardware__type', 'hardware__manufacturer', 'hardware__model', 'software__type', 'software__name',
+        fields = ('hardware__type', 'hardware__manufacturer',
+                  'hardware__model', 'software__type', 'software__name',
                   'attendee__email', 'installer__user__username', 'notes')
         export_order = fields
 
@@ -130,7 +145,8 @@ class TicketAdmin(EventoLAdmin):
 class AttendeeResource(resources.ModelResource):
     class Meta(object):
         model = Attendee
-        fields = ('first_name', 'last_name', 'nickname', 'email', 'email_confirmed', 'is_installing',
+        fields = ('first_name', 'last_name', 'nickname', 'email',
+                  'email_confirmed', 'is_installing',
                   'additional_info', 'registration_date')
         export_order = fields
 
@@ -151,9 +167,11 @@ class ActivityAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
 class CollaboratorResource(resources.ModelResource):
     class Meta(object):
         model = Collaborator
-        fields = ('event_user__user__first_name', 'event_user__user__last_name', 'event_user__user__username',
-                  'event_user__user__email', 'event_user__user__date_joined', 'phone', 'address',
-                  'assignation', 'time_availability', 'additional_info')
+        fields = ('event_user__user__first_name',
+                  'event_user__user__last_name', 'event_user__user__username',
+                  'event_user__user__email', 'event_user__user__date_joined',
+                  'phone', 'address', 'assignation', 'time_availability',
+                  'additional_info')
         export_order = fields
 
 

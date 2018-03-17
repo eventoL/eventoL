@@ -99,8 +99,8 @@ sudo npm install -g less bower yarn
 cd eventol/front
 yarn install
 bower install
-lessc eventol/static/manager/less/flisol.less > ../manager/static/manager/css/flisol.css
-lessc eventol/static/manager/less/flisol-bootstrap.less > ../manager/static/manager/css/flisol-bootstrap.css
+lessc eventol/static/manager/less/eventol.less > ../manager/static/manager/css/eventol.css
+lessc eventol/static/manager/less/eventol-bootstrap.less > ../manager/static/manager/css/eventol-bootstrap.css
 cd -
 ```
 

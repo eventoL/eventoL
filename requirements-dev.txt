@@ -1,3 +1,4 @@
+astroid==1.5.3
 pylint==1.7.4
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.6

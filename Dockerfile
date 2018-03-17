@@ -20,7 +20,7 @@ RUN pip install psycopg2
 # Install node modules
 COPY ./eventol/front/package.json /usr/src/app/eventol/front/
 COPY ./eventol/front/yarn.lock /usr/src/app/eventol/front/
-RUN npm install -g yarn webpack
+RUN npm install -g yarn webpack@^1.12.13
 RUN cd /usr/src/app/eventol/front && yarn install
 
 # Install bower dependencies
@@ -32,6 +32,9 @@ RUN cd /usr/src/app/eventol/front && bower install --allow-root
 # Copy test script file
 COPY ./test.sh /usr/src/app/test.sh
 
+# Create log file
+RUN touch /var/log/eventol.log
+
 # Copy python code
 COPY ./eventol /usr/src/app/eventol
 RUN mkdir -p /usr/src/app/eventol/manager/static
@@ -40,8 +43,8 @@ RUN mkdir -p /usr/src/app/eventol/front/eventol/static
 # Compile scss
 RUN npm install -g less
 RUN mkdir -p /usr/src/app/eventol/manager/static/manager/css/
-RUN lessc /usr/src/app/eventol/front/eventol/static/manager/less/flisol.less > /usr/src/app/eventol/manager/static/manager/css/flisol.css
-RUN lessc /usr/src/app/eventol/front/eventol/static/manager/less/flisol-bootstrap.less > /usr/src/app/eventol/manager/static/manager/css/flisol-bootstrap.css
+RUN lessc /usr/src/app/eventol/front/eventol/static/manager/less/eventol.less > /usr/src/app/eventol/manager/static/manager/css/eventol.css
+RUN lessc /usr/src/app/eventol/front/eventol/static/manager/less/eventol-bootstrap.less > /usr/src/app/eventol/manager/static/manager/css/eventol-bootstrap.css
 
 # Copy script for docker-compose wait and start-eventol
 COPY ./deploy/docker/scripts/wait-for-it.sh /root

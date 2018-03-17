@@ -4,21 +4,30 @@ from django.contrib import admin
 from django.views.generic.base import TemplateView
 from eventol import settings
 from manager import views
+from rest_framework import routers
+
+from .api import EventViewSet
+
+
+# Routers provide a way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'events', EventViewSet)
 
 admin.autodiscover()
 
 urlpatterns = [
-                  url(r'^$', views.home, name="home"),
-                  url(r'^create-event/$', views.create_event, name="create_event"),
-                  url(r'^event/', include('manager.urls'), name='event'),
-                  url(r'^admin/', include(admin.site.urls), name='admin'),
-                  url(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
-                  url(r'^accounts/profile/', TemplateView.as_view(template_name='account/profile.html'),
-                      name="user_profile"),
-                  url(r'^accounts/', include('allauth.urls'))
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    url(r'^$', views.home, name="home"),
+    url(r'^api/', include(router.urls)),
+    url(r'^create-event/$', views.create_event, name="create_event"),
+    url(r'^event/', include('manager.urls'), name='event'),
+    url(r'^admin/', include(admin.site.urls), name='admin'),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
+    url(r'^accounts/profile/', TemplateView.as_view(template_name='account/profile.html'),
+        name="user_profile"),
+    url(r'^accounts/', include('allauth.urls'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 if settings.DEBUG:
     import debug_toolbar
-
     urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]

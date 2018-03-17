@@ -7,7 +7,7 @@ const localSettings = require('./webpack.local-settings.js')
 const port = 3000
 const ip = localSettings.ip
 
-const addDevVendors = (module) => [
+const addDevVendors = module => [
   `webpack-dev-server/client?http://${ip}:${port}`,
   'webpack/hot/only-dev-server',
   module
@@ -18,6 +18,7 @@ config.ip = ip
 
 // Use webpack dev server
 config.entry = {
+  Home: addDevVendors('./src/views/Home'),
   vendors: ['react', 'babel-polyfill'],
 }
 

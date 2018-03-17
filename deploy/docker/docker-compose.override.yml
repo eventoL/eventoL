@@ -15,6 +15,17 @@ services:
     command: npm start
     ports:
       - "3000:3000"
+  elasticsearch:
+    restart: always
+    build:
+      context: elk/elasticsearch/
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    expose:
+      - "9300"
+      - "9200"
+    environment:
+      - ES_JAVA_OPTS=-Xmx256m -Xms256m
   nginx:
     build:
       context: ./nginx
