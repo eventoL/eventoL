@@ -373,7 +373,7 @@ class Staging(Base):
                 'version': 0,
                 'message_type': 'django',
                 'fqdn': False,
-                'tags': ['logstash', 'django.request']
+                'tags': ['logstash', 'django.request', 'django']
             }
         },
         'loggers': {
@@ -388,7 +388,7 @@ class Staging(Base):
             },
             'django': {
                 'handlers': ['logstash', 'console'],
-                'level': 'ERROR',
+                'level': 'WARNING',
                 'propagate': True
             }
         }
