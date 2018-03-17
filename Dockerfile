@@ -32,6 +32,9 @@ RUN cd /usr/src/app/eventol/front && bower install --allow-root
 # Copy test script file
 COPY ./test.sh /usr/src/app/test.sh
 
+# Create log file
+RUN touch /var/log/eventol.log
+
 # Copy python code
 COPY ./eventol /usr/src/app/eventol
 RUN mkdir -p /usr/src/app/eventol/manager/static
