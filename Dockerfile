@@ -20,7 +20,7 @@ RUN pip install psycopg2
 # Install node modules
 COPY ./eventol/front/package.json /usr/src/app/eventol/front/
 COPY ./eventol/front/yarn.lock /usr/src/app/eventol/front/
-RUN npm install -g yarn webpack
+RUN npm install -g yarn webpack@^1.12.13
 RUN cd /usr/src/app/eventol/front && yarn install
 
 # Install bower dependencies
