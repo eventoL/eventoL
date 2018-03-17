@@ -384,10 +384,10 @@ class Staging(Base):
             },
             'django.request': {
                 'handlers': ['logstash', 'file'],
-                'level': 'ERROR'
+                'level': 'WARNING'
             },
             'django': {
-                'handlers': ['console'],
+                'handlers': ['logstash', 'console'],
                 'level': 'ERROR',
                 'propagate': True
             }
