@@ -1,12 +1,11 @@
 import React from 'react'
-import eventolLogo from '../../assets/imgs/eventol-white.png'
 import './index.scss';
 
 
 const Logo = () => (
 	<div id="logo" className="Logo">
 		<a href='#'>
-	  	<img src={eventolLogo} />
+	  	<img src="/static/manager/img/eventol-white.png" />
 		</a>
   </div>
 );
