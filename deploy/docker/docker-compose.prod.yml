@@ -44,8 +44,7 @@ services:
       - /srv/deploys/eventolpostgres:/var/lib/postgresql/data
   elasticsearch:
     restart: always
-    build:
-      context: elk/elasticsearch/
+    image: docker.elastic.co/elasticsearch/elasticsearch-basic:6.2.1
     volumes:
       - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     environment:
@@ -55,8 +54,7 @@ services:
       - "9200"
   logstash:
     restart: always
-    build:
-      context: elk/logstash/
+    image: docker.elastic.co/logstash/logstash-x-pack:6.2.1
     volumes:
       - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
@@ -68,8 +66,7 @@ services:
       - "5000"
   kibana:
     restart: always
-    build:
-      context: elk/kibana/
+    image: docker.elastic.co/kibana/kibana-x-pack:6.2.1
     volumes:
       - ./elk/kibana/config/:/usr/share/kibana/config:ro
     environment:
