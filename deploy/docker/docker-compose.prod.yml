@@ -46,7 +46,7 @@ services:
     restart: always
     image: docker.elastic.co/elasticsearch/elasticsearch-basic:6.2.1
     volumes:
-      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./elk/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     environment:
       - ES_JAVA_OPTS=-Xmx256m -Xms256m
     expose:
@@ -56,7 +56,7 @@ services:
     restart: always
     image: docker.elastic.co/logstash/logstash-x-pack:6.2.1
     volumes:
-      - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./elk/logstash/config:/usr/share/logstash/config:ro
       - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
     environment:
       - LS_JAVA_OPTS=-Xmx256m -Xms256m
@@ -68,7 +68,7 @@ services:
     restart: always
     image: docker.elastic.co/kibana/kibana-x-pack:6.2.1
     volumes:
-      - ./elk/kibana/config/:/usr/share/kibana/config:ro
+      - ./elk/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
     environment:
       - VIRTUAL_HOST=${KIBANA_EXTERNAL_HOST}
       - VIRTUAL_PORT=5601

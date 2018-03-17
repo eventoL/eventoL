@@ -276,15 +276,6 @@ class Base(Configuration):
     MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
 
-    ELASTICSEARCH_DSL={
-        'default': {
-            'hosts': '{0}:{1}'.format(
-                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
-                os.getenv('ELASTICSEARCH_PORT', 9200)
-            )
-        }
-    }
-
 
 class Staging(Base):
     import socket
@@ -400,6 +391,14 @@ class Staging(Base):
             }
         }
     }
+    ELASTICSEARCH_DSL = {
+        'default': {
+            'hosts': '{0}:{1}'.format(
+                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
+                os.getenv('ELASTICSEARCH_PORT', 9200)
+            )
+        }
+    }
 
 
 class Prod(Staging):
@@ -444,6 +443,14 @@ class Dev(Base):
                 'level': 'ERROR',
                 'propagate': True
             }
+        }
+    }
+    ELASTICSEARCH_DSL = {
+        'default': {
+            'hosts': '{0}:{1}'.format(
+                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
+                os.getenv('ELASTICSEARCH_PORT', 9200)
+            )
         }
     }
 
