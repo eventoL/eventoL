@@ -11,8 +11,8 @@ export default class Navigation extends React.Component {
     return (
       <div className="SignInNarrow">
         <ul>
-          <li><a href='/accounts/login/'>Sign In</a></li>
-          <li><a href='/accounts/signup/'>Sign Up</a></li>
+          <li><a href='/accounts/login/'>{gettext('Sign In')}</a></li>
+          <li><a href='/accounts/signup/'>{gettext('Sign Up')}</a></li>
         </ul>
       </div>
     );

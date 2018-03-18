@@ -9,7 +9,7 @@ export default class Hero extends React.Component {
         <p>
           <img className="logo" src="/static/manager/img/logo.png" alt="eventol logo" />
         </p>
-        <h2>Event Management Software</h2>
+        <h2>{gettext('Event Management Software')}</h2>
         {this.props.children}
       </div>
       <div className="overlay"></div>
