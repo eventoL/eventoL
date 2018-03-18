@@ -225,6 +225,12 @@ class ImageCroppingForm(ModelForm):
         fields = ('image', 'cropping')
 
 
+class EventImageCroppingForm(ModelForm):
+    class Meta(object):
+        model = Event
+        fields = ('image', 'cropping')
+
+
 class ContactForm(ModelForm):
     class Meta(object):
         model = Contact
