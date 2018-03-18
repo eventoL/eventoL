@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 04:44+0000\n"
+"POT-Creation-Date: 2018-03-18 22:27+0000\n"
 "PO-Revision-Date: 2017-12-07 20:44+0000\n"
 "Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -16,11 +16,11 @@ msgstr ""
 
 #: eventol/eventol/settings.py:105
 msgid "Spanish"
-msgstr ""
+msgstr "Español"
 
 #: eventol/eventol/settings.py:106
 msgid "English"
-msgstr ""
+msgstr "Ingles"
 
 #: eventol/manager/forms.py:112 eventol/manager/models.py:266
 #: eventol/manager/models.py:488
@@ -72,10 +72,8 @@ msgstr "La url solo puede contener letras y/o números"
 #: eventol/manager/models.py:250 eventol/manager/models.py:295
 #: eventol/manager/models.py:328 eventol/manager/models.py:399
 #: eventol/manager/models.py:482
-#, fuzzy
-#| msgid "Create event"
 msgid "Created At"
-msgstr "Crear un evento"
+msgstr "Creado en"
 
 #: eventol/manager/models.py:39 eventol/manager/models.py:144
 #: eventol/manager/models.py:153 eventol/manager/models.py:192
@@ -84,7 +82,7 @@ msgstr "Crear un evento"
 #: eventol/manager/models.py:329 eventol/manager/models.py:400
 #: eventol/manager/models.py:483
 msgid "Updated At"
-msgstr ""
+msgstr "Actualizado en"
 
 #: eventol/manager/models.py:40
 msgid "Event Name"
@@ -95,10 +93,8 @@ msgid "Abstract"
 msgstr "Resumen"
 
 #: eventol/manager/models.py:42
-#, fuzzy
-#| msgid "Short idea of the talk (Two or three sentences)"
 msgid "Short idea of the event (One or two sentences)"
-msgstr "Dos o tres oraciones que describan la actividad"
+msgstr "Uno o dos oraciones que describan la actividad"
 
 #: eventol/manager/models.py:43
 msgid "Limit Proposals Date"
@@ -1663,19 +1659,13 @@ msgid "N/A"
 msgstr "N/A"
 
 #: eventol/manager/utils/email.py:8
-#, fuzzy
-#| msgid "Ticket for %(event_name)s event"
 msgid "Ticket for {} event"
-msgstr "Entrada para el evento FLISoL %(event_name)s"
+msgstr "Entrada para el evento {}"
 
 #: eventol/manager/utils/email.py:23
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "%(first_name)s %(last_name)s, thank you for participating in FLISoL "
-#| "%(event_name)s"
 msgid "{0} {1}, thank you for participating in FLISoL {2}"
 msgstr ""
-"%(first_name)s %(last_name)s, gracias por participar en FLISoL %(event_name)s"
+"{0} {1}, gracias por participar en {2}"
 
 #: eventol/manager/views.py:104
 msgid "General Ticket"
