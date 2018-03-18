@@ -15,7 +15,7 @@ export default class TitleList extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => this.setState({data}))
-      .catch(err => console.log("There has been an error", err));
+      .catch(err => console.error("There has been an error", err));
   }
 
   componentWillReceiveProps(nextProps){
@@ -57,4 +57,5 @@ export default class TitleList extends React.Component {
       </div>
     );
   }
-};
+
+}

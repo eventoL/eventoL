@@ -16,11 +16,12 @@ export default class Item extends React.Component {
         <a href={url}>
           <div className="overlay">
             <div className="title">{title}</div>
-            <div className="rating">Asistentes: {attendees}</div>
+            <div className="rating">{gettext('Attendees')}: {attendees}</div>
             <div className="plot">{overview}</div>
           </div>
         </a>
       </div>
     );
   }
-};
+
+}

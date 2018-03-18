@@ -7,21 +7,21 @@ export default class Search extends React.Component {
     searchTerm: ''
   }
 
-  handleKeyUp = event => {
-    if (event.key === 'Enter') {
+  handleKeyUp = ({key}) => {
+    if (key === 'Enter') {
       const {onEnter} = this.props;
       if (onEnter) onEnter();
     }
   }
 
-  handleChange = event => {
-    const searchTerm = event.target.value;
+  handleChange = ({target: {value:searchTerm}}) => {
     this.setState({searchTerm});
     const {onChange} = this.props;
     if (onChange) onChange(searchTerm);
   }
 
   render(){
+    const {searchTerm} = this.state;
     return (
       <div id='search' className='Search'>
         <input
@@ -29,8 +29,8 @@ export default class Search extends React.Component {
           onKeyUp={this.handleKeyUp}
           onChange={this.handleChange}
           type='search'
-          placeholder='Buscar por titulo...'
-          value={this.state.searchTerm}/>
+          placeholder={gettext('Search by title...')}
+          value={searchTerm}/>
       </div>
     );
   }
