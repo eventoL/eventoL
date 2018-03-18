@@ -30,7 +30,7 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
     HardwareForm, InstallerRegistrationForm, EventDateModelFormset, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, \
-    EventForm, ContactMessageForm, ImageCroppingForm, \
+    EventForm, ContactMessageForm, ImageCroppingForm, EventImageCroppingForm, \
     EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm
 from manager.models import Attendee, Organizer, EventUser, Room, Event, \
     Contact, Activity, Hardware, Installation, Collaborator, ContactMessage, \
@@ -663,7 +663,7 @@ def create_event(request):
                     event_date.event = the_event
                     event_date.save()
 
-                return HttpResponseRedirect(reverse("index", args=(the_event.slug,)))
+                return HttpResponseRedirect(reverse('event_add_image', args=(the_event.slug,)))
             except Exception as e:
                 logger.error(e)
                 try:
@@ -804,6 +804,30 @@ def image_cropping(request, event_slug, activity_id):
             return HttpResponseRedirect(reverse('activity_detail', args=(event_slug, activity.pk)))
         messages.error(request, _("The proposal couldn't be registered. Please check the form for errors"))
     return render(request, 'activities/image-cropping.html',
+                  update_event_info(event_slug, request, {'form': form}))
+
+
+def event_add_image(request, event_slug):
+    event = get_object_or_404(Event, slug__iexact=event_slug)
+    form = EventImageCroppingForm(request.POST or None, request.FILES, instance=event)
+    if request.POST:
+        if form.is_valid():
+            # If a new file is being upload
+            if request.FILES:
+                # If clear home_image is clicked, delete the image
+                if request.POST.get('image-clear') or request.FILES:
+                    form.cleaned_data['image'] = None
+                # Save the changes and redirect to upload a new one or crop the new one
+                event = form.save()
+                event.save()
+                messages.success(request, _("Please crop or upload a new image."))
+                return HttpResponseRedirect(reverse('event_add_image', args=(event_slug,)))
+            form.save()
+            messages.success(request, _(
+                "The event has been updated successfully! We'll contact you at the provided email"))
+            return HttpResponseRedirect(reverse("index", args=(event.slug,)))
+        messages.error(request, _("The event couldn't be updated. Please check the form for errors"))
+    return render(request, 'event/image-cropping.html',
                   update_event_info(event_slug, request, {'form': form}))
 
 
