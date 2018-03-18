@@ -59,11 +59,23 @@
                     {% endif %}
                     {% if event_slug is not None %}
                         {% if user.is_authenticated and user|is_organizer:event_slug %}
-                            <li>
-                                <a href="{% url "edit_event" event_slug %}">
-                                    <i class="fa fa-cogs"></i> {% trans "Manage event" %}
-                                </a>
-                            </li>
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown"><i class="fa fa-cogs"></i> {% trans "Manage event" %} <b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                  <a href="{% url "edit_event" event_slug %}">
+                                    <i class="fa fa-cogs"></i> {% trans "Edit event" %}
+                                  </a>
+                                </li>
+                                <li>
+                                  <a href="{% url "event_add_image" event_slug %}">
+                                    <i class="fa fa-cogs"></i> {% trans "Edit image" %}
+                                  </a>
+                                </li>
+                            </ul>
+                        </li>
                         {% endif %}
                         {% if not user.is_authenticated %}
                             <li>

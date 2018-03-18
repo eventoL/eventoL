@@ -11,6 +11,7 @@ event_patterns = [
         views.attendee_confirm_email, name='attendee_confirm_email'),
     url(r'^FAQ$', views.event_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
     url(r'^edit$', views.edit_event, name='edit_event'),
+    url(r'^image-cropping/$', views.event_add_image, name='event_add_image'),
     url(r'^draw', views.draw, name='draw'),
     url(r'^registration$', views.attendee_registration,
         name='attendee_registration'),
