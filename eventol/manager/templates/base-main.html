@@ -48,6 +48,7 @@
                 </a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
+              {% block navbar-menu %}
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated and event_slug is None %}
                         <li>
@@ -218,6 +219,7 @@
                         </li>
                     {% endif %}
                 </ul>
+                {% endblock navbar-menu %}
                 {% block extra-nav %}{% endblock %}
             </div>
         </div>
