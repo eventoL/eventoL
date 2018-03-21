@@ -10,4 +10,4 @@
 
 {% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
 
-{% block form-action %}"{% url "attendee_registration" event_slug %}"{% endblock %}
+{% block form-action %}"{% url "attendee_registration" event_slug event_uid %}"{% endblock %}

@@ -10,7 +10,7 @@
             isn't there, you can contact us at eventol@flisol.org.ar so we can help you.
         {% endblocktrans %}</p>
 
-        <a href="{% url "index" event_slug %}" class="btn btn-raised btn-primary">
+        <a href="{% url "index" event_slug event_uid %}" class="btn btn-raised btn-primary">
             <i class="fa fa-arrow-left"></i> {% trans "Return to the event" %}
         </a>
     </div>

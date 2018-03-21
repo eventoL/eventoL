@@ -4,7 +4,7 @@
 {% block content %}
     <div class="well">
         <h4>{{ message }}</h4>
-        <a href="{% url "index" event_slug %}" class="btn btn-raised btn-primary">
+        <a href="{% url "index" event_slug event_uid %}" class="btn btn-raised btn-primary">
             <i class="fa fa-arrow-left"></i> {% trans "Return to the event" %}
         </a>
     </div>
