@@ -261,6 +261,7 @@ class Attendee(models.Model):
     email_confirmed = models.BooleanField(_('Email confirmed?'), default=False)
     email_token = models.CharField(_('Confirmation Token'), max_length=200, blank=True, null=True)
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_noop('Event User'), blank=False, null=False)
 
     class Meta(object):
         verbose_name = _('Attendee')
