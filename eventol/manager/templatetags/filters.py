@@ -1,7 +1,7 @@
 from django import template, forms
 from django.utils.translation import ugettext_lazy as _
 
-from manager.models import Installer, Collaborator, Organizer, EventUser
+from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee
 
 register = template.Library()
 
@@ -72,6 +72,14 @@ def is_organizer(user, event_slug):
     return Organizer.objects.filter(
         event_user__user=user,
         event_user__event__slug__iexact=event_slug).exists()
+
+
+@register.filter(name='is_attendee')
+def is_attendee(user, event_slug):
+    exists_attendee = Attendee.objects.filter(
+        event_user__user=user,
+        event_user__event__slug__iexact=event_slug).exists()
+    return exists_attendee
 
 
 @register.filter(name='can_take_attendance')
