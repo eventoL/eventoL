@@ -177,6 +177,12 @@ def event_view(request, event_slug, html='index.html'):
 
 
 def home(request):
+    if 'registration_event_uid' in request.session:
+        event_slug = request.session.pop('registration_event_slug')
+        event_uid = request.session.pop('registration_event_uid')
+        role = request.session.pop('registration_role')
+        return HttpResponseRedirect(
+            reverse('{}_registration'.format(role), args=[event_slug,]))
     return render(request, 'index.html')
 
 
@@ -484,6 +490,7 @@ def generic_registration(request, event_slug, registration_model, new_role_form,
     event_user = EventUser.objects.filter(event=event, user=request.user).first()
     if not event_user:
         event_user = EventUser(event=event, user=request.user)
+        event_user.save()
 
     new_role = registration_model.objects.filter(event_user=event_user)
 
@@ -611,8 +618,11 @@ def attendee_confirm_email(request, event_slug, pk, token):
                   {'message': message, 'title': title, 'event_slug': event_slug})
 
 
-@login_required
-def installer_registration(request, event_slug):
+def installer_registration(request, event_slug, event_uid=None):
+    if not request.user.is_authenticated():
+        request.session['registration_event_uid'] = event_uid
+        request.session['registration_event_slug'] = event_slug
+        request.session['registration_role'] = 'installer'
     msg_success = _("You have successfully registered as an installer")
     msg_error = _("There is a problem with the registration (check form errors)")
     template = 'registration/installer-registration.html'
@@ -620,8 +630,11 @@ def installer_registration(request, event_slug):
                                 InstallerRegistrationForm, msg_success, msg_error, template)
 
 
-@login_required
-def collaborator_registration(request, event_slug):
+def collaborator_registration(request, event_slug, event_uid=None):
+    if not request.user.is_authenticated():
+        request.session['registration_event_uid'] = event_uid
+        request.session['registration_event_slug'] = event_slug
+        request.session['registration_role'] = 'collaborator'
     msg_success = _("You have successfully registered as a collaborator")
     msg_error = _("There is a problem with the registration (check form errors)")
     template = 'registration/collaborator-registration.html'
