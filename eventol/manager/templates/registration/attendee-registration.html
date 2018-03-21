@@ -11,12 +11,12 @@
 {% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
 
 {% block more-button %}
-  <a href="{% url "collaborator_registration" event_slug %}">
+  <a href="{% url "collaborator_registration" event_slug event_uid %}">
     <button class="btn btn-primary btn-raised">{% trans "Register as a Collaborator" %}</button>
   </a>
-  <a href="{% url "installer_registration" event_slug %}">
+  <a href="{% url "installer_registration" event_slug event_uid %}">
     <button class="btn btn-primary btn-raised">{% trans "Register as an Installer" %}</button>
   </a>
 {% endblock %}
 
-{% block form-action %}"{% url "attendee_registration" event_slug %}"{% endblock %}
+{% block form-action %}"{% url "attendee_registration" event_slug event_uid %}"{% endblock %}

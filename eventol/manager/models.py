@@ -1,5 +1,6 @@
 import datetime
 import re
+from uuid import uuid4
 
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
@@ -42,9 +43,16 @@ class Event(models.Model):
                                 help_text=_('Short idea of the event (One or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
-    slug = models.CharField(_('URL'), max_length=200, unique=True,
+    slug = models.CharField(_('URL'), max_length=200,
                             help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
+    uid = models.UUIDField(
+        default=uuid4,
+        editable=False,
+        unique=True,
+        verbose_name=_('UID'),
+        help_text=_('Unique identifier for the event'),
+    )
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
