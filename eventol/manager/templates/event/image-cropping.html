@@ -20,7 +20,7 @@
 {% block form-action %}"."{% endblock %}
 
 {% block more-button %}
-  <a type="cancel" class="btn btn-primary btn-raised pull-right" href='{% url "index" event.slug %}'>
+  <a type="cancel" class="btn btn-primary btn-raised pull-right" href='{% url "index" event.slug event.uid %}'>
     {% trans "Skip" %}
   </a>
 {% endblock %}

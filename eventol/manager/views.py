@@ -19,7 +19,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -195,12 +195,14 @@ def event_view(request, event_slug, event_uid, html='index.html'):
 
 
 def home(request):
-    if 'registration_event_uid' in request.session:
+    if 'registration_event_uid' in request.session and request.user.is_authenticated():
         event_slug = request.session.pop('registration_event_slug')
         event_uid = request.session.pop('registration_event_uid')
         role = request.session.pop('registration_role')
-        return HttpResponseRedirect(
-            reverse('{}_registration'.format(role), args=[event_slug,]))
+        event_index = reverse(
+            '{}_registration'.format(role),
+            args=[event_slug, event_uid])
+        return redirect(event_index)
     return render(request, 'index.html')
 
 
@@ -244,7 +246,7 @@ def installation(request, event_slug, event_uid):
                 )
                 event_index_url = reverse(
                     'index',
-                    kwargs={'event_slug': event_slug, 'event_uid': event_uid}
+                    args=[event_slug, event_uid]
                 )
                 return redirect(event_index_url)
             except Exception as e:
@@ -311,10 +313,7 @@ def manage_attendance(request, event_slug, event_uid):
                     return redirect(
                         reverse(
                             'manage_attendance',
-                            kwargs={
-                                'event_slug': event_slug,
-                                'event_uid': event_uid,
-                            }
+                            args=[event_slug, event_uid]
                         )
                     )
         if collaborator_form.is_valid():
@@ -342,10 +341,7 @@ def manage_attendance(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'manage_attendance',
-                        kwargs={
-                            'event_slug': event_slug,
-                            'event_uid': event_uid,
-                        }
+                        args=[event_slug, event_uid]
                     )
                 )
 
@@ -405,10 +401,7 @@ def attendance_by_ticket(request, event_slug, event_uid, pk):
     return redirect(
         reverse(
             'manage_attendance',
-            kwargs={
-                'event_slug': event_slug,
-                'event_uid': event_uid
-            }
+            args=[event_slug, event_uid]
         )
     )
 
@@ -432,10 +425,7 @@ def add_organizer(request, event_slug, event_uid):
             return redirect(
                 reverse(
                     'add_organizer',
-                    kwargs={
-                        'event_slug': event_slug,
-                        'event_uid': event_uid
-                    }
+                    args=[event_slug, event_uid]
                 )
             )
 
@@ -481,10 +471,7 @@ def add_registration_people(request, event_slug, event_uid):
             return redirect(
                 reverse(
                     'add_registration_people',
-                    kwargs={
-                        'event_slug': event_slug,
-                        'event_uid': event_uid
-                    }
+                    args=[event_slug, event_uid]
                 )
             )
 
@@ -526,10 +513,7 @@ def add_registration_people(request, event_slug, event_uid):
 def attendee_registration_by_collaborator(request, event_slug, event_uid):
     manage_attendance_url = reverse(
         'manage_attendance',
-        kwargs={
-            'event_slug': event_slug,
-            'event_uid': event_uid
-        }
+        args=[event_slug, event_uid]
     )
     event = Event.objects.filter(uid=event_uid).first()
     if not event:
@@ -625,10 +609,7 @@ def contact(request, event_slug, event_uid):
             return redirect(
                 reverse(
                     'index',
-                    kwargs={
-                        'event_slug': event_slug,
-                        'event_uid': event_uid
-                    }
+                    args=[event_slug, event_uid]
                 )
             )
         messages.error(
@@ -736,7 +717,7 @@ def generic_registration(request, event_slug, event_uid, registration_model, new
     if new_role:
         # Ya esta registrado con ese "rol"
         messages.error(request, _("You are already registered for this event"))
-        return HttpResponseRedirect(reverse("index", args=(event_slug,)))
+        return redirect(reverse("index", args=[event_slug, event_uid]))
 
     new_role = registration_model(event_user=event_user)
     if request.POST:
@@ -764,10 +745,7 @@ def generic_registration(request, event_slug, event_uid, registration_model, new
                 return redirect(
                     reverse(
                         'index',
-                        kwargs={
-                            'event_slug': event_slug,
-                            'event_uid': event_uid
-                        }
+                        args=[event_slug, event_uid]
                     )
                 )
             except Exception as e:
@@ -847,10 +825,7 @@ def attendee_registration(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'attendee_email_sent',
-                        kwargs={
-                            'event_slug': event_slug,
-                            'event_uid': event_uid
-                        }
+                        args=[event_slug, event_uid]
                     )
                 )
             except Exception as e:
@@ -1079,7 +1054,7 @@ def view_ticket(request, event_slug, event_uid):
         return response
     else:
         messages.error(request, "You are not registered for this event")
-        return redirect(reverse("index", args=(event_slug, event_uid)))
+        return redirect(reverse("index", args=[event_slug, event_uid]))
 
 
 @login_required
@@ -1112,7 +1087,7 @@ def activity_proposal(request, event_slug, event_uid):
                        _(
                            "The activity proposal is already closed or the event is not accepting proposals through this " +
                            "page. Please contact the Event Organization Team to submit it."))
-        return HttpResponseRedirect(reverse('index', args=(event_slug, event_uid)))
+        return HttpResponseRedirect(reverse('index', args=[event_slug, event_uid]))
 
     activity = Activity(event=event, status='1')
     activity_form = ActivityProposalForm(request.POST or None, request.FILES or None, instance=activity)
@@ -1124,7 +1099,7 @@ def activity_proposal(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'image_cropping',
-                        args=(event_slug, event_uid, activity.pk)
+                        args=[event_slug, event_uid, activity.pk]
                     )
                 )
             except Exception as e:
@@ -1163,7 +1138,7 @@ def image_cropping(request, event_slug, event_uid, activity_id):
                 return redirect(
                     reverse(
                         'image_cropping',
-                        args=(event_slug, event_uid, activity.pk)
+                        args=[event_slug, event_uid, activity.pk]
                     )
                 )
             form.save()
@@ -1172,7 +1147,7 @@ def image_cropping(request, event_slug, event_uid, activity_id):
             return redirect(
                 reverse(
                     'activity_detail',
-                    args=(event_slug, event_uid, activity.pk)
+                    args=[event_slug, event_uid, activity.pk]
                 )
             )
         messages.error(request, _("The proposal couldn't be registered. Please check the form for errors"))
@@ -1205,7 +1180,7 @@ def event_add_image(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'event_add_image',
-                        args=(event_slug, event_uid)
+                        args=[event_slug, event_uid]
                     )
                 )
             form.save()
@@ -1214,7 +1189,7 @@ def event_add_image(request, event_slug, event_uid):
             return redirect(
                 reverse(
                     'index',
-                    args=(event.slug, event_uid)
+                    args=[event_slug, event_uid]
                 )
             )
         messages.error(request, _("The event couldn't be updated. Please check the form for errors"))

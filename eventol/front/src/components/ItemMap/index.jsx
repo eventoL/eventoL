@@ -6,11 +6,11 @@ import './index.scss';
 export default class ItemMap extends React.Component {
 
   loadMap(){
-    const {slug:event_name, place} = this.props;
+    const {uid:event_uid, place} = this.props;
     const {geometry} = JSON.parse(place);
     const event_lat = geometry.location.lat;
     const event_lon = geometry.location.lng;
-    const map = L.map(event_name, {
+    const map = L.map(event_uid, {
         scrollWheelZoom: false,
         zoomControl    : false,
         dragging       : false,
@@ -29,17 +29,17 @@ export default class ItemMap extends React.Component {
   }
 
   componentDidMount(){
-    const {slug} = this.props;
+    const {uid} = this.props;
     try {
       this.loadMap();
     } catch(e){}
-    document.getElementById(slug).classList.remove('max-size')
+    document.getElementById(uid).classList.remove('max-size')
   }
 
   render(){
-    const {title, url, attendees, overview, slug} = this.props;
+    const {title, url, attendees, overview, uid} = this.props;
     return (
-      <div id={slug} className="Item max-size">
+      <div id={uid} className="Item max-size">
         <a href={url}>
           <div className="overlay">
             <div className="title">{title}</div>
