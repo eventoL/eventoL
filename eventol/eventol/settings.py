@@ -268,6 +268,7 @@ class Base(Configuration):
     EMAIL_PORT = os.getenv('EMAIL_PORT', '587')
     EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'change_unset@mail.com')
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'secret')
+    EMAIL_TIMEOUT = os.getenv('EMAIL_TIMEOUT', 10)
     EMAIL_USE_TLS = str_to_bool(os.getenv('EMAIL_USE_TLS', 'True'))
     EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
 
