@@ -12,9 +12,10 @@ export default class Navigation extends React.Component {
       <div id="navigation" className="Navigation">
         <nav>
           <ul>
-            <li onClick={this.searchFocus}>Buscar</li>
-            <li><a href='#destacados'>Destacados</a></li>
-            <li><a href='#recientes'>Recientes</a></li>
+            <li onClick={this.searchFocus}>{gettext('Search')}</li>
+            <a href='http://eventol.github.io/eventoL/#/'><li>{gettext('Documentation')}</li></a>
+            <a href='#featured'><li>{gettext('Featured')}</li></a>
+            <a href='#recent'><li>{gettext('Recent')}</li></a>
           </ul>
         </nav>
       </div>

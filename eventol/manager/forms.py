@@ -94,38 +94,38 @@ class EventUserAutocomplete(autocomplete.Select2QuerySetView):
 
 
 class AttendeeSearchForm(forms.Form):
-    def __init__(self, event_slug, *args, **kwargs):
+    def __init__(self, event_uid, *args, **kwargs):
         kwargs.update(initial={
-            'event_slug': event_slug
+            'event_uid': event_uid,
         })
 
         super().__init__(*args, **kwargs)
-        self.fields['event_slug'].widget = forms.HiddenInput()
+        self.fields['event_uid'].widget = forms.HiddenInput()
 
     event_slug = forms.CharField()
 
     attendee = forms.ModelChoiceField(
         queryset=Attendee.objects.all(),
         widget=autocomplete.ModelSelect2(
-            url='attendee-autocomplete', forward=['event_slug']),
+            url='attendee-autocomplete', forward=['event_uid']),
         required=False,
         label=_("Attendee")
     )
 
 
 class EventUserSearchForm(forms.Form):
-    def __init__(self, event_slug, *args, **kwargs):
+    def __init__(self, event_uid, *args, **kwargs):
         kwargs.update(initial={
-            'event_slug': event_slug
+            'event_uid': event_uid,
         })
         super().__init__(*args, **kwargs)
-        self.fields['event_slug'].widget = forms.HiddenInput()
+        self.fields['event_uid'].widget = forms.HiddenInput()
 
     event_slug = forms.CharField()
     event_user = forms.ModelChoiceField(
         queryset=EventUser.objects.all(),
         widget=autocomplete.ModelSelect2(
-            url='eventuser-autocomplete', forward=['event_slug']),
+            url='eventuser-autocomplete', forward=['event_uid']),
         required=False,
         label=_("Collaborator/Installer")
     )
@@ -222,6 +222,12 @@ class InstallerRegistrationForm(ModelForm):
 class ImageCroppingForm(ModelForm):
     class Meta(object):
         model = Activity
+        fields = ('image', 'cropping')
+
+
+class EventImageCroppingForm(ModelForm):
+    class Meta(object):
+        model = Event
         fields = ('image', 'cropping')
 
 

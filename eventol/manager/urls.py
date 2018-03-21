@@ -11,6 +11,7 @@ event_patterns = [
         views.attendee_confirm_email, name='attendee_confirm_email'),
     url(r'^FAQ$', views.event_view, name="FAQ", kwargs={'html': 'FAQ.html'}),
     url(r'^edit$', views.edit_event, name='edit_event'),
+    url(r'^image-cropping/$', views.event_add_image, name='event_add_image'),
     url(r'^draw', views.draw, name='draw'),
     url(r'^registration$', views.attendee_registration,
         name='attendee_registration'),
@@ -48,7 +49,7 @@ event_patterns = [
 ]
 
 urlpatterns = [
-    url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)/', include(event_patterns)),
+    url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)/(?P<event_uid>[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})/', include(event_patterns)),
     url(r'^software-autocomplete', SoftwareAutocomplete.as_view(),
         name='software-autocomplete'),
     url(r'^attendee-autocomplete', AttendeeAutocomplete.as_view(),

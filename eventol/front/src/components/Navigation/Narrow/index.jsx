@@ -12,9 +12,10 @@ export default class Navigation extends React.Component {
       <div id="navigation" className="NavigationNarrow">
         <nav>
           <ul>
-            <li onClick={this.searchFocus}>Buscar</li>
-            <a href='#destacados'><li>Destacados</li></a>
-            <a href='#destacados'><li>Recientes</li></a>
+            <li onClick={this.searchFocus}>{gettext('Search')}</li>
+            <a href='http://eventol.github.io/eventoL/#/'><li>{gettext('Documentation')}</li></a>
+            <a href='#featured'><li>{gettext('Featured')}</li></a>
+            <a href='#recent'><li>{gettext('Recent')}</li></a>
           </ul>
         </nav>
       </div>

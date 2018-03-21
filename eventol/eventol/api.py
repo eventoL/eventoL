@@ -22,7 +22,7 @@ class EventSerializer(QueryFieldsMixin, serializers.HyperlinkedModelSerializer):
         model = Event
         fields = ('url', 'name', 'abstract', 'limit_proposal_date', 'slug',
                   'external_url', 'email', 'event_information', 'updated_at',
-                  'schedule_confirmed', 'place', 'image', 'cropping',
+                  'schedule_confirmed', 'place', 'image', 'cropping', 'uid',
                   'activity_proposal_is_open', 'registration_is_open',
                   'attendees_count', 'last_date', 'created_at')
 
@@ -34,7 +34,7 @@ class EventFilter(FilterSet):
 
     class Meta:
         model = Event
-        fields = ('name', 'slug', 'schedule_confirmed',
+        fields = ('name', 'slug', 'uid', 'schedule_confirmed',
                   'activity_proposal_is_open', 'registration_is_open')
 
 
@@ -45,4 +45,4 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_class = EventFilter
     ordering_fields = ('name', 'limit_proposal_date', 'updated_at',
                        'attendees_count', 'last_date', 'created_at')
-    search_fields = ('name', 'slug', 'abstract')
+    search_fields = ('name', 'slug', 'uid', 'abstract')

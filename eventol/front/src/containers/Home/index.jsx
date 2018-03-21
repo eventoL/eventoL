@@ -34,12 +34,27 @@ export default class App extends React.Component {
         <Hero>
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
-        {searched && <TitleList title='Resultados de busqueda' url={searchUrl} />}
-        <TitleList id='recientes' title='Eventos Recientes' url='?ordering=-created_at&registration_is_open=true' />
-        <TitleList id='destacados' title='Eventos Destacados' url='?ordering=-attendees_count&registration_is_open=true' />
-        <TitleList id='proximos' title='Proximos Eventos' url='?registration_is_open=true&ordering=last_date' />
-        <TitleList id='cronograma_confirmado' title='Eventos con Cronograma Confirmado' url='?schedule_confirmed=true&registration_is_open=true' />
-        <TitleList id='finalizados' title='Eventos Finalizados' url='?registration_is_open=false&ordering=-attendees_count' />
+        {searched && <TitleList title={gettext('Search results')} url={searchUrl} />}
+        <TitleList
+          id='recent'
+          title={gettext('Recent Events')}
+          url='?ordering=-created_at&registration_is_open=true' />
+        <TitleList
+          id='featured'
+          title={gettext('Featured Events')}
+          url='?ordering=-attendees_count&registration_is_open=true' />
+        <TitleList
+          id='next'
+          title={gettext('Upcoming Events')}
+          url='?registration_is_open=true&ordering=last_date' />
+        <TitleList
+          id='schedule_confirmed'
+          title={gettext('Events with Confirmed Schedule')}
+          url='?schedule_confirmed=true&registration_is_open=true' />
+        <TitleList
+          id='finished'
+          title={gettext('Finished Events')}
+          url='?registration_is_open=false&ordering=-attendees_count' />
       </div>
     );
   }

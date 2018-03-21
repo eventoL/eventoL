@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import TemplateView
+from django.views.i18n import JavaScriptCatalog
 from eventol import settings
 from manager import views
 from rest_framework import routers
@@ -24,7 +25,9 @@ urlpatterns = [
     url(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
     url(r'^accounts/profile/', TemplateView.as_view(template_name='account/profile.html'),
         name="user_profile"),
-    url(r'^accounts/', include('allauth.urls'))
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^jsi18n/$', JavaScriptCatalog.as_view(),
+        {'domain': 'djangojs', 'packages': None}, name='javascript-catalog')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

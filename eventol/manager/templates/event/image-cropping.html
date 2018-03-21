@@ -1,0 +1,28 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load staticfiles %}
+{% load cropping thumbnail %}
+{% load i18n %}
+{% block other-head %}
+    <script> var jqMin = jQuery.noConflict(); </script>
+    {{ form.media }}
+    <script> jQuery = $ = jqMin;</script>
+{% endblock %}
+
+{% block page-header %}{% trans "Event" %}
+    <strong>{% trans "Please select the visible area for your image" %}</strong>{% endblock %}
+
+{% block page-name %}{% trans "Event" %}{% endblock %}
+
+{% block form-id %}"event-image-cropping"{% endblock %}
+
+{% block form-name %}{% trans "Event" %}{% endblock %}
+
+{% block form-action %}"."{% endblock %}
+
+{% block more-button %}
+  <a type="cancel" class="btn btn-primary btn-raised pull-right" href='{% url "index" event.slug event.uid %}'>
+    {% trans "Skip" %}
+  </a>
+{% endblock %}
+
+{% block submit-button %}{% trans "Upload" %}{% endblock %}

@@ -1,7 +1,7 @@
 from django import template, forms
 from django.utils.translation import ugettext_lazy as _
 
-from manager.models import Installer, Collaborator, Organizer, EventUser
+from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee
 
 register = template.Library()
 
@@ -45,33 +45,41 @@ def is_odd(number):
 
 
 @register.filter(name='is_registered')
-def is_registered(user, event_slug):
+def is_registered(user, event_uid):
     """Search if the user is registered for the event in any way"""
     return EventUser.objects.filter(
-        user=user, event__slug__iexact=event_slug).exists()
+        user=user, event__uid=event_uid).exists()
 
 
 @register.filter(name='is_installer')
-def is_installer(user, event_slug):
+def is_installer(user, event_uid):
     exists_installer = Installer.objects.filter(
         event_user__user=user,
-        event_user__event__slug__iexact=event_slug).exists()
-    return exists_installer or is_organizer(user, event_slug)
+        event_user__event__uid=event_uid).exists()
+    return exists_installer or is_organizer(user, event_uid)
 
 
 @register.filter(name='is_collaborator')
-def is_collaborator(user, event_slug):
+def is_collaborator(user, event_uid):
     exists_collaborator = Collaborator.objects.filter(
         event_user__user=user,
-        event_user__event__slug__iexact=event_slug).exists()
-    return exists_collaborator or is_organizer(user, event_slug)
+        event_user__event__uid=event_uid).exists()
+    return exists_collaborator or is_organizer(user, event_uid)
 
 
 @register.filter(name='is_organizer')
-def is_organizer(user, event_slug):
+def is_organizer(user, event_uid):
     return Organizer.objects.filter(
         event_user__user=user,
+        event_user__event__uid=event_uid).exists()
+
+
+@register.filter(name='is_attendee')
+def is_attendee(user, event_slug):
+    exists_attendee = Attendee.objects.filter(
+        event_user__user=user,
         event_user__event__slug__iexact=event_slug).exists()
+    return exists_attendee
 
 
 @register.filter(name='can_take_attendance')

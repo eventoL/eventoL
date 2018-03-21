@@ -15,7 +15,7 @@ export default class TitleList extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(data => this.setState({data}))
-      .catch(err => console.log("There has been an error", err));
+      .catch(err => console.error("There has been an error", err));
   }
 
   componentWillReceiveProps(nextProps){
@@ -33,10 +33,10 @@ export default class TitleList extends React.Component {
     }
   }
 
-  parseItem({title, slug, place, image:backdrop, attendees_count:attendees, abstract:overview}){
+  parseItem({uid, slug, place, name:title, image:backdrop, attendees_count:attendees, abstract:overview}){
     return {
-      title, attendees, overview, backdrop, slug, place,
-      key: slug, url: `/event/${slug}/`
+      uid, title, attendees, overview, backdrop, slug, place,
+      key: slug, url: `/event/${slug}/${uid}/`
     }
   }
 
@@ -57,4 +57,5 @@ export default class TitleList extends React.Component {
       </div>
     );
   }
-};
+
+}
