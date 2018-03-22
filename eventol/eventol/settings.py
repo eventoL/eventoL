@@ -271,6 +271,7 @@ class Base(Configuration):
     EMAIL_TIMEOUT = int(os.getenv('EMAIL_TIMEOUT', '10'))
     EMAIL_USE_TLS = str_to_bool(os.getenv('EMAIL_USE_TLS', 'True'))
     EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
+    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_FROM)
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
