@@ -2,7 +2,8 @@ EventoL
 =======
 
 EventoL es un software de administración de eventos, desarrollador inicialmente para administrar la conferecia [FLISoL](http://flisol.info/).
-Esta en estado de desarrollo.
+
+!> Esta en estado de desarrollo.
 
 Estado
 ------
@@ -15,10 +16,10 @@ Estado
 
 Documentación:
 --------------
-Ver [Documentación](http://eventol-docs.readthedocs.org/en/master/)
+Ver [Documentación](http://eventol.github.io/eventoL)
 
 Configuración de server propio:
 -------------------------------
 
-- Ver [Instrucciones de Instalación](https://github.com/eventoL/eventoL/blob/master/docs/instalacion.md)
-- Ver [Instrucciones de puesta en marcha](https://github.com/eventoL/eventoL/blob/master/docs/puestaEnMarcha.md)
+- Ver [Instrucciones de Instalación](http://eventol.github.io/eventoL/#/es/installation)
+- Ver [Instrucciones de puesta en marcha](http://eventol.github.io/eventoL/#/es/deploy)
