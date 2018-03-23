@@ -38,12 +38,12 @@ class Event(models.Model):
     objects = EventManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
-    name = models.CharField(_('Event Name'), max_length=200)
+    name = models.CharField(_('Event Name'), max_length=50)
     abstract = models.TextField(_('Abstract'), max_length=250,
                                 help_text=_('Short idea of the event (One or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
-    slug = models.CharField(_('URL'), max_length=200,
+    slug = models.CharField(_('URL'), max_length=20,
                             help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
     uid = models.UUIDField(
@@ -70,7 +70,7 @@ class Event(models.Model):
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
-        return '/event/{}/'.format(self.slug)
+        return '/event/{}/{}/'.format(self.slug, self.uid)
 
     def __str__(self):
         return self.name
@@ -94,6 +94,9 @@ class ContactMessage(models.Model):
     message = models.TextField(verbose_name=_('Message'))
     event = models.ForeignKey(Event, verbose_name=_noop('Event'),
                               blank=True, null=True)
+
+    def __str__(self):
+        return '{} - {} ({})'.format(self.event.name, self.name, self.email)
 
     class Meta(object):
         verbose_name = _('Contact Message')
@@ -153,7 +156,7 @@ class Ticket(models.Model):
     sent = models.BooleanField(_('Sent'), default=False)
 
     def __str__(self):
-        return self.id
+        return '{}'.format(self.id)
 
 
 class EventUser(models.Model):
