@@ -1099,8 +1099,7 @@ def activity_proposal(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'image_cropping',
-                        args=[event_slug, event_uid],
-                        kwargs={'activity_id': activity.pk}
+                        args=[event_slug, event_uid, activity.pk]
                     )
                 )
             except Exception as e:
@@ -1139,8 +1138,7 @@ def image_cropping(request, event_slug, event_uid, activity_id):
                 return redirect(
                     reverse(
                         'image_cropping',
-                        args=[event_slug, event_uid],
-                        kwargs={'activity_id': activity.pk}
+                        args=[event_slug, event_uid, activity.pk]
                     )
                 )
             form.save()
@@ -1149,8 +1147,7 @@ def image_cropping(request, event_slug, event_uid, activity_id):
             return redirect(
                 reverse(
                     'activity_detail',
-                    args=[event_slug, event_uid],
-                    kwargs={'activity_id': activity.pk}
+                    args=[event_slug, event_uid, activity.pk]
                 )
             )
         messages.error(request, _("The proposal couldn't be registered. Please check the form for errors"))
