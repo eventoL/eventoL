@@ -18,7 +18,7 @@ services:
   worker:
     image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
     volumes:
-      - /usr/src/apps
+      - /usr/src/app
     environment:
       - DJANGO_CONFIGURATION=Prod
     command: /root/wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
@@ -27,6 +27,7 @@ services:
     build: ./nginx/
     depends_on:
       - daphne
+      - worker
     volumes_from:
       - worker
     environment:
