@@ -1087,7 +1087,7 @@ def activity_proposal(request, event_slug, event_uid):
                        _(
                            "The activity proposal is already closed or the event is not accepting proposals through this " +
                            "page. Please contact the Event Organization Team to submit it."))
-        return HttpResponseRedirect(reverse('index', args=[event_slug, event_uid]))
+        return redirect(reverse('index', args=[event_slug, event_uid]))
 
     activity = Activity(event=event, status='1')
     activity_form = ActivityProposalForm(request.POST or None, request.FILES or None, instance=activity)
@@ -1156,7 +1156,7 @@ def image_cropping(request, event_slug, event_uid, activity_id):
         'activities/image-cropping.html',
         update_event_info(
             event_slug,
-            event_info,
+            event_uid,
             request,
             {'form': form}
         )
