@@ -121,7 +121,7 @@ class EventUserSearchForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['event_uid'].widget = forms.HiddenInput()
 
-    event_slug = forms.CharField()
+    event_uid = forms.CharField()
     event_user = forms.ModelChoiceField(
         queryset=EventUser.objects.all(),
         widget=autocomplete.ModelSelect2(
