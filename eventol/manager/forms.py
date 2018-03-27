@@ -60,17 +60,17 @@ class AttendeeAutocomplete(GenericAutocomplete):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             return Attendee.objects.none()
-        event_slug = self.forwarded.get('event_slug', None)
+        event_uid = self.forwarded.get('event_uid', None)
         event_user = EventUser.objects.filter(
-            user=self.request.user, event__slug__iexact=event_slug).first()
+            user=self.request.user, event__uid=event_uid).first()
 
         attended = [attendance_date.attendee.pk for attendance_date in
                     AttendeeAttendanceDate.objects.filter(
-                        attendee__event__slug__iexact=event_slug,
+                        attendee__event__uid=event_uid,
                         date__date=datetime.date.today())]
 
         attendees = Attendee.objects \
-            .filter(event__slug=event_slug).exclude(pk__in=attended)
+            .filter(event__uid=event_uid).exclude(pk__in=attended)
 
         if event_user and self.q:
             if not hasattr(self, 'use_unaccent') or self.use_unaccent:
@@ -96,13 +96,13 @@ class EventUserAutocomplete(GenericAutocomplete):
         if not self.request.user.is_authenticated():
             return EventUser.objects.none()
 
-        event_slug = self.forwarded.get('event_slug', None)
+        event_uid = self.forwarded.get('event_uid', None)
         event_user = EventUser.objects.filter(
-            user=self.request.user, event__slug__iexact=event_slug).first()
+            user=self.request.user, event__uid=event_uid).first()
 
         attended = [attendance_date.event_user.pk for attendance_date in
                     EventUserAttendanceDate.objects.filter(
-                        event_user__event__slug__iexact=event_slug,
+                        event_user__event__uid=event_uid,
                         date__date=datetime.date.today())]
 
         event_users = EventUser.objects \
@@ -136,8 +136,7 @@ class AttendeeSearchForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['event_uid'].widget = forms.HiddenInput()
 
-    event_slug = forms.CharField()
-
+    event_uid = forms.UUIDField()
     attendee = forms.ModelChoiceField(
         queryset=Attendee.objects.all(),
         widget=autocomplete.ModelSelect2(
@@ -155,7 +154,7 @@ class EventUserSearchForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['event_uid'].widget = forms.HiddenInput()
 
-    event_uid = forms.CharField()
+    event_uid = forms.UUIDField()
     event_user = forms.ModelChoiceField(
         queryset=EventUser.objects.all(),
         widget=autocomplete.ModelSelect2(
