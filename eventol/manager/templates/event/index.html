@@ -27,7 +27,12 @@
 {% block content %}
     <div class="well">
         <div class="row" style="text-align: center">
-            <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="col-sm-12">
+                <h1>{{ event.name }}</h1>
+            </div>
+        </div>
+        <div class="row" style="text-align: center">
+            <div class="col-sm-12">
                 {% regroup dates by date|date:"F"|localize as dates_by_month %}
                 {% if event.registration_is_open %}
                     <h3><i class="fa fa-calendar"></i>
@@ -208,7 +213,7 @@
 
     {% if event.contacts.all|length > 0 %}
         <div class="well">
-            <h3 style="text-align: center">{% trans 'Follow FLISoL' %} {{ event.name }}!</h3>
+            <h3 style="text-align: center">{% trans 'Follow' %} {{ event.name }}!</h3>
             <div class="event-contacts">
                 <div class="row" style="padding-top:20px;">
                     <div class="col-md-10 col-md-offset-1">

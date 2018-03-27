@@ -6,6 +6,7 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 
@@ -38,12 +39,12 @@ class Event(models.Model):
     objects = EventManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
-    name = models.CharField(_('Event Name'), max_length=200)
+    name = models.CharField(_('Event Name'), max_length=50)
     abstract = models.TextField(_('Abstract'), max_length=250,
                                 help_text=_('Short idea of the event (One or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
-    slug = models.CharField(_('URL'), max_length=200,
+    slug = models.CharField(_('URL'), max_length=20,
                             help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
     uid = models.UUIDField(
@@ -64,13 +65,13 @@ class Event(models.Model):
     image = ImageCropField(upload_to='images_thumbnails',
                            verbose_name=_('Image'), blank=True, null=True)
     cropping = ImageRatioField('image', '700x450', size_warning=True,
-                               verbose_name=_('Cropping'),
+                               verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
 
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
-        return '/event/{}/'.format(self.slug)
+        return '/event/{}/{}/'.format(self.slug, self.uid)
 
     def __str__(self):
         return self.name
@@ -85,7 +86,7 @@ class EventDate(models.Model):
     date = models.DateField(_('Date'), help_text=_('When will your event be?'))
 
     def __str__(self):
-        return '{} - {}'.format(self.event.name, self.date)
+        return '{} - {}'.format(self.event, self.date)
 
 
 class ContactMessage(models.Model):
@@ -94,6 +95,9 @@ class ContactMessage(models.Model):
     message = models.TextField(verbose_name=_('Message'))
     event = models.ForeignKey(Event, verbose_name=_noop('Event'),
                               blank=True, null=True)
+
+    def __str__(self):
+        return '{} - {} ({})'.format(self.event, self.name, self.email)
 
     class Meta(object):
         verbose_name = _('Contact Message')
@@ -139,8 +143,7 @@ class Contact(models.Model):
                               related_name='contacts', blank=True, null=False)
 
     def __str__(self):
-        name = self.event.name
-        return '{} - {} - {}'.format(name, self.type.name, self.text)
+        return '{} - {} - {}'.format(self.event, self.type, self.text)
 
     class Meta(object):
         verbose_name = _('Contact')
@@ -153,7 +156,7 @@ class Ticket(models.Model):
     sent = models.BooleanField(_('Sent'), default=False)
 
     def __str__(self):
-        return self.id
+        return '{}'.format(self.id)
 
 
 class EventUser(models.Model):
@@ -167,7 +170,8 @@ class EventUser(models.Model):
 
     def __str__(self):
         if self.user:
-            return '{} {}'.format(self.user.first_name, self.user.last_name)
+            return '{} - {} {}'.format(self.event, self.user.first_name, self.user.last_name)
+        return '{}'.format(self.event)
 
     def get_ticket_data(self):
         if self.ticket is None:
@@ -205,7 +209,7 @@ class EventUserAttendanceDate(models.Model):
                                 auto_now_add=True)
 
     def __str__(self):
-        return '{} - {}'.format(str(self.event_user), self.date)
+        return '{} - {}'.format(self.event_user, self.date)
 
 
 class Collaborator(models.Model):
@@ -232,9 +236,7 @@ class Collaborator(models.Model):
         verbose_name_plural = _('Collaborators')
 
     def __str__(self):
-        first_name = self.event_user.user.first_name
-        last_name = self.event_user.user.last_name
-        return '{} {}'.format(first_name, last_name)
+        return str(self.event_user)
 
 
 class Organizer(models.Model):
@@ -249,9 +251,7 @@ class Organizer(models.Model):
         verbose_name_plural = _('Organizers')
 
     def __str__(self):
-        first_name = self.event_user.user.first_name
-        last_name = self.event_user.user.last_name
-        return '{} {}'.format(first_name, last_name)
+        return str(self.event_user)
 
 
 class Attendee(models.Model):
@@ -277,8 +277,10 @@ class Attendee(models.Model):
         unique_together = (('event', 'email'),)
 
     def __str__(self):
-        return '{} {} - {} - {}'.format(self.first_name, self.last_name,
-                                        self.nickname, self.email)
+        if self.event_user:
+            return str(self.event_user)
+        return '{} - {} {} - {} - {}'.format(self.event, self.first_name, self.last_name,
+                                             self.nickname, self.email)
 
     def get_ticket_data(self):
         if self.ticket is None:
@@ -310,7 +312,7 @@ class AttendeeAttendanceDate(models.Model):
                                 auto_now_add=True)
 
     def __str__(self):
-        return '{} - {}'.format(str(self.attendee), self.date)
+        return '{} - {}'.format(self.attendee, self.date)
 
 
 class InstallationMessage(models.Model):
@@ -324,7 +326,7 @@ class InstallationMessage(models.Model):
         verbose_name_plural = _('Post-install Emails')
 
     def __str__(self):
-        return '{} post-install message'.format(self.event.name)
+        return str(self.event)
 
 
 class Installer(models.Model):
@@ -347,9 +349,7 @@ class Installer(models.Model):
         verbose_name_plural = _('Installers')
 
     def __str__(self):
-        first_name = self.event_user.user.first_name
-        last_name = self.event_user.user.last_name
-        return '{} {}'.format(first_name, last_name)
+        return str(self.event_user)
 
 
 class Software(models.Model):
@@ -393,7 +393,7 @@ class Room(models.Model):
                             help_text=_('i.e. Classroom 256'))
 
     def __str__(self):
-        return '{} - {}'.format(self.event.name, self.name)
+        return '{} - {}'.format(self.event, self.name)
 
     def get_schedule_info(self):
         return {'id': self.pk, 'title': self.name}
@@ -463,8 +463,7 @@ class Activity(models.Model):
         return '{} - {}'.format(self.event, self.title)
 
     def get_absolute_url(self):
-        from django.urls import reverse
-        return reverse('activity_detail', args=(self.event.slug, self.pk))
+        return reverse('activity_detail', args=(self.event.slug, self.event.uid, self.pk))
 
     def get_schedule_info(self):
         schedule_info = {
