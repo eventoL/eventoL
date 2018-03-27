@@ -654,7 +654,7 @@ def reports(request, event_slug, event_uid):
 
     confirmed_collaborators_count = EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).order_by('event_user').distinct().count()
     not_confirmed_collaborators_count = collaborators.count() - confirmed_collaborators_count
-    confirmed_installers_count =  EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).order_by('event_user').distinct().count()
+    confirmed_installers_count = EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=installers_event_users).order_by('event_user').distinct().count()
     not_confirmed_installers_count = installers.count() - confirmed_installers_count
 
     speakers = []
