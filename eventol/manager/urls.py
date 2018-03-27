@@ -19,7 +19,7 @@ event_patterns = [
         TemplateView.as_view(
             template_name='registration/attendee/email-sent.html'),
         name='attendee_email_sent'),
-    url(r'^registration/attendee/search/(?P<pk>\d+)$',
+    url(r'^registration/attendee/search/(?P<ticket_code>\w+)$',
         views.attendance_by_ticket, name='attendance_by_ticket'),
     url(r'^registration/attendee/search', views.manage_attendance,
         name='manage_attendance'),

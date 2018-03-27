@@ -1,6 +1,8 @@
 import datetime
 import re
 from uuid import uuid4
+from random import SystemRandom
+from string import digits, ascii_lowercase, ascii_uppercase
 
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
@@ -14,6 +16,12 @@ from image_cropping import ImageCropField, ImageRatioField
 def validate_url(url):
     if not re.match('^[a-zA-Z0-9-_]+$', url):
         raise ValidationError(_('URL can only contain letters or numbers'))
+
+
+def generate_ticket_code():
+    chars = digits + ascii_lowercase + ascii_uppercase
+    length = 21
+    return ''.join([SystemRandom().choice(chars) for _ in range(length)])
 
 
 class EventManager(models.Manager):
@@ -154,9 +162,17 @@ class Ticket(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     sent = models.BooleanField(_('Sent'), default=False)
+    code = models.CharField(
+        max_length=21,
+        default=generate_ticket_code,
+        editable=False,
+        unique=True,
+        verbose_name=_('number'),
+        help_text=_('Unique identifier for the ticket'),
+    )
 
     def __str__(self):
-        return '{}'.format(self.id)
+        return self.code
 
 
 class EventUser(models.Model):

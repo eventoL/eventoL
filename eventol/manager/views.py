@@ -103,12 +103,13 @@ def generate_ticket(user):
         ticket_template.set_text('event_place_address', '')
 
     ticket_template.set_text('ticket_type', str(_("General Ticket")))
-    qr = pyqrcode.create(ticket_data['ticket'].id)
+    qr = pyqrcode.create(str(ticket_data['ticket']))
     code = io.BytesIO()
     qr.png(code, scale=7, quiet_zone=0)
     ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
     ticket_template.set_text(
-        'eventUser_PK', str(ticket_data['ticket'].id).zfill(12))
+        'eventUser_PK', str(ticket_data['ticket'])
+    )
     ticket_template.set_text('eventUser_email', ticket_data['email'])
 
     exists_first_name = ticket_data['first_name'] is not None
@@ -370,12 +371,13 @@ def manage_attendance(request, event_slug, event_uid):
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
-def attendance_by_ticket(request, event_slug, event_uid, pk):
-    attendee = Attendee.objects.filter(ticket__pk=pk).first()
+def attendance_by_ticket(request, event_slug, event_uid, ticket_code):
+    attendee = Attendee.objects.filter(ticket__code=ticket_code)
     if not attendee:
-        attendee = EventUser.objects.filter(ticket__pk=pk).first()
+        attendee = EventUser.objects.filter(ticket__code=ticket_code)
 
     if attendee:
+        attendee = attendee.get()
         if attendee.attended_today():
             messages.success(
                 request,
@@ -1050,7 +1052,7 @@ def view_ticket(request, event_slug, event_uid):
     if event_user:
         ticket = generate_ticket(event_user)
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
-        response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.id).zfill(12) + '.pdf'
+        response["Content-Disposition"] = 'filename=Ticket-' + str(ticket) + '.pdf'
         return response
     else:
         messages.error(request, "You are not registered for this event")

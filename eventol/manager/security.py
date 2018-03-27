@@ -120,7 +120,7 @@ def is_organizer(user, event_slug=None, event_uid=None):
         event_user__event__uid=event_uid).exists()
 
 
-def is_collaborator(user, event_slug=None, event_uid=None):
+def is_collaborator(user, event_slug=None, event_uid=None, ticket_code=None):
     return event_uid and (
         Collaborator.objects.filter(
             event_user__user=user,
