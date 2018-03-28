@@ -1,5 +1,6 @@
 from django.conf.urls import url, include
 from django.views.generic.base import TemplateView
+from django.views.generic import RedirectView
 
 from manager import views
 from manager.forms import (SoftwareAutocomplete, AttendeeAutocomplete,
@@ -57,11 +58,12 @@ event_uid_patterns = [
 ]
 
 urlpatterns = [
-    url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)', include(event_uid_patterns)),
+    url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)/', include(event_uid_patterns)),
     url(r'^software-autocomplete', SoftwareAutocomplete.as_view(),
         name='software-autocomplete'),
     url(r'^attendee-autocomplete', AttendeeAutocomplete.as_view(),
         name='attendee-autocomplete'),
     url(r'^eventuser-autocomplete', EventUserAutocomplete.as_view(),
-        name='eventuser-autocomplete')
+        name='eventuser-autocomplete'),
+    url(r'^$', RedirectView.as_view(pattern_name='home')),
 ]
