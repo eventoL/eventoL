@@ -590,10 +590,10 @@ def attendee_registration_by_collaborator(request, event_slug, event_uid):
 def attendee_registration_print_code(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     event_registration_code = event.registration_code
-    self_registration_url = '{url}?registration_code={code}'.format(
-        url=request.build_absolute_uri(reverse('attendee_registration_by_self', args=[event_slug, event_uid])),
-        code=event_registration_code
-    )
+    self_registration_url = request.build_absolute_uri(reverse(
+        'attendee_registration_by_self',
+        args=[event_slug, event_uid, event_registration_code]
+    ))
     qr = pyqrcode.create(self_registration_url)
     code = io.BytesIO()
     qr.png(code, scale=9, quiet_zone=0)
@@ -635,13 +635,12 @@ def attendee_registration_print_code(request, event_slug, event_uid):
     return response
 
 
-def attendee_registration_by_self(request, event_slug, event_uid):
+def attendee_registration_by_self(request, event_slug, event_uid, event_registration_code):
     event_index_url = reverse(
         'index',
         args=[event_slug, event_uid]
     )
-    event_registration_code = request.GET.get('registration_code')
-    event = Event.objects.filter(uid=event_uid, registration_code=event_registration_code)
+    event = Event.objects.filter(uid=event_uid, registration_code=event_registration_code).first()
     if not event:
         messages.error(request, _('The registration code does not seems to be valid for this event'))
         return redirect(event_index_url)
@@ -698,7 +697,10 @@ def attendee_registration_by_self(request, event_slug, event_uid):
             event_slug,
             event_uid,
             request,
-            {'form': form}
+            {
+                'form': form,
+                'event_registration_code': event_registration_code,
+            }
         )
     )
 
