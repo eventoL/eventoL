@@ -75,10 +75,10 @@ def is_organizer(user, event_uid):
 
 
 @register.filter(name='is_attendee')
-def is_attendee(user, event_slug):
+def is_attendee(user, event_uid):
     exists_attendee = Attendee.objects.filter(
         event_user__user=user,
-        event_user__event__slug__iexact=event_slug).exists()
+        event_user__event__uid=event_uid).exists()
     return exists_attendee
 
 

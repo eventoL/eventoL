@@ -199,6 +199,25 @@ class CollaboratorRegistrationForm(ModelForm):
         exclude = ()
 
 
+class AttendeeRegistrationFromUserForm(ModelForm):
+    field_order = ['first_name', 'last_name', 'nickname', 'additional_info',
+                   'is_installing', 'email', 'event', 'event_user', 'registration_date']
+
+    class Meta(object):
+        model = Attendee
+        fields = ['first_name', 'last_name', 'nickname', 'email',
+                  'additional_info', 'is_installing',
+                  'event', 'registration_date', 'event_user']
+        widgets = {'first_name': forms.HiddenInput(),
+                   'last_name': forms.HiddenInput(),
+                   'nickname': forms.HiddenInput(),
+                   'event': forms.HiddenInput(),
+                   'email': forms.HiddenInput(),
+                   'event_user': forms.HiddenInput(),
+                   'additional_info': forms.TextInput(),
+                   'registration_date': forms.HiddenInput(), }
+
+
 class EventUserRegistrationForm(ModelForm):
     class Meta(object):
         model = EventUser
