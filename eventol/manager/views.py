@@ -649,18 +649,19 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
         initial={'event': event}
     )
     if request.POST:
-        if form.is_valid():
-            attendee_email = form.cleaned_data['email']
-            attendee = Attendee.objects.filter(event=event, email__iexact=attendee_email).first()
-            if attendee:
-                messages.info(
-                    request,
-                    _(
-                        'You are already registered!'
-                    )
+        form.clean()
+        attendee_email = form.cleaned_data['email']
+        attendee = Attendee.objects.filter(event=event, email__iexact=attendee_email).first()
+        if attendee:
+            messages.info(
+                request,
+                _(
+                    'You are already registered!'
                 )
-            else:
-                attendee = form.save()
+            )
+        elif form.is_valid():
+            attendee = form.save()
+        if attendee:
             if attendee.attended_today():
                 messages.info(request, 'You are already registered and present! Go have fun')
             else:
