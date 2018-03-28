@@ -22,7 +22,7 @@ from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.formats import localize
 from lxml import etree
 
@@ -600,8 +600,8 @@ def attendee_registration_print_code(request, event_slug, event_uid):
     data = {
         'event_name': event.name,
         'qr_code': code.getvalue(),
-        'self_registration_title': _('Self-registration'),
-        'self_registration_text': _('Scan this QR code to register yourself'),
+        'self_registration_title': ugettext('Self-registration'),
+        'self_registration_text': ugettext('Scan this QR code to register yourself'),
     }
     template = {
         'text': {
