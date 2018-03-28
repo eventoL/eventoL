@@ -12,7 +12,7 @@
    viewBox="0 0 744.09449 1052.3622"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.3pre0 (0ab9bec, 2018-03-03)"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="registration_code_template_p.svg">
   <sodipodi:namedview
      pagecolor="#ffffff"
@@ -24,14 +24,14 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1029"
+     inkscape:window-height="1019"
      id="namedview58"
      showgrid="false"
      inkscape:zoom="0.59779284"
-     inkscape:cx="-318.14943"
-     inkscape:cy="596.3361"
+     inkscape:cx="334.7501"
+     inkscape:cy="592.99046"
      inkscape:window-x="0"
-     inkscape:window-y="26"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2"
      showguides="false" />
@@ -49,9 +49,6 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     transform="matrix(1.1278649,0,0,1.1278649,-48.006966,-48.990328)"
-     id="layer1" />
   <rect
      ry="24.659914"
      rx="12.901994"
@@ -82,27 +79,6 @@
      id="rect5717"
      style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:0.61307114;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   <text
-     id="text6715"
-     y="251.36223"
-     x="182"
-     style="font-style:normal;font-weight:normal;font-size:30px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     xml:space="preserve"><tspan
-       y="251.36223"
-       x="182"
-       id="tspan6717"
-       style="font-family:sans-serif" /></text>
-  <flowRoot
-     xml:space="preserve"
-     id="flowRoot851"
-     style="font-style:normal;font-weight:normal;font-size:40px;line-height:25px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-     transform="scale(0.9375)"><flowRegion
-       id="flowRegion853"><rect
-         id="rect855"
-         width="424.09244"
-         height="67.003448"
-         x="78.039314"
-         y="197.08383" /></flowRegion><flowPara
-       id="flowPara857" /></flowRoot>  <text
      id="text4152-2"
      y="130.16983"
      x="260.71948"
