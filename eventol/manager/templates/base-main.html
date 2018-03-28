@@ -78,7 +78,7 @@
                             </ul>
                         </li>
                         {% endif %}
-                        {% if not user.is_authenticated %}
+                        {% if not user.is_authenticated or not user|is_attendee:event_uid %}
                             <li>
                                 <a href="{% url "attendee_registration" event_slug event_uid %}">{% trans "Registration" %}</a>
                             </li>
