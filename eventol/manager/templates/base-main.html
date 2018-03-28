@@ -129,6 +129,11 @@
                                                 <i class="fa fa-check-square-o"></i> {% trans "Manage Attendance" %}
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="{% url "attendee_registration_print_code" event_slug event_uid %}">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Print self-registration code" %}
+                                            </a>
+                                        </li>
                                     {% endif %}
                                     {% if user|is_installer:event_uid %}
                                         <li>

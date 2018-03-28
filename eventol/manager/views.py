@@ -584,6 +584,125 @@ def attendee_registration_by_collaborator(request, event_slug, event_uid):
     )
 
 
+@login_required
+@permission_required('manager.can_take_attendance', raise_exception=True)
+@user_passes_test(is_collaborator, 'collaborator_registration')
+def attendee_registration_print_code(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    event_registration_code = event.registration_code
+    self_registration_url = '{url}?registration_code={code}'.format(
+        url=request.build_absolute_uri(reverse('attendee_registration_by_self', args=[event_slug, event_uid])),
+        code=event_registration_code
+    )
+    qr = pyqrcode.create(self_registration_url)
+    code = io.BytesIO()
+    qr.png(code, scale=9, quiet_zone=0)
+    data = {
+        'event_name': event.name,
+        'qr_code': code.getvalue(),
+        'self_registration_title': _('Self-registration'),
+        'self_registration_text': _('Scan this QR code to register yourself'),
+    }
+    template = {
+        'text': {
+            'event_name_1': data['event_name'],
+            'self_registration_title_1': data['self_registration_title'],
+            'self_registration_text_1': data['self_registration_text'],
+            'event_name_2': data['event_name'],
+            'self_registration_title_2': data['self_registration_title'],
+            'self_registration_text_2': data['self_registration_text'],
+        },
+        'image': {
+            'qr_code_1': data['qr_code'],
+            'qr_code_2': data['qr_code'],
+        },
+    }
+
+    registration_code_template = svglue.load(
+        file=os.path.join(settings.STATIC_ROOT, 'manager/img/registration_code_template_p.svg')
+    )
+    for type, data in template.items():
+        if type == 'text':
+            for key, value in data.items():
+                registration_code_template.set_text(key, value)
+        else:
+            # image
+            for key, value in data.items():
+                registration_code_template.set_image(key, value, mimetype='image/png')
+    registration_code_svg = etree.tostring(registration_code_template._doc, encoding='utf8', method='xml')
+    response = HttpResponse(cairosvg.svg2pdf(bytestring=registration_code_svg), content_type='application/pdf')
+    response["Content-Disposition"] = 'filename=Event-registration-code-' + event.id + '.pdf'
+    return response
+
+
+def attendee_registration_by_self(request, event_slug, event_uid):
+    event_index_url = reverse(
+        'index',
+        args=[event_slug, event_uid]
+    )
+    event_registration_code = request.GET.get('registration_code')
+    event = Event.objects.filter(uid=event_uid, registration_code=event_registration_code)
+    if not event:
+        messages.error(request, _('The registration code does not seems to be valid for this event'))
+        return redirect(event_index_url)
+    form = AttendeeRegistrationByCollaboratorForm(
+        request.POST or None,
+        initial={'event': event}
+    )
+    if request.POST:
+        if form.is_valid():
+            attendee_email = form.cleaned_data['email']
+            attendee = Attendee.objects.filter(event=event, email__iexact=attendee_email).first()
+            if attendee:
+                messages.info(
+                    request,
+                    _(
+                        'You are already registered!'
+                    )
+                )
+            else:
+                attendee = form.save()
+            if attendee.attended_today():
+                messages.info(request, 'You are already registered and present! Go have fun')
+            else:
+                try:
+                    attendance_date = AttendeeAttendanceDate()
+                    attendance_date.attendee = attendee
+                    attendance_date.save()
+                    messages.success(
+                        request,
+                        _(
+                            'You are now marked as present in the event, have fun!'
+                        )
+                    )
+                    return redirect(event_index_url)
+                except Exception as e:
+                    logger.error(e)
+                    try:
+                        if attendee is not None:
+                            Attendee.objects.delete(attendee)
+                        if attendance_date is not None:
+                            AttendeeAttendanceDate.objects.delete(attendance_date)
+                    except Exception:
+                        pass
+        messages.error(
+            request,
+            _(
+                "You couldn't be registered (check form errors)"
+            )
+        )
+    return render(
+        request,
+        'registration/attendee/by-collaborator.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            request,
+            {'form': form}
+        )
+    )
+
+
 def contact(request, event_slug, event_uid):
     event = Event.objects.filter(uid=event_uid).get()
     if not event:

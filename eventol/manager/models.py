@@ -62,6 +62,13 @@ class Event(models.Model):
         verbose_name=_('UID'),
         help_text=_('Unique identifier for the event'),
     )
+    registration_code = models.UUIDField(
+        default=uuid4,
+        editable=False,
+        unique=True,
+        verbose_name=_('code'),
+        help_text=_('Code validator for in-place event self-registration'),
+    )
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
