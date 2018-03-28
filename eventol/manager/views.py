@@ -945,49 +945,56 @@ def create_event(request):
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
-            organizer = None
-            event_user = None
-            the_event = None
-            contacts = None
-            event_dates = None
-            try:
-                the_event = event_form.save()
-                event_user = EventUser.objects.create(user=request.user, event=the_event)
-                organizer = create_organizer(event_user)
-                contacts = contacts_formset.save(commit=False)
-                event_dates = event_date_formset.save(commit=False)
-
-                for a_contact in contacts:
-                    a_contact.event = the_event
-                    a_contact.save()
-
-                for event_date in event_dates:
-                    event_date.event = the_event
-                    event_date.save()
-
-                return redirect(
-                    reverse(
-                        'event_add_image',
-                        args=(the_event.slug, the_event.uid)
-                    )
-                )
-            except Exception as e:
-                logger.error(e)
+            # Check if the slug is used then verify that this user is an organizer
+            # issue 297
+            event_slug = request.POST.get('event-slug')
+            existing_event = Event.objects.filter(slug__iexact=event_slug).first() if event_slug else None
+            if existing_event and not is_organizer(request.user, event_slug, existing_event.uid):
+                messages.error(request, _('You are not an organizer for this event URL, use a different URL'))
+            else:
+                organizer = None
+                event_user = None
+                the_event = None
+                contacts = None
+                event_dates = None
                 try:
-                    if organizer is not None:
-                        Organizer.delete(organizer)
-                    if event_user is not None:
-                        EventUser.delete(event_user)
-                    if the_event is not None:
-                        Event.delete(the_event)
-                    if contacts is not None:
-                        for a_contact in contacts:
-                            Contact.objects.delete(a_contact)
-                    if event_dates is not None:
-                        for event_date in event_dates:
-                            EventDate.objects.delete(event_date)
-                except Exception:
-                    pass
+                    the_event = event_form.save()
+                    event_user = EventUser.objects.create(user=request.user, event=the_event)
+                    organizer = create_organizer(event_user)
+                    contacts = contacts_formset.save(commit=False)
+                    event_dates = event_date_formset.save(commit=False)
+
+                    for a_contact in contacts:
+                        a_contact.event = the_event
+                        a_contact.save()
+
+                    for event_date in event_dates:
+                        event_date.event = the_event
+                        event_date.save()
+
+                    return redirect(
+                        reverse(
+                            'event_add_image',
+                            args=(the_event.slug, the_event.uid)
+                        )
+                    )
+                except Exception as e:
+                    logger.error(e)
+                    try:
+                        if organizer is not None:
+                            Organizer.delete(organizer)
+                        if event_user is not None:
+                            EventUser.delete(event_user)
+                        if the_event is not None:
+                            Event.delete(the_event)
+                        if contacts is not None:
+                            for a_contact in contacts:
+                                Contact.objects.delete(a_contact)
+                        if event_dates is not None:
+                            for event_date in event_dates:
+                                EventDate.objects.delete(event_date)
+                    except Exception:
+                        pass
 
         messages.error(request, _("There is a problem with your event. Please check the form for errors."))
     return render(request,
