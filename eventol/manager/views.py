@@ -182,6 +182,12 @@ def index(request, event_slug, event_uid):
         )
     )
 
+def event_slug_index(request, event_slug):
+    # Redirect to the most recent event, for now
+    event = Event.objects.filter(slug__iexact=event_slug).order_by('-created_at').first()
+    if not event:
+        return handler404(request)
+    return redirect(reverse('index'), args=[event.slug, event.uid])
 
 def event_view(request, event_slug, event_uid, html='index.html'):
     return render(
