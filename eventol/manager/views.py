@@ -950,7 +950,7 @@ def create_event(request):
             event_slug = request.POST.get('event-slug')
             existing_event = Event.objects.filter(slug__iexact=event_slug).first() if event_slug else None
             if existing_event and not is_organizer(request.user, event_slug, existing_event.uid):
-                messages.error(request, _('You are not an organizer for this event URL, use a different URL'))
+                event_form.add_error('slug', _('You are not an organizer for this event URL, use a different URL'))
             else:
                 organizer = None
                 event_user = None
