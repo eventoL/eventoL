@@ -143,7 +143,7 @@ def user_passes_test(test_func, name_redirect):
             return HttpResponseRedirect(
                 reverse(
                     name_redirect,
-                    args=[kwargs['event_slug', 'event_uid']]
+                    args=[kwargs['event_slug'], kwargs['event_uid']]
                 )
             )
 
