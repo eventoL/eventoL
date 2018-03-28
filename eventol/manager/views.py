@@ -631,7 +631,7 @@ def attendee_registration_print_code(request, event_slug, event_uid):
                 registration_code_template.set_image(key, value, mimetype='image/png')
     registration_code_svg = etree.tostring(registration_code_template._doc, encoding='utf8', method='xml')
     response = HttpResponse(cairosvg.svg2pdf(bytestring=registration_code_svg), content_type='application/pdf')
-    response["Content-Disposition"] = 'filename=Event-registration-code-{}.pdf'.format(event.id)
+    response["Content-Disposition"] = 'filename=Registration-code-{event}.pdf'.format(event=event.slug)
     return response
 
 
@@ -693,7 +693,7 @@ def attendee_registration_by_self(request, event_slug, event_uid):
         )
     return render(
         request,
-        'registration/attendee/by-collaborator.html',
+        'registration/attendee/by-self.html',
         update_event_info(
             event_slug,
             event_uid,
