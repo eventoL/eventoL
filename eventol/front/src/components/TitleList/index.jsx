@@ -50,7 +50,21 @@ export default class TitleList extends React.Component {
     if(results) {
       itemsData = results.map(this.parseItem);
     }
-    if (!itemsData || itemsData.length === 0) return null;
+    if (!itemsData || itemsData.length === 0) {
+      if (!this.props.hasOwnProperty('showEmpty') || !this.props.showEmpty) return null;
+      const emptyItem = {
+        key: 'not_found',
+        title: gettext('Event not found'),
+        overview: gettext('No Event found in your search'),
+        backdrop: '/static/manager/img/logo.png'
+      }
+      return (<div id={id} ref="titlecategory" className="TitleList" data-loaded={mounted}>
+        <div className="CategoryTitle">
+          <h1>{title}</h1>
+          <SliderItems itemsData={[emptyItem]}/>
+        </div>
+      </div>)
+    }
     return (
       <div id={id} ref="titlecategory" className="TitleList" data-loaded={mounted}>
         <div className="CategoryTitle">
