@@ -31,7 +31,7 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, \
     EventForm, ContactMessageForm, ImageCroppingForm, EventImageCroppingForm, \
-    EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm
+    EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, AttendeeRegistrationFromUserForm
 from manager.models import Attendee, Organizer, EventUser, Room, Event, \
     Contact, Activity, Hardware, Installation, Collaborator, ContactMessage, \
     Installer, InstallationMessage, EventDate, \
@@ -740,17 +740,6 @@ def generic_registration(request, event_slug, event_uid, registration_model, new
                 new_role = new_role_form.save()
                 new_role.event_user = event_user
                 new_role.save()
-
-                #                if not event_user.ticket:
-                #                    try:
-                #                        send_event_ticket(event_user)
-                #                        event_user.ticket = True
-                #                        event_user.save()
-                #                        msg_success += unicode(_(". Please check your email for the corresponding ticket."))
-                #                    except Exception:
-                #                        msg_success += unicode(
-                # _(" but we couldn't send you your ticket. Please, check it out from the
-                # menu."))
                 messages.success(request, msg_success)
                 return redirect(
                     reverse(
@@ -804,8 +793,27 @@ def attendee_registration(request, event_slug, event_uid):
             )
         )
 
-    attendee_form = AttendeeRegistrationForm(request.POST or None,
-                                             initial={'event': event})
+    if request.user.is_authenticated():
+        event_user = EventUser.objects.filter(event=event, user=request.user).first()
+        if not event_user:
+            event_user = EventUser(event=event, user=request.user)
+            event_user.save()
+        attendee = Attendee.objects.filter(event_user=event_user)
+        if attendee.exists():
+            messages.error(request, _("You are already registered for this event"))
+            return redirect(reverse("index", args=[event_slug, event_uid]))
+
+        attendee = Attendee(
+            event_user=event_user, first_name=event_user.user.first_name,
+            last_name=event_user.user.last_name, email=event_user.user.email,
+            event=event_user.event, nickname=event_user.user.username
+        )
+        attendee_form = AttendeeRegistrationFromUserForm(
+            request.POST or None, instance=attendee)
+    else:
+        attendee_form = AttendeeRegistrationForm(request.POST or None,
+                                                 initial={'event': event})
+
     if request.POST:
         if attendee_form.is_valid():
             try:
@@ -815,15 +823,19 @@ def attendee_registration(request, event_slug, event_uid):
                 attendee.email_token = uuid.uuid4().hex
                 attendee.save()
 
+                confirm_url = get_email_confirmation_url(
+                    request,
+                    event_slug,
+                    event_uid,
+                    attendee.id,
+                    attendee.email_token)
+
+                if request.user.is_authenticated():
+                    return redirect(confirm_url)
                 body = _("Hi! You're receiving this message because you've registered to attend to " +
                          "FLISoL %(event_name)s.\n\nPlease follow this link to confirm your email address and we'll " +
                          "send you your ticket.\n\n%(confirm_url)s") % {'event_name': event.name,
-                                                                         'confirm_url': get_email_confirmation_url(
-                                                                             request,
-                                                                             event_slug,
-                                                                             event_uid,
-                                                                             attendee.id,
-                                                                             attendee.email_token)}
+                                                                         'confirm_url': confirm_url}
 
                 email = EmailMessage()
                 email.subject = _("[FLISoL] Please confirm your email")
