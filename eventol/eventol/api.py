@@ -34,7 +34,7 @@ class EventFilter(FilterSet):
 
     class Meta:
         model = Event
-        fields = ('name', 'slug', 'uid', 'schedule_confirmed',
+        fields = ('name', 'slug', 'schedule_confirmed',
                   'activity_proposal_is_open', 'registration_is_open')
 
 
@@ -45,4 +45,4 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_class = EventFilter
     ordering_fields = ('name', 'limit_proposal_date', 'updated_at',
                        'attendees_count', 'last_date', 'created_at')
-    search_fields = ('name', 'slug', 'uid', 'abstract')
+    search_fields = ('name', 'slug', 'abstract')
