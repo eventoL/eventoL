@@ -24,6 +24,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response, redi
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ugettext
 from django.utils.formats import localize
+from django.core.validators import validate_email
 from lxml import etree
 
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
@@ -649,8 +650,8 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
         initial={'event': event}
     )
     if request.POST:
-        form.clean()
-        attendee_email = form.cleaned_data['email']
+        attendee_email_raw = request.POST.get('email')
+        attendee_email = attendee_email_raw if validate_email(attendee_email_raw) else ''
         attendee = Attendee.objects.filter(event=event, email__iexact=attendee_email).first()
         if attendee:
             messages.info(
