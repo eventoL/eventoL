@@ -669,6 +669,7 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
         if attendee:
             if attendee.attended_today():
                 messages.info(request, 'You are already registered and present! Go have fun')
+                return redirect(event_index_url)
             else:
                 try:
                     attendance_date = AttendeeAttendanceDate()
