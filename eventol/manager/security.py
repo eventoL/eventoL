@@ -9,7 +9,7 @@ from django.utils.decorators import available_attrs
 from manager.models import Installer, Organizer, Collaborator, Attendee
 
 
-def is_installer(user, event_slug=None, event_uid=None):
+def is_installer(user, event_slug=None, event_uid=None, *args, **kwargs):
     return event_uid and (
         Installer.objects.filter(
             event_user__user=user,
@@ -114,18 +114,22 @@ def add_organizer_permissions(user):
     user.save()
 
 
-def is_organizer(user, event_slug=None, event_uid=None):
+def is_organizer(user, event_slug=None, event_uid=None, *args, **kwargs):
     return event_uid and Organizer.objects.filter(
         event_user__user=user,
         event_user__event__uid=event_uid).exists()
 
 
-def is_collaborator(user, event_slug=None, event_uid=None, ticket_code=None):
+def is_collaborator(user, event_slug=None, event_uid=None, *args, **kwargs):
     return event_uid and (
         Collaborator.objects.filter(
             event_user__user=user,
             event_user__event__uid=event_uid).exists() or
         is_organizer(user, event_uid=event_uid))
+
+
+def is_collaborator_or_installer(user, *args, **kwargs):
+    return is_collaborator(user, *args, **kwargs) or is_installer(user, *args, **kwargs)
 
 
 def user_passes_test(test_func, name_redirect):
