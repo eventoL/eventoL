@@ -1,0 +1,17 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block page-header %}{% trans "Attendee Registration" %}{% endblock %}
+
+{% block form-id %}"registration"{% endblock %}
+
+{% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
+
+{% block more-button %}
+  <a href="{% url "installation" event_slug event_uid %}" class="btn btn-primary btn-raised">
+    {% trans "Back to installation" %}
+  </a>
+{% endblock %}
+
+{% block form-action %}"{% url "attendee_registration_from_installation" event_slug event_uid %}"{% endblock %}

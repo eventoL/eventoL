@@ -27,6 +27,9 @@ event_patterns = [
     url(r'^registration/attendee/by-collaborator$',
         views.attendee_registration_by_collaborator,
         name='attendee_registration_by_collaborator'),
+    url(r'^registration/attendee/from-installation$',
+        views.attendee_registration_from_installation,
+        name='attendee_registration_from_installation'),
     url(r'^registration/attendee/by-self/(?P<event_registration_code>[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-'
         r'[89aAbB][a-f0-9]{3}-[a-f0-9]{12})$',
         views.attendee_registration_by_self,

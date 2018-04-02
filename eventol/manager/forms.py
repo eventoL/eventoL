@@ -202,12 +202,22 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 
 
 class InstallationForm(forms.ModelForm):
+    def __init__(self, event_uid, *args, **kwargs):
+        kwargs.update(initial={
+            'event_uid': event_uid,
+        })
+
+        super().__init__(*args, **kwargs)
+        self.fields['event_uid'].widget = forms.HiddenInput()
+
+    event_uid = forms.UUIDField()
+
     class Meta(object):
         model = Installation
         fields = ('attendee', 'notes', 'software')
         widgets = {'notes': forms.Textarea(attrs={'rows': 3}),
                    'attendee': autocomplete.ModelSelect2(
-                       url='attendee-autocomplete'),
+                       url='all-attendee-autocomplete', forward=['event_uid']),
                    'software': autocomplete.ModelSelect2(
                        url='software-autocomplete')}
 
