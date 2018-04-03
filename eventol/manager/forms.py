@@ -91,6 +91,32 @@ class AttendeeAutocomplete(GenericAutocomplete):
         return attendees[:5]
 
 
+class AllAttendeeAutocomplete(GenericAutocomplete):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return Attendee.objects.none()
+        event_uid = self.forwarded.get('event_uid', None)
+        event_user = EventUser.objects.filter(
+            user=self.request.user, event__uid=event_uid).first()
+        attendees = Attendee.objects.filter(event__uid=event_uid)
+        if event_user and self.q:
+            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
+                attendees = attendees.filter(
+                    Q(first_name__unaccent__icontains=self.q) |
+                    Q(last_name__unaccent__icontains=self.q) |
+                    Q(nickname__unaccent__icontains=self.q) |
+                    Q(email__icontains=self.q)
+                )
+            else:
+                attendees = attendees.filter(
+                    Q(first_name__icontains=self.q) |
+                    Q(last_name__icontains=self.q) |
+                    Q(nickname__icontains=self.q) |
+                    Q(email__icontains=self.q)
+                )
+        return attendees[:5]
+
+
 class EventUserAutocomplete(GenericAutocomplete):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
@@ -176,12 +202,22 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 
 
 class InstallationForm(forms.ModelForm):
+    def __init__(self, event_uid, *args, **kwargs):
+        kwargs.update(initial={
+            'event_uid': event_uid,
+        })
+
+        super().__init__(*args, **kwargs)
+        self.fields['event_uid'].widget = forms.HiddenInput()
+
+    event_uid = forms.UUIDField()
+
     class Meta(object):
         model = Installation
         fields = ('attendee', 'notes', 'software')
         widgets = {'notes': forms.Textarea(attrs={'rows': 3}),
                    'attendee': autocomplete.ModelSelect2(
-                       url='attendee-autocomplete'),
+                       url='all-attendee-autocomplete', forward=['event_uid']),
                    'software': autocomplete.ModelSelect2(
                        url='software-autocomplete')}
 
