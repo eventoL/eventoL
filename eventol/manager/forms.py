@@ -4,7 +4,7 @@ import datetime
 import logging
 
 from collections import OrderedDict
-from captcha.fields import ReCaptchaField
+from captcha.fields import CaptchaField
 from dal import autocomplete
 from django import forms
 from django.core.exceptions import ValidationError
@@ -263,7 +263,7 @@ class EventUserRegistrationForm(ModelForm):
 
 class AttendeeRegistrationForm(ModelForm):
     repeat_email = forms.EmailField(label=_("Repeat Email"))
-    captcha = ReCaptchaField(label=_("Are you a human?"))
+    captcha = CaptchaField(label=_("Are you a human?"))
 
     field_order = ['first_name', 'last_name', 'nickname', 'additional_info',
                    'is_installing', 'email', 'repeat_email', 'captcha',
@@ -498,7 +498,7 @@ class SocialSignUpForm(AllAuthSocialSignUpForm):
 
 class ActivityProposalForm(ModelForm):
     repeat_email = forms.EmailField(label=_("Repeat Email"))
-    captcha = ReCaptchaField(label=_("Are you a human?"))
+    captcha = CaptchaField(label=_("Are you a human?"))
 
     field_order = ['event', 'title', 'speakers_names', 'abstract',
                    'long_description', 'speaker_contact', 'repeat_email',

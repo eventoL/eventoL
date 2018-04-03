@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^accounts/profile/', TemplateView.as_view(template_name='account/profile.html'),
         name="user_profile"),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^captcha/', include('captcha.urls')),
     url(r'^jsi18n/$', JavaScriptCatalog.as_view(),
         {'domain': 'djangojs', 'packages': None}, name='javascript-catalog')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
