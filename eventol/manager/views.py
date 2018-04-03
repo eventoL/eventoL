@@ -712,6 +712,12 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
     if not event:
         messages.error(request, _('The registration code does not seems to be valid for this event'))
         return redirect(event_index_url)
+    # Check if today is a valid EventDate
+    try:
+        EventDate.objects.get(event=event, date=timezone.localdate())
+    except EventDate.DoesNotExist:
+        messages.error(request, _('You can only register by yourself on the event date'))
+        return redirect(event_index_url)
     form = AttendeeRegistrationByCollaboratorForm(
         request.POST or None,
         initial={'event': event}
