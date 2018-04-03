@@ -40,7 +40,7 @@ from manager.models import Attendee, Organizer, EventUser, Room, Event, \
     AttendeeAttendanceDate, EventUserAttendanceDate
 from manager.security import is_installer, is_organizer, user_passes_test, \
     add_attendance_permission, is_collaborator, \
-    add_organizer_permissions
+    add_organizer_permissions, is_collaborator_or_installer
 
 from .utils import email
 
@@ -221,7 +221,7 @@ def home(request):
 @user_passes_test(is_installer, 'installer_registration')
 def installation(request, event_slug, event_uid):
     installation_form = InstallationForm(
-        request.POST or None, prefix='installation')
+        event_uid, request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
     forms = [installation_form, hardware_form]
     errors = []
@@ -520,8 +520,74 @@ def add_registration_people(request, event_slug, event_uid):
 
 
 @login_required
+@user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
+def attendee_registration_from_installation(request, event_slug, event_uid):
+    installation_url = reverse(
+        'installation',
+        args=[event_slug, event_uid]
+    )
+    event = Event.objects.filter(uid=event_uid).first()
+    if not event:
+        return handler404(request)
+    form = AttendeeRegistrationByCollaboratorForm(
+        request.POST or None,
+        initial={'event': event}
+    )
+    if request.POST:
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            if Attendee.objects.filter(event=event, email__iexact=email).count() > 0:
+                messages.error(
+                    request,
+                    _(
+                        'The attendee is already registered for this event, '
+                        'use correct form'
+                    )
+                )
+                return redirect(installation_url)
+            try:
+                attendee = form.save()
+                attendance_date = AttendeeAttendanceDate()
+                attendance_date.attendee = attendee
+                attendance_date.save()
+                messages.success(
+                    request,
+                    _(
+                        'The attendee was successfully registered. '
+                        'Happy Hacking!'
+                    )
+                )
+                return redirect(installation_url)
+            except Exception as e:
+                logger.error(e)
+                try:
+                    if attendee is not None:
+                        Attendee.objects.delete(attendee)
+                    if attendance_date is not None:
+                        AttendeeAttendanceDate.objects.delete(attendance_date)
+                except Exception:
+                    pass
+        messages.error(
+            request,
+            _(
+                "The attendee couldn't be registered (check form errors)"
+            )
+        )
+    return render(
+        request,
+        'registration/attendee/from-installation.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            request,
+            {'form': form}
+        )
+    )
+
+
+@login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
-@user_passes_test(is_collaborator, 'collaborator_registration')
+@user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def attendee_registration_by_collaborator(request, event_slug, event_uid):
     manage_attendance_url = reverse(
         'manage_attendance',
@@ -588,7 +654,7 @@ def attendee_registration_by_collaborator(request, event_slug, event_uid):
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
-@user_passes_test(is_collaborator, 'collaborator_registration')
+@user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def attendee_registration_print_code(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     event_registration_code = event.registration_code
