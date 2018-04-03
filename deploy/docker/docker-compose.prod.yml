@@ -21,7 +21,7 @@ services:
       - /usr/src/app
     environment:
       - DJANGO_CONFIGURATION=Prod
-    command: /root/wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
+    command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
   nginx:
     restart: always
     build: ./nginx/

@@ -55,7 +55,7 @@ RUN lessc ${APP_ROOT}/eventol/front/eventol/static/manager/less/eventol.less > $
 RUN lessc ${APP_ROOT}/eventol/front/eventol/static/manager/less/eventol-bootstrap.less > ${APP_ROOT}/eventol/manager/static/manager/css/eventol-bootstrap.css
 
 # Copy script for docker-compose wait and start-eventol
-COPY ./deploy/docker/scripts/wait-for-it.sh /root
+COPY ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
 COPY ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
 
 # Compile reactjs code
