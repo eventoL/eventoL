@@ -69,7 +69,7 @@ RUN cd ${APP_ROOT}/eventol && python manage.py collectstatic --noinput
 RUN mkdir -p ${APP_ROOT}/eventol/media
 
 # Chown files
-RUN chmod 0750 ${APP_ROOT}
+RUN chmod 0755 ${APP_ROOT}
 RUN chown --recursive ${APP_USER_NAME}:${APP_USER_NAME} ${APP_ROOT}
 
 # Drop privs
