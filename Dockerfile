@@ -10,6 +10,8 @@ RUN useradd -m -d ${APP_ROOT} \
     --uid ${APP_USER_UID} \
     ${APP_USER_NAME}
 RUN mkdir -p ${APP_ROOT}
+RUN mkdir -p /var/log/eventol
+RUN chown ${APP_USER_NAME}:root /var/log/eventol
 WORKDIR ${APP_ROOT}
 
 # Install nodejs and gettext
@@ -40,9 +42,6 @@ RUN cd ${APP_ROOT}/eventol/front && bower install --allow-root
 
 # Copy test script file
 COPY ./test.sh ${APP_ROOT}/test.sh
-
-# Create log file
-RUN touch /var/log/eventol.log
 
 # Copy python code
 COPY ./eventol ${APP_ROOT}/eventol
@@ -75,6 +74,9 @@ RUN chown --recursive ${APP_USER_NAME}:${APP_USER_NAME} ${APP_ROOT}
 
 # Drop privs
 USER ${APP_USER_NAME}
+
+# Create log file
+RUN touch /var/log/eventol/eventol.log
 
 # Compile .po files
 RUN sed -i 's@#~ @@g' ${APP_ROOT}/eventol/conf/locale/*/LC_MESSAGES/djangojs.po
