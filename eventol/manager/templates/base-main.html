@@ -134,6 +134,12 @@
                                                 <i class="fa fa-check-square-o"></i> {% trans "Print self-registration code" %}
                                             </a>
                                         </li>
+                                        <li>
+                                            <a target="_blank" href="{% url "attendance_by_autoreadqr" event_slug event_uid %}">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Open auto-read QR code page" %}
+                                            </a>
+                                        </li>
+                                        {% if
                                     {% endif %}
                                     {% if user|is_installer:event_uid %}
                                         <li>

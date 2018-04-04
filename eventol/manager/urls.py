@@ -34,6 +34,8 @@ event_patterns = [
         r'[89aAbB][a-f0-9]{3}-[a-f0-9]{12})$',
         views.attendee_registration_by_self,
         name='attendee_registration_by_self'),
+    url(r'^registration/attendee/by-self/autoreadqr', views.attendance_by_autoreadqr,
+        name='attendance_by_autoreadqr'),
     url(r'^registration/print-code$',
         views.attendee_registration_print_code,
         name='attendee_registration_print_code'),

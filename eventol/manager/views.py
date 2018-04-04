@@ -778,6 +778,67 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
     )
 
 
+def attendance_by_autoreadqr(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    event_index_url = reverse(
+        'index',
+        args=[event_slug, event_uid]
+    )
+    event_registration_code = request.GET('event_registration_code', '')
+    user = request.user
+    # Show page w/ reg code for collaborators/organizers
+    if not event_registration_code \
+            and user.is_authenticated() \
+            and (
+                is_collaborator(user, event_uid=event_uid)
+                or is_organizer(user, event_uid=event_uid)
+            ):
+        return redirect(
+            '{url}/?event_registration_code={event_registration_code}'.format(
+                url=reverse('attendance_by_autoreadqr', args=[event_slug, event_uid]),
+                event_registration_code=event.registration_code
+            )
+        )
+
+    # Check if reg code is valid
+    if not Event.objects.filter(uid=event_uid, registration_code=event_registration_code).exists():
+        messages.error(request, _('The registration code does not seems to be valid for this event'))
+        return redirect(event_index_url)
+
+    # Check if today is a valid EventDate
+    if not EventDate.objects.filter(event=event, date=timezone.localdate()).exists():
+        messages.error(request, _('Auto-reading QR codes is only available at the event date'))
+        return redirect(event_index_url)
+
+    # Check ticket
+    ticket_code = request.GET('ticket', '')
+    if ticket_code:
+        try:
+            attendee = Attendee.objects.get(event=event, ticket__code=ticket_code)
+            if AttendeeAttendanceDate.objects.filter(attendee=attendee, date=timezone.localdate()).exists():
+                messages.info(request, _('You are already registered and present! Go have fun'))
+            else:
+                AttendeeAttendanceDate.objects.create(
+                    attendee=attendee
+                )
+                messages.info(request, _('You are now marked as present in the event, have fun!'))
+        except Attendee.DoesNotExist:
+            messages.error(request, _('The ticket code is not valid for this event'))
+
+    return render(
+        request,
+        'registration/attendee/by-autoreadqr.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            request,
+            {
+                'event_registration_code': event_registration_code,
+            }
+        )
+    )
+
+
 def contact(request, event_slug, event_uid):
     event = Event.objects.filter(uid=event_uid).get()
     if not event:
