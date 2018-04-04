@@ -528,7 +528,7 @@ def attendee_registration_from_installation(request, event_slug, event_uid):
         args=[event_slug, event_uid]
     )
     render_template = 'registration/attendee/from-installation.html'
-    process_attendee_registration(
+    return process_attendee_registration(
         request,
         event=event,
         return_url=installation_url,
@@ -546,7 +546,7 @@ def attendee_registration_by_collaborator(request, event_slug, event_uid):
         args=[event_slug, event_uid]
     )
     render_template = 'registration/attendee/by-collaborator.html'
-    process_attendee_registration(
+    return process_attendee_registration(
         request,
         event=event,
         return_url=manage_attendance_url,
