@@ -19,9 +19,12 @@ services:
     image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
     volumes:
       - /usr/src/app
+      - /srv/deploys/eventoldata/static:/usr/src/app/eventol/static
+      - /srv/deploys/eventoldata/media:/usr/src/app/eventol/media
     environment:
       - DJANGO_CONFIGURATION=Prod
     command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
+
   nginx:
     restart: always
     build: ./nginx/
@@ -42,7 +45,7 @@ services:
     expose:
       - "5432"
     volumes:
-      - /srv/deploys/eventolpostgres:/var/lib/postgresql/data
+      - /srv/deploys/eventoldata/postgres:/var/lib/postgresql/data
   elasticsearch:
     restart: always
     image: docker.elastic.co/elasticsearch/elasticsearch-basic:6.2.1
