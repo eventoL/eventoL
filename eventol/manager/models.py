@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 
@@ -26,7 +27,7 @@ def generate_ticket_code():
 
 class EventManager(models.Manager):
     def get_queryset(self):
-        today = datetime.date.today()
+        today = timezone.localdate()
         return super() \
             .get_queryset() \
             .annotate(attendees_count=models.Count('attendee')) \
@@ -214,7 +215,7 @@ class EventUser(models.Model):
 
     def attended_today(self):
         return EventUserAttendanceDate.objects.filter(
-            event_user=self, date__date=datetime.date.today()).exists()
+            event_user=self, date__date=timezone.localdate()).exists()
 
     class Meta(object):
         unique_together = (('event', 'user'),)
@@ -322,7 +323,7 @@ class Attendee(models.Model):
 
     def attended_today(self):
         return AttendeeAttendanceDate.objects.filter(
-            attendee=self, date__date=datetime.date.today()).exists()
+            attendee=self, date__date=timezone.localdate()).exists()
 
 
 class AttendeeAttendanceDate(models.Model):
