@@ -1348,7 +1348,7 @@ def draw(request, event_slug, event_uid):
         str(attendance_date.attendee) for attendance_date in
         AttendeeAttendanceDate.objects.filter(
             attendee__event__uid=event_uid,
-            date__date=datetime.date.today()
+            date__date=timezone.localdate()
         )
     ]
     return render(
