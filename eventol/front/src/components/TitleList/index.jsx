@@ -47,7 +47,7 @@ export default class TitleList extends React.Component {
     }
     return {
       uid, title, attendees, overview, backdrop, slug, place,
-      key: slug, url: `/event/${slug}/${uid}/`
+      key: uid, url: `/event/${slug}/${uid}/`
     }
   }
 
