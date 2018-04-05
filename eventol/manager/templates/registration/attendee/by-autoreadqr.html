@@ -16,21 +16,23 @@
             <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h1><i class="fa fa-info-warning"></i> {% trans "You are logged in!" %}</h1>
-                <p>{% trans 'Please close your session, do not leave it open!. This page can remain open without the
-                    need of anybody being logged in. You will be logged out in 30 seconds.' %}
+                <p>{% blocktrans %} Please close your session, do not leave it open!. This page can remain open without the
+                    need of anybody being logged in. You will be logged out in 30 seconds. {% endblocktrans %}
                     <a href="{% url 'account_logout' %}?next={{ request.get_full_path|urlencode }}"></a></p>
             </div>
         </div>
     </div>
     {% endif %}
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
-            <h1><i class="fa fa-info-circle"></i> {% trans "Registration Instructions" %}</h1>
-            <p>
-                {% trans 'Please scan your ticket using the webcam' %}<br />
-                {% trans 'Center the QR Code in the camera display below' %}
-            </p>
-        </div>
+    <div class="alert alert-info alert-dismissable">
+      <div class="row">
+          <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
+              <h1><i class="fa fa-info-circle"></i> {% trans "Registration Instructions" %}</h1>
+              <p>
+                  {% trans "Please scan your ticket using the webcam" %}<br />
+                  {% trans "Center the QR Code in the camera display below" %}
+              </p>
+          </div>
+      </div>
     </div>
 {% endblock %}
 
@@ -43,7 +45,7 @@
 {% block buttons %}
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div id="qr_reader" class="qrcode" style="width:300px;height:300px; margin: 0 auto;"></div>
+            <div id="qr_reader" class="qrcode" style="width:100%;height:50vh; margin: 0 auto; display: flex; justify-content: center;"></div>
             <span id="error" class="center"></span>
         </div>
     </div>
@@ -54,28 +56,20 @@
     <script src="{% static "manager/bower_components/html5-qrcode/lib/html5-qrcode.min.js" %}"></script>
     <script>
         $(document).ready(function () {
-            $('#QRModal').on('show.bs.modal', function (e) {
-                $('#qr_reader').empty();//Prevents stacking
-                $('#qr_reader').html5_qrcode(function (data) {
-                        var url = '{% url "attendance_by_autoreadqr" event_slug event_uid %}';
-                        $(location).attr(
-                            "href",
-                            url + '/?event_registration_code={{ event_registration_code }}&ticket=' + data
-                        );
-                    },
-                    function (readError) {
-                        // From module docs:
-                        // The readError wil be called quite often, it is really only useful for debugging.
-                        // console.log(readError);
-                    }, function (videoError) {
-                        $('#error').html(
-                            '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
-                    }
+            $('#qr_reader').empty();//Prevents stacking
+            $('#qr_reader').html5_qrcode(function (data) {
+              var url = '{% url "attendance_by_autoreadqr" event_slug event_uid %}';
+              $(location).attr(
+                "href",
+                url + '/?event_registration_code={{ event_registration_code }}&ticket=' + data
                 );
-            });
-            $('#QRModal').on('hidden.bs.modal', function (e) {
-                $('#qr_reader').html5_qrcode_stop()
-            });
+              },
+              function (readError) {},
+              function (videoError) {
+                $('#error').html(
+                  '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
+              }
+            );
         });
     </script>
 {% endblock %}

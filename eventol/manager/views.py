@@ -784,7 +784,7 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
         'index',
         args=[event_slug, event_uid]
     )
-    event_registration_code = request.GET('event_registration_code', '')
+    event_registration_code = request.GET.get('event_registration_code', '')
     user = request.user
     # Show page w/ reg code for collaborators/organizers
     if not event_registration_code \
@@ -801,7 +801,7 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
         )
 
     # Check if reg code is valid
-    if not Event.objects.filter(uid=event_uid, registration_code=event_registration_code).exists():
+    if not event_registration_code or not Event.objects.filter(uid=event_uid, registration_code=event_registration_code).exists():
         messages.error(request, _('The registration code does not seems to be valid for this event'))
         return redirect(event_index_url)
 
@@ -811,18 +811,25 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
         return redirect(event_index_url)
 
     # Check ticket
-    ticket_code = request.GET('ticket', '')
+    ticket_code = request.GET.get('ticket', '')
     if ticket_code:
-        try:
-            attendee = Attendee.objects.get(event=event, ticket__code=ticket_code)
-            if AttendeeAttendanceDate.objects.filter(attendee=attendee, date=timezone.localdate()).exists():
+        event_user = EventUser.objects.filter(event=event, ticket__code=ticket_code)
+        attendee = Attendee.objects.filter(event=event, ticket__code=ticket_code)
+        if event_user.exists():
+            event_user = event_user.first()
+            if EventUserAttendanceDate.objects.filter(event_user=event_user, date__date=timezone.localdate()).exists():
                 messages.info(request, _('You are already registered and present! Go have fun'))
             else:
-                AttendeeAttendanceDate.objects.create(
-                    attendee=attendee
-                )
+                EventUserAttendanceDate.objects.create(event_user=event_user)
                 messages.info(request, _('You are now marked as present in the event, have fun!'))
-        except Attendee.DoesNotExist:
+        elif attendee.exists():
+            attendee = attendee.first()
+            if AttendeeAttendanceDate.objects.filter(attendee=attendee, date__date=timezone.localdate()).exists():
+                messages.info(request, _('You are already registered and present! Go have fun'))
+            else:
+                AttendeeAttendanceDate.objects.create(attendee=attendee)
+                messages.info(request, _('You are now marked as present in the event, have fun!'))
+        else:
             messages.error(request, _('The ticket code is not valid for this event'))
 
     return render(
@@ -1334,7 +1341,7 @@ def view_ticket(request, event_slug, event_uid):
     if event_user:
         ticket = generate_ticket(event_user)
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
-        response["Content-Disposition"] = 'filename=Ticket-' + str(ticket) + '.pdf'
+        response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.ticket.code) + '.pdf'
         return response
     else:
         messages.error(request, "You are not registered for this event")
