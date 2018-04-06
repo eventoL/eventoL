@@ -234,10 +234,8 @@ class Base(Configuration):
         },
     ]
 
-    RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
-    RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
-    NOCAPTCHA = True
-    RECAPTCHA_USE_SSL = str_to_bool(os.getenv('RECAPTCHA_USE_SSL', 'False'))
+    CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
+    CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_null',)
 
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'front/eventol/static'),
@@ -286,7 +284,6 @@ class Staging(Base):
         'SECRET_KEY',
         '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
     ALLOWED_HOSTS = [os.getenv('APP_DNS'), socket.gethostname()]
-    RECAPTCHA_PROXY = os.getenv('APP_DNS')
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
