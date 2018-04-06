@@ -5,11 +5,13 @@ from random import SystemRandom
 from string import digits, ascii_lowercase, ascii_uppercase
 
 from ckeditor.fields import RichTextField
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 
@@ -503,6 +505,42 @@ class Activity(models.Model):
             schedule_info['url'] = self.get_absolute_url()
 
         return schedule_info
+
+    def schedule(self):
+        if self.start_date and self.end_date:
+            date = date_format(self.start_date, format='SHORT_DATE_FORMAT', use_l10n=True)
+            return "{} - {} - {}".format(self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"), date)
+        return _('Schedule not confirmed yet')
+
+    @classmethod
+    def check_status(cls, message, error=None, request=None):
+        if error:
+            raise ValidationError(message)
+        if request:
+            messages.error(request, message)
+
+    @classmethod
+    def room_available(cls, request, proposal, event_uid, event_date, error=False):
+        activities_room = Activity.objects.filter(room=proposal.room, event__uid=event_uid, start_date__date=event_date)
+        if proposal.start_date == proposal.end_date:
+            message = _("The talk couldn't be registered because the schedule not available (start time equals end time)")
+            cls.check_status(message, error=error, request=request)
+            return False
+        if proposal.end_date < proposal.start_date:
+            message = _("The talk couldn't be registered because the schedule is not available (start time is after end time)")
+            cls.check_status(message, error=error, request=request)
+            return False
+        one_second = datetime.timedelta(seconds=1)
+        if activities_room.filter(
+                end_date__range=(proposal.start_date + one_second, proposal.end_date - one_second)).exclude(pk=proposal.pk).exists() \
+                or activities_room.filter(end_date__gt=proposal.end_date, start_date__lt=proposal.start_date).exclude(pk=proposal.pk).exists() \
+                or activities_room.filter(start_date__range=(proposal.start_date + one_second, proposal.end_date - one_second)).exclude(pk=proposal.pk).exists() \
+                or activities_room.filter(
+                    end_date=proposal.end_date, start_date=proposal.start_date).exclude(pk=proposal.pk).exists():
+                message = _("The talk couldn't be registered because the room or the schedule is not available")
+                cls.check_status(message, error=error, request=request)
+                return False
+        return True
 
     class Meta(object):
         ordering = ['title']
