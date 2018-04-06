@@ -6,11 +6,22 @@
 {% block content %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2 col-sm-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
+            <div class="row panel panel-primary">
+                <div class="col-sm-12 panel-heading">
+                  <div class="col-sm-11">
                     <h1>{{ activity.title }}</h1>
+                  </div>
+                  <div class="col-sm-1 pull-right">
+                    {% if activity.status == '1' %}
+                      <span class="label label-info">{% trans "Proposal" %}</span>
+                    {% elif activity.status == '3' %}
+                      <span class="label label-danger">{% trans "Rejected" %}</span>
+                    {% elif activity.status == '2' %}
+                      <span class="label label-success" style="background-color: #5cb85c">{% trans "Accepted" %}</span>
+                    {% endif %}
+                  </div>
                 </div>
-                <div class="panel-body">
+                <div class="col-sm-12 panel-body">
                     <p style="font-weight: 500">{{ activity.abstract }}</p>
                     <hr/>
                     <div class="row">
