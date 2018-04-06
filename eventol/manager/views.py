@@ -1467,7 +1467,12 @@ def event_add_image(request, event_slug, event_uid):
 
 def activity_detail(request, event_slug, event_uid, activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
-    activity.labels = activity.labels.split(', ')
+    activity.labels = activity.labels.split(',')
+    params = {
+        'activity': activity,
+        'form': ActivityForm(event_slug, event_uid, instance=activity),
+        'errors': []
+    }
     return render(
         request,
         'activities/detail.html',
@@ -1475,7 +1480,7 @@ def activity_detail(request, event_slug, event_uid, activity_id):
             event_slug,
             event_uid,
             request,
-            {'activity': activity}
+            params
         )
     )
 

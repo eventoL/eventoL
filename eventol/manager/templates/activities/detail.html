@@ -3,6 +3,11 @@
 {% load i18n %}
 {% load filters %}
 {% load cropping %}
+{% block other-head %}
+    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-8 col-md-offset-2 col-sm-12">
@@ -25,56 +30,99 @@
                     <p style="font-weight: 500">{{ activity.abstract }}</p>
                     <hr/>
                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            {% if activity.type %}
-                                <p><strong>{% trans "Type" %}:</strong> {{ activity.type|capfirst }}</p>
-                            {% endif %}
-                            {% if activity.level %}
-                                <p><strong>{% trans "Level" %}:</strong> {{ activity.get_level_display|capfirst }}</p>
-                            {% endif %}
-                            {% if activity.speakers_names %}
-                                <p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names }}</p>
-                            {% endif %}
-                            {% if activity.start_date and activity.end_date %}
-                                <p>
-                                    <strong>{% trans "Time" %}:</strong> {% trans "From" %} {{ activity.start_date|time:"H:i" }} {% trans "To" %} {{ activity.end_date|time:"H:i" }}
-                                </p>
-                            {% endif %}
-                            {% if activity.room %}
-                                <p><strong>{% trans "Room" %}:</strong> {{ activity.room.name|capfirst }}</p>
-                            {% endif %}
-                            <p>
-                                {% for label in activity.labels %}
-                                    <span class="label label-warning">{{ label|lower }}</span>
-                                {% endfor %}
-                            </p>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            {% if activity.image %}
-                                <img src="{% cropped_thumbnail activity "cropping" %}" width="100%">
-                            {% else %}
-                                <img src="{% static "manager/img/no-image.png" %}" width="100%">
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <h2>{% trans "Description" %}</h2>
-                            <p style="text-align: justify">{{ activity.long_description }}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-12">
-                            {% if activity.presentation %}
-                                <a href="{{ activity.presentation.url }}" class="btn btn-raised btn-warning pull-right">
-                                    <i class="fa fa-download"></i> {% trans "Download presentation" %}
-                                </a>
-                            {% endif %}
+                         {% if user.is_authenticated and user|is_organizer:event_uid %}
+                             <div id="become-talk" class="{% if not errors %}panel-collapse collapse{% endif %}">
+                                 <div class="container col-sm-12">
+                                     {% include 'activities/to_talk_form.html' with form=form errors=errors form_id=activity.pk %}
+                                 </div>
+                             </div>
+                          {% endif %}
+                          <div class='col-sm-12' id='activity-detail'>
+                              <div class="col-md-6 col-sm-12">
+                                  {% if activity.type %}
+                                      <p><strong>{% trans "Type" %}:</strong> {{ activity.type|capfirst }}</p>
+                                  {% endif %}
+                                  {% if activity.level %}
+                                      <p><strong>{% trans "Level" %}:</strong> {{ activity.get_level_display|capfirst }}</p>
+                                  {% endif %}
+                                  {% if activity.speakers_names %}
+                                      <p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names }}</p>
+                                  {% endif %}
+                                  {% if activity.start_date and activity.end_date %}
+                                      <p>
+                                          <strong>{% trans "Time" %}:</strong> {{ activity.schedule }}
+                                      </p>
+                                  {% endif %}
+                                  {% if activity.room %}
+                                      <p><strong>{% trans "Room" %}:</strong> {{ activity.room.name|capfirst }}</p>
+                                  {% endif %}
+                                  <p>
+                                      {% for label in activity.labels %}
+                                          <span class="label">{{ label|lower }}</span>
+                                      {% endfor %}
+                                  </p>
+                                  {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                      {% if activity.status != '1' %}<p><a href="{% url "resend_proposal" event.slug event.uid activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                        {% trans "Resend Proposal" %}
+                                      </a></p>{% endif %}
+                                      {% if activity.status != '2' %}
+                                      <p><a href='#'
+                                            data-toggle="collapse"
+                                            onclick="becomeTalk()">
+                                          {% trans "Become Talk" %}
+                                      </a></p>
+                                      {% endif %}
+                                      {% if activity.status != '3' %}<p><a href="{% url "reject_activity" event.slug event.uid activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                        {% trans "Reject Talk" %}
+                                      </a></p>{% endif %}
+                                  {% endif %}
+                              </div>
+                              <div class="col-md-6 col-sm-12">
+                                  {% if activity.image %}
+                                      <img src="{% cropped_thumbnail activity "cropping" %}" width="100%">
+                                  {% else %}
+                                      <img src="{% static "manager/img/no-image.png" %}" width="100%">
+                                  {% endif %}
+                              </div>
+                            <div class="col-xs-12">
+                                <h2>{% trans "Description" %}</h2>
+                                <p style="text-align: justify">{{ activity.long_description }}</p>
+                            </div>
+                            <div class="col-xs-12">
+                                {% if activity.presentation %}
+                                    <a href="{{ activity.presentation.url }}" class="btn btn-raised btn-warning pull-right">
+                                        <i class="fa fa-download"></i> {% trans "Download presentation" %}
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block other-script %}
+    <script>
+
+    function becomeTalk() {
+        $('#activity-detail').attr("style", "visibility: hidden; position: absolute");
+        $('#become-talk').removeClass('collapse');
+    }
+
+        $(document).ready(function() {
+
+            $('.timepicker').datetimepicker({
+                format: 'LT',
+                icons   : {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up  : "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                },
+                stepping: 15
+            });
+
+        });
+    </script>
 {% endblock %}
