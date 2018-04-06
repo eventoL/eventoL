@@ -263,7 +263,7 @@ class EventUserRegistrationForm(ModelForm):
 
 class AttendeeRegistrationForm(ModelForm):
     repeat_email = forms.EmailField(label=_("Repeat Email"))
-    captcha = CaptchaField(label=_("Are you a human?"))
+    captcha = CaptchaField()
 
     field_order = ['first_name', 'last_name', 'nickname', 'additional_info',
                    'is_installing', 'email', 'repeat_email', 'captcha',
