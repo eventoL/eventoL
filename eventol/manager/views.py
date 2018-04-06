@@ -7,6 +7,7 @@ import os
 import uuid
 import logging
 import cairosvg
+import re
 import pyqrcode
 import svglue
 
@@ -19,19 +20,21 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.utils import timezone
+from django.utils.dateparse import parse_time, parse_datetime
 from django.utils.translation import ugettext_lazy as _, ugettext
-from django.utils.formats import localize
+from django.utils.formats import localize, date_format
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from lxml import etree
+from urllib.parse import urlparse
 
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
     HardwareForm, InstallerRegistrationForm, EventDateModelFormset, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
-    EventUserRegistrationForm, AttendeeRegistrationForm, \
+    EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, \
     EventForm, ContactMessageForm, ImageCroppingForm, EventImageCroppingForm, \
     EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, AttendeeRegistrationFromUserForm
 from manager.models import Attendee, Organizer, EventUser, Room, Event, \
@@ -816,9 +819,7 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
 
 
 def contact(request, event_slug, event_uid):
-    event = Event.objects.filter(uid=event_uid).get()
-    if not event:
-        return handler404(request)
+    event = get_object_or_404(Event, uid=event_uid)
     contact_message = ContactMessage()
     form = ContactMessageForm(request.POST or None, instance=contact_message)
     if request.POST:
@@ -835,9 +836,7 @@ def contact(request, event_slug, event_uid):
             email.to = [event.email]
             email.extra_headers = {'Reply-To': contact_message.email}
             email.send(fail_silently=False)
-            event = Event.objects.filter(uid=event_uid).get()
-            if not event:
-                return handler404(request)
+            event = get_object_or_404(Event, uid=event_uid)
             contact_message.event = event
             contact_message.save()
             messages.success(
@@ -1423,6 +1422,47 @@ def image_cropping(request, event_slug, event_uid, activity_id):
     )
 
 
+def goto_next_or_continue(next_url, safe_continue=None):
+    if next_url:
+        url = urlparse(next_url)
+        safe_url = re.sub(r'[^\w/\-]', '', url.path)
+        safe_query = re.sub(r'[^\w/\-+=&]', '', url.query)
+        try:
+            return redirect(safe_url + '?' + safe_query)
+        except Exception as e:
+            logger.error(e)
+            pass
+    elif safe_continue:
+        return redirect(safe_continue)
+    raise Http404('I can not go anywhere, next and continue are empty')
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def reject_activity(request, event_slug, event_uid, activity_id):
+    event = get_object_or_404(Event, uid=event_uid)
+    activity = get_object_or_404(Activity, id=activity_id)
+    activity.status = 3
+    activity.start_date = None
+    activity.end_date = None
+    activity.room = None
+    activity.save()
+    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
+    return goto_next_or_continue(request.GET.get('next'), safe_continue)
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def resend_proposal(request, event_slug, event_uid, activity_id):
+    event = get_object_or_404(Event, uid=event_uid)
+    activity = get_object_or_404(Activity, id=activity_id)
+    activity.status = 1
+    activity.start_date = None
+    activity.end_date = None
+    activity.room = None
+    activity.save()
+    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
+    return goto_next_or_continue(request.GET.get('next'), safe_continue)
 
 
 def activities(request, event_slug, event_uid):
@@ -1503,6 +1543,15 @@ def talk_registration(request, event_slug, event_uid, pk):
     return render(request,
                   'activities/detail.html',
                   update_event_info(event_slug, event_uid, request, render_dict))
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def confirm_schedule(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    event.schedule_confirmed = True
+    event.save()
+    return schedule(request, event_slug, event_uid)
 
 
 def event_add_image(request, event_slug, event_uid):
