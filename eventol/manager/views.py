@@ -1423,6 +1423,34 @@ def image_cropping(request, event_slug, event_uid, activity_id):
     )
 
 
+
+
+def activities(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    proposed_activities, accepted_activities, rejected_activities = [], [], []
+    activities = Activity.objects.filter(event=event)
+    for activity in activities:
+        activity.labels = activity.labels.split(',')
+        if activity.status == '1':
+            proposed_activities.append(activity)
+        elif activity.status == '2':
+            accepted_activities.append(activity)
+        else:
+            rejected_activities.append(activity)
+        setattr(activity, 'form', ActivityForm(event_slug, event_uid, instance=activity))
+        setattr(activity, 'errors', [])
+    return render(request, 'activities/activities_home.html',
+                  update_event_info(
+                      event_slug,
+                      event_uid,
+                      request,
+                      {'proposed_activities': proposed_activities,
+                      'accepted_activities': accepted_activities,
+                      'rejected_activities': rejected_activities}
+                  )
+            )
+
+
 def event_add_image(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     form = EventImageCroppingForm(request.POST or None, request.FILES, instance=event)

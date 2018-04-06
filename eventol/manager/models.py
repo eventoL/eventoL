@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 
@@ -503,6 +504,12 @@ class Activity(models.Model):
             schedule_info['url'] = self.get_absolute_url()
 
         return schedule_info
+
+    def schedule(self):
+        if self.start_date and self.end_date:
+            date = date_format(self.start_date, format='SHORT_DATE_FORMAT', use_l10n=True)
+            return "{} - {} - {}".format(self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"), date)
+        return _('Schedule not confirmed yet')
 
     class Meta(object):
         ordering = ['title']
