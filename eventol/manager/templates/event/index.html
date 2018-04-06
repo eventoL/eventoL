@@ -29,6 +29,16 @@
         <div class="row" style="text-align: center">
             <div class="col-sm-12">
                 <h1>{{ event.name }}</h1>
+                {# show informative tags regarding user inscription to the event #}
+                {% if user.is_authenticated and user|is_registered:event_uid %}
+                <p>
+                    <span class="label label-default">{% trans 'I am' %}</span>
+                    {% if user|is_organizer:event_uid %}<span class="label label-warning">{% trans 'Organizer' %}</span>{% endif %}
+                    {% if user|is_attendee:event_uid %}<span class="label label-info">{% trans 'Attendee' %}</span>{% endif %}
+                    {% if user|is_collaborator:event_uid %}<span class="label label-primary">{% trans 'Collaborator' %}</span>{% endif %}
+                    {% if user|is_installer:event_uid %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
+                </p>
+                {% endif %}
             </div>
         </div>
         <div class="row" style="text-align: center">
