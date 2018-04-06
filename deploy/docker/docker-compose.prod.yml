@@ -86,3 +86,4 @@ services:
       - "${EXTERNAL_PORT}:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx_proxy_settings.conf:/etc/nginx/conf.d/eventol_settings.conf:ro
