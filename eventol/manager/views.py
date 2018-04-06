@@ -164,7 +164,7 @@ def index(request, event_slug, event_uid):
     if event.external_url:
         return redirect(event.external_url)
 
-    activities = Activity.objects.filter(event=event) \
+    activities = Activity.objects.filter(event=event, status=2) \
         .exclude(image__isnull=True) \
         .exclude(is_dummy=True) \
         .distinct()
