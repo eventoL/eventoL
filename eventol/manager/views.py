@@ -1610,7 +1610,8 @@ def schedule(request, event_slug, event_uid):
                 'min_time': activities_for_date.first().start_date.time().strftime("%H:%M"),
                 'max_time': sorted(activities_for_date, key=lambda o: o.end_date.time())[-1].end_date.time().strftime(
                     "%H:%M"),
-                'date': activities_for_date.first().start_date.date().isoformat()
+                'date': activities_for_date.first().start_date.date().isoformat(),
+                'datestring': date_format(activities_for_date.first().start_date, format='SHORT_DATE_FORMAT', use_l10n=True)
             })
 
     return render(
