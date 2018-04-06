@@ -21,10 +21,9 @@ def get_or_create_attendance_permission():
     attendance_permission = None
     content_type = ContentType.objects.get_for_model(Attendee)
     if Permission.objects.filter(codename='can_take_attendance',
-                                 name='Can Take Attendance',
                                  content_type=content_type).exists():
         attendance_permission = Permission.objects.get(
-            codename='can_take_attendance', name='Can Take Attendance',
+            codename='can_take_attendance',
             content_type=content_type)
     else:
         attendance_permission = Permission.objects.create(
@@ -36,20 +35,17 @@ def get_or_create_attendance_permission():
 def add_attendance_permission(user):
     content_type = ContentType.objects.get_for_model(Attendee)
     if Permission.objects.filter(content_type=content_type,
-                                 name='Add Attendee',
                                  codename='add_attendee').exists():
         add_attendee_permission = Permission.objects.get(
-            content_type=content_type, name='Add Attendee',
-            codename='add_attendee')
+            content_type=content_type, codename='add_attendee')
     else:
         add_attendee_permission = Permission.objects.create(
             content_type=content_type, name='Add Attendee',
             codename='add_attendee')
     if Permission.objects.filter(content_type=content_type,
-                                 name='Change Attendee',
                                  codename='change_attendee').exists():
         change_attendee_permission = Permission.objects.get(
-            content_type=content_type, name='Change Attendee',
+            content_type=content_type,
             codename='change_attendee')
     else:
         change_attendee_permission = Permission.objects.create(
