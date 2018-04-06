@@ -84,13 +84,18 @@
                             </li>
                         {% endif %}
                         <li>
+                          <a href="{% url "activity_proposal" event_slug event_uid %}">
+                            {% trans "Submit your talk" %}
+                          </a>
+                        </li>
+                        <li>
                             <a href="{% url "schedule" event_slug event_uid %}">
-                                <i class="fa pythofa-calendar"></i> {% trans "Schedule" %}
+                                <i class="fa fa-calendar"></i> <i class="fa pythofa-calendar"></i> {% trans "Schedule" %}
                             </a>
                         </li>
                         <li>
-                            <a href="{% url "activity_proposal" event_slug event_uid %}">
-                                {% trans "Submit your talk" %}
+                            <a href="{% url "activities" event_slug event_uid %}">
+                                <i class="fa fa-th"></i> {% trans "View Activities" %}
                             </a>
                         </li>
                         <li>
