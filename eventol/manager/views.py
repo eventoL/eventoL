@@ -7,6 +7,7 @@ import os
 import uuid
 import logging
 import cairosvg
+import re
 import pyqrcode
 import svglue
 
@@ -19,19 +20,21 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.utils import timezone
+from django.utils.dateparse import parse_time, parse_datetime
 from django.utils.translation import ugettext_lazy as _, ugettext
-from django.utils.formats import localize
+from django.utils.formats import localize, date_format
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from lxml import etree
+from urllib.parse import urlparse
 
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
     HardwareForm, InstallerRegistrationForm, EventDateModelFormset, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
-    EventUserRegistrationForm, AttendeeRegistrationForm, \
+    EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, \
     EventForm, ContactMessageForm, ImageCroppingForm, EventImageCroppingForm, \
     EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, AttendeeRegistrationFromUserForm
 from manager.models import Attendee, Organizer, EventUser, Room, Event, \
@@ -816,9 +819,7 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
 
 
 def contact(request, event_slug, event_uid):
-    event = Event.objects.filter(uid=event_uid).get()
-    if not event:
-        return handler404(request)
+    event = get_object_or_404(Event, uid=event_uid)
     contact_message = ContactMessage()
     form = ContactMessageForm(request.POST or None, instance=contact_message)
     if request.POST:
@@ -835,9 +836,7 @@ def contact(request, event_slug, event_uid):
             email.to = [event.email]
             email.extra_headers = {'Reply-To': contact_message.email}
             email.send(fail_silently=False)
-            event = Event.objects.filter(uid=event_uid).get()
-            if not event:
-                return handler404(request)
+            event = get_object_or_404(Event, uid=event_uid)
             contact_message.event = event
             contact_message.save()
             messages.success(
@@ -1423,6 +1422,138 @@ def image_cropping(request, event_slug, event_uid, activity_id):
     )
 
 
+def goto_next_or_continue(next_url, safe_continue=None):
+    if next_url:
+        url = urlparse(next_url)
+        safe_url = re.sub(r'[^\w/\-]', '', url.path)
+        safe_query = re.sub(r'[^\w/\-+=&]', '', url.query)
+        try:
+            return redirect(safe_url + '?' + safe_query)
+        except Exception as e:
+            logger.error(e)
+            pass
+    elif safe_continue:
+        return redirect(safe_continue)
+    raise Http404('I can not go anywhere, next and continue are empty')
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def reject_activity(request, event_slug, event_uid, activity_id):
+    event = get_object_or_404(Event, uid=event_uid)
+    activity = get_object_or_404(Activity, id=activity_id)
+    activity.status = 3
+    activity.start_date = None
+    activity.end_date = None
+    activity.room = None
+    activity.save()
+    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
+    return goto_next_or_continue(request.GET.get('next'), safe_continue)
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def resend_proposal(request, event_slug, event_uid, activity_id):
+    event = get_object_or_404(Event, uid=event_uid)
+    activity = get_object_or_404(Activity, id=activity_id)
+    activity.status = 1
+    activity.start_date = None
+    activity.end_date = None
+    activity.room = None
+    activity.save()
+    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
+    return goto_next_or_continue(request.GET.get('next'), safe_continue)
+
+
+def activities(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    proposed_activities, accepted_activities, rejected_activities = [], [], []
+    activities = Activity.objects.filter(event=event)
+    for activity in activities:
+        activity.labels = activity.labels.split(',')
+        if activity.status == '1':
+            proposed_activities.append(activity)
+        elif activity.status == '2':
+            accepted_activities.append(activity)
+        else:
+            rejected_activities.append(activity)
+        setattr(activity, 'form', ActivityForm(event_slug, event_uid, instance=activity))
+        setattr(activity, 'errors', [])
+    return render(request, 'activities/activities_home.html',
+                  update_event_info(
+                      event_slug,
+                      event_uid,
+                      request,
+                      {'proposed_activities': proposed_activities,
+                      'accepted_activities': accepted_activities,
+                      'rejected_activities': rejected_activities}
+                  )
+            )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def talk_registration(request, event_slug, event_uid, pk):
+    errors = []
+    error = False
+    event = get_object_or_404(Event, uid=event_uid)
+    proposal = get_object_or_404(Activity, pk=pk)
+    talk_form = ActivityForm(event_slug, event_uid, request.POST)
+    if request.POST:
+        request_post = request.POST.copy()
+        start_time = parse_time(request.POST.get('start_date', ''))
+        end_time = parse_time(request.POST.get('end_date', ''))
+        if isinstance(start_time, datetime.time) or isinstance(end_time, datetime.time):
+            date_id = request.POST.get('date')
+            event_date = get_object_or_404(EventDate, id=date_id)
+            start_date = datetime.datetime.combine(event_date.date, start_time)
+            end_date = datetime.datetime.combine(event_date.date, end_time)
+            start_date = timezone.make_aware(start_date)
+            end_date = timezone.make_aware(end_date)
+            request_post.update({'start_date': start_date, 'end_date': end_date, 'event': event.id})
+            talk_form = ActivityForm(event_slug, event_uid, request_post)
+            if talk_form.is_valid() and \
+                    Activity.room_available(request=request, proposal=talk_form.instance, event_uid=event_uid, event_date=event_date.date):
+                try:
+                    proposal.status = 2
+                    proposal.start_date = start_date
+                    proposal.end_date = end_date
+                    room = get_object_or_404(Room, pk=request.POST.get('room'))
+                    proposal.room = room
+                    proposal.save()
+                    messages.success(request, _("The talk was registered successfully!"))
+                    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, proposal.pk])
+                    return goto_next_or_continue(request.GET.get('next'), safe_continue)
+                except Exception as e:
+                    logger.error(e)
+                    if proposal.status == 2:
+                        proposal.statue = 1
+                        proposal.save()
+    forms = [talk_form]
+    errors = get_forms_errors(forms)
+    error = True
+    if errors:
+        messages.error(request, _("The talk couldn't be registered (check form errors)"))
+    proposal.labels = proposal.labels.split(',')
+    render_dict = {
+        'multipart': False, 'errors': errors,
+        'form': talk_form, 'error': error,
+        'user': request.user, 'activity': proposal
+    }
+    return render(request,
+                  'activities/detail.html',
+                  update_event_info(event_slug, event_uid, request, render_dict))
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def confirm_schedule(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    event.schedule_confirmed = True
+    event.save()
+    return schedule(request, event_slug, event_uid)
+
+
 def event_add_image(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     form = EventImageCroppingForm(request.POST or None, request.FILES, instance=event)
@@ -1467,7 +1598,12 @@ def event_add_image(request, event_slug, event_uid):
 
 def activity_detail(request, event_slug, event_uid, activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
-    activity.labels = activity.labels.split(', ')
+    activity.labels = activity.labels.split(',')
+    params = {
+        'activity': activity,
+        'form': ActivityForm(event_slug, event_uid, instance=activity),
+        'errors': []
+    }
     return render(
         request,
         'activities/detail.html',
@@ -1475,7 +1611,7 @@ def activity_detail(request, event_slug, event_uid, activity_id):
             event_slug,
             event_uid,
             request,
-            {'activity': activity}
+            params
         )
     )
 
@@ -1523,7 +1659,8 @@ def schedule(request, event_slug, event_uid):
                 'min_time': activities_for_date.first().start_date.time().strftime("%H:%M"),
                 'max_time': sorted(activities_for_date, key=lambda o: o.end_date.time())[-1].end_date.time().strftime(
                     "%H:%M"),
-                'date': activities_for_date.first().start_date.date().isoformat()
+                'date': activities_for_date.first().start_date.date().isoformat(),
+                'datestring': date_format(activities_for_date.first().start_date, format='SHORT_DATE_FORMAT', use_l10n=True)
             })
 
     return render(

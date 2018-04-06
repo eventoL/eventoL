@@ -8,6 +8,7 @@ from captcha.fields import CaptchaField
 from dal import autocomplete
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.formats import date_format
 from django.core.validators import validate_email, URLValidator
 from django.db.models.query_utils import Q
 from django.db.utils import OperationalError
@@ -16,7 +17,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from manager.models import (Attendee, Installation, Hardware, Collaborator,
                             Installer, ContactMessage, EventUser, Event,
-                            Software, Contact, Activity, EventDate,
+                            Software, Contact, Activity, EventDate, Room,
                             AttendeeAttendanceDate, EventUserAttendanceDate)
 
 from allauth.account.forms import LoginForm as AllAuthLoginForm
@@ -226,6 +227,26 @@ class HardwareForm(forms.ModelForm):
     class Meta(object):
         model = Hardware
         fields = ('type', 'manufacturer', 'model')
+
+
+class ActivityForm(ModelForm):
+    class Meta(object):
+        model = Activity
+        fields = ['start_date', 'end_date', 'room', 'event']
+        widgets = {
+            'event': forms.HiddenInput()
+        }
+
+    def __init__(self, event_slug, event_uid, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:
+            choices = []
+            event_dates = EventDate.objects.filter(event__uid=event_uid)
+            for event_date in event_dates:
+                date_value = date_format(event_date.date, format='SHORT_DATE_FORMAT', use_l10n=True)
+                choices.append((event_date.id, date_value,))
+            self.fields['room'].queryset = Room.objects.filter(event__uid=event_uid)
+            self.fields['date'] = forms.ChoiceField(choices=choices)
 
 
 class CollaboratorRegistrationForm(ModelForm):

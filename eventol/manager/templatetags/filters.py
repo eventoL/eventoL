@@ -1,9 +1,19 @@
+import json
+
 from django import template, forms
 from django.utils.translation import ugettext_lazy as _
 
 from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee
 
 register = template.Library()
+
+
+@register.filter(name='get_schedule_date')
+def get_schedule_date(dic, key):
+    """
+    Returns an item from a dictionary
+    """
+    return json.loads(dic.get(key)).get('datestring')
 
 
 @register.filter(name='addcss')
