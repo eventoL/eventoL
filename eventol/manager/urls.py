@@ -53,6 +53,7 @@ event_patterns = [
         views.image_cropping, name='image_cropping'),
     url(r'^activity/proposal/image-cropping/$', views.image_cropping,
         name='image_cropping'),
+    url(r'^activity/registration/(?P<pk>\d+)$', views.talk_registration, name='talk_registration'),
     url(r'^schedule$', views.schedule, name='schedule'),
     url(r'^contact$', views.contact, name='contact'),
     url(r'^reports$', views.reports, name='reports'),

@@ -1451,6 +1451,60 @@ def activities(request, event_slug, event_uid):
             )
 
 
+@login_required
+@user_passes_test(is_organizer, 'index')
+def talk_registration(request, event_slug, event_uid, pk):
+    errors = []
+    error = False
+    event = get_object_or_404(Event, uid=event_uid)
+    proposal = get_object_or_404(Activity, pk=pk)
+    talk_form = ActivityForm(event_slug, event_uid, request.POST)
+    if request.POST:
+        request_post = request.POST.copy()
+        start_time = parse_time(request.POST.get('start_date', ''))
+        end_time = parse_time(request.POST.get('end_date', ''))
+        if isinstance(start_time, datetime.time) or isinstance(end_time, datetime.time):
+            date_id = request.POST.get('date')
+            event_date = get_object_or_404(EventDate, id=date_id)
+            start_date = datetime.datetime.combine(event_date.date, start_time)
+            end_date = datetime.datetime.combine(event_date.date, end_time)
+            start_date = timezone.make_aware(start_date)
+            end_date = timezone.make_aware(end_date)
+            request_post.update({'start_date': start_date, 'end_date': end_date, 'event': event.id})
+            talk_form = ActivityForm(event_slug, event_uid, request_post)
+            if talk_form.is_valid() and \
+                    Activity.room_available(request=request, proposal=talk_form.instance, event_uid=event_uid, event_date=event_date.date):
+                try:
+                    proposal.status = 2
+                    proposal.start_date = start_date
+                    proposal.end_date = end_date
+                    room = get_object_or_404(Room, pk=request.POST.get('room'))
+                    proposal.room = room
+                    proposal.save()
+                    messages.success(request, _("The talk was registered successfully!"))
+                    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, proposal.pk])
+                    return goto_next_or_continue(request.GET.get('next'), safe_continue)
+                except Exception as e:
+                    logger.error(e)
+                    if proposal.status == 2:
+                        proposal.statue = 1
+                        proposal.save()
+    forms = [talk_form]
+    errors = get_forms_errors(forms)
+    error = True
+    if errors:
+        messages.error(request, _("The talk couldn't be registered (check form errors)"))
+    proposal.labels = proposal.labels.split(',')
+    render_dict = {
+        'multipart': False, 'errors': errors,
+        'form': talk_form, 'error': error,
+        'user': request.user, 'activity': proposal
+    }
+    return render(request,
+                  'activities/detail.html',
+                  update_event_info(event_slug, event_uid, request, render_dict))
+
+
 def event_add_image(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     form = EventImageCroppingForm(request.POST or None, request.FILES, instance=event)
