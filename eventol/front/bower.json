@@ -32,6 +32,7 @@
     "html5-qrcode": "https://github.com/dwa012/html5-qrcode.git",
     "fullcalendar": "^3.2.0",
     "fullcalendar-scheduler": "^1.5.1",
-    "slick": "*"
+    "slick": "*",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47"
   }
 }
