@@ -522,66 +522,17 @@ def add_registration_people(request, event_slug, event_uid):
 @login_required
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def attendee_registration_from_installation(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
     installation_url = reverse(
         'installation',
         args=[event_slug, event_uid]
     )
-    event = Event.objects.filter(uid=event_uid).first()
-    if not event:
-        return handler404(request)
-    form = AttendeeRegistrationByCollaboratorForm(
-        request.POST or None,
-        initial={'event': event}
-    )
-    if request.POST:
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            if Attendee.objects.filter(event=event, email__iexact=email).count() > 0:
-                messages.error(
-                    request,
-                    _(
-                        'The attendee is already registered for this event, '
-                        'use correct form'
-                    )
-                )
-                return redirect(installation_url)
-            try:
-                attendee = form.save()
-                attendance_date = AttendeeAttendanceDate()
-                attendance_date.attendee = attendee
-                attendance_date.save()
-                messages.success(
-                    request,
-                    _(
-                        'The attendee was successfully registered. '
-                        'Happy Hacking!'
-                    )
-                )
-                return redirect(installation_url)
-            except Exception as e:
-                logger.error(e)
-                try:
-                    if attendee is not None:
-                        Attendee.objects.delete(attendee)
-                    if attendance_date is not None:
-                        AttendeeAttendanceDate.objects.delete(attendance_date)
-                except Exception:
-                    pass
-        messages.error(
-            request,
-            _(
-                "The attendee couldn't be registered (check form errors)"
-            )
-        )
-    return render(
+    render_template = 'registration/attendee/from-installation.html'
+    return process_attendee_registration(
         request,
-        'registration/attendee/from-installation.html',
-        update_event_info(
-            event_slug,
-            event_uid,
-            request,
-            {'form': form}
-        )
+        event=event,
+        return_url=installation_url,
+        render_template=render_template
     )
 
 
@@ -589,68 +540,80 @@ def attendee_registration_from_installation(request, event_slug, event_uid):
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def attendee_registration_by_collaborator(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
     manage_attendance_url = reverse(
         'manage_attendance',
         args=[event_slug, event_uid]
     )
-    event = Event.objects.filter(uid=event_uid).first()
-    if not event:
-        return handler404(request)
-    form = AttendeeRegistrationByCollaboratorForm(
-        request.POST or None,
-        initial={'event': event}
-    )
-    if request.POST:
-        if form.is_valid():
-            email = form.cleaned_data["email"]
-            if Attendee.objects.filter(event=event, email__iexact=email).count() > 0:
-                messages.error(
-                    request,
-                    _(
-                        'The attendee is already registered for this event, '
-                        'use correct form'
-                    )
-                )
-                return redirect(manage_attendance_url)
-            try:
-                attendee = form.save()
-                attendance_date = AttendeeAttendanceDate()
-                attendance_date.attendee = attendee
-                attendance_date.save()
-                messages.success(
-                    request,
-                    _(
-                        'The attendee was successfully registered. '
-                        'Happy Hacking!'
-                    )
-                )
-                return redirect(manage_attendance_url)
-            except Exception as e:
-                logger.error(e)
-                try:
-                    if attendee is not None:
-                        Attendee.objects.delete(attendee)
-                    if attendance_date is not None:
-                        AttendeeAttendanceDate.objects.delete(attendance_date)
-                except Exception:
-                    pass
-        messages.error(
-            request,
-            _(
-                "The attendee couldn't be registered (check form errors)"
-            )
-        )
-    return render(
+    render_template = 'registration/attendee/by-collaborator.html'
+    return process_attendee_registration(
         request,
-        'registration/attendee/by-collaborator.html',
-        update_event_info(
-            event_slug,
-            event_uid,
-            request,
-            {'form': form}
-        )
+        event=event,
+        return_url=manage_attendance_url,
+        render_template=render_template
     )
 
+
+def process_attendee_registration(request, event, return_url, render_template):
+    # Verify date, allow only on event day or after
+    eventdate = EventDate.objects.get(event=event, date__lte=timezone.localdate())
+    if eventdate:
+        if request.POST:
+            form = AttendeeRegistrationByCollaboratorForm(
+                request.POST or None,
+                initial={'event': event}
+            )
+            if form.is_valid():
+                email = form.cleaned_data["email"]
+                if Attendee.objects.filter(event=event, email__iexact=email).exists():
+                    messages.error(
+                        request,
+                        _(
+                            'The attendee is already registered for this event, '
+                            'use correct form'
+                        )
+                    )
+                    return redirect(return_url)
+                try:
+                    attendee = form.save()
+                    attendance_date = AttendeeAttendanceDate.objects.create(
+                        attendee=attendee
+                    )
+                    messages.success(
+                        request,
+                        _(
+                            'The attendee was successfully registered. '
+                            'Happy Hacking!'
+                        )
+                    )
+                    return redirect(return_url)
+                except Exception as e:
+                    logger.error(e)
+                    try:
+                        if attendee is not None:
+                            Attendee.objects.delete(attendee)
+                        if attendance_date is not None:
+                            AttendeeAttendanceDate.objects.delete(attendance_date)
+                    except Exception:
+                        pass
+            messages.error(
+                request,
+                _(
+                    "The attendee couldn't be registered (check form errors)"
+                )
+            )
+    else:
+        messages.error(request, _('You can only register an attendance at the day of the event or after'))
+    return render(
+            request,
+            render_template,
+            update_event_info(
+                event.slug,
+                event.uid,
+                request,
+                {'form': form}
+            )
+        )
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
@@ -712,6 +675,12 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
     if not event:
         messages.error(request, _('The registration code does not seems to be valid for this event'))
         return redirect(event_index_url)
+    # Check if today is a valid EventDate
+    try:
+        EventDate.objects.get(event=event, date=timezone.localdate())
+    except EventDate.DoesNotExist:
+        messages.error(request, _('You can only register by yourself on the event date'))
+        return redirect(event_index_url)
     form = AttendeeRegistrationByCollaboratorForm(
         request.POST or None,
         initial={'event': event}
@@ -772,6 +741,74 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
             request,
             {
                 'form': form,
+                'event_registration_code': event_registration_code,
+            }
+        )
+    )
+
+
+def attendance_by_autoreadqr(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    event_index_url = reverse(
+        'index',
+        args=[event_slug, event_uid]
+    )
+    event_registration_code = request.GET.get('event_registration_code', '')
+    user = request.user
+    # Show page w/ reg code for collaborators/organizers
+    if not event_registration_code \
+            and user.is_authenticated() \
+            and (
+                is_collaborator(user, event_uid=event_uid)
+                or is_organizer(user, event_uid=event_uid)
+            ):
+        return redirect(
+            '{url}/?event_registration_code={event_registration_code}'.format(
+                url=reverse('attendance_by_autoreadqr', args=[event_slug, event_uid]),
+                event_registration_code=event.registration_code
+            )
+        )
+
+    # Check if reg code is valid
+    if not event_registration_code or not Event.objects.filter(uid=event_uid, registration_code=event_registration_code).exists():
+        messages.error(request, _('The registration code does not seems to be valid for this event'))
+        return redirect(event_index_url)
+
+    # Check if today is a valid EventDate
+    if not EventDate.objects.filter(event=event, date=timezone.localdate()).exists():
+        messages.error(request, _('Auto-reading QR codes is only available at the event date'))
+        return redirect(event_index_url)
+
+    # Check ticket
+    ticket_code = request.GET.get('ticket', '')
+    if ticket_code:
+        event_user = EventUser.objects.filter(event=event, ticket__code=ticket_code)
+        attendee = Attendee.objects.filter(event=event, ticket__code=ticket_code)
+        if event_user.exists():
+            event_user = event_user.first()
+            if EventUserAttendanceDate.objects.filter(event_user=event_user, date__date=timezone.localdate()).exists():
+                messages.info(request, _('You are already registered and present! Go have fun'))
+            else:
+                EventUserAttendanceDate.objects.create(event_user=event_user)
+                messages.info(request, _('You are now marked as present in the event, have fun!'))
+        elif attendee.exists():
+            attendee = attendee.first()
+            if AttendeeAttendanceDate.objects.filter(attendee=attendee, date__date=timezone.localdate()).exists():
+                messages.info(request, _('You are already registered and present! Go have fun'))
+            else:
+                AttendeeAttendanceDate.objects.create(attendee=attendee)
+                messages.info(request, _('You are now marked as present in the event, have fun!'))
+        else:
+            messages.error(request, _('The ticket code is not valid for this event'))
+
+    return render(
+        request,
+        'registration/attendee/by-autoreadqr.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            request,
+            {
                 'event_registration_code': event_registration_code,
             }
         )
@@ -1273,7 +1310,7 @@ def view_ticket(request, event_slug, event_uid):
     if event_user:
         ticket = generate_ticket(event_user)
         response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
-        response["Content-Disposition"] = 'filename=Ticket-' + str(ticket) + '.pdf'
+        response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.ticket.code) + '.pdf'
         return response
     else:
         messages.error(request, "You are not registered for this event")
@@ -1287,7 +1324,7 @@ def draw(request, event_slug, event_uid):
         str(attendance_date.attendee) for attendance_date in
         AttendeeAttendanceDate.objects.filter(
             attendee__event__uid=event_uid,
-            date__date=datetime.date.today()
+            date__date=timezone.localdate()
         )
     ]
     return render(
