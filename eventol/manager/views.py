@@ -16,14 +16,14 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _, ugettext
-from django.utils.formats import localize
+from django.utils.formats import localize, date_format
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from lxml import etree
@@ -42,7 +42,7 @@ from manager.security import is_installer, is_organizer, user_passes_test, \
     add_attendance_permission, is_collaborator, \
     add_organizer_permissions, is_collaborator_or_installer
 
-from .utils import email
+from .utils import email as utils_email
 
 
 logger = logging.getLogger('eventol')
@@ -139,7 +139,7 @@ def send_event_ticket(user):
     ticket_svg = generate_ticket(user)
     ticket_data = user.get_ticket_data()
     try:
-        email.send_ticket_email(ticket_data, ticket_svg)
+        utils_email.send_ticket_email(ticket_data, ticket_svg)
         ticket_data['ticket'].sent = True
         ticket_data['ticket'].save()
     except Exception as error:
@@ -243,7 +243,7 @@ def installation(request, event_slug, event_uid):
                     .filter(event=event).first()
                 if postinstall_email:
                     try:
-                        email.send_installation_email(
+                        utils_email.send_installation_email(
                             event.name, postinstall_email, install.attendee)
                     except Exception:
                         # Don't raise email exception to form exception
@@ -819,18 +819,13 @@ def contact(request, event_slug, event_uid):
     event = Event.objects.filter(uid=event_uid).get()
     if not event:
         return handler404(request)
-    contact_message = ContactMessage()
-    form = ContactMessageForm(request.POST or None, instance=contact_message)
+    form = ContactMessageForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             contact_message = form.save()
-            info = _("Message received from ") + contact_message.name + "\n"
-            info += _("User email: ") + contact_message.email + "\n"
-            contact_message.message = info + contact_message.message
-
-            email = EmailMessage()
-            email.subject = _("eventoL Contact Message from " + contact_message.name)
-            email.body = contact_message.message
+            email = EmailMultiAlternatives()
+            email.subject = _("[eventoL] Contact message from {name}").format(name=contact_message.name)
+            email.body = str(contact_message)
             email.from_email = contact_message.email
             email.to = [event.email]
             email.extra_headers = {'Reply-To': contact_message.email}
@@ -1063,14 +1058,50 @@ def attendee_registration(request, event_slug, event_uid):
 
                 if request.user.is_authenticated():
                     return redirect(confirm_url)
-                body = _("Hi! You're receiving this message because you've registered to attend to " +
-                         "FLISoL %(event_name)s.\n\nPlease follow this link to confirm your email address and we'll " +
-                         "send you your ticket.\n\n%(confirm_url)s") % {'event_name': event.name,
-                                                                         'confirm_url': confirm_url}
+                # ToDo: it has a FLISoL hardcoded string
+                body_text = _(
+                    'Hi! You are receiving this message because you have registered to attend to FLISoL '
+                    '{event_name}, being held on {event_dates}.\n\n'
+                    'Please follow this link to confirm your email address and we will send you your '
+                    'ticket:\n'
+                    '{confirm_url}\n\n'
+                    'If you encounter any issue, please contact the event organizer in '
+                    '{event_contact_url}.\n\n'
+                    'Happily yours,\n'
+                    '{event_name} and eventoL team'
+                ).format(
+                    event_name=event.name,
+                    event_dates=', '.join([
+                        date_format(eventdate.date, format='SHORT_DATE_FORMAT', use_l10n=True)
+                        for eventdate in EventDate.objects.filter(event=event)
+                    ]),
+                    event_contact_url=reverse('contact', args=[event_slug, event_uid]),
+                    confirm_url=confirm_url
+                )
+                body_html = _(
+                    '<p>Hi! You are receiving this message because you have registered to attend to <strong>FLISoL '
+                    '{event_name}</strong>, being held on {event_dates}.</p>\n'
+                    '<p>Please <em>follow this link to confirm your email address</em> and we will send you your '
+                    'ticket:<br />\n'
+                    '<a href="{confirm_url}">{confirm_url}</a></p>\n'
+                    '<p>If you encounter any issue, please contact the event organizer in '
+                    '<a href="{event_contact_url}">{event_contact_url}</a>.</p>\n'
+                    '<p>Happily yours,<br />\n'
+                    '{event_name} and <em>eventoL</em> team</p>'
+                ).format(
+                    event_name=event.name,
+                    event_dates=', '.join([
+                        date_format(eventdate.date, format='SHORT_DATE_FORMAT', use_l10n=True)
+                        for eventdate in EventDate.objects.filter(event=event)
+                    ]),
+                    event_contact_url=reverse('contact', args=[event_slug, event_uid]),
+                    confirm_url=confirm_url
+                )
 
-                email = EmailMessage()
-                email.subject = _("[FLISoL] Please confirm your email")
-                email.body = body
+                email = EmailMultiAlternatives()
+                email.subject = _("[eventoL] Please confirm your email")
+                email.body = body_text
+                email.attach_alternative(body_html, "text/html")
                 email.from_email = settings.EMAIL_FROM
                 email.to = [attendee.email]
                 email.extra_headers = {'Reply-To': settings.EMAIL_FROM}

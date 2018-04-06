@@ -113,7 +113,15 @@ class ContactMessage(models.Model):
                               blank=True, null=True)
 
     def __str__(self):
-        return '{} - {} ({})'.format(self.event, self.name, self.email)
+        return _(
+            'Message received from: {name}\n'
+            'User email: {email}\n\n'
+            '{message}'
+        ).format(
+            name=self.name,
+            email=self.email,
+            message=self.message
+        )
 
     class Meta(object):
         verbose_name = _('Contact Message')
