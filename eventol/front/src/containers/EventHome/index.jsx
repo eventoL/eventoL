@@ -17,8 +17,9 @@ export default class EventHome extends React.Component {
 
   onEnter = () => {
     const {searchTerm} = this.state;
+    const {slug} = this.props;
     if (searchTerm !== '') {
-      const searchUrl = `?search=${searchTerm}`;
+      const searchUrl = `?search=${searchTerm}&slug=${slug}`;
       this.setState({searchUrl, searched: true});
     }
   }
