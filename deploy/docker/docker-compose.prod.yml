@@ -16,6 +16,7 @@ services:
       - DJANGO_CONFIGURATION=Prod
     command: bash -c "cd eventol; daphne -b 0.0.0.0 -p 8000 eventol.asgi:channel_layer"
   worker:
+    restart: always
     image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
     volumes:
       - /usr/src/app
@@ -81,7 +82,10 @@ services:
     depends_on:
       - elasticsearch
   nginx-proxy:
+    restart: always
     image: jwilder/nginx-proxy
+    depends_on:
+      - nginx
     ports:
       - "${EXTERNAL_PORT}:80"
     volumes:
