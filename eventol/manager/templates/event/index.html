@@ -29,6 +29,16 @@
         <div class="row" style="text-align: center">
             <div class="col-sm-12">
                 <h1>{{ event.name }}</h1>
+                {# show informative tags regarding user inscription to the event #}
+                {% if user.is_authenticated and user|is_registered:event_uid %}
+                <p>
+                    <span class="label label-default">{% trans 'I am' %}</span>
+                    {% if user|is_organizer:event_uid %}<span class="label label-warning">{% trans 'Organizer' %}</span>{% endif %}
+                    {% if user|is_attendee:event_uid %}<span class="label label-info">{% trans 'Attendee' %}</span>{% endif %}
+                    {% if user|is_collaborator:event_uid %}<span class="label label-primary">{% trans 'Collaborator' %}</span>{% endif %}
+                    {% if user|is_installer:event_uid %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
+                </p>
+                {% endif %}
             </div>
         </div>
         <div class="row" style="text-align: center">
@@ -148,11 +158,15 @@
                 {% for activity in activities %}
                     <div class="row">
                         <div class="col-sm-6">
+                          <a href='{% url "activity_detail" event.slug event.uid activity.id %}'>
                             <img src="{% cropped_thumbnail activity "cropping" %}"
                                  alt="{{ activity.title }}" width="100%" heigth="100%">
+                          </a>
                         </div>
                         <div class="col-sm-6">
-                            <h2>{{ activity.title }}</h2>
+                            <a style='text-decoration: none;' href='{% url "activity_detail" event.slug event.uid activity.id %}'>
+                              <h2>{{ activity.title }}</h2>
+                            </a>
 
                             <p><strong>{{ activity.abstract }}</strong></p>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import SliderItems from '../SliderItems';
+import Cookies from 'js-cookie';
 
 import './index.scss';
 
@@ -12,7 +13,14 @@ export default class TitleList extends React.Component {
 
   loadContent(){
     const url = `/api/events/${this.props.url}`;
-    fetch(url)
+    fetch(url, {
+    method: "GET",
+    credentials: "same-origin",
+    headers: {
+        'X-CSRFToken': Cookies.get('csrftoken'),
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }})
       .then(response => response.json())
       .then(data => this.setState({data}))
       .catch(err => console.error("There has been an error", err));
@@ -33,10 +41,13 @@ export default class TitleList extends React.Component {
     }
   }
 
-  parseItem({uid, slug, place, name:title, image:backdrop, attendees_count:attendees, abstract:overview}){
+  parseItem({uid, slug, place, image:backdrop, name:title, attendees_count:attendees, abstract:overview}){
+    if (backdrop){
+      backdrop = new URL(backdrop).pathname;
+    }
     return {
       uid, title, attendees, overview, backdrop, slug, place,
-      key: slug, url: `/event/${slug}/${uid}/`
+      key: uid, url: `/event/${slug}/${uid}/`
     }
   }
 
@@ -47,7 +58,21 @@ export default class TitleList extends React.Component {
     if(results) {
       itemsData = results.map(this.parseItem);
     }
-    if (!itemsData || itemsData.length === 0) return null;
+    if (!itemsData || itemsData.length === 0) {
+      if (!this.props.hasOwnProperty('showEmpty') || !this.props.showEmpty) return null;
+      const emptyItem = {
+        key: 'not_found',
+        title: gettext('Event not found'),
+        overview: gettext('No Event found in your search'),
+        backdrop: '/static/manager/img/logo.png'
+      }
+      return (<div id={id} ref="titlecategory" className="TitleList" data-loaded={mounted}>
+        <div className="CategoryTitle">
+          <h1>{title}</h1>
+          <SliderItems itemsData={[emptyItem]}/>
+        </div>
+      </div>)
+    }
     return (
       <div id={id} ref="titlecategory" className="TitleList" data-loaded={mounted}>
         <div className="CategoryTitle">

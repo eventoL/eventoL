@@ -34,7 +34,11 @@ export default class App extends React.Component {
         <Hero>
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
-        {searched && <TitleList title={gettext('Search results')} url={searchUrl} />}
+        {searched && <TitleList title={gettext('Search results')} url={searchUrl} showEmpty={true} />}
+        <TitleList
+          id='my_events'
+          title={gettext('My Events')}
+          url='?my_events=true' />
         <TitleList
           id='recent'
           title={gettext('Recent Events')}

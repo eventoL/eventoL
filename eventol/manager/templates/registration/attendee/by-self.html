@@ -1,0 +1,11 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block page-header %}{% trans "Attendee Self Registration" %}{% endblock %}
+
+{% block form-id %}"registration"{% endblock %}
+
+{% block form-name %}{% trans "Attendee Self Registration" %}{% endblock %}
+
+{% block form-action %}"{% url "attendee_registration_by_self" event_slug event_uid event_registration_code %}"{% endblock %}

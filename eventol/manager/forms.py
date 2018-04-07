@@ -1,20 +1,23 @@
 # pylint: disable=too-many-ancestors
 
 import datetime
+import logging
 
 from collections import OrderedDict
-from captcha.fields import ReCaptchaField
+from captcha.fields import CaptchaField
 from dal import autocomplete
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.formats import date_format
 from django.core.validators import validate_email, URLValidator
 from django.db.models.query_utils import Q
+from django.db.utils import OperationalError
 from django.forms.models import ModelForm, BaseModelFormSet
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from manager.models import (Attendee, Installation, Hardware, Collaborator,
                             Installer, ContactMessage, EventUser, Event,
-                            Software, Contact, Activity, EventDate,
+                            Software, Contact, Activity, EventDate, Room,
                             AttendeeAttendanceDate, EventUserAttendanceDate)
 
 from allauth.account.forms import LoginForm as AllAuthLoginForm
@@ -28,67 +31,125 @@ from allauth.account.forms import ChangePasswordForm \
 from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
 
 
-class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
+logger = logging.getLogger('eventol')
+
+
+class GenericAutocomplete(autocomplete.Select2QuerySetView):
+    def get(self, request, *args, **kwargs):
+        try:
+            return super().get(request, *args, **kwargs)
+        except OperationalError as error:
+            logger.error(error)
+            self.use_unaccent = False
+            return super().get(request, *args, **kwargs)
+
+
+class SoftwareAutocomplete(GenericAutocomplete):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             return Software.objects.none()
         softwares = Software.objects.all()
         if self.q:
-            softwares = softwares.filter(name__unaccent__icontains=self.q)
+            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
+                softwares = softwares.filter(name__unaccent__icontains=self.q)
+            else:
+                softwares = softwares.filter(name__icontains=self.q)
         return softwares[:5]
 
 
-class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
+class AttendeeAutocomplete(GenericAutocomplete):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             return Attendee.objects.none()
-        event_slug = self.forwarded.get('event_slug', None)
+        event_uid = self.forwarded.get('event_uid', None)
         event_user = EventUser.objects.filter(
-            user=self.request.user, event__slug__iexact=event_slug).first()
+            user=self.request.user, event__uid=event_uid).first()
 
         attended = [attendance_date.attendee.pk for attendance_date in
                     AttendeeAttendanceDate.objects.filter(
-                        attendee__event__slug__iexact=event_slug,
+                        attendee__event__uid=event_uid,
                         date__date=datetime.date.today())]
 
         attendees = Attendee.objects \
-            .filter(event__slug=event_slug).exclude(pk__in=attended)
+            .filter(event__uid=event_uid).exclude(pk__in=attended)
 
         if event_user and self.q:
-            attendees = attendees.filter(
-                Q(first_name__unaccent__icontains=self.q) |
-                Q(last_name__unaccent__icontains=self.q) |
-                Q(nickname__unaccent__icontains=self.q) |
-                Q(email__icontains=self.q)
-            )
+            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
+                attendees = attendees.filter(
+                    Q(first_name__unaccent__icontains=self.q) |
+                    Q(last_name__unaccent__icontains=self.q) |
+                    Q(nickname__unaccent__icontains=self.q) |
+                    Q(email__icontains=self.q)
+                )
+            else:
+                attendees = attendees.filter(
+                    Q(first_name__icontains=self.q) |
+                    Q(last_name__icontains=self.q) |
+                    Q(nickname__icontains=self.q) |
+                    Q(email__icontains=self.q)
+                )
 
         return attendees[:5]
 
 
-class EventUserAutocomplete(autocomplete.Select2QuerySetView):
+class AllAttendeeAutocomplete(GenericAutocomplete):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated():
+            return Attendee.objects.none()
+        event_uid = self.forwarded.get('event_uid', None)
+        event_user = EventUser.objects.filter(
+            user=self.request.user, event__uid=event_uid).first()
+        attendees = Attendee.objects.filter(event__uid=event_uid)
+        if event_user and self.q:
+            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
+                attendees = attendees.filter(
+                    Q(first_name__unaccent__icontains=self.q) |
+                    Q(last_name__unaccent__icontains=self.q) |
+                    Q(nickname__unaccent__icontains=self.q) |
+                    Q(email__icontains=self.q)
+                )
+            else:
+                attendees = attendees.filter(
+                    Q(first_name__icontains=self.q) |
+                    Q(last_name__icontains=self.q) |
+                    Q(nickname__icontains=self.q) |
+                    Q(email__icontains=self.q)
+                )
+        return attendees[:5]
+
+
+class EventUserAutocomplete(GenericAutocomplete):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             return EventUser.objects.none()
 
-        event_slug = self.forwarded.get('event_slug', None)
+        event_uid = self.forwarded.get('event_uid', None)
         event_user = EventUser.objects.filter(
-            user=self.request.user, event__slug__iexact=event_slug).first()
+            user=self.request.user, event__uid=event_uid).first()
 
         attended = [attendance_date.event_user.pk for attendance_date in
                     EventUserAttendanceDate.objects.filter(
-                        event_user__event__slug__iexact=event_slug,
+                        event_user__event__uid=event_uid,
                         date__date=datetime.date.today())]
 
         event_users = EventUser.objects \
             .filter(event=event_user.event).exclude(pk__in=attended)
 
         if event_user and self.q:
-            event_users = event_users.filter(
-                Q(user__first_name__unaccent__icontains=self.q) |
-                Q(user__last_name__unaccent__icontains=self.q) |
-                Q(user__username__unaccent__icontains=self.q) |
-                Q(user__email__icontains=self.q)
-            )
+            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
+                event_users = event_users.filter(
+                    Q(user__first_name__unaccent__icontains=self.q) |
+                    Q(user__last_name__unaccent__icontains=self.q) |
+                    Q(user__username__unaccent__icontains=self.q) |
+                    Q(user__email__icontains=self.q)
+                )
+            else:
+                event_users = event_users.filter(
+                    Q(user__first_name__icontains=self.q) |
+                    Q(user__last_name__icontains=self.q) |
+                    Q(user__username__icontains=self.q) |
+                    Q(user__email__icontains=self.q)
+                )
 
         return event_users[:5]
 
@@ -102,8 +163,7 @@ class AttendeeSearchForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['event_uid'].widget = forms.HiddenInput()
 
-    event_slug = forms.CharField()
-
+    event_uid = forms.UUIDField()
     attendee = forms.ModelChoiceField(
         queryset=Attendee.objects.all(),
         widget=autocomplete.ModelSelect2(
@@ -121,7 +181,7 @@ class EventUserSearchForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['event_uid'].widget = forms.HiddenInput()
 
-    event_uid = forms.CharField()
+    event_uid = forms.UUIDField()
     event_user = forms.ModelChoiceField(
         queryset=EventUser.objects.all(),
         widget=autocomplete.ModelSelect2(
@@ -143,12 +203,22 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
 
 
 class InstallationForm(forms.ModelForm):
+    def __init__(self, event_uid, *args, **kwargs):
+        kwargs.update(initial={
+            'event_uid': event_uid,
+        })
+
+        super().__init__(*args, **kwargs)
+        self.fields['event_uid'].widget = forms.HiddenInput()
+
+    event_uid = forms.UUIDField()
+
     class Meta(object):
         model = Installation
         fields = ('attendee', 'notes', 'software')
         widgets = {'notes': forms.Textarea(attrs={'rows': 3}),
                    'attendee': autocomplete.ModelSelect2(
-                       url='attendee-autocomplete'),
+                       url='all-attendee-autocomplete', forward=['event_uid']),
                    'software': autocomplete.ModelSelect2(
                        url='software-autocomplete')}
 
@@ -159,11 +229,50 @@ class HardwareForm(forms.ModelForm):
         fields = ('type', 'manufacturer', 'model')
 
 
+class ActivityForm(ModelForm):
+    class Meta(object):
+        model = Activity
+        fields = ['start_date', 'end_date', 'room', 'event']
+        widgets = {
+            'event': forms.HiddenInput()
+        }
+
+    def __init__(self, event_slug, event_uid, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:
+            choices = []
+            event_dates = EventDate.objects.filter(event__uid=event_uid)
+            for event_date in event_dates:
+                date_value = date_format(event_date.date, format='SHORT_DATE_FORMAT', use_l10n=True)
+                choices.append((event_date.id, date_value,))
+            self.fields['room'].queryset = Room.objects.filter(event__uid=event_uid)
+            self.fields['date'] = forms.ChoiceField(choices=choices)
+
+
 class CollaboratorRegistrationForm(ModelForm):
     class Meta(object):
         model = Collaborator
         widgets = {'event_user': forms.HiddenInput()}
         exclude = ()
+
+
+class AttendeeRegistrationFromUserForm(ModelForm):
+    field_order = ['first_name', 'last_name', 'nickname', 'additional_info',
+                   'is_installing', 'email', 'event', 'event_user', 'registration_date']
+
+    class Meta(object):
+        model = Attendee
+        fields = ['first_name', 'last_name', 'nickname', 'email',
+                  'additional_info', 'is_installing',
+                  'event', 'registration_date', 'event_user']
+        widgets = {'first_name': forms.HiddenInput(),
+                   'last_name': forms.HiddenInput(),
+                   'nickname': forms.HiddenInput(),
+                   'event': forms.HiddenInput(),
+                   'email': forms.HiddenInput(),
+                   'event_user': forms.HiddenInput(),
+                   'additional_info': forms.TextInput(),
+                   'registration_date': forms.HiddenInput(), }
 
 
 class EventUserRegistrationForm(ModelForm):
@@ -175,7 +284,7 @@ class EventUserRegistrationForm(ModelForm):
 
 class AttendeeRegistrationForm(ModelForm):
     repeat_email = forms.EmailField(label=_("Repeat Email"))
-    captcha = ReCaptchaField(label=_("Are you a human?"))
+    captcha = CaptchaField()
 
     field_order = ['first_name', 'last_name', 'nickname', 'additional_info',
                    'is_installing', 'email', 'repeat_email', 'captcha',
@@ -410,7 +519,7 @@ class SocialSignUpForm(AllAuthSocialSignUpForm):
 
 class ActivityProposalForm(ModelForm):
     repeat_email = forms.EmailField(label=_("Repeat Email"))
-    captcha = ReCaptchaField(label=_("Are you a human?"))
+    captcha = CaptchaField(label=_("Are you a human?"))
 
     field_order = ['event', 'title', 'speakers_names', 'abstract',
                    'long_description', 'speaker_contact', 'repeat_email',

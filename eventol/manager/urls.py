@@ -1,9 +1,10 @@
 from django.conf.urls import url, include
 from django.views.generic.base import TemplateView
+from django.views.generic import RedirectView
 
 from manager import views
 from manager.forms import (SoftwareAutocomplete, AttendeeAutocomplete,
-                           EventUserAutocomplete)
+                           EventUserAutocomplete, AllAttendeeAutocomplete)
 
 event_patterns = [
     url(r'^$', views.index, name="index"),
@@ -19,18 +20,31 @@ event_patterns = [
         TemplateView.as_view(
             template_name='registration/attendee/email-sent.html'),
         name='attendee_email_sent'),
-    url(r'^registration/attendee/search/(?P<pk>\d+)$',
+    url(r'^registration/attendee/search/(?P<ticket_code>\w+)$',
         views.attendance_by_ticket, name='attendance_by_ticket'),
     url(r'^registration/attendee/search', views.manage_attendance,
         name='manage_attendance'),
     url(r'^registration/attendee/by-collaborator$',
         views.attendee_registration_by_collaborator,
         name='attendee_registration_by_collaborator'),
+    url(r'^registration/attendee/from-installation$',
+        views.attendee_registration_from_installation,
+        name='attendee_registration_from_installation'),
+    url(r'^registration/attendee/by-self/(?P<event_registration_code>[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-'
+        r'[89aAbB][a-f0-9]{3}-[a-f0-9]{12})$',
+        views.attendee_registration_by_self,
+        name='attendee_registration_by_self'),
+    url(r'^registration/attendee/by-self/autoreadqr', views.attendance_by_autoreadqr,
+        name='attendance_by_autoreadqr'),
+    url(r'^registration/print-code$',
+        views.attendee_registration_print_code,
+        name='attendee_registration_print_code'),
     url(r'^registration/collaborator$', views.collaborator_registration,
         name='collaborator_registration'),
     url(r'^registration/installer$', views.installer_registration,
         name='installer_registration'),
     url(r'^installation$', views.installation, name='installation'),
+    url(r'^activities$', views.activities, name='activities'),
     url(r'^activity/(?P<activity_id>\d+)/$', views.activity_detail,
         name='activity_detail'),
     url(r'^activity/proposal/$', views.activity_proposal,
@@ -39,6 +53,10 @@ event_patterns = [
         views.image_cropping, name='image_cropping'),
     url(r'^activity/proposal/image-cropping/$', views.image_cropping,
         name='image_cropping'),
+    url(r'^activity/registration/(?P<pk>\d+)$', views.talk_registration, name='talk_registration'),
+    url(r'^activity/confirm_schedule/$', views.confirm_schedule, name='confirm_schedule'),
+    url(r'^activity/reject_activity/(?P<activity_id>\d+)/$', views.reject_activity, name='reject_activity'),
+    url(r'^activity/resend_proposal/(?P<activity_id>\d+)/$', views.resend_proposal, name='resend_proposal'),
     url(r'^schedule$', views.schedule, name='schedule'),
     url(r'^contact$', views.contact, name='contact'),
     url(r'^reports$', views.reports, name='reports'),
@@ -48,12 +66,23 @@ event_patterns = [
     url(r'^ticket$', views.view_ticket, name='view_ticket'),
 ]
 
+event_uid_patterns = [
+    url(
+        r'^(?P<event_uid>[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})/',
+        include(event_patterns)
+    ),
+    url(r'^$', views.event_slug_index, name='slug_index'),
+]
+
 urlpatterns = [
-    url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)/(?P<event_uid>[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})/', include(event_patterns)),
+    url(r'^(?i)(?P<event_slug>[a-zA-Z0-9-_]+)/', include(event_uid_patterns)),
     url(r'^software-autocomplete', SoftwareAutocomplete.as_view(),
         name='software-autocomplete'),
     url(r'^attendee-autocomplete', AttendeeAutocomplete.as_view(),
         name='attendee-autocomplete'),
+    url(r'^all-attendee-autocomplete', AllAttendeeAutocomplete.as_view(),
+        name='all-attendee-autocomplete'),
     url(r'^eventuser-autocomplete', EventUserAutocomplete.as_view(),
-        name='eventuser-autocomplete')
+        name='eventuser-autocomplete'),
+    url(r'^$', RedirectView.as_view(pattern_name='home')),
 ]

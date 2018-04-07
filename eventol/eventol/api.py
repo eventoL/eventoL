@@ -8,7 +8,8 @@ from django.contrib.auth.models import User
 from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework_filters import FilterSet, BooleanFilter
-from manager.models import Event
+from rest_framework.response import Response
+from manager.models import Event, EventUser
 
 
 # Serializers define the API representation.
@@ -34,7 +35,7 @@ class EventFilter(FilterSet):
 
     class Meta:
         model = Event
-        fields = ('name', 'slug', 'uid', 'schedule_confirmed',
+        fields = ('name', 'slug', 'schedule_confirmed',
                   'activity_proposal_is_open', 'registration_is_open')
 
 
@@ -45,4 +46,13 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_class = EventFilter
     ordering_fields = ('name', 'limit_proposal_date', 'updated_at',
                        'attendees_count', 'last_date', 'created_at')
-    search_fields = ('name', 'slug', 'uid', 'abstract')
+    search_fields = ('name', 'slug', 'abstract')
+
+    def list(self, request):
+        me_events = request.GET.get('my_events', None)
+        if request.user.is_authenticated() and me_events:
+            events_ids = [event_user.event.pk for event_user in EventUser.objects.filter(user=request.user)]
+            queryset = Event.objects.filter(pk__in=events_ids)
+            serializer = EventSerializer(queryset, many=True, context={'request': request})
+            return Response({'results': serializer.data})
+        return super().list(request)

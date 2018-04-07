@@ -2,7 +2,7 @@ const webpack = require('webpack')
 const BundleTracker = require('webpack-bundle-tracker')
 const config = require('./webpack.base.config.js')
 
-config.output.path = require('path').resolve('../static/bundles/prod/')
+config.output.path = require('path').resolve('./eventol/static/bundles/prod/')
 config.plugins = config.plugins.concat([
   new BundleTracker({filename: './webpack-stats-prod.json'}),
 

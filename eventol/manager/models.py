@@ -1,12 +1,17 @@
 import datetime
 import re
 from uuid import uuid4
+from random import SystemRandom
+from string import digits, ascii_lowercase, ascii_uppercase
 
 from ckeditor.fields import RichTextField
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 
@@ -16,9 +21,15 @@ def validate_url(url):
         raise ValidationError(_('URL can only contain letters or numbers'))
 
 
+def generate_ticket_code():
+    chars = digits + ascii_lowercase + ascii_uppercase
+    length = 21
+    return ''.join([SystemRandom().choice(chars) for _ in range(length)])
+
+
 class EventManager(models.Manager):
     def get_queryset(self):
-        today = datetime.date.today()
+        today = timezone.localdate()
         return super() \
             .get_queryset() \
             .annotate(attendees_count=models.Count('attendee')) \
@@ -53,6 +64,13 @@ class Event(models.Model):
         unique=True,
         verbose_name=_('UID'),
         help_text=_('Unique identifier for the event'),
+    )
+    registration_code = models.UUIDField(
+        default=uuid4,
+        editable=False,
+        unique=True,
+        verbose_name=_('code'),
+        help_text=_('Code validator for in-place event self-registration'),
     )
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))
@@ -97,7 +115,15 @@ class ContactMessage(models.Model):
                               blank=True, null=True)
 
     def __str__(self):
-        return '{} - {} ({})'.format(self.event, self.name, self.email)
+        return _(
+            'Message received from: {name}\n'
+            'User email: {email}\n\n'
+            '{message}'
+        ).format(
+            name=self.name,
+            email=self.email,
+            message=self.message
+        )
 
     class Meta(object):
         verbose_name = _('Contact Message')
@@ -154,9 +180,17 @@ class Ticket(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     sent = models.BooleanField(_('Sent'), default=False)
+    code = models.CharField(
+        max_length=21,
+        default=generate_ticket_code,
+        editable=False,
+        unique=True,
+        verbose_name=_('number'),
+        help_text=_('Unique identifier for the ticket'),
+    )
 
     def __str__(self):
-        return '{}'.format(self.id)
+        return self.code
 
 
 class EventUser(models.Model):
@@ -191,7 +225,7 @@ class EventUser(models.Model):
 
     def attended_today(self):
         return EventUserAttendanceDate.objects.filter(
-            event_user=self, date__date=datetime.date.today()).exists()
+            event_user=self, date__date=timezone.localdate()).exists()
 
     class Meta(object):
         unique_together = (('event', 'user'),)
@@ -299,7 +333,7 @@ class Attendee(models.Model):
 
     def attended_today(self):
         return AttendeeAttendanceDate.objects.filter(
-            attendee=self, date__date=datetime.date.today()).exists()
+            attendee=self, date__date=timezone.localdate()).exists()
 
 
 class AttendeeAttendanceDate(models.Model):
@@ -479,6 +513,42 @@ class Activity(models.Model):
             schedule_info['url'] = self.get_absolute_url()
 
         return schedule_info
+
+    def schedule(self):
+        if self.start_date and self.end_date:
+            date = date_format(self.start_date, format='SHORT_DATE_FORMAT', use_l10n=True)
+            return "{} - {} - {}".format(self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"), date)
+        return _('Schedule not confirmed yet')
+
+    @classmethod
+    def check_status(cls, message, error=None, request=None):
+        if error:
+            raise ValidationError(message)
+        if request:
+            messages.error(request, message)
+
+    @classmethod
+    def room_available(cls, request, proposal, event_uid, event_date, error=False):
+        activities_room = Activity.objects.filter(room=proposal.room, event__uid=event_uid, start_date__date=event_date)
+        if proposal.start_date == proposal.end_date:
+            message = _("The talk couldn't be registered because the schedule not available (start time equals end time)")
+            cls.check_status(message, error=error, request=request)
+            return False
+        if proposal.end_date < proposal.start_date:
+            message = _("The talk couldn't be registered because the schedule is not available (start time is after end time)")
+            cls.check_status(message, error=error, request=request)
+            return False
+        one_second = datetime.timedelta(seconds=1)
+        if activities_room.filter(
+                end_date__range=(proposal.start_date + one_second, proposal.end_date - one_second)).exclude(pk=proposal.pk).exists() \
+                or activities_room.filter(end_date__gt=proposal.end_date, start_date__lt=proposal.start_date).exclude(pk=proposal.pk).exists() \
+                or activities_room.filter(start_date__range=(proposal.start_date + one_second, proposal.end_date - one_second)).exclude(pk=proposal.pk).exists() \
+                or activities_room.filter(
+                    end_date=proposal.end_date, start_date=proposal.start_date).exclude(pk=proposal.pk).exists():
+                message = _("The talk couldn't be registered because the room or the schedule is not available")
+                cls.check_status(message, error=error, request=request)
+                return False
+        return True
 
     class Meta(object):
         ordering = ['title']

@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load filters %}
+{% load cropping thumbnail %}
+{% block other-head %}
+    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
+{% endblock %}
+{% block page-header %}
+    <div class="row">
+        <h1>
+          {% trans "Activities" %}
+          <div id="buttons" class="pull-right">
+              {% if user.is_authenticated and user|is_organizer:event_uid %}
+                  <a href="{% url "activity_proposal" event_slug event_uid %}" class="btn btn-raised btn-success">
+                      {% trans 'Submit an activity' %}
+                  </a>
+              {% endif %}
+          </div>
+          {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_uid %}
+               <a type="button" class="btn btn-raised btn-success pull-right"
+                  href="{% url "confirm_schedule" event_slug event_uid %}">
+                  <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
+               </a>
+          {% endif %}
+        </h1>
+    </div>
+{% endblock %}
+{% block content %}
+    {% if accepted_activities or proposed_activities or rejected_activities %}
+        <h3 class='row'>{% trans "Confirmed" %}</h3>
+        <br>
+
+        <div class="row">
+            <div class="panel-group" id="accordion">
+                {% if accepted_activities %}
+                    {% for talk in accepted_activities %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                       href="#talk-{{ forloop.counter }}">
+                                        {{ talk.title }} - {{ talk.schedule }}
+                                        <i class="indicator fa fa-chevron-down pull-right"></i>
+                                    </a>
+                                    {% if user.is_authenticated %}
+                                        <span class="label label-success pull-right"
+                                              style="border-radius: 2px; padding-top: 0.3em">
+                                            {% trans "Confirmed" %}
+                                        </span>
+                                    {% endif %}
+                                </h4>
+                            </div>
+                            <div id="talk-{{ forloop.counter }}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            {% if talk.image %}
+                                                <img src="{% cropped_thumbnail talk "cropping" %}" width="100%">
+                                            {% else %}
+                                                <img src="{% static "manager/img/no-image.png" %}" width="100%">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-8" style="padding-top: 10px">
+                                            <div id='talk-info-{{ forloop.counter }}'>
+                                                {% if talk.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ talk.abstract }}</p>{% endif %}
+                                                {% if talk.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>{% endif %}
+                                                {% if talk.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                                  {% for label in talk.labels %}
+                                                      <span class="label">{{ label|lower }}</span>
+                                                  {% endfor %}
+                                                </p>{% endif %}
+                                                {% if talk.type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.type }}</p>{% endif %}
+                                                {% if talk.room %}<p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>{% endif %}
+                                                {% if talk.start_date %}<p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>{% endif %}
+                                                {% if talk.end_date %}<p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>{% endif %}
+                                                {% if talk.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ talk.long_description }}</p>{% endif %}
+                                                <p><a href="{% url "activity_detail" event.slug event.uid talk.id %}">
+                                                    {% trans "View Talk" %}
+                                                </a></p>
+                                                {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                                    <p><a href="{% url "reject_activity" event.slug event.uid talk.id %}?next={{ request.get_full_path|urlencode }}">
+                                                      {% trans "Reject Talk" %}
+                                                    </a></p>
+                                                    <p><a href="{% url "resend_proposal" event.slug event.uid talk.id %}?next={{ request.get_full_path|urlencode }}">
+                                                      {% trans "Resend Proposal" %}
+                                                    </a></p>
+                                                    <p><a id='edit-{{ forloop.counter }}'
+                                                          href='#'
+                                                          data-toggle="collapse"
+                                                          onclick="becomeTalk('talk-info-{{ forloop.counter }}','edit_talk-{{ forloop.counter }}')">
+                                                        {% trans "Edit Talk" %}
+                                                    </a></p>
+                                                {% endif %}
+                                              </div>
+                                              {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                                  <div id="edit_talk-{{ forloop.counter }}" class="panel-collapse collapse">
+                                                      <div class="container col-sm-12">
+                                                          {% include 'activities/to_talk_form.html' with form=talk.form errors=talk.errors form_id=talk.pk %}
+                                                      </div>
+                                                  </div>
+                                              {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <div class="accordion-toggle">
+                                    {% trans "There isn't any proposed activity yet." %}
+                                </div>
+                            </h4>
+                        </div>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+
+            <h3 class='row'>{% trans "Proposed" %}</h3>
+            <br>
+
+            <div class="row">
+                <div class="panel-group" id="accordion">
+                    {% if proposed_activities %}
+                        {% for proposal in proposed_activities %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                           href="#proposal-{{ forloop.counter }}">
+                                            {{ proposal.title }}
+                                            <i class="indicator fa fa-chevron-down pull-right"></i>
+                                        </a>
+                                        {% if user.is_authenticated %}
+                                            <span class="label label-danger pull-right" style="padding-top: 0.3em">
+                                                {% trans "Not Confirmed" %}
+                                            </span>
+                                        {% endif %}
+                                    </h4>
+                                </div>
+                                <div id="proposal-{{ forloop.counter }}" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                {% if proposal.image %}
+                                                    <img src="{% cropped_thumbnail proposal "cropping" %}" width="100%">
+                                                {% else %}
+                                                    <img src="{% static "manager/img/no-image.png" %}" width="100%">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <div id="proposal-info-{{ forloop.counter }}">
+                                                    {% if proposal.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>{% endif %}
+                                                    {% if proposal.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>{% endif %}
+                                                    {% if proposal.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                                      {% for label in proposal.labels %}
+                                                          <span class="label">{{ label|lower }}</span>
+                                                      {% endfor %}
+                                                    </p>{% endif %}
+                                                    {% if proposal.type %}<p><strong>{% trans "Type" %}:</strong> {{ proposal.type }}</p>{% endif %}
+                                                    {% if proposal.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ proposal.long_description }}</p>{% endif %}
+                                                    {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                                        <p><a id='become-{{ forloop.counter }}'
+                                                              href='#'
+                                                              data-toggle="collapse"
+                                                              onclick="becomeTalk('proposal-info-{{ forloop.counter }}','to_talk-{{ forloop.counter }}')">
+                                                            {% trans "Become Talk" %}
+                                                        </a></p>
+                                                    {% endif %}
+                                                </div>
+                                                <p><a href="{% url "activity_detail" event.slug event.uid proposal.id %}">{% trans "View Proposal" %}</a></p>
+                                                {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                                    <p><a href="{% url "reject_activity" event.slug event.uid proposal.id %}?next={{ request.get_full_path|urlencode }}">
+                                                        {% trans "Reject Talk" %}
+                                                    </a></p>
+                                                    <div id="to_talk-{{ forloop.counter }}"
+                                                         class="panel-collapse collapse">
+                                                        <div class="container col-sm-12">
+                                                            {% include 'activities/to_talk_form.html' with form=proposal.form errors=proposal.errors form_id=proposal.pk %}
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <div class="accordion-toggle">
+                                        {% trans "There isn't any proposed activity yet." %}
+                                    </div>
+                                </h4>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <h3 class='row'>{% trans "Rejected" %}</h3>
+            <br>
+
+            <div class="row">
+                <div class="panel-group" id="accordion">
+                    {% if rejected_activities %}
+                        {% for activity in rejected_activities %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
+                                           href="#activity-{{ forloop.counter }}">
+                                            {{ activity.title }}
+                                            <i class="indicator fa fa-chevron-down pull-right"></i>
+                                        </a>
+                                        {% if user.is_authenticated %}
+                                            <span class="label label-danger pull-right"
+                                                  style="border-radius: 2px; padding-top: 0.3em">
+                                                {% trans "Rejected" %}
+                                            </span>
+                                        {% endif %}
+                                    </h4>
+                                </div>
+                                <div id="activity-{{ forloop.counter }}" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                {% if proposal.image %}
+                                                    <img src="{% cropped_thumbnail proposal "cropping" %}" width="100%">
+                                                {% else %}
+                                                    <img src="{% static "manager/img/no-image.png" %}" width="100%">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-sm-8" style="padding-top: 10px">
+                                              {% if activity.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ activity.abstract }}</p>{% endif %}
+                                              {% if activity.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names|title }}</p>{% endif %}
+                                              {% if activity.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                                {% for label in activity.labels %}
+                                                    <span class="label">{{ label|lower }}</span>
+                                                {% endfor %}
+                                              </p>{% endif %}
+                                              {% if activity.type %}<p><strong>{% trans "Type" %}:</strong> {{ activity.type }}</p>{% endif %}
+                                              {% if activity.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ activity.long_description }}</p>{% endif %}
+                                              {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                                  <p><a href="{% url "resend_proposal" event.slug event.uid activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                                      {% trans "Resend Proposal" %}
+                                                  </a></p>
+                                              {% endif %}
+                                              <p><a href="{% url "activity_detail" event.slug event.uid activity.id %}">{% trans "View Proposal" %}</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <div class="accordion-toggle">
+                                        {% trans "There isn't any rejected activity yet." %}
+                                    </div>
+                                </h4>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+    {% else %}
+        <div class="well">
+            <p>
+                {% trans "There isn't any talk proposal yet." %} <a href="{% url "activity_proposal" event_slug event_uid %}">{% trans "Submit yours!" %}</a>
+            </p>
+        </div>
+    {% endif %}
+
+{% endblock %}
+{% block other-script %}
+    <script>
+
+        function becomeTalk(source, target) {
+            $('#' + source).attr("style", "visibility: hidden; position: absolute");
+            $('#' + target).removeClass('collapse');
+        }
+
+        $(document).ready(function() {
+
+            function toggleChevron(e) {
+                $(e.target)
+                        .prev('.panel-heading')
+                        .find("i.indicator")
+                        .toggleClass('fa-chevron-down fa-chevron-up');
+            }
+
+            $('.timepicker').datetimepicker({
+                format: 'LT',
+                icons   : {
+                    time: "fa fa-clock-o",
+                    date: "fa fa-calendar",
+                    up  : "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                },
+                stepping: 15
+            });
+
+            $('#accordion')
+                    .on('hidden.bs.collapse', toggleChevron)
+                    .on('shown.bs.collapse', toggleChevron);
+
+        });
+    </script>
+{% endblock %}
