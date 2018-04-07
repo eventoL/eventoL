@@ -53,9 +53,7 @@ logger = logging.getLogger('eventol')
 
 # Auxiliary functions
 def update_event_info(event_slug, event_uid, request, render_dict=None, event=None):
-    event = event or Event.objects.filter(slug__iexact=event_slug, uid=event_uid).get()
-    if not event:
-        return handler404(request)
+    event = get_object_or_404(Event, uid=event_uid)
     contacts = Contact.objects.filter(event=event)
     render_dict = render_dict or {}
     render_dict.update({
@@ -161,7 +159,6 @@ def create_organizer(event_user):
     return organizer
 
 
-# Views
 def index(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     if event.external_url:
@@ -189,11 +186,7 @@ def index(request, event_slug, event_uid):
 
 
 def event_slug_index(request, event_slug):
-    # Redirect to the most recent event, for now
-    event = Event.objects.filter(slug__iexact=event_slug).order_by('-created_at').first()
-    if not event:
-        return handler404(request)
-    return redirect(reverse('index', args=[event.slug, event.uid]))
+    return render(request, 'event/slug_index.html', {'slug': event_slug})
 
 
 def event_view(request, event_slug, event_uid, html='index.html'):
@@ -234,9 +227,7 @@ def installation(request, event_slug, event_uid):
                 hardware = hardware_form.save()
                 install = installation_form.save()
                 install.hardware = hardware
-                event = Event.objects.filter(uid=event_uid).get()
-                if not event:
-                    return handler404(request)
+                event = get_object_or_404(Event, uid=event_uid)
                 install.event = event
                 install.installer = EventUser.objects \
                     .filter(user=request.user).filter(event=event).first()
