@@ -365,17 +365,7 @@ class ContactForm(ModelForm):
                     self.add_error('url', 'Enter valid Email')
         else:  # data_type none
             self.add_error('type', _('This field is required'))
-
         return cleaned_data
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        # Add mailto, issue 255
-        if self.cleaned_data['type'] == 2:
-            instance.url = 'mailto:' + self.cleaned_data['url']
-        if commit:
-            instance.save()
-        return instance
 
 
 class ContactMessageForm(ModelForm):
