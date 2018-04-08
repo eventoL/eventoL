@@ -178,7 +178,7 @@
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 {% for contact in contacts %}
-                                    <li><a href="{{ contact.url }}" target="_blank">
+                                    <li><a href="{{ contact|get_contact_url }}" target="_blank">
                                         <i class="fa {{ contact.type.icon_class }}"></i> {{ contact.text }}</a>
                                     </li>
                                 {% endfor %}

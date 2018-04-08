@@ -365,7 +365,6 @@ class ContactForm(ModelForm):
                     self.add_error('url', 'Enter valid Email')
         else:  # data_type none
             self.add_error('type', _('This field is required'))
-
         return cleaned_data
 
 
@@ -411,7 +410,7 @@ class EventForm(ModelForm):
     class Meta(object):
         model = Event
         fields = ('name', 'slug', 'limit_proposal_date', 'email',
-                  'place', 'external_url', 'event_information')
+                  'place', 'external_url', 'abstract', 'event_information')
         widgets = {'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
 

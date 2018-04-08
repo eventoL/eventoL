@@ -8,6 +8,16 @@ from manager.models import Installer, Collaborator, Organizer, EventUser, Attend
 register = template.Library()
 
 
+@register.filter(name='get_contact_url')
+def get_contact_url(contact):
+    """
+    Returns contact url
+    """
+    if contact.type.validate == '2':
+        return 'mailto:{}'.format(contact.url)
+    return contact.url
+
+
 @register.filter(name='get_schedule_date')
 def get_schedule_date(dic, key):
     """
