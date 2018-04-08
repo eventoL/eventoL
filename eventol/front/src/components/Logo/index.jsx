@@ -4,7 +4,7 @@ import './index.scss';
 
 const Logo = () => (
 	<div id="logo" className="Logo">
-		<a href='#'>
+		<a href='/'>
 	  	<img src="/static/manager/img/eventol-white.png" />
 		</a>
   </div>
