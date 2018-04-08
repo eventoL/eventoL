@@ -5,12 +5,18 @@ import './index.scss';
 
 export default class ItemMap extends React.Component {
 
+  getMapId(){
+    const {uid, sliderId} = this.props;
+    return `${sliderId}${uid}`;
+  }
+
   loadMap(){
-    const {uid:event_uid, place} = this.props;
+    const {place} = this.props;
     const {geometry} = JSON.parse(place);
     const event_lat = geometry.location.lat;
     const event_lon = geometry.location.lng;
-    const map = L.map(event_uid, {
+    const mapId = this.getMapId();
+    const map = L.map(mapId, {
         scrollWheelZoom: false,
         zoomControl    : false,
         dragging       : false,
@@ -29,7 +35,7 @@ export default class ItemMap extends React.Component {
   }
 
   componentDidMount(){
-    const {uid} = this.props;
+    const uid = this.getMapId();
     try {
       this.loadMap();
     } catch(e){}
@@ -37,9 +43,10 @@ export default class ItemMap extends React.Component {
   }
 
   render(){
-    const {title, url, attendees, overview, uid} = this.props;
+    const {title, url, attendees, overview, uid, sliderId} = this.props;
+    const mapId = this.getMapId();
     return (
-      <div id={uid} className="Item max-size">
+      <div id={mapId} className="Item max-size">
         <a href={url}>
           <div className="overlay">
             <div className="title">{title}</div>

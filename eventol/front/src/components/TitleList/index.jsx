@@ -77,7 +77,7 @@ export default class TitleList extends React.Component {
       <div id={id} ref="titlecategory" className="TitleList" data-loaded={mounted}>
         <div className="CategoryTitle">
           <h1>{title}</h1>
-          <SliderItems itemsData={itemsData}/>
+          <SliderItems itemsData={itemsData} sliderId={id}/>
         </div>
       </div>
     );
