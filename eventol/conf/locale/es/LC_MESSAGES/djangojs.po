@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 10:11+0000\n"
+"POT-Creation-Date: 2018-04-08 00:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "You are seeing all of"
+msgstr "Estás viendo todo lo de"
+
+msgid "events"
+msgstr "eventos"
+
+msgid "Please, select one to continue"
+msgstr "Por favor, seleccioná uno para continuar"
 
 msgid "Event Management Software"
 msgstr "Software de Gestión de Eventos"
@@ -27,17 +36,17 @@ msgstr "Asistentes"
 msgid "Search"
 msgstr "Buscar"
 
+msgid "Documentation"
+msgstr "Documentación"
+
 msgid "Featured"
 msgstr "Destacados"
 
 msgid "Recent"
 msgstr "Recientes"
 
-msgid "Documentation"
-msgstr "Documentación"
-
 msgid "Search by title..."
-msgstr "Buscar por titulo..."
+msgstr "Buscar por título..."
 
 msgid "Sign In"
 msgstr "Iniciar sesión"
@@ -45,8 +54,17 @@ msgstr "Iniciar sesión"
 msgid "Sign Up"
 msgstr "Registrarse"
 
+msgid "Event not found"
+msgstr "Evento no encontrado"
+
+msgid "No Event found in your search"
+msgstr "Ningún Evento encontrado en tu búsqueda"
+
 msgid "Search results"
 msgstr "Resultados de Busqueda"
+
+msgid "My Events"
+msgstr "Mis Eventos"
 
 msgid "Recent Events"
 msgstr "Eventos Recientes"
