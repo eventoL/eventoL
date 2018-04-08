@@ -88,5 +88,23 @@
       "validate": "1"
     },
     "pk": 10
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Telegram",
+      "icon_class": "fa-telegram",
+      "validate": "1"
+    },
+    "pk": 11
+  },
+  {
+    "model": "manager.ContactType",
+    "fields": {
+      "name": "Other",
+      "icon_class": "fa-envelope-o",
+      "validate": "3"
+    },
+    "pk": 12
   }
 ]
