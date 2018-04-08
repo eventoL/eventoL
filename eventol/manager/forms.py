@@ -368,6 +368,15 @@ class ContactForm(ModelForm):
 
         return cleaned_data
 
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # Add mailto, issue 255
+        if self.cleaned_data['type'] == 2:
+            instance.url = 'mailto:' + self.cleaned_data['url']
+        if commit:
+            instance.save()
+        return instance
+
 
 class ContactMessageForm(ModelForm):
     class Meta(object):
@@ -411,7 +420,7 @@ class EventForm(ModelForm):
     class Meta(object):
         model = Event
         fields = ('name', 'slug', 'limit_proposal_date', 'email',
-                  'place', 'external_url', 'event_information')
+                  'place', 'external_url', 'abstract', 'event_information')
         widgets = {'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
 
