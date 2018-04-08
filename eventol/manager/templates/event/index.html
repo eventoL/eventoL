@@ -232,7 +232,7 @@
                 <div class="row" style="padding-top:20px;">
                     <div class="col-md-10 col-md-offset-1">
                         {% for contact in event.contacts.all %}
-                            <a class="contact-link" href="{{ contact.url }}">
+                            <a class="contact-link" href="{{ contact|get_contact_url }}">
                                 <i class="fa fa-3x {{ contact.type.icon_class }}"></i>
                             </a>
                         {% endfor %}
