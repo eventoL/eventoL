@@ -53,6 +53,9 @@ class EventViewSet(viewsets.ModelViewSet):
         if request.user.is_authenticated() and me_events:
             events_ids = [event_user.event.pk for event_user in EventUser.objects.filter(user=request.user)]
             queryset = Event.objects.filter(pk__in=events_ids)
+            slug = request.GET.get('slug', None)
+            if slug:
+                queryset = Event.objects.filter(slug=slug)
             serializer = EventSerializer(queryset, many=True, context={'request': request})
             return Response({'results': serializer.data})
         return super().list(request)
