@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-08 00:45+0000\n"
+"POT-Creation-Date: 2018-04-08 06:17+0000\n"
 "PO-Revision-Date: 2017-12-07 20:44+0000\n"
 "Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -14,175 +14,183 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.18-dev\n"
 
-#: eventol/settings.py:103
+#: eventol/eventol/settings.py:103
 msgid "Spanish"
 msgstr "Español"
 
-#: eventol/settings.py:104
+#: eventol/eventol/settings.py:104
 msgid "English"
 msgstr "Ingles"
 
-#: manager/forms.py:172 manager/models.py:309 manager/models.py:566
-#: manager/templates/event/index.html:37
+#: eventol/manager/forms.py:172 eventol/manager/models.py:309
+#: eventol/manager/models.py:566 eventol/manager/templates/event/index.html:37
 msgid "Attendee"
 msgstr "Asistente"
 
-#: manager/forms.py:190
+#: eventol/manager/forms.py:190
 msgid "Collaborator/Installer"
 msgstr "Colaborador/Instalador"
 
-#: manager/forms.py:286 manager/forms.py:521
+#: eventol/manager/forms.py:286 eventol/manager/forms.py:520
 msgid "Repeat Email"
 msgstr "Repetir Email"
 
-#: manager/forms.py:310 manager/forms.py:311 manager/forms.py:537
-#: manager/forms.py:538
+#: eventol/manager/forms.py:310 eventol/manager/forms.py:311
+#: eventol/manager/forms.py:536 eventol/manager/forms.py:537
 msgid "Emails do not match."
 msgstr "Las direcciones de email no coinciden"
 
-#: manager/forms.py:367
+#: eventol/manager/forms.py:367
 msgid "This field is required"
 msgstr "Este campo es obligatorio"
 
-#: manager/forms.py:391
+#: eventol/manager/forms.py:390
 msgid "One or more dates of the event are the same date"
 msgstr "Algunas de las fechas del evento son iguales"
 
-#: manager/forms.py:429 manager/forms.py:489 manager/models.py:294
+#: eventol/manager/forms.py:428 eventol/manager/forms.py:488
+#: eventol/manager/models.py:294
 msgid "First Name"
 msgstr "Nombre"
 
-#: manager/forms.py:430 manager/forms.py:490 manager/models.py:295
+#: eventol/manager/forms.py:429 eventol/manager/forms.py:489
+#: eventol/manager/models.py:295
 msgid "Last Name"
 msgstr "Apellido"
 
-#: manager/forms.py:522
+#: eventol/manager/forms.py:521
 msgid "Are you a human?"
 msgstr "¿Sos un humano?"
 
-#: manager/models.py:21
+#: eventol/manager/models.py:21
 msgid "URL can only contain letters or numbers"
 msgstr "La url solo puede contener letras y/o números"
 
-#: manager/models.py:51 manager/models.py:180 manager/models.py:197
-#: manager/models.py:237 manager/models.py:250 manager/models.py:278
-#: manager/models.py:292 manager/models.py:340 manager/models.py:373
-#: manager/models.py:442 manager/models.py:560
+#: eventol/manager/models.py:51 eventol/manager/models.py:180
+#: eventol/manager/models.py:197 eventol/manager/models.py:237
+#: eventol/manager/models.py:250 eventol/manager/models.py:278
+#: eventol/manager/models.py:292 eventol/manager/models.py:340
+#: eventol/manager/models.py:373 eventol/manager/models.py:442
+#: eventol/manager/models.py:560
 msgid "Created At"
 msgstr "Creado en"
 
-#: manager/models.py:52 manager/models.py:181 manager/models.py:198
-#: manager/models.py:238 manager/models.py:251 manager/models.py:279
-#: manager/models.py:293 manager/models.py:341 manager/models.py:374
-#: manager/models.py:443 manager/models.py:561
+#: eventol/manager/models.py:52 eventol/manager/models.py:181
+#: eventol/manager/models.py:198 eventol/manager/models.py:238
+#: eventol/manager/models.py:251 eventol/manager/models.py:279
+#: eventol/manager/models.py:293 eventol/manager/models.py:341
+#: eventol/manager/models.py:374 eventol/manager/models.py:443
+#: eventol/manager/models.py:561
 msgid "Updated At"
 msgstr "Actualizado en"
 
-#: manager/models.py:53
+#: eventol/manager/models.py:53
 msgid "Event Name"
 msgstr "Nombre del evento"
 
-#: manager/models.py:54 manager/models.py:448
-#: manager/templates/activities/activities_home.html:68
-#: manager/templates/activities/activities_home.html:159
-#: manager/templates/activities/activities_home.html:243
+#: eventol/manager/models.py:54 eventol/manager/models.py:448
+#: eventol/manager/templates/activities/activities_home.html:68
+#: eventol/manager/templates/activities/activities_home.html:159
+#: eventol/manager/templates/activities/activities_home.html:243
 msgid "Abstract"
 msgstr "Resumen"
 
-#: manager/models.py:55
+#: eventol/manager/models.py:55
 msgid "Short idea of the event (One or two sentences)"
 msgstr "Uno o dos oraciones que describan la actividad"
 
-#: manager/models.py:56
+#: eventol/manager/models.py:56
 msgid "Limit Proposals Date"
 msgstr "Fecha límite para enviar propuestas de actividades"
 
-#: manager/models.py:57
+#: eventol/manager/models.py:57
 msgid "Limit date to submit talk proposals"
 msgstr "Fecha límite para enviar propuestas de actividades"
 
-#: manager/models.py:58
+#: eventol/manager/models.py:58
 msgid "URL"
 msgstr "URL"
 
-#: manager/models.py:59
+#: eventol/manager/models.py:59
 msgid "For example: flisol-caba"
 msgstr "Por ejemplo: flisol-caba"
 
-#: manager/models.py:65
+#: eventol/manager/models.py:65
 msgid "UID"
 msgstr "UID"
 
-#: manager/models.py:66
+#: eventol/manager/models.py:66
 msgid "Unique identifier for the event"
 msgstr "Identificador único para el evento"
 
-#: manager/models.py:72
+#: eventol/manager/models.py:72
 msgid "code"
 msgstr "código"
 
-#: manager/models.py:73
+#: eventol/manager/models.py:73
 msgid "Code validator for in-place event self-registration"
 msgstr "Validador de código para la autoregistración en el evento"
 
-#: manager/models.py:75
+#: eventol/manager/models.py:75
 msgid "External URL"
 msgstr "URL externa"
 
-#: manager/models.py:76
+#: eventol/manager/models.py:76
 msgid "http://www.my-awesome-event.com"
 msgstr "http://www.mi-super-evento.com"
 
-#: manager/models.py:77 manager/models.py:112 manager/models.py:297
+#: eventol/manager/models.py:77 eventol/manager/models.py:112
+#: eventol/manager/models.py:297
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: manager/models.py:78
+#: eventol/manager/models.py:78
 msgid "Event Information"
 msgstr "Información del evento"
 
-#: manager/models.py:79
+#: eventol/manager/models.py:79
 msgid "Event Information HTML"
 msgstr "HTML de Información del Evento"
 
-#: manager/models.py:81
+#: eventol/manager/models.py:81
 msgid "Schedule Confirmed"
 msgstr "Cronograma confirmado"
 
-#: manager/models.py:82
+#: eventol/manager/models.py:82
 msgid "Place"
 msgstr "Lugar"
 
-#: manager/models.py:84 manager/models.py:485
+#: eventol/manager/models.py:84 eventol/manager/models.py:485
 msgid "Image"
 msgstr "Imagen"
 
-#: manager/models.py:86 manager/models.py:487
+#: eventol/manager/models.py:86 eventol/manager/models.py:487
 msgid "Cropping"
 msgstr "Recorte"
 
-#: manager/models.py:87 manager/models.py:488
+#: eventol/manager/models.py:87 eventol/manager/models.py:488
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr "La imagen debe ser de 700x450px. La puedes recortar aquí."
 
-#: manager/models.py:104 manager/models.py:241 manager/models.py:344
+#: eventol/manager/models.py:104 eventol/manager/models.py:241
+#: eventol/manager/models.py:344
 msgid "Date"
 msgstr "Fecha"
 
-#: manager/models.py:104 manager/templates/event/create.html:61
+#: eventol/manager/models.py:104 eventol/manager/templates/event/create.html:61
 msgid "When will your event be?"
 msgstr "Cuándo será el evento?"
 
-#: manager/models.py:111 manager/models.py:144 manager/models.py:396
-#: manager/models.py:426
+#: eventol/manager/models.py:111 eventol/manager/models.py:144
+#: eventol/manager/models.py:396 eventol/manager/models.py:426
 msgid "Name"
 msgstr "Nombre"
 
-#: manager/models.py:113
+#: eventol/manager/models.py:113
 msgid "Message"
 msgstr "Mensaje"
 
-#: manager/models.py:119
+#: eventol/manager/models.py:119
 #, python-brace-format
 msgid ""
 "Message received from: {name}\n"
@@ -195,121 +203,124 @@ msgstr ""
 "\n"
 "{message}"
 
-#: manager/models.py:129 manager/templates/contact-message.html:5
-#: manager/templates/contact-message.html:7
+#: eventol/manager/models.py:129
+#: eventol/manager/templates/contact-message.html:5
+#: eventol/manager/templates/contact-message.html:7
 msgid "Contact Message"
 msgstr "Mensaje de contacto"
 
-#: manager/models.py:130
+#: eventol/manager/models.py:130
 msgid "Contact Messages"
 msgstr "Mensajes de contacto"
 
-#: manager/models.py:140
+#: eventol/manager/models.py:140
 msgid "Validate URL"
 msgstr "Validar URL"
 
-#: manager/models.py:141
+#: eventol/manager/models.py:141
 msgid "Validate Email"
 msgstr "Validar correo electrónico"
 
-#: manager/models.py:142
+#: eventol/manager/models.py:142
 msgid "Don't validate"
 msgstr "No validar"
 
-#: manager/models.py:145
+#: eventol/manager/models.py:145
 msgid "Icon Class"
 msgstr "Clase CSS del ícono"
 
-#: manager/models.py:146 manager/models.py:377 manager/models.py:469
-#: manager/templates/activities/detail.html:46
+#: eventol/manager/models.py:146 eventol/manager/models.py:377
+#: eventol/manager/models.py:469
+#: eventol/manager/templates/activities/detail.html:46
 msgid "Level"
 msgstr "Nivel"
 
-#: manager/models.py:148
+#: eventol/manager/models.py:148
 msgid "Type of field validation"
 msgstr "Tipo de validación del campo"
 
-#: manager/models.py:154 manager/models.py:159
+#: eventol/manager/models.py:154 eventol/manager/models.py:159
 msgid "Contact Type"
 msgstr "Tipo de contacto"
 
-#: manager/models.py:155
+#: eventol/manager/models.py:155
 msgid "Contact Types"
 msgstr "Tipos de contacto"
 
-#: manager/models.py:161
+#: eventol/manager/models.py:161
 msgid "i.e. https://twitter.com/flisol"
 msgstr "p.e. https://twitter.com/FLISoL"
 
-#: manager/models.py:163
+#: eventol/manager/models.py:163
 msgid "Text"
 msgstr "Texto"
 
-#: manager/models.py:164
+#: eventol/manager/models.py:164
 msgid "i.e. @Flisol"
 msgstr "p.e. @FLISoL"
 
-#: manager/models.py:175
+#: eventol/manager/models.py:175
 msgid "Contact"
 msgstr "Contacto"
 
-#: manager/models.py:176
+#: eventol/manager/models.py:176
 msgid "Contacts"
 msgstr "Contactos"
 
-#: manager/models.py:182
+#: eventol/manager/models.py:182
 msgid "Sent"
 msgstr "Enviado"
 
-#: manager/models.py:188
+#: eventol/manager/models.py:188
 msgid "number"
 msgstr "número"
 
-#: manager/models.py:189
+#: eventol/manager/models.py:189
 msgid "Unique identifier for the ticket"
 msgstr "Identificador único para la entrada"
 
-#: manager/models.py:199
+#: eventol/manager/models.py:199
 msgid "User"
 msgstr "Usuario"
 
-#: manager/models.py:201 manager/models.py:298 manager/models.py:444
-#: manager/templates/event/image-cropping.html:11
-#: manager/templates/event/image-cropping.html:14
-#: manager/templates/event/image-cropping.html:18
+#: eventol/manager/models.py:201 eventol/manager/models.py:298
+#: eventol/manager/models.py:444
+#: eventol/manager/templates/event/image-cropping.html:11
+#: eventol/manager/templates/event/image-cropping.html:14
+#: eventol/manager/templates/event/image-cropping.html:18
 msgid "Event"
 msgstr "Nombre del evento"
 
-#: manager/models.py:202 manager/models.py:299
+#: eventol/manager/models.py:202 eventol/manager/models.py:299
 msgid "Ticket"
 msgstr "Entrada"
 
-#: manager/models.py:232 manager/models.py:252 manager/models.py:280
-#: manager/models.py:375
+#: eventol/manager/models.py:232 eventol/manager/models.py:252
+#: eventol/manager/models.py:280 eventol/manager/models.py:375
 msgid "Event User"
 msgstr "Usuario del evento"
 
-#: manager/models.py:233
+#: eventol/manager/models.py:233
 msgid "Event Users"
 msgstr "Usuarios del evento"
 
-#: manager/models.py:242 manager/models.py:345
+#: eventol/manager/models.py:242 eventol/manager/models.py:345
 msgid "The date of the attendance"
 msgstr "Fecha en que asistió"
 
-#: manager/models.py:254
+#: eventol/manager/models.py:254
 msgid "Assignation"
 msgstr "Asignación"
 
-#: manager/models.py:256
+#: eventol/manager/models.py:256
 msgid "Anything you can help with (i.e. Talks, Coffee...)"
 msgstr "Cualquier cosa en la que puedas ayudar (x.ej. Charlas, Café, etc.)"
 
-#: manager/models.py:257
+#: eventol/manager/models.py:257
 msgid "Time Availability"
 msgstr "Disponibilidad Horaria"
 
-#: manager/models.py:260
+#: eventol/manager/models.py:260
 msgid ""
 "Time gap in which you can help during the event. i.e. \"All the event\", "
 "\"Morning\", \"Afternoon\", ..."
@@ -317,254 +328,261 @@ msgstr ""
 "Tiempo en el que puedes ayudar en el evento. x.ej. \"Todo el evento\", "
 "\"Mañana\", \"Tarde\", ..."
 
-#: manager/models.py:261
+#: eventol/manager/models.py:261
 msgid "Phone"
 msgstr "Teléfono"
 
-#: manager/models.py:262
+#: eventol/manager/models.py:262
 msgid "Address"
 msgstr "Dirección"
 
-#: manager/models.py:264 manager/models.py:301 manager/models.py:471
+#: eventol/manager/models.py:264 eventol/manager/models.py:301
+#: eventol/manager/models.py:471
 msgid "Additional Info"
 msgstr "Información Adicional"
 
-#: manager/models.py:266
+#: eventol/manager/models.py:266
 msgid "Any additional info you consider relevant"
 msgstr "Cualquier información que consideres relevante para la organización"
 
-#: manager/models.py:269 manager/templates/event/index.html:38
+#: eventol/manager/models.py:269 eventol/manager/templates/event/index.html:38
 msgid "Collaborator"
 msgstr "Colaborador"
 
-#: manager/models.py:270 manager/templates/base-main.html:113
-#: manager/templates/reports/dashboard.html:131
+#: eventol/manager/models.py:270 eventol/manager/templates/base-main.html:113
+#: eventol/manager/templates/reports/dashboard.html:131
 msgid "Collaborators"
 msgstr "Colaboradores"
 
-#: manager/models.py:284 manager/templates/event/index.html:36
+#: eventol/manager/models.py:284 eventol/manager/templates/event/index.html:36
 msgid "Organizer"
 msgstr "Organizador"
 
-#: manager/models.py:285 manager/templates/reports/dashboard.html:68
-#: manager/templates/reports/dashboard.html:367
+#: eventol/manager/models.py:285
+#: eventol/manager/templates/reports/dashboard.html:68
+#: eventol/manager/templates/reports/dashboard.html:367
 msgid "Organizers"
 msgstr "Organizadores"
 
-#: manager/models.py:296
+#: eventol/manager/models.py:296
 msgid "Nickname"
 msgstr "Sobrenombre"
 
-#: manager/models.py:300
+#: eventol/manager/models.py:300
 msgid "Is going to install?"
 msgstr "Trae un dispositivo para instalar?"
 
-#: manager/models.py:302
+#: eventol/manager/models.py:302
 msgid "Any additional info you consider relevant for the organizers"
 msgstr "Cualquier información que consideres relevante para la organización"
 
-#: manager/models.py:303
+#: eventol/manager/models.py:303
 msgid "Email confirmed?"
 msgstr "Email Confirmado?"
 
-#: manager/models.py:304
+#: eventol/manager/models.py:304
 msgid "Confirmation Token"
 msgstr "Token de confirmación"
 
-#: manager/models.py:305
+#: eventol/manager/models.py:305
 msgid "Registration Date"
 msgstr "Fecha en que se registró"
 
-#: manager/models.py:310 manager/templates/reports/dashboard.html:24
-#: manager/templates/reports/dashboard.html:428
-#: manager/templates/reports/dashboard.html:441
+#: eventol/manager/models.py:310
+#: eventol/manager/templates/reports/dashboard.html:24
+#: eventol/manager/templates/reports/dashboard.html:428
+#: eventol/manager/templates/reports/dashboard.html:441
 msgid "Attendees"
 msgstr "Asistentes"
 
-#: manager/models.py:354
+#: eventol/manager/models.py:354
 msgid "Message Body"
 msgstr "Cuerpo del mensaje"
 
-#: manager/models.py:355
+#: eventol/manager/models.py:355
 msgid "Email message HTML Body"
 msgstr "Cuerpo del mensaje en HTML"
 
-#: manager/models.py:356
+#: eventol/manager/models.py:356
 msgid "Contact Email"
 msgstr "Email de Contacto"
 
-#: manager/models.py:359
+#: eventol/manager/models.py:359
 msgid "Post-install Email"
 msgstr "Email post-instalación"
 
-#: manager/models.py:360
+#: eventol/manager/models.py:360
 msgid "Post-install Emails"
 msgstr "Emails post-instalación"
 
-#: manager/models.py:368 manager/models.py:465
-#: manager/templates/reports/dashboard.html:377
-#: manager/templatetags/filters.py:110
+#: eventol/manager/models.py:368 eventol/manager/models.py:465
+#: eventol/manager/templates/reports/dashboard.html:377
+#: eventol/manager/templatetags/filters.py:120
 msgid "Beginner"
 msgstr "Principiante"
 
-#: manager/models.py:369 manager/models.py:466
-#: manager/templates/reports/dashboard.html:378
-#: manager/templatetags/filters.py:112
+#: eventol/manager/models.py:369 eventol/manager/models.py:466
+#: eventol/manager/templates/reports/dashboard.html:378
+#: eventol/manager/templatetags/filters.py:122
 msgid "Medium"
 msgstr "Medio"
 
-#: manager/models.py:370 manager/models.py:467
-#: manager/templates/reports/dashboard.html:379
-#: manager/templatetags/filters.py:114
+#: eventol/manager/models.py:370 eventol/manager/models.py:467
+#: eventol/manager/templates/reports/dashboard.html:379
+#: eventol/manager/templatetags/filters.py:124
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: manager/models.py:371 manager/templates/reports/dashboard.html:380
-#: manager/templatetags/filters.py:116
+#: eventol/manager/models.py:371
+#: eventol/manager/templates/reports/dashboard.html:380
+#: eventol/manager/templatetags/filters.py:126
 msgid "Super Hacker"
 msgstr "Super Hacker"
 
-#: manager/models.py:379
+#: eventol/manager/models.py:379
 msgid "Knowledge level for an installation"
 msgstr "Conocimiento que tiene para realizar una instalación"
 
-#: manager/models.py:382 manager/models.py:568
-#: manager/templates/event/index.html:39
+#: eventol/manager/models.py:382 eventol/manager/models.py:568
+#: eventol/manager/templates/event/index.html:39
 msgid "Installer"
 msgstr "Instalador"
 
-#: manager/models.py:383 manager/templates/reports/dashboard.html:94
+#: eventol/manager/models.py:383
+#: eventol/manager/templates/reports/dashboard.html:94
 msgid "Installers"
 msgstr "Instaladores"
 
-#: manager/models.py:391
+#: eventol/manager/models.py:391
 msgid "Operative System"
 msgstr "Sistema Operativo"
 
-#: manager/models.py:392
+#: eventol/manager/models.py:392
 msgid "Application"
 msgstr "Aplicación"
 
-#: manager/models.py:393
+#: eventol/manager/models.py:393
 msgid "Support and Problem Fixing"
 msgstr "Soporte y/o resolución de problemas"
 
-#: manager/models.py:394 manager/models.py:411
+#: eventol/manager/models.py:394 eventol/manager/models.py:411
 msgid "Other"
 msgstr "Otro"
 
-#: manager/models.py:397 manager/models.py:413 manager/models.py:454
-#: manager/templates/activities/activities_home.html:75
-#: manager/templates/activities/activities_home.html:166
-#: manager/templates/activities/activities_home.html:250
-#: manager/templates/activities/detail.html:43
+#: eventol/manager/models.py:397 eventol/manager/models.py:413
+#: eventol/manager/models.py:454
+#: eventol/manager/templates/activities/activities_home.html:75
+#: eventol/manager/templates/activities/activities_home.html:166
+#: eventol/manager/templates/activities/activities_home.html:250
+#: eventol/manager/templates/activities/detail.html:43
 msgid "Type"
 msgstr "Tipo"
 
-#: manager/models.py:406
+#: eventol/manager/models.py:406
 msgid "Mobile"
 msgstr "Móvil"
 
-#: manager/models.py:407
+#: eventol/manager/models.py:407
 msgid "Notebook"
 msgstr "Notebook"
 
-#: manager/models.py:408
+#: eventol/manager/models.py:408
 msgid "Netbook"
 msgstr "Netbook"
 
-#: manager/models.py:409
+#: eventol/manager/models.py:409
 msgid "Tablet"
 msgstr "Tablet"
 
-#: manager/models.py:410
+#: eventol/manager/models.py:410
 msgid "Desktop"
 msgstr "PC de escritorio"
 
-#: manager/models.py:415
+#: eventol/manager/models.py:415
 msgid "Manufacturer"
 msgstr "Fabricante/Marca"
 
-#: manager/models.py:417
+#: eventol/manager/models.py:417
 msgid "Model"
 msgstr "Modelo"
 
-#: manager/models.py:427
+#: eventol/manager/models.py:427
 msgid "i.e. Classroom 256"
 msgstr "x.ej. Sala 256"
 
-#: manager/models.py:436 manager/models.py:450
-#: manager/templates/activities/activities_home.html:76
-#: manager/templates/activities/detail.html:57
+#: eventol/manager/models.py:436 eventol/manager/models.py:450
+#: eventol/manager/templates/activities/activities_home.html:76
+#: eventol/manager/templates/activities/detail.html:57
 msgid "Room"
 msgstr "Sala"
 
-#: manager/models.py:437
+#: eventol/manager/models.py:437
 msgid "Rooms"
 msgstr "Salas"
 
-#: manager/models.py:445
+#: eventol/manager/models.py:445
 msgid "Title"
 msgstr "Título"
 
-#: manager/models.py:447
+#: eventol/manager/models.py:447
 msgid "Long Description"
 msgstr "Descripción completa"
 
-#: manager/models.py:449
+#: eventol/manager/models.py:449
 msgid "Short idea of the talk (Two or three sentences)"
 msgstr "Dos o tres oraciones que describan la actividad"
 
-#: manager/models.py:452
+#: eventol/manager/models.py:452
 msgid "Start Time"
 msgstr "Hora de Inicio"
 
-#: manager/models.py:453
+#: eventol/manager/models.py:453
 msgid "End Time"
 msgstr "Hora de Fin"
 
-#: manager/models.py:455
+#: eventol/manager/models.py:455
 msgid "Speakers Names"
 msgstr "Nombre de los disertantes"
 
-#: manager/models.py:456
+#: eventol/manager/models.py:456
 msgid "Comma separated speaker's names"
 msgstr "(Separados por coma) Nombre de los disertantes"
 
-#: manager/models.py:457
+#: eventol/manager/models.py:457
 msgid "Speaker Contact"
 msgstr "Contacto del disertante"
 
-#: manager/models.py:458
+#: eventol/manager/models.py:458
 msgid "Where can whe reach you from the organization team?"
 msgstr "A qué mail podemos contactarte desde el equipo de organización?"
 
-#: manager/models.py:459 manager/templates/activities/activities_home.html:70
-#: manager/templates/activities/activities_home.html:161
-#: manager/templates/activities/activities_home.html:245
+#: eventol/manager/models.py:459
+#: eventol/manager/templates/activities/activities_home.html:70
+#: eventol/manager/templates/activities/activities_home.html:161
+#: eventol/manager/templates/activities/activities_home.html:245
 msgid "Labels"
 msgstr "Etiquetas/Tags"
 
-#: manager/models.py:460
+#: eventol/manager/models.py:460
 msgid "Comma separated tags. i.e. Linux, Free Software, Archlinux"
 msgstr "(Separados por coma) x.ej. Linux, Software Libre, Archlinux"
 
-#: manager/models.py:461
+#: eventol/manager/models.py:461
 msgid "Presentation"
 msgstr "Presentación"
 
-#: manager/models.py:463
+#: eventol/manager/models.py:463
 msgid ""
 "Any material you are going to use for the talk (optional, but recommended)"
 msgstr ""
 "Cualquier material que vayas a usar para la actividad (opcional pero "
 "recomendado)"
 
-#: manager/models.py:470
+#: eventol/manager/models.py:470
 msgid "Talk's Technical level"
 msgstr "Nivel técnico de la actividad"
 
-#: manager/models.py:473
+#: eventol/manager/models.py:473
 msgid ""
 "Any info you consider relevant for the organizer: i.e. Write here if your "
 "activity has any special requirement"
@@ -572,33 +590,36 @@ msgstr ""
 "Cualquier información que consideres relevante para la organización: x.ej. "
 "Escribe aquí si la actividad requiere algún elemento especial"
 
-#: manager/models.py:476 manager/templates/activities/detail.html:21
+#: eventol/manager/models.py:476
+#: eventol/manager/templates/activities/detail.html:21
 msgid "Proposal"
 msgstr "Propuesta"
 
-#: manager/models.py:477 manager/templates/activities/detail.html:25
+#: eventol/manager/models.py:477
+#: eventol/manager/templates/activities/detail.html:25
 msgid "Accepted"
 msgstr "Aceptada"
 
-#: manager/models.py:478 manager/templates/activities/activities_home.html:209
-#: manager/templates/activities/activities_home.html:227
-#: manager/templates/activities/detail.html:23
+#: eventol/manager/models.py:478
+#: eventol/manager/templates/activities/activities_home.html:209
+#: eventol/manager/templates/activities/activities_home.html:227
+#: eventol/manager/templates/activities/detail.html:23
 msgid "Rejected"
 msgstr "Rechazada"
 
-#: manager/models.py:481
+#: eventol/manager/models.py:481
 msgid "Status"
 msgstr "Estado"
 
-#: manager/models.py:482
+#: eventol/manager/models.py:482
 msgid "Activity proposal status"
 msgstr "Estado de la propuesta"
 
-#: manager/models.py:490
+#: eventol/manager/models.py:490
 msgid "Is a dummy Activity?"
 msgstr "Es una actividad dummy?"
 
-#: manager/models.py:491
+#: eventol/manager/models.py:491
 msgid ""
 "A dummy activity is used for example for coffee breaks. We use this to "
 "exclude it from the index page and other places"
@@ -607,11 +628,11 @@ msgstr ""
 "intervalos, registración, etc. en el cronograma.Usamos este campo para cosas "
 "como excluírlas de la página principal."
 
-#: manager/models.py:521
+#: eventol/manager/models.py:521
 msgid "Schedule not confirmed yet"
 msgstr "El cronograma de actividades no está confirmado aún"
 
-#: manager/models.py:534
+#: eventol/manager/models.py:534
 msgid ""
 "The talk couldn't be registered because the schedule not available (start "
 "time equals end time)"
@@ -619,7 +640,7 @@ msgstr ""
 "La charla no pudo ser registrada porque el horario no está disponible (la "
 "hora de inicio es igual a la de fin)"
 
-#: manager/models.py:538
+#: eventol/manager/models.py:538
 msgid ""
 "The talk couldn't be registered because the schedule is not available (start "
 "time is after end time)"
@@ -627,7 +648,7 @@ msgstr ""
 "La charla no pudo ser registrada porque el horario no está disponible (la "
 "hora de inicio es posterior a la de fin)"
 
-#: manager/models.py:548
+#: eventol/manager/models.py:548
 msgid ""
 "The talk couldn't be registered because the room or the schedule is not "
 "available"
@@ -635,54 +656,55 @@ msgstr ""
 "La propuesta no se pudo registrar. Por favor verifica los errores en el "
 "formulario"
 
-#: manager/models.py:555
+#: eventol/manager/models.py:555
 msgid "Activity"
 msgstr "Actividad"
 
-#: manager/models.py:556 manager/templates/activities/activities_home.html:14
-#: manager/templates/reports/dashboard.html:174
+#: eventol/manager/models.py:556
+#: eventol/manager/templates/activities/activities_home.html:14
+#: eventol/manager/templates/reports/dashboard.html:174
 msgid "Activities"
 msgstr "Actividades"
 
-#: manager/models.py:562
+#: eventol/manager/models.py:562
 msgid "Hardware"
 msgstr "Hardware"
 
-#: manager/models.py:564
+#: eventol/manager/models.py:564
 msgid "Software"
 msgstr "Software"
 
-#: manager/models.py:567
+#: eventol/manager/models.py:567
 msgid "The owner of the installed hardware"
 msgstr "El dueño del dispositivo instalado"
 
-#: manager/models.py:571
+#: eventol/manager/models.py:571
 msgid "Notes"
 msgstr "Notas"
 
-#: manager/models.py:572
+#: eventol/manager/models.py:572
 msgid "Any information or trouble you found and consider relevant to document"
 msgstr "Cualquier información o problema que consideres relevante documentar"
 
-#: manager/models.py:578
+#: eventol/manager/models.py:578
 msgid "Installation"
 msgstr "Instalación"
 
-#: manager/models.py:579 manager/templates/event/index.html:211
-#: manager/templates/reports/dashboard.html:175
-#: manager/templates/reports/dashboard.html:232
-#: manager/templates/reports/dashboard.html:399
+#: eventol/manager/models.py:579 eventol/manager/templates/event/index.html:211
+#: eventol/manager/templates/reports/dashboard.html:175
+#: eventol/manager/templates/reports/dashboard.html:232
+#: eventol/manager/templates/reports/dashboard.html:399
 msgid "Installations"
 msgstr "Instalaciones"
 
-#: manager/templates/404.html:21
+#: eventol/manager/templates/404.html:21
 msgid ""
 "The page you're looking for is not here. Please try <a href=\"/\">here</a>."
 msgstr ""
 "La página que estás buscando no está aquí. Por favor intenta <a href=\"/"
 "\">por aquí</a>."
 
-#: manager/templates/500.html:21
+#: eventol/manager/templates/500.html:21
 msgid ""
 "Something, somewhere went terribly wrong. Please,\n"
 "        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
@@ -692,23 +714,23 @@ msgstr ""
 "        <a href=\"https://github.com/eventoL/eventoL/issues\" target=\"_blank"
 "\">infórmanos!</a>"
 
-#: manager/templates/FAQ.html:3 manager/templates/FAQ.html:5
+#: eventol/manager/templates/FAQ.html:3 eventol/manager/templates/FAQ.html:5
 msgid "FAQ"
 msgstr "FAQ"
 
-#: manager/templates/FAQ.html:4
+#: eventol/manager/templates/FAQ.html:4
 msgid "Frequently Asked Questions"
 msgstr "Preguntas Frecuentes"
 
-#: manager/templates/account/account_inactive.html:10
+#: eventol/manager/templates/account/account_inactive.html:10
 msgid "Account Inactive"
 msgstr "Cuenta desactivada"
 
-#: manager/templates/account/account_inactive.html:11
+#: eventol/manager/templates/account/account_inactive.html:11
 msgid "This account is inactive."
 msgstr "Esta cuenta está desactivada."
 
-#: manager/templates/account/email/email_confirmation_message.txt:1
+#: eventol/manager/templates/account/email/email_confirmation_message.txt:1
 #, python-format
 msgid ""
 "Hello from %(site_name)s!\n"
@@ -727,7 +749,7 @@ msgstr ""
 "Para confirmar que esto es así, por favor sigue el siguiente enlace "
 "%(activate_url)s\n"
 
-#: manager/templates/account/email/email_confirmation_message.txt:7
+#: eventol/manager/templates/account/email/email_confirmation_message.txt:7
 #, python-format
 msgid ""
 "Thank you from %(site_name)s!\n"
@@ -736,11 +758,11 @@ msgstr ""
 "Gracias por participar en %(site_name)s!\n"
 "%(site_domain)s"
 
-#: manager/templates/account/email/email_confirmation_subject.txt:3
+#: eventol/manager/templates/account/email/email_confirmation_subject.txt:3
 msgid "Please Confirm Your E-mail Address"
 msgstr "Por favor confirma tu dirección de correo electrónico"
 
-#: manager/templates/account/email/password_reset_key_message.txt:1
+#: eventol/manager/templates/account/email/password_reset_key_message.txt:1
 #, python-format
 msgid ""
 "Hello from %(site_name)s!\n"
@@ -757,12 +779,12 @@ msgstr ""
 "Si no fuiste tu, puedes ignorar este mensaje sin problemas. Para restablecer "
 "tu contraseña, sigue el enlace de abajo."
 
-#: manager/templates/account/email/password_reset_key_message.txt:8
+#: eventol/manager/templates/account/email/password_reset_key_message.txt:8
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
 msgstr "En caso que lo hayas olvidado, tu nombre de usuario es %(username)s."
 
-#: manager/templates/account/email/password_reset_key_message.txt:10
+#: eventol/manager/templates/account/email/password_reset_key_message.txt:10
 #, python-format
 msgid ""
 "Thank you for using %(site_name)s!\n"
@@ -771,16 +793,16 @@ msgstr ""
 "Gracias por participar en %(site_name)s!\n"
 "%(site_domain)s"
 
-#: manager/templates/account/email/password_reset_key_subject.txt:3
+#: eventol/manager/templates/account/email/password_reset_key_subject.txt:3
 msgid "Password Reset E-mail"
 msgstr "Restablecer Contraseña"
 
-#: manager/templates/account/email_confirm.html:4
-#: manager/templates/account/email_confirm.html:5
+#: eventol/manager/templates/account/email_confirm.html:4
+#: eventol/manager/templates/account/email_confirm.html:5
 msgid "Confirm E-mail Address"
 msgstr "Confirma la dirección de correo electrónico"
 
-#: manager/templates/account/email_confirm.html:15
+#: eventol/manager/templates/account/email_confirm.html:15
 #, python-format
 msgid ""
 "Please confirm that\n"
@@ -793,11 +815,11 @@ msgstr ""
 "mail válido del usuario %(user_display)s\n"
 "                        ."
 
-#: manager/templates/account/email_confirm.html:23
+#: eventol/manager/templates/account/email_confirm.html:23
 msgid "Confirm"
 msgstr "Confirma"
 
-#: manager/templates/account/email_confirm.html:30
+#: eventol/manager/templates/account/email_confirm.html:30
 #, python-format
 msgid ""
 "This e-mail confirmation link expired or is invalid. Please\n"
@@ -808,14 +830,15 @@ msgstr ""
 "                        <a href=\"%(email_url)s\">nuevo enlace de "
 "confirmación</a>."
 
-#: manager/templates/account/login.html:5
-#: manager/templates/account/login.html:6
-#: manager/templates/account/login.html:36
-#: manager/templates/account/login.html:40 manager/templates/base-main.html:199
+#: eventol/manager/templates/account/login.html:5
+#: eventol/manager/templates/account/login.html:6
+#: eventol/manager/templates/account/login.html:36
+#: eventol/manager/templates/account/login.html:40
+#: eventol/manager/templates/base-main.html:199
 msgid "Login"
 msgstr "Iniciar Sesión"
 
-#: manager/templates/account/login.html:10
+#: eventol/manager/templates/account/login.html:10
 #, python-format
 msgid ""
 "Please sign in with one\n"
@@ -830,11 +853,11 @@ msgstr ""
 "\">regístrate</a>\n"
 "        para una cuenta del sitio %(site_name)s e inicia sesión abajo:"
 
-#: manager/templates/account/login.html:21
+#: eventol/manager/templates/account/login.html:21
 msgid "or"
 msgstr "O"
 
-#: manager/templates/account/login.html:29
+#: eventol/manager/templates/account/login.html:29
 #, python-format
 msgid ""
 "If you have not created an account yet, then please\n"
@@ -843,71 +866,71 @@ msgstr ""
 "Si aún no has creado una cuenta, por favor\n"
 "            <a href=\"%(signup_url)s\">regístrate</a> primero."
 
-#: manager/templates/account/login.html:50
+#: eventol/manager/templates/account/login.html:50
 msgid "Forgot Password?"
 msgstr "Olvidaste tu contraseña?"
 
-#: manager/templates/account/logout.html:3
-#: manager/templates/account/logout.html:4
-#: manager/templates/account/logout.html:19
-#: manager/templates/base-main.html:230
+#: eventol/manager/templates/account/logout.html:3
+#: eventol/manager/templates/account/logout.html:4
+#: eventol/manager/templates/account/logout.html:19
+#: eventol/manager/templates/base-main.html:230
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
-#: manager/templates/account/logout.html:10
+#: eventol/manager/templates/account/logout.html:10
 msgid "Are you sure you want to sign out?"
 msgstr "Estás seguro que deseas cerrar sesión?"
 
-#: manager/templates/account/password_change.html:3
-#: manager/templates/account/password_change.html:4
-#: manager/templates/account/password_change.html:8
-#: manager/templates/account/password_change.html:12
-#: manager/templates/account/password_reset_from_key.html:3
-#: manager/templates/account/password_reset_from_key.html:4
-#: manager/templates/account/password_reset_from_key.html:8
-#: manager/templates/account/password_reset_from_key_done.html:10
-#: manager/templates/base-main.html:225
+#: eventol/manager/templates/account/password_change.html:3
+#: eventol/manager/templates/account/password_change.html:4
+#: eventol/manager/templates/account/password_change.html:8
+#: eventol/manager/templates/account/password_change.html:12
+#: eventol/manager/templates/account/password_reset_from_key.html:3
+#: eventol/manager/templates/account/password_reset_from_key.html:4
+#: eventol/manager/templates/account/password_reset_from_key.html:8
+#: eventol/manager/templates/account/password_reset_from_key_done.html:10
+#: eventol/manager/templates/base-main.html:225
 msgid "Change Password"
 msgstr "Cambiar Contraseña"
 
-#: manager/templates/account/password_change.html:17
-#: manager/templates/account/password_set.html:17
-#: manager/templates/account/signup.html:15
+#: eventol/manager/templates/account/password_change.html:17
+#: eventol/manager/templates/account/password_set.html:17
+#: eventol/manager/templates/account/signup.html:15
 msgid "Password requirements:"
 msgstr "Requerimientos de la contraseña:"
 
-#: manager/templates/account/password_change.html:19
-#: manager/templates/account/password_set.html:19
-#: manager/templates/account/signup.html:17
+#: eventol/manager/templates/account/password_change.html:19
+#: eventol/manager/templates/account/password_set.html:19
+#: eventol/manager/templates/account/signup.html:17
 msgid "Must contain at least 8 characters."
 msgstr "Debe tener al menos 8 caracteres."
 
-#: manager/templates/account/password_change.html:20
-#: manager/templates/account/password_set.html:20
-#: manager/templates/account/signup.html:18
+#: eventol/manager/templates/account/password_change.html:20
+#: eventol/manager/templates/account/password_set.html:20
+#: eventol/manager/templates/account/signup.html:18
 msgid "Can't be too similar to your other personal information."
 msgstr "No puede ser similar a tu otra información personal."
 
-#: manager/templates/account/password_change.html:21
-#: manager/templates/account/password_set.html:21
-#: manager/templates/account/signup.html:19
+#: eventol/manager/templates/account/password_change.html:21
+#: eventol/manager/templates/account/password_set.html:21
+#: eventol/manager/templates/account/signup.html:19
 msgid "Can't be a commonly used password."
 msgstr "No puede ser una de las 1000 contraseñas más utilizadas."
 
-#: manager/templates/account/password_change.html:22
-#: manager/templates/account/password_set.html:22
-#: manager/templates/account/signup.html:20
+#: eventol/manager/templates/account/password_change.html:22
+#: eventol/manager/templates/account/password_set.html:22
+#: eventol/manager/templates/account/signup.html:20
 msgid "Can't be entirely numeric."
 msgstr "No puede ser solamente numérica."
 
-#: manager/templates/account/password_reset.html:3
-#: manager/templates/account/password_reset.html:4
-#: manager/templates/account/password_reset.html:8
-#: manager/templates/account/password_reset_done.html:10
+#: eventol/manager/templates/account/password_reset.html:3
+#: eventol/manager/templates/account/password_reset.html:4
+#: eventol/manager/templates/account/password_reset.html:8
+#: eventol/manager/templates/account/password_reset_done.html:10
 msgid "Password Reset"
 msgstr "Restablecer Contraseña"
 
-#: manager/templates/account/password_reset.html:14
+#: eventol/manager/templates/account/password_reset.html:14
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
@@ -915,16 +938,16 @@ msgstr ""
 "Olvidaste tu contraseña? Ingresa tu dirección de correo electrónico, y te "
 "enviaremos un correo que te permitirá restablecerla."
 
-#: manager/templates/account/password_reset.html:19
+#: eventol/manager/templates/account/password_reset.html:19
 msgid "Reset My Password"
 msgstr "Restablecer mi contraseña"
 
-#: manager/templates/account/password_reset.html:28
+#: eventol/manager/templates/account/password_reset.html:28
 msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
 "Por favor contáctanos si tienes algún problema restableciendo tu contraseña."
 
-#: manager/templates/account/password_reset_done.html:16
+#: eventol/manager/templates/account/password_reset_done.html:16
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few\n"
@@ -934,11 +957,11 @@ msgstr ""
 "recibes en unos \n"
 "                    minutos."
 
-#: manager/templates/account/password_reset_from_key.html:12
+#: eventol/manager/templates/account/password_reset_from_key.html:12
 msgid "Bad Token"
 msgstr "Token Inválido"
 
-#: manager/templates/account/password_reset_from_key.html:14
+#: eventol/manager/templates/account/password_reset_from_key.html:14
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
@@ -951,50 +974,50 @@ msgstr ""
 "            solicita un\n"
 "            <a href=\"%(passwd_reset_url)s\">nuevo enlace</a>."
 
-#: manager/templates/account/password_reset_from_key.html:20
-#: manager/templates/account/password_reset_from_key_done.html:11
+#: eventol/manager/templates/account/password_reset_from_key.html:20
+#: eventol/manager/templates/account/password_reset_from_key_done.html:11
 msgid "Your password is now changed."
 msgstr "Tu contraseña se ha cambiado."
 
-#: manager/templates/account/password_reset_from_key.html:27
+#: eventol/manager/templates/account/password_reset_from_key.html:27
 msgid "change password"
 msgstr "cambiar contraseña"
 
-#: manager/templates/account/password_set.html:3
-#: manager/templates/account/password_set.html:4
-#: manager/templates/account/password_set.html:8
-#: manager/templates/account/password_set.html:12
-#: manager/templates/base-main.html:219
+#: eventol/manager/templates/account/password_set.html:3
+#: eventol/manager/templates/account/password_set.html:4
+#: eventol/manager/templates/account/password_set.html:8
+#: eventol/manager/templates/account/password_set.html:12
+#: eventol/manager/templates/base-main.html:219
 msgid "Set Password"
 msgstr "Establecer Contraseña"
 
-#: manager/templates/account/profile.html:13
+#: eventol/manager/templates/account/profile.html:13
 #, python-format
 msgid "Welcome, %(user_display)s!"
 msgstr "Bienvenido, %(user_display)s!"
 
-#: manager/templates/account/profile.html:17
+#: eventol/manager/templates/account/profile.html:17
 msgid "Username:"
 msgstr "Nombre de Usuario:"
 
-#: manager/templates/account/profile.html:18
+#: eventol/manager/templates/account/profile.html:18
 msgid "First Name:"
 msgstr "Nombre:"
 
-#: manager/templates/account/profile.html:19
+#: eventol/manager/templates/account/profile.html:19
 msgid "Last Name:"
 msgstr "Apellido:"
 
-#: manager/templates/account/profile.html:20
+#: eventol/manager/templates/account/profile.html:20
 msgid "Email:"
 msgstr "Correo Electrónico:"
 
-#: manager/templates/account/profile.html:28
-#: manager/templates/socialaccount/snippets/account_connections.html:2
+#: eventol/manager/templates/account/profile.html:28
+#: eventol/manager/templates/socialaccount/snippets/account_connections.html:2
 msgid "Account Connections"
 msgstr "Cuentas conectadas"
 
-#: manager/templates/account/profile.html:32
+#: eventol/manager/templates/account/profile.html:32
 msgid ""
 "You can sign in to your account using any of the following third party\n"
 "                        accounts:"
@@ -1002,7 +1025,7 @@ msgstr ""
 "Puedes iniciar sesión usando cualquiera de los siguientes\n"
 "                        proveedores:"
 
-#: manager/templates/account/profile.html:46
+#: eventol/manager/templates/account/profile.html:46
 msgid ""
 "You don't have any social account connected. You can connect one\n"
 "                        below"
@@ -1010,22 +1033,22 @@ msgstr ""
 "No tienes ninguna cuenta social conectada. Puedes conectar una\n"
 "                        abajo"
 
-#: manager/templates/account/profile.html:56
-#: manager/templates/socialaccount/connections.html:17
+#: eventol/manager/templates/account/profile.html:56
+#: eventol/manager/templates/socialaccount/connections.html:17
 msgid "Add a 3rd Party Account"
 msgstr "Agregar una cuenta social"
 
-#: manager/templates/account/signup.html:3
-#: manager/templates/account/signup.html:4
-#: manager/templates/account/signup.html:8
-#: manager/templates/socialaccount/signup.html:3
-#: manager/templates/socialaccount/signup.html:4
-#: manager/templates/socialaccount/signup.html:8
-#: manager/templates/socialaccount/signup.html:17
+#: eventol/manager/templates/account/signup.html:3
+#: eventol/manager/templates/account/signup.html:4
+#: eventol/manager/templates/account/signup.html:8
+#: eventol/manager/templates/socialaccount/signup.html:3
+#: eventol/manager/templates/socialaccount/signup.html:4
+#: eventol/manager/templates/socialaccount/signup.html:8
+#: eventol/manager/templates/socialaccount/signup.html:17
 msgid "Sign Up"
 msgstr "Registrarse"
 
-#: manager/templates/account/signup.html:14
+#: eventol/manager/templates/account/signup.html:14
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">login</a>."
@@ -1033,11 +1056,11 @@ msgstr ""
 "Ya tienes una cuenta? Entonces por favor <a href=\"%(login_url)s\">inicia "
 "sesión</a>."
 
-#: manager/templates/account/snippets/already_logged_in.html:5
+#: eventol/manager/templates/account/snippets/already_logged_in.html:5
 msgid "Note"
 msgstr "Nota"
 
-#: manager/templates/account/snippets/already_logged_in.html:5
+#: eventol/manager/templates/account/snippets/already_logged_in.html:5
 #, python-format
 msgid ""
 "you are already logged in as %(user_display)s\n"
@@ -1046,12 +1069,12 @@ msgstr ""
 "ya estás identificado como %(user_display)s\n"
 "    ."
 
-#: manager/templates/account/verification_sent.html:9
-#: manager/templates/account/verified_email_required.html:9
+#: eventol/manager/templates/account/verification_sent.html:9
+#: eventol/manager/templates/account/verified_email_required.html:9
 msgid "Verify Your E-mail Address"
 msgstr "Verifica tu dirección de correo electrónico"
 
-#: manager/templates/account/verification_sent.html:10
+#: eventol/manager/templates/account/verification_sent.html:10
 msgid ""
 "We have sent an e-mail to you for verification. Follow the link provided to "
 "finalize\n"
@@ -1065,7 +1088,7 @@ msgstr ""
 "recibes en unos pocos \n"
 "                    minutos."
 
-#: manager/templates/account/verified_email_required.html:13
+#: eventol/manager/templates/account/verified_email_required.html:13
 msgid ""
 "This part of the site requires us to verify that\n"
 "                    you are who you claim to be. For this purpose, we "
@@ -1076,7 +1099,7 @@ msgstr ""
 "                    eres quien dices ser. Para esto, requerimos que \n"
 "                    verifiques tu dirección de correo electrónico. "
 
-#: manager/templates/account/verified_email_required.html:17
+#: eventol/manager/templates/account/verified_email_required.html:17
 msgid ""
 "We have sent an e-mail to you for\n"
 "                    verification. Please click on the link inside this e-"
@@ -1088,7 +1111,7 @@ msgstr ""
 "                    el proceso de registro. Por favor contáctanos si no lo "
 "recibes en unos pocos minutos."
 
-#: manager/templates/account/verified_email_required.html:21
+#: eventol/manager/templates/account/verified_email_required.html:21
 #, python-format
 msgid ""
 "<strong>Note:</strong> you can still\n"
@@ -1098,135 +1121,135 @@ msgstr ""
 "                    <a href=\"%(email_url)s\">cambiar tu dirección de "
 "correo</a>."
 
-#: manager/templates/activities/activities_home.html:18
+#: eventol/manager/templates/activities/activities_home.html:18
 msgid "Submit an activity"
 msgstr "Enviar una actividad"
 
-#: manager/templates/activities/activities_home.html:25
+#: eventol/manager/templates/activities/activities_home.html:25
 msgid "Confirm Schedule"
 msgstr "Confirmar Cronograma"
 
-#: manager/templates/activities/activities_home.html:33
-#: manager/templates/activities/activities_home.html:51
+#: eventol/manager/templates/activities/activities_home.html:33
+#: eventol/manager/templates/activities/activities_home.html:51
 msgid "Confirmed"
 msgstr "Confirmado"
 
-#: manager/templates/activities/activities_home.html:69
-#: manager/templates/activities/activities_home.html:160
-#: manager/templates/activities/activities_home.html:244
-#: manager/templates/activities/detail.html:49
-#: manager/templates/event/index.html:175
-#: manager/templates/reports/dashboard.html:69
-#: manager/templates/reports/dashboard.html:362
+#: eventol/manager/templates/activities/activities_home.html:69
+#: eventol/manager/templates/activities/activities_home.html:160
+#: eventol/manager/templates/activities/activities_home.html:244
+#: eventol/manager/templates/activities/detail.html:49
+#: eventol/manager/templates/event/index.html:175
+#: eventol/manager/templates/reports/dashboard.html:69
+#: eventol/manager/templates/reports/dashboard.html:362
 msgid "Speakers"
 msgstr "Disertantes"
 
-#: manager/templates/activities/activities_home.html:77
+#: eventol/manager/templates/activities/activities_home.html:77
 msgid "Start"
 msgstr "Inicio"
 
-#: manager/templates/activities/activities_home.html:78
+#: eventol/manager/templates/activities/activities_home.html:78
 msgid "End"
 msgstr "Fin"
 
-#: manager/templates/activities/activities_home.html:79
-#: manager/templates/activities/activities_home.html:167
-#: manager/templates/activities/activities_home.html:251
-#: manager/templates/activities/detail.html:88
+#: eventol/manager/templates/activities/activities_home.html:79
+#: eventol/manager/templates/activities/activities_home.html:167
+#: eventol/manager/templates/activities/activities_home.html:251
+#: eventol/manager/templates/activities/detail.html:88
 msgid "Description"
 msgstr "Descripción completa"
 
-#: manager/templates/activities/activities_home.html:81
+#: eventol/manager/templates/activities/activities_home.html:81
 msgid "View Talk"
 msgstr "Ver Charla"
 
-#: manager/templates/activities/activities_home.html:85
-#: manager/templates/activities/activities_home.html:180
-#: manager/templates/activities/detail.html:76
+#: eventol/manager/templates/activities/activities_home.html:85
+#: eventol/manager/templates/activities/activities_home.html:180
+#: eventol/manager/templates/activities/detail.html:76
 msgid "Reject Talk"
 msgstr "Rechazar Charla"
 
-#: manager/templates/activities/activities_home.html:88
-#: manager/templates/activities/activities_home.html:254
-#: manager/templates/activities/detail.html:66
+#: eventol/manager/templates/activities/activities_home.html:88
+#: eventol/manager/templates/activities/activities_home.html:254
+#: eventol/manager/templates/activities/detail.html:66
 msgid "Resend Proposal"
 msgstr "Reenviar Propuesta"
 
-#: manager/templates/activities/activities_home.html:94
+#: eventol/manager/templates/activities/activities_home.html:94
 msgid "Edit Talk"
 msgstr "Editar Charla"
 
-#: manager/templates/activities/activities_home.html:116
-#: manager/templates/activities/activities_home.html:200
+#: eventol/manager/templates/activities/activities_home.html:116
+#: eventol/manager/templates/activities/activities_home.html:200
 msgid "There isn't any proposed activity yet."
 msgstr "No hay ninguna actividad propuesta aún."
 
-#: manager/templates/activities/activities_home.html:125
+#: eventol/manager/templates/activities/activities_home.html:125
 msgid "Proposed"
 msgstr "Propuesta"
 
-#: manager/templates/activities/activities_home.html:142
+#: eventol/manager/templates/activities/activities_home.html:142
 msgid "Not Confirmed"
 msgstr "Sin Confirmar"
 
-#: manager/templates/activities/activities_home.html:173
-#: manager/templates/activities/detail.html:72
+#: eventol/manager/templates/activities/activities_home.html:173
+#: eventol/manager/templates/activities/detail.html:72
 msgid "Become Talk"
 msgstr "Convertir a Charla"
 
-#: manager/templates/activities/activities_home.html:177
-#: manager/templates/activities/activities_home.html:257
+#: eventol/manager/templates/activities/activities_home.html:177
+#: eventol/manager/templates/activities/activities_home.html:257
 msgid "View Proposal"
 msgstr "Ver Propuesta"
 
-#: manager/templates/activities/activities_home.html:269
+#: eventol/manager/templates/activities/activities_home.html:269
 msgid "There isn't any rejected activity yet."
 msgstr "No hay ninguna actividad rechazada aún."
 
-#: manager/templates/activities/activities_home.html:281
+#: eventol/manager/templates/activities/activities_home.html:281
 msgid "There isn't any talk proposal yet."
 msgstr "No hay ninguna propuesta de charla aún."
 
-#: manager/templates/activities/activities_home.html:281
+#: eventol/manager/templates/activities/activities_home.html:281
 msgid "Submit yours!"
 msgstr "¡Enviá la tuya!"
 
-#: manager/templates/activities/detail.html:53
+#: eventol/manager/templates/activities/detail.html:53
 msgid "Time"
 msgstr "Horario"
 
-#: manager/templates/activities/detail.html:94
+#: eventol/manager/templates/activities/detail.html:94
 msgid "Download presentation"
 msgstr "Descargar presentación"
 
-#: manager/templates/activities/image-cropping.html:11
-#: manager/templates/activities/image-cropping.html:14
-#: manager/templates/activities/image-cropping.html:18
-#: manager/templates/activities/proposal.html:11
-#: manager/templates/activities/proposal.html:13
-#: manager/templates/activities/proposal.html:17
+#: eventol/manager/templates/activities/image-cropping.html:11
+#: eventol/manager/templates/activities/image-cropping.html:14
+#: eventol/manager/templates/activities/image-cropping.html:18
+#: eventol/manager/templates/activities/proposal.html:11
+#: eventol/manager/templates/activities/proposal.html:13
+#: eventol/manager/templates/activities/proposal.html:17
 msgid "Activity Proposal"
 msgstr "Proponer Actividad"
 
-#: manager/templates/activities/image-cropping.html:12
-#: manager/templates/event/image-cropping.html:12
+#: eventol/manager/templates/activities/image-cropping.html:12
+#: eventol/manager/templates/event/image-cropping.html:12
 msgid "Please select the visible area for your image"
 msgstr "Selecciona el área visible de tu imagen"
 
-#: manager/templates/activities/image-cropping.html:22
-#: manager/templates/event/image-cropping.html:28
+#: eventol/manager/templates/activities/image-cropping.html:22
+#: eventol/manager/templates/event/image-cropping.html:28
 msgid "Upload"
 msgstr "Subir"
 
-#: manager/templates/activities/proposal.html:21
+#: eventol/manager/templates/activities/proposal.html:21
 msgid "Next"
 msgstr "Siguiente"
 
-#: manager/templates/activities/schedule.html:42
+#: eventol/manager/templates/activities/schedule.html:42
 msgid "Activities Schedule"
 msgstr "Cronograma de actividades"
 
-#: manager/templates/activities/schedule.html:47
+#: eventol/manager/templates/activities/schedule.html:47
 #, python-format
 msgid ""
 "\n"
@@ -1237,11 +1260,11 @@ msgstr ""
 "                        Día %(day)s - %(data)s\n"
 "                  "
 
-#: manager/templates/activities/schedule_not_confirmed.html:5
+#: eventol/manager/templates/activities/schedule_not_confirmed.html:5
 msgid "The schedule is not confirmed yet"
 msgstr "El cronograma de actividades no está confirmado aún"
 
-#: manager/templates/activities/schedule_not_confirmed.html:10
+#: eventol/manager/templates/activities/schedule_not_confirmed.html:10
 msgid ""
 "\n"
 "                    We're working very hard to get the schedule done for the "
@@ -1259,165 +1282,165 @@ msgstr ""
 "estar al día con las últimas novedades del evento.\n"
 "                "
 
-#: manager/templates/activities/schedule_not_confirmed.html:25
-#: manager/templates/registration/attendee/email-sent.html:14
-#: manager/templates/registration/attendee/ticket-sent.html:8
+#: eventol/manager/templates/activities/schedule_not_confirmed.html:25
+#: eventol/manager/templates/registration/attendee/email-sent.html:14
+#: eventol/manager/templates/registration/attendee/ticket-sent.html:8
 msgid "Return to the event"
 msgstr "Regresar al evento"
 
-#: manager/templates/activities/to_talk_form.html:40
-#: manager/templates/event/create.html:205
-#: manager/templates/generic-bootstrap-model-form.html:49
-#: manager/templates/generic-bootstrap-multiple-model-form.html:47
+#: eventol/manager/templates/activities/to_talk_form.html:40
+#: eventol/manager/templates/event/create.html:212
+#: eventol/manager/templates/generic-bootstrap-model-form.html:49
+#: eventol/manager/templates/generic-bootstrap-multiple-model-form.html:47
 msgid "Submit"
 msgstr "Enviar"
 
-#: manager/templates/base-main.html:57
+#: eventol/manager/templates/base-main.html:57
 msgid "Create event"
 msgstr "Crear un evento"
 
-#: manager/templates/base-main.html:65
+#: eventol/manager/templates/base-main.html:65
 msgid "Manage event"
 msgstr "Administrar evento"
 
-#: manager/templates/base-main.html:70
+#: eventol/manager/templates/base-main.html:70
 msgid "Edit event"
 msgstr "Editar evento"
 
-#: manager/templates/base-main.html:75
+#: eventol/manager/templates/base-main.html:75
 msgid "Edit image"
 msgstr "Editar imagen"
 
-#: manager/templates/base-main.html:83
+#: eventol/manager/templates/base-main.html:83
 msgid "Registration"
 msgstr "Registrame"
 
-#: manager/templates/base-main.html:88
+#: eventol/manager/templates/base-main.html:88
 msgid "Submit your talk"
 msgstr "Proponé tu Actividad"
 
-#: manager/templates/base-main.html:93
+#: eventol/manager/templates/base-main.html:93
 msgid "Schedule"
 msgstr "Cronograma"
 
-#: manager/templates/base-main.html:98
+#: eventol/manager/templates/base-main.html:98
 msgid "View Activities"
 msgstr "ver Actividades"
 
-#: manager/templates/base-main.html:103
+#: eventol/manager/templates/base-main.html:103
 msgid "View Reports"
 msgstr "Ver reportes"
 
-#: manager/templates/base-main.html:108
+#: eventol/manager/templates/base-main.html:108
 msgid "View my Ticket"
 msgstr "Ver mi entrada"
 
-#: manager/templates/base-main.html:119
-#: manager/templates/registration/attendee-registration.html:15
+#: eventol/manager/templates/base-main.html:119
+#: eventol/manager/templates/registration/attendee-registration.html:15
 msgid "Register as a Collaborator"
 msgstr "Registrame como colaborador"
 
-#: manager/templates/base-main.html:126
-#: manager/templates/registration/attendee-registration.html:18
+#: eventol/manager/templates/base-main.html:126
+#: eventol/manager/templates/registration/attendee-registration.html:18
 msgid "Register as an Installer"
 msgstr "Registrarme como instalador"
 
-#: manager/templates/base-main.html:134
+#: eventol/manager/templates/base-main.html:134
 msgid "Manage Attendance"
 msgstr "Administrar asistencia"
 
-#: manager/templates/base-main.html:139
+#: eventol/manager/templates/base-main.html:139
 msgid "Print self-registration code"
 msgstr "Imprimir código de auto registración"
 
-#: manager/templates/base-main.html:144
+#: eventol/manager/templates/base-main.html:144
 msgid "Open auto-read QR code page"
 msgstr "Abrir página de lectura automática de códigos QR"
 
-#: manager/templates/base-main.html:151
+#: eventol/manager/templates/base-main.html:151
 msgid "Submit an installation"
 msgstr "Cargar una instalación"
 
-#: manager/templates/base-main.html:158
+#: eventol/manager/templates/base-main.html:158
 msgid "Draw"
 msgstr "Sorteo"
 
-#: manager/templates/base-main.html:163
+#: eventol/manager/templates/base-main.html:163
 msgid "Manage Organizers"
 msgstr "Administrar organizadores"
 
-#: manager/templates/base-main.html:168
+#: eventol/manager/templates/base-main.html:168
 msgid "Manage Registration People"
 msgstr "Administrar miembros de registración"
 
-#: manager/templates/base-main.html:177
+#: eventol/manager/templates/base-main.html:177
 msgid "Follow Us!"
 msgstr "Síguenos!"
 
-#: manager/templates/base-main.html:186
+#: eventol/manager/templates/base-main.html:186
 msgid "Contact Us!"
 msgstr "Contactanos!"
 
-#: manager/templates/base-main.html:194
+#: eventol/manager/templates/base-main.html:194
 msgid "Organizadores"
 msgstr "Organizadores"
 
-#: manager/templates/base-main.html:213
+#: eventol/manager/templates/base-main.html:213
 msgid "Profile"
 msgstr "Perfil"
 
-#: manager/templates/base-main.html:262
+#: eventol/manager/templates/base-main.html:262
 msgid "You have the power!"
 msgstr "You have the power!"
 
-#: manager/templates/contact-message.html:11
+#: eventol/manager/templates/contact-message.html:11
 msgid "ContactMessage"
 msgstr "Mensaje de contacto"
 
-#: manager/templates/event/create.html:17
-#: manager/templates/event/create.html:20
+#: eventol/manager/templates/event/create.html:17
+#: eventol/manager/templates/event/create.html:20
 msgid "Create an event"
 msgstr "Crear un evento"
 
-#: manager/templates/event/create.html:40
+#: eventol/manager/templates/event/create.html:40
 msgid "What's the name of your event?"
 msgstr "Cuál es el nombre del evento?"
 
-#: manager/templates/event/create.html:65
+#: eventol/manager/templates/event/create.html:65
 msgid ""
 "If the event is taking place in more than one day, you can add all of them "
 "here."
 msgstr "Si el evento dura más de un día, puedes añadir todas las fechas aquí."
 
-#: manager/templates/event/create.html:73
+#: eventol/manager/templates/event/create.html:73
 msgid "Choose an URL"
 msgstr "Elige una URL"
 
-#: manager/templates/event/create.html:93
+#: eventol/manager/templates/event/create.html:93
 msgid "Where can people contact you?"
 msgstr "Dónde te puede contactar la gente?"
 
-#: manager/templates/event/create.html:115
+#: eventol/manager/templates/event/create.html:115
 msgid "Where can people follow you?"
 msgstr "Dónde puede seguir tu evento la gente?"
 
-#: manager/templates/event/create.html:123
+#: eventol/manager/templates/event/create.html:123
 msgid "Where will your event be?"
 msgstr "Dónde será el evento?"
 
-#: manager/templates/event/create.html:132
+#: eventol/manager/templates/event/create.html:132
 msgid "Search for a place or address"
 msgstr "Buscar un lugar o dirección"
 
-#: manager/templates/event/create.html:158
+#: eventol/manager/templates/event/create.html:158
 msgid "When is the last day to submit talk proposals?"
 msgstr "Cuál es el último día para enviar propuestas de actividades?"
 
-#: manager/templates/event/create.html:173
+#: eventol/manager/templates/event/create.html:173
 msgid "Do you want to use your own homepage?"
 msgstr "Quieres usar tu propia página principal?"
 
-#: manager/templates/event/create.html:174
+#: eventol/manager/templates/event/create.html:174
 msgid ""
 "You probably don't want to. But if you want, we can link to your page in our "
 "index. Provide the full URL here:"
@@ -1425,31 +1448,38 @@ msgstr ""
 "Probablemente no. Pero si ya tienes una página, podemos enlazarla en nuestro "
 "índice. Ingresa la URL completa aquí:"
 
-#: manager/templates/event/create.html:196
+#: eventol/manager/templates/event/create.html:196
+#, fuzzy
+#| msgid "Please provide as much information you can about your event"
+msgid "Please provide a abstract about your event"
+msgstr "Ingresa una resumen acerca de tu evento"
+
+#: eventol/manager/templates/event/create.html:203
 msgid "Please provide as much information you can about your event"
 msgstr "Ingresa todos los detalles que puedas acerca de tu evento"
 
-#: manager/templates/event/draw.html:15
+#: eventol/manager/templates/event/draw.html:15
 msgid "Winners"
 msgstr "Ganadores"
 
-#: manager/templates/event/draw.html:27
+#: eventol/manager/templates/event/draw.html:27
 msgid "Draw!!"
 msgstr "Sortear!!"
 
-#: manager/templates/event/draw.html:62
+#: eventol/manager/templates/event/draw.html:62
 msgid "There aren't any more participants"
 msgstr "No hay más participantes"
 
-#: manager/templates/event/image-cropping.html:24
+#: eventol/manager/templates/event/image-cropping.html:24
 msgid "Skip"
 msgstr "Saltear"
 
-#: manager/templates/event/index.html:35
+#: eventol/manager/templates/event/index.html:35
 msgid "I am"
 msgstr "Yo soy"
 
-#: manager/templates/event/index.html:50 manager/templates/event/index.html:69
+#: eventol/manager/templates/event/index.html:50
+#: eventol/manager/templates/event/index.html:69
 #, python-format
 msgid ""
 "\n"
@@ -1460,7 +1490,8 @@ msgstr ""
 "                                %(days)s de %(the_month)s\n"
 "                            "
 
-#: manager/templates/event/index.html:57 manager/templates/event/index.html:76
+#: eventol/manager/templates/event/index.html:57
+#: eventol/manager/templates/event/index.html:76
 #, python-format
 msgid ""
 "\n"
@@ -1471,7 +1502,7 @@ msgstr ""
 "                            de %(year)s\n"
 "                        "
 
-#: manager/templates/event/index.html:62
+#: eventol/manager/templates/event/index.html:62
 #, python-format
 msgid ""
 "\n"
@@ -1482,7 +1513,7 @@ msgstr ""
 "                            Dentro de %(until)s\n"
 "                        "
 
-#: manager/templates/event/index.html:81
+#: eventol/manager/templates/event/index.html:81
 #, python-format
 msgid ""
 "\n"
@@ -1493,25 +1524,25 @@ msgstr ""
 "                            Este evento fue hace %(since)s.\n"
 "                        "
 
-#: manager/templates/event/index.html:143
+#: eventol/manager/templates/event/index.html:143
 msgid "About the event"
 msgstr "Acerca del evento"
 
-#: manager/templates/event/index.html:154
+#: eventol/manager/templates/event/index.html:154
 msgid "Talks and Workshops"
 msgstr "Actividades"
 
-#: manager/templates/event/index.html:230
+#: eventol/manager/templates/event/index.html:230
 msgid "Follow"
 msgstr "Seguir"
 
-#: manager/templates/event/organizers.html:7
-#: manager/templates/event/organizers.html:9
-#: manager/templates/event/organizers.html:63
+#: eventol/manager/templates/event/organizers.html:7
+#: eventol/manager/templates/event/organizers.html:9
+#: eventol/manager/templates/event/organizers.html:63
 msgid "Add Organizers"
 msgstr "Agregar Organizador"
 
-#: manager/templates/event/organizers.html:15
+#: eventol/manager/templates/event/organizers.html:15
 msgid ""
 " Organizers can edit the event information, view attendant's list, manage "
 "activities, manage\n"
@@ -1523,24 +1554,24 @@ msgstr ""
 "            la asistencia y también agregar a otros organizadores. Por favor "
 "elige cuidadosamente! "
 
-#: manager/templates/event/organizers.html:21
+#: eventol/manager/templates/event/organizers.html:21
 msgid "Current organizers:"
 msgstr "Organizadores actuales:"
 
-#: manager/templates/event/organizers.html:54
+#: eventol/manager/templates/event/organizers.html:54
 msgid "Add a new Organizer:"
 msgstr "Agregar un nuevo organizador:"
 
-#: manager/templates/event/organizers.html:67
+#: eventol/manager/templates/event/organizers.html:67
 msgid "Add Organizer"
 msgstr "Agregar organizador"
 
-#: manager/templates/event/registration_people.html:7
-#: manager/templates/event/registration_people.html:9
+#: eventol/manager/templates/event/registration_people.html:7
+#: eventol/manager/templates/event/registration_people.html:9
 msgid "Add registration staff"
 msgstr "Agregar miembro de registración"
 
-#: manager/templates/event/registration_people.html:14
+#: eventol/manager/templates/event/registration_people.html:14
 msgid ""
 " People who can manage attendance can register a\n"
 "            person the day of the event."
@@ -1548,54 +1579,54 @@ msgstr ""
 " Los miembros de registración pueden administrar la asistencia y registrar \n"
 "            nuevas personas el día del evento."
 
-#: manager/templates/event/registration_people.html:20
+#: eventol/manager/templates/event/registration_people.html:20
 msgid "Current registration staff:"
 msgstr "Miembros de registración actuales:"
 
-#: manager/templates/event/registration_people.html:53
+#: eventol/manager/templates/event/registration_people.html:53
 msgid "Add a new registration person:"
 msgstr "Agregar miembro de registración:"
 
-#: manager/templates/event/registration_people.html:62
-#: manager/templates/event/registration_people.html:66
+#: eventol/manager/templates/event/registration_people.html:62
+#: eventol/manager/templates/event/registration_people.html:66
 msgid "Add"
 msgstr "Agregar"
 
-#: manager/templates/form_field.html:32
+#: eventol/manager/templates/form_field.html:32
 msgid "Browse..."
 msgstr "Buscar archivo..."
 
-#: manager/templates/installation/installation-form.html:5
-#: manager/templates/installation/installation-form.html:6
-#: manager/templates/installation/installation-form.html:10
+#: eventol/manager/templates/installation/installation-form.html:5
+#: eventol/manager/templates/installation/installation-form.html:6
+#: eventol/manager/templates/installation/installation-form.html:10
 msgid "Submit an Installation"
 msgstr "Cargar una instalación"
 
-#: manager/templates/installation/installation-form.html:14
+#: eventol/manager/templates/installation/installation-form.html:14
 msgid "Register a Attendee"
 msgstr "Registrar un Asistente"
 
-#: manager/templates/registration/attendee-registration.html:5
-#: manager/templates/registration/attendee-registration.html:7
-#: manager/templates/registration/attendee-registration.html:11
-#: manager/templates/registration/attendee/by-autoreadqr.html:8
-#: manager/templates/registration/attendee/by-autoreadqr.html:10
-#: manager/templates/registration/attendee/by-autoreadqr.html:41
-#: manager/templates/registration/attendee/by-collaborator.html:5
-#: manager/templates/registration/attendee/by-collaborator.html:9
-#: manager/templates/registration/attendee/from-installation.html:5
-#: manager/templates/registration/attendee/from-installation.html:9
-#: manager/templates/registration/attendee/search.html:5
-#: manager/templates/registration/attendee/search.html:7
-#: manager/templates/registration/attendee/search.html:33
+#: eventol/manager/templates/registration/attendee-registration.html:5
+#: eventol/manager/templates/registration/attendee-registration.html:7
+#: eventol/manager/templates/registration/attendee-registration.html:11
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:8
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:10
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:41
+#: eventol/manager/templates/registration/attendee/by-collaborator.html:5
+#: eventol/manager/templates/registration/attendee/by-collaborator.html:9
+#: eventol/manager/templates/registration/attendee/from-installation.html:5
+#: eventol/manager/templates/registration/attendee/from-installation.html:9
+#: eventol/manager/templates/registration/attendee/search.html:5
+#: eventol/manager/templates/registration/attendee/search.html:7
+#: eventol/manager/templates/registration/attendee/search.html:33
 msgid "Attendee Registration"
 msgstr "Registrar asistente"
 
-#: manager/templates/registration/attendee/by-autoreadqr.html:18
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:18
 msgid "You are logged in!"
 msgstr "¡Estás conectado!"
 
-#: manager/templates/registration/attendee/by-autoreadqr.html:19
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:19
 msgid ""
 " Please close your session, do not leave it open!. This page can remain open "
 "without the\n"
@@ -1606,21 +1637,21 @@ msgstr ""
 "permanecer abierta sin la necesidad de que alguien esté conectado con sesión "
 "iniciada. Serás desconectado en 30 segundos."
 
-#: manager/templates/registration/attendee/by-autoreadqr.html:29
-#: manager/templates/registration/attendee/search.html:14
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:29
+#: eventol/manager/templates/registration/attendee/search.html:14
 msgid "Registration Instructions"
 msgstr "Instrucciónes para registración"
 
-#: manager/templates/registration/attendee/by-autoreadqr.html:31
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:31
 msgid "Please scan your ticket using the webcam"
 msgstr "Por favor escaneá tu entrada usando la webcam"
 
-#: manager/templates/registration/attendee/by-autoreadqr.html:32
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:32
 msgid "Center the QR Code in the camera display below"
 msgstr "Centrá el código QR en la vista de cámara inferior"
 
-#: manager/templates/registration/attendee/by-autoreadqr.html:70
-#: manager/templates/registration/attendee/search.html:91
+#: eventol/manager/templates/registration/attendee/by-autoreadqr.html:70
+#: eventol/manager/templates/registration/attendee/search.html:91
 msgid ""
 "There is a problem with the camera. Please, enable access or try manual "
 "entry."
@@ -1628,16 +1659,16 @@ msgstr ""
 "Hay algún problema con la cámara. Por favor habilita el acceso o prueba "
 "ingresando los datos manualmente."
 
-#: manager/templates/registration/attendee/by-self.html:5
-#: manager/templates/registration/attendee/by-self.html:9
+#: eventol/manager/templates/registration/attendee/by-self.html:5
+#: eventol/manager/templates/registration/attendee/by-self.html:9
 msgid "Attendee Self Registration"
 msgstr "Auto registración de Asistente"
 
-#: manager/templates/registration/attendee/email-sent.html:3
+#: eventol/manager/templates/registration/attendee/email-sent.html:3
 msgid "Please confirm your email"
 msgstr "Por favor confirma la dirección de correo electrónico"
 
-#: manager/templates/registration/attendee/email-sent.html:6
+#: eventol/manager/templates/registration/attendee/email-sent.html:6
 msgid ""
 "We've sent you an email to the address you provided. Please\n"
 "            confirm your email by following the instructions on it so we can "
@@ -1649,7 +1680,7 @@ msgstr ""
 "él, así podemos enviarte tu entrada para el evento.\n"
 "        "
 
-#: manager/templates/registration/attendee/email-sent.html:9
+#: eventol/manager/templates/registration/attendee/email-sent.html:9
 msgid ""
 "If you don't receive the email within a few minutes, please check your spam "
 "folder. If it\n"
@@ -1663,31 +1694,31 @@ msgstr ""
 "ayudarte.\n"
 "        "
 
-#: manager/templates/registration/attendee/from-installation.html:13
+#: eventol/manager/templates/registration/attendee/from-installation.html:13
 msgid "Back to installation"
 msgstr "Volver a la instalación"
 
-#: manager/templates/registration/attendee/search.html:43
+#: eventol/manager/templates/registration/attendee/search.html:43
 msgid "Mark as present"
 msgstr "Marcar como presente"
 
-#: manager/templates/registration/attendee/search.html:46
+#: eventol/manager/templates/registration/attendee/search.html:46
 msgid "Register new attendee"
 msgstr "Registrar nuevo asistente"
 
-#: manager/templates/registration/attendee/search.html:49
+#: eventol/manager/templates/registration/attendee/search.html:49
 msgid "Scan QR"
 msgstr "Escanear QR"
 
-#: manager/templates/registration/attendee/search.html:62
+#: eventol/manager/templates/registration/attendee/search.html:62
 msgid "Center the QR Code in the camera display below "
 msgstr "Centra el código QR en la cámara "
 
-#: manager/templates/registration/closed-registration.html:3
+#: eventol/manager/templates/registration/closed-registration.html:3
 msgid "Registration Closed"
 msgstr "Registración Cerrada"
 
-#: manager/templates/registration/closed-registration.html:6
+#: eventol/manager/templates/registration/closed-registration.html:6
 msgid ""
 "Registration for this event is already\n"
 "            closed or the event is no accepting registrations through this "
@@ -1699,124 +1730,124 @@ msgstr ""
 "esta página. Podrás encontrar más\n"
 "            información"
 
-#: manager/templates/registration/closed-registration.html:8
+#: eventol/manager/templates/registration/closed-registration.html:8
 msgid "here"
 msgstr "aquí"
 
-#: manager/templates/registration/collaborator-registration.html:3
-#: manager/templates/registration/collaborator-registration.html:7
+#: eventol/manager/templates/registration/collaborator-registration.html:3
+#: eventol/manager/templates/registration/collaborator-registration.html:7
 msgid "Collaborator Registration"
 msgstr "Registro de Colaboradores"
 
-#: manager/templates/registration/installer-registration.html:3
-#: manager/templates/registration/installer-registration.html:4
-#: manager/templates/registration/installer-registration.html:8
+#: eventol/manager/templates/registration/installer-registration.html:3
+#: eventol/manager/templates/registration/installer-registration.html:4
+#: eventol/manager/templates/registration/installer-registration.html:8
 msgid "Installer Registration"
 msgstr "Registro de Instaladores"
 
-#: manager/templates/reports/dashboard.html:15
+#: eventol/manager/templates/reports/dashboard.html:15
 msgid "Reports"
 msgstr "Reportes"
 
-#: manager/templates/reports/dashboard.html:33
-#: manager/templates/reports/dashboard.html:103
-#: manager/templates/reports/dashboard.html:140
-#: manager/templates/reports/dashboard.html:308
-#: manager/templates/reports/dashboard.html:326
-#: manager/templates/reports/dashboard.html:344
+#: eventol/manager/templates/reports/dashboard.html:33
+#: eventol/manager/templates/reports/dashboard.html:103
+#: eventol/manager/templates/reports/dashboard.html:140
+#: eventol/manager/templates/reports/dashboard.html:308
+#: eventol/manager/templates/reports/dashboard.html:326
+#: eventol/manager/templates/reports/dashboard.html:344
 msgid "Attended"
 msgstr "Asistió"
 
-#: manager/templates/reports/dashboard.html:35
-#: manager/templates/reports/dashboard.html:105
-#: manager/templates/reports/dashboard.html:142
-#: manager/templates/reports/dashboard.html:313
-#: manager/templates/reports/dashboard.html:331
-#: manager/templates/reports/dashboard.html:349
+#: eventol/manager/templates/reports/dashboard.html:35
+#: eventol/manager/templates/reports/dashboard.html:105
+#: eventol/manager/templates/reports/dashboard.html:142
+#: eventol/manager/templates/reports/dashboard.html:313
+#: eventol/manager/templates/reports/dashboard.html:331
+#: eventol/manager/templates/reports/dashboard.html:349
 msgid "Didn't Attend"
 msgstr "No asistió"
 
-#: manager/templates/reports/dashboard.html:37
-#: manager/templates/reports/dashboard.html:107
-#: manager/templates/reports/dashboard.html:144
+#: eventol/manager/templates/reports/dashboard.html:37
+#: eventol/manager/templates/reports/dashboard.html:107
+#: eventol/manager/templates/reports/dashboard.html:144
 msgid "Enrolled"
 msgstr "Inscripto"
 
-#: manager/templates/reports/dashboard.html:50
+#: eventol/manager/templates/reports/dashboard.html:50
 msgid "There aren't any enrolled attendees"
 msgstr "No hay asistentes registrados"
 
-#: manager/templates/reports/dashboard.html:59
+#: eventol/manager/templates/reports/dashboard.html:59
 msgid "Organizers and Speakers"
 msgstr "Organizadores y Oradores"
 
-#: manager/templates/reports/dashboard.html:71
-#: manager/templates/reports/dashboard.html:207
-#: manager/templates/reports/dashboard.html:390
-#: manager/templates/reports/dashboard.html:403
-#: manager/templates/reports/dashboard.html:415
+#: eventol/manager/templates/reports/dashboard.html:71
+#: eventol/manager/templates/reports/dashboard.html:207
+#: eventol/manager/templates/reports/dashboard.html:390
+#: eventol/manager/templates/reports/dashboard.html:403
+#: eventol/manager/templates/reports/dashboard.html:415
 msgid "Total"
 msgstr "Total"
 
-#: manager/templates/reports/dashboard.html:84
+#: eventol/manager/templates/reports/dashboard.html:84
 msgid "There aren't any enrolled staff"
 msgstr "No hay organizadores registrados"
 
-#: manager/templates/reports/dashboard.html:120
+#: eventol/manager/templates/reports/dashboard.html:120
 msgid "There aren't any enrolled installers"
 msgstr "No hay instaladores registrados"
 
-#: manager/templates/reports/dashboard.html:157
+#: eventol/manager/templates/reports/dashboard.html:157
 msgid "There aren't any enrolled collaborators"
 msgstr "No hay colaboradores registrados"
 
-#: manager/templates/reports/dashboard.html:165
+#: eventol/manager/templates/reports/dashboard.html:165
 msgid "Activities and Installations"
 msgstr "Actividades e Instalaciones"
 
-#: manager/templates/reports/dashboard.html:187
+#: eventol/manager/templates/reports/dashboard.html:187
 msgid "There aren't any activities or installations submitted"
 msgstr "No se han cargado instalaciones ni actividades"
 
-#: manager/templates/reports/dashboard.html:195
+#: eventol/manager/templates/reports/dashboard.html:195
 msgid "Installers Per Level"
 msgstr "Instaladores Por Nivel"
 
-#: manager/templates/reports/dashboard.html:221
-#: manager/templates/reports/dashboard.html:256
+#: eventol/manager/templates/reports/dashboard.html:221
+#: eventol/manager/templates/reports/dashboard.html:256
 msgid "There aren't any registered installations"
 msgstr "No hay instalaciones registradas"
 
-#: manager/templates/reports/dashboard.html:266
+#: eventol/manager/templates/reports/dashboard.html:266
 msgid "Registered attendees in time"
 msgstr "Asistentes registrados en tiempo"
 
-#: manager/templates/reports/dashboard.html:272
+#: eventol/manager/templates/reports/dashboard.html:272
 msgid "There aren't any attendees registered yet"
 msgstr "No se han registrado asistentes aún"
 
-#: manager/templates/reports/dashboard.html:283
+#: eventol/manager/templates/reports/dashboard.html:283
 msgid "Attendees attendance by hour"
 msgstr "Asistencia por hora"
 
-#: manager/templates/reports/dashboard.html:398
+#: eventol/manager/templates/reports/dashboard.html:398
 msgid "Talks"
 msgstr "Actividades"
 
-#: manager/templates/socialaccount/authentication_error.html:8
+#: eventol/manager/templates/socialaccount/authentication_error.html:8
 msgid "Social Network Login Failure"
 msgstr "Inicio de sesión con red social fallido"
 
-#: manager/templates/socialaccount/authentication_error.html:9
+#: eventol/manager/templates/socialaccount/authentication_error.html:9
 msgid ""
 "An error occurred while attempting to login via your social network account."
 msgstr "Ocurrió un error al iniciar sesión con tu red social."
 
-#: manager/templates/socialaccount/login_cancelled.html:8
+#: eventol/manager/templates/socialaccount/login_cancelled.html:8
 msgid "Login Cancelled"
 msgstr "Inicio de sesión cancelado"
 
-#: manager/templates/socialaccount/login_cancelled.html:12
+#: eventol/manager/templates/socialaccount/login_cancelled.html:12
 #, python-format
 msgid ""
 "You decided to cancel logging in to our site using one of your existing "
@@ -1829,7 +1860,7 @@ msgstr ""
 "                    esto fue un error, por favor <a href=\"%(login_url)s"
 "\">inicia sesión</a>."
 
-#: manager/templates/socialaccount/signup.html:11
+#: eventol/manager/templates/socialaccount/signup.html:11
 #, python-format
 msgid ""
 "You are about to use your\n"
@@ -1841,7 +1872,7 @@ msgstr ""
 "        %(site_name)s. Como paso final, por favor completa el siguiente "
 "formulario:"
 
-#: manager/templates/socialaccount/snippets/account_connections.html:5
+#: eventol/manager/templates/socialaccount/snippets/account_connections.html:5
 msgid ""
 "You can sign in to your account using any of the following third party\n"
 "    accounts:"
@@ -1849,16 +1880,16 @@ msgstr ""
 "Puedes iniciar sesión utilizando cualquiera de los siguientes\n"
 "    proveedores:"
 
-#: manager/templatetags/filters.py:117
+#: eventol/manager/templatetags/filters.py:127
 msgid "N/A"
 msgstr "N/A"
 
-#: manager/utils/email.py:8
+#: eventol/manager/utils/email.py:8
 #, python-brace-format
 msgid "Ticket for {event_name} event"
 msgstr "Entrada para el evento {event_name}"
 
-#: manager/utils/email.py:13
+#: eventol/manager/utils/email.py:13
 #, python-brace-format
 msgid ""
 "Hello {first_name} {last_name},\n"
@@ -1873,7 +1904,7 @@ msgstr ""
 "Saludos,\n"
 "el equipo de {event_name} y eventoL."
 
-#: manager/utils/email.py:24
+#: eventol/manager/utils/email.py:24
 #, python-brace-format
 msgid ""
 "<p>Hello {first_name} {last_name},<br />\n"
@@ -1889,150 +1920,151 @@ msgstr ""
 "<p>Saludos,\n"
 "el equipo de {event_name} y <em>eventoL</em>."
 
-#: manager/utils/email.py:40
+#: eventol/manager/utils/email.py:40
 #, python-brace-format
 msgid ""
 "{first_name} {last_name}, thank you for participating in FLISoL {event_name}"
 msgstr ""
 "{first_name} {last_name}, gracias por participar en FLISoL {event_name}"
 
-#: manager/views.py:108
+#: eventol/manager/views.py:108
 msgid "General Ticket"
 msgstr "Entrada General"
 
-#: manager/views.py:248
+#: eventol/manager/views.py:248
 msgid "The installation has been registered successfully. Happy Hacking!"
 msgstr "La instalación ha sido registrada existosamente. Happy Hacking!"
 
-#: manager/views.py:265
+#: eventol/manager/views.py:265
 msgid "The installation couldn't be registered (check form errors)"
 msgstr ""
 "La instalación no se pudo registrar. Por favor verifica los errores en el "
 "formulario"
 
-#: manager/views.py:303 manager/views.py:388
+#: eventol/manager/views.py:303 eventol/manager/views.py:388
 msgid "The attendee has already been registered correctly."
 msgstr "El asistente ha sido registrado exitosamente."
 
-#: manager/views.py:314 manager/views.py:400
+#: eventol/manager/views.py:314 eventol/manager/views.py:400
 msgid "The attendee has been successfully registered. Happy Hacking!"
 msgstr "El asistente ha sido registrado exitosamente!"
 
-#: manager/views.py:331
+#: eventol/manager/views.py:331
 msgid "The collaborator has already been registered correctly."
 msgstr "El colaborador ha sido registrado exitosamente."
 
-#: manager/views.py:342
+#: eventol/manager/views.py:342
 msgid "The collaborator has been successfully registered. Happy Hacking!"
 msgstr "El colaborador ha sido registrado exitosamente!"
 
-#: manager/views.py:356
+#: eventol/manager/views.py:356
 msgid "There was a problem registering the attendee. Please try again."
 msgstr ""
 "Hubo un problema al intentar registrar el asistente. Por favor intenta de "
 "nuevo."
 
-#: manager/views.py:405
+#: eventol/manager/views.py:405
 msgid "The user isn't registered for this event."
 msgstr "El asistente no se encuentra registrado para este evento."
 
-#: manager/views.py:427
+#: eventol/manager/views.py:427
 #, python-format
 msgid "%s has been successfully added as an Organizer."
 msgstr "%s ha sido añadido como Organizador."
 
-#: manager/views.py:441 manager/views.py:487
+#: eventol/manager/views.py:441 eventol/manager/views.py:487
 msgid "Something went wrong (please check form errors)"
 msgstr "Algo malió sal. Por favor verifica los errores en el formulario"
 
-#: manager/views.py:473
+#: eventol/manager/views.py:473
 #, python-format
 msgid "%s has been successfully added to manage attendance."
 msgstr "%s ha sido añadido como miembro de registración."
 
-#: manager/views.py:566
+#: eventol/manager/views.py:566
 msgid "The attendee is already registered for this event, use correct form"
 msgstr ""
 "El asistente ya está registrado para este evento. Por favor usa el "
 "formulario correcto"
 
-#: manager/views.py:579
+#: eventol/manager/views.py:579
 msgid "The attendee was successfully registered. Happy Hacking!"
 msgstr "El asistente ha sido registrado existosamente. ¡Feliz Hacking!"
 
-#: manager/views.py:596
+#: eventol/manager/views.py:596
 msgid "The attendee couldn't be registered (check form errors)"
 msgstr ""
 "No se pudo registrar el asistente. Por favor verifica los errores en el "
 "formulario"
 
-#: manager/views.py:600
+#: eventol/manager/views.py:600
 msgid "You can only register an attendance at the day of the event or after"
 msgstr "Solo podés registrar una asistencia en el día del evento o después"
 
-#: manager/views.py:628
+#: eventol/manager/views.py:628
 msgid "Self-registration"
 msgstr "Auto registración"
 
-#: manager/views.py:629
+#: eventol/manager/views.py:629
 msgid "Scan this QR code to register yourself"
 msgstr "Escaneá este código QR para registrarte a vos mismo"
 
-#: manager/views.py:670 manager/views.py:768
+#: eventol/manager/views.py:670 eventol/manager/views.py:768
 msgid "The registration code does not seems to be valid for this event"
 msgstr "El código de registración no parece ser válido para este evento"
 
-#: manager/views.py:676
+#: eventol/manager/views.py:676
 msgid "You can only register by yourself on the event date"
 msgstr "Solo podés auto registrarte el día del evento"
 
-#: manager/views.py:693
+#: eventol/manager/views.py:693
 msgid "You are already registered!"
 msgstr "¡Ya estás registrado!"
 
-#: manager/views.py:710 manager/views.py:787 manager/views.py:794
+#: eventol/manager/views.py:710 eventol/manager/views.py:787
+#: eventol/manager/views.py:794
 msgid "You are now marked as present in the event, have fun!"
 msgstr "Ahora estás marcado como presente en el evento, ¡divertite!"
 
-#: manager/views.py:726
+#: eventol/manager/views.py:726
 msgid "You couldn't be registered (check form errors)"
 msgstr "No pudiste ser registrado (verificá los errores del formulario)"
 
-#: manager/views.py:773
+#: eventol/manager/views.py:773
 msgid "Auto-reading QR codes is only available at the event date"
 msgstr ""
 "La lectura automática de códigos QR solo está disponible en el día del evento"
 
-#: manager/views.py:784 manager/views.py:791
+#: eventol/manager/views.py:784 eventol/manager/views.py:791
 msgid "You are already registered and present! Go have fun"
 msgstr "¡Ya estás presente y registrado! Andá a divertirte"
 
-#: manager/views.py:796
+#: eventol/manager/views.py:796
 msgid "The ticket code is not valid for this event"
 msgstr "El asistente no se encuentra registrado para este evento."
 
-#: manager/views.py:820
+#: eventol/manager/views.py:820
 #, python-brace-format
 msgid "[eventoL] Contact message from {name}"
 msgstr "[eventoL] Mensaje de contacto de {name}"
 
-#: manager/views.py:832
+#: eventol/manager/views.py:832
 msgid "The message has been sent. You will receive a reply by email"
 msgstr ""
 "El mensaje ha sido enviado. Recibirás una respueta por correo electrónico"
 
-#: manager/views.py:845
+#: eventol/manager/views.py:845
 msgid ""
 "There was a problem sending your message. Please try again in a few minutes."
 msgstr ""
 "Hubo un problema al enviar tu mensaje. Por favor intenta nuevamente en unos "
 "minutos."
 
-#: manager/views.py:946 manager/views.py:1020
+#: eventol/manager/views.py:946 eventol/manager/views.py:1020
 msgid "You are already registered for this event"
 msgstr "Ya estás registrado en este evento"
 
-#: manager/views.py:1054
+#: eventol/manager/views.py:1054
 #, python-brace-format
 msgid ""
 "Hi! You are receiving this message because you have registered to attend to "
@@ -2060,7 +2092,7 @@ msgstr ""
 "Felizmente tuyos,\n"
 "El equipo de {event_name} y eventoL"
 
-#: manager/views.py:1073
+#: eventol/manager/views.py:1073
 #, python-brace-format
 msgid ""
 "<p>Hi! You are receiving this message because you have registered to attend "
@@ -2085,21 +2117,22 @@ msgstr ""
 "<p>Felizmente tuyos,<br />\n"
 "Los equipos de {event_name} y <em>eventoL</em></p>"
 
-#: manager/views.py:1093
+#: eventol/manager/views.py:1093
 msgid "[eventoL] Please confirm your email"
 msgstr "[eventoL] Por favor confirmá tu dirección de correo electrónico"
 
-#: manager/views.py:1111 manager/views.py:1165 manager/views.py:1185
+#: eventol/manager/views.py:1111 eventol/manager/views.py:1165
+#: eventol/manager/views.py:1185
 msgid "There is a problem with the registration (check form errors)"
 msgstr ""
 "Hay algún problema con los datos ingresados. Por favor verifica los errores "
 "en el formulario."
 
-#: manager/views.py:1132
+#: eventol/manager/views.py:1132
 msgid "Email verification"
 msgstr "Verificar email"
 
-#: manager/views.py:1134
+#: eventol/manager/views.py:1134
 msgid ""
 "We've sent you your ticket to your email! In case it doesn't arrive, don't "
 "worry! You're already registered and we'll ask for your email address."
@@ -2108,29 +2141,29 @@ msgstr ""
 "preocupes! Ya estas registrado y el día del evento te preguntaremos la "
 "dirección de correo que ingresaste."
 
-#: manager/views.py:1145
+#: eventol/manager/views.py:1145
 msgid "The verification URL is invalid. Try again. "
 msgstr "La URL de verificación es inválida. Inténtalo de nuevo."
 
-#: manager/views.py:1164
+#: eventol/manager/views.py:1164
 msgid "You have successfully registered as an installer"
 msgstr "Te has registrado exitosamente como instalador"
 
-#: manager/views.py:1184
+#: eventol/manager/views.py:1184
 msgid "You have successfully registered as a collaborator"
 msgstr "Te has registrado exitosamente como colaborador"
 
-#: manager/views.py:1218
+#: eventol/manager/views.py:1218
 msgid "You are not an organizer for this event URL, use a different URL"
 msgstr "No sos un organizador para esta URL de evento, usá una URL diferente"
 
-#: manager/views.py:1264 manager/views.py:1310
+#: eventol/manager/views.py:1264 eventol/manager/views.py:1310
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
 "Hay algún problema con los datos ingresados. Por favor verifica los errores "
 "en el formulario."
 
-#: manager/views.py:1370
+#: eventol/manager/views.py:1370
 msgid ""
 "The activity proposal is already closed or the event is not accepting "
 "proposals through this page. Please contact the Event Organization Team to "
@@ -2140,7 +2173,7 @@ msgstr ""
 "propuestas a través de esta página. Por favor, ponte en contacto con el "
 "equipo de organización del evento para enviarla."
 
-#: manager/views.py:1391
+#: eventol/manager/views.py:1391
 msgid ""
 "There was a problem submitting the proposal. Please check the form for "
 "errors."
@@ -2148,11 +2181,11 @@ msgstr ""
 "Hay algún problema con los datos ingresados. Por favor verifica los errores "
 "en el formulario"
 
-#: manager/views.py:1419 manager/views.py:1593
+#: eventol/manager/views.py:1419 eventol/manager/views.py:1593
 msgid "Please crop or upload a new image."
 msgstr "Recorta la imagen o sube una nueva."
 
-#: manager/views.py:1428
+#: eventol/manager/views.py:1428
 msgid ""
 "The proposal has been registered successfully! We'll contact you at the "
 "provided email"
@@ -2160,21 +2193,21 @@ msgstr ""
 "La propuesta se ha registrado exitosamente! Pronto te contactaremos alemail "
 "que ingresaste"
 
-#: manager/views.py:1435
+#: eventol/manager/views.py:1435
 msgid "The proposal couldn't be registered. Please check the form for errors"
 msgstr ""
 "La propuesta no se pudo registrar. Por favor verifica los errores en el "
 "formulario"
 
-#: manager/views.py:1547
+#: eventol/manager/views.py:1547
 msgid "The talk was registered successfully!"
 msgstr "¡La charla fue registrada satisfactoriamente!"
 
-#: manager/views.py:1559
+#: eventol/manager/views.py:1559
 msgid "The talk couldn't be registered (check form errors)"
 msgstr "La charla no se pudo registrar (verificá los errores en el formulario)"
 
-#: manager/views.py:1602
+#: eventol/manager/views.py:1602
 msgid ""
 "The event has been updated successfully! We'll contact you at the provided "
 "email"
@@ -2182,7 +2215,7 @@ msgstr ""
 "¡El evento ha sido actualizado satisfactoriamente! Te contactaremos a la "
 "dirección de correo electrónico provista"
 
-#: manager/views.py:1609
+#: eventol/manager/views.py:1609
 msgid "The event couldn't be updated. Please check the form for errors"
 msgstr ""
 "El evento no pudo ser actualizado. Por favor verificá los errores en el "
