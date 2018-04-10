@@ -1462,30 +1462,29 @@ def goto_next_or_continue(next_url, safe_continue=None):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def reject_activity(request, event_slug, event_uid, activity_id):
+def change_activity_status(request, event_slug, event_uid, activity_id, status):
     event = get_object_or_404(Event, uid=event_uid)
     activity = get_object_or_404(Activity, id=activity_id)
-    activity.status = 3
+    activity.status = status
     activity.start_date = None
     activity.end_date = None
     activity.room = None
     activity.save()
+    utils_email.send_activity_email(event, activity)
     safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
     return goto_next_or_continue(request.GET.get('next'), safe_continue)
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
+def reject_activity(request, event_slug, event_uid, activity_id):
+    return change_activity_status(request, event_slug, event_uid, activity_id, 3)
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
 def resend_proposal(request, event_slug, event_uid, activity_id):
-    event = get_object_or_404(Event, uid=event_uid)
-    activity = get_object_or_404(Activity, id=activity_id)
-    activity.status = 1
-    activity.start_date = None
-    activity.end_date = None
-    activity.room = None
-    activity.save()
-    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
-    return goto_next_or_continue(request.GET.get('next'), safe_continue)
+    return change_activity_status(request, event_slug, event_uid, activity_id, 1)
 
 
 def activities(request, event_slug, event_uid):
@@ -1544,14 +1543,18 @@ def talk_registration(request, event_slug, event_uid, pk):
                     room = get_object_or_404(Room, pk=request.POST.get('room'))
                     proposal.room = room
                     proposal.save()
+                    utils_email.send_activity_email(event, proposal)
                     messages.success(request, _("The talk was registered successfully!"))
                     safe_continue = reverse("activity_detail", args=[event_slug, event_uid, proposal.pk])
                     return goto_next_or_continue(request.GET.get('next'), safe_continue)
                 except Exception as e:
                     logger.error(e)
-                    if proposal.status == 2:
-                        proposal.statue = 1
-                        proposal.save()
+                    proposal.status = 1
+                    proposal.start_date = None
+                    proposal.end_date = None
+                    proposal.room = None
+                    proposal.save()
+                    messages.error(request, _("The talk couldn't be registered, please retry confirm the talk"))
     forms = [talk_form]
     errors = get_forms_errors(forms)
     error = True

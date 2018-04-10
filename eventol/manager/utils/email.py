@@ -4,6 +4,34 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils.translation import ugettext_lazy as _
 
 
+def get_activity_subject(event_name):
+    return _('New information about your talk in the {event_name} event').format(event_name=event_name)
+
+
+def get_activity_body(event_name, activity_title, activity_status):
+    body_txt = _(
+        'Hello,\n'
+        'Your talk "{activity_title}" was updated to the "{activity_status}" status.\n'
+        'Regards,\n'
+        '{event_name} and eventoL team'
+    ).format(
+        activity_status=activity_status,
+        activity_title=activity_title,
+        event_name=event_name
+    )
+    body_html = _(
+        '<p>Hello,</p>\n'
+        '<p>Your talk "{activity_title}" was updated to the "{activity_status}" status.\n</p>\n'
+        '<p>Regards,\n'
+        '{event_name} and <em>eventoL</em> team</p>'
+    ).format(
+        activity_status=activity_status,
+        activity_title=activity_title,
+        event_name=event_name
+    )
+    return (body_txt, body_html)
+
+
 def get_ticket_subject(event_name):
     return _('Ticket for {event_name} event').format(event_name=event_name)
 
@@ -41,6 +69,20 @@ def get_installation_subject(first_name, last_name, event_name):
     ).format(
         first_name=first_name, last_name=last_name, event_name=event_name
     )
+
+
+def send_activity_email(event, activity):
+    event_name = event.name
+    activity_title = activity.title
+    activity_status = activity.status_choices[int(activity.status) -1][1]
+    email_to = activity.speaker_contact
+    email = EmailMultiAlternatives()
+    email.subject = get_activity_subject(event_name)
+    body_txt, body_html = get_activity_body(event_name, activity_title, activity_status)
+    email.body = body_txt
+    email.attach_alternative(body_html, "text/html")
+    email.to = [email_to]
+    email.send(fail_silently=False)
 
 
 def send_ticket_email(ticket_data, ticket_svg):
