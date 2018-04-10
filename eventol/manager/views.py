@@ -29,6 +29,7 @@ from django.utils.formats import localize, date_format
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from lxml import etree
+from smtplib import SMTPException
 from urllib.parse import urlparse
 
 from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
@@ -143,7 +144,7 @@ def send_event_ticket(user):
         utils_email.send_ticket_email(ticket_data, ticket_svg)
         ticket_data['ticket'].sent = True
         ticket_data['ticket'].save()
-    except Exception as error:
+    except SMTPException as error:
         logger.error(error)
         ticket_data['ticket'].sent = False
         ticket_data['ticket'].save()
@@ -239,9 +240,9 @@ def installation(request, event_slug, event_uid):
                     try:
                         utils_email.send_installation_email(
                             event.name, postinstall_email, install.attendee)
-                    except Exception:
-                        # Don't raise email exception to form exception
-                        pass
+                    except SMTPException as error:
+                        logger.error(error)
+                        messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
                 messages.success(
                     request,
                     _(
@@ -1138,6 +1139,9 @@ def attendee_confirm_email(request, event_slug, event_uid, pk, token):
                 attendee.email_confirmed = True
                 attendee.save()
                 send_event_ticket(attendee)
+            except SMTPException as error:
+                logger.error(error)
+                messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
             except Exception as e:
                 logger.error(e)
                 pass
@@ -1470,7 +1474,11 @@ def change_activity_status(request, event_slug, event_uid, activity_id, status):
     activity.end_date = None
     activity.room = None
     activity.save()
-    utils_email.send_activity_email(event, activity)
+    try:
+        utils_email.send_activity_email(event, activity)
+    except SMTPException as error:
+        logger.error(error)
+        messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
     safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
     return goto_next_or_continue(request.GET.get('next'), safe_continue)
 
@@ -1547,6 +1555,10 @@ def talk_registration(request, event_slug, event_uid, pk):
                     messages.success(request, _("The talk was registered successfully!"))
                     safe_continue = reverse("activity_detail", args=[event_slug, event_uid, proposal.pk])
                     return goto_next_or_continue(request.GET.get('next'), safe_continue)
+                except SMTPException as error:
+                    logger.error(error)
+                    messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
+                    pass
                 except Exception as e:
                     logger.error(e)
                     proposal.status = 1
