@@ -188,6 +188,29 @@
                             </ul>
                         </li>
                     {% endif %}
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as languages %}
+                    {% if languages %}
+                    <!-- language dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="vertical-middle">
+                                <i class="fas fa-language fa-2x"></i>
+                            </span>
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for lang_code, lang in languages %}
+                            <li class="{% if lang_code == LANGUAGE_CODE %}active{% endif %}">
+                                <button class="transparent" value="{{ lang_code }}" id="lang_{{ forloop.counter }}" onclick="change_lang(this.value)">
+                                    <i class="far fa-flag"></i> {{ lang|title }}
+                                </button>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <!-- language.dropdown end -->
+                    {% endif %}
                     {% if not user.is_authenticated %}
                         <li class="dropdown">
                             <a href="#" data-target="#" class="dropdown-toggle"
@@ -244,7 +267,7 @@
 <div class="container-fluid">
     {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-{% ifequal  message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center"
+            <div class="alert alert-{% ifequal message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center"
                  role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -273,6 +296,15 @@
                 $.material.options.autofill = true;
                 $.material.init();
             });
+            function change_lang(language_code) {
+                $.post(
+                    "{% url 'set_language' %}",
+                    {language: language_code, csrfmiddlewaretoken: "{% csrf_token %}"},
+                    function(data, status, xhr) {
+                        location.reload();
+                    }
+                );
+            }
         </script>
     {% endblock %}
     {% block other-script %}{% endblock %}

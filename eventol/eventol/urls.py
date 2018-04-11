@@ -28,7 +28,8 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^jsi18n/$', JavaScriptCatalog.as_view(),
-        {'domain': 'djangojs', 'packages': None}, name='javascript-catalog')
+        {'domain': 'djangojs', 'packages': None}, name='javascript-catalog'),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
