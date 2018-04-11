@@ -522,8 +522,8 @@ class ActivityProposalForm(ModelForm):
 
     field_order = ['event', 'title', 'speakers_names', 'abstract',
                    'long_description', 'speaker_contact', 'repeat_email',
-                   'labels', 'level', 'presentation', 'additional_info',
-                   'status', 'captcha']
+                   'labels', 'level', 'type', 'presentation',
+                   'additional_info', 'captcha', 'status']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -543,7 +543,7 @@ class ActivityProposalForm(ModelForm):
         fields = ['event', 'title', 'speakers_names', 'abstract',
                   'long_description', 'speaker_contact',
                   'labels', 'presentation', 'level',
-                  'additional_info', 'status']
+                  'additional_info', 'status', 'type']
         widgets = {
             'event': forms.HiddenInput(),
             'status': forms.HiddenInput(),

@@ -451,7 +451,12 @@ class Activity(models.Model):
                              blank=True, null=True)
     start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
-    type = models.CharField(_('Type'), max_length=50, blank=True, null=True)
+    activity_type_choices = (
+        ('1', _('Talk')),
+        ('2', _('Workshop')),
+        ('3', _('Lightning talk'))
+    )
+    type = models.CharField(_('Type'), choices=activity_type_choices, max_length=200, null=True, blank=True)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
                                       help_text=_("Comma separated speaker's names"))
     speaker_contact = models.EmailField(_('Speaker Contact'),
