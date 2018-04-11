@@ -188,23 +188,23 @@
                             </ul>
                         </li>
                     {% endif %}
-                    {% get_current_language as LANGUAGE_CODE %}
                     {% get_available_languages as languages %}
                     {% if languages %}
                     <!-- language dropdown start-->
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="vertical-middle">
-                                <i class="fas fa-language fa-2x"></i>
+                                <i class="fa fa-globe"></i>
                             </span>
+                            {% trans "Languages" %}
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             {% for lang_code, lang in languages %}
-                            <li class="{% if lang_code == LANGUAGE_CODE %}active{% endif %}">
-                                <button class="transparent" value="{{ lang_code }}" id="lang_{{ forloop.counter }}" onclick="change_lang(this.value)">
-                                    <i class="far fa-flag"></i> {{ lang|title }}
-                                </button>
+                            <li>
+                                <a href="#" onclick="return change_lang('{{ lang_code }}');">
+                                  <i class="fa fa-flag"></i> {{ lang|title }}
+                                </a>
                             </li>
                             {% endfor %}
                         </ul>
@@ -299,7 +299,7 @@
             function change_lang(language_code) {
                 $.post(
                     "{% url 'set_language' %}",
-                    {language: language_code, csrfmiddlewaretoken: "{% csrf_token %}"},
+                    {language: language_code, csrfmiddlewaretoken: "{{ csrf_token }}"},
                     function(data, status, xhr) {
                         location.reload();
                     }
