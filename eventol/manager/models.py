@@ -454,7 +454,8 @@ class Activity(models.Model):
     activity_type_choices = (
         ('1', _('Talk')),
         ('2', _('Workshop')),
-        ('3', _('Lightning talk'))
+        ('3', _('Lightning talk')),
+        ('4', _('Other'))
     )
     type = models.CharField(_('Type'), choices=activity_type_choices, max_length=200, null=True, blank=True)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
