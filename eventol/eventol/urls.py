@@ -7,12 +7,21 @@ from eventol import settings
 from manager import views
 from rest_framework import routers
 
-from .api import EventViewSet
+from .api import (EventViewSet, EventUserViewSet, InstallerViewSet,
+                  CollaboratorViewSet, OrganizerViewSet, ActivityViewSet,
+                  AttendeeViewSet, InstallationViewSet)
 
 
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'events', EventViewSet)
+router.register(r'eventUsers', EventUserViewSet)
+router.register(r'installers', InstallerViewSet)
+router.register(r'collaborators', CollaboratorViewSet)
+router.register(r'organizers', OrganizerViewSet)
+router.register(r'activities', ActivityViewSet)
+router.register(r'attendees', AttendeeViewSet)
+router.register(r'installations', InstallationViewSet)
 
 admin.autodiscover()
 
@@ -23,7 +32,8 @@ urlpatterns = [
     url(r'^event/', include('manager.urls'), name='event'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
-    url(r'^accounts/profile/', TemplateView.as_view(template_name='account/profile.html'),
+    url(r'^accounts/profile/',
+        TemplateView.as_view(template_name='account/profile.html'),
         name="user_profile"),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^captcha/', include('captcha.urls')),
