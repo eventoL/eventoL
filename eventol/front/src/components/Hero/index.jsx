@@ -27,8 +27,8 @@ export default class Hero extends React.Component {
           { slug && (
             <h2>{`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}<br></br>
             {`${gettext('Please, select one to continue')}`}</h2>
-          )}
-          { !slug && <h2>{gettext('Event Management Software')}</h2> }
+        )}
+          { !slug && <h2>{gettext('Search your event')}</h2> }
           {this.props.children}
         </div>
         <div className="overlay"></div>
