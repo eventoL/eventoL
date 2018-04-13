@@ -30,7 +30,7 @@
     "model": "manager.ContactType",
     "fields": {
       "name": "Wiki",
-      "icon_class": "fa-puzzle-piece",
+      "icon_class": "fa-book",
       "validate": "1"
     },
     "pk": 4
