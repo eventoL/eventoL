@@ -308,6 +308,7 @@ def manage_attendance(request, event_slug, event_uid):
                 else:
                     attendance_date = AttendeeAttendanceDate()
                     attendance_date.attendee = attendee
+                    attendance_date.mode = '3'
                     attendance_date.save()
                     messages.success(
                         request,
@@ -336,6 +337,7 @@ def manage_attendance(request, event_slug, event_uid):
                 else:
                     attendance_date = EventUserAttendanceDate()
                     attendance_date.event_user = event_user
+                    attendance_date.mode = '3'
                     attendance_date.save()
                     messages.success(
                         request,
@@ -394,6 +396,7 @@ def attendance_by_ticket(request, event_slug, event_uid, ticket_code):
             else:
                 attendance_date = AttendeeAttendanceDate()
                 attendance_date.attendee = attendee
+            attendance_date.mode = '2'
             attendance_date.save()
             messages.success(
                 request,
@@ -551,13 +554,14 @@ def attendee_registration_by_collaborator(request, event_slug, event_uid):
 
 def process_attendee_registration(request, event, return_url, render_template):
     # Verify date, allow only on event day or after
-    eventdate = EventDate.objects.get(event=event, date__lte=timezone.localdate())
+    eventdate = EventDate.objects.filter(
+        event=event, date__lte=timezone.localdate()).order_by('-date').first()
+    form = AttendeeRegistrationByCollaboratorForm(
+        request.POST or None,
+        initial={'event': event}
+    )
     if eventdate:
         if request.POST:
-            form = AttendeeRegistrationByCollaboratorForm(
-                request.POST or None,
-                initial={'event': event}
-            )
             if form.is_valid():
                 email = form.cleaned_data["email"]
                 if Attendee.objects.filter(event=event, email__iexact=email).exists():
@@ -572,7 +576,8 @@ def process_attendee_registration(request, event, return_url, render_template):
                 try:
                     attendee = form.save()
                     attendance_date = AttendeeAttendanceDate.objects.create(
-                        attendee=attendee
+                        attendee=attendee,
+                        mode='4'
                     )
                     messages.success(
                         request,
@@ -687,7 +692,9 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
             attendee = Attendee.objects.filter(event=event, email__iexact=attendee_email_raw).first()
         except ValidationError:
             attendee = None
+        mode = None
         if attendee:
+            mode = '3'
             messages.info(
                 request,
                 _(
@@ -695,6 +702,7 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
                 )
             )
         elif form.is_valid():
+            mode = '1'
             attendee = form.save()
         if attendee:
             if attendee.attended_today():
@@ -703,6 +711,7 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
             else:
                 try:
                     attendance_date = AttendeeAttendanceDate()
+                    attendance_date.mode = mode
                     attendance_date.attendee = attendee
                     attendance_date.save()
                     messages.success(
@@ -784,15 +793,15 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
             if EventUserAttendanceDate.objects.filter(event_user=event_user, date__date=timezone.localdate()).exists():
                 messages.info(request, _('You are already registered and present! Go have fun'))
             else:
-                EventUserAttendanceDate.objects.create(event_user=event_user)
-                messages.info(request, _('You are now marked as present in the event, have fun!'))
+                EventUserAttendanceDate.objects.create(event_user=event_user, mode='2')
+                messages.success(request, _('You are now marked as present in the event, have fun!'))
         elif attendee.exists():
             attendee = attendee.first()
             if AttendeeAttendanceDate.objects.filter(attendee=attendee, date__date=timezone.localdate()).exists():
                 messages.info(request, _('You are already registered and present! Go have fun'))
             else:
-                AttendeeAttendanceDate.objects.create(attendee=attendee)
-                messages.info(request, _('You are now marked as present in the event, have fun!'))
+                AttendeeAttendanceDate.objects.create(attendee=attendee, mode='2')
+                messages.success(request, _('You are now marked as present in the event, have fun!'))
         else:
             messages.error(request, _('The ticket code is not valid for this event'))
 
