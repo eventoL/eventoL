@@ -1483,8 +1483,7 @@ def change_activity_status(request, event_slug, event_uid, activity_id, status, 
     activity.start_date = None
     activity.end_date = None
     activity.room = None
-    if justification is not None:
-        activity.justification = justification
+    activity.justification = justification
     activity.save()
     try:
         utils_email.send_activity_email(event, activity, justification)
