@@ -71,7 +71,8 @@ class ActivitySerializer(EventolSerializer):
 class AttendeeSerializer(EventolSerializer):
     class Meta:
         model = Attendee
-        fields = ('url', 'created_at', 'event', 'is_installing')
+        fields = ('url', 'created_at', 'updated_at', 'event', 'event_user',
+                  'is_installing', 'email_confirmed', 'registration_date')
 
 
 class InstallationSerializer(EventolSerializer):
@@ -189,14 +190,38 @@ class OrganizerViewSet(EventUserModelViewSet):
     serializer_class = OrganizerSerializer
 
 
-class AttendeeViewSet(viewsets.ModelViewSet):
+class AttendeeViewSet(EventUserModelViewSet):
     queryset = Attendee.objects.all()
     serializer_class = AttendeeSerializer
-    ordering_fields = ('created_at',)
-    search_fields = None
+    filter_fields = ('event_user__event__uid', 'is_installing',
+                     'email_confirmed', 'event__uid')
+    ordering_fields = ('created_at', 'updated_at', 'registration_date')
 
+    def get_event_users(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        return [inst.event_user for inst in queryset if inst.event_user]
 
-class InstallationViewSet(viewsets.ModelViewSet):
+    def get_attendees(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        return [inst for inst in queryset if not inst.event_user]
+
+    def get_counts(self):
+        event_user_counts = super().get_counts()
+        attendees = self.get_attendees()
+        confirmed = AttendeeAttendanceDate.objects \
+            .filter(attendee__in=attendees) \
+            .order_by('attendees') \
+            .distinct() \
+            .count()
+        total = len(attendees)
+        return {
+            'with_event_user': event_user_counts,
+            'without_event_user': {
+                'total': total,
+                'confirmed': confirmed,
+                'not_confirmed': total - confirmed
+            }
+        }
 
 
 class RoomViewSet(viewsets.ModelViewSet):
