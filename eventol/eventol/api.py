@@ -78,7 +78,8 @@ class AttendeeSerializer(EventolSerializer):
 class InstallationSerializer(EventolSerializer):
     class Meta:
         model = Installation
-        fields = ('url', 'created_at', 'event')
+        fields = ('url', 'created_at', 'updated_at', 'installer',
+                  'hardware', 'software', 'attendee', 'notes')
 
 
 class RoomSerializer(EventolSerializer):
@@ -274,7 +275,26 @@ class HardwareViewSet(viewsets.ModelViewSet):
     ordering_fields = None
 
 
+class InstallationViewSet(EventUserModelViewSet):
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
-    ordering_fields = ('created_at',)
-    search_fields = None
+    search_fields = ('notes')
+    filter_fields = ('attendee__event__uid', 'attendee__event_user__event__uid',
+                     'software', 'hardware', 'attendee')
+    ordering_fields = ('created_at', 'updated_at',)
+
+    def get_counts(self):
+        installations = self.filter_queryset(self.get_queryset())
+        hardware_count = count_by(
+            installations, lambda activity: activity.hardware.model)
+        software_count = count_by(
+            installations, lambda activity: activity.software.name)
+        installer_count = count_by(
+            installations, lambda activity: activity.installer.id)
+        total = installations.count()
+        return {
+            'hardware_count': hardware_count,
+            'software_count': software_count,
+            'installer_count': installer_count,
+            'total': total
+        }
