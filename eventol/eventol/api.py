@@ -12,6 +12,7 @@ from manager.models import (Event, Activity, Attendee, EventUserAttendanceDate,
                             Installer, Installation, Collaborator, Room,
                             EventUser, Organizer, AttendeeAttendanceDate,
                             Software, Hardware)
+from manager.views import count_by
 
 
 # Serializers define the API representation.
@@ -62,8 +63,9 @@ class OrganizerSerializer(EventolSerializer):
 class ActivitySerializer(EventolSerializer):
     class Meta:
         model = Activity
-        fields = ('url', 'created_at', 'event', 'title', 'room',
-                  'start_date', 'end_date', 'type', 'labels')
+        fields = ('url', 'created_at', 'updated_at', 'event', 'title', 'room',
+                  'start_date', 'end_date', 'type', 'labels', 'level', 'status',
+                  'is_dummy', 'long_description', 'abstract')
 
 
 class AttendeeSerializer(EventolSerializer):
@@ -185,11 +187,6 @@ class CollaboratorViewSet(EventUserModelViewSet):
 class OrganizerViewSet(EventUserModelViewSet):
     queryset = Organizer.objects.all()
     serializer_class = OrganizerSerializer
-class ActivityViewSet(viewsets.ModelViewSet):
-    queryset = Activity.objects.all()
-    serializer_class = ActivitySerializer
-    ordering_fields = ('created_at',)
-    search_fields = ('title', 'labels',)
 
 
 class AttendeeViewSet(viewsets.ModelViewSet):
@@ -208,6 +205,33 @@ class RoomViewSet(viewsets.ModelViewSet):
     filter_fields = ('event__uid', 'name',)
     ordering_fields = ('name',)
     search_fields = ('name',)
+
+
+class ActivityViewSet(EventUserModelViewSet):
+    queryset = Activity.objects.all()
+    serializer_class = ActivitySerializer
+    search_fields = ('title', 'labels', 'additional_info',
+                     'speakers_names', 'long_description')
+    filter_fields = ('event__uid', 'room', 'title', 'type',
+                     'status', 'level', 'is_dummy')
+    ordering_fields = ('created_at', 'updated_at', 'start_date', 'end_date')
+
+    def get_counts(self):
+        activities = self.filter_queryset(self.get_queryset())
+        level_count = count_by(activities, lambda activity: activity.level)
+        status_count = count_by(activities, lambda activity: activity.status)
+        type_count = count_by(activities, lambda activity: activity.type)
+        total = activities.count()
+        confirmed = activities.filter(room__isnull=False).count()
+        return {
+            'level_count': level_count,
+            'status_count': status_count,
+            'type_count': type_count,
+            'confirmed': confirmed,
+            'not_confirmed': total - confirmed,
+            'total': total
+        }
+
 
 class SoftwareViewSet(viewsets.ModelViewSet):
     queryset = Software.objects.all()
