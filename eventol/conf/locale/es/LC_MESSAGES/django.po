@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-18 06:14+0000\n"
+"POT-Creation-Date: 2018-04-18 08:26+0000\n"
 "PO-Revision-Date: 2017-12-07 20:44+0000\n"
 "Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -295,11 +295,6 @@ msgstr "Usuario"
 #: eventol/manager/templates/event/image-cropping.html:18
 msgid "Event"
 msgstr "Nombre del evento"
-
-#: eventol/manager/templates/base-main.html:100
-msgctxt "navbar"
-msgid "Event"
-msgstr "Evento"
 
 #: eventol/manager/models.py:202 eventol/manager/models.py:308
 msgid "Ticket"
@@ -1381,6 +1376,11 @@ msgstr "Proponé tu Actividad"
 msgid "View my Ticket"
 msgstr "Ver mi entrada"
 
+#: eventol/manager/templates/base-main.html:100
+msgctxt "navbar"
+msgid "Event"
+msgstr "Evento"
+
 #: eventol/manager/templates/base-main.html:105
 msgid "Schedule"
 msgstr "Cronograma"
@@ -2404,7 +2404,11 @@ msgstr "La sala no se pudo editar (verificá los errores en el formulario)"
 msgid "The room couldn't be added (check form errors)"
 msgstr "La sala no se pudo agregar (verificá los errores en el formulario)"
 
-#: eventol/manager/views.py:1827
+#: eventol/manager/views.py:1828
+msgid "The room has assigned activities."
+msgstr "La sala tiene actividades asignadas."
+
+#: eventol/manager/views.py:1836
 msgid "The Room has been removed successfully."
 msgstr "¡La sala fue borrada satisfactoriamente!"
 
