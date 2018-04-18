@@ -1820,13 +1820,22 @@ def add_or_edit_room(request, event_slug, event_uid, room_id=None):
 def delete_room(request, event_slug, event_uid, room_id):
     event = get_object_or_404(Event, uid=event_uid)
     room = get_object_or_404(Room, event=event, id=room_id)
-    room.delete()
-    messages.success(
-        request,
-        _(
-            "The Room has been removed successfully."
+    activities_instances = Activity.objects.filter(room=room)
+    if activities_instances.exists():
+        messages.error(
+            request,
+            _(
+                "The room has assigned activities."
+            )
         )
-    )
+    else:
+        room.delete()
+        messages.success(
+            request,
+            _(
+                "The Room has been removed successfully."
+            )
+        )
     return redirect(reverse(
         'rooms_list',
         args=[event_slug, event_uid]
