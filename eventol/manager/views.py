@@ -37,7 +37,8 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
     AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, \
     EventForm, ContactMessageForm, ImageCroppingForm, EventImageCroppingForm, \
-    EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, AttendeeRegistrationFromUserForm
+    EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, \
+    AttendeeRegistrationFromUserForm, RejectForm, RoomForm
 from manager.models import Attendee, Organizer, EventUser, Room, Event, \
     Contact, Activity, Hardware, Installation, Collaborator, ContactMessage, \
     Installer, InstallationMessage, EventDate, \
@@ -1475,16 +1476,17 @@ def goto_next_or_continue(next_url, safe_continue=None):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def change_activity_status(request, event_slug, event_uid, activity_id, status):
+def change_activity_status(request, event_slug, event_uid, activity_id, status, justification=None):
     event = get_object_or_404(Event, uid=event_uid)
     activity = get_object_or_404(Activity, id=activity_id)
     activity.status = status
     activity.start_date = None
     activity.end_date = None
     activity.room = None
+    activity.justification = justification
     activity.save()
     try:
-        utils_email.send_activity_email(event, activity)
+        utils_email.send_activity_email(event, activity, justification)
     except SMTPException as error:
         logger.error(error)
         messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
@@ -1495,7 +1497,11 @@ def change_activity_status(request, event_slug, event_uid, activity_id, status):
 @login_required
 @user_passes_test(is_organizer, 'index')
 def reject_activity(request, event_slug, event_uid, activity_id):
-    return change_activity_status(request, event_slug, event_uid, activity_id, 3)
+    reject_form = RejectForm(request.POST)
+    justification = ''
+    if reject_form.is_valid():
+        justification = request.POST.get('justification', '')
+    return change_activity_status(request, event_slug, event_uid, activity_id, 3, justification)
 
 
 @login_required
@@ -1507,8 +1513,8 @@ def resend_proposal(request, event_slug, event_uid, activity_id):
 def activities(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     proposed_activities, accepted_activities, rejected_activities = [], [], []
-    activities = Activity.objects.filter(event=event)
-    for activity in activities:
+    activities_instances = Activity.objects.filter(event=event)
+    for activity in activities_instances:
         activity.labels = activity.labels.split(',')
         if activity.status == '1':
             proposed_activities.append(activity)
@@ -1517,17 +1523,20 @@ def activities(request, event_slug, event_uid):
         else:
             rejected_activities.append(activity)
         setattr(activity, 'form', ActivityForm(event_slug, event_uid, instance=activity))
+        setattr(activity, 'reject_form', RejectForm())
         setattr(activity, 'errors', [])
     return render(request, 'activities/activities_home.html',
                   update_event_info(
                       event_slug,
                       event_uid,
                       request,
-                      {'proposed_activities': proposed_activities,
-                      'accepted_activities': accepted_activities,
-                      'rejected_activities': rejected_activities}
+                      {
+                          'proposed_activities': proposed_activities,
+                          'accepted_activities': accepted_activities,
+                          'rejected_activities': rejected_activities
+                      }
                   )
-            )
+    )
 
 
 @login_required
@@ -1649,6 +1658,7 @@ def activity_detail(request, event_slug, event_uid, activity_id):
     params = {
         'activity': activity,
         'form': ActivityForm(event_slug, event_uid, instance=activity),
+        'reject_form': RejectForm(),
         'errors': []
     }
     return render(
@@ -1725,6 +1735,102 @@ def schedule(request, event_slug, event_uid):
             event=event
         )
     )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def rooms_list(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    rooms = Room.objects.filter(event=event)
+    return render(
+        request,
+        'rooms/list.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            request,
+            {'rooms': rooms}
+        )
+    )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def add_or_edit_room(request, event_slug, event_uid, room_id=None):
+    event = get_object_or_404(Event, uid=event_uid)
+    room_form = RoomForm(request.POST or None)
+    is_edit = False
+    room = None
+    if room_id is not None:
+        room = get_object_or_404(Room, event=event, id=room_id)
+        room_form = RoomForm(request.POST or None, instance=room)
+        is_edit = True
+    forms = [room_form]
+    errors = []
+    if request.POST:
+        if room_form.is_valid():
+            try:
+                room = room_form.save()
+                room.event = event
+                room.save()
+                if is_edit:
+                    messages.success(
+                        request,
+                        _("The Room has been edited successfully.")
+                    )
+                else:
+                    messages.success(
+                        request,
+                        _("The Room has been added successfully.")
+                    )
+                return redirect(reverse(
+                    'rooms_list',
+                    args=[event_slug, event_uid]
+                ))
+            except Exception as e:
+                logger.error(e)
+                if room is not None:
+                    Room.delete(room)
+        if is_edit:
+            messages.error(
+                request,
+                _("The room couldn't be edited (check form errors)")
+            )
+        else:
+            messages.error(
+                request,
+                _("The room couldn't be added (check form errors)")
+            )
+        errors = get_forms_errors(forms)
+    return render(
+        request,
+        'rooms/add-or-edit-form.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            request,
+            {'is_edit': is_edit, 'room': room if room else None,
+             'forms': forms, 'errors': errors, 'multipart': False}
+        )
+    )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def delete_room(request, event_slug, event_uid, room_id):
+    event = get_object_or_404(Event, uid=event_uid)
+    room = get_object_or_404(Room, event=event, id=room_id)
+    room.delete()
+    messages.success(
+        request,
+        _(
+            "The Room has been removed successfully."
+        )
+    )
+    return redirect(reverse(
+        'rooms_list',
+        args=[event_slug, event_uid]
+    ))
 
 
 def handler404(request):

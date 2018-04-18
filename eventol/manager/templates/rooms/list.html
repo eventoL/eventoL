@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load filters %}
+{% block page-header %}
+    <div class="row">
+        <h1>
+          {% trans "Rooms" %}
+          <div id="buttons" class="pull-right">
+              {% if user.is_authenticated and user|is_organizer:event_uid %}
+                  <a href="{% url "add_room" event_slug event_uid %}" class="btn btn-raised btn-success">
+                      {% trans 'Add Room' %}
+                  </a>
+              {% endif %}
+          </div>
+        </h1>
+    </div>
+{% endblock %}
+{% block content %}
+    {% if rooms %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{% trans 'Number' %}</th>
+            <th scope="col">{% trans 'Name' %}</th>
+            <th scope="col">{% trans 'Actions' %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for room in rooms %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ room.name }}</td>
+            <td>
+              <a href="{% url "edit_room" event_slug event_uid room.id %}" class="btn btn-primary btn-raised btn-sm">
+                {% trans "Edit" %}
+              </a>
+              <a href="{% url "delete_room" event_slug event_uid room.id %}" class="btn btn-primary btn-raised btn-sm">
+                {% trans "Delete" %}
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+        <div class="well">
+            <p>
+                {% trans "There isn't any room yet." %} <a href="{% url "add_room" event_slug event_uid %}">{% trans "Submit yours!" %}</a>
+            </p>
+        </div>
+    {% endif %}
+
+{% endblock %}

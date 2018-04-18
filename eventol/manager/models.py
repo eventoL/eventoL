@@ -465,6 +465,8 @@ class Activity(models.Model):
     long_description = models.TextField(_('Long Description'))
     abstract = models.TextField(_('Abstract'),
                                 help_text=_('Short idea of the talk (Two or three sentences)'))
+    justification = models.TextField(_('Justification'), blank=True, null=True,
+                                     help_text=_('Why do you reject this proposal?'))
     room = models.ForeignKey(Room, verbose_name=_('Room'),
                              blank=True, null=True)
     start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)

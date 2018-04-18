@@ -1,0 +1,10 @@
+{% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block page-header %}{% if is_edit %}{% trans "Edit a Room" %}{% else %}{% trans "Submit a Room" %}{% endif %}{% endblock %}
+{% block page-name %}{% if is_edit %}{% trans "Edit a Room" %}{% else %}{% trans "Submit a Room" %}{% endif %}{% endblock %}
+{% block form-id %}{% if is_edit %}"edit-room-form"{% else %}"add-room-form"{% endif %}{% endblock %}
+{% block form-name %}{% if is_edit %}{% trans "Edit a Room" %}{% else %}{% trans "Submit a Room" %}{% endif %}{% endblock %}
+{% block submit-button %}{% if is_edit %}{% trans "Edit Room" %}{% else %}{% trans "Create Room" %}{% endif %}{% endblock %}
+{% block form-action %}{% if is_edit %}"{% url "edit_room" event_slug event_uid room.id %}"{% else %}"{% url "add_room" event_slug event_uid %}"{% endif %}{% endblock %}

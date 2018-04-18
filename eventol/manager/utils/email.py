@@ -8,26 +8,34 @@ def get_activity_subject(event_name):
     return _('New information about your talk in the {event_name} event').format(event_name=event_name)
 
 
-def get_activity_body(event_name, activity_title, activity_status):
+def get_activity_body(event_name, activity_title, activity_status, justification=None):
+    justification_txt = _('Justification: {}\n').format(justification) \
+        if justification is not None else ''
     body_txt = _(
         'Hello,\n'
         'Your talk "{activity_title}" was updated to the "{activity_status}" status.\n'
+        '{justification}'
         'Regards,\n'
         '{event_name} and eventoL team'
     ).format(
         activity_status=activity_status,
         activity_title=activity_title,
-        event_name=event_name
+        event_name=event_name,
+        justification=justification_txt
     )
+    justification_html = _('<p>Justification: {}</p>\n').format(justification) \
+        if justification is not None else ''
     body_html = _(
         '<p>Hello,</p>\n'
         '<p>Your talk "{activity_title}" was updated to the "{activity_status}" status.\n</p>\n'
-        '<p>Regards,\n'
-        '{event_name} and <em>eventoL</em> team</p>'
+        '{justification}'
+        '<p>Regards,</p>\n'
+        '{event_name} and <em>eventoL</em> team</p>\n'
     ).format(
         activity_status=activity_status,
         activity_title=activity_title,
-        event_name=event_name
+        event_name=event_name,
+        justification=justification_html
     )
     return (body_txt, body_html)
 
@@ -71,14 +79,14 @@ def get_installation_subject(first_name, last_name, event_name):
     )
 
 
-def send_activity_email(event, activity):
+def send_activity_email(event, activity, justification=None):
     event_name = event.name
     activity_title = activity.title
     activity_status = activity.status_choices[int(activity.status) -1][1]
     email_to = activity.speaker_contact
     email = EmailMultiAlternatives()
     email.subject = get_activity_subject(event_name)
-    body_txt, body_html = get_activity_body(event_name, activity_title, activity_status)
+    body_txt, body_html = get_activity_body(event_name, activity_title, activity_status, justification)
     email.body = body_txt
     email.attach_alternative(body_html, "text/html")
     email.to = [email_to]

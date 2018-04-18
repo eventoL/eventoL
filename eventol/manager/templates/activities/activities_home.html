@@ -17,14 +17,17 @@
                   <a href="{% url "activity_proposal" event_slug event_uid %}" class="btn btn-raised btn-success">
                       {% trans 'Submit an activity' %}
                   </a>
+                  <a href="{% url "rooms_list" event_slug event_uid %}" class="btn btn-raised btn-success">
+                      {% trans "Manage Rooms" %}
+                  </a>
+              {% endif %}
+              {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_uid %}
+                   <a type="button" class="btn btn-raised btn-success"
+                      href="{% url "confirm_schedule" event_slug event_uid %}">
+                      <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
+                   </a>
               {% endif %}
           </div>
-          {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_uid %}
-               <a type="button" class="btn btn-raised btn-success pull-right"
-                  href="{% url "confirm_schedule" event_slug event_uid %}">
-                  <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
-               </a>
-          {% endif %}
         </h1>
     </div>
 {% endblock %}
@@ -81,8 +84,11 @@
                                                     {% trans "View Talk" %}
                                                 </a></p>
                                                 {% if user.is_authenticated and user|is_organizer:event_uid %}
-                                                    <p><a href="{% url "reject_activity" event.slug event.uid talk.id %}?next={{ request.get_full_path|urlencode }}">
-                                                      {% trans "Reject Talk" %}
+                                                    <p><a id='reject-{{ forloop.counter }}'
+                                                          href='#'
+                                                          data-toggle="collapse"
+                                                          onclick="becomeTalk('talk-info-{{ forloop.counter }}','reject_talk-{{ forloop.counter }}')">
+                                                        {% trans "Reject Talk" %}
                                                     </a></p>
                                                     <p><a href="{% url "resend_proposal" event.slug event.uid talk.id %}?next={{ request.get_full_path|urlencode }}">
                                                       {% trans "Resend Proposal" %}
@@ -99,6 +105,11 @@
                                                   <div id="edit_talk-{{ forloop.counter }}" class="panel-collapse collapse">
                                                       <div class="container col-sm-12">
                                                           {% include 'activities/to_talk_form.html' with form=talk.form errors=talk.errors form_id=talk.pk %}
+                                                      </div>
+                                                  </div>
+                                                  <div id="reject_talk-{{ forloop.counter }}" class="panel-collapse collapse">
+                                                      <div class="container col-sm-12">
+                                                          {% include 'activities/reject_form.html' with form=talk.reject_form form_id=talk.pk %}
                                                       </div>
                                                   </div>
                                               {% endif %}
@@ -176,13 +187,21 @@
                                                 </div>
                                                 <p><a href="{% url "activity_detail" event.slug event.uid proposal.id %}">{% trans "View Proposal" %}</a></p>
                                                 {% if user.is_authenticated and user|is_organizer:event_uid %}
-                                                    <p><a href="{% url "reject_activity" event.slug event.uid proposal.id %}?next={{ request.get_full_path|urlencode }}">
+                                                    <p><a id='to-reject-{{ forloop.counter }}'
+                                                          href='#'
+                                                          data-toggle="collapse"
+                                                          onclick="becomeTalk('proposal-info-{{ forloop.counter }}','to_reject_talk-{{ forloop.counter }}')">
                                                         {% trans "Reject Talk" %}
                                                     </a></p>
                                                     <div id="to_talk-{{ forloop.counter }}"
                                                          class="panel-collapse collapse">
                                                         <div class="container col-sm-12">
                                                             {% include 'activities/to_talk_form.html' with form=proposal.form errors=proposal.errors form_id=proposal.pk %}
+                                                        </div>
+                                                    </div>
+                                                    <div id="to_reject_talk-{{ forloop.counter }}" class="panel-collapse collapse">
+                                                        <div class="container col-sm-12">
+                                                            {% include 'activities/reject_form.html' with form=proposal.reject_form form_id=proposal.pk %}
                                                         </div>
                                                     </div>
                                                 {% endif %}
@@ -302,7 +321,7 @@
             }
 
             $('.timepicker').datetimepicker({
-                format: 'LT',
+                format: 'HH:mm',
                 icons   : {
                     time: "fa fa-clock-o",
                     date: "fa fa-calendar",
