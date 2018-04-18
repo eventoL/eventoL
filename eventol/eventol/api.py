@@ -50,7 +50,7 @@ class InstallerSerializer(EventolSerializer):
 class CollaboratorSerializer(EventolSerializer):
     class Meta:
         model = Collaborator
-        fields = ('url', 'created_at')
+        fields = ('url', 'created_at', 'updated_at')
 
 
 class OrganizerSerializer(EventolSerializer):
@@ -177,11 +177,9 @@ class InstallerViewSet(EventUserModelViewSet):
     serializer_class = InstallerSerializer
 
 
-class CollaboratorViewSet(viewsets.ModelViewSet):
+class CollaboratorViewSet(EventUserModelViewSet):
     queryset = Collaborator.objects.all()
     serializer_class = CollaboratorSerializer
-    ordering_fields = ('created_at',)
-    search_fields = None
 
 
 class OrganizerViewSet(viewsets.ModelViewSet):
