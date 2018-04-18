@@ -56,7 +56,7 @@ class CollaboratorSerializer(EventolSerializer):
 class OrganizerSerializer(EventolSerializer):
     class Meta:
         model = Organizer
-        fields = ('url', 'created_at')
+        fields = ('url', 'created_at', 'updated_at')
 
 
 class ActivitySerializer(EventolSerializer):
@@ -182,13 +182,9 @@ class CollaboratorViewSet(EventUserModelViewSet):
     serializer_class = CollaboratorSerializer
 
 
-class OrganizerViewSet(viewsets.ModelViewSet):
+class OrganizerViewSet(EventUserModelViewSet):
     queryset = Organizer.objects.all()
     serializer_class = OrganizerSerializer
-    ordering_fields = ('created_at',)
-    search_fields = None
-
-
 class ActivityViewSet(viewsets.ModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
