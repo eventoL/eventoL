@@ -78,6 +78,14 @@ class InstallationSerializer(EventolSerializer):
         fields = ('url', 'created_at', 'event')
 
 
+class RoomSerializer(EventolSerializer):
+    class Meta:
+        model = Room
+        fields = ('url', 'name', 'event')
+
+
+
+
 # Filters
 class EventFilter(FilterSet):
     activity_proposal_is_open = BooleanFilter(name='activity_proposal_is_open')
@@ -159,6 +167,15 @@ class AttendeeViewSet(viewsets.ModelViewSet):
 
 
 class InstallationViewSet(viewsets.ModelViewSet):
+
+
+class RoomViewSet(viewsets.ModelViewSet):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    filter_fields = ('event__uid', 'name',)
+    ordering_fields = ('name',)
+    search_fields = ('name',)
+
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
     ordering_fields = ('created_at',)
