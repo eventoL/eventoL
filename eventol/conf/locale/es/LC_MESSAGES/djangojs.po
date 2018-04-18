@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-08 00:45+0000\n"
+"POT-Creation-Date: 2018-04-13 03:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,8 +27,8 @@ msgstr "eventos"
 msgid "Please, select one to continue"
 msgstr "Por favor, seleccioná uno para continuar"
 
-msgid "Event Management Software"
-msgstr "Software de Gestión de Eventos"
+msgid "Search your event"
+msgstr "Busca tu evento"
 
 msgid "Attendees"
 msgstr "Asistentes"
@@ -63,6 +63,12 @@ msgstr "Ningún Evento encontrado en tu búsqueda"
 msgid "Search results"
 msgstr "Resultados de Busqueda"
 
+msgid "Upcoming Events"
+msgstr "Proximos Eventos"
+
+msgid "Finished Events"
+msgstr "Eventos Finalizados"
+
 msgid "My Events"
 msgstr "Mis Eventos"
 
@@ -72,11 +78,8 @@ msgstr "Eventos Recientes"
 msgid "Featured Events"
 msgstr "Eventos Destacados"
 
-msgid "Upcoming Events"
-msgstr "Proximos Eventos"
-
 msgid "Events with Confirmed Schedule"
 msgstr "Eventos con Cronograma Confirmado"
 
-msgid "Finished Events"
-msgstr "Eventos Finalizados"
+#~ msgid "Event Management Software"
+#~ msgstr "Software de Gestión de Eventos"

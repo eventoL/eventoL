@@ -241,6 +241,15 @@ class EventUserAttendanceDate(models.Model):
     date = models.DateTimeField(_('Date'),
                                 help_text=_('The date of the attendance'),
                                 auto_now_add=True)
+    attendance_mode_choices = (
+        ('1', _('Qr autoregistration')),
+        ('2', _('Qr ticket')),
+        ('3', _('Previous registration')),
+        ('4', _('unregistred'))
+    )
+    mode = models.CharField(_('Mode'), choices=attendance_mode_choices,
+                             max_length=200, blank=True, null=True,
+                             help_text=_('Attendance mode'))
 
     def __str__(self):
         return '{} - {}'.format(self.event_user, self.date)
@@ -344,6 +353,15 @@ class AttendeeAttendanceDate(models.Model):
     date = models.DateTimeField(_('Date'),
                                 help_text=_('The date of the attendance'),
                                 auto_now_add=True)
+    attendance_mode_choices = (
+        ('1', _('Qr autoregistration')),
+        ('2', _('Qr ticket')),
+        ('3', _('Previous registration')),
+        ('4', _('unregistred'))
+    )
+    mode = models.CharField(_('Mode'), choices=attendance_mode_choices,
+                             max_length=200, blank=True, null=True,
+                             help_text=_('Attendance mode'))
 
     def __str__(self):
         return '{} - {}'.format(self.attendee, self.date)
@@ -454,7 +472,8 @@ class Activity(models.Model):
     activity_type_choices = (
         ('1', _('Talk')),
         ('2', _('Workshop')),
-        ('3', _('Lightning talk'))
+        ('3', _('Lightning talk')),
+        ('4', _('Other'))
     )
     type = models.CharField(_('Type'), choices=activity_type_choices, max_length=200, null=True, blank=True)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,

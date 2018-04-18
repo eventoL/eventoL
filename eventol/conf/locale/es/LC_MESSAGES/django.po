@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-08 06:17+0000\n"
+"POT-Creation-Date: 2018-04-12 04:43+0000\n"
 "PO-Revision-Date: 2017-12-07 20:44+0000\n"
 "Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -23,7 +23,7 @@ msgid "English"
 msgstr "Ingles"
 
 #: eventol/manager/forms.py:172 eventol/manager/models.py:309
-#: eventol/manager/models.py:566 eventol/manager/templates/event/index.html:37
+#: eventol/manager/models.py:572 eventol/manager/templates/event/index.html:37
 msgid "Attendee"
 msgstr "Asistente"
 
@@ -71,7 +71,7 @@ msgstr "La url solo puede contener letras y/o números"
 #: eventol/manager/models.py:250 eventol/manager/models.py:278
 #: eventol/manager/models.py:292 eventol/manager/models.py:340
 #: eventol/manager/models.py:373 eventol/manager/models.py:442
-#: eventol/manager/models.py:560
+#: eventol/manager/models.py:566
 msgid "Created At"
 msgstr "Creado en"
 
@@ -80,7 +80,7 @@ msgstr "Creado en"
 #: eventol/manager/models.py:251 eventol/manager/models.py:279
 #: eventol/manager/models.py:293 eventol/manager/models.py:341
 #: eventol/manager/models.py:374 eventol/manager/models.py:443
-#: eventol/manager/models.py:561
+#: eventol/manager/models.py:567
 msgid "Updated At"
 msgstr "Actualizado en"
 
@@ -160,15 +160,15 @@ msgstr "Cronograma confirmado"
 msgid "Place"
 msgstr "Lugar"
 
-#: eventol/manager/models.py:84 eventol/manager/models.py:485
+#: eventol/manager/models.py:84 eventol/manager/models.py:491
 msgid "Image"
 msgstr "Imagen"
 
-#: eventol/manager/models.py:86 eventol/manager/models.py:487
+#: eventol/manager/models.py:86 eventol/manager/models.py:493
 msgid "Cropping"
 msgstr "Recorte"
 
-#: eventol/manager/models.py:87 eventol/manager/models.py:488
+#: eventol/manager/models.py:87 eventol/manager/models.py:494
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr "La imagen debe ser de 700x450px. La puedes recortar aquí."
 
@@ -230,7 +230,7 @@ msgid "Icon Class"
 msgstr "Clase CSS del ícono"
 
 #: eventol/manager/models.py:146 eventol/manager/models.py:377
-#: eventol/manager/models.py:469
+#: eventol/manager/models.py:475
 #: eventol/manager/templates/activities/detail.html:46
 msgid "Level"
 msgstr "Nivel"
@@ -337,7 +337,7 @@ msgid "Address"
 msgstr "Dirección"
 
 #: eventol/manager/models.py:264 eventol/manager/models.py:301
-#: eventol/manager/models.py:471
+#: eventol/manager/models.py:477
 msgid "Additional Info"
 msgstr "Información Adicional"
 
@@ -415,19 +415,19 @@ msgstr "Email post-instalación"
 msgid "Post-install Emails"
 msgstr "Emails post-instalación"
 
-#: eventol/manager/models.py:368 eventol/manager/models.py:465
+#: eventol/manager/models.py:368 eventol/manager/models.py:471
 #: eventol/manager/templates/reports/dashboard.html:377
 #: eventol/manager/templatetags/filters.py:120
 msgid "Beginner"
 msgstr "Principiante"
 
-#: eventol/manager/models.py:369 eventol/manager/models.py:466
+#: eventol/manager/models.py:369 eventol/manager/models.py:472
 #: eventol/manager/templates/reports/dashboard.html:378
 #: eventol/manager/templatetags/filters.py:122
 msgid "Medium"
 msgstr "Medio"
 
-#: eventol/manager/models.py:370 eventol/manager/models.py:467
+#: eventol/manager/models.py:370 eventol/manager/models.py:473
 #: eventol/manager/templates/reports/dashboard.html:379
 #: eventol/manager/templatetags/filters.py:124
 msgid "Advanced"
@@ -443,7 +443,7 @@ msgstr "Super Hacker"
 msgid "Knowledge level for an installation"
 msgstr "Conocimiento que tiene para realizar una instalación"
 
-#: eventol/manager/models.py:382 eventol/manager/models.py:568
+#: eventol/manager/models.py:382 eventol/manager/models.py:574
 #: eventol/manager/templates/event/index.html:39
 msgid "Installer"
 msgstr "Instalador"
@@ -466,11 +466,12 @@ msgid "Support and Problem Fixing"
 msgstr "Soporte y/o resolución de problemas"
 
 #: eventol/manager/models.py:394 eventol/manager/models.py:411
+#: eventol/manager/models.py:458
 msgid "Other"
 msgstr "Otro"
 
 #: eventol/manager/models.py:397 eventol/manager/models.py:413
-#: eventol/manager/models.py:454
+#: eventol/manager/models.py:460
 #: eventol/manager/templates/activities/activities_home.html:75
 #: eventol/manager/templates/activities/activities_home.html:166
 #: eventol/manager/templates/activities/activities_home.html:250
@@ -541,48 +542,60 @@ msgid "End Time"
 msgstr "Hora de Fin"
 
 #: eventol/manager/models.py:455
+msgid "Talk"
+msgstr "Charla"
+
+#: eventol/manager/models.py:456
+msgid "Workshop"
+msgstr "Taller"
+
+#: eventol/manager/models.py:457
+msgid "Lightning talk"
+msgstr "Charla relampago"
+
+#: eventol/manager/models.py:461
 msgid "Speakers Names"
 msgstr "Nombre de los disertantes"
 
-#: eventol/manager/models.py:456
+#: eventol/manager/models.py:462
 msgid "Comma separated speaker's names"
 msgstr "(Separados por coma) Nombre de los disertantes"
 
-#: eventol/manager/models.py:457
+#: eventol/manager/models.py:463
 msgid "Speaker Contact"
 msgstr "Contacto del disertante"
 
-#: eventol/manager/models.py:458
+#: eventol/manager/models.py:464
 msgid "Where can whe reach you from the organization team?"
 msgstr "A qué mail podemos contactarte desde el equipo de organización?"
 
-#: eventol/manager/models.py:459
+#: eventol/manager/models.py:465
 #: eventol/manager/templates/activities/activities_home.html:70
 #: eventol/manager/templates/activities/activities_home.html:161
 #: eventol/manager/templates/activities/activities_home.html:245
 msgid "Labels"
 msgstr "Etiquetas/Tags"
 
-#: eventol/manager/models.py:460
+#: eventol/manager/models.py:466
 msgid "Comma separated tags. i.e. Linux, Free Software, Archlinux"
 msgstr "(Separados por coma) x.ej. Linux, Software Libre, Archlinux"
 
-#: eventol/manager/models.py:461
+#: eventol/manager/models.py:467
 msgid "Presentation"
 msgstr "Presentación"
 
-#: eventol/manager/models.py:463
+#: eventol/manager/models.py:469
 msgid ""
 "Any material you are going to use for the talk (optional, but recommended)"
 msgstr ""
 "Cualquier material que vayas a usar para la actividad (opcional pero "
 "recomendado)"
 
-#: eventol/manager/models.py:470
+#: eventol/manager/models.py:476
 msgid "Talk's Technical level"
 msgstr "Nivel técnico de la actividad"
 
-#: eventol/manager/models.py:473
+#: eventol/manager/models.py:479
 msgid ""
 "Any info you consider relevant for the organizer: i.e. Write here if your "
 "activity has any special requirement"
@@ -590,36 +603,36 @@ msgstr ""
 "Cualquier información que consideres relevante para la organización: x.ej. "
 "Escribe aquí si la actividad requiere algún elemento especial"
 
-#: eventol/manager/models.py:476
+#: eventol/manager/models.py:482
 #: eventol/manager/templates/activities/detail.html:21
 msgid "Proposal"
 msgstr "Propuesta"
 
-#: eventol/manager/models.py:477
+#: eventol/manager/models.py:483
 #: eventol/manager/templates/activities/detail.html:25
 msgid "Accepted"
 msgstr "Aceptada"
 
-#: eventol/manager/models.py:478
+#: eventol/manager/models.py:484
 #: eventol/manager/templates/activities/activities_home.html:209
 #: eventol/manager/templates/activities/activities_home.html:227
 #: eventol/manager/templates/activities/detail.html:23
 msgid "Rejected"
 msgstr "Rechazada"
 
-#: eventol/manager/models.py:481
+#: eventol/manager/models.py:487
 msgid "Status"
 msgstr "Estado"
 
-#: eventol/manager/models.py:482
+#: eventol/manager/models.py:488
 msgid "Activity proposal status"
 msgstr "Estado de la propuesta"
 
-#: eventol/manager/models.py:490
+#: eventol/manager/models.py:496
 msgid "Is a dummy Activity?"
 msgstr "Es una actividad dummy?"
 
-#: eventol/manager/models.py:491
+#: eventol/manager/models.py:497
 msgid ""
 "A dummy activity is used for example for coffee breaks. We use this to "
 "exclude it from the index page and other places"
@@ -628,11 +641,11 @@ msgstr ""
 "intervalos, registración, etc. en el cronograma.Usamos este campo para cosas "
 "como excluírlas de la página principal."
 
-#: eventol/manager/models.py:521
+#: eventol/manager/models.py:527
 msgid "Schedule not confirmed yet"
 msgstr "El cronograma de actividades no está confirmado aún"
 
-#: eventol/manager/models.py:534
+#: eventol/manager/models.py:540
 msgid ""
 "The talk couldn't be registered because the schedule not available (start "
 "time equals end time)"
@@ -640,7 +653,7 @@ msgstr ""
 "La charla no pudo ser registrada porque el horario no está disponible (la "
 "hora de inicio es igual a la de fin)"
 
-#: eventol/manager/models.py:538
+#: eventol/manager/models.py:544
 msgid ""
 "The talk couldn't be registered because the schedule is not available (start "
 "time is after end time)"
@@ -648,7 +661,7 @@ msgstr ""
 "La charla no pudo ser registrada porque el horario no está disponible (la "
 "hora de inicio es posterior a la de fin)"
 
-#: eventol/manager/models.py:548
+#: eventol/manager/models.py:554
 msgid ""
 "The talk couldn't be registered because the room or the schedule is not "
 "available"
@@ -656,41 +669,41 @@ msgstr ""
 "La propuesta no se pudo registrar. Por favor verifica los errores en el "
 "formulario"
 
-#: eventol/manager/models.py:555
+#: eventol/manager/models.py:561
 msgid "Activity"
 msgstr "Actividad"
 
-#: eventol/manager/models.py:556
+#: eventol/manager/models.py:562
 #: eventol/manager/templates/activities/activities_home.html:14
 #: eventol/manager/templates/reports/dashboard.html:174
 msgid "Activities"
 msgstr "Actividades"
 
-#: eventol/manager/models.py:562
+#: eventol/manager/models.py:568
 msgid "Hardware"
 msgstr "Hardware"
 
-#: eventol/manager/models.py:564
+#: eventol/manager/models.py:570
 msgid "Software"
 msgstr "Software"
 
-#: eventol/manager/models.py:567
+#: eventol/manager/models.py:573
 msgid "The owner of the installed hardware"
 msgstr "El dueño del dispositivo instalado"
 
-#: eventol/manager/models.py:571
+#: eventol/manager/models.py:577
 msgid "Notes"
 msgstr "Notas"
 
-#: eventol/manager/models.py:572
+#: eventol/manager/models.py:578
 msgid "Any information or trouble you found and consider relevant to document"
 msgstr "Cualquier información o problema que consideres relevante documentar"
 
-#: eventol/manager/models.py:578
+#: eventol/manager/models.py:584
 msgid "Installation"
 msgstr "Instalación"
 
-#: eventol/manager/models.py:579 eventol/manager/templates/event/index.html:211
+#: eventol/manager/models.py:585 eventol/manager/templates/event/index.html:211
 #: eventol/manager/templates/reports/dashboard.html:175
 #: eventol/manager/templates/reports/dashboard.html:232
 #: eventol/manager/templates/reports/dashboard.html:399
@@ -834,7 +847,7 @@ msgstr ""
 #: eventol/manager/templates/account/login.html:6
 #: eventol/manager/templates/account/login.html:36
 #: eventol/manager/templates/account/login.html:40
-#: eventol/manager/templates/base-main.html:199
+#: eventol/manager/templates/base-main.html:222
 msgid "Login"
 msgstr "Iniciar Sesión"
 
@@ -873,7 +886,7 @@ msgstr "Olvidaste tu contraseña?"
 #: eventol/manager/templates/account/logout.html:3
 #: eventol/manager/templates/account/logout.html:4
 #: eventol/manager/templates/account/logout.html:19
-#: eventol/manager/templates/base-main.html:230
+#: eventol/manager/templates/base-main.html:253
 msgid "Logout"
 msgstr "Cerrar Sesión"
 
@@ -889,7 +902,7 @@ msgstr "Estás seguro que deseas cerrar sesión?"
 #: eventol/manager/templates/account/password_reset_from_key.html:4
 #: eventol/manager/templates/account/password_reset_from_key.html:8
 #: eventol/manager/templates/account/password_reset_from_key_done.html:10
-#: eventol/manager/templates/base-main.html:225
+#: eventol/manager/templates/base-main.html:248
 msgid "Change Password"
 msgstr "Cambiar Contraseña"
 
@@ -987,7 +1000,7 @@ msgstr "cambiar contraseña"
 #: eventol/manager/templates/account/password_set.html:4
 #: eventol/manager/templates/account/password_set.html:8
 #: eventol/manager/templates/account/password_set.html:12
-#: eventol/manager/templates/base-main.html:219
+#: eventol/manager/templates/base-main.html:242
 msgid "Set Password"
 msgstr "Establecer Contraseña"
 
@@ -1381,15 +1394,19 @@ msgstr "Síguenos!"
 msgid "Contact Us!"
 msgstr "Contactanos!"
 
-#: eventol/manager/templates/base-main.html:194
+#: eventol/manager/templates/base-main.html:199
+msgid "Languages"
+msgstr "Idioma"
+
+#: eventol/manager/templates/base-main.html:217
 msgid "Organizadores"
 msgstr "Organizadores"
 
-#: eventol/manager/templates/base-main.html:213
+#: eventol/manager/templates/base-main.html:236
 msgid "Profile"
 msgstr "Perfil"
 
-#: eventol/manager/templates/base-main.html:262
+#: eventol/manager/templates/base-main.html:285
 msgid "You have the power!"
 msgstr "You have the power!"
 
@@ -1449,8 +1466,6 @@ msgstr ""
 "índice. Ingresa la URL completa aquí:"
 
 #: eventol/manager/templates/event/create.html:196
-#, fuzzy
-#| msgid "Please provide as much information you can about your event"
 msgid "Please provide a abstract about your event"
 msgstr "Ingresa una resumen acerca de tu evento"
 
@@ -1886,10 +1901,47 @@ msgstr "N/A"
 
 #: eventol/manager/utils/email.py:8
 #, python-brace-format
+msgid "New information about your talk in the {event_name} event"
+msgstr "Nueva información sobre tu propuesta en el evento {event_name}"
+
+#: eventol/manager/utils/email.py:13
+#, python-brace-format
+msgid ""
+"Hello,\n"
+"Your talk \"{activity_title}\" was updated to the \"{activity_status}\" "
+"status.\n"
+"Regards,\n"
+"{event_name} and eventoL team"
+msgstr ""
+"Hola,\n"
+"Tu charla \"{activity_title}\" fue actualizada al estado "
+"\"{activity_status}\" .\n"
+"Saludos,\n"
+"el equipo de {event_name} y <em>eventoL</em>."
+
+#: eventol/manager/utils/email.py:23
+#, python-brace-format
+msgid ""
+"<p>Hello,</p>\n"
+"<p>Your talk \"{activity_title}\" was updated to the \"{activity_status}\" "
+"status.\n"
+"</p>\n"
+"<p>Regards,\n"
+"{event_name} and <em>eventoL</em> team</p>"
+msgstr ""
+"<p>Hola,</p>\n"
+"<p>Tu propuesta \"{activity_title}\" fue actualizada al estado "
+"\"{activity_status}\" .\n"
+"</p>\n"
+"<p>Saludoss,\n"
+"el equipo de {event_name} y <em>eventoL</em>."
+
+#: eventol/manager/utils/email.py:36
+#, python-brace-format
 msgid "Ticket for {event_name} event"
 msgstr "Entrada para el evento {event_name}"
 
-#: eventol/manager/utils/email.py:13
+#: eventol/manager/utils/email.py:41
 #, python-brace-format
 msgid ""
 "Hello {first_name} {last_name},\n"
@@ -1904,7 +1956,7 @@ msgstr ""
 "Saludos,\n"
 "el equipo de {event_name} y eventoL."
 
-#: eventol/manager/utils/email.py:24
+#: eventol/manager/utils/email.py:52
 #, python-brace-format
 msgid ""
 "<p>Hello {first_name} {last_name},<br />\n"
@@ -1920,151 +1972,160 @@ msgstr ""
 "<p>Saludos,\n"
 "el equipo de {event_name} y <em>eventoL</em>."
 
-#: eventol/manager/utils/email.py:40
+#: eventol/manager/utils/email.py:68
 #, python-brace-format
 msgid ""
 "{first_name} {last_name}, thank you for participating in FLISoL {event_name}"
 msgstr ""
 "{first_name} {last_name}, gracias por participar en FLISoL {event_name}"
 
-#: eventol/manager/views.py:108
+#: eventol/manager/views.py:109
 msgid "General Ticket"
 msgstr "Entrada General"
 
-#: eventol/manager/views.py:248
+#: eventol/manager/views.py:245 eventol/manager/views.py:1144
+#: eventol/manager/views.py:1481 eventol/manager/views.py:1560
+msgid ""
+"The email couldn't sent successfully, please retry later or contact a "
+"organizer"
+msgstr ""
+"El mail no se pudo enviar correctamente, por favor intente mas tarde o "
+"contactese con un organizador"
+
+#: eventol/manager/views.py:249
 msgid "The installation has been registered successfully. Happy Hacking!"
 msgstr "La instalación ha sido registrada existosamente. Happy Hacking!"
 
-#: eventol/manager/views.py:265
+#: eventol/manager/views.py:266
 msgid "The installation couldn't be registered (check form errors)"
 msgstr ""
 "La instalación no se pudo registrar. Por favor verifica los errores en el "
 "formulario"
 
-#: eventol/manager/views.py:303 eventol/manager/views.py:388
+#: eventol/manager/views.py:304 eventol/manager/views.py:389
 msgid "The attendee has already been registered correctly."
 msgstr "El asistente ha sido registrado exitosamente."
 
-#: eventol/manager/views.py:314 eventol/manager/views.py:400
+#: eventol/manager/views.py:315 eventol/manager/views.py:401
 msgid "The attendee has been successfully registered. Happy Hacking!"
 msgstr "El asistente ha sido registrado exitosamente!"
 
-#: eventol/manager/views.py:331
+#: eventol/manager/views.py:332
 msgid "The collaborator has already been registered correctly."
 msgstr "El colaborador ha sido registrado exitosamente."
 
-#: eventol/manager/views.py:342
+#: eventol/manager/views.py:343
 msgid "The collaborator has been successfully registered. Happy Hacking!"
 msgstr "El colaborador ha sido registrado exitosamente!"
 
-#: eventol/manager/views.py:356
+#: eventol/manager/views.py:357
 msgid "There was a problem registering the attendee. Please try again."
 msgstr ""
 "Hubo un problema al intentar registrar el asistente. Por favor intenta de "
 "nuevo."
 
-#: eventol/manager/views.py:405
+#: eventol/manager/views.py:406
 msgid "The user isn't registered for this event."
 msgstr "El asistente no se encuentra registrado para este evento."
 
-#: eventol/manager/views.py:427
+#: eventol/manager/views.py:428
 #, python-format
 msgid "%s has been successfully added as an Organizer."
 msgstr "%s ha sido añadido como Organizador."
 
-#: eventol/manager/views.py:441 eventol/manager/views.py:487
+#: eventol/manager/views.py:442 eventol/manager/views.py:488
 msgid "Something went wrong (please check form errors)"
 msgstr "Algo malió sal. Por favor verifica los errores en el formulario"
 
-#: eventol/manager/views.py:473
+#: eventol/manager/views.py:474
 #, python-format
 msgid "%s has been successfully added to manage attendance."
 msgstr "%s ha sido añadido como miembro de registración."
 
-#: eventol/manager/views.py:566
+#: eventol/manager/views.py:567
 msgid "The attendee is already registered for this event, use correct form"
 msgstr ""
 "El asistente ya está registrado para este evento. Por favor usa el "
 "formulario correcto"
 
-#: eventol/manager/views.py:579
+#: eventol/manager/views.py:580
 msgid "The attendee was successfully registered. Happy Hacking!"
 msgstr "El asistente ha sido registrado existosamente. ¡Feliz Hacking!"
 
-#: eventol/manager/views.py:596
+#: eventol/manager/views.py:597
 msgid "The attendee couldn't be registered (check form errors)"
 msgstr ""
 "No se pudo registrar el asistente. Por favor verifica los errores en el "
 "formulario"
 
-#: eventol/manager/views.py:600
+#: eventol/manager/views.py:601
 msgid "You can only register an attendance at the day of the event or after"
 msgstr "Solo podés registrar una asistencia en el día del evento o después"
 
-#: eventol/manager/views.py:628
+#: eventol/manager/views.py:629
 msgid "Self-registration"
 msgstr "Auto registración"
 
-#: eventol/manager/views.py:629
+#: eventol/manager/views.py:630
 msgid "Scan this QR code to register yourself"
 msgstr "Escaneá este código QR para registrarte a vos mismo"
 
-#: eventol/manager/views.py:670 eventol/manager/views.py:768
+#: eventol/manager/views.py:671 eventol/manager/views.py:769
 msgid "The registration code does not seems to be valid for this event"
 msgstr "El código de registración no parece ser válido para este evento"
 
-#: eventol/manager/views.py:676
+#: eventol/manager/views.py:677
 msgid "You can only register by yourself on the event date"
 msgstr "Solo podés auto registrarte el día del evento"
 
-#: eventol/manager/views.py:693
+#: eventol/manager/views.py:694
 msgid "You are already registered!"
 msgstr "¡Ya estás registrado!"
 
-#: eventol/manager/views.py:710 eventol/manager/views.py:787
-#: eventol/manager/views.py:794
+#: eventol/manager/views.py:711 eventol/manager/views.py:788
+#: eventol/manager/views.py:795
 msgid "You are now marked as present in the event, have fun!"
 msgstr "Ahora estás marcado como presente en el evento, ¡divertite!"
 
-#: eventol/manager/views.py:726
+#: eventol/manager/views.py:727
 msgid "You couldn't be registered (check form errors)"
 msgstr "No pudiste ser registrado (verificá los errores del formulario)"
 
-#: eventol/manager/views.py:773
+#: eventol/manager/views.py:774
 msgid "Auto-reading QR codes is only available at the event date"
 msgstr ""
 "La lectura automática de códigos QR solo está disponible en el día del evento"
 
-#: eventol/manager/views.py:784 eventol/manager/views.py:791
+#: eventol/manager/views.py:785 eventol/manager/views.py:792
 msgid "You are already registered and present! Go have fun"
 msgstr "¡Ya estás presente y registrado! Andá a divertirte"
 
-#: eventol/manager/views.py:796
+#: eventol/manager/views.py:797
 msgid "The ticket code is not valid for this event"
 msgstr "El asistente no se encuentra registrado para este evento."
 
-#: eventol/manager/views.py:820
+#: eventol/manager/views.py:821
 #, python-brace-format
 msgid "[eventoL] Contact message from {name}"
 msgstr "[eventoL] Mensaje de contacto de {name}"
 
-#: eventol/manager/views.py:832
+#: eventol/manager/views.py:833
 msgid "The message has been sent. You will receive a reply by email"
 msgstr ""
 "El mensaje ha sido enviado. Recibirás una respueta por correo electrónico"
 
-#: eventol/manager/views.py:845
+#: eventol/manager/views.py:846
 msgid ""
 "There was a problem sending your message. Please try again in a few minutes."
 msgstr ""
 "Hubo un problema al enviar tu mensaje. Por favor intenta nuevamente en unos "
 "minutos."
 
-#: eventol/manager/views.py:946 eventol/manager/views.py:1020
+#: eventol/manager/views.py:947 eventol/manager/views.py:1021
 msgid "You are already registered for this event"
 msgstr "Ya estás registrado en este evento"
 
-#: eventol/manager/views.py:1054
+#: eventol/manager/views.py:1055
 #, python-brace-format
 msgid ""
 "Hi! You are receiving this message because you have registered to attend to "
@@ -2092,7 +2153,7 @@ msgstr ""
 "Felizmente tuyos,\n"
 "El equipo de {event_name} y eventoL"
 
-#: eventol/manager/views.py:1073
+#: eventol/manager/views.py:1074
 #, python-brace-format
 msgid ""
 "<p>Hi! You are receiving this message because you have registered to attend "
@@ -2117,22 +2178,22 @@ msgstr ""
 "<p>Felizmente tuyos,<br />\n"
 "Los equipos de {event_name} y <em>eventoL</em></p>"
 
-#: eventol/manager/views.py:1093
+#: eventol/manager/views.py:1094
 msgid "[eventoL] Please confirm your email"
 msgstr "[eventoL] Por favor confirmá tu dirección de correo electrónico"
 
-#: eventol/manager/views.py:1111 eventol/manager/views.py:1165
-#: eventol/manager/views.py:1185
+#: eventol/manager/views.py:1112 eventol/manager/views.py:1169
+#: eventol/manager/views.py:1189
 msgid "There is a problem with the registration (check form errors)"
 msgstr ""
 "Hay algún problema con los datos ingresados. Por favor verifica los errores "
 "en el formulario."
 
-#: eventol/manager/views.py:1132
+#: eventol/manager/views.py:1133
 msgid "Email verification"
 msgstr "Verificar email"
 
-#: eventol/manager/views.py:1134
+#: eventol/manager/views.py:1135
 msgid ""
 "We've sent you your ticket to your email! In case it doesn't arrive, don't "
 "worry! You're already registered and we'll ask for your email address."
@@ -2141,29 +2202,29 @@ msgstr ""
 "preocupes! Ya estas registrado y el día del evento te preguntaremos la "
 "dirección de correo que ingresaste."
 
-#: eventol/manager/views.py:1145
+#: eventol/manager/views.py:1149
 msgid "The verification URL is invalid. Try again. "
 msgstr "La URL de verificación es inválida. Inténtalo de nuevo."
 
-#: eventol/manager/views.py:1164
+#: eventol/manager/views.py:1168
 msgid "You have successfully registered as an installer"
 msgstr "Te has registrado exitosamente como instalador"
 
-#: eventol/manager/views.py:1184
+#: eventol/manager/views.py:1188
 msgid "You have successfully registered as a collaborator"
 msgstr "Te has registrado exitosamente como colaborador"
 
-#: eventol/manager/views.py:1218
+#: eventol/manager/views.py:1222
 msgid "You are not an organizer for this event URL, use a different URL"
 msgstr "No sos un organizador para esta URL de evento, usá una URL diferente"
 
-#: eventol/manager/views.py:1264 eventol/manager/views.py:1310
+#: eventol/manager/views.py:1268 eventol/manager/views.py:1314
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
 "Hay algún problema con los datos ingresados. Por favor verifica los errores "
 "en el formulario."
 
-#: eventol/manager/views.py:1370
+#: eventol/manager/views.py:1374
 msgid ""
 "The activity proposal is already closed or the event is not accepting "
 "proposals through this page. Please contact the Event Organization Team to "
@@ -2173,7 +2234,7 @@ msgstr ""
 "propuestas a través de esta página. Por favor, ponte en contacto con el "
 "equipo de organización del evento para enviarla."
 
-#: eventol/manager/views.py:1391
+#: eventol/manager/views.py:1395
 msgid ""
 "There was a problem submitting the proposal. Please check the form for "
 "errors."
@@ -2181,11 +2242,11 @@ msgstr ""
 "Hay algún problema con los datos ingresados. Por favor verifica los errores "
 "en el formulario"
 
-#: eventol/manager/views.py:1419 eventol/manager/views.py:1593
+#: eventol/manager/views.py:1423 eventol/manager/views.py:1608
 msgid "Please crop or upload a new image."
 msgstr "Recorta la imagen o sube una nueva."
 
-#: eventol/manager/views.py:1428
+#: eventol/manager/views.py:1432
 msgid ""
 "The proposal has been registered successfully! We'll contact you at the "
 "provided email"
@@ -2193,21 +2254,26 @@ msgstr ""
 "La propuesta se ha registrado exitosamente! Pronto te contactaremos alemail "
 "que ingresaste"
 
-#: eventol/manager/views.py:1435
+#: eventol/manager/views.py:1439
 msgid "The proposal couldn't be registered. Please check the form for errors"
 msgstr ""
 "La propuesta no se pudo registrar. Por favor verifica los errores en el "
 "formulario"
 
-#: eventol/manager/views.py:1547
+#: eventol/manager/views.py:1555
 msgid "The talk was registered successfully!"
 msgstr "¡La charla fue registrada satisfactoriamente!"
 
-#: eventol/manager/views.py:1559
+#: eventol/manager/views.py:1569
+msgid "The talk couldn't be registered, please retry confirm the talk"
+msgstr ""
+"La propuesta no se pudo registrar. Por favor reintente confirmar la propuesta"
+
+#: eventol/manager/views.py:1574
 msgid "The talk couldn't be registered (check form errors)"
 msgstr "La charla no se pudo registrar (verificá los errores en el formulario)"
 
-#: eventol/manager/views.py:1602
+#: eventol/manager/views.py:1617
 msgid ""
 "The event has been updated successfully! We'll contact you at the provided "
 "email"
@@ -2215,7 +2281,7 @@ msgstr ""
 "¡El evento ha sido actualizado satisfactoriamente! Te contactaremos a la "
 "dirección de correo electrónico provista"
 
-#: eventol/manager/views.py:1609
+#: eventol/manager/views.py:1624
 msgid "The event couldn't be updated. Please check the form for errors"
 msgstr ""
 "El evento no pudo ser actualizado. Por favor verificá los errores en el "
