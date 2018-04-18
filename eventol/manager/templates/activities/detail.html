@@ -36,6 +36,11 @@
                                      {% include 'activities/to_talk_form.html' with form=form errors=errors form_id=activity.pk %}
                                  </div>
                              </div>
+                             <div id="reject-activity" class="panel-collapse collapse">
+                                 <div class="container col-sm-12">
+                                     {% include 'activities/reject_form.html' with form=reject_form form_id=activity.pk %}
+                                 </div>
+                             </div>
                           {% endif %}
                           <div class='col-sm-12' id='activity-detail'>
                               <div class="col-md-6 col-sm-12">
@@ -72,9 +77,14 @@
                                           {% trans "Become Talk" %}
                                       </a></p>
                                       {% endif %}
-                                      {% if activity.status != '3' %}<p><a href="{% url "reject_activity" event.slug event.uid activity.id %}?next={{ request.get_full_path|urlencode }}">
-                                        {% trans "Reject Talk" %}
-                                      </a></p>{% endif %}
+                                      {% if activity.status != '3' %}
+                                      <p><a id='reject'
+                                            href='#'
+                                            data-toggle="collapse"
+                                            onclick="rejectActivity()">
+                                          {% trans "Reject Talk" %}
+                                      </a></p>
+                                      {% endif %}
                                   {% endif %}
                               </div>
                               <div class="col-md-6 col-sm-12">
@@ -108,6 +118,11 @@
     function becomeTalk() {
         $('#activity-detail').attr("style", "visibility: hidden; position: absolute");
         $('#become-talk').removeClass('collapse');
+    }
+
+    function rejectActivity() {
+        $('#activity-detail').attr("style", "visibility: hidden; position: absolute");
+        $('#reject-activity').removeClass('collapse');
     }
 
         $(document).ready(function() {

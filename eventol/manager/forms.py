@@ -12,6 +12,7 @@ from django.utils.formats import date_format
 from django.core.validators import validate_email, URLValidator
 from django.db.utils import OperationalError
 from django.db.models.query_utils import Q
+from django.forms import Form
 from django.forms.models import ModelForm, BaseModelFormSet
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
@@ -551,3 +552,7 @@ class ActivityProposalForm(ModelForm):
             'long_description': forms.Textarea(attrs={'rows': 3}),
             'additional_info': forms.Textarea(attrs={'rows': 3})
         }
+
+
+class RejectForm(Form):
+    justification = forms.CharField(required=False, label=_('Why do you reject this proposal?'))
