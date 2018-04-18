@@ -297,6 +297,7 @@ msgid "Event"
 msgstr "Nombre del evento"
 
 #: eventol/manager/templates/base-main.html:100
+msgctxt "navbar"
 msgid "Event"
 msgstr "Evento"
 
@@ -2034,7 +2035,7 @@ msgstr ""
 "\"{activity_status}\" .\n"
 "</p>\n"
 "{justification}<p>Saludos,</p>\n"
-"el equipo de {event_name} y <em>eventoL</em>."
+"<p>el equipo de {event_name} y <em>eventoL</em></p>\n"
 
 #: eventol/manager/utils/email.py:44
 #, python-brace-format
