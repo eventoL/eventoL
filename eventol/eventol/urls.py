@@ -23,6 +23,7 @@ router.register(r'organizers', OrganizerViewSet)
 router.register(r'rooms', RoomViewSet)
 router.register(r'activities', ActivityViewSet)
 router.register(r'attendees', AttendeeViewSet)
+router.register(r'softwares', SoftwareViewSet)
 router.register(r'installations', InstallationViewSet)
 
 admin.autodiscover()

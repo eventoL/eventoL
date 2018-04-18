@@ -86,6 +86,12 @@ class RoomSerializer(EventolSerializer):
 
 
 
+class SoftwareSerializer(EventolSerializer):
+    class Meta:
+        model = Software
+        fields = ('type', 'name',)
+
+
 # Filters
 class EventFilter(FilterSet):
     activity_proposal_is_open = BooleanFilter(name='activity_proposal_is_open')
@@ -175,6 +181,14 @@ class RoomViewSet(viewsets.ModelViewSet):
     filter_fields = ('event__uid', 'name',)
     ordering_fields = ('name',)
     search_fields = ('name',)
+
+class SoftwareViewSet(viewsets.ModelViewSet):
+    queryset = Software.objects.all()
+    serializer_class = SoftwareSerializer
+    filter_fields = ('type', 'name',)
+    search_fields = ('type', 'name',)
+    ordering_fields = None
+
 
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
