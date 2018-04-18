@@ -84,6 +84,10 @@ class RoomSerializer(EventolSerializer):
         fields = ('url', 'name', 'event')
 
 
+class HardwareSerializer(EventolSerializer):
+    class Meta:
+        model = Hardware
+        fields = ('type', 'model', 'manufacturer',)
 
 
 class SoftwareSerializer(EventolSerializer):
@@ -187,6 +191,14 @@ class SoftwareViewSet(viewsets.ModelViewSet):
     serializer_class = SoftwareSerializer
     filter_fields = ('type', 'name',)
     search_fields = ('type', 'name',)
+    ordering_fields = None
+
+
+class HardwareViewSet(viewsets.ModelViewSet):
+    queryset = Hardware.objects.all()
+    serializer_class = HardwareSerializer
+    filter_fields = ('type', 'model', 'manufacturer',)
+    search_fields = ('type', 'model', 'manufacturer',)
     ordering_fields = None
 
 
