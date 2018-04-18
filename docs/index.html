@@ -7,7 +7,6 @@
   <meta name="description" content="EventoL - event management software">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
-  <link rel="stylesheet" href="//unpkg.com/docsify-copy-code/styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.4/themes/prism-coy.min.css">
   <link rel="apple-touch-icon" sizes="57x57" href="/eventoL/assets/icons/apple-icon-57x57.png">
@@ -27,7 +26,7 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/eventoL/assets/icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#1f6879">
-  <script src="//unpkg.com/docsify-copy-code/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2.0.1/dist/docsify-copy-code.min.js"></script>
   <style>
   :root {
     --theme-color: #1f6879;
@@ -46,9 +45,9 @@
 <script>
   window.$docsify = {
     loadSidebar: true,
+    subMaxLevel: 2,
     coverpage: true,
     plugins: [
-      window.DocsifyCopyCodePlugin.init(),
       function (hook, vm) {
         hook.afterEach(function(html, next) {
           next(html);
