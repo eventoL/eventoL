@@ -4,14 +4,10 @@
 # pylint: disable=too-many-ancestors
 # pylint: disable=missing-docstring
 
-from django.contrib.auth.models import User
 from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 from rest_framework_filters import FilterSet, BooleanFilter
-from manager.models import (Event, EventUser, Activity, Attendee,
-                            Installer, Installation, Collaborator,
-                            EventUser, Organizer)
 
 
 # Serializers define the API representation.
