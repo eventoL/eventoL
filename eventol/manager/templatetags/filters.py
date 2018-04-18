@@ -66,9 +66,15 @@ def is_odd(number):
 
 @register.filter(name='is_registered')
 def is_registered(user, event_uid):
-    """Search if the user is registered for the event in any way"""
+    """Search if the user is registered for the event"""
     return EventUser.objects.filter(
         user=user, event__uid=event_uid).exists()
+
+
+@register.filter(name='is_registered_any_way')
+def is_registered_any_way(user, event_uid):
+    """Search if the user is registered for the event in any way"""
+    return is_attendee(user, event_uid) or is_registered(user, event_uid)
 
 
 @register.filter(name='is_installer')
