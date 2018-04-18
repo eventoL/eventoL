@@ -38,7 +38,7 @@ class EventSerializer(EventolSerializer):
 class EventUserSerializer(EventolSerializer):
     class Meta:
         model = EventUser
-        fields = ('url', 'event', 'created_at')
+        fields = ('url', 'event', 'created_at', 'updated_at')
 
 
 class InstallerSerializer(EventolSerializer):
@@ -133,12 +133,43 @@ class EventViewSet(viewsets.ModelViewSet):
         return super().list(request)
 
 
-class EventUserViewSet(viewsets.ModelViewSet):
+class EventUserModelViewSet(viewsets.ModelViewSet):
+    filter_fields = ('event_user__event__uid',)
+    ordering_fields = ('created_at', 'updated_at')
+    search_fields = None
+
+    def get_event_users(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        return [instance.event_user for instance in queryset]
+
+    def get_counts(self):
+        event_users = self.get_event_users()
+        confirmed = EventUserAttendanceDate.objects \
+            .filter(event_user__in=event_users) \
+            .order_by('event_user') \
+            .distinct() \
+            .count()
+        total = len(event_users)
+        return {
+            'total': total,
+            'confirmed': confirmed,
+            'not_confirmed': total - confirmed
+        }
+
+    def list(self, request):
+        count = request.GET.get('count', None)
+        if count:
+            return Response(self.get_counts())
+        return super().list(request)
+
+
+class EventUserViewSet(EventUserModelViewSet):
     queryset = EventUser.objects.all()
     serializer_class = EventUserSerializer
-    # filter_class = EventUserFilter
-    ordering_fields = ('created_at',)
-    search_fields = None
+    filter_fields = ('event__uid',)
+
+    def get_event_users(self):
+        return self.filter_queryset(self.get_queryset())
 
 
 class InstallerViewSet(viewsets.ModelViewSet):
