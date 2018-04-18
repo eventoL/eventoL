@@ -19,4 +19,6 @@
   </a>
 {% endblock %}
 
+{% block submit-button %}{% trans "Register as a attendee" %}{% endblock %}
+
 {% block form-action %}"{% url "attendee_registration" event_slug event_uid %}"{% endblock %}
