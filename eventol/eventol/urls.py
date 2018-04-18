@@ -9,7 +9,8 @@ from rest_framework import routers
 
 from .api import (EventViewSet, EventUserViewSet, InstallerViewSet,
                   CollaboratorViewSet, OrganizerViewSet, ActivityViewSet,
-                  AttendeeViewSet, InstallationViewSet)
+                  AttendeeViewSet, InstallationViewSet, RoomViewSet,
+                  SoftwareViewSet, HardwareViewSet)
 
 
 # Routers provide a way of automatically determining the URL conf.

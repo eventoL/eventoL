@@ -8,6 +8,10 @@ from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 from rest_framework_filters import FilterSet, BooleanFilter
+from manager.models import (Event, Activity, Attendee, EventUserAttendanceDate,
+                            Installer, Installation, Collaborator, Room,
+                            EventUser, Organizer, AttendeeAttendanceDate,
+                            Software, Hardware)
 
 
 # Serializers define the API representation.
