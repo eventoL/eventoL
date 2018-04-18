@@ -556,3 +556,10 @@ class ActivityProposalForm(ModelForm):
 
 class RejectForm(Form):
     justification = forms.CharField(required=False, label=_('Why do you reject this proposal?'))
+
+
+class RoomForm(forms.ModelForm):
+    class Meta(object):
+        model = Room
+        fields = ['name', 'event']
+        widgets = {'event': forms.HiddenInput()}

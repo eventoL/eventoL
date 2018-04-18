@@ -38,7 +38,7 @@ from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
     EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, \
     EventForm, ContactMessageForm, ImageCroppingForm, EventImageCroppingForm, \
     EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, \
-    AttendeeRegistrationFromUserForm, RejectForm
+    AttendeeRegistrationFromUserForm, RejectForm, RoomForm
 from manager.models import Attendee, Organizer, EventUser, Room, Event, \
     Contact, Activity, Hardware, Installation, Collaborator, ContactMessage, \
     Installer, InstallationMessage, EventDate, \
@@ -1735,6 +1735,102 @@ def schedule(request, event_slug, event_uid):
             event=event
         )
     )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def rooms_list(request, event_slug, event_uid):
+    event = get_object_or_404(Event, uid=event_uid)
+    rooms = Room.objects.filter(event=event)
+    return render(
+        request,
+        'rooms/list.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            request,
+            {'rooms': rooms}
+        )
+    )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def add_or_edit_room(request, event_slug, event_uid, room_id=None):
+    event = get_object_or_404(Event, uid=event_uid)
+    room_form = RoomForm(request.POST or None)
+    is_edit = False
+    room = None
+    if room_id is not None:
+        room = get_object_or_404(Room, event=event, id=room_id)
+        room_form = RoomForm(request.POST or None, instance=room)
+        is_edit = True
+    forms = [room_form]
+    errors = []
+    if request.POST:
+        if room_form.is_valid():
+            try:
+                room = room_form.save()
+                room.event = event
+                room.save()
+                if is_edit:
+                    messages.success(
+                        request,
+                        _("The Room has been edited successfully.")
+                    )
+                else:
+                    messages.success(
+                        request,
+                        _("The Room has been added successfully.")
+                    )
+                return redirect(reverse(
+                    'rooms_list',
+                    args=[event_slug, event_uid]
+                ))
+            except Exception as e:
+                logger.error(e)
+                if room is not None:
+                    Room.delete(room)
+        if is_edit:
+            messages.error(
+                request,
+                _("The room couldn't be edited (check form errors)")
+            )
+        else:
+            messages.error(
+                request,
+                _("The room couldn't be added (check form errors)")
+            )
+        errors = get_forms_errors(forms)
+    return render(
+        request,
+        'rooms/add-or-edit-form.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            request,
+            {'is_edit': is_edit, 'room': room if room else None,
+             'forms': forms, 'errors': errors, 'multipart': False}
+        )
+    )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def delete_room(request, event_slug, event_uid, room_id):
+    event = get_object_or_404(Event, uid=event_uid)
+    room = get_object_or_404(Room, event=event, id=room_id)
+    room.delete()
+    messages.success(
+        request,
+        _(
+            "The Room has been removed successfully."
+        )
+    )
+    return redirect(reverse(
+        'rooms_list',
+        args=[event_slug, event_uid]
+    ))
 
 
 def handler404(request):

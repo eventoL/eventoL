@@ -17,14 +17,17 @@
                   <a href="{% url "activity_proposal" event_slug event_uid %}" class="btn btn-raised btn-success">
                       {% trans 'Submit an activity' %}
                   </a>
+                  <a href="{% url "rooms_list" event_slug event_uid %}" class="btn btn-raised btn-success">
+                      {% trans "Manage Rooms" %}
+                  </a>
+              {% endif %}
+              {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_uid %}
+                   <a type="button" class="btn btn-raised btn-success"
+                      href="{% url "confirm_schedule" event_slug event_uid %}">
+                      <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
+                   </a>
               {% endif %}
           </div>
-          {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_uid %}
-               <a type="button" class="btn btn-raised btn-success pull-right"
-                  href="{% url "confirm_schedule" event_slug event_uid %}">
-                  <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
-               </a>
-          {% endif %}
         </h1>
     </div>
 {% endblock %}

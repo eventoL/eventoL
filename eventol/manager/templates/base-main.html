@@ -110,6 +110,13 @@
                                       <i class="fa fa-th"></i> {% trans "View Activities" %}
                                   </a>
                               </li>
+                              {% if user.is_authenticated and user|is_organizer:event_uid %}
+                              <li>
+                                  <a href="{% url "rooms_list" event_slug event_uid %}">
+                                      <i class="fa fa-th"></i> {% trans "Manage Rooms" %}
+                                  </a>
+                              </li>
+                              {% endif %}
                               <li>
                                   <a href="{% url "reports" event_slug event_uid %}">
                                       <i class="fa fa-bar-chart"></i> {% trans "View Reports" %}
