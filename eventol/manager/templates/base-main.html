@@ -169,11 +169,13 @@
                                         </li>
                                     {% endif %}
                                     {% if user|is_organizer:event_uid %}
+                                        <!--
                                         <li>
                                             <a href="{% url "draw" event_slug event_uid %}">
                                                 <i class="fa fa-gift"></i> {% trans "Draw" %}
                                             </a>
                                         </li>
+                                        -->
                                         <li>
                                             <a href="{% url "add_organizer" event_slug event_uid %}">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Manage Organizers" %}
