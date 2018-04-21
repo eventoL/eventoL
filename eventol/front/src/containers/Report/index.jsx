@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Button from '../../components/Button'
+import ExportButton from '../../components/ExportButton'
 import TableReport from '../../components/ReportTable'
 import Title from '../../components/Title'
 import {getUrl} from '../../utils/api'
@@ -15,7 +16,7 @@ export default class Report extends React.Component {
   state = {
     table: 'confirmed', count: 0,
     data: [], all_data: [], totals: {},
-    pages: null, loading: true
+    pages: null, loading: true, columns: {}
   }
 
   loadContent(pageSize, page, sorted){
@@ -147,7 +148,7 @@ export default class Report extends React.Component {
     ).catch(err => console.error(gettext('There has been an error'), err));
   }
 
-  onClick = (name) => this.setState({table: name})
+  onClick = name => this.setState({table: name})
 
   render(){
     const {data, pages, loading, count, table, totals} = this.state;
@@ -159,10 +160,13 @@ export default class Report extends React.Component {
           <Button name='assitance' type='success' label={gettext('Assistance detail')} handleOnClick={this.onClick}/>
           <Button name='installations' type='success' label={gettext('Installations')}  handleOnClick={this.onClick}/>
           <Button name='activities' type='success' label={gettext('Activities')}  handleOnClick={this.onClick}/>
+          <ExportButton
+            ref={exportButton => this.exportButton = exportButton} type='success' data={data}
+            label={gettext('Export')} filename={table}/>
         </Title>
         <TableReport
           data={data} pages={pages} eventsPrivateData={eventsPrivateData} defaultRows={15} table={table}
-          loading={loading} count={count} fetchData={this.fetchData} totals={totals}
+          loading={loading} count={count} fetchData={this.fetchData} totals={totals} exportButton={this.exportButton}
         />
       </div>
     );

@@ -12,7 +12,7 @@ export default class ReportTable extends React.Component {
     return {
       Header: gettext('Event'),
       columns: [{
-        Header: gettext('Name'), accessor: 'name', resizable: false, sortable: true, total: count,
+        Header: gettext('Name'), accessor: 'name', resizable: false, sortable: true, total: `${gettext('Events')}: ${count}`,
         minWidth: 150, Footer: (<span><strong>{gettext('Events')}:  </strong>{count}</span>)
       }]
     }
@@ -169,9 +169,9 @@ export default class ReportTable extends React.Component {
   getActivitiesFullColumns(){
     const confirmationColumn = this.getConfirmationColumnsBy('activity', 'activities', 'report', 'Attendees');
     if (!confirmationColumn.hasOwnProperty('columns')) return [];
-    const statusColumns = this.getActivitiesFieldsColumns('status', 'status', ['Proposal', 'Accepted', 'Rejected'])
-    const typeColumns = this.getActivitiesFieldsColumns('type', 'types', ['Talk', 'Workshop', 'Lightning talk', 'Other'])
-    const levelColumns = this.getActivitiesFieldsColumns('level', 'levels', ['Beginner', 'Medium', 'Advanced'])
+    const statusColumns = this.getActivitiesFieldsColumns('status', 'status', [gettext('Proposal'), gettext('Accepted'), gettext('Rejected')])
+    const typeColumns = this.getActivitiesFieldsColumns('type', 'types', [gettext('Talk'), gettext('Workshop'), gettext('Lightning talk'), gettext('Other')])
+    const levelColumns = this.getActivitiesFieldsColumns('level', 'levels', [gettext('Beginner'), gettext('Medium'), gettext('Advanced')])
     confirmationColumn.columns = [
       ...confirmationColumn.columns,
       ...statusColumns,
@@ -218,8 +218,9 @@ export default class ReportTable extends React.Component {
   }
 
   render(){
-    const {data, pages, loading, defaultRows, fetchData} = this.props;
+    const {data, pages, loading, defaultRows, fetchData, exportButton} = this.props;
     const columns = this.getColumns();
+    if (exportButton) exportButton.updateCsv(columns);
     return (
       <ReactTable
           noDataText={gettext("There isn't any event yet.")}

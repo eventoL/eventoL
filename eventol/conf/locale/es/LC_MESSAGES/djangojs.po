@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-21 04:50+0000\n"
+"POT-Creation-Date: 2018-04-21 08:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,6 +105,39 @@ msgstr "Cantidad"
 msgid "Don't configured"
 msgstr "Tipo no configurado"
 
+msgid "Proposal"
+msgstr "Propuesta"
+
+msgid "Accepted"
+msgstr "Aceptada"
+
+msgid "Rejected"
+msgstr "Rechazada"
+
+msgid "Talk"
+msgstr "Charla"
+
+msgid "Workshop"
+msgstr "Taller"
+
+msgid "Lightning talk"
+msgstr "Charla relámpago"
+
+msgid "Other"
+msgstr "Otro"
+
+msgid "Beginner"
+msgstr "Principiante"
+
+msgid "Medium"
+msgstr "Medio"
+
+msgid "Advanced"
+msgstr "Avanzado"
+
+msgid "Super Hacker"
+msgstr "Super Hacker"
+
 msgid "There isn't any event yet."
 msgstr "No hay ningún evento todavía."
 
@@ -152,6 +185,9 @@ msgstr "Reporte nacional"
 
 msgid "Assistance detail"
 msgstr "Detalles de asistencia"
+
+msgid "Export"
+msgstr "Exportar"
 
 msgid "Event Management Software"
 msgstr "Software de Gestión de Eventos"
