@@ -8,6 +8,7 @@ module.exports = {
     // Add as many entry points as you have container-react-components here
     Home: './src/views/Home',
     EventHome: './src/views/EventHome',
+    Report: './src/views/Report',
     vendors: ['react', 'babel-polyfill'],
   },
 

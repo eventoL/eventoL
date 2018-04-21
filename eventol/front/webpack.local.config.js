@@ -20,6 +20,7 @@ config.ip = ip
 config.entry = {
   Home: addDevVendors('./src/views/Home'),
   EventHome: addDevVendors('./src/views/EventHome'),
+  Report: addDevVendors('./src/views/Report'),
   vendors: ['react', 'babel-polyfill'],
 }
 
