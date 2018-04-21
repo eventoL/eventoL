@@ -46,6 +46,7 @@ from manager.models import Attendee, Organizer, EventUser, Room, Event, \
 from manager.security import is_installer, is_organizer, user_passes_test, \
     add_attendance_permission, is_collaborator, \
     add_organizer_permissions, is_collaborator_or_installer
+from manager.utils.report import count_by
 
 from .utils import email as utils_email
 
@@ -65,21 +66,6 @@ def update_event_info(event_slug, event_uid, request, render_dict=None, event=No
         'contacts': contacts
     })
     return render_dict
-
-
-def count_by(elements, getter, increment=None):
-    return_dict = {}
-    for element in elements:
-        try:
-            field = getter(element)
-            if field in return_dict:
-                return_dict[field] += increment(element) if increment else 1
-            else:
-                return_dict[field] = increment(element) if increment else 1
-        except Exception as error:
-            logger.error(error)
-            pass
-    return return_dict
 
 
 def get_forms_errors(forms):
