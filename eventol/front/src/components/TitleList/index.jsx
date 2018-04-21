@@ -1,8 +1,8 @@
-import React from 'react';
-import SliderItems from '../SliderItems';
-import Cookies from 'js-cookie';
+import React from 'react'
+import SliderItems from '../SliderItems'
+import {getUrl} from '../../utils/api'
 
-import './index.scss';
+import './index.scss'
 
 
 export default class TitleList extends React.Component {
@@ -13,17 +13,9 @@ export default class TitleList extends React.Component {
 
   loadContent(){
     const url = `/api/events/${this.props.url}`;
-    fetch(url, {
-    method: "GET",
-    credentials: "same-origin",
-    headers: {
-        'X-CSRFToken': Cookies.get('csrftoken'),
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-    }})
-      .then(response => response.json())
+    getUrl(url)
       .then(data => this.setState({data}))
-      .catch(err => console.error("There has been an error", err));
+      .catch(err => console.error('There has been an error', err));
   }
 
   componentWillReceiveProps(nextProps){

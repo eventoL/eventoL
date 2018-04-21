@@ -3,6 +3,7 @@ import Hero from '../../components/Hero'
 import Header from '../../components/Header'
 import Search from '../../components/Search'
 import TitleList from '../../components/TitleList'
+import {HOME_REQUIRED_FIELDS} from '../../utils/constants'
 
 import './index.scss'
 
@@ -18,7 +19,7 @@ export default class Home extends React.Component {
   onEnter = () => {
     const {searchTerm} = this.state;
     if (searchTerm !== '') {
-      const searchUrl = `?search=${searchTerm}`;
+      const searchUrl = `?search=${searchTerm}&fields=${HOME_REQUIRED_FIELDS}`;
       this.setState({searchUrl, searched: true});
     }
   }
@@ -38,27 +39,27 @@ export default class Home extends React.Component {
         <TitleList
           id='my_events'
           title={gettext('My Events')}
-          url='?my_events=true' />
+          url={`?my_events=true&fields=${HOME_REQUIRED_FIELDS}`} />
         <TitleList
           id='recent'
           title={gettext('Recent Events')}
-          url='?ordering=-created_at&registration_is_open=true' />
+          url={`?ordering=-created_at&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
         <TitleList
           id='featured'
           title={gettext('Featured Events')}
-          url='?ordering=-attendees_count&registration_is_open=true' />
+          url={`?ordering=-attendees_count&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url='?registration_is_open=true&ordering=last_date' />
+          url={`?registration_is_open=true&ordering=last_date&fields=${HOME_REQUIRED_FIELDS}`} />
         <TitleList
           id='schedule_confirmed'
           title={gettext('Events with Confirmed Schedule')}
-          url='?schedule_confirmed=true&registration_is_open=true' />
+          url={`?schedule_confirmed=true&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url='?registration_is_open=false&ordering=-attendees_count' />
+          url={`?registration_is_open=false&ordering=-attendees_count&fields=${HOME_REQUIRED_FIELDS}`} />
       </div>
     );
   }

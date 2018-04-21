@@ -3,6 +3,7 @@ import Hero from '../../components/Hero'
 import Header from '../../components/Header'
 import Search from '../../components/Search'
 import TitleList from '../../components/TitleList'
+import {HOME_REQUIRED_FIELDS} from '../../utils/constants'
 
 import './index.scss'
 
@@ -19,7 +20,7 @@ export default class EventHome extends React.Component {
     const {searchTerm} = this.state;
     const {slug} = this.props;
     if (searchTerm !== '') {
-      const searchUrl = `?search=${searchTerm}&slug=${slug}`;
+      const searchUrl = `?search=${searchTerm}&slug=${slug}&fields=${HOME_REQUIRED_FIELDS}`;
       this.setState({searchUrl, searched: true});
     }
   }
@@ -39,11 +40,11 @@ export default class EventHome extends React.Component {
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&slug=${slug}`} />
+          url={`?registration_is_open=true&ordering=last_date&slug=${slug}&fields=${HOME_REQUIRED_FIELDS}`} />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&slug=${slug}`} />
+          url={`?registration_is_open=false&ordering=-attendees_count&slug=${slug}&fields=${HOME_REQUIRED_FIELDS}`} />
       </div>
     );
   }
