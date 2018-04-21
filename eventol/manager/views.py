@@ -1843,7 +1843,7 @@ def handler500(request):
 def generic_report(request):
     events_private_data = None
     user = request.user
-    if user.is_authenticated() and user.is_staff:
+    if user.is_authenticated() and user.is_superuser:
         events_private_data = Event.objects.get_event_private_data()
     return render(
         request, 'generic-report.html', {'events_private_data': events_private_data})

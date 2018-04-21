@@ -3,8 +3,6 @@ import React from 'react';
 
 export default class Button extends React.Component {
   handleClick = ({target: {id}}) => {
-    event.stopPropagation();
-    event.preventDefault();
     const {handleOnClick} = this.props;
     if (handleOnClick) handleOnClick(id);
   }

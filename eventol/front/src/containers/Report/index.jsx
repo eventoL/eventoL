@@ -102,7 +102,7 @@ export default class Report extends React.Component {
     }
   }
 
-  parseEvent = (event) => {
+  parseEvent = event => {
     const {eventsPrivateData} = this.props;
     const privateData = _.find(eventsPrivateData, {id: event.id});
     const {location, report: {attendee}} = event;
