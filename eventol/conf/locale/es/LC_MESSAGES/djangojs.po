@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-21 04:23+0000\n"
+"POT-Creation-Date: 2018-04-21 04:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,6 +146,9 @@ msgstr "Eventos con Cronograma Confirmado"
 
 msgid "There has been an error"
 msgstr "Ha habido un error"
+
+msgid "National report"
+msgstr "Reporte nacional"
 
 msgid "Assistance detail"
 msgstr "Detalles de asistencia"

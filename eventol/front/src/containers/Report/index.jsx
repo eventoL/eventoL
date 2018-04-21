@@ -134,7 +134,7 @@ export default class Report extends React.Component {
         const pages = (remainder > 0) ? quotient + 1 : quotient;
         this.setState({data: results.map(this.parseEvent), loading: false, count, pages});
       }
-    ).catch(err => console.error('There has been an error', err));
+    ).catch(err => console.error(gettext('There has been an error'), err));
   }
 
   componentDidMount(){
@@ -154,7 +154,7 @@ export default class Report extends React.Component {
     const {eventsPrivateData} = this.props;
     return (
       <div>
-        <Title label='National report'>
+        <Title label={gettext('National report')}>
           <Button name='confirmed' type='success' label={gettext('Assistance (confirmed)')} handleOnClick={this.onClick}/>
           <Button name='assitance' type='success' label={gettext('Assistance detail')} handleOnClick={this.onClick}/>
           <Button name='installations' type='success' label={gettext('Installations')}  handleOnClick={this.onClick}/>
