@@ -1,5 +1,9 @@
 import datetime
+import itertools
+import json
+import logging
 import re
+
 from uuid import uuid4
 from random import SystemRandom
 from string import digits, ascii_lowercase, ascii_uppercase
@@ -14,6 +18,10 @@ from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
+from manager.utils.report import count_by
+
+
+logger = logging.getLogger('eventol')
 
 
 def validate_url(url):
@@ -44,6 +52,31 @@ class EventManager(models.Manager):
                 default=False,
                 output_field=models.BooleanField()
             ))
+
+    def get_event_by_user(self, user, slug):
+        if user.is_authenticated():
+            event_users = EventUser.objects.filter(user=user)
+            event_ids = [event_user.event.pk for event_user in event_users]
+            queryset = Event.objects.filter(pk__in=event_ids)
+            if slug:
+                queryset = Event.objects.filter(slug=slug)
+        else:
+            queryset = Event.objects.none()
+        return queryset
+
+    @staticmethod
+    def get_event_private_data():
+        events = []
+        for event in Event.objects.all():
+            organizers = Organizer.objects.filter(event_user__event=event)
+            users = map(lambda organizer: organizer.event_user.user, organizers)
+            full_names = [user.get_full_name() for user in users]
+            events.append({
+                'organizers': ','.join(full_names),
+                'email': event.email,
+                'id': event.id
+            })
+        return events
 
 
 class Event(models.Model):
@@ -85,6 +118,49 @@ class Event(models.Model):
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
+
+    @property
+    def location(self):
+        try:
+            place = json.loads(self.place)
+            components = place['address_components']
+            components = filter(
+                lambda componet: 'political' in componet['types'],
+                components
+            )
+            components = map(
+                lambda componet: componet['long_name'],
+                components
+            )
+            return components
+        except json.JSONDecodeError as error:
+            logger.error(error)
+        return []
+
+    @property
+    def report(self):
+        event_user = EventUser.objects.get_counts_by_event(self)
+        collaborator = Collaborator.objects.get_counts_by_event(self)
+        organizer = Organizer.objects.get_counts_by_event(self)
+        attendee = Attendee.objects.get_counts_by_event(self)
+        installer = Installer.objects.get_counts_by_event(self)
+        activity = Activity.objects.get_counts_by_event(self)
+        installation = Installation.objects.get_counts_by_event(self)
+        speakers = []
+        for talk in Activity.objects.filter(event=self, status='2'):
+            speakers.append(talk.speakers_names.split(','))
+        speakers_count = len(set(itertools.chain.from_iterable(speakers)))
+        return {
+            'event_user': event_user,
+            'collaborator': collaborator,
+            'organizer': organizer,
+            'attendee': attendee,
+            'installer': installer,
+            'activity': activity,
+            'installation': installation,
+            'speakers': speakers_count
+        }
+
 
     def get_absolute_url(self):
         if self.external_url:
@@ -162,9 +238,6 @@ class Contact(models.Model):
                            max_length=200)
     text = models.CharField(_('Text'), max_length=200,
                             help_text=_('i.e. @Flisol'))
-    # TODO: null should be false,
-    # but I put true due to a django bug with formsets:
-    # https://code.djangoproject.com/ticket/13776
     event = models.ForeignKey(Event, verbose_name=_noop('Event'),
                               related_name='contacts', blank=True, null=False)
 
@@ -193,7 +266,41 @@ class Ticket(models.Model):
         return self.code
 
 
+class EventUserManager(models.Manager):
+    @staticmethod
+    def get_event_user(instance):
+        if hasattr(instance, 'event_user'):
+            return instance.event_user
+        return instance
+
+    def get_counts(self, event_users):
+        confirmed = EventUserAttendanceDate.objects \
+            .filter(event_user__in=event_users) \
+            .order_by('event_user') \
+            .distinct() \
+            .count()
+        total = len(event_users)
+        return {
+            'total': total,
+            'confirmed': confirmed,
+            'not_confirmed': total - confirmed
+        }
+
+    def get_counts_by_event(self, event):
+        model = self.model
+        if hasattr(model, 'event_user'):
+            queryset = model.objects.filter(event_user__event=event)
+        else:
+            queryset = model.objects.filter(event=event)
+        event_users = self.get_event_users(queryset)
+        return self.get_counts(event_users)
+
+    def get_event_users(self, queryset):
+        return [self.get_event_user(instance) for instance in queryset]
+
+
 class EventUser(models.Model):
+    objects = EventUserManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     user = models.ForeignKey(User, verbose_name=_('User'),
@@ -248,14 +355,15 @@ class EventUserAttendanceDate(models.Model):
         ('4', _('unregistred'))
     )
     mode = models.CharField(_('Mode'), choices=attendance_mode_choices,
-                             max_length=200, blank=True, null=True,
-                             help_text=_('Attendance mode'))
+                            max_length=200, blank=True, null=True,
+                            help_text=_('Attendance mode'))
 
     def __str__(self):
         return '{} - {}'.format(self.event_user, self.date)
 
 
 class Collaborator(models.Model):
+    objects = EventUserManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
@@ -284,6 +392,7 @@ class Collaborator(models.Model):
 
 class Organizer(models.Model):
     """Event organizer"""
+    objects = EventUserManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
@@ -297,7 +406,37 @@ class Organizer(models.Model):
         return str(self.event_user)
 
 
+class AttendeeManager(EventUserManager):
+    @staticmethod
+    def get_attendees(queryset):
+        return [inst for inst in queryset if not inst.event_user]
+
+    def get_counts(self, queryset):
+        event_users = self.get_event_users(queryset)
+        event_user_counts = super().get_counts(event_users)
+        attendees = self.get_attendees(queryset)
+        confirmed = AttendeeAttendanceDate.objects \
+            .filter(attendee__in=attendees) \
+            .order_by('attendees') \
+            .distinct() \
+            .count()
+        total = len(attendees)
+        return {
+            'with_event_user': event_user_counts,
+            'without_event_user': {
+                'total': total,
+                'confirmed': confirmed,
+                'not_confirmed': total - confirmed
+            }
+        }
+
+    def get_counts_by_event(self, event):
+        queryset = Attendee.objects.filter(event=event)
+        return self.get_counts(queryset)
+
+
 class Attendee(models.Model):
+    objects = AttendeeManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     first_name = models.CharField(_('First Name'), max_length=200, blank=True, null=True)
@@ -382,6 +521,7 @@ class InstallationMessage(models.Model):
 
 
 class Installer(models.Model):
+    objects = EventUserManager()
     installer_choices = (
         ('1', _('Beginner')),
         ('2', _('Medium')),
@@ -456,7 +596,30 @@ class Room(models.Model):
         ordering = ['name']
 
 
+class ActivityManager(models.Manager):
+    @staticmethod
+    def get_counts(queryset):
+        level_count = count_by(queryset, lambda activity: activity.level)
+        status_count = count_by(queryset, lambda activity: activity.status)
+        type_count = count_by(queryset, lambda activity: activity.type)
+        total = queryset.count()
+        confirmed = queryset.filter(room__isnull=False).count()
+        return {
+            'level_count': level_count,
+            'status_count': status_count,
+            'type_count': type_count,
+            'confirmed': confirmed,
+            'not_confirmed': total - confirmed,
+            'total': total
+        }
+
+    def get_counts_by_event(self, event):
+        queryset = Activity.objects.filter(event=event)
+        return self.get_counts(queryset)
+
+
 class Activity(models.Model):
+    objects = ActivityManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event = models.ForeignKey(Event, verbose_name=_('Event'))
@@ -582,7 +745,30 @@ class Activity(models.Model):
         verbose_name_plural = _('Activities')
 
 
+class InstallationManager(models.Manager):
+    @staticmethod
+    def get_counts(queryset):
+        hardware_count = count_by(
+            queryset, lambda activity: activity.hardware.model)
+        software_count = count_by(
+            queryset, lambda activity: activity.software.name)
+        installer_count = count_by(
+            queryset, lambda activity: activity.installer.id)
+        total = queryset.count()
+        return {
+            'hardware_count': hardware_count,
+            'software_count': software_count,
+            'installer_count': installer_count,
+            'total': total
+        }
+
+    def get_counts_by_event(self, event):
+        queryset = Installation.objects.filter(installer__event=event)
+        return self.get_counts(queryset)
+
+
 class Installation(models.Model):
+    objects = InstallationManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'),

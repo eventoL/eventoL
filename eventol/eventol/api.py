@@ -8,11 +8,9 @@ from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 from rest_framework_filters import FilterSet, BooleanFilter
-from manager.models import (Event, Activity, Attendee, EventUserAttendanceDate,
-                            Installer, Installation, Collaborator, Room,
-                            EventUser, Organizer, AttendeeAttendanceDate,
-                            Software, Hardware)
-from manager.views import count_by
+from manager.models import (Event, Activity, Attendee, Room,
+                            Installer, Installation, Collaborator,
+                            EventUser, Organizer, Software, Hardware)
 
 
 # Serializers define the API representation.
@@ -30,10 +28,10 @@ class EventSerializer(EventolSerializer):
     class Meta:
         model = Event
         fields = ('url', 'name', 'abstract', 'limit_proposal_date', 'slug',
-                  'external_url', 'email', 'event_information', 'updated_at',
+                  'external_url', 'report', 'event_information', 'updated_at',
                   'schedule_confirmed', 'place', 'image', 'cropping', 'uid',
-                  'activity_proposal_is_open', 'registration_is_open',
-                  'attendees_count', 'last_date', 'created_at')
+                  'activity_proposal_is_open', 'registration_is_open', 'id',
+                  'attendees_count', 'last_date', 'created_at', 'location')
 
 
 class EventUserSerializer(EventolSerializer):
@@ -122,16 +120,9 @@ class EventViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         my_events = request.GET.get('my_events', None)
+        slug = request.GET.get('slug', None)
         if my_events:
-            if request.user.is_authenticated():
-                event_users = EventUser.objects.filter(user=request.user)
-                event_ids = [event_user.event.pk for event_user in event_users]
-                queryset = Event.objects.filter(pk__in=event_ids)
-                slug = request.GET.get('slug', None)
-                if slug:
-                    queryset = Event.objects.filter(slug=slug)
-            else:
-                queryset = Event.objects.none()
+            queryset = Event.objects.get_event_by_user(request.user, slug)
             serializer = EventSerializer(queryset, many=True, context={'request': request})
             return Response({'results': serializer.data})
         return super().list(request)
@@ -142,23 +133,11 @@ class EventUserModelViewSet(viewsets.ModelViewSet):
     ordering_fields = ('created_at', 'updated_at')
     search_fields = None
 
-    def get_event_users(self):
-        queryset = self.filter_queryset(self.get_queryset())
-        return [instance.event_user for instance in queryset]
-
     def get_counts(self):
-        event_users = self.get_event_users()
-        confirmed = EventUserAttendanceDate.objects \
-            .filter(event_user__in=event_users) \
-            .order_by('event_user') \
-            .distinct() \
-            .count()
-        total = len(event_users)
-        return {
-            'total': total,
-            'confirmed': confirmed,
-            'not_confirmed': total - confirmed
-        }
+        model = self.serializer_class.Meta.model
+        queryset = self.filter_queryset(self.get_queryset())
+        event_users = model.objects.get_event_users(queryset)
+        return model.objects.get_counts(event_users)
 
     def list(self, request):
         count = request.GET.get('count', None)
@@ -171,9 +150,6 @@ class EventUserViewSet(EventUserModelViewSet):
     queryset = EventUser.objects.all()
     serializer_class = EventUserSerializer
     filter_fields = ('event__uid',)
-
-    def get_event_users(self):
-        return self.filter_queryset(self.get_queryset())
 
 
 class InstallerViewSet(EventUserModelViewSet):
@@ -198,31 +174,9 @@ class AttendeeViewSet(EventUserModelViewSet):
                      'email_confirmed', 'event__uid')
     ordering_fields = ('created_at', 'updated_at', 'registration_date')
 
-    def get_event_users(self):
-        queryset = self.filter_queryset(self.get_queryset())
-        return [inst.event_user for inst in queryset if inst.event_user]
-
-    def get_attendees(self):
-        queryset = self.filter_queryset(self.get_queryset())
-        return [inst for inst in queryset if not inst.event_user]
-
     def get_counts(self):
-        event_user_counts = super().get_counts()
-        attendees = self.get_attendees()
-        confirmed = AttendeeAttendanceDate.objects \
-            .filter(attendee__in=attendees) \
-            .order_by('attendees') \
-            .distinct() \
-            .count()
-        total = len(attendees)
-        return {
-            'with_event_user': event_user_counts,
-            'without_event_user': {
-                'total': total,
-                'confirmed': confirmed,
-                'not_confirmed': total - confirmed
-            }
-        }
+        queryset = self.filter_queryset(self.get_queryset())
+        return Attendee.objects.get_counts(queryset)
 
 
 class RoomViewSet(viewsets.ModelViewSet):
@@ -243,20 +197,8 @@ class ActivityViewSet(EventUserModelViewSet):
     ordering_fields = ('created_at', 'updated_at', 'start_date', 'end_date')
 
     def get_counts(self):
-        activities = self.filter_queryset(self.get_queryset())
-        level_count = count_by(activities, lambda activity: activity.level)
-        status_count = count_by(activities, lambda activity: activity.status)
-        type_count = count_by(activities, lambda activity: activity.type)
-        total = activities.count()
-        confirmed = activities.filter(room__isnull=False).count()
-        return {
-            'level_count': level_count,
-            'status_count': status_count,
-            'type_count': type_count,
-            'confirmed': confirmed,
-            'not_confirmed': total - confirmed,
-            'total': total
-        }
+        queryset = self.filter_queryset(self.get_queryset())
+        return Activity.objects.get_counts(queryset)
 
 
 class SoftwareViewSet(viewsets.ModelViewSet):
@@ -284,17 +226,5 @@ class InstallationViewSet(EventUserModelViewSet):
     ordering_fields = ('created_at', 'updated_at',)
 
     def get_counts(self):
-        installations = self.filter_queryset(self.get_queryset())
-        hardware_count = count_by(
-            installations, lambda activity: activity.hardware.model)
-        software_count = count_by(
-            installations, lambda activity: activity.software.name)
-        installer_count = count_by(
-            installations, lambda activity: activity.installer.id)
-        total = installations.count()
-        return {
-            'hardware_count': hardware_count,
-            'software_count': software_count,
-            'installer_count': installer_count,
-            'total': total
-        }
+        queryset = self.filter_queryset(self.get_queryset())
+        return Installation.objects.get_counts(queryset)
