@@ -623,7 +623,7 @@ class Activity(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event = models.ForeignKey(Event, verbose_name=_('Event'))
-    title = models.CharField(_('Title'), max_length=50,
+    title = models.CharField(_('Title'), max_length=100,
                              blank=False, null=False)
     long_description = models.TextField(_('Long Description'))
     abstract = models.TextField(_('Abstract'),
