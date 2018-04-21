@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
+{% load staticfiles %}
+{% load i18n %}
+{% load l10n %}
+{% load cropping %}
+{% load filters %}
+{% block other-head %}
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+{% endblock %}
+{% block content-size %}col-sm-12{% endblock %}
+{% block content %}
+    <div class="well">
+        <div class="row" style="text-align: center">
+            <div class="col-sm-12">
+                <div id="root"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block other-script %}
+  {% render_bundle 'vendors' %}
+  {% render_bundle 'Report' %}
+  <script>
+    window.render_components({
+      {% if user.is_authenticated %}
+        {% if events_private_data %}
+          events_private_data: {{ events_private_data | safe }},
+        {% endif %}
+        user: {
+          username: '{{ user.username | safe }}',
+          first_name: '{{ user.first_name | safe }}',
+          last_name: '{{ user.last_name | safe }}'
+        }
+      {% endif %}
+    });
+  </script>
+{% endblock %}
