@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-21 08:22+0000\n"
+"POT-Creation-Date: 2018-04-21 08:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,9 @@ msgstr "Destacados"
 
 msgid "Recent"
 msgstr "Recientes"
+
+msgid "Generic report"
+msgstr "Reporte general"
 
 msgid "Event"
 msgstr "Evento"
@@ -135,9 +138,6 @@ msgstr "Medio"
 msgid "Advanced"
 msgstr "Avanzado"
 
-msgid "Super Hacker"
-msgstr "Super Hacker"
-
 msgid "There isn't any event yet."
 msgstr "No hay ningún evento todavía."
 
@@ -189,5 +189,8 @@ msgstr "Detalles de asistencia"
 msgid "Export"
 msgstr "Exportar"
 
-msgid "Event Management Software"
-msgstr "Software de Gestión de Eventos"
+#~ msgid "Super Hacker"
+#~ msgstr "Super Hacker"
+
+#~ msgid "Event Management Software"
+#~ msgstr "Software de Gestión de Eventos"

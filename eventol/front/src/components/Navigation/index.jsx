@@ -16,10 +16,10 @@ export default class Navigation extends React.Component {
             <a href='http://eventol.github.io/eventoL/#/'><li>{gettext('Documentation')}</li></a>
             <a href='#featured'><li>{gettext('Featured')}</li></a>
             <a href='#recent'><li>{gettext('Recent')}</li></a>
+            <a href='/report'><li>{gettext('Generic report')}</li></a>
           </ul>
         </nav>
       </div>
     );
   }
-
-};
+}
