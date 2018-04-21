@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-18 06:14+0000\n"
+"POT-Creation-Date: 2018-04-21 04:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,69 @@ msgstr "Destacados"
 
 msgid "Recent"
 msgstr "Recientes"
+
+msgid "Event"
+msgstr "Evento"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Events"
+msgstr "Eventos"
+
+msgid "Organizers"
+msgstr "Organizadores"
+
+msgid "Email"
+msgstr "Mail"
+
+msgid "Location"
+msgstr "Ubicación"
+
+msgid "Address detail"
+msgstr "Detalles de dirección"
+
+msgid "Address"
+msgstr "Dirección"
+
+msgid "Province"
+msgstr "Provincia"
+
+msgid "Assistance (confirmed)"
+msgstr "Asistencia (confirmadas)"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Collaborators"
+msgstr "Colaboradores"
+
+msgid "Installers"
+msgstr "Instaladores"
+
+msgid "Speakers"
+msgstr "Disertantes"
+
+msgid "Activities"
+msgstr "Actividades"
+
+msgid "Installations"
+msgstr "Instalaciones"
+
+msgid "Confirmed"
+msgstr "Confirmado"
+
+msgid "Not Confirmed"
+msgstr "No confirmado"
+
+msgid "Quantity"
+msgstr "Cantidad"
+
+msgid "Don't configured"
+msgstr "Tipo no configurado"
+
+msgid "There isn't any event yet."
+msgstr "No hay ningún evento todavía."
 
 msgid "Search by title..."
 msgstr "Buscar por título..."
@@ -81,5 +144,11 @@ msgstr "Eventos Destacados"
 msgid "Events with Confirmed Schedule"
 msgstr "Eventos con Cronograma Confirmado"
 
-#~ msgid "Event Management Software"
-#~ msgstr "Software de Gestión de Eventos"
+msgid "There has been an error"
+msgstr "Ha habido un error"
+
+msgid "Assistance detail"
+msgstr "Detalles de asistencia"
+
+msgid "Event Management Software"
+msgstr "Software de Gestión de Eventos"
