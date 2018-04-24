@@ -1846,4 +1846,7 @@ def generic_report(request):
     if user.is_authenticated() and user.is_staff:
         events_private_data = Event.objects.get_event_private_data()
     return render(
-        request, 'generic-report.html', {'events_private_data': events_private_data})
+        request, 'generic-report.html', {
+            'events_private_data': events_private_data,
+            'ws_propocol': settings.WS_PROTOCOL
+        })

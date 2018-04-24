@@ -139,6 +139,8 @@ export default class Report extends React.Component {
   }
 
   componentDidMount(){
+    const {communicator} = this.props;
+    communicator.addOnMessage(() => location.reload());
     this.setState({ loading: true });
     const url = '/api/events/?limit=5000&offset=0&fields=report';
     return getUrl(url).then(

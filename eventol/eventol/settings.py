@@ -253,7 +253,7 @@ class Base(Configuration):
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
-
+    WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
 
 class Staging(Base):
     import socket
