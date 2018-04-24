@@ -43,12 +43,12 @@ class EventManager(models.Manager):
             .annotate(attendees_count=models.Count('attendee')) \
             .annotate(last_date=models.Max('eventdate__date')) \
             .annotate(activity_proposal_is_open=models.Case(
-                models.When(limit_proposal_date__gte=today, then=True),
+                models.When(models.Q(limit_proposal_date__gte=today), then=True),
                 default=False,
                 output_field=models.BooleanField()
             )) \
             .annotate(registration_is_open=models.Case(
-                models.When(last_date__gte=today, then=True),
+                models.When(models.Q(last_date__gte=today), then=True),
                 default=False,
                 output_field=models.BooleanField()
             ))
