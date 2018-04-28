@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-21 08:27+0000\n"
+"POT-Creation-Date: 2018-04-28 09:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -183,14 +183,23 @@ msgstr "Ha habido un error"
 msgid "National report"
 msgstr "Reporte nacional"
 
+msgid "Autoupdate"
+msgstr "Actualización automática"
+
 msgid "Assistance detail"
 msgstr "Detalles de asistencia"
 
 msgid "Export"
 msgstr "Exportar"
 
-#~ msgid "Super Hacker"
-#~ msgstr "Super Hacker"
+msgid "Reconecting websocket, attemps"
+msgstr "Reconectando websocket, intentos"
 
-#~ msgid "Event Management Software"
-#~ msgstr "Software de Gestión de Eventos"
+msgid "websocket not supported by your browser"
+msgstr "Tu navegador no soporta websocket"
+
+msgid "Super Hacker"
+msgstr "Super Hacker"
+
+msgid "Event Management Software"
+msgstr "Software de Gestión de Eventos"
