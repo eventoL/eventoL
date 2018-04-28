@@ -7,14 +7,16 @@ import Title from '../../components/Title'
 import {getUrl} from '../../utils/api'
 import {REPORT_REQUIRED_FIELDS} from '../../utils/constants'
 import _ from 'lodash'
+import Toggle from 'react-input-toggle'
 
+import './react-input-toggle.css'
 import 'react-table/react-table.css'
 
 
 export default class Report extends React.Component {
 
   state = {
-    table: 'confirmed', count: 0,
+    table: 'confirmed', count: 0, autoupdate: false,
     data: [], all_data: [], totals: {},
     pages: null, loading: true, columns: {}
   }
@@ -140,8 +142,11 @@ export default class Report extends React.Component {
 
   componentDidMount(){
     const {communicator} = this.props;
-    communicator.addOnMessage(() => location.reload());
-    this.setState({ loading: true });
+    communicator.addOnMessage(this.updateTable);
+    let autoupdate = localStorage.getItem('autoupdate');
+    if (autoupdate === null) autoupdate = false
+    else autoupdate = JSON.parse(autoupdate);
+    this.setState({ loading: true, autoupdate });
     const url = '/api/events/?limit=5000&offset=0&fields=report';
     return getUrl(url).then(
       ({results:all_data}) => this.setState({
@@ -151,13 +156,30 @@ export default class Report extends React.Component {
   }
 
   onClick = name => this.setState({table: name})
+  toggleAutoupdate = () => {
+    const {autoupdate} = this.state;
+    localStorage.setItem('autoupdate', !autoupdate);
+    this.setState({autoupdate: !autoupdate});
+  }
+  updateTable = () => {
+    const {autoupdate} = this.state;
+    if (autoupdate) location.reload();
+  }
 
   render(){
-    const {data, pages, loading, count, table, totals} = this.state;
+    const {data, pages, loading, count, table, totals, autoupdate} = this.state;
     const {eventsPrivateData} = this.props;
     return (
       <div>
         <Title label={gettext('National report')}>
+          <Toggle
+            effect={'echo'}
+            label={gettext('Autoupdate')}
+            name={gettext('Autoupdate')}
+            checked={autoupdate}
+            labelPosition='left'
+            onChange={this.toggleAutoupdate}
+          />
           <Button name='confirmed' type='success' label={gettext('Assistance (confirmed)')} handleOnClick={this.onClick}/>
           <Button name='assitance' type='success' label={gettext('Assistance detail')} handleOnClick={this.onClick}/>
           <Button name='installations' type='success' label={gettext('Installations')}  handleOnClick={this.onClick}/>

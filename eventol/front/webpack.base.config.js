@@ -39,11 +39,11 @@ module.exports = {
         loader: 'file-loader!image-webpack-loader',
         options: {
           optipng: {
-            enabled: true,
+            enabled: true
           },
           svgo: {
-            enabled: true,
-          },
+            enabled: true
+          }
         }
       },
       {
