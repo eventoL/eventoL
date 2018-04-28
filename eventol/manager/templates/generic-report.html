@@ -24,6 +24,7 @@
   {% render_bundle 'Report' %}
   <script>
     window.render_components({
+        ws_protocol: '{{ ws_protocol }}',
       {% if user.is_authenticated %}
         {% if events_private_data %}
           events_private_data: {{ events_private_data | safe }},

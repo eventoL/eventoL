@@ -43,12 +43,12 @@ class EventManager(models.Manager):
             .annotate(attendees_count=models.Count('attendee')) \
             .annotate(last_date=models.Max('eventdate__date')) \
             .annotate(activity_proposal_is_open=models.Case(
-                models.When(limit_proposal_date__gte=today, then=True),
+                models.When(models.Q(limit_proposal_date__gte=today), then=True),
                 default=False,
                 output_field=models.BooleanField()
             )) \
             .annotate(registration_is_open=models.Case(
-                models.When(last_date__gte=today, then=True),
+                models.When(models.Q(last_date__gte=today), then=True),
                 default=False,
                 output_field=models.BooleanField()
             ))
@@ -412,17 +412,29 @@ class AttendeeManager(EventUserManager):
         return [inst for inst in queryset if not inst.event_user]
 
     def get_counts(self, queryset):
-        event_users = self.get_event_users(queryset)
-        event_user_counts = super().get_counts(event_users)
+        event_users = self.get_event_users(
+            queryset.filter(event_user__isnull=False))
+        confirmed_with_event_user = AttendeeAttendanceDate.objects \
+            .filter(attendee__event_user__in=event_users) \
+            .order_by('event_user') \
+            .distinct() \
+            .count()
+        total_with_event_user = len(event_users)
         attendees = self.get_attendees(queryset)
         confirmed = AttendeeAttendanceDate.objects \
-            .filter(attendee__in=attendees) \
+            .filter(
+                attendee__in=attendees, attendee__event_user__isnull=True) \
             .order_by('attendees') \
             .distinct() \
             .count()
         total = len(attendees)
         return {
-            'with_event_user': event_user_counts,
+            'with_event_user': {
+                'total': total_with_event_user,
+                'confirmed': confirmed_with_event_user,
+                'not_confirmed':
+                    total_with_event_user - confirmed_with_event_user
+            },
             'without_event_user': {
                 'total': total,
                 'confirmed': confirmed,
