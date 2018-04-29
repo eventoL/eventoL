@@ -120,7 +120,7 @@ do
       INSTALL=${INSTALL:false}
       for TASK in "$@"; do
         if $INSTALL; then
-          run_install $INSTALL
+          run_install $TASK
         fi
         run_task $TASK
         shift 1
