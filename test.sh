@@ -17,7 +17,7 @@ USAGE
 
 function install_js {
   cd eventol/front
-  npm install -g yarn
+  npm install -g yarn yarnpkg
   yarn install
   cd -
 }
