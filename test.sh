@@ -1,4 +1,7 @@
 #!/bin/bash
+set -x
+set -e
+
 cmdname=$(basename $0)
 INSTALL=false
 
