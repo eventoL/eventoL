@@ -115,6 +115,12 @@ class Event(models.Model):
                                       help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
+    use_installations = models.BooleanField(_('Use Installations'), default=True)
+    use_installers = models.BooleanField(_('Use Installers'), default=True)
+    use_collaborators = models.BooleanField(_('Use Collaborators'), default=True)
+    use_proposals = models.BooleanField(_('Use Proposals'), default=True)
+    is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
+    use_schedule = models.BooleanField(_('Use Schedule'), default=True)
     place = models.TextField(_('Place'))
     image = ImageCropField(upload_to='images_thumbnails',
                            verbose_name=_('Image'), blank=True, null=True)

@@ -411,7 +411,9 @@ class EventForm(ModelForm):
     class Meta(object):
         model = Event
         fields = ('name', 'slug', 'limit_proposal_date', 'email',
-                  'place', 'external_url', 'abstract', 'event_information')
+                  'place', 'external_url', 'abstract', 'event_information',
+                  'use_installations', 'use_installers', 'is_flisol',
+                  'use_collaborators', 'use_proposals', 'use_schedule')
         widgets = {'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
 
