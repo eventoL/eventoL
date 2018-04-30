@@ -91,6 +91,9 @@ class Event(models.Model):
     slug = models.CharField(_('URL'), max_length=20,
                             help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
+    cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
+                             help_text=_('For example: flisol-caba'),
+                             validators=[validate_url])
     uid = models.UUIDField(
         default=uuid4,
         editable=False,
