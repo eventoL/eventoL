@@ -1,15 +1,15 @@
-import linksReducer from './links'
+import eventsReducer from './events'
 
 const initState = {
-  links: []
+  events: []
 }
 
-describe('links Reducer', () => {
-  let link, links, link2;
+describe('events Reducer', () => {
+  let event, events, event2;
 
   beforeEach(() => {
-    link = {
-      model: 'links.link',
+    event = {
+      model: 'events.event',
       pk: 1,
       data: {
         name: 'Gitlab with workshop',
@@ -19,8 +19,8 @@ describe('links Reducer', () => {
         user: 1
       }
     }
-    link2 = {
-      model: 'links.link',
+    event2 = {
+      model: 'events.event',
       pk: 2,
       data: {
         name: 'Workshop documentation',
@@ -30,83 +30,83 @@ describe('links Reducer', () => {
         user: 1
       }
     }
-    links = [link]
+    events = [event]
   });
 
   test('when dispatch ANYTHING event returns a state object', () => {
-    const result = linksReducer(undefined, {type: 'ANYTHING'});
+    const result = eventsReducer(undefined, {type: 'ANYTHING'});
     expect(result).toBeDefined();
   });
 
   test('when dispatch INIT event returns default', () => {
-    const result = linksReducer(undefined, {type: 'INIT'});
+    const result = eventsReducer(undefined, {type: 'INIT'});
     expect(result).toEqual(initState);
   });
 
-  describe('when dispatch SET_LINKS', () => {
+  describe('when dispatch SET_EVENTS', () => {
 
-    test('when set links return correct links list', () => {
+    test('when set events return correct events list', () => {
       const action = {
-        type: 'SET_LINKS',
-        links
+        type: 'SET_EVENTS',
+        events
       }
-      const result = linksReducer(initState, action);
-      expect(result.links).toEqual(links);
+      const result = eventsReducer(initState, action);
+      expect(result.events).toEqual(events);
     });
 
   });
 
-  describe('when dispatch UPDATE_LINK', () => {
+  describe('when dispatch UPDATE_EVENT', () => {
 
-    test('when update link update original link', () => {
+    test('when update event update original event', () => {
       const action = {
-        type: 'UPDATE_LINK',
-        link: {
-          ...link,
+        type: 'UPDATE_EVENT',
+        event: {
+          ...event,
           data: { name: 'new name' },
         }
       }
-      const expectedLink = {fields: {name: 'new name'}, pk: 1};
-      const result = linksReducer({links}, action);
-      expect(result.links).toEqual([expectedLink]);
+      const expectedEvent = {fields: {name: 'new name'}, pk: 1};
+      const result = eventsReducer({events}, action);
+      expect(result.events).toEqual([expectedEvent]);
     });
 
-    test('when update link update only original link', () => {
+    test('when update event update only original event', () => {
       const action = {
-        type: 'UPDATE_LINK',
-        link: {
-          ...link,
+        type: 'UPDATE_EVENT',
+        event: {
+          ...event,
           data: { name: 'new name' },
         }
       }
-      const expectedLink = {fields: {name: 'new name'}, pk: 1};
-      const result = linksReducer({links: [link, link2]}, action);
-      expect(result.links).toEqual([expectedLink, link2]);
+      const expectedEvent = {fields: {name: 'new name'}, pk: 1};
+      const result = eventsReducer({events: [event, event2]}, action);
+      expect(result.events).toEqual([expectedEvent, event2]);
     });
 
   });
 
-  describe('when dispatch DELETE_LINK', () => {
+  describe('when dispatch DELETE_EVENT', () => {
 
-    test('when delete link return empty links list', () => {
+    test('when delete event return empty events list', () => {
       const action = {
-        type: 'DELETE_LINK',
-        link
+        type: 'DELETE_EVENT',
+        event
       }
-      const result = linksReducer({links}, action);
-      expect(result.links).toEqual([]);
+      const result = eventsReducer({events}, action);
+      expect(result.events).toEqual([]);
     });
 
   });
 
-  describe('when dispatch CREATE_LINK', () => {
+  describe('when dispatch CREATE_EVENT', () => {
 
-    test('when create link return correct links list', () => {
+    test('when create event return correct events list', () => {
       const action = {
-        type: 'CREATE_LINK',
-        link
+        type: 'CREATE_EVENT',
+        event
       }
-      const createdLink = {
+      const createdEvent = {
        fields: {
           description: '',
           name: 'Gitlab with workshop',
@@ -116,8 +116,8 @@ describe('links Reducer', () => {
         },
         pk: 1,
       }
-      const result = linksReducer({links}, action);
-      expect(result.links).toEqual([link, createdLink]);
+      const result = eventsReducer({events}, action);
+      expect(result.events).toEqual([event, createdEvent]);
     });
 
   });

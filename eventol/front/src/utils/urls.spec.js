@@ -1,4 +1,4 @@
-import { API_URL, LINKS_API_URL, WS_URL, LINKS_WS_URL } from './urls.js';
+import { API_URL, EVENTS_API_URL, WS_URL, EVENTS_WS_URL } from './urls.js';
 
 describe('Url utils', () => {
 
@@ -8,16 +8,16 @@ describe('Url utils', () => {
 
   describe('API_URL', () => {
 
-    it('should API_URL is /links/api/', () => {
-      expect(API_URL).toEqual('/links/api/');
+    it('should API_URL is /events/api/', () => {
+      expect(API_URL).toEqual('/events/api/');
     })
 
   })
 
-  describe('LINKS_API_URL', () => {
+  describe('EVENTS_API_URL', () => {
 
-    it('should LINKS_API_URL is /links/api/links/', () => {
-      expect(LINKS_API_URL).toEqual('/links/api/links/');
+    it('should EVENTS_API_URL is /events/api/events/', () => {
+      expect(EVENTS_API_URL).toEqual('/events/api/events/');
     })
 
   })
@@ -30,10 +30,10 @@ describe('Url utils', () => {
 
   })
 
-  describe('LINKS_WS_URL', () => {
+  describe('EVENTS_WS_URL', () => {
 
-    it('should is LINKS_WS_URL is ws://${window.location.host}/update/links/', () => {
-      expect(LINKS_WS_URL).toEqual(`ws://${window.location.host}/updates/links/`);
+    it('should is EVENTS_WS_URL is ws://${window.location.host}/update/events/', () => {
+      expect(EVENTS_WS_URL).toEqual(`ws://${window.location.host}/updates/events/`);
     })
 
   })
