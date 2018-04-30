@@ -56,6 +56,32 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                      <br>
+                      <br>
+                      <h4>{% trans "Select features for your event" %}</h4>
+                      <div class="col-sm-12">
+                        <div class="col-sm-4">
+                          {% include "form_field.html" with field=form.use_installations only %}
+                        </div>
+                        <div class="col-sm-4">
+                          {% include "form_field.html" with field=form.use_installers only %}
+                        </div>
+                        <div class="col-sm-4">
+                          {% include "form_field.html" with field=form.use_collaborators only %}
+                        </div>
+                        <div class="col-sm-4">
+                          {% include "form_field.html" with field=form.use_proposals only %}
+                        </div>
+                        <div class="col-sm-4">
+                          {% include "form_field.html" with field=form.use_schedule only %}
+                        </div>
+                        <div class="col-sm-4">
+                          {% include "form_field.html" with field=form.is_flisol only %}
+                        </div>
+                      </div>
+                    </div>
+
                     <br>
                     <br>
                     <h4>{% trans 'When will your event be?' %}</h4>
