@@ -51,6 +51,7 @@ python-testing:
   script:
     - curl -sL https://deb.nodesource.com/setup_8.x | bash -
     - apt install -y nodejs
+    - npm install -g yarn yarnpkg
     - ./test.sh -i backend
   artifacts:
     paths:
