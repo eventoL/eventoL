@@ -34,13 +34,9 @@ docker dev image:
   services:
     - docker:dind
   script:
-    - VERSION=$(date +"%y%m%d")
-    - DEV_VERSION=$VERSION-dev
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$DEV_VERSION || true
-    - docker build --cache-from $CI_REGISTRY_IMAGE:$DEV_VERSION -t $CI_REGISTRY_IMAGE:$DEV_VERSION .
-    - docker tag $CI_REGISTRY_IMAGE:$DEV_VERSION $CI_REGISTRY_IMAGE:latest-dev
-    - docker push $CI_REGISTRY_IMAGE:$DEV_VERSION
+    - docker pull $CI_REGISTRY_IMAGE:latest-dev || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest-dev -t $CI_REGISTRY_IMAGE:$DEV_VERSION .
     - docker push $CI_REGISTRY_IMAGE:latest-dev
   only:
     - develop
