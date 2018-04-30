@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-28 09:50+0000\n"
+"POT-Creation-Date: 2018-04-30 19:34+0000\n"
 "PO-Revision-Date: 2017-12-07 20:44+0000\n"
 "Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -80,6 +80,9 @@ msgstr "URL"
 msgid "For example: flisol-caba"
 msgstr "Por ejemplo: flisol-caba"
 
+msgid "CNAME"
+msgstr "CNAME"
+
 msgid "UID"
 msgstr "UID"
 
@@ -109,6 +112,24 @@ msgstr "HTML de Información del Evento"
 
 msgid "Schedule Confirmed"
 msgstr "Cronograma confirmado"
+
+msgid "Use Installations"
+msgstr "Tiene Instalaciones"
+
+msgid "Use Installers"
+msgstr "Tiene Instaladores"
+
+msgid "Use Collaborators"
+msgstr "Tiene Colaboradores"
+
+msgid "Use Proposals"
+msgstr "Tiene Propuesta de Charlas"
+
+msgid "Is FLISoL"
+msgstr "Es un FLISoL"
+
+msgid "Use Schedule"
+msgstr "Tiene Cronograma"
 
 msgid "Place"
 msgstr "Lugar"
@@ -1047,6 +1068,9 @@ msgstr "Crear un evento"
 msgid "What's the name of your event?"
 msgstr "Cuál es el nombre del evento?"
 
+msgid "Select features for your event"
+msgstr "Seleccione las características de su evento"
+
 msgid ""
 "If the event is taking place in more than one day, you can add all of them "
 "here."
@@ -1789,9 +1813,6 @@ msgstr "¡La sala fue borrada satisfactoriamente!"
 
 #~ msgid "To"
 #~ msgstr "A"
-
-#~ msgid "Follow FLISoL"
-#~ msgstr "Sigue a FLISoL"
 
 #~ msgid "Installer Registration from collaborator"
 #~ msgstr "Registrarme como instalador"
