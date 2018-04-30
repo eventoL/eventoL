@@ -46,6 +46,7 @@ class Base(Configuration):
         'easy_thumbnails.optimize',
         'image_cropping',
         'import_export',
+        'django_nose',
         'manager',
         'autofixture',
         'djangoformsetjs',
@@ -255,6 +256,13 @@ class Base(Configuration):
     MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
+
+    # Change test runner
+    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+    NOSE_ARGS = [
+        '--with-coverage',
+        '--cover-package=manager,eventol',
+    ]
 
 class Staging(Base):
     import socket
