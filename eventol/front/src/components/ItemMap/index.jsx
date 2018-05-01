@@ -57,4 +57,4 @@ export default class ItemMap extends React.Component {
       </div>
     )
   }
-};
+}

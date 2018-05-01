@@ -223,7 +223,7 @@ export default class ReportTable extends React.Component {
     if (exportButton) exportButton.updateCsv(columns);
     return (
       <ReactTable
-          noDataText={gettext("There isn't any event yet.")}
+          noDataText={gettext('There isn\'t any event yet.')}
           columns={columns}
           manual
           data={data}

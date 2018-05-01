@@ -15,10 +15,10 @@ export default class ListToggle extends React.Component {
     return (
       <div onClick={this.handleClick} data-toggled={toggled} className="ListToggle">
         <div>
-          <i className="fa fa-fw fa-plus"></i>
-          <i className="fa fa-fw fa-check"></i>
+          <i className="fa fa-fw fa-plus" />
+          <i className="fa fa-fw fa-check" />
         </div>
       </div>
     );
   }
-};
+}

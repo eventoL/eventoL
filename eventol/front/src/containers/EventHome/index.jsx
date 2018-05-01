@@ -48,4 +48,4 @@ export default class EventHome extends React.Component {
       </div>
     );
   }
-};
+}

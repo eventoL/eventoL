@@ -25,13 +25,13 @@ export default class Hero extends React.Component {
             <img className="logo" src="/static/manager/img/logo.png" alt="eventol logo" />
           </p>
           { slug && (
-            <h2>{`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}<br></br>
+            <h2>{`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}<br />
             {`${gettext('Please, select one to continue')}`}</h2>
         )}
           { !slug && <h2>{gettext('Search your event')}</h2> }
           {this.props.children}
         </div>
-        <div className="overlay"></div>
+        <div className="overlay" />
       </div>
     );
   }

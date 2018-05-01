@@ -8,7 +8,7 @@ const UserProfile = ({user}) => (
       <div className="User">
         <div className="name">{user.first_name} {user.last_name}</div>
         <div className="image">
-          <div className="fa fa-user fa-2x"></div>
+          <div className="fa fa-user fa-2x" />
         </div>
       </div>
     </a>

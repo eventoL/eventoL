@@ -4,8 +4,7 @@ const PrevArrow = ({onClick, style}) => (
   <div
     className='arrow arrow-prev fa fa-chevron-left'
     style={{...style, display: 'block', color: 'black'}}
-    onClick={onClick}>
-  </div>
+    onClick={onClick} />
 );
 
 export default PrevArrow;
