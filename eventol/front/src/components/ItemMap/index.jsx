@@ -54,7 +54,7 @@ export default class ItemMap extends React.Component {
   }
 
   render(){
-    const {title, url, attendees, overview, uid, sliderId} = this.props;
+    const {title, url, attendees, overview} = this.props;
     const mapId = this.getMapId();
     return (
       <div id={mapId} className="Item max-size">
