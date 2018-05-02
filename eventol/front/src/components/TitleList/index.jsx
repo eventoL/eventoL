@@ -12,7 +12,7 @@ export default class TitleList extends React.Component {
     mounted: false
   }
 
-  propTypes = {
+  static propTypes = {
     showEmpty: PropTypes.bool,
     title: PropTypes.string,
     url: PropTypes.string,

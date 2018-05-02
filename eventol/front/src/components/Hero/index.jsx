@@ -4,9 +4,13 @@ import PropTypes from 'prop-types'
 import './index.scss';
 
 export default class Hero extends React.Component {
-  propTypes = {
+  static propTypes = {
     slug: PropTypes.string,
-    children: PropTypes.element
+    children: PropTypes.oneOfType([
+      PropTypes.array,
+      PropTypes.object,
+      PropTypes.element
+    ])
   };
 
   getSlugParsed(){

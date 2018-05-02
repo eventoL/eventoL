@@ -4,7 +4,7 @@ import './index.scss';
 
 
 export default class HeroButton extends React.Component {
-  propTypes = {
+  static propTypes = {
     primary: PropTypes.string,
     text: PropTypes.string
   };

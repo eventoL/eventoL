@@ -17,7 +17,7 @@ const SliderItems = ({itemsData, sliderId}) => {
 };
 
 SliderItems.propTypes = {
-  itemsData: PropTypes.object,
+  itemsData: PropTypes.array,
   sliderId: PropTypes.string
 };
 

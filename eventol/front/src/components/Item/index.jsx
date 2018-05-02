@@ -6,12 +6,12 @@ import './index.scss'
 
 
 export default class Item extends React.Component {
-  propTypes = {
+  static propTypes = {
     url: PropTypes.string,
     title: PropTypes.string,
     backdrop: PropTypes.string,
     overview: PropTypes.string,
-    attendees: PropTypes.string
+    attendees: PropTypes.number
   };
 
   render(){

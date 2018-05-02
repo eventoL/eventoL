@@ -9,7 +9,7 @@ export default class Search extends React.Component {
     searchTerm: ''
   }
 
-  propTypes = {
+  static propTypes = {
     onEnter: PropTypes.func,
     onChange: PropTypes.func
   };

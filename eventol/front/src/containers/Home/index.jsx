@@ -11,7 +11,7 @@ import './index.scss'
 
 export default class Home extends React.Component {
 
-  propTypes = {
+  static propTypes = {
     user: PropTypes.object
   }
 

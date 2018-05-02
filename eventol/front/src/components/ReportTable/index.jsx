@@ -6,16 +6,16 @@ import 'react-table/react-table.css'
 
 
 export default class ReportTable extends React.Component {
-  propTypes = {
+  static propTypes = {
     count: PropTypes.number,
     totals: PropTypes.object,
-    data: PropTypes.object,
+    data: PropTypes.array,
     pages: PropTypes.number,
     loading: PropTypes.bool,
-    defaultRows: PropTypes.object,
+    defaultRows: PropTypes.number,
     fetchData: PropTypes.func,
     exportButton: PropTypes.object,
-    table: PropTypes.object,
+    table: PropTypes.string,
     eventsPrivateData: PropTypes.object
   };
 

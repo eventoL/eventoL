@@ -23,5 +23,9 @@ export default class Title extends React.Component {
 
 Title.propTypes = {
   label: PropTypes.string,
-  children: PropTypes.element
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.element
+  ])
 };

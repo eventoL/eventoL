@@ -7,8 +7,8 @@ import './index.scss'
 export default class ExportButton extends React.Component {
   state = {header: [], rows: [], totals: []}
 
-  propTypes = {
-    data: PropTypes.object,
+  static propTypes = {
+    data: PropTypes.array,
     label: PropTypes.string,
     type: PropTypes.string,
     filename: PropTypes.string

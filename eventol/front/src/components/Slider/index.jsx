@@ -23,7 +23,11 @@ const Slider = ({children:items}) => {
 };
 
 Slider.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.element
+  ])
 };
 
 export default Slider;

@@ -21,7 +21,7 @@ export default class Report extends React.Component {
     pages: null, loading: true, columns: {}
   }
 
-  propTypes = {
+  static propTypes = {
     eventsPrivateData: PropTypes.object,
     communicator: PropTypes.object
   }

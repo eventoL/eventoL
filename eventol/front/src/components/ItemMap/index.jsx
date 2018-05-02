@@ -4,11 +4,11 @@ import './index.scss';
 
 
 export default class ItemMap extends React.Component {
-  propTypes = {
+  static propTypes = {
     place: PropTypes.string,
     title: PropTypes.string,
     url: PropTypes.string,
-    attendees: PropTypes.string,
+    attendees: PropTypes.number,
     overview: PropTypes.string,
     uid: PropTypes.string,
     sliderId: PropTypes.string

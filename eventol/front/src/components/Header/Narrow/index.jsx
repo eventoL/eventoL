@@ -9,7 +9,7 @@ import './index.scss';
 
 export default class HeaderNarrow extends React.Component {
 
-  propTypes = {
+  static propTypes = {
     user: PropTypes.object
   };
 

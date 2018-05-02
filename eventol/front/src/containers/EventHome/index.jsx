@@ -17,7 +17,7 @@ export default class EventHome extends React.Component {
     searched: false
   }
 
-  propTypes = {
+  static propTypes = {
     slug: PropTypes.string,
     user: PropTypes.object
   }
