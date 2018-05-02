@@ -8,7 +8,6 @@ class WsCommunicator extends React.Component {
     super(props);
     this.checkWebSocketSupport();
     const websocket = this.createWebSocket(props.ws_url);
-    console.log(props.ws_url);
     this.state = {
       attempts: 1,
       onOpens: [props.onOpen],
