@@ -6,7 +6,7 @@ import './index.scss'
 const Logo = () => (
 	<div id="logo" className="Logo">
 		<a href='/'>
-	  	<img src="/static/manager/img/eventol-white.png" />
+      <img src="/static/manager/img/eventol-white.png" />
 		</a>
   </div>
 );
