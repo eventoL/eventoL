@@ -6,6 +6,7 @@ env:
 globals:
  gettext: true
  $: true
+ L: true
  module: true
  process: true
  __dirname: true
