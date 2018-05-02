@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Hero from '../../components/Hero'
 import Header from '../../components/Header'
 import Search from '../../components/Search'
@@ -16,9 +17,14 @@ export default class EventHome extends React.Component {
     searched: false
   }
 
+  propTypes = {
+    slug: PropTypes.string,
+    user: PropTypes.object
+  }
+
   onEnter = () => {
-    const {searchTerm} = this.state;
     const {slug} = this.props;
+    const {searchTerm} = this.state;
     if (searchTerm !== '') {
       const searchUrl = `?search=${searchTerm}&slug=${slug}&fields=${HOME_REQUIRED_FIELDS}`;
       this.setState({searchUrl, searched: true});
@@ -28,8 +34,8 @@ export default class EventHome extends React.Component {
   onChange = searchTerm => this.setState({searchTerm})
 
   render(){
-    const {searched, searchUrl} = this.state;
     const {user, slug} = this.props;
+    const {searched, searchUrl} = this.state;
     return (
       <div>
         <Header user={user}/>

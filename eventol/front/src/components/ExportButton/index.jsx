@@ -1,10 +1,18 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {CSVLink} from 'react-csv'
 
 import './index.scss'
 
 export default class ExportButton extends React.Component {
   state = {header: [], rows: [], totals: []}
+
+  propTypes = {
+    data: PropTypes.object,
+    label: PropTypes.string,
+    type: PropTypes.string,
+    filename: PropTypes.string
+  };
 
   getField(columns, field){
     const values = [];

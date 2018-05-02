@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Hero from '../../components/Hero'
 import Header from '../../components/Header'
 import Search from '../../components/Search'
@@ -9,6 +10,10 @@ import './index.scss'
 
 
 export default class Home extends React.Component {
+
+  propTypes = {
+    user: PropTypes.object
+  }
 
   state = {
     searchTerm: '',
@@ -27,8 +32,8 @@ export default class Home extends React.Component {
   onChange = searchTerm => this.setState({searchTerm})
 
   render(){
-    const {searched, searchUrl} = this.state;
     const {user} = this.props;
+    const {searched, searchUrl} = this.state;
     return (
       <div>
         <Header user={user}/>

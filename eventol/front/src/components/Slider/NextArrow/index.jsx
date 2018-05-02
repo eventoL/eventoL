@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const NextArrow = ({onClick, style}) => (
   <div
@@ -6,5 +7,10 @@ const NextArrow = ({onClick, style}) => (
     style={{...style, display: 'block', color: 'black'}}
     onClick={onClick} />
 );
+
+NextArrow.propTypes = {
+  onClick: PropTypes.func,
+  style: PropTypes.object
+};
 
 export default NextArrow;

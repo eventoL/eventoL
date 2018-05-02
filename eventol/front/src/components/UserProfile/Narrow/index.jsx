@@ -1,5 +1,7 @@
-import React from 'react';
-import './index.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import './index.scss'
 
 
 const UserProfile = ({user}) => (
@@ -14,5 +16,9 @@ const UserProfile = ({user}) => (
     </a>
   </div>
 );
+
+UserProfile.propTypes = {
+  user: PropTypes.object
+};
 
 export default UserProfile;

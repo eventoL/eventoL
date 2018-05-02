@@ -1,7 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types'
+
 import './index.scss';
 
 export default class Hero extends React.Component {
+  propTypes = {
+    slug: PropTypes.string,
+    children: PropTypes.element
+  };
 
   getSlugParsed(){
     const {slug} = this.props;
@@ -17,7 +23,7 @@ export default class Hero extends React.Component {
   }
 
   render(){
-    const {slug} = this.props;
+    const {slug, children} = this.props;
     return (
       <div id="hero" className="Hero" style={{backgroundImage: 'url(/static/manager/img/background.png)'}}>
         <div className="content">
@@ -29,7 +35,7 @@ export default class Hero extends React.Component {
             {`${gettext('Please, select one to continue')}`}</h2>
         )}
           { !slug && <h2>{gettext('Search your event')}</h2> }
-          {this.props.children}
+          {children}
         </div>
         <div className="overlay" />
       </div>

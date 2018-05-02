@@ -1,12 +1,24 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReactTable from 'react-table'
-
-import _ from 'lodash'
 
 import 'react-table/react-table.css'
 
 
 export default class ReportTable extends React.Component {
+  propTypes = {
+    count: PropTypes.number,
+    totals: PropTypes.object,
+    data: PropTypes.object,
+    pages: PropTypes.number,
+    loading: PropTypes.bool,
+    defaultRows: PropTypes.object,
+    fetchData: PropTypes.func,
+    exportButton: PropTypes.object,
+    table: PropTypes.object,
+    eventsPrivateData: PropTypes.object
+  };
+
   getEventColumns(){
     const {count} = this.props;
     return {

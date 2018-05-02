@@ -1,7 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 
 export default class Button extends React.Component {
+  propTypes = {
+    name: PropTypes.string,
+    label: PropTypes.string,
+    type: PropTypes.string,
+    handleOnClick: PropTypes.func
+  };
+
   handleClick = ({target: {id}}) => {
     const {handleOnClick} = this.props;
     if (handleOnClick) handleOnClick(id);

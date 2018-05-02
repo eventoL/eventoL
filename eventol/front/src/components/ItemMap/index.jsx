@@ -1,9 +1,18 @@
 import React from 'react';
-import ListToggle from '../ListToggle';
+import PropTypes from 'prop-types'
 import './index.scss';
 
 
 export default class ItemMap extends React.Component {
+  propTypes = {
+    place: PropTypes.string,
+    title: PropTypes.string,
+    url: PropTypes.string,
+    attendees: PropTypes.string,
+    overview: PropTypes.string,
+    uid: PropTypes.string,
+    sliderId: PropTypes.string
+  };
 
   getMapId(){
     const {uid, sliderId} = this.props;

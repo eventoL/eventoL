@@ -1,5 +1,5 @@
 import React from 'react'
-
+import PropTypes from 'prop-types'
 import Button from '../../components/Button'
 import ExportButton from '../../components/ExportButton'
 import TableReport from '../../components/ReportTable'
@@ -19,6 +19,11 @@ export default class Report extends React.Component {
     table: 'confirmed', count: 0, autoupdate: false,
     data: [], all_data: [], totals: {},
     pages: null, loading: true, columns: {}
+  }
+
+  propTypes = {
+    eventsPrivateData: PropTypes.object,
+    communicator: PropTypes.object
   }
 
   loadContent(pageSize, page, sorted){

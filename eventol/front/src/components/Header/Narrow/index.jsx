@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Logo from '../../../components/Logo';
 import NavigationNarrow from '../../../components/Navigation/Narrow';
 import UserProfileNarrow from '../../../components/UserProfile/Narrow';
@@ -7,6 +8,10 @@ import './index.scss';
 
 
 export default class HeaderNarrow extends React.Component {
+
+  propTypes = {
+    user: PropTypes.object
+  };
 
   toggle(){
 		const linksEl = document.querySelector('.narrowLinks');

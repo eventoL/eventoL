@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SliderItems from '../SliderItems'
 import {getUrl} from '../../utils/api'
 
@@ -9,7 +10,14 @@ export default class TitleList extends React.Component {
   state = {
     data: [],
     mounted: false
-  };
+  }
+
+  propTypes = {
+    showEmpty: PropTypes.bool,
+    title: PropTypes.string,
+    url: PropTypes.string,
+    id: PropTypes.string
+  }
 
   loadContent(){
     const url = `/api/events/${this.props.url}`;

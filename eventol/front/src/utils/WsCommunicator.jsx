@@ -28,11 +28,13 @@ class WsCommunicator extends React.Component {
   }
 
   onMessage(data) {
-    this.state.onMessages.map((onMessageFunction) => onMessageFunction && onMessageFunction(data));
+    const {onMessages} = this.state;
+    onMessages.map((onMessageFunction) => onMessageFunction && onMessageFunction(data));
   }
 
   onOpen(data) {
-    this.state.onOpens.map((onOpenFunction) => onOpenFunction && onOpenFunction(data));
+    const {onOpens} = this.state;
+    onOpens.map((onOpenFunction) => onOpenFunction && onOpenFunction(data));
   }
 
   generateInterval(attempts) {
@@ -41,7 +43,8 @@ class WsCommunicator extends React.Component {
   }
 
   onClose(data) {
-    this.state.onCloses.map((onCloseFunction) => onCloseFunction && onCloseFunction(data, this.props.reconnect));
+    const {onCloses} = this.state;
+    onCloses.map((onCloseFunction) => onCloseFunction && onCloseFunction(data, this.props.reconnect));
     if (this.props.reconnect) {
       const time = this.generateInterval(this.state.attempts);
       this.state.attempts += 1;
@@ -53,23 +56,28 @@ class WsCommunicator extends React.Component {
   }
 
   handleNotSupportWs() {
-    this.state.handlesNotSupportWs.map((hNotSupport) => hNotSupport && hNotSupport());
+    const {handlesNotSupportWs} = this.state;
+    handlesNotSupportWs.map((hNotSupport) => hNotSupport && hNotSupport());
   }
 
   addOnMessage(onMessageFunction) {
-    this.state.onMessages.push(onMessageFunction);
+    const {onMessages} = this.state;
+    onMessages.push(onMessageFunction);
   }
 
   addOnOpen(onOpenFunction) {
-    this.state.onOpens.push(onOpenFunction);
+    const {onOpens} = this.state;
+    onOpens.push(onOpenFunction);
   }
 
   addOnClose(onCloseFunction) {
-    this.state.onCloses.push(onCloseFunction);
+    const {onCloses} = this.state;
+    onCloses.push(onCloseFunction);
   }
 
   addHandleNotSupportWs(hNotSupport) {
-    this.state.handlesNotSupportWs.push(hNotSupport);
+    const {handlesNotSupportWs} = this.state;
+    handlesNotSupportWs.push(hNotSupport);
   }
 
   checkWebSocketSupport() {

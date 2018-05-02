@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 import ReactSlickSlider from 'react-slick'
 
 import NextArrow from './NextArrow';
@@ -19,6 +20,10 @@ const Slider = ({children:items}) => {
       {items}
     </ReactSlickSlider>
   );
+};
+
+Slider.propTypes = {
+  children: PropTypes.element
 };
 
 export default Slider;
