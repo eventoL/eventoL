@@ -47,7 +47,9 @@ export default class ItemMap extends React.Component {
     const uid = this.getMapId();
     try {
       this.loadMap();
-    } catch(e){}
+    } catch(e){
+      console.error(e);
+    }
     document.getElementById(uid).classList.remove('max-size')
   }
 
