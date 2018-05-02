@@ -66,7 +66,7 @@ export default class TitleList extends React.Component {
         overview: gettext('No Event found in your search'),
         backdrop: '/static/manager/img/logo.png'
       }
-      return (<div id={id} ref="titlecategory" className="TitleList" data-loaded={mounted}>
+      return (<div id={id} className="TitleList" data-loaded={mounted}>
         <div className="CategoryTitle">
           <h1>{title}</h1>
           <SliderItems itemsData={[emptyItem]}/>
@@ -74,7 +74,7 @@ export default class TitleList extends React.Component {
       </div>)
     }
     return (
-      <div id={id} ref="titlecategory" className="TitleList" data-loaded={mounted}>
+      <div id={id} className="TitleList" data-loaded={mounted}>
         <div className="CategoryTitle">
           <h1>{title}</h1>
           <SliderItems itemsData={itemsData} sliderId={id}/>
