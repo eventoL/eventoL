@@ -43,6 +43,7 @@ class WsCommunicator extends React.Component {
   }
 
   onClose(data) {
+    /* eslint-disable react/no-direct-mutation-state */
     const {onCloses} = this.state;
     onCloses.map((onCloseFunction) => onCloseFunction && onCloseFunction(data, this.props.reconnect));
     if (this.props.reconnect) {
@@ -53,6 +54,7 @@ class WsCommunicator extends React.Component {
         this.state.websocket = this.createWebSocket(this.props.ws_url);
       }, time);
     }
+    /* eslint-enable react/no-direct-mutation-state */
   }
 
   handleNotSupportWs() {
