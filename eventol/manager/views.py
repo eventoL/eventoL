@@ -62,7 +62,7 @@ logger = logging.getLogger('eventol')
 
 
 # Auxiliary functions
-def update_event_info(event_slug, event_uid, request, render_dict=None, event=None):
+def update_event_info(event_slug, event_uid, render_dict=None, event=None):
     event = get_object_or_404(Event, uid=event_uid)
     contacts = Contact.objects.filter(event=event)
     render_dict = render_dict or {}
@@ -173,7 +173,6 @@ def index(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             render_dict,
             event
         )
@@ -190,8 +189,7 @@ def event_view(request, event_slug, event_uid, html='index.html'):
         html,
         update_event_info(
             event_slug,
-            event_uid,
-            request
+            event_uid
         )
     )
 
@@ -268,7 +266,6 @@ def installation(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'forms': forms, 'errors': errors, 'multipart': False}
         )
     )
@@ -364,7 +361,6 @@ def manage_attendance(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'forms': forms, 'errors': errors, 'multipart': False}
         )
     )
@@ -450,7 +446,6 @@ def add_organizer(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'form': form, 'organizers': organizers}
         )
     )
@@ -507,7 +502,6 @@ def add_registration_people(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'form': form, 'registration_people': registration_people}
         )
     )
@@ -741,7 +735,6 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {
                 'form': form,
                 'event_registration_code': event_registration_code,
@@ -821,7 +814,6 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {
                 'event_registration_code': event_registration_code,
             }
@@ -874,7 +866,6 @@ def contact(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'form': form},
             event
         )
@@ -946,7 +937,6 @@ def reports(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             render_dict=template_dict
         )
     )
@@ -1010,7 +1000,6 @@ def generic_registration(request, event_slug, event_uid,
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'forms': forms, 'errors': errors, 'multipart': False}
         )
     )
@@ -1036,7 +1025,6 @@ def attendee_registration(request, event_slug, event_uid):
             update_event_info(
                 event_slug,
                 event_uid,
-                request,
                 event=event
             )
         )
@@ -1151,7 +1139,6 @@ def attendee_registration(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {
                 'form': attendee_form,
                 'errors': get_forms_errors([attendee_form]),
@@ -1369,7 +1356,6 @@ def edit_event(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {
                 'form': event_form,
                 'domain': request.get_host(),
@@ -1410,7 +1396,6 @@ def draw(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'eventusers': users, 'eventusersjson': json.dumps(users)}
         )
     )
@@ -1454,7 +1439,6 @@ def activity_proposal(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'form': activity_form, 'errors': [], 'multipart': True},
             event=event
         )
@@ -1499,7 +1483,6 @@ def image_cropping(request, event_slug, event_uid, activity_id):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'form': form}
         )
     )
@@ -1647,7 +1630,7 @@ def talk_registration(request, event_slug, event_uid, proposal_id):
     }
     return render(request,
                   'activities/detail.html',
-                  update_event_info(event_slug, event_uid, request, render_dict))
+                  update_event_info(event_slug, event_uid, render_dict))
 
 
 @login_required
@@ -1696,7 +1679,6 @@ def event_add_image(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'form': form}
         )
     )
@@ -1707,7 +1689,7 @@ def activity_detail(request, event_slug, event_uid, activity_id):
     activity.labels = activity.labels.split(',')
     params = {
         'activity': activity,
-        'form': ActivityForm(event_slug, event_uid, instance=activity),
+        'form': ActivityForm(event_uid, instance=activity),
         'reject_form': RejectForm(),
         'errors': []
     }
@@ -1717,7 +1699,6 @@ def activity_detail(request, event_slug, event_uid, activity_id):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             params
         )
     )
@@ -1740,7 +1721,6 @@ def schedule(request, event_slug, event_uid):
             update_event_info(
                 event_slug,
                 event_uid,
-                request,
                 {},
                 event=event
             )
@@ -1779,7 +1759,6 @@ def schedule(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {
                 'rooms': json.dumps(schedule_rooms),
                 'activities': schedule_activities,
@@ -1801,7 +1780,6 @@ def rooms_list(request, event_slug, event_uid):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'rooms': rooms}
         )
     )
@@ -1861,7 +1839,6 @@ def add_or_edit_room(request, event_slug, event_uid, room_id=None):
         update_event_info(
             event_slug,
             event_uid,
-            request,
             {'is_edit': is_edit, 'room': room if room else None,
              'forms': forms, 'errors': errors, 'multipart': False}
         )
