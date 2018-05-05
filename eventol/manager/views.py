@@ -837,7 +837,8 @@ def contact(request, event_slug, event_uid):
         if form.is_valid():
             contact_message = form.save()
             email = EmailMultiAlternatives()
-            email.subject = _("[eventoL] Contact message from {name}").format(name=contact_message.name)
+            email.subject = _noop('[eventoL] Contact message from {name}').format(
+                name=contact_message.name)
             email.body = str(contact_message)
             email.from_email = contact_message.email
             email.to = [event.email]
@@ -1080,7 +1081,7 @@ def attendee_registration(request, event_slug, event_uid):
                 if request.user.is_authenticated():
                     return redirect(confirm_url)
                 # ToDo: it has a FLISoL hardcoded string
-                body_text = _(
+                body_text = _noop(
                     'Hi! You are receiving this message because you have'
                     'registered to attend to FLISoL '
                     '{event_name}, being held on {event_dates}.\n\n'
@@ -1101,7 +1102,7 @@ def attendee_registration(request, event_slug, event_uid):
                     event_contact_url=reverse('contact', args=[event_slug, event_uid]),
                     confirm_url=confirm_url
                 )
-                body_html = _(
+                body_html = _noop(
                     '<p>Hi! You are receiving this message because you have'
                     'registered to attend to <strong>FLISoL '
                     '{event_name}</strong>, being held on {event_dates}.</p>\n'
