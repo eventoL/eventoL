@@ -1,12 +1,12 @@
 from functools import wraps
 
-from django.contrib.auth.models import Permission, Group
+from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.utils.decorators import available_attrs
 
-from manager.models import Installer, Organizer, Collaborator, Attendee
+from manager.models import Attendee, Collaborator, Installer, Organizer
 
 
 def is_installer(user, event_slug=None, event_uid=None, *args, **kwargs):

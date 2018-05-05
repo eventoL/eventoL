@@ -2,35 +2,34 @@
 
 import datetime
 import logging
-
 from collections import OrderedDict
+
+from allauth.account.forms import \
+    ChangePasswordForm as AllAuthChangePasswordForm
+from allauth.account.forms import LoginForm as AllAuthLoginForm
+from allauth.account.forms import ResetPasswordForm as AllAuthResetPasswordForm
+from allauth.account.forms import \
+    ResetPasswordKeyForm as AllAuthResetPasswordKeyForm
+from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
+from allauth.account.forms import SignupForm as AllAuthSignUpForm
+from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignUpForm
 from captcha.fields import CaptchaField
 from dal import autocomplete
 from django import forms
 from django.core.exceptions import ValidationError
-from django.utils.formats import date_format
-from django.core.validators import validate_email, URLValidator
-from django.db.utils import OperationalError
+from django.core.validators import URLValidator, validate_email
 from django.db.models.query_utils import Q
+from django.db.utils import OperationalError
 from django.forms import Form
-from django.forms.models import ModelForm, BaseModelFormSet
+from django.forms.models import BaseModelFormSet, ModelForm
+from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
-from manager.models import (Attendee, Installation, Hardware, Collaborator,
-                            Installer, ContactMessage, EventUser, Event,
-                            Software, Contact, Activity, EventDate, Room,
-                            AttendeeAttendanceDate, EventUserAttendanceDate)
 
-from allauth.account.forms import LoginForm as AllAuthLoginForm
-from allauth.account.forms import SignupForm as AllAuthSignUpForm
-from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignUpForm
-from allauth.account.forms import ResetPasswordForm as AllAuthResetPasswordForm
-from allauth.account.forms import ResetPasswordKeyForm \
-    as AllAuthResetPasswordKeyForm
-from allauth.account.forms import ChangePasswordForm \
-    as AllAuthChangePasswordForm
-from allauth.account.forms import SetPasswordForm as AllAuthSetPasswordForm
-
+from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
+                            Collaborator, Contact, ContactMessage, Event,
+                            EventDate, EventUser, EventUserAttendanceDate,
+                            Hardware, Installation, Installer, Room, Software)
 
 logger = logging.getLogger('eventol')
 

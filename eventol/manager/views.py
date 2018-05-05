@@ -3,53 +3,60 @@ import datetime
 import io
 import itertools
 import json
-import os
-import uuid
 import logging
 import cairosvg
+import os
 import re
+import uuid
+from smtplib import SMTPException
+from urllib.parse import urlparse
+
 import pyqrcode
 import svglue
-
 from allauth.utils import build_absolute_uri
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
-from django.forms import modelformset_factory
-from django.http import HttpResponse, Http404
-from django.shortcuts import get_object_or_404, render, render_to_response, redirect
-from django.utils import timezone
-from django.utils.dateparse import parse_time, parse_datetime
-from django.utils.translation import ugettext_lazy as _, ugettext
-from django.utils.formats import localize, date_format
 from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
+from django.forms import modelformset_factory
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+from django.utils.dateparse import parse_time
+from django.utils.formats import date_format, localize
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_noop as _noop
+from django.utils.translation import ugettext
 from lxml import etree
-from smtplib import SMTPException
-from urllib.parse import urlparse
 
-from manager.forms import CollaboratorRegistrationForm, InstallationForm, \
-    HardwareForm, InstallerRegistrationForm, EventDateModelFormset, \
-    AttendeeSearchForm, AttendeeRegistrationByCollaboratorForm, \
-    EventUserRegistrationForm, AttendeeRegistrationForm, ActivityForm, \
-    EventForm, ContactMessageForm, ImageCroppingForm, EventImageCroppingForm, \
-    EventUserSearchForm, ContactForm, ActivityProposalForm, EventDateForm, \
-    AttendeeRegistrationFromUserForm, RejectForm, RoomForm
-from manager.models import Attendee, Organizer, EventUser, Room, Event, \
-    Contact, Activity, Hardware, Installation, Collaborator, ContactMessage, \
-    Installer, InstallationMessage, EventDate, \
-    AttendeeAttendanceDate, EventUserAttendanceDate
-from manager.security import is_installer, is_organizer, user_passes_test, \
-    add_attendance_permission, is_collaborator, \
-    add_organizer_permissions, is_collaborator_or_installer
+from manager.forms import (ActivityForm, ActivityProposalForm,
+                           AttendeeRegistrationByCollaboratorForm,
+                           AttendeeRegistrationForm,
+                           AttendeeRegistrationFromUserForm,
+                           AttendeeSearchForm, CollaboratorRegistrationForm,
+                           ContactForm, ContactMessageForm, EventDateForm,
+                           EventDateModelFormset, EventForm,
+                           EventImageCroppingForm, EventUserRegistrationForm,
+                           EventUserSearchForm, HardwareForm,
+                           ImageCroppingForm, InstallationForm,
+                           InstallerRegistrationForm, RejectForm, RoomForm)
+from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
+                            Collaborator, Contact, ContactMessage, Event,
+                            EventDate, EventUser, EventUserAttendanceDate,
+                            Hardware, Installation, InstallationMessage,
+                            Installer, Organizer, Room)
+from manager.security import (add_attendance_permission,
+                              add_organizer_permissions, is_collaborator,
+                              is_collaborator_or_installer, is_installer,
+                              is_organizer, user_passes_test)
 from manager.utils.report import count_by
 
 from .utils import email as utils_email
-
 
 logger = logging.getLogger('eventol')
 
