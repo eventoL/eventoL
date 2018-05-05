@@ -35,6 +35,10 @@ logger = logging.getLogger('eventol')
 
 
 class GenericAutocomplete(autocomplete.Select2QuerySetView):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.use_unaccent = True
+
     def get(self, request, *args, **kwargs):
         try:
             return super().get(request, *args, **kwargs)
