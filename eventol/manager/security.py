@@ -9,7 +9,7 @@ from django.utils.decorators import available_attrs
 from manager.models import Attendee, Collaborator, Installer, Organizer
 
 
-def is_installer(user, event_slug=None, event_uid=None, *args, **kwargs):
+def is_installer(user, event_uid=None, **__):
     return event_uid and (
         Installer.objects.filter(
             event_user__user=user,
@@ -113,13 +113,13 @@ def add_organizer_permissions(user):
     user.save()
 
 
-def is_organizer(user, event_slug=None, event_uid=None, *args, **kwargs):
+def is_organizer(user, event_uid=None, **__):
     return event_uid and Organizer.objects.filter(
         event_user__user=user,
         event_user__event__uid=event_uid).exists()
 
 
-def is_collaborator(user, event_slug=None, event_uid=None, *args, **kwargs):
+def is_collaborator(user, event_uid=None, **__):
     return event_uid and (
         Collaborator.objects.filter(
             event_user__user=user,
@@ -146,7 +146,7 @@ def user_passes_test(test_func, name_redirect):
             return HttpResponseRedirect(
                 reverse(
                     name_redirect,
-                    args=[kwargs['event_slug'], kwargs['event_uid']]
+                    kwargs=kwargs
                 )
             )
 
