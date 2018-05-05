@@ -229,7 +229,8 @@ def installation(request, event_slug, event_uid):
                             event.name, postinstall_email, install.attendee)
                     except SMTPException as error:
                         logger.error(error)
-                        messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
+                        messages.error(request, _("The email couldn't sent successfully, \
+                                                  please retry later or contact a organizer"))
                 messages.success(
                     request,
                     _(
@@ -480,7 +481,8 @@ def add_registration_people(request, event_slug, event_uid):
         )
 
     content_type = ContentType.objects.get_for_model(Attendee)
-    if Permission.objects.filter(codename='can_take_attendance', content_type=content_type).exists():
+    if Permission.objects.filter(
+            codename='can_take_attendance', content_type=content_type).exists():
         permission = Permission.objects.get(
             codename='can_take_attendance',
             content_type=content_type
@@ -590,7 +592,8 @@ def process_attendee_registration(request, event, return_url, render_template):
                 )
             )
     else:
-        messages.error(request, _('You can only register an attendance at the day of the event or after'))
+        messages.error(request, _('You can only register an attendance \
+                                  at the day of the event or after'))
     return render(
             request,
             render_template,
@@ -660,7 +663,8 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
     )
     event = Event.objects.filter(uid=event_uid, registration_code=event_registration_code).first()
     if not event:
-        messages.error(request, _('The registration code does not seems to be valid for this event'))
+        messages.error(
+            request, _('The registration code does not seems to be valid for this event'))
         return redirect(event_index_url)
     # Check if today is a valid EventDate
     try:
@@ -676,7 +680,8 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
         attendee_email_raw = request.POST.get('email')
         try:
             validate_email(attendee_email_raw)
-            attendee = Attendee.objects.filter(event=event, email__iexact=attendee_email_raw).first()
+            attendee = Attendee.objects.filter(
+                event=event, email__iexact=attendee_email_raw).first()
         except ValidationError:
             attendee = None
         mode = None
@@ -761,8 +766,11 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
         )
 
     # Check if reg code is valid
-    if not event_registration_code or not Event.objects.filter(uid=event_uid, registration_code=event_registration_code).exists():
-        messages.error(request, _('The registration code does not seems to be valid for this event'))
+    if not event_registration_code \
+        or not Event.objects.filter(
+                uid=event_uid, registration_code=event_registration_code).exists():
+        messages.error(request, _('The registration code does \
+                                  not seems to be valid for this event'))
         return redirect(event_index_url)
 
     # Check if today is a valid EventDate
@@ -777,18 +785,26 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
         attendee = Attendee.objects.filter(event=event, ticket__code=ticket_code)
         if event_user.exists():
             event_user = event_user.first()
-            if EventUserAttendanceDate.objects.filter(event_user=event_user, date__date=timezone.localdate()).exists():
-                messages.info(request, _('You are already registered and present! Go have fun'))
+            attendance = EventUserAttendanceDate.objects.filter(
+                event_user=event_user, date__date=timezone.localdate())
+            if attendance.exists():
+                messages.info(
+                    request, _('You are already registered and present! Go have fun'))
             else:
                 EventUserAttendanceDate.objects.create(event_user=event_user, mode='2')
-                messages.success(request, _('You are now marked as present in the event, have fun!'))
+                messages.success(
+                    request, _('You are now marked as present in the event, have fun!'))
         elif attendee.exists():
             attendee = attendee.first()
-            if AttendeeAttendanceDate.objects.filter(attendee=attendee, date__date=timezone.localdate()).exists():
-                messages.info(request, _('You are already registered and present! Go have fun'))
+            attendance = AttendeeAttendanceDate.objects.filter(
+                attendee=attendee, date__date=timezone.localdate())
+            if attendance.exists():
+                messages.info(
+                    request, _('You are already registered and present! Go have fun'))
             else:
                 AttendeeAttendanceDate.objects.create(attendee=attendee, mode='2')
-                messages.success(request, _('You are now marked as present in the event, have fun!'))
+                messages.success(
+                    request, _('You are now marked as present in the event, have fun!'))
         else:
             messages.error(request, _('The ticket code is not valid for this event'))
 
@@ -870,13 +886,18 @@ def reports(request, event_slug, event_uid):
     installers_event_users = [installer.event_user for installer in installers]
     attendees = Attendee.objects.filter(event=event)
 
-    attendees_attendance = AttendeeAttendanceDate.objects.filter(attendee__event=event).order_by('attendee').distinct()
+    attendees_attendance = AttendeeAttendanceDate.objects.filter(
+        attendee__event=event).order_by('attendee').distinct()
     confirmed_attendees_count = attendees_attendance.count()
     not_confirmed_attendees_count = attendees.count() - confirmed_attendees_count
 
-    confirmed_collaborators_count = EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=collaborators_event_users).order_by('event_user').distinct().count()
-    not_confirmed_collaborators_count = collaborators.count() - confirmed_collaborators_count
-    confirmed_installers_count = EventUserAttendanceDate.objects.filter(event_user__event=event, event_user__in=installers_event_users).order_by('event_user').distinct().count()
+    confirmed_collaborators_count = EventUserAttendanceDate.objects.filter(
+        event_user__event=event, event_user__in=collaborators_event_users
+        ).order_by('event_user').distinct().count()
+    not_confirmed_collaborators = collaborators.count() - confirmed_collaborators_count
+    confirmed_installers_count = EventUserAttendanceDate.objects.filter(
+        event_user__event=event, event_user__in=installers_event_users
+        ).order_by('event_user').distinct().count()
     not_confirmed_installers_count = installers.count() - confirmed_installers_count
 
     speakers = []
@@ -886,8 +907,10 @@ def reports(request, event_slug, event_uid):
 
     attendance_by_date = {}
     for event_date in event_dates:
-        attendance_for_date = AttendeeAttendanceDate.objects.filter(attendee__event=event, date__date=event_date.date).order_by('attendee').distinct()
-        attendance_by_date[event_date.date.strftime("%Y-%m-%d")] = count_by(attendance_for_date, lambda attendance: attendance.date.hour - 3)
+        attendance_for_date = AttendeeAttendanceDate.objects.filter(
+            attendee__event=event, date__date=event_date.date).order_by('attendee').distinct()
+        attendance_by_date[event_date.date.strftime("%Y-%m-%d")] = count_by(
+            attendance_for_date, lambda attendance: attendance.date.hour - 3)
 
     template_dict = {
         'event_dates': [event_date.date.strftime("%Y-%m-%d") for event_date in event_dates],
@@ -904,7 +927,8 @@ def reports(request, event_slug, event_uid):
         'installers_for_level': count_by(installers, lambda inst: inst.level),
         'installers_count': installers.count(),
         'installation_for_software': count_by(installations, lambda inst: inst.software.name),
-        'registered_in_time': count_by(attendees, lambda attendee: attendee.registration_date.date()),
+        'registered_in_time': count_by(
+            attendees, lambda attendee: attendee.registration_date.date()),
         'attendance_by_date': attendance_by_date
     }
 
@@ -920,7 +944,9 @@ def reports(request, event_slug, event_uid):
     )
 
 @login_required
-def generic_registration(request, event_slug, event_uid, registration_model, new_role_form, msg_success, msg_error, template):
+def generic_registration(request, event_slug, event_uid,
+                         registration_model, new_role_form,
+                         msg_success, msg_error, template):
     event = get_object_or_404(Event, uid=event_uid)
 
     if not event.registration_is_open:
@@ -1048,9 +1074,11 @@ def attendee_registration(request, event_slug, event_uid):
                     return redirect(confirm_url)
                 # ToDo: it has a FLISoL hardcoded string
                 body_text = _(
-                    'Hi! You are receiving this message because you have registered to attend to FLISoL '
+                    'Hi! You are receiving this message because you have'
+                    'registered to attend to FLISoL '
                     '{event_name}, being held on {event_dates}.\n\n'
-                    'Please follow this link to confirm your email address and we will send you your '
+                    'Please follow this link to confirm your email address'
+                    'and we will send you your '
                     'ticket:\n'
                     '{confirm_url}\n\n'
                     'If you encounter any issue, please contact the event organizer in '
@@ -1067,9 +1095,11 @@ def attendee_registration(request, event_slug, event_uid):
                     confirm_url=confirm_url
                 )
                 body_html = _(
-                    '<p>Hi! You are receiving this message because you have registered to attend to <strong>FLISoL '
+                    '<p>Hi! You are receiving this message because you have'
+                    'registered to attend to <strong>FLISoL '
                     '{event_name}</strong>, being held on {event_dates}.</p>\n'
-                    '<p>Please <em>follow this link to confirm your email address</em> and we will send you your '
+                    '<p>Please <em>follow this link to confirm your email'
+                    'address</em> and we will send you your '
                     'ticket:<br />\n'
                     '<a href="{confirm_url}">{confirm_url}</a></p>\n'
                     '<p>If you encounter any issue, please contact the event organizer in '
@@ -1128,7 +1158,8 @@ def attendee_confirm_email(request, event_slug, event_uid, pk, token):
     attendee = Attendee.objects.get(pk=pk)
     title = _("Email verification")
     message = _(
-        "We've sent you your ticket to your email! In case it doesn't arrive, don't worry! You're already registered and we'll ask for your email address.")
+        "We've sent you your ticket to your email! In case it doesn't arrive, \
+        don't worry! You're already registered and we'll ask for your email address.")
     if not attendee.email_confirmed:
         if attendee.email_token == token:
             try:
@@ -1137,10 +1168,13 @@ def attendee_confirm_email(request, event_slug, event_uid, pk, token):
                 send_event_ticket(attendee)
             except SMTPException as error:
                 logger.error(error)
-                messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
             except Exception as e:
                 logger.error(e)
                 pass
+                messages.error(
+                    request,
+                    _("The email couldn't sent successfully, \
+                      please retry later or contact a organizer"))
         else:
             message = _("The verification URL is invalid. Try again. ")
 
@@ -1213,9 +1247,11 @@ def create_event(request):
             # Check if the slug is used then verify that this user is an organizer
             # issue 297
             event_slug = request.POST.get('event-slug')
-            existing_event = Event.objects.filter(slug__iexact=event_slug).first() if event_slug else None
-            if existing_event and not is_organizer(request.user, event_slug, existing_event.uid):
-                event_form.add_error('slug', _('You are not an organizer for this event URL, use a different URL'))
+            existing_event = Event.objects.filter(
+                slug__iexact=event_slug).first() if event_slug else None
+            if existing_event and not is_organizer(request.user, existing_event.uid):
+                event_form.add_error(
+                    'slug', _('You are not an organizer for this event URL, use a different URL'))
             else:
                 organizer = None
                 event_user = None
@@ -1261,10 +1297,14 @@ def create_event(request):
                     except Exception:
                         pass
 
-        messages.error(request, _("There is a problem with your event. Please check the form for errors."))
+        messages.error(
+            request,
+            _('There is a problem with your event. Please check the form for errors.'))
     return render(request,
-                  'event/create.html', {'form': event_form, 'domain': request.get_host(), 'protocol': request.scheme,
-                                        'contacts_formset': contacts_formset, 'event_date_formset': event_date_formset})
+                  'event/create.html',
+                  {'form': event_form, 'domain': request.get_host(),
+                   'protocol': request.scheme, 'contacts_formset': contacts_formset,
+                   'event_date_formset': event_date_formset})
 
 
 @login_required
@@ -1307,7 +1347,8 @@ def edit_event(request, event_slug, event_uid):
                 logger.error(e)
                 pass
 
-        messages.error(request, _("There is a problem with your event. Please check the form for errors."))
+        messages.error(
+            request, _("There is a problem with your event. Please check the form for errors."))
     return render(
         request,
         'event/create.html',
@@ -1367,12 +1408,14 @@ def activity_proposal(request, event_slug, event_uid):
     if not event.activity_proposal_is_open:
         messages.error(request,
                        _(
-                           "The activity proposal is already closed or the event is not accepting proposals through this " +
-                           "page. Please contact the Event Organization Team to submit it."))
+                           "The activity proposal is already closed or the event \
+                           is not accepting proposals through this page. Please \
+                           contact the Event Organization Team to submit it."))
         return redirect(reverse('index', args=[event_slug, event_uid]))
 
     activity = Activity(event=event, status='1')
-    activity_form = ActivityProposalForm(request.POST or None, request.FILES or None, instance=activity)
+    activity_form = ActivityProposalForm(
+        request.POST or None, request.FILES or None, instance=activity)
 
     if request.POST:
         if activity_form.is_valid():
@@ -1388,7 +1431,8 @@ def activity_proposal(request, event_slug, event_uid):
                 logger.error(e)
                 pass
 
-        messages.error(request, _("There was a problem submitting the proposal. Please check the form for errors."))
+        messages.error(request, _("There was a problem submitting the proposal. \
+                                  Please check the form for errors."))
 
     return render(
         request,
@@ -1425,14 +1469,16 @@ def image_cropping(request, event_slug, event_uid, activity_id):
                 )
             form.save()
             messages.success(request, _(
-                "The proposal has been registered successfully! We'll contact you at the provided email"))
+                "The proposal has been registered successfully! We'll contact \
+                you at the provided email"))
             return redirect(
                 reverse(
                     'activity_detail',
                     args=[event_slug, event_uid, activity.pk]
                 )
             )
-        messages.error(request, _("The proposal couldn't be registered. Please check the form for errors"))
+        messages.error(request, _("The proposal couldn't be registered. Please \
+        check the form for errors"))
     return render(
         request,
         'activities/image-cropping.html',
@@ -1475,7 +1521,8 @@ def change_activity_status(request, event_slug, event_uid, activity_id, status, 
         utils_email.send_activity_email(event, activity, justification)
     except SMTPException as error:
         logger.error(error)
-        messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
+        messages.error(request, _("The email couldn't sent successfully, \
+                                  please retry later or contact a organizer"))
     safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
     return goto_next_or_continue(request.GET.get('next'), safe_continue)
 
@@ -1625,7 +1672,8 @@ def event_add_image(request, event_slug, event_uid):
                     args=[event_slug, event_uid]
                 )
             )
-        messages.error(request, _("The event couldn't be updated. Please check the form for errors"))
+        messages.error(request, _("The event couldn't be updated. \
+                                  Please check the form for errors"))
     return render(
         request,
         'event/image-cropping.html',
@@ -1700,10 +1748,13 @@ def schedule(request, event_slug, event_uid):
             schedule_activities[date] = json.dumps({
                 'activities': [activity.get_schedule_info() for activity in activities_for_date],
                 'min_time': activities_for_date.first().start_date.time().strftime("%H:%M"),
-                'max_time': sorted(activities_for_date, key=lambda o: o.end_date.time())[-1].end_date.time().strftime(
-                    "%H:%M"),
+                'max_time': sorted(
+                    activities_for_date, key=lambda o: o.end_date.time()
+                    )[-1].end_date.time().strftime("%H:%M"),
                 'date': activities_for_date.first().start_date.date().isoformat(),
-                'datestring': date_format(activities_for_date.first().start_date, format='SHORT_DATE_FORMAT', use_l10n=True)
+                'datestring': date_format(
+                    activities_for_date.first().start_date,
+                    format='SHORT_DATE_FORMAT', use_l10n=True)
             })
 
     return render(
