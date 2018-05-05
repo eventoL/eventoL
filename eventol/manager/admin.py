@@ -16,7 +16,8 @@ from manager.security import create_reporters_group
 
 
 class EventoLAdmin(admin.ModelAdmin):
-    def filter_event(self, events, queryset):
+    @staticmethod
+    def filter_event(events, queryset):
         return queryset.filter(event__in=events)
 
     def queryset(self, request):

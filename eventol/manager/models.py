@@ -53,7 +53,8 @@ class EventManager(models.Manager):
                 output_field=models.BooleanField()
             ))
 
-    def get_event_by_user(self, user, slug):
+    @staticmethod
+    def get_event_by_user(user, slug):
         if user.is_authenticated():
             event_users = EventUser.objects.filter(user=user)
             event_ids = [event_user.event.pk for event_user in event_users]
@@ -282,7 +283,8 @@ class EventUserManager(models.Manager):
             return instance.event_user
         return instance
 
-    def get_counts(self, event_users):
+    @staticmethod
+    def get_counts(event_users):
         confirmed = EventUserAttendanceDate.objects \
             .filter(event_user__in=event_users) \
             .order_by('event_user') \
