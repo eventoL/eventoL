@@ -119,14 +119,14 @@ class EventViewSet(viewsets.ModelViewSet):
                        'attendees_count', 'last_date', 'created_at')
     search_fields = ('name', 'slug', 'abstract')
 
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
         my_events = request.GET.get('my_events', None)
         slug = request.GET.get('slug', None)
         if my_events:
             queryset = Event.objects.get_event_by_user(request.user, slug)
             serializer = EventSerializer(queryset, many=True, context={'request': request})
             return Response({'results': serializer.data})
-        return super().list(request)
+        return super().list(request, *args, **kwargs)
 
 
 class EventUserModelViewSet(viewsets.ModelViewSet):
@@ -140,11 +140,11 @@ class EventUserModelViewSet(viewsets.ModelViewSet):
         event_users = model.objects.get_event_users(queryset)
         return model.objects.get_counts(event_users)
 
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
         count = request.GET.get('count', None)
         if count:
             return Response(self.get_counts())
-        return super().list(request)
+        return super().list(request, *args, **kwargs)
 
 
 class EventUserViewSet(EventUserModelViewSet):

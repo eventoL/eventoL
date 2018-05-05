@@ -426,6 +426,7 @@ class AttendeeManager(EventUserManager):
     def get_attendees(queryset):
         return [inst for inst in queryset if not inst.event_user]
 
+    #pylint: disable=arguments-differ
     def get_counts(self, queryset):
         event_users = self.get_event_users(
             queryset.filter(event_user__isnull=False))
@@ -528,8 +529,8 @@ class AttendeeAttendanceDate(models.Model):
         ('4', _('unregistred'))
     )
     mode = models.CharField(_('Mode'), choices=attendance_mode_choices,
-                             max_length=200, blank=True, null=True,
-                             help_text=_('Attendance mode'))
+                            max_length=200, blank=True, null=True,
+                            help_text=_('Attendance mode'))
 
     def __str__(self):
         return '{} - {}'.format(self.attendee, self.date)
@@ -754,6 +755,7 @@ class Activity(models.Model):
         if request:
             messages.error(request, message)
 
+    #pylint: disable=too-many-arguments
     @classmethod
     def room_available(cls, request, proposal,
                        event_uid, event_date,

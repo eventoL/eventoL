@@ -1,10 +1,8 @@
-# encoding: UTF-8
 import datetime
 import io
 import itertools
 import json
 import logging
-import cairosvg
 import os
 import re
 import uuid
@@ -14,6 +12,7 @@ from urllib.parse import urlparse
 import pyqrcode
 import svglue
 from allauth.utils import build_absolute_uri
+from cairosvg import svg2pdf  # pylint: disable=no-member,no-name-in-module
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -128,6 +127,7 @@ def generate_ticket(user):
 
     ticket_template.set_text('eventUser_name_l1', user_name_l1)
     ticket_template.set_text('eventUser_name_l2', user_name_l2)
+    # pylint: disable=protected-access
     return etree.tostring(ticket_template._doc, encoding='utf8', method='xml')
 
 
@@ -159,14 +159,14 @@ def index(request, event_slug, event_uid):
     if event.external_url:
         return redirect(event.external_url)
 
-    activities = Activity.objects.filter(event=event, status=2) \
+    activities_list = Activity.objects.filter(event=event, status=2) \
         .exclude(image__isnull=True) \
         .exclude(is_dummy=True) \
         .distinct()
 
     dates = EventDate.objects.filter(event=event)
 
-    render_dict = {'activities': activities, 'dates': dates}
+    render_dict = {'activities': activities_list, 'dates': dates}
     return render(
         request,
         'event/index.html',
@@ -596,25 +596,23 @@ def process_attendee_registration(request, event, return_url, render_template):
         messages.error(request, _('You can only register an attendance \
                                   at the day of the event or after'))
     return render(
-            request,
-            render_template,
-            update_event_info(
-                event.slug,
-                event.uid,
-                request,
-                {'form': form}
-            )
+        request,
+        render_template,
+        update_event_info(
+            event.slug,
+            event.uid,
+            {'form': form}
         )
+    )
 
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def attendee_registration_print_code(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
-    event_registration_code = event.registration_code
     self_registration_url = request.build_absolute_uri(reverse(
         'attendee_registration_by_self',
-        args=[event_slug, event_uid, event_registration_code]
+        args=[event_slug, event_uid, event.registration_code]
     ))
     qr_code = pyqrcode.create(self_registration_url)
     code = io.BytesIO()
@@ -651,17 +649,18 @@ def attendee_registration_print_code(request, event_slug, event_uid):
             # image
             for key, value in data.items():
                 registration_code_template.set_image(key, value, mimetype='image/png')
-    registration_code_svg = etree.tostring(registration_code_template._doc, encoding='utf8', method='xml')
-    response = HttpResponse(cairosvg.svg2pdf(bytestring=registration_code_svg), content_type='application/pdf')
-    response["Content-Disposition"] = 'filename=Registration-code-{event}.pdf'.format(event=event.slug)
+    # pylint: disable=protected-access
+    registration_code_svg = etree.tostring(
+        registration_code_template._doc, encoding='utf8', method='xml')
+    response = HttpResponse(
+        svg2pdf(bytestring=registration_code_svg), content_type='application/pdf')
+    response["Content-Disposition"] = 'filename=Registration-code-{event}.pdf'.format(
+        event=event.slug)
     return response
 
 
 def attendee_registration_by_self(request, event_slug, event_uid, event_registration_code):
-    event_index_url = reverse(
-        'index',
-        args=[event_slug, event_uid]
-    )
+    event_index_url = reverse('index', args=[event_slug, event_uid])
     event = Event.objects.filter(uid=event_uid, registration_code=event_registration_code).first()
     if not event:
         messages.error(
@@ -755,8 +754,8 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
     if not event_registration_code \
             and user.is_authenticated() \
             and (
-                is_collaborator(user, event_uid=event_uid)
-                or is_organizer(user, event_uid=event_uid)
+                    is_collaborator(user, event_uid=event_uid)
+                    or is_organizer(user, event_uid=event_uid)
             ):
         return redirect(
             '{url}/?event_registration_code={event_registration_code}'.format(
@@ -916,7 +915,7 @@ def reports(request, event_slug, event_uid):
         'confirmed_attendees_count': confirmed_attendees_count,
         'not_confirmed_attendees_count': not_confirmed_attendees_count,
         'confirmed_collaborators_count': confirmed_collaborators_count,
-        'not_confirmed_collaborators_count': not_confirmed_collaborators_count,
+        'not_confirmed_collaborators_count': not_confirmed_collaborators,
         'confirmed_installers_count': confirmed_installers_count,
         'not_confirmed_installers_count': not_confirmed_installers_count,
         'speakers_count': speakers_count,
@@ -951,7 +950,7 @@ def generic_registration(request, event_slug, event_uid,
         return render(
             request,
             'registration/closed-registration.html',
-            update_event_info(event_slug, event_uid, request)
+            update_event_info(event_slug, event_uid)
         )
 
     errors = []
@@ -1113,9 +1112,9 @@ def attendee_registration(request, event_slug, event_uid):
                 )
 
                 email = EmailMultiAlternatives()
-                email.subject = _("[eventoL] Please confirm your email")
+                email.subject = _('[eventoL] Please confirm your email')
                 email.body = body_text
-                email.attach_alternative(body_html, "text/html")
+                email.attach_alternative(body_html, 'text/html')
                 email.from_email = settings.EMAIL_FROM
                 email.to = [attendee.email]
                 email.extra_headers = {'Reply-To': settings.EMAIL_FROM}
@@ -1131,7 +1130,7 @@ def attendee_registration(request, event_slug, event_uid):
                 if attendee is not None:
                     attendee.delete()
 
-        messages.error(request, _("There is a problem with the registration (check form errors)"))
+        messages.error(request, _('There is a problem with the registration (check form errors)'))
 
     return render(
         request,
@@ -1171,7 +1170,7 @@ def attendee_confirm_email(request, event_slug, event_uid, attendee_id, token):
             except Exception as error_message:
                 logger.error(error_message)
         else:
-            message = _("The verification URL is invalid. Try again. ")
+            message = _('The verification URL is invalid. Try again.')
 
     return render(
         request,
@@ -1372,7 +1371,7 @@ def view_ticket(request, event_slug, event_uid):
     event_user = EventUser.objects.filter(event__uid=event_uid).filter(user=request.user).first()
     if event_user:
         ticket = generate_ticket(event_user)
-        response = HttpResponse(cairosvg.svg2pdf(bytestring=ticket), content_type='application/pdf')
+        response = HttpResponse(svg2pdf(bytestring=ticket), content_type='application/pdf')
         response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.ticket.code) + '.pdf'
         return response
     else:
@@ -1552,33 +1551,30 @@ def activities(request, event_slug, event_uid):
             accepted_activities.append(activity)
         else:
             rejected_activities.append(activity)
-        setattr(activity, 'form', ActivityForm(event_slug, event_uid, instance=activity))
+        setattr(activity, 'form', ActivityForm(event_uid, instance=activity))
         setattr(activity, 'reject_form', RejectForm())
         setattr(activity, 'errors', [])
-    return render(request, 'activities/activities_home.html',
-                  update_event_info(
-                      event_slug,
-                      event_uid,
-                      request,
-                      {
-                          'proposed_activities': proposed_activities,
-                          'accepted_activities': accepted_activities,
-                          'rejected_activities': rejected_activities
-                      }
-                  )
+    return render(
+        request, 'activities/activities_home.html',
+        update_event_info(
+            event_slug,
+            event_uid,
+            {
+                'proposed_activities': proposed_activities,
+                'accepted_activities': accepted_activities,
+                'rejected_activities': rejected_activities
+            }
+        )
     )
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def talk_registration(request, event_slug, event_uid, pk):
-    errors = []
-    error = False
 def talk_registration(request, event_slug, event_uid, proposal_id):
+    errors, error = [], False
     event = get_object_or_404(Event, uid=event_uid)
-    proposal = get_object_or_404(Activity, pk=pk)
-    talk_form = ActivityForm(event_slug, event_uid, request.POST)
     proposal = get_object_or_404(Activity, pk=proposal_id)
+    talk_form = ActivityForm(event_uid, request.POST)
     if request.POST:
         request_post = request.POST.copy()
         start_time = parse_time(request.POST.get('start_date', ''))
@@ -1590,33 +1586,42 @@ def talk_registration(request, event_slug, event_uid, proposal_id):
             end_date = datetime.datetime.combine(event_date.date, end_time)
             start_date = timezone.make_aware(start_date)
             end_date = timezone.make_aware(end_date)
-            request_post.update({'start_date': start_date, 'end_date': end_date, 'event': event.id})
-            talk_form = ActivityForm(event_slug, event_uid, request_post)
-            if talk_form.is_valid() and \
-                    Activity.room_available(request=request, proposal=talk_form.instance, event_uid=event_uid, event_date=event_date.date):
-                try:
-                    proposal.status = 2
-                    proposal.start_date = start_date
-                    proposal.end_date = end_date
-                    room = get_object_or_404(Room, pk=request.POST.get('room'))
-                    proposal.room = room
-                    proposal.save()
-                    utils_email.send_activity_email(event, proposal)
-                    messages.success(request, _("The talk was registered successfully!"))
-                    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, proposal.pk])
-                    return goto_next_or_continue(request.GET.get('next'), safe_continue)
-                except SMTPException as error:
-                    logger.error(error)
-                    messages.error(request, _("The email couldn't sent successfully, please retry later or contact a organizer"))
-                    pass
-                except Exception as e:
-                    logger.error(e)
-                    proposal.status = 1
-                    proposal.start_date = None
-                    proposal.end_date = None
-                    proposal.room = None
-                    proposal.save()
-                    messages.error(request, _("The talk couldn't be registered, please retry confirm the talk"))
+            request_post.update({
+                'start_date': start_date,
+                'end_date': end_date,
+                'event': event.id
+            })
+            talk_form = ActivityForm(event_uid, request_post)
+            if talk_form.is_valid():
+                room_available = Activity.room_available(
+                    request=request, proposal=talk_form.instance,
+                    event_uid=event_uid, event_date=event_date.date)
+                if room_available:
+                    try:
+                        proposal.status = 2
+                        proposal.start_date = start_date
+                        proposal.end_date = end_date
+                        room = get_object_or_404(Room, pk=request.POST.get('room'))
+                        proposal.room = room
+                        proposal.save()
+                        utils_email.send_activity_email(event, proposal)
+                        messages.success(request, _("The talk was registered successfully!"))
+                        safe_continue = reverse(
+                            "activity_detail", args=[event_slug, event_uid, proposal.pk])
+                        return goto_next_or_continue(request.GET.get('next'), safe_continue)
+                    except SMTPException as error:
+                        logger.error(error)
+                        messages.error(request, _("The email couldn't sent successfully, \
+                                                  please retry later or contact a organizer"))
+                    except Exception as error_message:
+                        logger.error(error_message)
+                        proposal.status = 1
+                        proposal.start_date = None
+                        proposal.end_date = None
+                        proposal.room = None
+                        proposal.save()
+                        messages.error(request, _("The talk couldn't be registered, \
+                                                  please retry confirm the talk"))
     forms = [talk_form]
     errors = get_forms_errors(forms)
     error = True
@@ -1870,18 +1875,6 @@ def delete_room(request, event_slug, event_uid, room_id):
         'rooms_list',
         args=[event_slug, event_uid]
     ))
-
-
-def handler404(request):
-    response = render_to_response(request, '404.html', {})
-    response.status_code = 404
-    return response
-
-
-def handler500(request):
-    response = render_to_response(request, '500.html', {})
-    response.status_code = 500
-    return response
 
 
 def generic_report(request):
