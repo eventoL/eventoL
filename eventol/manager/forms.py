@@ -237,7 +237,7 @@ class ActivityForm(ModelForm):
             'event': forms.HiddenInput()
         }
 
-    def __init__(self, event_slug, event_uid, *args, **kwargs):
+    def __init__(self, event_uid, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance:
             choices = []
