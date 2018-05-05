@@ -984,7 +984,6 @@ def generic_registration(request, event_slug, event_uid,
                         args=[event_slug, event_uid]
                     )
                 )
-                pass
             except Exception as error_message:
                 logger.error(error_message)
         messages.error(request, msg_error)
@@ -1162,7 +1161,6 @@ def attendee_confirm_email(request, event_slug, event_uid, attendee_id, token):
                 send_event_ticket(attendee)
             except SMTPException as error:
                 logger.error(error)
-                pass
                 messages.error(
                     request,
                     _("The email couldn't sent successfully, \
@@ -1343,7 +1341,6 @@ def edit_event(request, event_slug, event_uid):
                         args=(the_event.slug, the_event.uid)
                     )
                 )
-                pass
             except Exception as error_message:
                 logger.error(error_message)
 
@@ -1425,7 +1422,6 @@ def activity_proposal(request, event_slug, event_uid):
                         args=[event_slug, event_uid, activity.pk]
                     )
                 )
-                pass
             except Exception as error_message:
                 logger.error(error_message)
 
@@ -1494,7 +1490,6 @@ def goto_next_or_continue(next_url, safe_continue=None):
         safe_query = re.sub(r'[^\w/\-+=&]', '', url.query)
         try:
             return redirect(safe_url + '?' + safe_query)
-            pass
         except Exception as error_message:
             logger.error(error_message)
     elif safe_continue:
