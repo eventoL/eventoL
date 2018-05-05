@@ -890,8 +890,8 @@ def reports(request, event_slug, event_uid):
     installations = Installation.objects.filter(attendee__event=event)
     talks = Activity.objects.filter(event=event).filter(is_dummy=False)
     collaborators = Collaborator.objects.filter(event_user__event=event)
-    collaborators_event_users = [collaborator.event_user for collaborator in collaborators]
-    installers_event_users = [installer.event_user for installer in installers]
+    collaborators_event_users = [collaborator.event_user for collaborator in list(collaborators)]
+    installers_event_users = [installer.event_user for installer in list(installers)]
     attendees = Attendee.objects.filter(event=event)
 
     attendees_attendance = AttendeeAttendanceDate.objects.filter(

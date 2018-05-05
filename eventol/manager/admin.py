@@ -31,7 +31,7 @@ class EventoLAdmin(admin.ModelAdmin):
         if request.user.groups.filter(name=reporters.name).exists():
             return queryset
         organizers = Organizer.objects.filter(event_user__user=request.user)
-        events = [organizer.event_user.event for organizer in organizers]
+        events = [organizer.event_user.event for organizer in list(organizers)]
         if events:
             return self.filter_event(events, queryset)
         return queryset.none()
@@ -41,7 +41,7 @@ class EventoLAdmin(admin.ModelAdmin):
             return super() \
                 .formfield_for_foreignkey(db_field, request, **kwargs)
         organizers = Organizer.objects.filter(event_user__user=request.user)
-        events = [organizer.event_user.event for organizer in organizers]
+        events = [organizer.event_user.event for organizer in list(organizers)]
         queryset = None
         if db_field.name == "room":
             queryset = Room.objects.filter(event__in=events).distinct()

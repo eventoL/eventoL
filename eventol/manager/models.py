@@ -57,7 +57,7 @@ class EventManager(models.Manager):
     def get_event_by_user(user, slug):
         if user.is_authenticated():
             event_users = EventUser.objects.filter(user=user)
-            event_ids = [event_user.event.pk for event_user in event_users]
+            event_ids = [event_user.event.pk for event_user in list(event_users)]
             queryset = Event.objects.filter(pk__in=event_ids)
             if slug:
                 queryset = Event.objects.filter(slug=slug)
