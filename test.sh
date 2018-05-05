@@ -64,7 +64,7 @@ function eslintreport {
 }
 
 function pythonlint {
-  pylint --output-format=colorized eventol/eventol eventol/manager
+  pylint --output-format=colorized --reports yes eventol/eventol eventol/manager
 }
 
 function pythontest {
