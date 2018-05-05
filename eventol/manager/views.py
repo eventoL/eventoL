@@ -1283,10 +1283,10 @@ def create_event(request):
                         if the_event is not None:
                             Event.delete(the_event)
                         if contacts is not None:
-                            for a_contact in contacts:
+                            for a_contact in list(contacts):
                                 Contact.objects.delete(a_contact)
                         if event_dates is not None:
-                            for event_date in event_dates:
+                            for event_date in list(event_dates):
                                 EventDate.objects.delete(event_date)
                     except Exception:
                         pass
@@ -1538,7 +1538,7 @@ def activities(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     proposed_activities, accepted_activities, rejected_activities = [], [], []
     activities_instances = Activity.objects.filter(event=event)
-    for activity in activities_instances:
+    for activity in list(activities_instances):
         activity.labels = activity.labels.split(',')
         if activity.status == '1':
             proposed_activities.append(activity)
