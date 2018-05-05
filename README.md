@@ -6,6 +6,7 @@ It is in developement state.
 
 Status
 ------
+[![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
 [![Build Status](https://travis-ci.org/eventoL/eventoL.svg?branch=master)](https://travis-ci.org/eventoL/eventoL)
 [![pipeline status](https://gitlab.com/eventol/eventoL/badges/master/pipeline.svg)](https://gitlab.com/eventol/eventoL/commits/master)
 [![Code Health](https://landscape.io/github/eventoL/eventoL/master/landscape.svg?style=flat)](https://landscape.io/github/eventoL/eventoL/master)
