@@ -1371,9 +1371,8 @@ def view_ticket(request, event_slug, event_uid):
         response = HttpResponse(svg2pdf(bytestring=ticket), content_type='application/pdf')
         response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.ticket.code) + '.pdf'
         return response
-    else:
-        messages.error(request, "You are not registered for this event")
-        return redirect(reverse("index", args=[event_slug, event_uid]))
+    messages.error(request, "You are not registered for this event")
+    return redirect(reverse("index", args=[event_slug, event_uid]))
 
 
 @login_required
