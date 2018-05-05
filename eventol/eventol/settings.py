@@ -76,7 +76,6 @@ class Base(Configuration):
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
         'debug_toolbar.middleware.DebugToolbarMiddleware',
-        'eventol.middleware.SubdomainMiddleware',
     )
 
     ROOT_URLCONF = 'eventol.urls'
