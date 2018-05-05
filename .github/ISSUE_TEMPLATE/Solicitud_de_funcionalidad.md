@@ -1,10 +1,10 @@
 ---
-name: Solicitud de funtionalidad
+name: Solicitud de funcionalidad
 about: Sugerir una idea para este proyecto
 
 ---
 
-**¿Su funcionalidad está relacionada con un problema? Por favor describalo**
+**¿Su funcionalidad está relacionada con un problema? Por favor de detalles**
 Una descripción clara y concisa de cuál es el problema. Ejemplo: No logro entender como crear [...]
 
 **Describe la solución que te gustaría**
