@@ -101,9 +101,9 @@ def generate_ticket(user):
         ticket_template.set_text('event_place_address', '')
 
     ticket_template.set_text('ticket_type', str(_("General Ticket")))
-    qr = pyqrcode.create(str(ticket_data['ticket']))
+    qr_code = pyqrcode.create(str(ticket_data['ticket']))
     code = io.BytesIO()
-    qr.png(code, scale=7, quiet_zone=0)
+    qr_code.png(code, scale=7, quiet_zone=0)
     ticket_template.set_image('qr_code', code.getvalue(), mimetype='image/png')
     ticket_template.set_text(
         'eventUser_PK', str(ticket_data['ticket'])
@@ -250,8 +250,8 @@ def installation(request, event_slug, event_uid):
                     args=[event_slug, event_uid]
                 )
                 return redirect(event_index_url)
-            except Exception as e:
-                logger.error(e)
+            except Exception as error_message:
+                logger.error(error_message)
                 if hardware is not None:
                     Hardware.delete(hardware)
                 if install is not None:
@@ -515,7 +515,7 @@ def add_registration_people(request, event_slug, event_uid):
 
 @login_required
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
-def attendee_registration_from_installation(request, event_slug, event_uid):
+def registration_from_installation(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     installation_url = reverse(
         'installation',
@@ -533,7 +533,7 @@ def attendee_registration_from_installation(request, event_slug, event_uid):
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
-def attendee_registration_by_collaborator(request, event_slug, event_uid):
+def registration_by_collaborator(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     manage_attendance_url = reverse(
         'manage_attendance',
@@ -583,8 +583,8 @@ def process_attendee_registration(request, event, return_url, render_template):
                         )
                     )
                     return redirect(return_url)
-                except Exception as e:
-                    logger.error(e)
+                except Exception as error_message:
+                    logger.error(error_message)
                     try:
                         if attendee is not None:
                             Attendee.objects.delete(attendee)
@@ -622,9 +622,9 @@ def attendee_registration_print_code(request, event_slug, event_uid):
         'attendee_registration_by_self',
         args=[event_slug, event_uid, event_registration_code]
     ))
-    qr = pyqrcode.create(self_registration_url)
+    qr_code = pyqrcode.create(self_registration_url)
     code = io.BytesIO()
-    qr.png(code, scale=9, quiet_zone=0)
+    qr_code.png(code, scale=9, quiet_zone=0)
     data = {
         'event_name': event.name,
         'qr_code': code.getvalue(),
@@ -649,8 +649,8 @@ def attendee_registration_print_code(request, event_slug, event_uid):
     registration_code_template = svglue.load(
         file=os.path.join(settings.STATIC_ROOT, 'manager/img/registration_code_template_p.svg')
     )
-    for type, data in template.items():
-        if type == 'text':
+    for type_name, data in template.items():
+        if type_name == 'text':
             for key, value in data.items():
                 registration_code_template.set_text(key, value)
         else:
@@ -720,8 +720,8 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
                         )
                     )
                     return redirect(event_index_url)
-                except Exception as e:
-                    logger.error(e)
+                except Exception as error_message:
+                    logger.error(error_message)
                     try:
                         if attendee is not None:
                             Attendee.objects.delete(attendee)
@@ -995,9 +995,9 @@ def generic_registration(request, event_slug, event_uid,
                         args=[event_slug, event_uid]
                     )
                 )
-            except Exception as e:
-                logger.error(e)
                 pass
+            except Exception as error_message:
+                logger.error(error_message)
         messages.error(request, msg_error)
     else:
         event_user_form = EventUserRegistrationForm(instance=event_user)
@@ -1138,8 +1138,8 @@ def attendee_registration(request, event_slug, event_uid):
                         args=[event_slug, event_uid]
                     )
                 )
-            except Exception as e:
-                logger.error(e)
+            except Exception as error_message:
+                logger.error(error_message)
                 if attendee is not None:
                     attendee.delete()
 
@@ -1162,8 +1162,8 @@ def attendee_registration(request, event_slug, event_uid):
     )
 
 
-def attendee_confirm_email(request, event_slug, event_uid, pk, token):
-    attendee = Attendee.objects.get(pk=pk)
+def attendee_confirm_email(request, event_slug, event_uid, attendee_id, token):
+    attendee = Attendee.objects.get(pk=attendee_id)
     title = _("Email verification")
     message = _(
         "We've sent you your ticket to your email! In case it doesn't arrive, \
@@ -1176,13 +1176,13 @@ def attendee_confirm_email(request, event_slug, event_uid, pk, token):
                 send_event_ticket(attendee)
             except SMTPException as error:
                 logger.error(error)
-            except Exception as e:
-                logger.error(e)
                 pass
                 messages.error(
                     request,
                     _("The email couldn't sent successfully, \
                       please retry later or contact a organizer"))
+            except Exception as error_message:
+                logger.error(error_message)
         else:
             message = _("The verification URL is invalid. Try again. ")
 
@@ -1241,14 +1241,16 @@ def collaborator_registration(request, event_slug, event_uid):
 @login_required
 def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
-    ContactsFormSet = modelformset_factory(Contact, form=ContactForm, can_delete=True)
+    contacts_formset = modelformset_factory(Contact, form=ContactForm, can_delete=True)
 
-    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
+    contacts_formset = contacts_formset(
+        request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
 
-    EventDateFormset = modelformset_factory(EventDate, form=EventDateForm, formset=EventDateModelFormset,
-                                            can_delete=True)
-    event_date_formset = EventDateFormset(request.POST or None, prefix='event-date-form',
-                                          queryset=EventDate.objects.none())
+    event_date_formset = modelformset_factory(
+        EventDate, form=EventDateForm, formset=EventDateModelFormset, can_delete=True)
+    event_date_formset = event_date_formset(
+        request.POST or None, prefix='event-date-form',
+        queryset=EventDate.objects.none())
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
@@ -1287,8 +1289,8 @@ def create_event(request):
                             args=(the_event.slug, the_event.uid)
                         )
                     )
-                except Exception as e:
-                    logger.error(e)
+                except Exception as error_message:
+                    logger.error(error_message)
                     try:
                         if organizer is not None:
                             Organizer.delete(organizer)
@@ -1320,14 +1322,18 @@ def create_event(request):
 def edit_event(request, event_slug, event_uid):
     event = get_object_or_404(Event, uid=event_uid)
     event_form = EventForm(request.POST or None, prefix='event', instance=event)
-    ContactsFormSet = modelformset_factory(Contact, form=ContactForm, can_delete=True)
 
-    contacts_formset = ContactsFormSet(request.POST or None, prefix='contacts-form', queryset=event.contacts.all())
+    contacts_formset = modelformset_factory(Contact, form=ContactForm, can_delete=True)
+    contacts_formset = contacts_formset(
+        request.POST or None, prefix='contacts-form',
+        queryset=event.contacts.all())
 
-    EventDateFormset = modelformset_factory(EventDate, form=EventDateForm, formset=EventDateModelFormset,
-                                            can_delete=True)
-    event_date_formset = EventDateFormset(request.POST or None, prefix='event-date-form',
-                                          queryset=EventDate.objects.filter(event=event))
+    event_date_formset = modelformset_factory(
+        EventDate, form=EventDateForm,
+        formset=EventDateModelFormset, can_delete=True)
+    event_date_formset = event_date_formset(
+        request.POST or None, prefix='event-date-form',
+        queryset=EventDate.objects.filter(event=event))
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
@@ -1351,9 +1357,9 @@ def edit_event(request, event_slug, event_uid):
                         args=(the_event.slug, the_event.uid)
                     )
                 )
-            except Exception as e:
-                logger.error(e)
                 pass
+            except Exception as error_message:
+                logger.error(error_message)
 
         messages.error(
             request, _("There is a problem with your event. Please check the form for errors."))
@@ -1435,9 +1441,9 @@ def activity_proposal(request, event_slug, event_uid):
                         args=[event_slug, event_uid, activity.pk]
                     )
                 )
-            except Exception as e:
-                logger.error(e)
                 pass
+            except Exception as error_message:
+                logger.error(error_message)
 
         messages.error(request, _("There was a problem submitting the proposal. \
                                   Please check the form for errors."))
@@ -1506,9 +1512,9 @@ def goto_next_or_continue(next_url, safe_continue=None):
         safe_query = re.sub(r'[^\w/\-+=&]', '', url.query)
         try:
             return redirect(safe_url + '?' + safe_query)
-        except Exception as e:
-            logger.error(e)
             pass
+        except Exception as error_message:
+            logger.error(error_message)
     elif safe_continue:
         return redirect(safe_continue)
     raise Http404('I can not go anywhere, next and continue are empty')
@@ -1585,9 +1591,11 @@ def activities(request, event_slug, event_uid):
 def talk_registration(request, event_slug, event_uid, pk):
     errors = []
     error = False
+def talk_registration(request, event_slug, event_uid, proposal_id):
     event = get_object_or_404(Event, uid=event_uid)
     proposal = get_object_or_404(Activity, pk=pk)
     talk_form = ActivityForm(event_slug, event_uid, request.POST)
+    proposal = get_object_or_404(Activity, pk=proposal_id)
     if request.POST:
         request_post = request.POST.copy()
         start_time = parse_time(request.POST.get('start_date', ''))
@@ -1738,10 +1746,10 @@ def schedule(request, event_slug, event_uid):
             )
         )
 
-    activities = {}
+    activities_dict = {}
 
     for event_date in event_dates:
-        activities[event_date.date.strftime("%Y%m%d")] = Activity.objects \
+        activities_dict[event_date.date.strftime("%Y%m%d")] = Activity.objects \
             .filter(event=event, start_date__date=event_date.date) \
             .filter(room__isnull=False) \
             .filter(status='2') \
@@ -1751,7 +1759,7 @@ def schedule(request, event_slug, event_uid):
     schedule_rooms = [room.get_schedule_info() for room in rooms]
 
     schedule_activities = {}
-    for date, activities_for_date in activities.items():
+    for date, activities_for_date in activities_dict.items():
         if activities_for_date.count() > 0:
             schedule_activities[date] = json.dumps({
                 'activities': [activity.get_schedule_info() for activity in activities_for_date],
@@ -1832,8 +1840,8 @@ def add_or_edit_room(request, event_slug, event_uid, room_id=None):
                     'rooms_list',
                     args=[event_slug, event_uid]
                 ))
-            except Exception as e:
-                logger.error(e)
+            except Exception as error_message:
+                logger.error(error_message)
                 if room is not None:
                     Room.delete(room)
         if is_edit:
