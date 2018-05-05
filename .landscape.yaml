@@ -1,0 +1,21 @@
+doc-warnings: true
+test-warnings: false
+strictness: veryhigh
+max-line-length: 120
+uses:
+  - django
+autodetect: true
+requirements:
+  - requirements.txt
+  - requirements-dev.txt
+ignore-paths:
+  - docs
+  - eventol/front
+  - deploy
+ignore-patterns:
+  - ^example/doc_.*\.py$
+  - (^|/)docs(/|$)
+  - (^|/)test(/|$)
+python-targets:
+  - 3.5
+  - 3.6
