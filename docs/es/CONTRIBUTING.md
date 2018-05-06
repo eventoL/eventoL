@@ -38,7 +38,7 @@ También hay una forma de tener el entorno solamente con docker para eso mira en
 ### 5. Implementa tu corrección o funcionalidad
 
 En este punto, ¡estás listo para hacer tus cambios! Siéntase libre de pedir ayuda;
-todos son principiantes al principio.
+todos son principiantes al principio
 
 ### 6. Visualiza tus cambios en una aplicación
 
