@@ -1,6 +1,7 @@
 <!-- docs/_sidebar.md -->
 
 - [Installation](/en/installation.md)
+- [Contribution guide](/en/CONTRIBUTING.md)
 - [Deploy](/en/deploy.md)
 - [Administración personas de asistencia](/en/administracion_personas_de_asistencia.md)
 - [Administrar asistencia](/en/administrar_asistencia.md)
