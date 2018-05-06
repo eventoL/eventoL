@@ -55,6 +55,8 @@ class EventoLAdmin(admin.ModelAdmin):
         if db_field.name == "installer":
             queryset = Installer.objects \
                 .filter(event_user__event__in=events).distinct()
+        if db_field.name == "ticket":
+            queryset = Ticket.objects.all().distinct()
         if db_field.name == "user":
             queryset = User.objects.none()
         kwargs["queryset"] = queryset
