@@ -16,10 +16,15 @@ Status
 
 Documentation:
 --------------
-See [Documentation](http://eventol.github.io/eventoL)
+See [Documentation](/)
+
+Contribution guide:
+------------------
+
+- Contribution guide: [CONTRIBUTING](/en/CONTRIBUTING.md)
 
 Configure Own server:
 ---------------------
 
-- See [Installation Instructions](http://eventol.github.io/eventoL/#/en/installation)
-- See [Deploy Instructions](http://eventol.github.io/eventoL/#/en/deploy)
+- See [Installation Instructions](/en/installation)
+- See [Deploy Instructions](/en/deploy)

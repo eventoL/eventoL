@@ -18,8 +18,13 @@ Documentación:
 --------------
 Ver [Documentación](http://eventol.github.io/eventoL)
 
+Guía de contribución:
+---------------------
+
+- Guía de contribución: [CONTRIBUTING](/es/CONTRIBUTING.md)
+
 Configuración de server propio:
 -------------------------------
 
-- Ver [Instrucciones de Instalación](http://eventol.github.io/eventoL/#/es/installation)
-- Ver [Instrucciones de puesta en marcha](http://eventol.github.io/eventoL/#/es/deploy)
+- Ver [Instrucciones de Instalación](/es/installation)
+- Ver [Instrucciones de puesta en marcha](/es/deploy)
