@@ -11,12 +11,16 @@
 {% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
 
 {% block more-button %}
-  <a href="{% url "collaborator_registration" event_slug event_uid %}" class="btn btn-primary btn-raised">
-    {% trans "Register as a Collaborator" %}
-  </a>
-  <a href="{% url "installer_registration" event_slug event_uid %}" class="btn btn-primary btn-raised">
-    {% trans "Register as an Installer" %}
-  </a>
+  {% if event.use_collaborators %}
+    <a href="{% url "collaborator_registration" event_slug event_uid %}" class="btn btn-primary btn-raised">
+      {% trans "Register as a Collaborator" %}
+    </a>
+  {% endif %}
+  {% if event.use_installers %}
+    <a href="{% url "installer_registration" event_slug event_uid %}" class="btn btn-primary btn-raised">
+      {% trans "Register as an Installer" %}
+    </a>
+  {% endif %}
 {% endblock %}
 
 {% block submit-button %}{% trans "Register as a attendee" %}{% endblock %}
