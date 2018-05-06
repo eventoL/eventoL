@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 set -e
 
 cmdname=$(basename $0)
@@ -10,7 +9,7 @@ function usage {
 Usage:
   $cmdname [-i] [task task2 task3 ...]
   -i | --install                                     Install dependencies for the task
-  task                                               Task name to run [js (alias: frontend), python (alias: backend), eslintreport (alias: lint-report) or eslint (alias: lint)]
+  task                                               Task name to run [js (alias: frontend), python (alias: backend), pylint (alias: pythonlinst), eslintreport (alias: lint-report) or eslint (alias: lint)]
 USAGE
   exit 1
 }
@@ -40,7 +39,7 @@ function run_install {
   elif [ "$TASK" == "eslint" ] || [ "$TASK" == "lint" ]; then
     install_js
   else
-    echo "Invalid task to install. Plataforms: js (alias: frontend, eslintreport, lint-report, eslint, lint) and python (alias: backend)"
+    echo "Invalid task to install. Plataforms: js (alias: frontend, eslintreport, lint-report, eslint, lint) and python (alias: backend, pylint, pythonlint)"
     exit 1
   fi
 }
@@ -91,7 +90,7 @@ function run_task {
   elif [ "$TASK" == "eslint" ] || [ "$TASK" == "lint" ]; then
     eslint
   else
-    echo "Invalid task. Plataforms: js (alias: frontend), python (alias: backend), eslintreport (alias: lint-report) or eslint (alias: lint)"
+    echo "Invalid task. Plataforms: js (alias: frontend), python (alias: backend), pylint (alias: pythonlint), eslintreport (alias: lint-report) or eslint (alias: lint)"
     exit 1
   fi
 }
