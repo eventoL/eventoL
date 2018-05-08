@@ -45,6 +45,8 @@ deploy.txt
 eventol/manager/static/manager/bower_components/
 eventol/manager/static/manager/css/eventol-bootstrap.css
 eventol/manager/static/manager/css/eventol.css
+eventol/static/
+eventol/media/
 media/
 env/
 eventol/media/talks_thumbnails/
@@ -58,7 +60,10 @@ eventol/manager/static/js/
 eventol/manager/static/rest_framework/
 eventol/manager/static/import_export/
 eventol/manager/static/debug_toolbar/
-node_modules
+node_modules/
+bower_components/
+.github/
+docs/
 db.sqlite3
 *.mo
 webpack-stats-local.json
@@ -74,4 +79,5 @@ venv/
 deploy/*
 !deploy/docker/scripts/
 docs/
-
+eventol/front/node_modules/
+eventol/front/eventol/static/manager/bower_components/
