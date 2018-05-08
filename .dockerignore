@@ -81,3 +81,4 @@ deploy/*
 docs/
 eventol/front/node_modules/
 eventol/front/eventol/static/manager/bower_components/
+.vscode/
