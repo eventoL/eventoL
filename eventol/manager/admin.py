@@ -16,7 +16,8 @@ from manager.security import create_reporters_group
 
 
 class EventoLAdmin(admin.ModelAdmin):
-    def filter_event(self, events, queryset):
+    @staticmethod
+    def filter_event(events, queryset):
         return queryset.filter(event__in=events)
 
     def queryset(self, request):
@@ -30,7 +31,7 @@ class EventoLAdmin(admin.ModelAdmin):
         if request.user.groups.filter(name=reporters.name).exists():
             return queryset
         organizers = Organizer.objects.filter(event_user__user=request.user)
-        events = [organizer.event_user.event for organizer in organizers]
+        events = [organizer.event_user.event for organizer in list(organizers)]
         if events:
             return self.filter_event(events, queryset)
         return queryset.none()
@@ -40,23 +41,25 @@ class EventoLAdmin(admin.ModelAdmin):
             return super() \
                 .formfield_for_foreignkey(db_field, request, **kwargs)
         organizers = Organizer.objects.filter(event_user__user=request.user)
-        events = [organizer.event_user.event for organizer in organizers]
+        events = [organizer.event_user.event for organizer in list(organizers)]
         queryset = None
-        if db_field.name == "room":
+        if db_field.name == 'room':
             queryset = Room.objects.filter(event__in=events).distinct()
-        if db_field.name == "event":
+        if db_field.name == 'event':
             events_pks = [event.pk for event in events]
             queryset = Event.objects.filter(pk__in=events_pks).distinct()
-        if db_field.name == "event_user":
+        if db_field.name == 'event_user':
             queryset = EventUser.objects.filter(event__in=events).distinct()
-        if db_field.name == "attendee":
+        if db_field.name == 'attendee':
             queryset = Attendee.objects.filter(event__in=events).distinct()
-        if db_field.name == "installer":
+        if db_field.name == 'installer':
             queryset = Installer.objects \
                 .filter(event_user__event__in=events).distinct()
-        if db_field.name == "user":
+        if db_field.name == 'user':
             queryset = User.objects.none()
-        kwargs["queryset"] = queryset
+        if db_field.name in ['hardware', 'software', 'type', 'ticket']:
+            queryset = db_field.model.objects.all().distinct()
+        kwargs['queryset'] = queryset
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 

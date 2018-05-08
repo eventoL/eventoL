@@ -1,0 +1,87 @@
+stages:
+  - testing
+  - styling
+  - build
+
+variables:
+  CONTAINER_DEPLOY_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  IMAGE_NAME: eventol
+
+docker master image:
+  stage: build
+  image: docker:git
+  tags:
+    - docker
+  services:
+    - docker:dind
+  script:
+    - VERSION=$(date +"%y%m%d")
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CONTAINER_RELEASE_IMAGE || true
+    - docker build --cache-from $CONTAINER_RELEASE_IMAGE -t $CONTAINER_RELEASE_IMAGE .
+    - docker tag $CONTAINER_RELEASE_IMAGE $CI_REGISTRY_IMAGE:$VERSION
+    - docker push $CONTAINER_RELEASE_IMAGE
+    - docker push $CI_REGISTRY_IMAGE:$VERSION
+  only:
+    - master
+
+docker dev image:
+  stage: build
+  image: docker:git
+  tags:
+    - docker
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest-dev || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest-dev -t $CI_REGISTRY_IMAGE:latest-dev .
+    - docker push $CI_REGISTRY_IMAGE:latest-dev
+  only:
+    - develop
+
+python-testing:
+  image: python:3.5
+  stage: testing
+  script:
+    - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+    - apt install -y nodejs
+    - npm install -g yarn yarnpkg
+    - ./test.sh -i backend
+  artifacts:
+    paths:
+      - eventol/htmlcov
+
+react-testing:
+  image: node:8
+  stage: testing
+  script:
+    - ./test.sh -i frontend
+  artifacts:
+    paths:
+      - eventol/front/coverage
+
+python-lint:
+  image: python:3.5
+  stage: styling
+  allow_failure: true
+  script:
+    - ./test.sh -i pythonlint
+
+react-lint-report:
+  image: node:8
+  stage: styling
+  allow_failure: true
+  script:
+    - ./test.sh -i lint-report
+  artifacts:
+    paths:
+      - eventol/front/report.html
+
+react-lint:
+  image: node:8
+  stage: styling
+  allow_failure: true
+  script:
+    - ./test.sh -i lint

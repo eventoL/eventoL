@@ -7,6 +7,7 @@
     "watch-test": "./node_modules/.bin/jest --watchAll",
     "react-devtools": "react-devtools",
     "eslint": "./node_modules/.bin/eslint --ext .jsx --ext .js src",
+    "eslint-fix": "./node_modules/.bin/eslint --ext .jsx --ext .js --fix src",
     "eslint-report": "./node_modules/.bin/eslint -f node_modules/eslint-html-reporter/reporter.js -o report.html --ext .jsx --ext .js src || true"
   },
   "devDependencies": {

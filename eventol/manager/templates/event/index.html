@@ -35,8 +35,8 @@
                     <span class="label label-default">{% trans 'I am' %}</span>
                     {% if user|is_organizer:event_uid %}<span class="label label-warning">{% trans 'Organizer' %}</span>{% endif %}
                     {% if user|is_attendee:event_uid %}<span class="label label-info">{% trans 'Attendee' %}</span>{% endif %}
-                    {% if user|is_collaborator:event_uid %}<span class="label label-primary">{% trans 'Collaborator' %}</span>{% endif %}
-                    {% if user|is_installer:event_uid %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
+                    {% if event.use_collaborators and user|is_collaborator:event_uid %}<span class="label label-primary">{% trans 'Collaborator' %}</span>{% endif %}
+                    {% if event.use_installers and user|is_installer:event_uid %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
                 </p>
                 {% endif %}
             </div>
@@ -86,29 +86,31 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-4 col-md-4">
-                <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_slug event_uid %}">¿Qué es el
-                    FLISoL?</a>
-                </h3>
+        {% if event.is_flisol %}
+          <div class="row">
+              <div class="col-lg-4 col-md-4">
+                  <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_slug event_uid %}">¿Qué es el
+                      FLISoL?</a>
+                  </h3>
 
-                <p>¿Quién lo organiza? ¿A quién está dirigido? ¿Cuánto cuesta? ¿Qué beneficios obtengo? Quiero
-                    ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
-            </div>
-            <div class="col-lg-4 col-md-4">
-                <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_slug event_uid %}">¿Cuánto cuesta?</a></h3>
+                  <p>¿Quién lo organiza? ¿A quién está dirigido? ¿Cuánto cuesta? ¿Qué beneficios obtengo? Quiero
+                      ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                  <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_slug event_uid %}">¿Cuánto cuesta?</a></h3>
 
-                <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
-            </div>
-            <div class="col-lg-4 col-md-4">
-                <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_slug event_uid %}">Anotate!</a>
-                </h3>
+                  <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
+              </div>
+              <div class="col-lg-4 col-md-4">
+                  <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_slug event_uid %}">Anotate!</a>
+                  </h3>
 
-                <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
-                    traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
-                    todo listo.</p>
-            </div>
-        </div>
+                  <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
+                      traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
+                      todo listo.</p>
+              </div>
+          </div>
+        {% endif %}
     </div>
 
     <div class="well">
@@ -206,24 +208,26 @@
         </div>
     </div>
 
-    <div class="well">
-        <div class="row" style="text-align: center;">
-            <h2>{% trans 'Installations' %}</h2>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <p style="padding-top: 15px">Durante toda la jornada entusiastas voluntarios del software libre,
-                    celebrarán charlas, conferencias, encuentros, talleres, <b>te ayudarán a instalar software libre
-                        en tu PC o notebook</b> para que puedas probarlo y además <b>te orientarán en cómo
-                        usarlo</b>. Podés acercarte de manera libre y gratuita y elegir la distribución o software
-                    que quieras para llevártelo instalado, hacer consultas o aprender!
-                </p>
-            </div>
-            <div class="col-sm-6">
-                <img src="{% static "manager/img/installations.png" %}" width="100%">
-            </div>
-        </div>
-    </div>
+    {% if event.use_installations %}
+      <div class="well">
+          <div class="row" style="text-align: center;">
+              <h2>{% trans 'Installations' %}</h2>
+          </div>
+          <div class="row">
+              <div class="col-sm-6">
+                  <p style="padding-top: 15px">Durante toda la jornada entusiastas voluntarios del software libre,
+                      celebrarán charlas, conferencias, encuentros, talleres, <b>te ayudarán a instalar software libre
+                          en tu PC o notebook</b> para que puedas probarlo y además <b>te orientarán en cómo
+                          usarlo</b>. Podés acercarte de manera libre y gratuita y elegir la distribución o software
+                      que quieras para llevártelo instalado, hacer consultas o aprender!
+                  </p>
+              </div>
+              <div class="col-sm-6">
+                  <img src="{% static "manager/img/installations.png" %}" width="100%">
+              </div>
+          </div>
+      </div>
+    {% endif %}
 
     {% if event.contacts.all|length > 0 %}
         <div class="well">

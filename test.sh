@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 cmdname=$(basename $0)
 INSTALL=false
 
@@ -7,14 +9,14 @@ function usage {
 Usage:
   $cmdname [-i] [task task2 task3 ...]
   -i | --install                                     Install dependencies for the task
-  task                                               Task name to run [js (alias: frontend), python (alias: backend), eslintreport (alias: lint-report) or eslint (alias: lint)]
+  task                                               Task name to run [js (alias: frontend), python (alias: backend), pylint (alias: pythonlinst), eslintreport (alias: lint-report) or eslint (alias: lint)]
 USAGE
   exit 1
 }
 
 function install_js {
   cd eventol/front
-  npm install -g yarn
+  npm install -g yarn yarnpkg
   yarn install
   cd -
 }
@@ -37,7 +39,7 @@ function run_install {
   elif [ "$TASK" == "eslint" ] || [ "$TASK" == "lint" ]; then
     install_js
   else
-    echo "Invalid task to install. Plataforms: js (alias: frontend, eslintreport, lint-report, eslint, lint) and python (alias: backend)"
+    echo "Invalid task to install. Plataforms: js (alias: frontend, eslintreport, lint-report, eslint, lint) and python (alias: backend, pylint, pythonlint)"
     exit 1
   fi
 }
@@ -61,7 +63,7 @@ function eslintreport {
 }
 
 function pythonlint {
-  pylint --output-format=colorized eventol/eventol eventol/manager
+  pylint --output-format=colorized --reports yes eventol/eventol eventol/manager
 }
 
 function pythontest {
@@ -88,7 +90,7 @@ function run_task {
   elif [ "$TASK" == "eslint" ] || [ "$TASK" == "lint" ]; then
     eslint
   else
-    echo "Invalid task. Plataforms: js (alias: frontend), python (alias: backend), eslintreport (alias: lint-report) or eslint (alias: lint)"
+    echo "Invalid task. Plataforms: js (alias: frontend), python (alias: backend), pylint (alias: pythonlint), eslintreport (alias: lint-report) or eslint (alias: lint)"
     exit 1
   fi
 }
@@ -120,7 +122,7 @@ do
       INSTALL=${INSTALL:false}
       for TASK in "$@"; do
         if $INSTALL; then
-          run_install $INSTALL
+          run_install $TASK
         fi
         run_task $TASK
         shift 1

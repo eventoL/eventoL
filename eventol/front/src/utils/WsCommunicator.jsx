@@ -8,7 +8,6 @@ class WsCommunicator extends React.Component {
     super(props);
     this.checkWebSocketSupport();
     const websocket = this.createWebSocket(props.ws_url);
-    console.log(props.ws_url);
     this.state = {
       attempts: 1,
       onOpens: [props.onOpen],
@@ -28,11 +27,13 @@ class WsCommunicator extends React.Component {
   }
 
   onMessage(data) {
-    this.state.onMessages.map((onMessageFunction) => onMessageFunction && onMessageFunction(data));
+    const {onMessages} = this.state;
+    onMessages.map((onMessageFunction) => onMessageFunction && onMessageFunction(data));
   }
 
   onOpen(data) {
-    this.state.onOpens.map((onOpenFunction) => onOpenFunction && onOpenFunction(data));
+    const {onOpens} = this.state;
+    onOpens.map((onOpenFunction) => onOpenFunction && onOpenFunction(data));
   }
 
   generateInterval(attempts) {
@@ -41,7 +42,9 @@ class WsCommunicator extends React.Component {
   }
 
   onClose(data) {
-    this.state.onCloses.map((onCloseFunction) => onCloseFunction && onCloseFunction(data, this.props.reconnect));
+    /* eslint-disable react/no-direct-mutation-state */
+    const {onCloses} = this.state;
+    onCloses.map((onCloseFunction) => onCloseFunction && onCloseFunction(data, this.props.reconnect));
     if (this.props.reconnect) {
       const time = this.generateInterval(this.state.attempts);
       this.state.attempts += 1;
@@ -50,26 +53,32 @@ class WsCommunicator extends React.Component {
         this.state.websocket = this.createWebSocket(this.props.ws_url);
       }, time);
     }
+    /* eslint-enable react/no-direct-mutation-state */
   }
 
   handleNotSupportWs() {
-    this.state.handlesNotSupportWs.map((hNotSupport) => hNotSupport && hNotSupport());
+    const {handlesNotSupportWs} = this.state;
+    handlesNotSupportWs.map((hNotSupport) => hNotSupport && hNotSupport());
   }
 
   addOnMessage(onMessageFunction) {
-    this.state.onMessages.push(onMessageFunction);
+    const {onMessages} = this.state;
+    onMessages.push(onMessageFunction);
   }
 
   addOnOpen(onOpenFunction) {
-    this.state.onOpens.push(onOpenFunction);
+    const {onOpens} = this.state;
+    onOpens.push(onOpenFunction);
   }
 
   addOnClose(onCloseFunction) {
-    this.state.onCloses.push(onCloseFunction);
+    const {onCloses} = this.state;
+    onCloses.push(onCloseFunction);
   }
 
   addHandleNotSupportWs(hNotSupport) {
-    this.state.handlesNotSupportWs.push(hNotSupport);
+    const {handlesNotSupportWs} = this.state;
+    handlesNotSupportWs.push(hNotSupport);
   }
 
   checkWebSocketSupport() {

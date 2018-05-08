@@ -1,5 +1,7 @@
-import React from 'react';
-import './index.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import './index.scss'
 
 
 export default class Title extends React.Component {
@@ -18,3 +20,12 @@ export default class Title extends React.Component {
     );
   }
 }
+
+Title.propTypes = {
+  label: PropTypes.string,
+  children: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.element
+  ])
+};

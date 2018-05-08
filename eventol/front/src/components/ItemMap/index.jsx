@@ -1,9 +1,18 @@
 import React from 'react';
-import ListToggle from '../ListToggle';
+import PropTypes from 'prop-types'
 import './index.scss';
 
 
 export default class ItemMap extends React.Component {
+  static propTypes = {
+    place: PropTypes.string,
+    title: PropTypes.string,
+    url: PropTypes.string,
+    attendees: PropTypes.number,
+    overview: PropTypes.string,
+    uid: PropTypes.string,
+    sliderId: PropTypes.string
+  };
 
   getMapId(){
     const {uid, sliderId} = this.props;
@@ -38,12 +47,14 @@ export default class ItemMap extends React.Component {
     const uid = this.getMapId();
     try {
       this.loadMap();
-    } catch(e){}
+    } catch(e){
+      console.error(e);
+    }
     document.getElementById(uid).classList.remove('max-size')
   }
 
   render(){
-    const {title, url, attendees, overview, uid, sliderId} = this.props;
+    const {title, url, attendees, overview} = this.props;
     const mapId = this.getMapId();
     return (
       <div id={mapId} className="Item max-size">
@@ -57,4 +68,4 @@ export default class ItemMap extends React.Component {
       </div>
     )
   }
-};
+}

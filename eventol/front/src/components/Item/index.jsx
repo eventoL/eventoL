@@ -1,13 +1,21 @@
-import React from 'react';
-import ListToggle from '../ListToggle';
-import ItemMap from '../ItemMap';
-import './index.scss';
+import React from 'react'
+import PropTypes from 'prop-types'
+import ItemMap from '../ItemMap'
+
+import './index.scss'
 
 
 export default class Item extends React.Component {
+  static propTypes = {
+    url: PropTypes.string,
+    title: PropTypes.string,
+    backdrop: PropTypes.string,
+    overview: PropTypes.string,
+    attendees: PropTypes.number
+  };
 
   render(){
-    const {title, url, attendees, overview, backdrop, slug} = this.props;
+    const {title, url, attendees, overview, backdrop} = this.props;
     if (!backdrop) {
       return <ItemMap {...this.props} />;
     }

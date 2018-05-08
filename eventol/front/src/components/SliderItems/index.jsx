@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'
+import PropTypes from 'prop-types'
 import Slider from '../Slider'
 
 import Item from '../Item';
@@ -13,6 +14,11 @@ const SliderItems = ({itemsData, sliderId}) => {
       {items}
     </Slider>
   );
+};
+
+SliderItems.propTypes = {
+  itemsData: PropTypes.array,
+  sliderId: PropTypes.string
 };
 
 export default SliderItems;

@@ -46,6 +46,7 @@ class Base(Configuration):
         'easy_thumbnails.optimize',
         'image_cropping',
         'import_export',
+        'django_nose',
         'manager',
         'autofixture',
         'djangoformsetjs',
@@ -239,6 +240,19 @@ class Base(Configuration):
         },
     }
 
+    IS_ALPINE = os.getenv('IS_ALPINE', False)
+    if IS_ALPINE:
+        CHANNEL_LAYERS['default'] = {
+            'BACKEND': 'asgi_redis.RedisChannelLayer',
+            'CONFIG': {
+                'hosts': [(
+                    os.getenv('REDIS_HOST', 'redis'),
+                    int(os.getenv('REDIS_PORT', '6379')),
+                )],
+            },
+            'ROUTING': 'eventol.routing.channel_routing',
+        }
+
     EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
     EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.unset')
     EMAIL_PORT = os.getenv('EMAIL_PORT', '587')
@@ -254,6 +268,13 @@ class Base(Configuration):
     MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
+
+    # Change test runner
+    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+    NOSE_ARGS = [
+        '--with-coverage',
+        '--cover-package=manager,eventol',
+    ]
 
 class Staging(Base):
     import socket

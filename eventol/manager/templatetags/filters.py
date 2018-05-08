@@ -18,6 +18,14 @@ def get_contact_url(contact):
     return contact.url
 
 
+@register.filter(name='get_schedule_size')
+def get_schedule_size(rooms):
+    """
+        Returns a schedule min width
+    """
+    return len(json.loads(rooms)) * 200
+
+
 @register.filter(name='get_schedule_date')
 def get_schedule_date(dic, key):
     """

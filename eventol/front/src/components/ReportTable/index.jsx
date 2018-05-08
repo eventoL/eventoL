@@ -1,12 +1,24 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ReactTable from 'react-table'
-
-import _ from 'lodash'
 
 import 'react-table/react-table.css'
 
 
 export default class ReportTable extends React.Component {
+  static propTypes = {
+    count: PropTypes.number,
+    totals: PropTypes.object,
+    data: PropTypes.array,
+    pages: PropTypes.number,
+    loading: PropTypes.bool,
+    defaultRows: PropTypes.number,
+    fetchData: PropTypes.func,
+    exportButton: PropTypes.object,
+    table: PropTypes.string,
+    eventsPrivateData: PropTypes.object
+  };
+
   getEventColumns(){
     const {count} = this.props;
     return {
@@ -223,7 +235,7 @@ export default class ReportTable extends React.Component {
     if (exportButton) exportButton.updateCsv(columns);
     return (
       <ReactTable
-          noDataText={gettext("There isn't any event yet.")}
+          noDataText={gettext('There isn\'t any event yet.')}
           columns={columns}
           manual
           data={data}

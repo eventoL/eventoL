@@ -1,11 +1,18 @@
 import React from 'react'
-import './index.scss';
+import PropTypes from 'prop-types'
+
+import './index.scss'
 
 
 export default class Search extends React.Component {
   state = {
     searchTerm: ''
   }
+
+  static propTypes = {
+    onEnter: PropTypes.func,
+    onChange: PropTypes.func
+  };
 
   handleKeyUp = ({key}) => {
     if (key === 'Enter') {

@@ -1,7 +1,3 @@
-import json
-
-from django.core import serializers
-from django.db.models.signals import post_delete, pre_delete, pre_save
 from channels.binding.websockets import WebsocketBinding
 
 from .models import (Activity, AttendeeAttendanceDate, Event,

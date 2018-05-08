@@ -1,5 +1,6 @@
-import React from 'react';
-import './index.scss';
+import React from 'react'
+
+import './index.scss'
 
 
 export default class Navigation extends React.Component {
@@ -23,4 +24,4 @@ export default class Navigation extends React.Component {
     );
   }
 
-};
+}

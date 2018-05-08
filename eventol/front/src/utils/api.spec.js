@@ -1,10 +1,10 @@
 import { getUrl } from './api.js';
 
 describe('Api utils', () => {
-  let url;
+  let url, params;
 
   beforeAll(() => {
-    url = '/links/api/';
+    url = '/events/api/';
   })
 
   beforeEach(() => {
@@ -13,6 +13,15 @@ describe('Api utils', () => {
         json: () => Promise.resolve([])
       })
     );
+    params = {
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRFToken': undefined
+      },
+      method: 'GET'
+    }
   });
 
   afterAll(() => {
@@ -22,10 +31,10 @@ describe('Api utils', () => {
 
   describe('get', () => {
 
-    it('should API_URL is /links/api/', async () => {
+    it('should API_URL is /events/api/', async () => {
       await getUrl(url);
       expect(global.fetch).toBeCalled();
-      expect(global.fetch).lastCalledWith(url);
+      expect(global.fetch).lastCalledWith(url, params);
     })
 
   })

@@ -74,3 +74,4 @@ htmlcov/
 coverage/
 jest_*
 venv/
+.vscode/

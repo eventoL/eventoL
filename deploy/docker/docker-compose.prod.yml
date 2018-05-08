@@ -18,6 +18,8 @@ services:
   worker:
     restart: always
     image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
+    env_file:
+      - .env
     volumes:
       - /usr/src/app
       - /srv/deploys/eventoldata/static:/usr/src/app/eventol/static
@@ -91,3 +93,8 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx_proxy_settings.conf:/etc/nginx/conf.d/eventol_settings.conf:ro
+  redis:
+    image: redis:4.0.2
+    restart: always
+    expose:
+      - "6379"

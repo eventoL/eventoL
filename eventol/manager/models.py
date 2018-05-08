@@ -53,10 +53,11 @@ class EventManager(models.Manager):
                 output_field=models.BooleanField()
             ))
 
-    def get_event_by_user(self, user, slug):
+    @staticmethod
+    def get_event_by_user(user, slug):
         if user.is_authenticated():
             event_users = EventUser.objects.filter(user=user)
-            event_ids = [event_user.event.pk for event_user in event_users]
+            event_ids = [event_user.event.pk for event_user in list(event_users)]
             queryset = Event.objects.filter(pk__in=event_ids)
             if slug:
                 queryset = Event.objects.filter(slug=slug)
@@ -91,6 +92,9 @@ class Event(models.Model):
     slug = models.CharField(_('URL'), max_length=20,
                             help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
+    cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
+                             help_text=_('For example: flisol-caba'),
+                             validators=[validate_url])
     uid = models.UUIDField(
         default=uuid4,
         editable=False,
@@ -112,6 +116,12 @@ class Event(models.Model):
                                       help_text=_('Event Information HTML'),
                                       blank=True, null=True)
     schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
+    use_installations = models.BooleanField(_('Use Installations'), default=True)
+    use_installers = models.BooleanField(_('Use Installers'), default=True)
+    use_collaborators = models.BooleanField(_('Use Collaborators'), default=True)
+    use_proposals = models.BooleanField(_('Use Proposals'), default=True)
+    is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
+    use_schedule = models.BooleanField(_('Use Schedule'), default=True)
     place = models.TextField(_('Place'))
     image = ImageCropField(upload_to='images_thumbnails',
                            verbose_name=_('Image'), blank=True, null=True)
@@ -191,7 +201,7 @@ class ContactMessage(models.Model):
                               blank=True, null=True)
 
     def __str__(self):
-        return _(
+        return _noop(
             'Message received from: {name}\n'
             'User email: {email}\n\n'
             '{message}'
@@ -273,7 +283,8 @@ class EventUserManager(models.Manager):
             return instance.event_user
         return instance
 
-    def get_counts(self, event_users):
+    @staticmethod
+    def get_counts(event_users):
         confirmed = EventUserAttendanceDate.objects \
             .filter(event_user__in=event_users) \
             .order_by('event_user') \
@@ -370,11 +381,15 @@ class Collaborator(models.Model):
                                    blank=True, null=True)
     assignation = models.CharField(_('Assignation'), max_length=200,
                                    blank=True, null=True,
-                                   help_text=_('Anything you can help with (i.e. Talks, Coffee...)'))
+                                   help_text=_('Anything you can help with \
+                                               (i.e. Talks, Coffee...)'))
     time_availability = models.CharField(_('Time Availability'),
                                          max_length=200, blank=True,
                                          null=True,
-                                         help_text=_('Time gap in which you can help during the event. i.e. "All the event", "Morning", "Afternoon", ...'))
+                                         help_text=_('Time gap in which you can \
+                                                     help during the event. i.e. \
+                                                     "All the event", "Morning", \
+                                                     "Afternoon", ...'))
     phone = models.CharField(_('Phone'), max_length=200, blank=True, null=True)
     address = models.CharField(_('Address'), max_length=200,
                                blank=True, null=True)
@@ -411,6 +426,7 @@ class AttendeeManager(EventUserManager):
     def get_attendees(queryset):
         return [inst for inst in queryset if not inst.event_user]
 
+    #pylint: disable=arguments-differ
     def get_counts(self, queryset):
         event_users = self.get_event_users(
             queryset.filter(event_user__isnull=False))
@@ -459,11 +475,13 @@ class Attendee(models.Model):
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
     is_installing = models.BooleanField(_('Is going to install?'), default=False)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
-                                       help_text=_('Any additional info you consider relevant for the organizers'))
+                                       help_text=_('Any additional info you consider \
+                                                   relevant for the organizers'))
     email_confirmed = models.BooleanField(_('Email confirmed?'), default=False)
     email_token = models.CharField(_('Confirmation Token'), max_length=200, blank=True, null=True)
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
-    event_user = models.ForeignKey(EventUser, verbose_name=_noop('Event User'), blank=True, null=True)
+    event_user = models.ForeignKey(
+        EventUser, verbose_name=_noop('Event User'), blank=True, null=True)
 
     class Meta(object):
         verbose_name = _('Attendee')
@@ -511,8 +529,8 @@ class AttendeeAttendanceDate(models.Model):
         ('4', _('unregistred'))
     )
     mode = models.CharField(_('Mode'), choices=attendance_mode_choices,
-                             max_length=200, blank=True, null=True,
-                             help_text=_('Attendance mode'))
+                            max_length=200, blank=True, null=True,
+                            help_text=_('Attendance mode'))
 
     def __str__(self):
         return '{} - {}'.format(self.attendee, self.date)
@@ -652,16 +670,20 @@ class Activity(models.Model):
         ('3', _('Lightning talk')),
         ('4', _('Other'))
     )
-    type = models.CharField(_('Type'), choices=activity_type_choices, max_length=200, null=True, blank=True)
+    type = models.CharField(
+        _('Type'), choices=activity_type_choices, max_length=200, null=True, blank=True)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
                                       help_text=_("Comma separated speaker's names"))
     speaker_contact = models.EmailField(_('Speaker Contact'),
-                                        help_text=_('Where can whe reach you from the organization team?'))
+                                        help_text=_('Where can whe reach you \
+                                                    from the organization team?'))
     labels = models.CharField(_('Labels'), max_length=200,
-                              help_text=_('Comma separated tags. i.e. Linux, Free Software, Archlinux'))
+                              help_text=_('Comma separated tags. i.e. Linux, \
+                                          Free Software, Archlinux'))
     presentation = models.FileField(_('Presentation'),
-                                    upload_to='talks', blank=True,
-                                    null=True, help_text=_('Any material you are going to use for the talk (optional, but recommended)'))
+                                    upload_to='talks', blank=True, null=True,
+                                    help_text=_('Any material you are going to use \
+                                                for the talk (optional, but recommended)'))
     level_choices = (
         ('1', _('Beginner')),
         ('2', _('Medium')),
@@ -671,7 +693,9 @@ class Activity(models.Model):
                              help_text=_("Talk's Technical level"))
     additional_info = models.TextField(_('Additional Info'),
                                        blank=True, null=True,
-                                       help_text=_('Any info you consider relevant for the organizer: i.e. Write here if your activity has any special requirement'))
+                                       help_text=_('Any info you consider relevant \
+                                                   for the organizer: i.e. Write here \
+                                                   if your activity has any special requirement'))
 
     status_choices = (
         ('1', _('Proposal')),
@@ -689,7 +713,9 @@ class Activity(models.Model):
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
 
     is_dummy = models.BooleanField(_('Is a dummy Activity?'), default=False,
-                                   help_text=_('A dummy activity is used for example for coffee breaks. We use this to exclude it from the index page and other places'))
+                                   help_text=_('A dummy activity is used for example for coffee \
+                                               breaks. We use this to exclude it from the index \
+                                               page and other places'))
 
     def __cmp__(self, other):
         return -1 if self.start_date.time() < other.start_date.time() else 1
@@ -718,7 +744,8 @@ class Activity(models.Model):
     def schedule(self):
         if self.start_date and self.end_date:
             date = date_format(self.start_date, format='SHORT_DATE_FORMAT', use_l10n=True)
-            return "{} - {} - {}".format(self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"), date)
+            return "{} - {} - {}".format(
+                self.start_date.strftime("%H:%M"), self.end_date.strftime("%H:%M"), date)
         return _('Schedule not confirmed yet')
 
     @classmethod
@@ -728,27 +755,42 @@ class Activity(models.Model):
         if request:
             messages.error(request, message)
 
+    #pylint: disable=too-many-arguments
     @classmethod
-    def room_available(cls, request, proposal, event_uid, event_date, error=False):
-        activities_room = Activity.objects.filter(room=proposal.room, event__uid=event_uid, start_date__date=event_date)
+    def room_available(cls, request, proposal,
+                       event_uid, event_date,
+                       error=False):
+        activities_room = Activity.objects.filter(
+            room=proposal.room, event__uid=event_uid, start_date__date=event_date)
         if proposal.start_date == proposal.end_date:
-            message = _("The talk couldn't be registered because the schedule not available (start time equals end time)")
+            message = _("The talk couldn't be registered because the schedule not \
+                        available (start time equals end time)")
             cls.check_status(message, error=error, request=request)
             return False
         if proposal.end_date < proposal.start_date:
-            message = _("The talk couldn't be registered because the schedule is not available (start time is after end time)")
+            message = _("The talk couldn't be registered because the schedule is not \
+                        available (start time is after end time)")
             cls.check_status(message, error=error, request=request)
             return False
         one_second = datetime.timedelta(seconds=1)
         if activities_room.filter(
-                end_date__range=(proposal.start_date + one_second, proposal.end_date - one_second)).exclude(pk=proposal.pk).exists() \
-                or activities_room.filter(end_date__gt=proposal.end_date, start_date__lt=proposal.start_date).exclude(pk=proposal.pk).exists() \
-                or activities_room.filter(start_date__range=(proposal.start_date + one_second, proposal.end_date - one_second)).exclude(pk=proposal.pk).exists() \
+                end_date__range=(
+                    proposal.start_date + one_second, proposal.end_date - one_second)) \
+                .exclude(pk=proposal.pk).exists() \
                 or activities_room.filter(
-                    end_date=proposal.end_date, start_date=proposal.start_date).exclude(pk=proposal.pk).exists():
-                message = _("The talk couldn't be registered because the room or the schedule is not available")
-                cls.check_status(message, error=error, request=request)
-                return False
+                    end_date__gt=proposal.end_date,
+                    start_date__lt=proposal.start_date).exclude(pk=proposal.pk).exists() \
+                or activities_room.filter(
+                    start_date__range=(
+                        proposal.start_date + one_second, proposal.end_date - one_second)) \
+                    .exclude(pk=proposal.pk).exists() \
+                or activities_room.filter(
+                    end_date=proposal.end_date,
+                    start_date=proposal.start_date).exclude(pk=proposal.pk).exists():
+            message = _("The talk couldn't be registered because the \
+                            room or the schedule is not available")
+            cls.check_status(message, error=error, request=request)
+            return False
         return True
 
     class Meta(object):
@@ -793,7 +835,8 @@ class Installation(models.Model):
                                   related_name='installed_by', blank=True,
                                   null=True)
     notes = models.TextField(_('Notes'), blank=True, null=True,
-                             help_text=_('Any information or trouble you found and consider relevant to document'))
+                             help_text=_('Any information or trouble you found \
+                                         and consider relevant to document'))
 
     def __str__(self):
         return '{}, {}, {}'.format(self.attendee, self.hardware, self.software)

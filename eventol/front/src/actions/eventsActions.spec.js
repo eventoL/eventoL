@@ -1,14 +1,14 @@
 import {
-  setLinks, createLink, updateLink, deleteLink,
-  DELETE_LINK, CREATE_LINK, UPDATE_LINK, SET_LINKS
-} from './linksActions'
+  setEvents, createEvent, updateEvent, deleteEvent,
+  DELETE_EVENT, CREATE_EVENT, UPDATE_EVENT, SET_EVENTS
+} from './eventsActions'
 
-describe('links Actions', () => {
-  let link, links, expectDefault;
+describe('events Actions', () => {
+  let event, events, expectDefault;
 
   beforeEach(() => {
-    link = {
-      model: 'links.link',
+    event = {
+      model: 'events.event',
       pk: 1,
       fields: {
         name: 'Gitlab with workshop',
@@ -18,88 +18,88 @@ describe('links Actions', () => {
         user: 1
       }
     }
-    links = [link]
+    events = [event]
   });
 
-  describe(SET_LINKS, () => {
+  describe(SET_EVENTS, () => {
 
     beforeEach(() => {
       expectDefault = {
-        type: SET_LINKS,
-        links
+        type: SET_EVENTS,
+        events
       }
     })
 
     test('returns a object', () => {
-      const result = setLinks(links)
+      const result = setEvents(events)
       expect(result).toBeDefined()
     })
 
-    test('returns correct links', () => {
-      const result = setLinks(links)
+    test('returns correct events', () => {
+      const result = setEvents(events)
       expect(result).toEqual(expectDefault)
     })
 
   })
 
-  describe(UPDATE_LINK, () => {
+  describe(UPDATE_EVENT, () => {
 
     beforeEach(() => {
       expectDefault = {
-        type: UPDATE_LINK,
-        link
+        type: UPDATE_EVENT,
+        event
       }
     })
 
     test('returns a object', () => {
-      const result = updateLink(link)
+      const result = updateEvent(event)
       expect(result).toBeDefined()
     })
 
-    test('returns correct links', () => {
-      const result = updateLink(link)
+    test('returns correct events', () => {
+      const result = updateEvent(event)
       expect(result).toEqual(expectDefault)
     })
 
   })
 
-  describe(CREATE_LINK, () => {
+  describe(CREATE_EVENT, () => {
 
     beforeEach(() => {
       expectDefault = {
-        type: CREATE_LINK,
-        link
+        type: CREATE_EVENT,
+        event
       }
     })
 
     test('returns a object', () => {
-      const result = createLink(link)
+      const result = createEvent(event)
       expect(result).toBeDefined()
     })
 
-    test('returns correct links', () => {
-      const result = createLink(link)
+    test('returns correct events', () => {
+      const result = createEvent(event)
       expect(result).toEqual(expectDefault)
     })
 
   })
 
-  describe(DELETE_LINK, () => {
+  describe(DELETE_EVENT, () => {
 
     beforeEach(() => {
       expectDefault = {
-        type: DELETE_LINK,
-        link
+        type: DELETE_EVENT,
+        event
       }
     })
 
     test('returns a object', () => {
-      const result = deleteLink(link)
+      const result = deleteEvent(event)
       expect(result).toBeDefined()
     })
 
-    test('returns correct links', () => {
-      const result = deleteLink(link)
+    test('returns correct events', () => {
+      const result = deleteEvent(event)
       expect(result).toEqual(expectDefault)
     })
 
