@@ -1,13 +1,32 @@
 version: "2"
 services:
   worker:
-    restart: always
-    env_file:
-      - .env
+    build: ../../.
+    volumes:
+      - ../../:/usr/src/app
+    environment:
+      - DJANGO_CONFIGURATION=Dev
+    ports:
+      - "8000:8000"
     depends_on:
       - redis
+  reactjs:
+    build: ../../.
+    volumes:
+      - ../../:/usr/src/app
+    working_dir: /usr/src/app/eventol/front
+    ports:
+      - "3000:3000"
   redis:
     image: redis:4.0.2
-    restart: always
     expose:
       - "6379"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.2
+    volumes:
+      - ./elk/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    expose:
+      - "9300"
+      - "9200"
+    environment:
+      - ES_JAVA_OPTS=-Xmx256m -Xms256m
