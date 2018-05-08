@@ -25,7 +25,7 @@ RUN npm install -g yarn webpack@^1.12.13 bower less
 
 ## Install python dependencies
 RUN pip3 install --no-cache-dir cffi cairocffi psycopg2
-RUN apk --update add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main cairo-dev \
+RUN apk --update add --no-cache cairo-dev \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create user
