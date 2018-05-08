@@ -14,6 +14,11 @@ Estado
 [![Requirements Status](https://requires.io/github/eventoL/eventoL/requirements.svg?branch=master)](https://requires.io/github/eventoL/eventoL/requirements/?branch=master)
 [![Stories in Ready](https://badge.waffle.io/eventoL/eventoL.svg?label=ready&title=Ready)](http://waffle.io/eventoL/eventoL)
 
+Docker status:
+--------------
+[![Docker tag](https://images.microbadger.com/badges/version/eventol/eventol.svg)](https://microbadger.com/images/eventol/eventol)
+[![Docker size and layers](https://images.microbadger.com/badges/image/eventol/eventol.svg)](https://microbadger.com/images/eventol/eventol)
+
 Documentación:
 --------------
 Ver [Documentación](http://eventol.github.io/eventoL)
