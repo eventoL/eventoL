@@ -2,7 +2,6 @@ EventoL
 =======
 
 EventoL es un software de administración de eventos, desarrollador inicialmente para administrar la conferecia [FLISoL](http://flisol.info/).
-Esta en estado de desarrollo.
 
 Estado
 ------
