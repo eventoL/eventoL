@@ -88,7 +88,7 @@ RUN mkdir -p ${APP_ROOT}/eventol/media
 RUN rm -rf ${APP_ROOT}/eventol/front \
   && mkdir -p ${APP_ROOT}/eventol/front
 RUN chmod 0755 ${APP_ROOT}
-RUN chown --recursive ${APP_USER_NAME}:${APP_USER_NAME} ${APP_ROOT}
+RUN chown --changes --preserve-root --recursive ${APP_USER_NAME}:${APP_USER_NAME} ${APP_ROOT}/
 
 # Drop privs
 USER ${APP_USER_NAME}
