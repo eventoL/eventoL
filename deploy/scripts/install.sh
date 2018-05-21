@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 pip3 install -r requirements.txt -r requirements-dev.txt
 cd eventol
 ./manage.py migrate
