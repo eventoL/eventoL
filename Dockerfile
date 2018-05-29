@@ -15,7 +15,7 @@ RUN apk add --upgrade --no-cache --repository http://dl-cdn.alpinelinux.org/alpi
 ## Install system dependencies
 RUN apk --update add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
     bash wget dpkg-dev libffi nodejs nodejs-npm git gcc musl-dev gettext \
-    openssl-dev postgresql-dev libffi-dev py3-setuptools jpeg-dev make \
+    postgresql-dev libffi-dev py3-setuptools jpeg-dev make \
     zlib-dev freetype-dev lcms2-dev openjpeg-dev libxslt-dev alpine-sdk \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
