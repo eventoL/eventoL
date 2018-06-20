@@ -1881,3 +1881,33 @@ def generic_report(request):
             'events_private_data': events_private_data,
             'ws_propocol': settings.WS_PROTOCOL
         })
+
+
+def activity_vote(request, event_slug, event_uid, activity_id, type):
+    activity = get_object_or_404(Activity, pk=activity_id)
+    user = request.user
+    activity.votes.delete(user.id)
+    if type == 'up':
+        activity.votes.up(user.id)
+    elif type == 'down':
+        activity.votes.down(user.id)
+    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
+    return goto_next_or_continue(request.GET.get('next'), safe_continue)
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def activity_vote_up(request, event_slug, event_uid, activity_id):
+    return activity_vote(request, event_slug, event_uid, activity_id, 'up')
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def activity_vote_down(request, event_slug, event_uid, activity_id):
+    return activity_vote(request, event_slug, event_uid, activity_id, 'down')
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def activity_vote_cancel(request, event_slug, event_uid, activity_id):
+    return activity_vote(request, event_slug, event_uid, activity_id, 'cancel')
