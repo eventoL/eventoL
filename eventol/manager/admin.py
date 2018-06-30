@@ -7,8 +7,8 @@ from import_export import resources
 from import_export.admin import ExportMixin
 from image_cropping import ImageCroppingMixin
 
-from manager.models import (Organizer, Event, Attendee, Collaborator, Hardware,
-                            Software, Installer, Installation, Room,
+from manager.models import (Organizer, Event, EventTag, Attendee, Collaborator,
+                            Hardware, Software, Installer, Installation, Room,
                             ContactType, Contact, Activity, ContactMessage,
                             EventUser, InstallationMessage, Ticket, EventDate,
                             AttendeeAttendanceDate, EventUserAttendanceDate)
@@ -97,8 +97,12 @@ class EventDateAdminInline(admin.TabularInline):
     model = EventDate
 
 
+class EventTagInline(admin.TabularInline):
+    model = Event.tags.through
+
+
 class EventAdmin(EventoLAdmin):
-    inlines = [EventDateAdminInline]
+    inlines = [EventDateAdminInline, EventTagInline]
 
     def filter_event(self, events, queryset):
         return queryset.filter(pk__in=[event.pk for event in events])
@@ -200,3 +204,4 @@ admin.site.register(ContactMessage, EventoLAdmin)
 admin.site.register(EventUser, EventUserAdmin)
 admin.site.register(AttendeeAttendanceDate, EventoLAdmin)
 admin.site.register(EventUserAttendanceDate, EventoLEventUserAdmin)
+admin.site.register(EventTag)

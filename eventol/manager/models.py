@@ -19,6 +19,7 @@ from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 from manager.utils.report import count_by
+from manager.utils.slug import get_unique_slug
 
 
 logger = logging.getLogger('eventol')
@@ -80,6 +81,37 @@ class EventManager(models.Manager):
         return events
 
 
+class EventTag(models.Model):
+    """A Event grouper"""
+    name = models.CharField(_('EventTag Name'), max_length=50, unique=True,
+                            help_text=_("This name will be used as a slug"))
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
+    background = models.ImageField(help_text=_("A image to show in the background of"))
+    logo_header = models.ImageField(
+        null=True, blank=True,
+        help_text=_("This logo will be showed in the corner right of the page"))
+    logo_landing = models.ImageField(
+        help_text=_("Logo to show in the center of the page"), null=True, blank=True)
+    message = models.TextField(max_length=280,
+                               help_text=_("A message to show in the center of the page"))
+    slug = models.SlugField(_('URL'), max_length=100,
+                            help_text=_('For example: flisol-caba'), unique=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        """
+        Override default save
+
+        it will add the slug field using slugify.
+        """
+        if not self.slug:
+            self.slug = get_unique_slug(self, 'name', 'slug')
+        super().save(*args, **kwargs)
+
+
 class Event(models.Model):
     objects = EventManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
@@ -89,6 +121,8 @@ class Event(models.Model):
                                 help_text=_('Short idea of the event (One or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
+    tags = models.ManyToManyField(
+        EventTag, help_text=_("Select tags to show this event in the EventTag landing"))
     slug = models.CharField(_('URL'), max_length=20,
                             help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
