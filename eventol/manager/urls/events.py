@@ -71,10 +71,7 @@ event_patterns = [
 ]
 
 urlpatterns = [
-    url(
-        r'^(?P<event_uid>[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})/',
-        include(event_patterns)
-    ),
+    url(r'^(?P<event_slug>[\w-]+)/', include(event_patterns), name='event'),
     url(r'^software-autocomplete', SoftwareAutocomplete.as_view(),
         name='software-autocomplete'),
     url(r'^attendee-autocomplete', AttendeeAutocomplete.as_view(),

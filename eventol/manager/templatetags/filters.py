@@ -73,46 +73,46 @@ def is_odd(number):
 
 
 @register.filter(name='is_registered')
-def is_registered(user, event_uid):
+def is_registered(user, event_slug):
     """Search if the user is registered for the event"""
     return EventUser.objects.filter(
-        user=user, event__uid=event_uid).exists()
+        user=user, event__event_slug=event_slug).exists()
 
 
 @register.filter(name='is_registered_any_way')
-def is_registered_any_way(user, event_uid):
+def is_registered_any_way(user, event_slug):
     """Search if the user is registered for the event in any way"""
-    return is_attendee(user, event_uid) or is_registered(user, event_uid)
+    return is_attendee(user, event_slug) or is_registered(user, event_slug)
 
 
 @register.filter(name='is_installer')
-def is_installer(user, event_uid):
+def is_installer(user, event_slug):
     exists_installer = Installer.objects.filter(
         event_user__user=user,
-        event_user__event__uid=event_uid).exists()
-    return exists_installer or is_organizer(user, event_uid)
+        event_user__event__event_slug=event_slug).exists()
+    return exists_installer or is_organizer(user, event_slug)
 
 
 @register.filter(name='is_collaborator')
-def is_collaborator(user, event_uid):
+def is_collaborator(user, event_slug):
     exists_collaborator = Collaborator.objects.filter(
         event_user__user=user,
-        event_user__event__uid=event_uid).exists()
-    return exists_collaborator or is_organizer(user, event_uid)
+        event_user__event__event_slug=event_slug).exists()
+    return exists_collaborator or is_organizer(user, event_slug)
 
 
 @register.filter(name='is_organizer')
-def is_organizer(user, event_uid):
+def is_organizer(user, event_slug):
     return Organizer.objects.filter(
         event_user__user=user,
-        event_user__event__uid=event_uid).exists()
+        event_user__event__event_slug=event_slug).exists()
 
 
 @register.filter(name='is_attendee')
-def is_attendee(user, event_uid):
+def is_attendee(user, event_slug):
     exists_attendee = Attendee.objects.filter(
         event_user__user=user,
-        event_user__event__uid=event_uid).exists()
+        event_user__event__event_slug=event_slug).exists()
     return exists_attendee
 
 

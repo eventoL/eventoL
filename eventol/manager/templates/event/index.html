@@ -30,13 +30,13 @@
             <div class="col-sm-12">
                 <h1>{{ event.name }}</h1>
                 {# show informative tags regarding user inscription to the event #}
-                {% if user.is_authenticated and user|is_registered:event_uid %}
+                {% if user.is_authenticated and user|is_registered:event_slug %}
                 <p>
                     <span class="label label-default">{% trans 'I am' %}</span>
-                    {% if user|is_organizer:event_uid %}<span class="label label-warning">{% trans 'Organizer' %}</span>{% endif %}
-                    {% if user|is_attendee:event_uid %}<span class="label label-info">{% trans 'Attendee' %}</span>{% endif %}
-                    {% if event.use_collaborators and user|is_collaborator:event_uid %}<span class="label label-primary">{% trans 'Collaborator' %}</span>{% endif %}
-                    {% if event.use_installers and user|is_installer:event_uid %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
+                    {% if user|is_organizer:event_slug %}<span class="label label-warning">{% trans 'Organizer' %}</span>{% endif %}
+                    {% if user|is_attendee:event_slug %}<span class="label label-info">{% trans 'Attendee' %}</span>{% endif %}
+                    {% if event.use_collaborators and user|is_collaborator:event_slug %}<span class="label label-primary">{% trans 'Collaborator' %}</span>{% endif %}
+                    {% if event.use_installers and user|is_installer:event_slug %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
                 </p>
                 {% endif %}
             </div>
@@ -89,7 +89,7 @@
         {% if event.is_flisol %}
           <div class="row">
               <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_uid %}">¿Qué es el
+                  <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_slug %}">¿Qué es el
                       FLISoL?</a>
                   </h3>
 
@@ -97,12 +97,12 @@
                       ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
               </div>
               <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_uid %}">¿Cuánto cuesta?</a></h3>
+                  <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_slug %}">¿Cuánto cuesta?</a></h3>
 
                   <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
               </div>
               <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_uid %}">Anotate!</a>
+                  <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_slug %}">Anotate!</a>
                   </h3>
 
                   <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
@@ -160,13 +160,13 @@
                 {% for activity in activities %}
                     <div class="row">
                         <div class="col-sm-6">
-                          <a href='{% url "activity_detail" event.slug event.uid activity.id %}'>
+                          <a href='{% url "activity_detail" event.slug event.event_slug activity.id %}'>
                             <img src="{% cropped_thumbnail activity "cropping" %}"
                                  alt="{{ activity.title }}" width="100%" heigth="100%">
                           </a>
                         </div>
                         <div class="col-sm-6">
-                            <a style='text-decoration: none;' href='{% url "activity_detail" event.slug event.uid activity.id %}'>
+                            <a style='text-decoration: none;' href='{% url "activity_detail" event.slug event.event_slug activity.id %}'>
                               <h2>{{ activity.title }}</h2>
                             </a>
 
@@ -201,7 +201,7 @@
                             Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
 
                         <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte.
-                            <a href="{% url "activity_proposal" event_uid %}">Envianos tu propuesta!</a></p>
+                            <a href="{% url "activity_proposal" event_slug %}">Envianos tu propuesta!</a></p>
                     </div>
                 </div>
             {% endif %}

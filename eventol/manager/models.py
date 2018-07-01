@@ -55,13 +55,13 @@ class EventManager(models.Manager):
             ))
 
     @staticmethod
-    def get_event_by_user(user, slug):
+    def get_event_by_user(user, event_slug=None):
         if user.is_authenticated():
             event_users = EventUser.objects.filter(user=user)
             event_ids = [event_user.event.pk for event_user in list(event_users)]
             queryset = Event.objects.filter(pk__in=event_ids)
-            if slug:
-                queryset = Event.objects.filter(slug=slug)
+            if event_slug:
+                queryset = queryset.filter(event_slug=event_slug)
         else:
             queryset = Event.objects.none()
         return queryset
@@ -123,21 +123,11 @@ class Event(models.Model):
                                            help_text=_('Limit date to submit talk proposals'))
     tags = models.ManyToManyField(
         EventTag, help_text=_("Select tags to show this event in the EventTag landing"))
-    slug = models.CharField(_('URL'), max_length=20,  # We will delete this field.
-                            help_text=_('For example: flisol-caba'),
-                            validators=[validate_url])
     event_slug = models.SlugField(_('URL'), max_length=100,
                             help_text=_('For example: flisol-caba'), unique=True)
     cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
                              help_text=_('For example: flisol-caba'),
                              validators=[validate_url])
-    uid = models.UUIDField(
-        default=uuid4,
-        editable=False,
-        unique=True,
-        verbose_name=_('UID'),
-        help_text=_('Unique identifier for the event'),
-    )
     registration_code = models.UUIDField(
         default=uuid4,
         editable=False,
@@ -210,7 +200,7 @@ class Event(models.Model):
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
-        return '/event/{}/{}/'.format(self.slug, self.uid)
+        return reverse('event', kwargs={'event_slug': self.event_slug})
 
     def __str__(self):
         return self.name
@@ -769,7 +759,7 @@ class Activity(models.Model):
         return '{} - {}'.format(self.event, self.title)
 
     def get_absolute_url(self):
-        return reverse('activity_detail', args=(self.event.slug, self.event.uid, self.pk))
+        return reverse('activity_detail', args=(self.event.event_slug, self.pk))
 
     def get_schedule_info(self):
         schedule_info = {
@@ -800,13 +790,13 @@ class Activity(models.Model):
         if request:
             messages.error(request, message)
 
-    #pylint: disable=too-many-arguments
+    # pylint: disable=too-many-arguments
     @classmethod
     def room_available(cls, request, proposal,
-                       event_uid, event_date,
+                       event_slug, event_date,
                        error=False):
         activities_room = Activity.objects.filter(
-            room=proposal.room, event__uid=event_uid, start_date__date=event_date)
+            room=proposal.room, event__event_slug=event_slug, start_date__date=event_date)
         if proposal.start_date == proposal.end_date:
             message = _("The talk couldn't be registered because the schedule not \
                         available (start time equals end time)")

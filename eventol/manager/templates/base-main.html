@@ -50,7 +50,7 @@
             <div id="navbar" class="collapse navbar-collapse">
               {% block navbar-menu %}
                 <ul class="nav navbar-nav navbar-right">
-                    {% if user.is_authenticated and event_uid is None %}
+                    {% if user.is_authenticated and event_slug is None %}
                         <li>
                             <a href="{% url "create_event" %}" class="btn btn-raised btn-warning"
                                style="padding:0.6em; margin:1em; font-family: Roboto;">
@@ -58,41 +58,41 @@
                             </a>
                         </li>
                     {% endif %}
-                    {% if event_uid is not None %}
-                        {% if user.is_authenticated and user|is_organizer:event_uid %}
+                    {% if event_slug is not None %}
+                        {% if user.is_authenticated and user|is_organizer:event_slug %}
                         <li class="dropdown">
                             <a href="#" data-target="#" class="dropdown-toggle"
                                data-toggle="dropdown"><i class="fa fa-cogs"></i> {% trans "Manage event" %} <b
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                  <a href="{% url "edit_event" event_uid %}">
+                                  <a href="{% url "edit_event" event_slug %}">
                                     <i class="fa fa-cogs"></i> {% trans "Edit event" %}
                                   </a>
                                 </li>
                                 <li>
-                                  <a href="{% url "event_add_image" event_uid %}">
+                                  <a href="{% url "event_add_image" event_slug %}">
                                     <i class="fa fa-cogs"></i> {% trans "Edit image" %}
                                   </a>
                                 </li>
                             </ul>
                         </li>
                         {% endif %}
-                        {% if not user.is_authenticated or not user|is_registered_any_way:event_uid %}
+                        {% if not user.is_authenticated or not user|is_registered_any_way:event_slug %}
                             <li>
-                                <a href="{% url "attendee_registration" event_uid %}">{% trans "Registration" %}</a>
+                                <a href="{% url "attendee_registration" event_slug %}">{% trans "Registration" %}</a>
                             </li>
                         {% endif %}
                         {% if event.activity_proposal_is_open and event.use_proposals %}
                           <li>
-                            <a href="{% url "activity_proposal" event_uid %}">
+                            <a href="{% url "activity_proposal" event_slug %}">
                               {% trans "Submit your talk" %}
                             </a>
                           </li>
                         {% endif %}
-                        {% if user.is_authenticated and user|is_registered:event_uid %}
+                        {% if user.is_authenticated and user|is_registered:event_slug %}
                             <li>
-                                <a href="{% url "view_ticket" event_uid %}">{% trans "View my Ticket" %}</a>
+                                <a href="{% url "view_ticket" event_slug %}">{% trans "View my Ticket" %}</a>
                             </li>
                         {% endif %}
                         <li class="dropdown">
@@ -102,25 +102,25 @@
                             <ul class="dropdown-menu">
                               {% if event.use_schedule %}
                                 <li>
-                                    <a href="{% url "schedule" event_uid %}">
+                                    <a href="{% url "schedule" event_slug %}">
                                         <i class="fa fa-calendar"></i> <i class="fa pythofa-calendar"></i> {% trans "Schedule" %}
                                     </a>
                                 </li>
-                                {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                {% if user.is_authenticated and user|is_organizer:event_slug %}
                                 <li>
-                                    <a href="{% url "rooms_list" event_uid %}">
+                                    <a href="{% url "rooms_list" event_slug %}">
                                         <i class="fa fa-th"></i> {% trans "Manage Rooms" %}
                                     </a>
                                 </li>
                                 {% endif %}
                               {% endif %}
                               <li>
-                                  <a href="{% url "activities" event_uid %}">
+                                  <a href="{% url "activities" event_slug %}">
                                       <i class="fa fa-th"></i> {% trans "View Activities" %}
                                   </a>
                               </li>
                               <li>
-                                  <a href="{% url "reports" event_uid %}">
+                                  <a href="{% url "reports" event_slug %}">
                                       <i class="fa fa-bar-chart"></i> {% trans "View Reports" %}
                                   </a>
                               </li>
@@ -132,63 +132,63 @@
                             </a>
                             <ul class="dropdown-menu">
                                 {% if event.use_collaborators %}
-                                  {% if not user.is_authenticated or not user|is_collaborator:event_uid %}
+                                  {% if not user.is_authenticated or not user|is_collaborator:event_slug %}
                                       <li>
-                                          <a href="{% url "collaborator_registration" event_uid %}">
+                                          <a href="{% url "collaborator_registration" event_slug %}">
                                               <i class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
                                           </a>
                                       </li>
                                   {% endif %}
                                 {% endif %}
                                 {% if event.use_installers %}
-                                  {% if not user.is_authenticated or not user|is_installer:event_uid %}
+                                  {% if not user.is_authenticated or not user|is_installer:event_slug %}
                                       <li>
-                                          <a href="{% url "installer_registration" event_uid %}">
+                                          <a href="{% url "installer_registration" event_slug %}">
                                               <i class="fa fa-linux"></i> {% trans "Register as an Installer" %}
                                           </a>
                                       </li>
                                   {% endif %}
                                 {% endif %}
                                 {% if user.is_authenticated %}
-                                    {% if user|can_take_attendance:event_uid %}
+                                    {% if user|can_take_attendance:event_slug %}
                                         <li>
-                                            <a href="{% url "manage_attendance" event_uid %}">
+                                            <a href="{% url "manage_attendance" event_slug %}">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Manage Attendance" %}
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{% url "attendee_registration_print_code" event_uid %}">
+                                            <a href="{% url "attendee_registration_print_code" event_slug %}">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Print self-registration code" %}
                                             </a>
                                         </li>
                                         <li>
-                                            <a target="_blank" href="{% url "attendance_by_autoreadqr" event_uid %}">
+                                            <a target="_blank" href="{% url "attendance_by_autoreadqr" event_slug %}">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Open auto-read QR code page" %}
                                             </a>
                                         </li>
                                     {% endif %}
-                                    {% if event.use_installations and user|is_installer:event_uid %}
+                                    {% if event.use_installations and user|is_installer:event_slug %}
                                         <li>
-                                            <a href="{% url "installation" event_uid %}">
+                                            <a href="{% url "installation" event_slug %}">
                                                 <i class="fa fa-laptop"></i> {% trans "Submit an installation" %}
                                             </a>
                                         </li>
                                     {% endif %}
-                                    {% if user|is_organizer:event_uid %}
+                                    {% if user|is_organizer:event_slug %}
                                         <!--
                                         <li>
-                                            <a href="{% url "draw" event_uid %}">
+                                            <a href="{% url "draw" event_slug %}">
                                                 <i class="fa fa-gift"></i> {% trans "Draw" %}
                                             </a>
                                         </li>
                                         -->
                                         <li>
-                                            <a href="{% url "add_organizer" event_uid %}">
+                                            <a href="{% url "add_organizer" event_slug %}">
                                                 <i class="fa fa-check-square-o"></i> {% trans "Manage Organizers" %}
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{% url "add_registration_people" event_uid %}">
+                                            <a href="{% url "add_registration_people" event_slug %}">
                                                 <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
                                             </a>
                                         </li>
@@ -206,7 +206,7 @@
                                         <i class="fa {{ contact.type.icon_class }}"></i> {{ contact.text }}</a>
                                     </li>
                                 {% endfor %}
-                                <li><a href="{% url "contact" event_uid %}">
+                                <li><a href="{% url "contact" event_slug %}">
                                     <i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
                                 </li>
                             </ul>

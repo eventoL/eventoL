@@ -99,30 +99,31 @@ def add_organizer_permissions(user):
     user.save()
 
 
-def is_installer(user, event_uid=None):
-    return event_uid and (
+def is_installer(user, event_slug=None):
+    return event_slug and (
         Installer.objects.filter(
             event_user__user=user,
-            event_user__event__uid=event_uid).exists() or
-        is_organizer(user, event_uid=event_uid))
+            event_user__event__event_slug=event_slug).exists() or
+        is_organizer(user, event_slug=event_slug))
 
 
-def is_organizer(user, event_uid=None):
-    return event_uid and Organizer.objects.filter(
+def is_organizer(user, event_slug=None):
+    return event_slug and Organizer.objects.filter(
         event_user__user=user,
-        event_user__event__uid=event_uid).exists()
+        event_user__event__event_slug=event_slug).exists()
 
 
-def is_collaborator(user, event_uid=None):
-    return event_uid and (
+def is_collaborator(user, event_slug=None):
+    return event_slug and (
         Collaborator.objects.filter(
             event_user__user=user,
-            event_user__event__uid=event_uid).exists() or
-        is_organizer(user, event_uid=event_uid))
+            event_user__event__event_slug=event_slug).exists() or
+        is_organizer(user, event_slug=event_slug))
 
 
-def is_collaborator_or_installer(user, event_uid=None):
-    return is_collaborator(user, event_uid=event_uid) or is_installer(user, event_uid=event_uid)
+def is_collaborator_or_installer(user, event_slug=None):
+    return is_collaborator(user, event_slug=event_slug) or is_installer(user,
+                                                                        event_slug=event_slug)
 
 
 def user_passes_test(test_func, name_redirect):
@@ -136,15 +137,15 @@ def user_passes_test(test_func, name_redirect):
         @wraps(view_func, assigned=available_attrs(view_func))
         def _wrapped_view(request, *args, **kwargs):
             if 'event_slug' in kwargs.keys():
-                event_slug, event_uid = kwargs['event_slug'], kwargs['event_uid']
+                event_slug = kwargs['event_slug']
             else:
-                event_slug, event_uid = args[0], args[1]
-            if test_func(request.user, event_uid=event_uid):
+                event_slug = args[0]
+            if test_func(request.user, event_slug=event_slug):
                 return view_func(request, *args, **kwargs)
             return HttpResponseRedirect(
                 reverse(
                     name_redirect,
-                    args=[event_slug, event_uid]
+                    args=[event_slug, event_slug]
                 )
             )
 

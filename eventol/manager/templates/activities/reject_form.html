@@ -1,7 +1,7 @@
 {% load filters %}
 {% load i18n %}
 <form id="{{ form_id }}" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
-      method="post" action="{% url "reject_activity" event.slug event.uid form_id %}?next={{ request.get_full_path|urlencode }}">
+      method="post" action="{% url "reject_activity" event.slug event.event_slug form_id %}?next={{ request.get_full_path|urlencode }}">
     {% csrf_token %}
 
     <div class="col-lg-6 col-md-6">

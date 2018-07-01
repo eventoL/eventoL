@@ -28,9 +28,9 @@ class EventSerializer(EventolSerializer):
 
     class Meta:
         model = Event
-        fields = ('url', 'name', 'abstract', 'limit_proposal_date', 'slug',
+        fields = ('url', 'name', 'abstract', 'limit_proposal_date',
                   'external_url', 'report', 'event_information', 'updated_at',
-                  'schedule_confirmed', 'place', 'image', 'cropping', 'uid',
+                  'schedule_confirmed', 'place', 'image', 'cropping', 'event_slug',
                   'activity_proposal_is_open', 'registration_is_open', 'id',
                   'attendees_count', 'last_date', 'created_at', 'location')
 
@@ -106,7 +106,7 @@ class EventFilter(FilterSet):
 
     class Meta:
         model = Event
-        fields = ('name', 'slug', 'schedule_confirmed',
+        fields = ('name', 'event_slug', 'schedule_confirmed',
                   'activity_proposal_is_open', 'registration_is_open')
 
 
@@ -117,20 +117,20 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_class = EventFilter
     ordering_fields = ('name', 'limit_proposal_date', 'updated_at',
                        'attendees_count', 'last_date', 'created_at')
-    search_fields = ('name', 'slug', 'abstract')
+    search_fields = ('name', 'event_slug', 'abstract')
 
     def list(self, request, *args, **kwargs):
         my_events = request.GET.get('my_events', None)
-        slug = request.GET.get('slug', None)
+        event_slug = request.GET.get('event_slug', None)
         if my_events:
-            queryset = Event.objects.get_event_by_user(request.user, slug)
+            queryset = Event.objects.get_event_by_user(request.user, event_slug)
             serializer = EventSerializer(queryset, many=True, context={'request': request})
             return Response({'results': serializer.data})
         return super().list(request, *args, **kwargs)
 
 
 class EventUserModelViewSet(viewsets.ModelViewSet):
-    filter_fields = ('event_user__event__uid',)
+    filter_fields = ('event_user__event__event_slug',)
     ordering_fields = ('created_at', 'updated_at')
     search_fields = None
 
@@ -150,7 +150,7 @@ class EventUserModelViewSet(viewsets.ModelViewSet):
 class EventUserViewSet(EventUserModelViewSet):
     queryset = EventUser.objects.all()
     serializer_class = EventUserSerializer
-    filter_fields = ('event__uid',)
+    filter_fields = ('event__event_slug',)
 
 
 class InstallerViewSet(EventUserModelViewSet):
@@ -171,8 +171,8 @@ class OrganizerViewSet(EventUserModelViewSet):
 class AttendeeViewSet(EventUserModelViewSet):
     queryset = Attendee.objects.all()
     serializer_class = AttendeeSerializer
-    filter_fields = ('event_user__event__uid', 'is_installing',
-                     'email_confirmed', 'event__uid')
+    filter_fields = ('event_user__event__event_slug', 'is_installing',
+                     'email_confirmed', 'event__event_slug')
     ordering_fields = ('created_at', 'updated_at', 'registration_date')
 
     def get_counts(self):
@@ -183,7 +183,7 @@ class AttendeeViewSet(EventUserModelViewSet):
 class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-    filter_fields = ('event__uid', 'name',)
+    filter_fields = ('event__event_slug', 'name',)
     ordering_fields = ('name',)
     search_fields = ('name',)
 
@@ -193,7 +193,7 @@ class ActivityViewSet(EventUserModelViewSet):
     serializer_class = ActivitySerializer
     search_fields = ('title', 'labels', 'additional_info',
                      'speakers_names', 'long_description')
-    filter_fields = ('event__uid', 'room', 'title', 'type',
+    filter_fields = ('event__event_slug', 'room', 'title', 'type',
                      'status', 'level', 'is_dummy')
     ordering_fields = ('created_at', 'updated_at', 'start_date', 'end_date')
 
@@ -222,7 +222,7 @@ class InstallationViewSet(EventUserModelViewSet):
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
     search_fields = ('notes')
-    filter_fields = ('attendee__event__uid', 'attendee__event_user__event__uid',
+    filter_fields = ('attendee__event__event_slug', 'attendee__event_user__event__event_slug',
                      'software', 'hardware', 'attendee')
     ordering_fields = ('created_at', 'updated_at',)
 
