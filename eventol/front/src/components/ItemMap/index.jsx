@@ -10,13 +10,13 @@ export default class ItemMap extends React.Component {
     url: PropTypes.string,
     attendees: PropTypes.number,
     overview: PropTypes.string,
-    uid: PropTypes.string,
+    event_slug: PropTypes.string,
     sliderId: PropTypes.string
   };
 
   getMapId(){
-    const {uid, sliderId} = this.props;
-    return `${sliderId}${uid}`;
+    const {event_slug, sliderId} = this.props;
+    return `${sliderId}${event_slug}`;
   }
 
   loadMap(){
@@ -44,13 +44,13 @@ export default class ItemMap extends React.Component {
   }
 
   componentDidMount(){
-    const uid = this.getMapId();
+    const event_slug = this.getMapId();
     try {
       this.loadMap();
     } catch(e){
       console.error(e);
     }
-    document.getElementById(uid).classList.remove('max-size')
+    document.getElementById(event_slug).classList.remove('max-size')
   }
 
   render(){

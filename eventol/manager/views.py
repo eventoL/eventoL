@@ -48,7 +48,7 @@ from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Collaborator, Contact, ContactMessage, Event,
                             EventDate, EventUser, EventUserAttendanceDate,
                             Hardware, Installation, InstallationMessage,
-                            Installer, Organizer, Room)
+                            Installer, Organizer, Room, EventTag)
 from manager.security import (add_attendance_permission,
                               add_organizer_permissions, is_collaborator,
                               is_collaborator_or_installer, is_installer,
@@ -61,13 +61,12 @@ logger = logging.getLogger('eventol')
 
 
 # Auxiliary functions
-def update_event_info(event_slug, event_uid, render_dict=None, event=None):
-    event = get_object_or_404(Event, uid=event_uid)
+def update_event_info(event_slug, render_dict=None, event=None):
+    event = get_object_or_404(Event, event_slug=event_slug)
     contacts = Contact.objects.filter(event=event)
     render_dict = render_dict or {}
     render_dict.update({
         'event_slug': event_slug,
-        'event_uid': event_uid,
         'event': event,
         'contacts': contacts
     })
@@ -154,8 +153,8 @@ def create_organizer(event_user):
     return organizer
 
 
-def index(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def index(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     if event.external_url:
         return redirect(event.external_url)
 
@@ -172,45 +171,43 @@ def index(request, event_slug, event_uid):
         'event/index.html',
         update_event_info(
             event_slug,
-            event_uid,
             render_dict,
             event
         )
     )
 
 
-def event_slug_index(request, event_slug):
-    return render(request, 'event/slug_index.html', {'slug': event_slug})
+def event_tag_index(request, slug):
+    event_tag = get_object_or_404(EventTag, slug=slug)
+    return render(request, 'event/slug_index.html', {'slug': event_tag.slug})
 
 
-def event_view(request, event_slug, event_uid, html='index.html'):
+def event_view(request, event_slug, html='index.html'):
     return render(
         request,
         html,
         update_event_info(
-            event_slug,
-            event_uid
+            event_slug
         )
     )
 
 
 def home(request):
-    if 'registration_event_uid' in request.session and request.user.is_authenticated():
+    if 'registration_event_slug' in request.session and request.user.is_authenticated():
         event_slug = request.session.pop('registration_event_slug')
-        event_uid = request.session.pop('registration_event_uid')
         role = request.session.pop('registration_role')
         event_index = reverse(
             '{}_registration'.format(role),
-            args=[event_slug, event_uid])
+            args=[event_slug])
         return redirect(event_index)
     return render(request, 'index.html')
 
 
 @login_required
 @user_passes_test(is_installer, 'installer_registration')
-def installation(request, event_slug, event_uid):
+def installation(request, event_slug):
     installation_form = InstallationForm(
-        event_uid, request.POST or None, prefix='installation')
+        event_slug, request.POST or None, prefix='installation')
     hardware_form = HardwareForm(request.POST or None, prefix='hardware')
     forms = [installation_form, hardware_form]
     errors = []
@@ -220,7 +217,7 @@ def installation(request, event_slug, event_uid):
                 hardware = hardware_form.save()
                 install = installation_form.save()
                 install.hardware = hardware
-                event = get_object_or_404(Event, uid=event_uid)
+                event = get_object_or_404(Event, event_slug=event_slug)
                 install.event = event
                 install.installer = EventUser.objects \
                     .filter(user=request.user).filter(event=event).first()
@@ -245,7 +242,7 @@ def installation(request, event_slug, event_uid):
                 )
                 event_index_url = reverse(
                     'index',
-                    args=[event_slug, event_uid]
+                    args=[event_slug]
                 )
                 return redirect(event_index_url)
             except Exception as error_message:
@@ -265,7 +262,6 @@ def installation(request, event_slug, event_uid):
         'installation/installation-form.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'forms': forms, 'errors': errors, 'multipart': False}
         )
     )
@@ -274,13 +270,13 @@ def installation(request, event_slug, event_uid):
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
-def manage_attendance(request, event_slug, event_uid):
+def manage_attendance(request, event_slug):
     attendee_form = AttendeeSearchForm(
-        event_uid,
+        event_slug,
         request.POST or None
     )
     collaborator_form = EventUserSearchForm(
-        event_uid,
+        event_slug,
         request.POST or None
     )
     forms = [attendee_form, collaborator_form]
@@ -312,7 +308,7 @@ def manage_attendance(request, event_slug, event_uid):
                     return redirect(
                         reverse(
                             'manage_attendance',
-                            args=[event_slug, event_uid]
+                            args=[event_slug]
                         )
                     )
         if collaborator_form.is_valid():
@@ -341,7 +337,7 @@ def manage_attendance(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'manage_attendance',
-                        args=[event_slug, event_uid]
+                        args=[event_slug]
                     )
                 )
 
@@ -360,7 +356,6 @@ def manage_attendance(request, event_slug, event_uid):
         'registration/attendee/search.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'forms': forms, 'errors': errors, 'multipart': False}
         )
     )
@@ -369,7 +364,7 @@ def manage_attendance(request, event_slug, event_uid):
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
-def attendance_by_ticket(request, event_slug, event_uid, ticket_code):
+def attendance_by_ticket(request, event_slug, ticket_code):
     attendee = Attendee.objects.filter(ticket__code=ticket_code)
     if not attendee:
         attendee = EventUser.objects.filter(ticket__code=ticket_code)
@@ -402,15 +397,15 @@ def attendance_by_ticket(request, event_slug, event_uid, ticket_code):
     return redirect(
         reverse(
             'manage_attendance',
-            args=[event_slug, event_uid]
+            args=[event_slug]
         )
     )
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def add_organizer(request, event_slug, event_uid):
-    form = EventUserSearchForm(event_uid, request.POST or None)
+def add_organizer(request, event_slug):
+    form = EventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
             event_user = form.cleaned_data['event_user']
@@ -426,7 +421,7 @@ def add_organizer(request, event_slug, event_uid):
             return redirect(
                 reverse(
                     'add_organizer',
-                    args=[event_slug, event_uid]
+                    args=[event_slug]
                 )
             )
 
@@ -438,14 +433,13 @@ def add_organizer(request, event_slug, event_uid):
         )
 
     organizers = Organizer.objects.filter(
-        event_user__event__uid=event_uid
+        event_user__event__event_slug=event_slug
     )
     return render(
         request,
         'event/organizers.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'form': form, 'organizers': organizers}
         )
     )
@@ -453,8 +447,8 @@ def add_organizer(request, event_slug, event_uid):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def add_registration_people(request, event_slug, event_uid):
-    form = EventUserSearchForm(event_uid, request.POST or None)
+def add_registration_people(request, event_slug):
+    form = EventUserSearchForm(event_slug, request.POST or None)
     if request.POST:
         if form.is_valid():
             event_user = form.cleaned_data['event_user']
@@ -471,7 +465,7 @@ def add_registration_people(request, event_slug, event_uid):
             return redirect(
                 reverse(
                     'add_registration_people',
-                    args=[event_slug, event_uid]
+                    args=[event_slug]
                 )
             )
 
@@ -491,7 +485,7 @@ def add_registration_people(request, event_slug, event_uid):
         )
         registration_people = Collaborator.objects.filter(
             event_user__user__user_permissions=permission,
-            event_user__event__uid=event_uid
+            event_user__event__event_slug=event_slug
         )
     else:
         registration_people = []
@@ -501,7 +495,6 @@ def add_registration_people(request, event_slug, event_uid):
         'event/registration_people.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'form': form, 'registration_people': registration_people}
         )
     )
@@ -509,11 +502,11 @@ def add_registration_people(request, event_slug, event_uid):
 
 @login_required
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
-def registration_from_installation(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def registration_from_installation(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     installation_url = reverse(
         'installation',
-        args=[event_slug, event_uid]
+        args=[event_slug]
     )
     render_template = 'registration/attendee/from-installation.html'
     return process_attendee_registration(
@@ -527,11 +520,11 @@ def registration_from_installation(request, event_slug, event_uid):
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
-def registration_by_collaborator(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def registration_by_collaborator(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     manage_attendance_url = reverse(
         'manage_attendance',
-        args=[event_slug, event_uid]
+        args=[event_slug]
     )
     render_template = 'registration/attendee/by-collaborator.html'
     return process_attendee_registration(
@@ -599,8 +592,7 @@ def process_attendee_registration(request, event, return_url, render_template):
         request,
         render_template,
         update_event_info(
-            event.slug,
-            event.uid,
+            event.event_slug,
             {'form': form}
         )
     )
@@ -608,11 +600,11 @@ def process_attendee_registration(request, event, return_url, render_template):
 @login_required
 @permission_required('manager.can_take_attendance', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
-def attendee_registration_print_code(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def attendee_registration_print_code(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     self_registration_url = request.build_absolute_uri(reverse(
         'attendee_registration_by_self',
-        args=[event_slug, event_uid, event.registration_code]
+        args=[event_slug, event.registration_code]
     ))
     qr_code = pyqrcode.create(self_registration_url)
     code = io.BytesIO()
@@ -655,13 +647,13 @@ def attendee_registration_print_code(request, event_slug, event_uid):
     response = HttpResponse(
         svg2pdf(bytestring=registration_code_svg), content_type='application/pdf')
     response["Content-Disposition"] = 'filename=Registration-code-{event}.pdf'.format(
-        event=event.slug)
+        event=event.event_slug)
     return response
 
 
-def attendee_registration_by_self(request, event_slug, event_uid, event_registration_code):
-    event_index_url = reverse('index', args=[event_slug, event_uid])
-    event = Event.objects.filter(uid=event_uid, registration_code=event_registration_code).first()
+def attendee_registration_by_self(request, event_slug, event_registration_code):
+    event_index_url = reverse('index', args=[event_slug])
+    event = Event.objects.filter(event_slug=event_slug, registration_code=event_registration_code).first()
     if not event:
         messages.error(
             request, _('The registration code does not seems to be valid for this event'))
@@ -733,7 +725,6 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
         'registration/attendee/by-self.html',
         update_event_info(
             event_slug,
-            event_uid,
             {
                 'form': form,
                 'event_registration_code': event_registration_code,
@@ -742,11 +733,11 @@ def attendee_registration_by_self(request, event_slug, event_uid, event_registra
     )
 
 
-def attendance_by_autoreadqr(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def attendance_by_autoreadqr(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     event_index_url = reverse(
         'index',
-        args=[event_slug, event_uid]
+        args=[event_slug]
     )
     event_registration_code = request.GET.get('event_registration_code', '')
     user = request.user
@@ -754,12 +745,12 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
     if not event_registration_code \
             and user.is_authenticated() \
             and (
-                    is_collaborator(user, event_uid=event_uid)
-                    or is_organizer(user, event_uid=event_uid)
+                    is_collaborator(user, event_slug=event_slug)
+                    or is_organizer(user, event_slug=event_slug)
             ):
         return redirect(
             '{url}/?event_registration_code={event_registration_code}'.format(
-                url=reverse('attendance_by_autoreadqr', args=[event_slug, event_uid]),
+                url=reverse('attendance_by_autoreadqr', args=[event_slug]),
                 event_registration_code=event.registration_code
             )
         )
@@ -767,7 +758,7 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
     # Check if reg code is valid
     if not event_registration_code \
         or not Event.objects.filter(
-                uid=event_uid, registration_code=event_registration_code).exists():
+                event_slug=event_slug, registration_code=event_registration_code).exists():
         messages.error(request, _('The registration code does \
                                   not seems to be valid for this event'))
         return redirect(event_index_url)
@@ -812,7 +803,6 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
         'registration/attendee/by-autoreadqr.html',
         update_event_info(
             event_slug,
-            event_uid,
             {
                 'event_registration_code': event_registration_code,
             }
@@ -820,8 +810,8 @@ def attendance_by_autoreadqr(request, event_slug, event_uid):
     )
 
 
-def contact(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def contact(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     contact_message = ContactMessage()
     form = ContactMessageForm(request.POST or None)
     if request.POST:
@@ -835,7 +825,7 @@ def contact(request, event_slug, event_uid):
             email.to = [event.email]
             email.extra_headers = {'Reply-To': contact_message.email}
             email.send(fail_silently=False)
-            event = get_object_or_404(Event, uid=event_uid)
+            event = get_object_or_404(Event, event_slug=event_slug)
             contact_message.event = event
             contact_message.save()
             messages.success(
@@ -848,7 +838,7 @@ def contact(request, event_slug, event_uid):
             return redirect(
                 reverse(
                     'index',
-                    args=[event_slug, event_uid]
+                    args=[event_slug]
                 )
             )
         messages.error(
@@ -864,15 +854,14 @@ def contact(request, event_slug, event_uid):
         'contact-message.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'form': form},
             event
         )
     )
 
 
-def reports(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def reports(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     event_dates = EventDate.objects.filter(event=event)
     confirmed_attendees_count, not_confirmed_attendees_count, speakers_count = 0, 0, 0
 
@@ -935,22 +924,21 @@ def reports(request, event_slug, event_uid):
         'reports/dashboard.html',
         update_event_info(
             event_slug,
-            event_uid,
             render_dict=template_dict
         )
     )
 
 @login_required
-def generic_registration(request, event_slug, event_uid,
+def generic_registration(request, event_slug,
                          registration_model, new_role_form,
                          msg_success, msg_error, template):
-    event = get_object_or_404(Event, uid=event_uid)
+    event = get_object_or_404(Event, event_slug=event_slug)
 
     if not event.registration_is_open:
         return render(
             request,
             'registration/closed-registration.html',
-            update_event_info(event_slug, event_uid)
+            update_event_info(event_slug)
         )
 
     errors = []
@@ -964,7 +952,7 @@ def generic_registration(request, event_slug, event_uid,
     if new_role:
         # Ya esta registrado con ese "rol"
         messages.error(request, _("You are already registered for this event"))
-        return redirect(reverse("index", args=[event_slug, event_uid]))
+        return redirect(reverse("index", args=[event_slug]))
 
     new_role = registration_model(event_user=event_user)
     if request.POST:
@@ -981,7 +969,7 @@ def generic_registration(request, event_slug, event_uid,
                 return redirect(
                     reverse(
                         'index',
-                        args=[event_slug, event_uid]
+                        args=[event_slug]
                     )
                 )
             except Exception as error_message:
@@ -997,24 +985,23 @@ def generic_registration(request, event_slug, event_uid,
         template,
         update_event_info(
             event_slug,
-            event_uid,
             {'forms': forms, 'errors': errors, 'multipart': False}
         )
     )
 
 
-def get_email_confirmation_url(request, event_slug, event_uid, attendee_id, token):
+def get_email_confirmation_url(request, event_slug, attendee_id, token):
     url = reverse(
         "attendee_confirm_email",
-        args=[event_slug, event_uid, attendee_id, token])
+        args=[event_slug, attendee_id, token])
     ret = build_absolute_uri(
         request,
         url)
     return ret
 
 
-def attendee_registration(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def attendee_registration(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
 
     if not event.registration_is_open:
         return render(
@@ -1022,7 +1009,6 @@ def attendee_registration(request, event_slug, event_uid):
             'registration/closed-registration.html',
             update_event_info(
                 event_slug,
-                event_uid,
                 event=event
             )
         )
@@ -1035,7 +1021,7 @@ def attendee_registration(request, event_slug, event_uid):
         attendee = Attendee.objects.filter(event_user=event_user)
         if attendee.exists():
             messages.error(request, _("You are already registered for this event"))
-            return redirect(reverse("index", args=[event_slug, event_uid]))
+            return redirect(reverse("index", args=[event_slug]))
 
         attendee = Attendee(
             event_user=event_user, first_name=event_user.user.first_name,
@@ -1060,7 +1046,6 @@ def attendee_registration(request, event_slug, event_uid):
                 confirm_url = get_email_confirmation_url(
                     request,
                     event_slug,
-                    event_uid,
                     attendee.id,
                     attendee.email_token)
 
@@ -1085,7 +1070,7 @@ def attendee_registration(request, event_slug, event_uid):
                         date_format(eventdate.date, format='SHORT_DATE_FORMAT', use_l10n=True)
                         for eventdate in EventDate.objects.filter(event=event)
                     ]),
-                    event_contact_url=reverse('contact', args=[event_slug, event_uid]),
+                    event_contact_url=reverse('contact', args=[event_slug]),
                     confirm_url=confirm_url
                 )
                 body_html = _noop(
@@ -1106,7 +1091,7 @@ def attendee_registration(request, event_slug, event_uid):
                         date_format(eventdate.date, format='SHORT_DATE_FORMAT', use_l10n=True)
                         for eventdate in EventDate.objects.filter(event=event)
                     ]),
-                    event_contact_url=reverse('contact', args=[event_slug, event_uid]),
+                    event_contact_url=reverse('contact', args=[event_slug]),
                     confirm_url=confirm_url
                 )
 
@@ -1121,7 +1106,7 @@ def attendee_registration(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'attendee_email_sent',
-                        args=[event_slug, event_uid]
+                        args=[event_slug]
                     )
                 )
             except Exception as error_message:
@@ -1136,7 +1121,6 @@ def attendee_registration(request, event_slug, event_uid):
         'registration/attendee-registration.html',
         update_event_info(
             event_slug,
-            event_uid,
             {
                 'form': attendee_form,
                 'errors': get_forms_errors([attendee_form]),
@@ -1147,7 +1131,7 @@ def attendee_registration(request, event_slug, event_uid):
     )
 
 
-def attendee_confirm_email(request, event_slug, event_uid, attendee_id, token):
+def attendee_confirm_email(request, event_slug, attendee_id, token):
     attendee = Attendee.objects.get(pk=attendee_id)
     title = _("Email verification")
     message = _(
@@ -1176,15 +1160,13 @@ def attendee_confirm_email(request, event_slug, event_uid, attendee_id, token):
         {
             'message': message,
             'title': title,
-            'event_slug': event_slug,
-            'event_uid': event_uid
+            'event_slug': event_slug
         }
     )
 
 
-def installer_registration(request, event_slug, event_uid):
+def installer_registration(request, event_slug):
     if not request.user.is_authenticated():
-        request.session['registration_event_uid'] = event_uid
         request.session['registration_event_slug'] = event_slug
         request.session['registration_role'] = 'installer'
     msg_success = _("You have successfully registered as an installer")
@@ -1193,7 +1175,6 @@ def installer_registration(request, event_slug, event_uid):
     return generic_registration(
         request,
         event_slug,
-        event_uid,
         Installer,
         InstallerRegistrationForm,
         msg_success,
@@ -1202,9 +1183,8 @@ def installer_registration(request, event_slug, event_uid):
     )
 
 
-def collaborator_registration(request, event_slug, event_uid):
+def collaborator_registration(request, event_slug):
     if not request.user.is_authenticated():
-        request.session['registration_event_uid'] = event_uid
         request.session['registration_event_slug'] = event_slug
         request.session['registration_role'] = 'collaborator'
     msg_success = _("You have successfully registered as a collaborator")
@@ -1213,7 +1193,6 @@ def collaborator_registration(request, event_slug, event_uid):
     return generic_registration(
         request,
         event_slug,
-        event_uid,
         Collaborator,
         CollaboratorRegistrationForm,
         msg_success,
@@ -1238,58 +1217,45 @@ def create_event(request):
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
-            # Check if the slug is used then verify that this user is an organizer
-            # issue 297
-            event_slug = request.POST.get('event-slug')
-            existing_event = Event.objects.filter(
-                slug__iexact=event_slug).first() if event_slug else None
-            if existing_event and not is_organizer(request.user, existing_event.uid):
-                event_form.add_error(
-                    'slug', _('You are not an organizer for this event URL, use a different URL'))
-            else:
-                organizer = None
-                event_user = None
-                the_event = None
-                contacts = None
-                event_dates = None
+            organizer = None
+            event_user = None
+            the_event = None
+            contacts = None
+            event_dates = None
+            try:
+                the_event = event_form.save()
+                event_user = EventUser.objects.create(user=request.user, event=the_event)
+                organizer = create_organizer(event_user)
+                contacts = contacts_formset.save(commit=False)
+                event_dates = event_date_formset.save(commit=False)
+
+                for a_contact in contacts:
+                    a_contact.event = the_event
+                    a_contact.save()
+
+                for event_date in event_dates:
+                    event_date.event = the_event
+                    event_date.save()
+
+                return redirect(reverse('event_add_image', args=[the_event.event_slug]))
+            except Exception as error_message:
+                logger.exception(error_message)
                 try:
-                    the_event = event_form.save()
-                    event_user = EventUser.objects.create(user=request.user, event=the_event)
-                    organizer = create_organizer(event_user)
-                    contacts = contacts_formset.save(commit=False)
-                    event_dates = event_date_formset.save(commit=False)
+                    if organizer is not None:
+                        Organizer.delete(organizer)
+                    if event_user is not None:
+                        EventUser.delete(event_user)
+                    if the_event is not None:
+                        Event.delete(the_event)
+                    if contacts is not None:
+                        for a_contact in list(contacts):
+                            Contact.objects.delete(a_contact)
+                    if event_dates is not None:
+                        for event_date in list(event_dates):
+                            EventDate.objects.delete(event_date)
+                except Exception:
+                    logger.exception("error creating event")
 
-                    for a_contact in contacts:
-                        a_contact.event = the_event
-                        a_contact.save()
-
-                    for event_date in event_dates:
-                        event_date.event = the_event
-                        event_date.save()
-
-                    return redirect(
-                        reverse(
-                            'event_add_image',
-                            args=(the_event.slug, the_event.uid)
-                        )
-                    )
-                except Exception as error_message:
-                    logger.error(error_message)
-                    try:
-                        if organizer is not None:
-                            Organizer.delete(organizer)
-                        if event_user is not None:
-                            EventUser.delete(event_user)
-                        if the_event is not None:
-                            Event.delete(the_event)
-                        if contacts is not None:
-                            for a_contact in list(contacts):
-                                Contact.objects.delete(a_contact)
-                        if event_dates is not None:
-                            for event_date in list(event_dates):
-                                EventDate.objects.delete(event_date)
-                    except Exception:
-                        pass
 
         messages.error(
             request,
@@ -1303,8 +1269,8 @@ def create_event(request):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def edit_event(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def edit_event(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     event_form = EventForm(request.POST or None, prefix='event', instance=event)
 
     contacts_formset = modelformset_factory(Contact, form=ContactForm, can_delete=True)
@@ -1335,12 +1301,7 @@ def edit_event(request, event_slug, event_uid):
                 contacts_formset.save()
                 event_date_formset.save()
 
-                return redirect(
-                    reverse(
-                        'index',
-                        args=(the_event.slug, the_event.uid)
-                    )
-                )
+                return redirect(reverse('index', args=[the_event.event_slug]))
             except Exception as error_message:
                 logger.error(error_message)
 
@@ -1351,7 +1312,6 @@ def edit_event(request, event_slug, event_uid):
         'event/create.html',
         update_event_info(
             event_slug,
-            event_uid,
             {
                 'form': event_form,
                 'domain': request.get_host(),
@@ -1364,24 +1324,25 @@ def edit_event(request, event_slug, event_uid):
 
 
 @login_required
-def view_ticket(request, event_slug, event_uid):
-    event_user = EventUser.objects.filter(event__uid=event_uid).filter(user=request.user).first()
+def view_ticket(request, event_slug):
+    event_user = EventUser.objects.filter(
+        event__event_slug=event_slug).filter(user=request.user).first()
     if event_user:
         ticket = generate_ticket(event_user)
         response = HttpResponse(svg2pdf(bytestring=ticket), content_type='application/pdf')
         response["Content-Disposition"] = 'filename=Ticket-' + str(event_user.ticket.code) + '.pdf'
         return response
     messages.error(request, "You are not registered for this event")
-    return redirect(reverse("index", args=[event_slug, event_uid]))
+    return redirect(reverse("index", args=[event_slug]))
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def draw(request, event_slug, event_uid):
+def draw(request, event_slug):
     users = [
         str(attendance_date.attendee) for attendance_date in
         AttendeeAttendanceDate.objects.filter(
-            attendee__event__uid=event_uid,
+            attendee__event__event_slug=event_slug,
             date__date=timezone.localdate()
         )
     ]
@@ -1390,14 +1351,13 @@ def draw(request, event_slug, event_uid):
         'event/draw.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'eventusers': users, 'eventusersjson': json.dumps(users)}
         )
     )
 
 
-def activity_proposal(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def activity_proposal(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
 
     if not event.activity_proposal_is_open:
         messages.error(request,
@@ -1405,7 +1365,7 @@ def activity_proposal(request, event_slug, event_uid):
                            "The activity proposal is already closed or the event \
                            is not accepting proposals through this page. Please \
                            contact the Event Organization Team to submit it."))
-        return redirect(reverse('index', args=[event_slug, event_uid]))
+        return redirect(reverse('index', args=[event_slug]))
 
     activity = Activity(event=event, status='1')
     activity_form = ActivityProposalForm(
@@ -1418,7 +1378,7 @@ def activity_proposal(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'image_cropping',
-                        args=[event_slug, event_uid, activity.pk]
+                        args=[event_slug, activity.pk]
                     )
                 )
             except Exception as error_message:
@@ -1432,14 +1392,13 @@ def activity_proposal(request, event_slug, event_uid):
         'activities/proposal.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'form': activity_form, 'errors': [], 'multipart': True},
             event=event
         )
     )
 
 
-def image_cropping(request, event_slug, event_uid, activity_id):
+def image_cropping(request, event_slug, activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
     form = ImageCroppingForm(request.POST or None, request.FILES, instance=activity)
     if request.POST:
@@ -1456,7 +1415,7 @@ def image_cropping(request, event_slug, event_uid, activity_id):
                 return redirect(
                     reverse(
                         'image_cropping',
-                        args=[event_slug, event_uid, activity.pk]
+                        args=[event_slug, activity.pk]
                     )
                 )
             form.save()
@@ -1466,7 +1425,7 @@ def image_cropping(request, event_slug, event_uid, activity_id):
             return redirect(
                 reverse(
                     'activity_detail',
-                    args=[event_slug, event_uid, activity.pk]
+                    args=[event_slug, activity.pk]
                 )
             )
         messages.error(request, _("The proposal couldn't be registered. Please \
@@ -1476,7 +1435,6 @@ def image_cropping(request, event_slug, event_uid, activity_id):
         'activities/image-cropping.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'form': form}
         )
     )
@@ -1498,8 +1456,8 @@ def goto_next_or_continue(next_url, safe_continue=None):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def change_activity_status(request, event_slug, event_uid, activity_id, status, justification=None):
-    event = get_object_or_404(Event, uid=event_uid)
+def change_activity_status(request, event_slug, activity_id, status, justification=None):
+    event = get_object_or_404(Event, event_slug=event_slug)
     activity = get_object_or_404(Activity, id=activity_id)
     activity.status = status
     activity.start_date = None
@@ -1513,28 +1471,28 @@ def change_activity_status(request, event_slug, event_uid, activity_id, status, 
         logger.error(error)
         messages.error(request, _("The email couldn't sent successfully, \
                                   please retry later or contact a organizer"))
-    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
+    safe_continue = reverse("activity_detail", args=[event_slug, activity.pk])
     return goto_next_or_continue(request.GET.get('next'), safe_continue)
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def reject_activity(request, event_slug, event_uid, activity_id):
+def reject_activity(request, event_slug, activity_id):
     reject_form = RejectForm(request.POST)
     justification = ''
     if reject_form.is_valid():
         justification = request.POST.get('justification', '')
-    return change_activity_status(request, event_slug, event_uid, activity_id, 3, justification)
+    return change_activity_status(request, event_slug, activity_id, 3, justification)
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def resend_proposal(request, event_slug, event_uid, activity_id):
-    return change_activity_status(request, event_slug, event_uid, activity_id, 1)
+def resend_proposal(request, event_slug, activity_id):
+    return change_activity_status(request, event_slug, activity_id, 1)
 
 
-def activities(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def activities(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     proposed_activities, accepted_activities, rejected_activities = [], [], []
     activities_instances = Activity.objects.filter(event=event)
     for activity in list(activities_instances):
@@ -1545,14 +1503,13 @@ def activities(request, event_slug, event_uid):
             accepted_activities.append(activity)
         else:
             rejected_activities.append(activity)
-        setattr(activity, 'form', ActivityForm(event_uid, instance=activity))
+        setattr(activity, 'form', ActivityForm(event_slug, instance=activity))
         setattr(activity, 'reject_form', RejectForm())
         setattr(activity, 'errors', [])
     return render(
         request, 'activities/activities_home.html',
         update_event_info(
             event_slug,
-            event_uid,
             {
                 'proposed_activities': proposed_activities,
                 'accepted_activities': accepted_activities,
@@ -1564,11 +1521,11 @@ def activities(request, event_slug, event_uid):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def talk_registration(request, event_slug, event_uid, proposal_id):
+def talk_registration(request, event_slug, proposal_id):
     errors, error = [], False
-    event = get_object_or_404(Event, uid=event_uid)
+    event = get_object_or_404(Event, event_slug=event_slug)
     proposal = get_object_or_404(Activity, pk=proposal_id)
-    talk_form = ActivityForm(event_uid, request.POST)
+    talk_form = ActivityForm(event_slug, request.POST)
     if request.POST:
         request_post = request.POST.copy()
         start_time = parse_time(request.POST.get('start_date', ''))
@@ -1585,11 +1542,11 @@ def talk_registration(request, event_slug, event_uid, proposal_id):
                 'end_date': end_date,
                 'event': event.id
             })
-            talk_form = ActivityForm(event_uid, request_post)
+            talk_form = ActivityForm(event_slug, request_post)
             if talk_form.is_valid():
                 room_available = Activity.room_available(
                     request=request, proposal=talk_form.instance,
-                    event_uid=event_uid, event_date=event_date.date)
+                    event_slug=event_slug, event_date=event_date.date)
                 if room_available:
                     try:
                         proposal.status = 2
@@ -1601,7 +1558,7 @@ def talk_registration(request, event_slug, event_uid, proposal_id):
                         utils_email.send_activity_email(event, proposal)
                         messages.success(request, _("The talk was registered successfully!"))
                         safe_continue = reverse(
-                            "activity_detail", args=[event_slug, event_uid, proposal.pk])
+                            "activity_detail", args=[event_slug, proposal.pk])
                         return goto_next_or_continue(request.GET.get('next'), safe_continue)
                     except SMTPException as error:
                         logger.error(error)
@@ -1629,20 +1586,20 @@ def talk_registration(request, event_slug, event_uid, proposal_id):
     }
     return render(request,
                   'activities/detail.html',
-                  update_event_info(event_slug, event_uid, render_dict))
+                  update_event_info(event_slug, render_dict))
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def confirm_schedule(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def confirm_schedule(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     event.schedule_confirmed = True
     event.save()
-    return schedule(request, event_slug, event_uid)
+    return schedule(request, event_slug)
 
 
-def event_add_image(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def event_add_image(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     form = EventImageCroppingForm(request.POST or None, request.FILES, instance=event)
     if request.POST:
         if form.is_valid():
@@ -1658,7 +1615,7 @@ def event_add_image(request, event_slug, event_uid):
                 return redirect(
                     reverse(
                         'event_add_image',
-                        args=[event_slug, event_uid]
+                        args=[event_slug]
                     )
                 )
             form.save()
@@ -1667,7 +1624,7 @@ def event_add_image(request, event_slug, event_uid):
             return redirect(
                 reverse(
                     'index',
-                    args=[event_slug, event_uid]
+                    args=[event_slug]
                 )
             )
         messages.error(request, _("The event couldn't be updated. \
@@ -1677,34 +1634,29 @@ def event_add_image(request, event_slug, event_uid):
         'event/image-cropping.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'form': form}
         )
     )
 
 
-def activity_detail(request, event_slug, event_uid, activity_id):
+def activity_detail(request, event_slug, activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
     activity.labels = activity.labels.split(',')
     params = {
         'activity': activity,
-        'form': ActivityForm(event_uid, instance=activity),
+        'form': ActivityForm(event_slug, instance=activity),
         'reject_form': RejectForm(),
         'errors': []
     }
     return render(
         request,
         'activities/detail.html',
-        update_event_info(
-            event_slug,
-            event_uid,
-            params
-        )
+        update_event_info(event_slug, params)
     )
 
 
-def schedule(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def schedule(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     event_dates = event.eventdate_set.order_by('date')
     activities_count = Activity.objects \
         .filter(event=event) \
@@ -1719,7 +1671,6 @@ def schedule(request, event_slug, event_uid):
             'activities/schedule_not_confirmed.html',
             update_event_info(
                 event_slug,
-                event_uid,
                 {},
                 event=event
             )
@@ -1757,7 +1708,6 @@ def schedule(request, event_slug, event_uid):
         'activities/schedule.html',
         update_event_info(
             event_slug,
-            event_uid,
             {
                 'rooms': json.dumps(schedule_rooms),
                 'activities': schedule_activities,
@@ -1770,15 +1720,14 @@ def schedule(request, event_slug, event_uid):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def rooms_list(request, event_slug, event_uid):
-    event = get_object_or_404(Event, uid=event_uid)
+def rooms_list(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
     rooms = Room.objects.filter(event=event)
     return render(
         request,
         'rooms/list.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'rooms': rooms}
         )
     )
@@ -1786,8 +1735,8 @@ def rooms_list(request, event_slug, event_uid):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def add_or_edit_room(request, event_slug, event_uid, room_id=None):
-    event = get_object_or_404(Event, uid=event_uid)
+def add_or_edit_room(request, event_slug, room_id=None):
+    event = get_object_or_404(Event, event_slug=event_slug)
     room_form = RoomForm(request.POST or None)
     is_edit = False
     room = None
@@ -1815,7 +1764,7 @@ def add_or_edit_room(request, event_slug, event_uid, room_id=None):
                     )
                 return redirect(reverse(
                     'rooms_list',
-                    args=[event_slug, event_uid]
+                    args=[event_slug]
                 ))
             except Exception as error_message:
                 logger.error(error_message)
@@ -1837,7 +1786,6 @@ def add_or_edit_room(request, event_slug, event_uid, room_id=None):
         'rooms/add-or-edit-form.html',
         update_event_info(
             event_slug,
-            event_uid,
             {'is_edit': is_edit, 'room': room if room else None,
              'forms': forms, 'errors': errors, 'multipart': False}
         )
@@ -1846,8 +1794,8 @@ def add_or_edit_room(request, event_slug, event_uid, room_id=None):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def delete_room(request, event_slug, event_uid, room_id):
-    event = get_object_or_404(Event, uid=event_uid)
+def delete_room(request, event_slug, room_id):
+    event = get_object_or_404(Event, event_slug=event_slug)
     room = get_object_or_404(Room, event=event, id=room_id)
     activities_instances = Activity.objects.filter(room=room)
     if activities_instances.exists():
@@ -1867,7 +1815,7 @@ def delete_room(request, event_slug, event_uid, room_id):
         )
     return redirect(reverse(
         'rooms_list',
-        args=[event_slug, event_uid]
+        args=[event_slug]
     ))
 
 
@@ -1883,7 +1831,7 @@ def generic_report(request):
         })
 
 
-def activity_vote(request, event_slug, event_uid, activity_id, type):
+def activity_vote(request, event_slug, activity_id, type):
     activity = get_object_or_404(Activity, pk=activity_id)
     user = request.user
     activity.votes.delete(user.id)
@@ -1891,7 +1839,7 @@ def activity_vote(request, event_slug, event_uid, activity_id, type):
         activity.votes.up(user.id)
     elif type == 'down':
         activity.votes.down(user.id)
-    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
+    safe_continue = reverse("activity_detail", args=[event_slug, activity.pk])
     return goto_next_or_continue(request.GET.get('next'), safe_continue)
 
 

@@ -30,5 +30,5 @@ export const SLIDER_BASE_SETTINGS = {
   }]
 };
 
-export const HOME_REQUIRED_FIELDS = 'uid,slug,place,image,name,attendees_count,abstract';
-export const REPORT_REQUIRED_FIELDS = 'name,slug,email,location,report,id';
+export const HOME_REQUIRED_FIELDS = 'event_slug,place,image,name,attendees_count,abstract';
+export const REPORT_REQUIRED_FIELDS = 'name,event_slug,email,location,report,id';
