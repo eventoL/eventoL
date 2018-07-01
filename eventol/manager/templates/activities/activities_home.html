@@ -14,16 +14,16 @@
           {% trans "Activities" %}
           <div id="buttons" class="pull-right">
               {% if user.is_authenticated and user|is_organizer:event_uid %}
-                  <a href="{% url "activity_proposal" event_slug event_uid %}" class="btn btn-raised btn-success">
+                  <a href="{% url "activity_proposal"  event_uid %}" class="btn btn-raised btn-success">
                       {% trans 'Submit an activity' %}
                   </a>
-                  <a href="{% url "rooms_list" event_slug event_uid %}" class="btn btn-raised btn-success">
+                  <a href="{% url "rooms_list"  event_uid %}" class="btn btn-raised btn-success">
                       {% trans "Manage Rooms" %}
                   </a>
               {% endif %}
               {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_uid %}
                    <a type="button" class="btn btn-raised btn-success"
-                      href="{% url "confirm_schedule" event_slug event_uid %}">
+                      href="{% url "confirm_schedule"  event_uid %}">
                       <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
                    </a>
               {% endif %}
@@ -297,7 +297,7 @@
     {% else %}
         <div class="well">
             <p>
-                {% trans "There isn't any talk proposal yet." %} <a href="{% url "activity_proposal" event_slug event_uid %}">{% trans "Submit yours!" %}</a>
+                {% trans "There isn't any talk proposal yet." %} <a href="{% url "activity_proposal"  event_uid %}">{% trans "Submit yours!" %}</a>
             </p>
         </div>
     {% endif %}

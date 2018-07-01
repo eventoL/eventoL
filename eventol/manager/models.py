@@ -123,9 +123,11 @@ class Event(models.Model):
                                            help_text=_('Limit date to submit talk proposals'))
     tags = models.ManyToManyField(
         EventTag, help_text=_("Select tags to show this event in the EventTag landing"))
-    slug = models.CharField(_('URL'), max_length=20,
+    slug = models.CharField(_('URL'), max_length=20,  # We will delete this field.
                             help_text=_('For example: flisol-caba'),
                             validators=[validate_url])
+    event_slug = models.SlugField(_('URL'), max_length=100,
+                            help_text=_('For example: flisol-caba'), unique=True)
     cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
                              help_text=_('For example: flisol-caba'),
                              validators=[validate_url])
@@ -205,7 +207,6 @@ class Event(models.Model):
             'speakers': speakers_count
         }
 
-
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
@@ -216,6 +217,16 @@ class Event(models.Model):
 
     class Meta(object):
         ordering = ['name']
+
+    def save(self, *args, **kwargs):
+        """
+        Override default save
+
+        it will add the slug field using slugify.
+        """
+        if not self.event_slug:
+            self.event_slug = get_unique_slug(self, 'name', 'slug')
+        super().save(*args, **kwargs)
 
 
 class EventDate(models.Model):

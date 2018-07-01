@@ -89,7 +89,7 @@
         {% if event.is_flisol %}
           <div class="row">
               <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_slug event_uid %}">¿Qué es el
+                  <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_uid %}">¿Qué es el
                       FLISoL?</a>
                   </h3>
 
@@ -97,12 +97,12 @@
                       ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
               </div>
               <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_slug event_uid %}">¿Cuánto cuesta?</a></h3>
+                  <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_uid %}">¿Cuánto cuesta?</a></h3>
 
                   <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
               </div>
               <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_slug event_uid %}">Anotate!</a>
+                  <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_uid %}">Anotate!</a>
                   </h3>
 
                   <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
@@ -201,7 +201,7 @@
                             Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
 
                         <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte.
-                            <a href="{% url "activity_proposal" event_slug event_uid %}">Envianos tu propuesta!</a></p>
+                            <a href="{% url "activity_proposal" event_uid %}">Envianos tu propuesta!</a></p>
                     </div>
                 </div>
             {% endif %}
