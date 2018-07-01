@@ -48,15 +48,15 @@
                                     <p>
                                       <span style="margin-right: 5px;"><strong>{% trans "Votes" %}: </strong></span>
                                       {% if user|exists_vote:activity %}
-                                        <a href="{% url "activity_vote_cancel" event_slug event_uid activity.id %}?next={{ request.get_full_path|urlencode }}" class="label {% if proposal.vote_score >= 0 %}label-success{% else %}label-danger{% endif %} status" style="width: 30px; margin-right: 5px;">
+                                        <a href="{% url "activity_vote_cancel" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}" class="label {% if proposal.vote_score >= 0 %}label-success{% else %}label-danger{% endif %} status" style="width: 30px; margin-right: 5px;">
                                             <span class="vote-status">{{ activity.vote_score }}</span>
                                             <span class="vote-cancel">x</span>
                                         </a>
                                       {% else %}
-                                        <a class="label label-success" href="{% url "activity_vote_up" event_slug event_uid activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                        <a class="label label-success" href="{% url "activity_vote_up" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
                                             <i class="fa fa-thumbs-up"></i>
                                         </a>
-                                        <a class="label label-danger" href="{% url "activity_vote_down" event_slug event_uid activity.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
+                                        <a class="label label-danger" href="{% url "activity_vote_down" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
                                           <i class="fa fa-thumbs-down"></i>
                                         </a>
                                       {% endif %}

@@ -1831,7 +1831,7 @@ def generic_report(request):
         })
 
 
-def activity_vote(request, event_slug, event_uid, activity_id, type):
+def activity_vote(request, event_slug, activity_id, type):
     activity = get_object_or_404(Activity, pk=activity_id)
     user = request.user
     activity.votes.delete(user.id)
@@ -1839,7 +1839,7 @@ def activity_vote(request, event_slug, event_uid, activity_id, type):
         activity.votes.up(user.id)
     elif type == 'down':
         activity.votes.down(user.id)
-    safe_continue = reverse("activity_detail", args=[event_slug, event_uid, activity.pk])
+    safe_continue = reverse("activity_detail", args=[event_slug, activity.pk])
     return goto_next_or_continue(request.GET.get('next'), safe_continue)
 
 
