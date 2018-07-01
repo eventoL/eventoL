@@ -647,7 +647,7 @@ def attendee_registration_print_code(request, event_slug):
     response = HttpResponse(
         svg2pdf(bytestring=registration_code_svg), content_type='application/pdf')
     response["Content-Disposition"] = 'filename=Registration-code-{event}.pdf'.format(
-        event=event.slug)
+        event=event.event_slug)
     return response
 
 
@@ -1237,14 +1237,9 @@ def create_event(request):
                     event_date.event = the_event
                     event_date.save()
 
-                return redirect(
-                    reverse(
-                        'event_add_image',
-                        args=(the_event.slug, the_event.event_slug)
-                    )
-                )
+                return redirect(reverse('event_add_image', args=[the_event.event_slug]))
             except Exception as error_message:
-                logger.error(error_message)
+                logger.exception(error_message)
                 try:
                     if organizer is not None:
                         Organizer.delete(organizer)
@@ -1259,7 +1254,8 @@ def create_event(request):
                         for event_date in list(event_dates):
                             EventDate.objects.delete(event_date)
                 except Exception:
-                    pass
+                    logger.exception("error creating event")
+
 
         messages.error(
             request,
@@ -1305,12 +1301,7 @@ def edit_event(request, event_slug):
                 contacts_formset.save()
                 event_date_formset.save()
 
-                return redirect(
-                    reverse(
-                        'index',
-                        args=(the_event.slug, the_event.event_slug)
-                    )
-                )
+                return redirect(reverse('index', args=[the_event.event_slug]))
             except Exception as error_message:
                 logger.error(error_message)
 
@@ -1660,10 +1651,7 @@ def activity_detail(request, event_slug, activity_id):
     return render(
         request,
         'activities/detail.html',
-        update_event_info(
-            event_slug,
-            params
-        )
+        update_event_info(event_slug, params)
     )
 
 

@@ -67,7 +67,7 @@
                                       {% endfor %}
                                   </p>
                                   {% if user.is_authenticated and user|is_organizer:event_slug %}
-                                      {% if activity.status != '1' %}<p><a href="{% url "resend_proposal" event.slug event.event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                      {% if activity.status != '1' %}<p><a href="{% url "resend_proposal" event.event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
                                         {% trans "Resend Proposal" %}
                                       </a></p>{% endif %}
                                       {% if activity.status != '2' %}

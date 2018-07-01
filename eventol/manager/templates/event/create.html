@@ -98,19 +98,19 @@
                     <br>
                     <h4>{% trans "Choose an URL" %}</h4>
                     <br>
-                    {% if form.slug.errors|length > 0 %}
+                    {% if form.event_slug.errors|length > 0 %}
                         <span class="fa fa-exclamation-triangle"
-                              style="color: #f44336">{{ form.slug.errors.as_text }}</span>
+                              style="color: #f44336">{{ form.event_slug.errors.as_text }}</span>
                     {% endif %}
-                    <div class="form-group {% if form.slug.errors|length > 0 %}has-error{% endif %}">
-                        <label class="col-sm-4 col-xs-7 control-label" for="{{ form.slug.id_for_label }}"
+                    <div class="form-group {% if form.event_slug.errors|length > 0 %}has-error{% endif %}">
+                        <label class="col-sm-4 col-xs-7 control-label" for="{{ form.event_slug.id_for_label }}"
                                style="font-size: 14px">
                             {{ protocol }}://{{ domain }}/event/
                         </label>
 
                         <div class="col-sm-8 col-xs-5">
-                            {{ form.slug | addcss:'form-control' }}
-                            {% if form.slug.help_text %}<p class="help-block">{{ form.slug.help_text }}</p>{% endif %}
+                            {{ form.event_slug | addcss:'form-control' }}
+                            {% if form.event_slug.help_text %}<p class="help-block">{{ form.event_slug.help_text }}</p>{% endif %}
                         </div>
                     </div>
 

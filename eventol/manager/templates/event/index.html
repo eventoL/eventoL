@@ -160,13 +160,13 @@
                 {% for activity in activities %}
                     <div class="row">
                         <div class="col-sm-6">
-                          <a href='{% url "activity_detail" event.slug event.event_slug activity.id %}'>
+                          <a href='{% url "activity_detail" event.event_slug activity.id %}'>
                             <img src="{% cropped_thumbnail activity "cropping" %}"
                                  alt="{{ activity.title }}" width="100%" heigth="100%">
                           </a>
                         </div>
                         <div class="col-sm-6">
-                            <a style='text-decoration: none;' href='{% url "activity_detail" event.slug event.event_slug activity.id %}'>
+                            <a style='text-decoration: none;' href='{% url "activity_detail" event.event_slug activity.id %}'>
                               <h2>{{ activity.title }}</h2>
                             </a>
 
