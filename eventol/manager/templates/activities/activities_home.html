@@ -153,6 +153,24 @@
                                                 {% trans "Not Confirmed" %}
                                             </span>
                                         {% endif %}
+                                        {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                          <div class="pull-right">
+                                            <span style="margin-right: 5px;">{% trans "Votes" %}: </span>
+                                            {% if user|exists_vote:proposal %}
+                                              <a href="{% url "activity_vote_cancel" event_slug event_uid proposal.id %}?next={{ request.get_full_path|urlencode }}" class="label {% if proposal.vote_score >= 0 %}label-success{% else %}label-danger{% endif %} pull-right status" style="width: 30px; margin-right: 5px;">
+                                                  <span class="vote-status">{{ proposal.vote_score }}</span>
+                                                  <span class="vote-cancel">x</span>
+                                              </a>
+                                            {% else %}
+                                              <a class="label label-danger pull-right" href="{% url "activity_vote_down" event_slug event_uid proposal.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
+                                                <i class="fa fa-thumbs-down"></i>
+                                              </a>
+                                              <a class="label label-success pull-right" href="{% url "activity_vote_up" event_slug event_uid proposal.id %}?next={{ request.get_full_path|urlencode }}">
+                                                  <i class="fa fa-thumbs-up"></i>
+                                              </a>
+                                            {% endif %}
+                                          </div>
+                                        {% endif %}
                                     </h4>
                                 </div>
                                 <div id="proposal-{{ forloop.counter }}" class="panel-collapse collapse">

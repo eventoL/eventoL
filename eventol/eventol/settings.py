@@ -65,6 +65,7 @@ class Base(Configuration):
         'rest_framework',
         'channels',
         'django_elasticsearch_dsl',
+        'vote',
     )
 
     MIDDLEWARE_CLASSES = (
