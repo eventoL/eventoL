@@ -2,6 +2,7 @@ import json
 
 from django import template, forms
 from django.utils.translation import ugettext_lazy as _
+from vote.models import Vote
 
 from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee
 
@@ -149,3 +150,8 @@ def as_days(dates):
 @register.filter(name='keyvalue')
 def keyvalue(data, key):
     return data[key]
+
+
+@register.filter(name='exists_vote')
+def exists_vote(user, activity):
+    return Vote.objects.filter(user_id=user.id, object_id=activity.id).exists()

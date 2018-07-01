@@ -66,6 +66,7 @@ class Base(Configuration):
         'channels',
         'django_elasticsearch_dsl',
         'django_extensions',
+        'vote',
     )
 
     MIDDLEWARE_CLASSES = (

@@ -18,9 +18,10 @@ from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
+
 from manager.utils.report import count_by
 from manager.utils.slug import get_unique_slug
-
+from vote.models import VoteModel
 
 logger = logging.getLogger('eventol')
 
@@ -683,7 +684,7 @@ class ActivityManager(models.Manager):
         return self.get_counts(queryset)
 
 
-class Activity(models.Model):
+class Activity(VoteModel, models.Model):
     objects = ActivityManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
