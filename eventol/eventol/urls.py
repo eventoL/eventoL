@@ -10,12 +10,13 @@ from rest_framework import routers
 from .api import (EventViewSet, EventUserViewSet, InstallerViewSet,
                   CollaboratorViewSet, OrganizerViewSet, ActivityViewSet,
                   AttendeeViewSet, InstallationViewSet, RoomViewSet,
-                  SoftwareViewSet, HardwareViewSet)
+                  SoftwareViewSet, HardwareViewSet, EventTagSet)
 
 
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'events', EventViewSet)
+router.register(r'tags', EventTagSet)
 router.register(r'eventUsers', EventUserViewSet)
 router.register(r'installers', InstallerViewSet)
 router.register(r'collaborators', CollaboratorViewSet)
@@ -34,8 +35,8 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^report$', views.generic_report, name='generic_report'),
     url(r'^create-event/$', views.create_event, name="create_event"),
-    url(r'^event/', include('manager.urls.events'), name='events'),
-    url(r'^tag/', include('manager.urls.event_tags'), name='event_tags'),
+    url(r'^events/', include('manager.urls.events'), name='events'),
+    url(r'^tags/', include('manager.urls.event_tags'), name='event_tags'),
     url(r'^admin/', include(admin.site.urls), name='admin'),
     url(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
     url(r'^accounts/profile/',

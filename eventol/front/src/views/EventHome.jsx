@@ -10,7 +10,7 @@ window.render_components = properties => {
   window.params = {...properties};
   render(
     (<Provider store={store}>
-       <EventHome user={properties.user} slug={properties.slug}/>
+       <EventHome user={properties.user} tagSlug={properties.tag_slug}/>
     </Provider>), document.getElementById('root'));
 };
 

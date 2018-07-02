@@ -11,7 +11,7 @@ from rest_framework_filters import BooleanFilter, FilterSet
 
 from manager.models import (Activity, Attendee, Collaborator, Event, EventUser,
                             Hardware, Installation, Installer, Organizer, Room,
-                            Software)
+                            Software, EventTag)
 
 
 # Serializers define the API representation.
@@ -28,11 +28,18 @@ class EventSerializer(EventolSerializer):
 
     class Meta:
         model = Event
-        fields = ('url', 'name', 'abstract', 'limit_proposal_date',
+        fields = ('url', 'name', 'abstract', 'limit_proposal_date', 'tags',
                   'external_url', 'report', 'event_information', 'updated_at',
                   'schedule_confirmed', 'place', 'image', 'cropping', 'event_slug',
                   'activity_proposal_is_open', 'registration_is_open', 'id',
                   'attendees_count', 'last_date', 'created_at', 'location')
+
+
+class EventTagSerializer(EventolSerializer):
+    class Meta:
+        model = EventTag
+        fields = ('url', 'created_at', 'updated_at', 'background',
+                  'logo_header', 'logo_landing', 'message', 'slug')
 
 
 class EventUserSerializer(EventolSerializer):
@@ -106,8 +113,9 @@ class EventFilter(FilterSet):
 
     class Meta:
         model = Event
-        fields = ('name', 'event_slug', 'schedule_confirmed',
-                  'activity_proposal_is_open', 'registration_is_open')
+        fields = ('name', 'event_slug', 'schedule_confirmed', 'tags__slug',
+                  'tags__name', 'activity_proposal_is_open',
+                  'registration_is_open')
 
 
 # ViewSets define the view behavior.
@@ -117,16 +125,25 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_class = EventFilter
     ordering_fields = ('name', 'limit_proposal_date', 'updated_at',
                        'attendees_count', 'last_date', 'created_at')
-    search_fields = ('name', 'event_slug', 'abstract')
+    search_fields = ('name', 'event_slug', 'abstract',
+                     'tags__slug', 'tags__name',)
 
     def list(self, request, *args, **kwargs):
         my_events = request.GET.get('my_events', None)
-        event_slug = request.GET.get('event_slug', None)
+        tag_slug = request.GET.get('tags__slug', None)
         if my_events:
-            queryset = Event.objects.get_event_by_user(request.user, event_slug)
+            queryset = Event.objects.get_event_by_user(request.user, tag_slug)
             serializer = EventSerializer(queryset, many=True, context={'request': request})
             return Response({'results': serializer.data})
         return super().list(request, *args, **kwargs)
+
+
+class EventTagSet(viewsets.ModelViewSet):
+    queryset = EventTag.objects.all()
+    serializer_class = EventTagSerializer
+    filter_fields = ('slug', 'name',)
+    ordering_fields = ('created_at', 'updated_at', 'name', 'slug',)
+    search_fields = ('slug', 'name',)
 
 
 class EventUserModelViewSet(viewsets.ModelViewSet):

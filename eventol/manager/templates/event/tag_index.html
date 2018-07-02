@@ -22,7 +22,7 @@
     <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
     <script>
       window.render_components({
-          slug: '{{ slug }}',
+          tag_slug: '{{ tag_slug }}',
         {% if user.is_authenticated %}
           user: {
             username: '{{ user.username | safe }}',

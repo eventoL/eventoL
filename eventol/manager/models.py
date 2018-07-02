@@ -56,13 +56,13 @@ class EventManager(models.Manager):
             ))
 
     @staticmethod
-    def get_event_by_user(user, event_slug=None):
+    def get_event_by_user(user, tag_slug=None):
         if user.is_authenticated():
             event_users = EventUser.objects.filter(user=user)
             event_ids = [event_user.event.pk for event_user in list(event_users)]
             queryset = Event.objects.filter(pk__in=event_ids)
-            if event_slug:
-                queryset = queryset.filter(event_slug=event_slug)
+            if tag_slug:
+                queryset = queryset.filter(tags__slug=tag_slug)
         else:
             queryset = Event.objects.none()
         return queryset
