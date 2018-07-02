@@ -11,7 +11,7 @@ from rest_framework_filters import BooleanFilter, FilterSet
 
 from manager.models import (Activity, Attendee, Collaborator, Event, EventUser,
                             Hardware, Installation, Installer, Organizer, Room,
-                            Software)
+                            Software, EventTag)
 
 
 # Serializers define the API representation.
@@ -33,6 +33,13 @@ class EventSerializer(EventolSerializer):
                   'schedule_confirmed', 'place', 'image', 'cropping', 'event_slug',
                   'activity_proposal_is_open', 'registration_is_open', 'id',
                   'attendees_count', 'last_date', 'created_at', 'location')
+
+
+class EventTagSerializer(EventolSerializer):
+    class Meta:
+        model = EventTag
+        fields = ('url', 'created_at', 'updated_at', 'background',
+                  'logo_header', 'logo_landing', 'message', 'slug')
 
 
 class EventUserSerializer(EventolSerializer):
@@ -127,6 +134,14 @@ class EventViewSet(viewsets.ModelViewSet):
             serializer = EventSerializer(queryset, many=True, context={'request': request})
             return Response({'results': serializer.data})
         return super().list(request, *args, **kwargs)
+
+
+class EventTagSet(viewsets.ModelViewSet):
+    queryset = EventTag.objects.all()
+    serializer_class = EventTagSerializer
+    filter_fields = ('slug', 'name',)
+    ordering_fields = ('created_at', 'updated_at', 'name', 'slug',)
+    search_fields = ('slug', 'name',)
 
 
 class EventUserModelViewSet(viewsets.ModelViewSet):

@@ -10,12 +10,13 @@ from rest_framework import routers
 from .api import (EventViewSet, EventUserViewSet, InstallerViewSet,
                   CollaboratorViewSet, OrganizerViewSet, ActivityViewSet,
                   AttendeeViewSet, InstallationViewSet, RoomViewSet,
-                  SoftwareViewSet, HardwareViewSet)
+                  SoftwareViewSet, HardwareViewSet, EventTagSet)
 
 
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'events', EventViewSet)
+router.register(r'tags', EventTagSet)
 router.register(r'eventUsers', EventUserViewSet)
 router.register(r'installers', InstallerViewSet)
 router.register(r'collaborators', CollaboratorViewSet)
