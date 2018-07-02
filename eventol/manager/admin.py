@@ -103,6 +103,7 @@ class EventTagInline(admin.TabularInline):
 
 class EventAdmin(EventoLAdmin):
     inlines = [EventDateAdminInline, EventTagInline]
+    exclude = ['tags']
 
     def filter_event(self, events, queryset):
         return queryset.filter(pk__in=[event.pk for event in events])
