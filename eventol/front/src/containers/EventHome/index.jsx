@@ -18,15 +18,15 @@ export default class EventHome extends React.Component {
   }
 
   static propTypes = {
-    slug: PropTypes.string,
+    tagSlug: PropTypes.string,
     user: PropTypes.object
   }
 
   onEnter = () => {
-    const {slug} = this.props;
+    const {tagSlug} = this.props;
     const {searchTerm} = this.state;
     if (searchTerm !== '') {
-      const searchUrl = `?search=${searchTerm}&slug=${slug}&fields=${HOME_REQUIRED_FIELDS}`;
+      const searchUrl = `?search=${searchTerm}&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`;
       this.setState({searchUrl, searched: true});
     }
   }
@@ -34,23 +34,27 @@ export default class EventHome extends React.Component {
   onChange = searchTerm => this.setState({searchTerm})
 
   render(){
-    const {user, slug} = this.props;
+    const {user, tagSlug} = this.props;
     const {searched, searchUrl} = this.state;
     return (
       <div>
         <Header user={user}/>
-        <Hero slug={slug}>
+        <Hero slug={tagSlug}>
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
         {searched && <TitleList title={gettext('Search results')} url={searchUrl} showEmpty={true} />}
         <TitleList
+          id='my_events'
+          title={gettext('My Events')}
+          url={`?my_events=true&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`} />
+        <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&slug=${slug}&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?registration_is_open=true&ordering=last_date&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`} />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&slug=${slug}&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?registration_is_open=false&ordering=-attendees_count&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`} />
       </div>
     );
   }
