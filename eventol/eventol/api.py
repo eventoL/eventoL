@@ -20,11 +20,18 @@ class EventolSerializer(QueryFieldsMixin,
     pass
 
 
+class EventTagFromEventSerializer(EventolSerializer):
+    class Meta:
+        model = EventTag
+        fields = ('name', 'slug')
+
+
 class EventSerializer(EventolSerializer):
     attendees_count = serializers.IntegerField(read_only=True)
     last_date = serializers.DateField(read_only=True)
     activity_proposal_is_open = serializers.BooleanField(read_only=True)
     registration_is_open = serializers.BooleanField(read_only=True)
+    tags = EventTagFromEventSerializer(many=True, read_only=True)
 
     class Meta:
         model = Event
