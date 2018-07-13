@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ItemMap from '../ItemMap'
 
+import {getTagUrl} from '../../utils/urls'
+
 import './index.scss'
 
 
@@ -15,7 +17,7 @@ export default class Item extends React.Component {
   };
 
   render(){
-    const {title, url, attendees, overview, backdrop} = this.props;
+    const {title, url, attendees, overview, backdrop, tags} = this.props;
     if (!backdrop) {
       return <ItemMap {...this.props} />;
     }
@@ -25,6 +27,11 @@ export default class Item extends React.Component {
           <div className="overlay">
             <div className="title">{title}</div>
             { attendees !== undefined && (<div className="rating">{gettext('Attendees')}: {attendees}</div>)}
+            { tags !== undefined && (
+              <div className="rating tags">
+                {gettext('Tags')}: {tags.map(({name, slug}, index) => <a key={index} href={`${getTagUrl(slug)}`}>{name}</a>)}
+              </div>
+            )}
             <div className="plot">{overview}</div>
           </div>
         </a>

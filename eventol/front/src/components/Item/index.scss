@@ -19,6 +19,14 @@
 .Item  a {
   text-decoration: none;
 }
+.Item .rating.tags a {
+  padding: 2px;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #1F6879;
+  }
+}
 .Item .overlay {
   /* FF3.6-15 */
   background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
