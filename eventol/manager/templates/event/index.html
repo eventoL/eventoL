@@ -39,6 +39,13 @@
                     {% if event.use_installers and user|is_installer:event_slug %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
                 </p>
                 {% endif %}
+                <p>
+                {% for tag in tags %}
+                  <a href="{% url "tag_index" tag.slug %}" style='text-decoration: none;'>
+                    <span class="label label-info">{{ tag.name }}</span>
+                  </a>
+                {% endfor %}
+                </p>
             </div>
         </div>
         <div class="row" style="text-align: center">

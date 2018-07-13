@@ -165,7 +165,11 @@ def index(request, event_slug):
 
     dates = EventDate.objects.filter(event=event)
 
-    render_dict = {'activities': activities_list, 'dates': dates}
+    render_dict = {
+        'activities': activities_list,
+        'dates': dates,
+        'tags': event.tags.all()
+    }
     return render(
         request,
         'event/index.html',
