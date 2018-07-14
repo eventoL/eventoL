@@ -52,7 +52,7 @@ odfpy==1.3.5
 olefile==0.44
 openpyxl==2.4.9
 Pillow==4.3.0
-psycopg2==2.7.3.2
+psycopg2-binary==2.7.5
 pycparser==2.18
 pypng==0.0.18
 PyQRCode==1.2.1
