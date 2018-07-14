@@ -296,6 +296,9 @@ class Staging(Base):
             'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
             'HOST': os.getenv('PSQL_HOST', 'localhost'),
             'PORT': os.getenv('PSQL_PORT', '5432'),
+            'OPTIONS': {
+                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
+            },
         }
     }
     WEBPACK_LOADER = {
