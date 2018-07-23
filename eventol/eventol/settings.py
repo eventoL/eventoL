@@ -464,3 +464,11 @@ class Dev(Base):
 
 class Test(Dev):
     pass
+
+
+class Pyar(Staging):
+    """Config for eventos.python.org.ar"""
+    DEBUG = True
+    ALLOWED_HOSTS = ["*"]
+    LOGGING = {}
+    ELASTICSEARCH_DSL = {}
