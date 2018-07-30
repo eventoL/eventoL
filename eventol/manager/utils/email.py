@@ -71,9 +71,8 @@ def get_ticket_body(first_name, last_name, event_name):
 
 
 def get_installation_subject(first_name, last_name, event_name):
-    # ToDo: has FLISoL string
     return _(
-        '{first_name} {last_name}, thank you for participating in FLISoL {event_name}'
+        '{first_name} {last_name}, thank you for participating {event_name}'
     ).format(
         first_name=first_name, last_name=last_name, event_name=event_name
     )

@@ -191,6 +191,7 @@
                         <img src="{% static "manager/img/charlas.png" %}" width="100%" alt="Charlas y Talleres">
                     </div>
                     <div class="col-sm-6 col-md-6 col-lg-6">
+                {% if event.is_flisol %}
                         <h2>Charlas y Talleres</h2>
 
                         <p><strong>Durante todo el día, para que puedas aprender y descubrir más sobre el Software
@@ -209,6 +210,11 @@
 
                         <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte.
                             <a href="{% url "activity_proposal" event_slug %}">Envianos tu propuesta!</a></p>
+                {% else %}
+                        <p> {% trans "We haven't published the activites" %}</p>
+                        <p> {% trans "It means you can still send yours" %}</p>
+                        <a href="{% url "activity_proposal" event_slug %}">{% trans 'Send your proposal!' %}</a></p>
+                {% endif %}
                     </div>
                 </div>
             {% endif %}
