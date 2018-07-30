@@ -84,10 +84,8 @@ def generate_ticket(user):
     ticket_template = svglue.load(
         file=os.path.join(
             settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
-    ticket_template.set_text(
-        'event_name', "FLISoL " + ticket_data['event'].name[:24])
-    ticket_template.set_text(
-        'event_date', localize(ticket_data['event_date']))
+    ticket_template.set_text('event_name', ticket_data['event'].name[:24])
+    ticket_template.set_text('event_date', localize(ticket_data['event_date']))
     place = json.loads(ticket_data['event'].place)
     if place.get("name"):
         ticket_template.set_text('event_place_name', place.get("name"))
@@ -1055,10 +1053,9 @@ def attendee_registration(request, event_slug):
 
                 if request.user.is_authenticated():
                     return redirect(confirm_url)
-                # ToDo: it has a FLISoL hardcoded string
                 body_text = _noop(
                     'Hi! You are receiving this message because you have'
-                    'registered to attend to FLISoL '
+                    'registered to attend to '
                     '{event_name}, being held on {event_dates}.\n\n'
                     'Please follow this link to confirm your email address'
                     'and we will send you your '
@@ -1079,7 +1076,7 @@ def attendee_registration(request, event_slug):
                 )
                 body_html = _noop(
                     '<p>Hi! You are receiving this message because you have'
-                    'registered to attend to <strong>FLISoL '
+                    'registered to attend to <strong>'
                     '{event_name}</strong>, being held on {event_dates}.</p>\n'
                     '<p>Please <em>follow this link to confirm your email'
                     'address</em> and we will send you your '
