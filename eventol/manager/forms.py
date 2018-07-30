@@ -524,36 +524,21 @@ class SocialSignUpForm(AllAuthSocialSignUpForm):
 
 
 class ActivityProposalForm(ModelForm):
-    repeat_email = forms.EmailField(label=_("Repeat Email"))
-    captcha = CaptchaField(label=_("Are you a human?"))
+    caetcha = CaptchaField(label=_("Are you a human?"))
 
-    field_order = ['event', 'title', 'speakers_names', 'abstract',
-                   'long_description', 'speaker_contact', 'repeat_email',
-                   'labels', 'level', 'type', 'presentation',
-                   'additional_info', 'captcha', 'status']
-
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get("email")
-        repeat_email = cleaned_data.get("repeat_email")
-
-        if email and repeat_email:
-            if email != repeat_email:
-                raise forms.ValidationError({
-                    'email': _("Emails do not match."),
-                    'repeat_email': _("Emails do not match.")})
-
-        return cleaned_data
+    field_order = ['event', 'title', 'speakers_names', 'speaker_bio', 'abstract',
+                   'long_description', 'labels', 'level', 'type',
+                   'presentation', 'additional_info', 'captcha', 'status']
 
     class Meta(object):
         model = Activity
-        fields = ['event', 'title', 'speakers_names', 'abstract',
-                  'long_description', 'speaker_contact',
-                  'labels', 'presentation', 'level',
+        fields = ['event', 'title', 'speakers_names', 'speaker_bio', 'abstract',
+                  'long_description', 'labels', 'presentation', 'level',
                   'additional_info', 'status', 'type']
         widgets = {
             'event': forms.HiddenInput(),
             'status': forms.HiddenInput(),
+            'speaker_bio': forms.Textarea(attrs={'rows': 3}),
             'abstract': forms.Textarea(attrs={'rows': 3}),
             'long_description': forms.Textarea(attrs={'rows': 3}),
             'additional_info': forms.Textarea(attrs={'rows': 3})

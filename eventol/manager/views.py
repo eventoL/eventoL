@@ -1357,6 +1357,7 @@ def draw(request, event_slug):
     )
 
 
+@login_required
 def activity_proposal(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
 
@@ -1368,7 +1369,7 @@ def activity_proposal(request, event_slug):
                            contact the Event Organization Team to submit it."))
         return redirect(reverse('index', args=[event_slug]))
 
-    activity = Activity(event=event, status='1')
+    activity = Activity(event=event, status='1', owner=request.user)
     activity_form = ActivityProposalForm(
         request.POST or None, request.FILES or None, instance=activity)
 
