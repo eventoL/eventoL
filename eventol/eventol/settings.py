@@ -126,7 +126,8 @@ class Base(Configuration):
                     'django.template.context_processors.static',
                     'django.template.context_processors.tz',
                     'django.contrib.messages.context_processors.messages',
-                    'django.template.context_processors.request'
+                    'django.template.context_processors.request',
+                    'manager.context_processors.eventol_settings',
                 ],
             },
         },
@@ -277,6 +278,8 @@ class Base(Configuration):
         '--with-coverage',
         '--cover-package=manager,eventol',
     ]
+    PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
+
 
 class Staging(Base):
     import socket
