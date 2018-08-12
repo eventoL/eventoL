@@ -49,7 +49,7 @@ from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             EventDate, EventUser, EventUserAttendanceDate,
                             Hardware, Installation, InstallationMessage,
                             Installer, Organizer, Room, EventTag)
-from manager.security import (add_attendance_permission,
+from manager.security import (are_activities_public, add_attendance_permission,
                               add_organizer_permissions, is_collaborator,
                               is_collaborator_or_installer, is_installer,
                               is_organizer, user_passes_test)
@@ -1357,6 +1357,7 @@ def draw(request, event_slug):
     )
 
 
+@login_required
 def activity_proposal(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
 
@@ -1368,7 +1369,7 @@ def activity_proposal(request, event_slug):
                            contact the Event Organization Team to submit it."))
         return redirect(reverse('index', args=[event_slug]))
 
-    activity = Activity(event=event, status='1')
+    activity = Activity(event=event, status='1', owner=request.user)
     activity_form = ActivityProposalForm(
         request.POST or None, request.FILES or None, instance=activity)
 
@@ -1492,6 +1493,7 @@ def resend_proposal(request, event_slug, activity_id):
     return change_activity_status(request, event_slug, activity_id, 1)
 
 
+@user_passes_test(are_activities_public, 'index')
 def activities(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
     proposed_activities, accepted_activities, rejected_activities = [], [], []
