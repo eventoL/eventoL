@@ -167,7 +167,7 @@ class AttendeeSearchForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['event_slug'].widget = forms.HiddenInput()
 
-    event_slug = forms.UUIDField()
+    event_slug = forms.CharField()
     attendee = forms.ModelChoiceField(
         queryset=Attendee.objects.all(),
         widget=autocomplete.ModelSelect2(
@@ -185,7 +185,7 @@ class EventUserSearchForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.fields['event_slug'].widget = forms.HiddenInput()
 
-    event_slug = forms.UUIDField()
+    event_slug = forms.CharField()
     event_user = forms.ModelChoiceField(
         queryset=EventUser.objects.all(),
         widget=autocomplete.ModelSelect2(
@@ -215,7 +215,7 @@ class InstallationForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['event_slug'].widget = forms.HiddenInput()
 
-    event_slug = forms.UUIDField()
+    event_slug = forms.CharField()
 
     class Meta(object):
         model = Installation
