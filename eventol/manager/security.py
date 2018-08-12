@@ -1,11 +1,12 @@
 from functools import wraps
 
+from django.conf import settings
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.utils.decorators import available_attrs
-
 from manager.models import Attendee, Collaborator, Installer, Organizer
 
 
@@ -126,6 +127,19 @@ def is_collaborator_or_installer(user, event_slug=None):
                                                                         event_slug=event_slug)
 
 
+def are_activities_public(user, event_slug=None):
+    """Return True if activities are public.
+
+    If activities are private only will return true for collaborator users"""
+    if not settings.PRIVATE_ACTIVITIES:
+        return True
+    else:
+        if user.is_authenticated():
+            return is_collaborator(user, event_slug=event_slug)
+        else:
+            raise PermissionDenied
+
+
 def user_passes_test(test_func, name_redirect):
     """
     Decorator for views that checks that the user passes the given test,
@@ -145,7 +159,7 @@ def user_passes_test(test_func, name_redirect):
             return HttpResponseRedirect(
                 reverse(
                     name_redirect,
-                    args=[event_slug, event_slug]
+                    args=[event_slug]
                 )
             )
 
