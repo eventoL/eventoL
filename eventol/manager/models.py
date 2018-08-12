@@ -358,8 +358,8 @@ class EventUser(models.Model):
 
     def __str__(self):
         if self.user:
-            return '{} - {} {}'.format(self.event, self.user.first_name, self.user.last_name)
-        return '{}'.format(self.event)
+            return '{} at event:{}'.format(self.user.username, self.event)
+        return '{}'.format(self.event.title)
 
     def get_ticket_data(self):
         if self.ticket is None:
@@ -689,6 +689,8 @@ class Activity(VoteModel, models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event = models.ForeignKey(Event, verbose_name=_('Event'))
+    owner = models.ForeignKey(
+        EventUser, help_text=_("Speaker or the person in charge of the activity"))
     title = models.CharField(_('Title'), max_length=100,
                              blank=False, null=False)
     long_description = models.TextField(_('Long Description'))
@@ -710,9 +712,9 @@ class Activity(VoteModel, models.Model):
         _('Type'), choices=activity_type_choices, max_length=200, null=True, blank=True)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
                                       help_text=_("Comma separated speaker's names"))
-    speaker_contact = models.EmailField(_('Speaker Contact'),
-                                        help_text=_('Where can whe reach you \
-                                                    from the organization team?'))
+    speaker_bio = models.TextField(
+        _('Speaker Bio'), null=True,
+        help_text=_('Tell us about you (we will user it as your "bio" in our website'))
     labels = models.CharField(_('Labels'), max_length=200,
                               help_text=_('Comma separated tags. i.e. Linux, \
                                           Free Software, Archlinux'))
