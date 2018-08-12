@@ -278,7 +278,7 @@ class Base(Configuration):
         '--with-coverage',
         '--cover-package=manager,eventol',
     ]
-    PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", False)
+    PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
 
 
 class Staging(Base):
