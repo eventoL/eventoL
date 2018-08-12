@@ -50,6 +50,7 @@ class EventManager(models.Manager):
                 output_field=models.BooleanField()
             )) \
             .annotate(registration_is_open=models.Case(
+                models.When(registration_closed=True, then=False),
                 models.When(models.Q(last_date__gte=today), then=True),
                 default=False,
                 output_field=models.BooleanField()
@@ -98,7 +99,6 @@ class EventTag(models.Model):
                                help_text=_("A message to show in the center of the page"))
     slug = models.SlugField(_('URL'), max_length=100,
                             help_text=_('For example: flisol-caba'), unique=True)
-
     def __str__(self):
         return self.name
 
@@ -122,6 +122,9 @@ class Event(models.Model):
                                 help_text=_('Short idea of the event (One or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
+    registration_closed = models.BooleanField(
+        default=False, help_text=_("set it to True to force the registration to be closed"))
+
     tags = models.ManyToManyField(
         EventTag, help_text=_("Select tags to show this event in the EventTag landing"))
     event_slug = models.SlugField(_('URL'), max_length=100,
