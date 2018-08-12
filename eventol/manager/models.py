@@ -158,6 +158,8 @@ class Event(models.Model):
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
+    activities_proposal_form_text = models.TextField(
+        blank=True, null=True, help_text=_("A message to show in the activities proposal form"))
 
     @property
     def location(self):
