@@ -414,7 +414,7 @@ class EventDateModelFormset(BaseModelFormSet):
 class EventForm(ModelForm):
     class Meta(object):
         model = Event
-        fields = ('name', 'event_slug', 'limit_proposal_date', 'email',
+        fields = ('name', 'event_slug', 'limit_proposal_date', 'registration_closed', 'email',
                   'place', 'external_url', 'abstract', 'event_information',
                   'use_installations', 'use_installers', 'is_flisol',
                   'use_collaborators', 'use_proposals', 'use_schedule')
