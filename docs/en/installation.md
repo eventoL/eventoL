@@ -142,3 +142,7 @@ Una vez iniciado el server, visitamos la pagina de administración (Ejemplo: `ht
 * Complete los datos con el sitio y las credenciales de aplicaciones OAuth obtenidos del proveedor.
 
 Para cualquier problema con las cuentas sociales, por favor verifique en la [documentación de django-allauth](http://django-allauth.readthedocs.org).
+
+# Configurar visibilidad de actividades 
+
+Utilizando la setting `PRIVATE_ACTIVITIES` se puede controlar si el listado de actividades es publico o únicamente accesible por organizadores.
