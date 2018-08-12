@@ -114,7 +114,7 @@
                                 </li>
                                 {% endif %}
                               {% endif %}
-                              {% if not PRIVATE_ACTIVITIES or user|is_organizer:event_slug  %}
+                              {% if not PRIVATE_ACTIVITIES or user|is_collaborator:event_slug  %}
                               <li>
                                   <a href="{% url "activities" event_slug %}">
                                       <i class="fa fa-th"></i> {% trans "View Activities" %}

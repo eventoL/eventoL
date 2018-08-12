@@ -137,7 +137,8 @@ def are_activities_public(user, event_slug=None):
         if user.is_authenticated():
             return is_collaborator(user, event_slug=event_slug)
         else:
-            raise PermissionDenied
+            raise PermissionDenied(
+                "Only organizers and collaborators are authorized to access the activities list.")
 
 
 def user_passes_test(test_func, name_redirect):
