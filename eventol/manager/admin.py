@@ -3,15 +3,16 @@
 
 from django.contrib import admin
 from django.contrib.auth.models import User
+from image_cropping import ImageCroppingMixin
 from import_export import resources
 from import_export.admin import ExportMixin
-from image_cropping import ImageCroppingMixin
 
-from manager.models import (Organizer, Event, EventTag, Attendee, Collaborator,
-                            Hardware, Software, Installer, Installation, Room,
-                            ContactType, Contact, Activity, ContactMessage,
-                            EventUser, InstallationMessage, Ticket, EventDate,
-                            AttendeeAttendanceDate, EventUserAttendanceDate)
+from manager.models import (Activity, ActivityType, Attendee,
+                            AttendeeAttendanceDate, Collaborator, Contact,
+                            ContactMessage, ContactType, Event, EventDate,
+                            EventTag, EventUser, EventUserAttendanceDate,
+                            Hardware, Installation, InstallationMessage,
+                            Installer, Organizer, Room, Software, Ticket)
 from manager.security import create_reporters_group
 
 
@@ -206,3 +207,4 @@ admin.site.register(EventUser, EventUserAdmin)
 admin.site.register(AttendeeAttendanceDate, EventoLAdmin)
 admin.site.register(EventUserAttendanceDate, EventoLEventUserAdmin)
 admin.site.register(EventTag)
+admin.site.register(ActivityType)

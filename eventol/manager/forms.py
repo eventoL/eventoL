@@ -417,7 +417,8 @@ class EventForm(ModelForm):
         fields = ('name', 'event_slug', 'limit_proposal_date', 'registration_closed', 'email',
                   'place', 'external_url', 'abstract', 'event_information',
                   'use_installations', 'use_installers', 'is_flisol',
-                  'use_collaborators', 'use_proposals', 'use_schedule')
+                  'use_collaborators', 'use_proposals', 'use_schedule',
+                  'activities_proposal_form_text')
         widgets = {'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
 
@@ -527,14 +528,14 @@ class ActivityProposalForm(ModelForm):
     captcha = CaptchaField(label=_("Are you a human?"))
 
     field_order = ['event', 'title', 'speakers_names', 'speaker_bio', 'abstract',
-                   'long_description', 'labels', 'level', 'type',
+                   'long_description', 'labels', 'level', 'activity_type',
                    'presentation', 'additional_info', 'captcha', 'status']
 
     class Meta(object):
         model = Activity
         fields = ['event', 'title', 'speakers_names', 'speaker_bio', 'abstract',
                   'long_description', 'labels', 'presentation', 'level',
-                  'additional_info', 'status', 'type']
+                  'additional_info', 'status', 'activity_type']
         widgets = {
             'event': forms.HiddenInput(),
             'status': forms.HiddenInput(),
