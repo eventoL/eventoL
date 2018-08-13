@@ -23,18 +23,31 @@
     <script>
       window.render_components({
           tag_slug: '{{ tag.slug }}',
+
         {% if tag.message and tag.message.strip %}
           message: '{{ tag.message }}',
+        {% elif EVENTOL_SETTINGS.message and EVENTOL_SETTINGS.message.strip %}
+          message: '{{ EVENTOL_SETTINGS.message }}',
         {% endif %}
+
         {% if tag.background %}
           background: '{{ tag.background.url }}',
+        {% elif EVENTOL_SETTINGS.background %}
+          background: '{{ EVENTOL_SETTINGS.background.url }}',
         {% endif %}
+
         {% if tag.logo_header %}
           logo_header: '{{ tag.logo_header.url }}',
+        {% elif EVENTOL_SETTINGS.logo_header %}
+          logo_header: '{{ EVENTOL_SETTINGS.logo_header.url }}',
         {% endif %}
+
         {% if tag.logo_landing %}
           logo_landing: '{{ tag.logo_landing.url }}',
+        {% elif EVENTOL_SETTINGS.logo_landing %}
+          logo_landing: '{{ EVENTOL_SETTINGS.logo_landing.url }}',
         {% endif %}
+
         {% if user.is_authenticated %}
           user: {
             username: '{{ user.username | safe }}',
