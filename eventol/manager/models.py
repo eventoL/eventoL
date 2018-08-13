@@ -50,7 +50,6 @@ class EventManager(models.Manager):
                 output_field=models.BooleanField()
             )) \
             .annotate(registration_is_open=models.Case(
-                models.When(registration_closed=True, then=False),
                 models.When(models.Q(last_date__gte=today), then=True),
                 default=False,
                 output_field=models.BooleanField()
