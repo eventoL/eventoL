@@ -22,7 +22,19 @@
     <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
     <script>
       window.render_components({
-          tag_slug: '{{ tag_slug }}',
+          tag_slug: '{{ tag.slug }}',
+        {% if tag.message and tag.message.strip %}
+          message: '{{ tag.message }}',
+        {% endif %}
+        {% if tag.background %}
+          background: '{{ tag.background.url }}',
+        {% endif %}
+        {% if tag.logo_header %}
+          logo_header: '{{ tag.logo_header.url }}',
+        {% endif %}
+        {% if tag.logo_landing %}
+          logo_landing: '{{ tag.logo_landing.url }}',
+        {% endif %}
         {% if user.is_authenticated %}
           user: {
             username: '{{ user.username | safe }}',

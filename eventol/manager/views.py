@@ -181,7 +181,7 @@ def index(request, event_slug):
 
 def event_tag_index(request, tag):
     event_tag = get_object_or_404(EventTag, slug=tag)
-    return render(request, 'event/tag_index.html', {'tag_slug': event_tag.slug})
+    return render(request, 'event/tag_index.html', {'tag': event_tag})
 
 
 def event_view(request, event_slug, html='index.html'):

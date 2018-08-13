@@ -89,13 +89,16 @@ class EventTag(models.Model):
                             help_text=_("This name will be used as a slug"))
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
-    background = models.ImageField(help_text=_("A image to show in the background of"))
+    background = models.ImageField(
+        null=True, blank=True,
+        help_text=_("A image to show in the background of"))
     logo_header = models.ImageField(
         null=True, blank=True,
         help_text=_("This logo will be showed in the corner right of the page"))
     logo_landing = models.ImageField(
-        help_text=_("Logo to show in the center of the page"), null=True, blank=True)
-    message = models.TextField(max_length=280,
+        null=True, blank=True,
+        help_text=_("Logo to show in the center of the page"))
+    message = models.TextField(max_length=280, null=True, blank=True,
                                help_text=_("A message to show in the center of the page"))
     slug = models.SlugField(_('URL'), max_length=100,
                             help_text=_('For example: flisol-caba'), unique=True)
