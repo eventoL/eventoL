@@ -7,7 +7,7 @@ from image_cropping import ImageCroppingMixin
 from import_export import resources
 from import_export.admin import ExportMixin
 
-from manager.models import (Activity, ActivityType, Attendee,
+from manager.models import (Activity, ActivityType, Attendee, EventolSetting,
                             AttendeeAttendanceDate, Collaborator, Contact,
                             ContactMessage, ContactType, Event, EventDate,
                             EventTag, EventUser, EventUserAttendanceDate,
@@ -207,4 +207,5 @@ admin.site.register(EventUser, EventUserAdmin)
 admin.site.register(AttendeeAttendanceDate, EventoLAdmin)
 admin.site.register(EventUserAttendanceDate, EventoLEventUserAdmin)
 admin.site.register(EventTag)
+admin.site.register(EventolSetting)
 admin.site.register(ActivityType)
