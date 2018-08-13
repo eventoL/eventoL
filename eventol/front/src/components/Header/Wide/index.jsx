@@ -8,9 +8,9 @@ import SignIn from '../../../components/SignIn'
 import './index.scss'
 
 
-const HeaderWide = ({user}) => (
+const HeaderWide = ({user, logoHeader}) => (
   <div className="navWide">
-    <Logo />
+    <Logo logoHeader={logoHeader}/>
     <Navigation />
     {user && <UserProfile user={user}/>}
     {!user && <SignIn/>}
@@ -19,6 +19,7 @@ const HeaderWide = ({user}) => (
 
 HeaderWide.propTypes = {
   user: PropTypes.object,
+  logoHeader: PropTypes.string
 };
 
 export default HeaderWide;

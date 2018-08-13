@@ -19,6 +19,10 @@ export default class EventHome extends React.Component {
 
   static propTypes = {
     tagSlug: PropTypes.string,
+    background: PropTypes.string,
+    tagMessage: PropTypes.string,
+    logoHeader: PropTypes.string,
+    logoLanding: PropTypes.string,
     user: PropTypes.object
   }
 
@@ -34,12 +38,12 @@ export default class EventHome extends React.Component {
   onChange = searchTerm => this.setState({searchTerm})
 
   render(){
-    const {user, tagSlug} = this.props;
+    const {user, tagSlug, background, logoHeader, logoLanding, tagMessage} = this.props;
     const {searched, searchUrl} = this.state;
     return (
       <div>
-        <Header user={user}/>
-        <Hero slug={tagSlug}>
+        <Header logoHeader={logoHeader} user={user}/>
+        <Hero slug={tagSlug} background={background} logoLanding={logoLanding} message={tagMessage}>
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
         {searched && <TitleList title={gettext('Search results')} url={searchUrl} showEmpty={true} />}

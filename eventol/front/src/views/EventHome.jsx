@@ -10,7 +10,13 @@ window.render_components = properties => {
   window.params = {...properties};
   render(
     (<Provider store={store}>
-       <EventHome user={properties.user} tagSlug={properties.tag_slug}/>
+       <EventHome user={properties.user}
+         tagSlug={properties.tag_slug}
+         tagMessage={properties.message}
+         background={properties.background}
+         logoHeader={properties.logo_header}
+         logoLanding={properties.logo_landing}
+       />
     </Provider>), document.getElementById('root'));
 };
 

@@ -6,12 +6,20 @@ import './index.scss';
 export default class Hero extends React.Component {
   static propTypes = {
     slug: PropTypes.string,
+    message: PropTypes.string,
+    background: PropTypes.string,
+    logoLanding: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.object,
       PropTypes.element
     ])
-  };
+  }
+
+  static defaultProps = {
+    background: '/static/manager/img/background.png',
+    logoLanding: '/static/manager/img/logo.png'
+  }
 
   getSlugParsed(){
     const {slug} = this.props;
@@ -26,19 +34,26 @@ export default class Hero extends React.Component {
       .join(' ');
   }
 
+  getMessage(){
+    const {slug, message} = this.props;
+    if (message) return <h2>{message}</h2>;
+    if (slug) return (
+      <h2>{`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}<br />
+      {`${gettext('Please, select one to continue')}`}</h2>
+    );
+    return <h2>{gettext('Search your event')}</h2>;
+  }
+
   render(){
-    const {slug, children} = this.props;
+    const {children, background, logoLanding} = this.props;
+    const backgroundImage = `url(${background})`;
     return (
-      <div id="hero" className="Hero" style={{backgroundImage: 'url(/static/manager/img/background.png)'}}>
+      <div id="hero" className="Hero" style={{backgroundImage}}>
         <div className="content">
           <p>
-            <img className="logo" src="/static/manager/img/logo.png" alt="eventol logo" />
+            <img className="logo" src={logoLanding} alt="logo" />
           </p>
-          { slug && (
-            <h2>{`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}<br />
-            {`${gettext('Please, select one to continue')}`}</h2>
-        )}
-          { !slug && <h2>{gettext('Search your event')}</h2> }
+          { this.getMessage() }
           {children}
         </div>
         <div className="overlay" />

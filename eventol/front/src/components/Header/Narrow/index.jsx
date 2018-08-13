@@ -10,7 +10,8 @@ import './index.scss';
 export default class HeaderNarrow extends React.Component {
 
   static propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    logoHeader: PropTypes.string
   };
 
   toggle(){
@@ -20,10 +21,10 @@ export default class HeaderNarrow extends React.Component {
 	}
 
   render(){
-    const {user} = this.props;
+    const {user, logoHeader} = this.props;
     return (
       <div className="navNarrow">
-        <Logo />
+        <Logo logoHeader={logoHeader}/>
         <div className='navRight'>
           <a href="#" onClick={this.toggle}><i className="fa fa-bars fa-2x" /></a>
           <div className="narrowLinks">
