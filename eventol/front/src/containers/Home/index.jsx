@@ -12,6 +12,10 @@ import './index.scss'
 export default class Home extends React.Component {
 
   static propTypes = {
+    eventolMessage: PropTypes.string,
+    background: PropTypes.string,
+    logoHeader: PropTypes.string,
+    logoLanding: PropTypes.string,
     user: PropTypes.object
   }
 
@@ -32,12 +36,12 @@ export default class Home extends React.Component {
   onChange = searchTerm => this.setState({searchTerm})
 
   render(){
-    const {user} = this.props;
     const {searched, searchUrl} = this.state;
+    const {user, eventolMessage, background, logoHeader, logoLanding} = this.props;
     return (
       <div>
-        <Header user={user}/>
-        <Hero>
+        <Header user={user} logoHeader={logoHeader}/>
+        <Hero background={background} logoLanding={logoLanding} message={eventolMessage}>
           <Search onChange={this.onChange} onEnter={this.onEnter} />
         </Hero>
         {searched && <TitleList title={gettext('Search results')} url={searchUrl} showEmpty={true} />}
