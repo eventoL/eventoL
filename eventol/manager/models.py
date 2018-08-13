@@ -891,3 +891,36 @@ class Installation(models.Model):
     class Meta(object):
         verbose_name = _('Installation')
         verbose_name_plural = _('Installations')
+
+
+class EventolSetting(models.Model):
+    background = models.ImageField(
+        null=True, blank=True,
+        help_text=_("A image to show in the background of"))
+    logo_header = models.ImageField(
+        null=True, blank=True,
+        help_text=_("This logo will be showed in the corner right of the page"))
+    logo_landing = models.ImageField(
+        null=True, blank=True,
+        help_text=_("Logo to show in the center of the page"))
+    message = models.TextField(max_length=280, null=True, blank=True,
+                               help_text=_("A message to show in the center of the page"))
+
+    @classmethod
+    def load(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+    def __str__(self):
+        return 'Eventol configuration'
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(EventolSetting, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    class Meta:
+        verbose_name = _('Eventol setting')
+        verbose_name_plural = _('Eventol settings')
