@@ -672,7 +672,7 @@ class ActivityManager(models.Manager):
     def get_counts(queryset):
         level_count = count_by(queryset, lambda activity: activity.level)
         status_count = count_by(queryset, lambda activity: activity.status)
-        type_count = count_by(queryset, lambda activity: activity.type)
+        type_count = count_by(queryset, lambda activity: activity.activity_type)
         total = queryset.count()
         confirmed = queryset.filter(room__isnull=False).count()
         return {
@@ -687,6 +687,14 @@ class ActivityManager(models.Manager):
     def get_counts_by_event(self, event):
         queryset = Activity.objects.filter(event=event)
         return self.get_counts(queryset)
+
+
+class ActivityType(models.Model):
+    """User created type of activities"""
+    name = models.CharField(max_length=60, help_text=_("Kind of activity"))
+
+    def __str__(self):
+        return self.name
 
 
 class Activity(VoteModel, models.Model):
@@ -707,14 +715,7 @@ class Activity(VoteModel, models.Model):
                              blank=True, null=True)
     start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
-    activity_type_choices = (
-        ('1', _('Talk')),
-        ('2', _('Workshop')),
-        ('3', _('Lightning talk')),
-        ('4', _('Other'))
-    )
-    type = models.CharField(
-        _('Type'), choices=activity_type_choices, max_length=200, null=True, blank=True)
+    activity_type = models.ForeignKey(ActivityType)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
                                       help_text=_("Comma separated speaker's names"))
     speaker_bio = models.TextField(
