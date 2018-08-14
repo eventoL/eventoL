@@ -1005,7 +1005,7 @@ def get_email_confirmation_url(request, event_slug, attendee_id, token):
 def attendee_registration(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
 
-    if not event.registration_is_open:
+    if not event.registration_is_open or event.registration_closed:
         return render(
             request,
             'registration/closed-registration.html',
