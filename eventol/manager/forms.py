@@ -418,7 +418,7 @@ class EventForm(ModelForm):
                   'place', 'external_url', 'abstract', 'event_information',
                   'use_installations', 'use_installers', 'is_flisol',
                   'use_collaborators', 'use_proposals', 'use_schedule',
-                  'activities_proposal_form_text')
+                  'activities_proposal_form_text', 'tags')
         widgets = {'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
 
