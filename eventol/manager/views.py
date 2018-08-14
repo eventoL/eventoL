@@ -1844,13 +1844,13 @@ def generic_report(request):
         })
 
 
-def activity_vote(request, event_slug, activity_id, type):
+def activity_vote(request, event_slug, activity_id, vote_type):
     activity = get_object_or_404(Activity, pk=activity_id)
     user = request.user
     activity.votes.delete(user.id)
-    if type == 'up':
+    if vote_type == 'up':
         activity.votes.up(user.id)
-    elif type == 'down':
+    elif vote_type == 'down':
         activity.votes.down(user.id)
     safe_continue = reverse("activity_detail", args=[event_slug, activity.pk])
     return goto_next_or_continue(request.GET.get('next'), safe_continue)
@@ -1858,17 +1858,17 @@ def activity_vote(request, event_slug, activity_id, type):
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def activity_vote_up(request, event_slug, event_uid, activity_id):
-    return activity_vote(request, event_slug, event_uid, activity_id, 'up')
+def activity_vote_up(request, event_slug, activity_id):
+    return activity_vote(request, event_slug, activity_id, 'up')
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def activity_vote_down(request, event_slug, event_uid, activity_id):
-    return activity_vote(request, event_slug, event_uid, activity_id, 'down')
+def activity_vote_down(request, event_slug, activity_id):
+    return activity_vote(request, event_slug, activity_id, 'down')
 
 
 @login_required
 @user_passes_test(is_organizer, 'index')
-def activity_vote_cancel(request, event_slug, event_uid, activity_id):
-    return activity_vote(request, event_slug, event_uid, activity_id, 'cancel')
+def activity_vote_cancel(request, event_slug, activity_id):
+    return activity_vote(request, event_slug, activity_id, 'cancel')
