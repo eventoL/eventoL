@@ -4,7 +4,7 @@ from django import template, forms
 from django.utils.translation import ugettext_lazy as _
 from vote.models import Vote
 
-from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee
+from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee, Activity
 
 register = template.Library()
 
@@ -155,3 +155,8 @@ def keyvalue(data, key):
 @register.filter(name='exists_vote')
 def exists_vote(user, activity):
     return Vote.objects.filter(user_id=user.id, object_id=activity.id).exists()
+
+
+@register.filter(name='is_speaker')
+def is_speaker(user, event_slug):
+    return Activity.objects.filter(owner__user=user, event__event_slug=event_slug).exists()

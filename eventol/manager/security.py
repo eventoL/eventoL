@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.utils.decorators import available_attrs
-from manager.models import Attendee, Collaborator, Installer, Organizer
+from manager.models import Attendee, Collaborator, Installer, Organizer, Activity
 
 
 def get_or_create_attendance_permission():
@@ -98,6 +98,12 @@ def add_organizer_permissions(user):
     user.groups.add(organizers)
     user.is_staff = True
     user.save()
+
+
+def is_speaker(user, event_slug=None):
+    return event_slug and Activity.objects.filter(
+        owner__user=user,
+        event__event_slug=event_slug).exists()
 
 
 def is_installer(user, event_slug=None):
