@@ -90,6 +90,11 @@
                             </a>
                           </li>
                         {% endif %}
+                        {% if user.is_authenticated and user|is_speaker:event_slug %}
+                            <li>
+                                <a href="{% url "my_proposals" event_slug %}">{% trans "My Proposals" %}</a>
+                            </li>
+                        {% endif %}
                         {% if user.is_authenticated and user|is_registered:event_slug %}
                             <li>
                                 <a href="{% url "view_ticket" event_slug %}">{% trans "View my Ticket" %}</a>
