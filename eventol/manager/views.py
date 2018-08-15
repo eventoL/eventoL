@@ -52,7 +52,7 @@ from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
 from manager.security import (are_activities_public, add_attendance_permission,
                               add_organizer_permissions, is_collaborator,
                               is_collaborator_or_installer, is_installer,
-                              is_organizer, user_passes_test)
+                              is_organizer, user_passes_test, is_speaker)
 from manager.utils.report import count_by
 
 from .utils import email as utils_email
@@ -1521,6 +1521,33 @@ def activities(request, event_slug):
         setattr(activity, 'errors', [])
     return render(
         request, 'activities/activities_home.html',
+        update_event_info(
+            event_slug,
+            {
+                'proposed_activities': proposed_activities,
+                'accepted_activities': accepted_activities,
+                'rejected_activities': rejected_activities
+            }
+        )
+    )
+
+
+@login_required
+@user_passes_test(is_speaker, 'index')
+def my_proposals(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
+    proposed_activities, accepted_activities, rejected_activities = [], [], []
+    activities_instances = Activity.objects.filter(event=event, owner__user=request.user)
+    for activity in list(activities_instances):
+        activity.labels = activity.labels.split(',')
+        if activity.status == '1':
+            proposed_activities.append(activity)
+        elif activity.status == '2':
+            accepted_activities.append(activity)
+        else:
+            rejected_activities.append(activity)
+    return render(
+        request, 'activities/my_proposals.html',
         update_event_info(
             event_slug,
             {
