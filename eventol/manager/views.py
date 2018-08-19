@@ -49,9 +49,9 @@ from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             EventDate, EventUser, EventUserAttendanceDate,
                             Hardware, Installation, InstallationMessage,
                             Installer, Organizer, Room, EventTag)
-from manager.security import (can_review_activity, add_attendance_permission,
-                              add_organizer_permissions, is_collaborator,
-                              is_collaborator_or_installer, is_installer,
+from manager.security import (add_review_permission, can_review_activity,
+                              add_attendance_permission, add_organizer_permissions,
+                              is_collaborator, is_collaborator_or_installer, is_installer,
                               is_organizer, user_passes_test, is_speaker)
 from manager.utils.report import count_by
 
@@ -498,6 +498,56 @@ def add_registration_people(request, event_slug):
         update_event_info(
             event_slug,
             {'form': form, 'registration_people': registration_people}
+        )
+    )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def add_reviewer(request, event_slug):
+    form = EventUserSearchForm(event_slug, request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            event_user = form.cleaned_data['event_user']
+            if event_user:
+                Collaborator.objects.get_or_create(event_user=event_user)
+                add_review_permission(event_user.user)
+                messages.success(
+                    request,
+                    _(
+                        "%s has been successfully added as reviewer." \
+                        % event_user.user.username
+                    )
+                )
+            return redirect(
+                reverse(
+                    'add_reviewer',
+                    args=[event_slug]
+                )
+            )
+
+        messages.error(
+            request,
+            _(
+                'Something went wrong (please check form errors)'
+            )
+        )
+
+    content_type = ContentType.objects.get_for_model(Activity)
+    reviewers = []
+    if Permission.objects.filter(
+            codename='can_review_activity', content_type=content_type).exists():
+        permission = Permission.objects.get(codename='can_review_activity',
+                                            content_type=content_type)
+        reviewers = Collaborator.objects.filter(event_user__user__user_permissions=permission,
+                                                event_user__event__event_slug=event_slug)
+
+    return render(
+        request,
+        'event/review_people.html',
+        update_event_info(
+            event_slug,
+            {'form': form, 'review_people': reviewers}
         )
     )
 

@@ -50,6 +50,14 @@ def add_attendance_permission(user):
     user.user_permissions.add(attendance_permission)
 
 
+def add_review_permission(user):
+    """Add permissions needed to access and vote activities"""
+    permissions = ['add_vote', 'change_vote', 'delete_vote', 'can_review_activity']
+    for permission_name in permissions:
+        permission = Permission.objects.get(codename=permission_name)
+        user.user_permissions.add(permission)
+
+
 def create_organizers_group():
     organizers = Group.objects.filter(name__iexact='Organizers').first()
     get_or_create_attendance_permission()
