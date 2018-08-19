@@ -49,7 +49,7 @@ from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             EventDate, EventUser, EventUserAttendanceDate,
                             Hardware, Installation, InstallationMessage,
                             Installer, Organizer, Room, EventTag)
-from manager.security import (are_activities_public, add_attendance_permission,
+from manager.security import (can_review_activity, add_attendance_permission,
                               add_organizer_permissions, is_collaborator,
                               is_collaborator_or_installer, is_installer,
                               is_organizer, user_passes_test, is_speaker)
@@ -1546,7 +1546,7 @@ def resend_proposal(request, event_slug, activity_id):
     return change_activity_status(request, event_slug, activity_id, 1)
 
 
-@user_passes_test(are_activities_public, 'index')
+@user_passes_test(can_review_activity, 'index')
 def activities(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
     proposed_activities, accepted_activities, rejected_activities = [], [], []
@@ -1927,18 +1927,18 @@ def activity_vote(request, event_slug, activity_id, vote_type):
 
 
 @login_required
-@user_passes_test(is_organizer, 'index')
+@user_passes_test(can_review_activity, 'index')
 def activity_vote_up(request, event_slug, activity_id):
     return activity_vote(request, event_slug, activity_id, 'up')
 
 
 @login_required
-@user_passes_test(is_organizer, 'index')
+@user_passes_test(can_review_activity, 'index')
 def activity_vote_down(request, event_slug, activity_id):
     return activity_vote(request, event_slug, activity_id, 'down')
 
 
 @login_required
-@user_passes_test(is_organizer, 'index')
+@user_passes_test(can_review_activity, 'index')
 def activity_vote_cancel(request, event_slug, activity_id):
     return activity_vote(request, event_slug, activity_id, 'cancel')

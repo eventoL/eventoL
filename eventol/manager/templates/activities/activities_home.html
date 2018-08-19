@@ -153,7 +153,7 @@
                                                 {% trans "Not Confirmed" %}
                                             </span>
                                         {% endif %}
-                                        {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                        {% if user.is_authenticated and perms.manager.can_review_activity %}
                                           <div class="pull-right">
                                             <span style="margin-right: 5px;">{% trans "Votes" %}: </span>
                                             {% if user|exists_vote:proposal %}

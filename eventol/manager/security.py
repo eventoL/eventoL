@@ -133,7 +133,7 @@ def is_collaborator_or_installer(user, event_slug=None):
                                                                         event_slug=event_slug)
 
 
-def are_activities_public(user, event_slug=None):
+def can_review_activity(user, event_slug=None):
     """Return True if activities are public.
 
     If activities are private only will return true for collaborator users"""
@@ -141,7 +141,10 @@ def are_activities_public(user, event_slug=None):
         return True
     else:
         if user.is_authenticated():
-            return is_collaborator(user, event_slug=event_slug)
+            return (
+                is_organizer(user, event_slug=event_slug)
+                or user.has_perm("manager.can_review_activity")
+            )
         else:
             raise PermissionDenied(
                 "Only organizers and collaborators are authorized to access the activities list.")
