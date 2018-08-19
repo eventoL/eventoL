@@ -1415,7 +1415,7 @@ def activity_proposal(request, event_slug):
 def edit_activity_proposal(request, event_slug, activity_id):
     event = get_object_or_404(Event, event_slug=event_slug)
 
-    if not event.schedule_confirmed:
+    if event.schedule_confirmed:
         messages.error(request,
                        _(
                            "The activity proposal edition is already closed or the event \
