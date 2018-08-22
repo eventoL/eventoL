@@ -127,8 +127,10 @@ docker exec -it eventol ./eventol/manage.py compilemessages
 
 ## Sin Docker
 ```bash
+cd eventol
 django-admin makemessages --locale=es
 django-admin compilemessages
+cd -
 ```
 
 # Configuración para inicio de sesión desde redes sociales
