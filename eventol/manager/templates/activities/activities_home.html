@@ -71,6 +71,7 @@
                                                 {% if talk.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ talk.abstract }}</p>{% endif %}
                                                 {% if talk.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>{% endif %}
                                                 {% if talk.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                                {% if talk.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ talk.speaker_bio }}</p>{% endif %}
                                                   {% for label in talk.labels %}
                                                       <span class="label">{{ label|lower }}</span>
                                                   {% endfor %}
@@ -188,6 +189,7 @@
                                                     {% if proposal.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>{% endif %}
                                                     {% if proposal.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>{% endif %}
                                                     {% if proposal.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                                    {% if proposal.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ proposal.speaker_bio }}</p>{% endif %}
                                                       {% for label in proposal.labels %}
                                                           <span class="label">{{ label|lower }}</span>
                                                       {% endfor %}
@@ -281,6 +283,7 @@
                                               {% if activity.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ activity.abstract }}</p>{% endif %}
                                               {% if activity.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names|title }}</p>{% endif %}
                                               {% if activity.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                              {% if activity.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ activity.speaker_bio }}</p>{% endif %}
                                                 {% for label in activity.labels %}
                                                     <span class="label">{{ label|lower }}</span>
                                                 {% endfor %}

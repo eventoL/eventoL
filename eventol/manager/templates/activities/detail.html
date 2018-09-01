@@ -74,6 +74,9 @@
                                   {% if activity.speakers_names %}
                                       <p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names }}</p>
                                   {% endif %}
+                                  {% if activity.speaker_bio %}
+                                      <p><strong>{% trans "Speakers Bio" %}:</strong> {{ activity.speaker_bio }}</p>
+                                  {% endif %}
                                   {% if activity.start_date and activity.end_date %}
                                       <p>
                                           <strong>{% trans "Time" %}:</strong> {{ activity.schedule }}
