@@ -85,11 +85,14 @@
                                   {% if activity.room %}
                                       <p><strong>{% trans "Room" %}:</strong> {{ activity.room.name|capfirst }}</p>
                                   {% endif %}
-                                  <p>
-                                      {% for label in activity.labels %}
-                                          <span class="label">{{ label|lower }}</span>
-                                      {% endfor %}
-                                  </p>
+                                  {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                      {% if activity.additional_info %}<p><strong>{% trans "Additional Information" %}:</strong> {{ activity.additional_info }}</p>{% endif %}
+                                  {% endif %}
+                                  {% if activity.labels %}<p><strong>{% trans "Labels" %}:</strong>
+                                    {% for label in activity.labels %}
+                                        <span class="label">{{ label|lower }}</span>
+                                    {% endfor %}
+                                  </p>{% endif %}
                                   {% if user.is_authenticated and user|is_organizer:event_slug %}
                                       {% if activity.status != '1' %}<p><a href="{% url "resend_proposal" event.event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
                                         {% trans "Resend Proposal" %}
