@@ -15,6 +15,9 @@
                 <div class="col-sm-12 panel-heading">
                   <div class="col-sm-11">
                     <h1>{{ activity.title }}</h1>
+                    {% if activity.justification and activity.status == '3' %}
+                      <p><strong>{% trans "Justification" %}:</strong> {{ activity.justification }}</p>
+                    {% endif %}
                   </div>
                   <div class="col-sm-1 pull-right">
                     {% if activity.status == '1' %}
