@@ -49,13 +49,15 @@ class EventoLAdmin(admin.ModelAdmin):
         if db_field.name == 'event':
             events_pks = [event.pk for event in events]
             queryset = Event.objects.filter(pk__in=events_pks).distinct()
-        if db_field.name == 'event_user':
+        if db_field.name in ['event_user', 'owner']:
             queryset = EventUser.objects.filter(event__in=events).distinct()
         if db_field.name == 'attendee':
             queryset = Attendee.objects.filter(event__in=events).distinct()
         if db_field.name == 'installer':
             queryset = Installer.objects \
                 .filter(event_user__event__in=events).distinct()
+        if db_field.name == 'activity_type':
+            queryset = ActivityType.objects.all().distinct()
         if db_field.name == 'user':
             queryset = User.objects.none()
         if db_field.name in ['hardware', 'software', 'type', 'ticket']:
