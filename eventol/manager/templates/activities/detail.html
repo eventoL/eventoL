@@ -65,8 +65,8 @@
                                       {% endif %}
                                     </p>
                                   {% endif %}
-                                  {% if activity.type %}
-                                      <p><strong>{% trans "Type" %}:</strong> {{ activity.get_type_display|capfirst }}</p>
+                                  {% if activity.activity_type %}
+                                      <p><strong>{% trans "Type" %}:</strong> {{ activity.activity_type.name }}</p>
                                   {% endif %}
                                   {% if activity.level %}
                                       <p><strong>{% trans "Level" %}:</strong> {{ activity.get_level_display|capfirst }}</p>

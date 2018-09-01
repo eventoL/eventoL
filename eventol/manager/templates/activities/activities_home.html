@@ -76,7 +76,7 @@
                                                       <span class="label">{{ label|lower }}</span>
                                                   {% endfor %}
                                                 </p>{% endif %}
-                                                {% if talk.type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.get_type_display }}</p>{% endif %}
+                                                {% if talk.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.activity_type.name }}</p>{% endif %}
                                                 {% if talk.room %}<p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>{% endif %}
                                                 {% if talk.start_date %}<p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>{% endif %}
                                                 {% if talk.end_date %}<p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>{% endif %}
@@ -194,7 +194,7 @@
                                                           <span class="label">{{ label|lower }}</span>
                                                       {% endfor %}
                                                     </p>{% endif %}
-                                                    {% if proposal.type %}<p><strong>{% trans "Type" %}:</strong> {{ proposal.get_type_display }}</p>{% endif %}
+                                                    {% if proposal.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ proposal.activity_type.name }}</p>{% endif %}
                                                     {% if proposal.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ proposal.long_description }}</p>{% endif %}
                                                     {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                         <p><a id='become-{{ forloop.counter }}'
@@ -288,7 +288,7 @@
                                                     <span class="label">{{ label|lower }}</span>
                                                 {% endfor %}
                                               </p>{% endif %}
-                                              {% if activity.type %}<p><strong>{% trans "Type" %}:</strong> {{ activity.get_type_display }}</p>{% endif %}
+                                              {% if activity.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ activity.activity_type.name }}</p>{% endif %}
                                               {% if activity.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ activity.long_description }}</p>{% endif %}
                                               {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                   <p><a href="{% url "resend_proposal" event.event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
