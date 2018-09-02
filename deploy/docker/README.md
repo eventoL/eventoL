@@ -27,9 +27,16 @@ eventol_worker_1    python manage.py runserver ...   Up                  0.0.0.0
 Running the django server
 
 ```
-$ docker-compose exec worker python manage.py runserver 0.0.0.0:8000
+docker-compose exec worker ./deploy/scripts/install-container-dev.sh
+docker-compose exec worker python eventol/manage.py runserver 0.0.0.0:8000
 ```
 
+Running the frontend
+
+```
+docker-compose exec reactjs yarn install
+docker-compose exec reactjs npm start
+```
 
 To see the logs of any of them:
 
