@@ -1,23 +1,31 @@
-.NavigationNarrow ul {
-  opacity: 0.8;
-  z-index: 0;
-  margin-right: 8vw;
-  background: #666a73;
-}
-.NavigationNarrow ul a {
-  float: unset !important;
-  text-decoration: none;
-}
-.NavigationNarrow ul li, .NavigationNarrow ul a li {
-  font-weight: 400;
-  padding: 7px 10px;
-  font-size: 14px;
-  -webkit-transition: background .125s ease;
-  transition: background .125s ease;
-  border-radius: 3px;
-  text-align: left;
-}
-.NavigationNarrow ul li:hover, , .NavigationNarrow ul a li:hover {
-  background: #1F6879;
-  cursor: pointer;
+@import '../../../styles/variables';
+
+.navigation-narrow {
+
+  ul {
+    opacity: 0.8;
+    z-index: 0;
+    margin-right: 8vw;
+    background: #666a73;
+  }
+
+  ul a {
+    float: unset !important;
+    text-decoration: none;
+  }
+
+  ul li, ul a li {
+    font-weight: 400;
+    padding: 7px 10px;
+    font-size: 14px;
+    -webkit-transition: background .125s ease;
+    transition: background .125s ease;
+    border-radius: 3px;
+    text-align: left;
+  }
+
+  ul li:hover, , ul a li:hover {
+    background: $eventol-color;
+    cursor: pointer;
+  }
 }

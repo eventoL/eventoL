@@ -1,14 +1,13 @@
-.navWide {
+@import '../../../styles/commons';
+
+.nav-wide {
   display: none;
 }
 
 @media (min-width: 950px) {
-  .navWide {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    width: 100vw;
+  .nav-wide {
+    @include flex-element;
     box-sizing: border-box;
+    width: 100vw;
   }
 }

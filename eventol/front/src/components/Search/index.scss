@@ -1,46 +1,36 @@
-.Search {
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: 100%;
-  position: absolute;
-  left:0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+@import '../../styles/variables';
+@import '../../styles/commons';
+
+.search {
+  @extend %flex-element;
+  @extend %center-element;
+  left: 0;
   pointer-events: none;
-}
-.Search input {
-  font-family: "Lato", sans-serif;
-  font-weight: 300;
-  font-size: 14px;
-  height: 37px;
-  width: 35vw;
-  background: transparent;
-  color: black;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  border: 0;
-  border: 2px solid black;
-  outline: none;
-  border-radius: 37px;
-  padding: 0 10px;
-  pointer-events: all;
-  -webkit-transition: border .25s ease, width .125s ease .125s;
-  transition: border .25s ease, width .125s ease .125s;
-}
-.Search input:focus {
-  border: 2px solid #1F6879;
-  width: 45vw;
+  position: absolute;
+  width: 100%;
+
+  input {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-transition: border .25s ease, width .125s ease .125s;
+    appearance: none;
+    background: transparent;
+    border: 2px solid $black;
+    border-radius: 37px;
+    color: $text-color;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    height: 37px;
+    outline: none;
+    padding: 0 10px;
+    pointer-events: all;
+    transition: border .25s ease, width .125s ease .125s;
+    width: 35vw;
+  }
+
+  input:focus {
+    border: 2px solid $eventol-color;
+    width: 45vw;
+  }
 }

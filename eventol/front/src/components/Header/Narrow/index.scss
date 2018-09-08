@@ -1,35 +1,41 @@
-.navNarrow {
-  display: flex;
+@import '../../../styles/variables';
+@import '../../../styles/commons';
+
+.nav-narrow {
+  @extend %flex-element;
+  box-sizing: border-box;
+  left: 0;
   padding: 40px;
   position: fixed;
   top: 0;
-  left: 0;
   width: 100vw;
-  box-sizing: border-box;
 
-  .navRight {
+  .nav-right {
     margin-left: auto;
+
     i {
       float: right;
       z-index: 5;
     }
-    .narrowLinks {
+
+    .narrow-links {
       display: none;
+
       a {
+        clear: right;
         display: block;
         float: right;
-        clear: right;
       }
     }
   }
 }
 
 @media (min-width: 950px) {
-  .navNarrow {
+  .nav-narrow {
     display: none;
   }
 }
 
 a {
-  color: white;
+  color: $a-color;
 }

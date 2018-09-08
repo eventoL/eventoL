@@ -1,31 +1,32 @@
-.Button {
-  background: transparent;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 44px;
-  -webkit-box-align: center;
+@import '../../styles/variables';
+@import '../../styles/commons';
+
+.button {
+  @extend %flex-element;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
   -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: center;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  text-decoration: none;
-  color: #1F6879;
-  padding: 20px;
-  box-sizing: border-box;
-  border: 2px solid #1F6879;
+  -webkit-transition: border .125s ease, background .125s ease;
+  align-items: center;
+  background: transparent;
+  border: 2px solid $eventol-color;
   border-radius: 44px;
+  box-sizing: border-box;
+  color: $eventol-color;
   font-size: 14px;
   font-weight: 600;
-  -webkit-transition: border .125s ease, background .125s ease;
+  height: 44px;
+  justify-content: center;
+  padding: 20px;
+  text-decoration: none;
   transition: border .125s ease, background .125s ease;
 }
-.Button:hover {
-  border: 2px solid #1F6879;
-  color: #fafafa;
-  background: #1F6879;
+
+.button:hover {
+  background: $eventol-color;
+  border: 2px solid $eventol-color;
+  color: $light-gray;
 }

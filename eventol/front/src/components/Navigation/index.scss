@@ -1,27 +1,37 @@
-.Navigation ul {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 37px;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0 10px;
-}
-.Navigation ul li {
-  font-weight: 400;
-  padding: 7px 10px;
-  font-size: 14px;
-  -webkit-transition: background .125s ease;
-  transition: background .125s ease;
-  border-radius: 3px;
-}
-.Navigation ul li  a, .Navigation ul a {
-  text-decoration: none;
-}
-.Navigation ul li:hover {
-  background: #1F6879;
-  cursor: pointer;
+@import '../../styles/variables';
+@import '../../styles/commons';
+
+.navigation {
+
+  ul {
+    @extend %flex-element;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 37px;
+    padding: 0 10px;
+
+    li {
+      -webkit-transition: background .125s ease;
+      border-radius: 3px;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 7px 10px;
+      transition: background .125s ease;
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    li:hover {
+      background: $eventol-color;
+      cursor: pointer;
+    }
+  }
 }
