@@ -20,7 +20,7 @@ rules:
   no-attribute-selectors: 0
   no-color-hex: 0
   no-color-keywords: 1
-  no-color-literals: 1
+  no-color-literals: 0
   no-combinators: 0
   no-css-comments: 1
   no-debug: 1
@@ -31,6 +31,7 @@ rules:
     exclude:
       - display
       - background
+      - background-size
   no-empty-rulesets: 1
   no-extends: 0
   no-ids: 1
@@ -53,7 +54,7 @@ rules:
   declarations-before-nesting: 1
   force-attribute-nesting: 1
   force-element-nesting: 1
-  force-pseudo-nesting: 1
+  force-pseudo-nesting: 0
 
   # Name Formats
   class-name-format: 1
@@ -76,7 +77,9 @@ rules:
   leading-zero: 1
   max-line-length: 0
   max-file-line-count: 0
-  nesting-depth: 1
+  nesting-depth:
+    - 1
+    - max-depth: 4
   property-sort-order: 1
   pseudo-element: 1
   quotes: 1
