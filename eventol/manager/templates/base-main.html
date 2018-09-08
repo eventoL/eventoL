@@ -123,7 +123,7 @@
                                 </li>
                                 {% endif %}
                               {% endif %}
-                              {% if not PRIVATE_ACTIVITIES or user|is_collaborator:event_slug  %}
+                              {% if not PRIVATE_ACTIVITIES or perms.manager.can_review_activity  %}
                               <li>
                                   <a href="{% url "activities" event_slug %}">
                                       <i class="fa fa-th"></i> {% trans "View Activities" %}
@@ -201,6 +201,11 @@
                                         <li>
                                             <a href="{% url "add_registration_people" event_slug %}">
                                                 <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "add_reviewer" event_slug %}">
+                                                <i class="fa fa-pencil-square-o"></i> {% trans "Manage Rewievers" %}
                                             </a>
                                         </li>
                                     {% endif %}

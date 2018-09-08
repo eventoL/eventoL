@@ -77,5 +77,6 @@ event_patterns = [
     url(r'^organizers$', views.add_organizer, name='add_organizer'),
     url(r'^registration_people', views.add_registration_people,
         name='add_registration_people'),
+    url(r'^reviewers', views.add_reviewer, name='add_reviewer'),
     url(r'^ticket$', views.view_ticket, name='view_ticket'),
 ]

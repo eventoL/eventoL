@@ -843,6 +843,9 @@ class Activity(VoteModel, models.Model):
         ordering = ['title']
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
+        permissions = (
+            ("can_review_activity", "Can review Activities"),
+        )
 
 
 class InstallationManager(models.Manager):
