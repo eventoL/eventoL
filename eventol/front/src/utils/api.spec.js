@@ -1,10 +1,12 @@
-import { getUrl } from './api.js';
+import {getUrl, postUrl} from './api.js';
 
 describe('Api utils', () => {
-  let url, params;
+  let url, data, body;
 
   beforeAll(() => {
-    url = '/events/api/';
+    url = '/api/';
+    data = {user: 'example', password: 'secret'};
+    body = JSON.stringify(data);
   })
 
   beforeEach(() => {
@@ -13,16 +15,11 @@ describe('Api utils', () => {
         json: () => Promise.resolve([])
       })
     );
-    params = {
-      credentials: 'same-origin',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRFToken': undefined
-      },
-      method: 'GET'
-    }
-  });
+  })
+
+  function getLastCall() {
+    return global.fetch.mock.calls[global.fetch.mock.calls.length - 1];
+  }
 
   afterAll(() => {
     global.fetch.reset();
@@ -30,13 +27,31 @@ describe('Api utils', () => {
   })
 
   describe('get', () => {
-
-    it('should API_URL is /events/api/', async () => {
+    it('should get a correct url', async () => {
       await getUrl(url);
       expect(global.fetch).toBeCalled();
-      expect(global.fetch).lastCalledWith(url, params);
+      expect(getLastCall()[0]).toBe(url);
     })
 
+    it('should add a queryString', async () => {
+      await getUrl(url, {test: true, name: 'Peter'});
+      expect(global.fetch).toBeCalled();
+      expect(getLastCall()[0]).toBe(url + '?test=true&name=Peter');
+    })
   })
 
+  describe('post', () => {
+    it('should post to correct url', async () => {
+      await postUrl(url, data);
+      expect(global.fetch).toBeCalled();
+      expect(getLastCall()[0]).toBe(url);
+      expect(getLastCall()[1].body).toBe(body);
+    })
+
+    it('should add a queryString', async () => {
+      await postUrl(url, data, {test: true, name: 'Peter'});
+      expect(global.fetch).toBeCalled();
+      expect(getLastCall()[0]).toBe(url + '?test=true&name=Peter');
+    })
+  })
 })
