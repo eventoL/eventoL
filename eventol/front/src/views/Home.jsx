@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import {render} from 'react-dom'
 import Home from '../containers/Home'
 import {Provider} from 'react-redux'
 import eventsStore from '../store/eventsStore'
@@ -10,12 +10,13 @@ window.render_components = properties => {
   window.params = {...properties};
   render(
     (<Provider store={store}>
-       <Home user={properties.user}
-         eventolMessage={properties.message}
-         background={properties.background}
-         logoHeader={properties.logo_header}
-         logoLanding={properties.logo_landing}
-       />
+      <Home
+        background={properties.background}
+        eventolMessage={properties.message}
+        logoHeader={properties.logo_header}
+        logoLanding={properties.logo_landing}
+        user={properties.user}
+      />
     </Provider>), document.getElementById('root'));
 };
 
