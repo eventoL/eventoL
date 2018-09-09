@@ -30,7 +30,7 @@ export default class Search extends React.Component {
   render(){
     const {searchTerm} = this.state;
     return (
-      <div id='search' className='Search'>
+      <div className='search' id='search'>
         <input
           id='search-input'
           onKeyUp={this.handleKeyUp}

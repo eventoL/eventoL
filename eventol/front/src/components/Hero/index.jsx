@@ -48,8 +48,8 @@ export default class Hero extends React.Component {
     const {children, background, logoLanding} = this.props;
     const backgroundImage = `url(${background})`;
     return (
-      <div id="hero" className="Hero" style={{backgroundImage}}>
         <div className="content">
+      <div className='hero' id='hero' style={{backgroundImage}}>
           <p>
             <img className="logo" src={logoLanding} alt="logo" />
           </p>

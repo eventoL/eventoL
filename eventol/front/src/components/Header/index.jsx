@@ -5,9 +5,9 @@ import HeaderWide from './Wide';
 import './index.scss';
 
 const Header = ({user, logoHeader}) => (
-  <header className='Header'>
     <HeaderWide user={user} logoHeader={logoHeader}/>
     <HeaderNarrow user={user} logoHeader={logoHeader}/>
+  <header className='header'>
   </header>
 );
 

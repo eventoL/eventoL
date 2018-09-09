@@ -9,7 +9,7 @@ export default class Navigation extends React.Component {
 
   render(){
     return (
-      <div className="SignInNarrow">
+      <div className='sign-in-narrow'>
         <ul>
           <li><a href='/accounts/login/'>{gettext('Sign In')}</a></li>
           <li><a href='/accounts/signup/'>{gettext('Sign Up')}</a></li>

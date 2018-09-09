@@ -5,8 +5,8 @@ import './index.scss'
 
 
 const Logo = ({logoHeader}) => (
-	<div id="logo" className="Logo">
 		<a href='/'>
+  <div className='logo-component' id='logo'>
       <img src={logoHeader} />
 		</a>
   </div>

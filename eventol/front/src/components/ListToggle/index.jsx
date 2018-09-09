@@ -14,7 +14,7 @@ export default class ListToggle extends React.Component {
   render(){
     const {toggled} = this.state;
     return (
-      <div onClick={this.handleClick} data-toggled={toggled} className="ListToggle">
+      <div className='list-toggle' data-toggled={toggled} onClick={this.handleClick}>
         <div>
           <i className="fa fa-fw fa-plus" />
           <i className="fa fa-fw fa-check" />

@@ -57,7 +57,7 @@ export default class ItemMap extends React.Component {
     const {title, url, attendees, overview} = this.props;
     const mapId = this.getMapId();
     return (
-      <div id={mapId} className="Item max-size">
+      <div className='item max-size' id={mapId}>
         <a href={url}>
           <div className="overlay">
             <div className="title">{title}</div>

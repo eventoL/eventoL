@@ -10,7 +10,7 @@ export default class Navigation extends React.Component {
 
   render(){
     return (
-      <div id="navigation" className="Navigation">
+      <div className='navigation' id='navigation'>
         <nav>
           <ul>
             <li onClick={this.searchFocus}>{gettext('Search')}</li>

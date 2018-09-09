@@ -23,11 +23,11 @@ export default class HeaderNarrow extends React.Component {
   render(){
     const {user, logoHeader} = this.props;
     return (
-      <div className="navNarrow">
         <Logo logoHeader={logoHeader}/>
-        <div className='navRight'>
           <a href="#" onClick={this.toggle}><i className="fa fa-bars fa-2x" /></a>
-          <div className="narrowLinks">
+      <div className='nav-narrow'>
+        <div className='nav-right'>
+          <div className='narrow-links'>
             <NavigationNarrow />
             {user && <UserProfileNarrow user={user}/>}
             {!user && <SignInNarrow/>}

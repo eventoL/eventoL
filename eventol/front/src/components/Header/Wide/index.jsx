@@ -9,8 +9,8 @@ import './index.scss'
 
 
 const HeaderWide = ({user, logoHeader}) => (
-  <div className="navWide">
     <Logo logoHeader={logoHeader}/>
+  <div className='nav-wide'>
     <Navigation />
     {user && <UserProfile user={user}/>}
     {!user && <SignIn/>}
