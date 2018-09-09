@@ -3,16 +3,15 @@ import PropTypes from 'prop-types'
 import './index.scss';
 
 
-export default class HeroButton extends React.Component {
-  static propTypes = {
-    primary: PropTypes.string,
-    text: PropTypes.string
-  };
+const HeroButton = ({primary, text}) => (
+  <a className='button' data-primary={primary} href='#'>
+    {text}
+  </a>
+);
 
-  render(){
-    const {primary, text} = this.props;
-    return (
-      <a href="#" className="Button" data-primary={primary}>{text}</a>
-    );
-  }
-}
+HeroButton.propTypes = {
+  primary: PropTypes.string,
+  text: PropTypes.string
+};
+
+export default HeroButton;

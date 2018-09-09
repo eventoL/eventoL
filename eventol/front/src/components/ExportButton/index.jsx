@@ -5,27 +5,31 @@ import {CSVLink} from 'react-csv'
 import './index.scss'
 
 export default class ExportButton extends React.Component {
-  state = {header: [], rows: [], totals: []}
-
   static propTypes = {
     data: PropTypes.array,
+    filename: PropTypes.string,
     label: PropTypes.string,
-    type: PropTypes.string,
-    filename: PropTypes.string
+    type: PropTypes.string
   };
+
+  state = {
+    header: [],
+    rows: [],
+    totals: []
+  }
 
   getField(columns, field){
     const values = [];
     columns.forEach(column => {
-     if (!column.hasOwnProperty('Header')) return null;
-     if (!column.hasOwnProperty('columns')) values.push(column[field]);
-     else column.columns.forEach(subcolumn => values.push(subcolumn[field]));
+      if (!column.hasOwnProperty('Header')) return null;
+      if (!column.hasOwnProperty('columns')) values.push(column[field]);
+      else column.columns.forEach(subcolumn => values.push(subcolumn[field]));
     })
     return values;
   }
 
   runAccessor(accessor, row){
-    if (typeof accessor === 'string') return row[accessor]
+    if (typeof accessor === 'string') return row[accessor];
     return accessor(row);
   }
 
@@ -51,7 +55,9 @@ export default class ExportButton extends React.Component {
     const csvData = [header, ...rows, totals];
     return (
       <div className={`export btn btn-raised btn-${type}`}>
-        <CSVLink filename={`${filename}.csv`} data={csvData}>{label}</CSVLink>
+        <CSVLink data={csvData} filename={`${filename}.csv`}>
+          {label}
+        </CSVLink>
       </div>
     );
   }

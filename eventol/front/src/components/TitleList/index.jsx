@@ -7,16 +7,16 @@ import './index.scss'
 
 
 export default class TitleList extends React.Component {
+  static propTypes = {
+    id: PropTypes.string,
+    showEmpty: PropTypes.bool,
+    title: PropTypes.string,
+    url: PropTypes.string
+  }
+
   state = {
     data: [],
     mounted: false
-  }
-
-  static propTypes = {
-    showEmpty: PropTypes.bool,
-    title: PropTypes.string,
-    url: PropTypes.string,
-    id: PropTypes.string
   }
 
   loadContent(){
@@ -26,18 +26,18 @@ export default class TitleList extends React.Component {
       .catch(err => console.error('There has been an error', err));
   }
 
+  componentDidMount(){
+    if(this.props.url !== ''){
+      this.loadContent();
+      this.setState({mounted: true});
+    }
+  }
+
   componentWillReceiveProps(nextProps){
     if(nextProps.url !== this.props.url && nextProps.url !== ''){
       this.setState({mounted: true, url: nextProps.url},()=>{
         this.loadContent();
       });
-    }
-  }
-
-  componentDidMount(){
-    if(this.props.url !== ''){
-      this.loadContent();
-      this.setState({mounted: true});
     }
   }
 
@@ -65,11 +65,11 @@ export default class TitleList extends React.Component {
         title: gettext('Event not found'),
         overview: gettext('No Event found in your search'),
         backdrop: '/static/manager/img/logo.png'
-      }
+      } // TODO: move to constant
       return (<div className='title-list' data-loaded={mounted} id={id}>
         <div className='category-title'>
           <h1>{title}</h1>
-          <SliderItems itemsData={[emptyItem]}/>
+          <SliderItems itemsData={[emptyItem]} />
         </div>
       </div>)
     }
@@ -77,10 +77,9 @@ export default class TitleList extends React.Component {
       <div className='title-list' data-loaded={mounted} id={id}>
         <div className='category-title'>
           <h1>{title}</h1>
-          <SliderItems itemsData={itemsData} sliderId={id}/>
+          <SliderItems itemsData={itemsData} sliderId={id} />
         </div>
       </div>
     );
   }
-
 }

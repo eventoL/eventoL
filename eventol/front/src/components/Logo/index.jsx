@@ -5,10 +5,10 @@ import './index.scss'
 
 
 const Logo = ({logoHeader}) => (
-		<a href='/'>
   <div className='logo-component' id='logo'>
+    <a href='/'>
       <img src={logoHeader} />
-		</a>
+    </a>
   </div>
 );
 
@@ -17,7 +17,7 @@ Logo.propTypes = {
 };
 
 Logo.defaultProps = {
-	logoHeader: '/static/manager/img/eventol-white.png'
+  logoHeader: '/static/manager/img/eventol-white.png' // TODO: move to constant
 }
 
 export default Logo;

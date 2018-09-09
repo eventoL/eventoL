@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 const NextArrow = ({onClick, style}) => (
   <div
     className='arrow arrow-next fa fa-chevron-right'
+    onClick={onClick}
     style={{...style, display: 'block', color: 'black'}}
-    onClick={onClick} />
+  />
 );
 
 NextArrow.propTypes = {

@@ -36,7 +36,7 @@ export default class ReportTable extends React.Component {
       columns: [
         {Header: gettext('Email'), accessor: 'email'},
         {Header: gettext('Organizers'), accessor: 'organizers'}
-    ]};
+      ]};
   }
 
   getLocationColumns(){

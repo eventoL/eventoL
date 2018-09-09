@@ -3,8 +3,8 @@ import React from 'react'
 import './index.scss'
 
 
-export default class Navigation extends React.Component {
-  searchFocus(){
+export default class Navigation extends React.PureComponent {
+  handleSearchFocus(){
     document.getElementById('search-input').focus();
   }
 
@@ -13,7 +13,7 @@ export default class Navigation extends React.Component {
       <div className='navigation' id='navigation'>
         <nav>
           <ul>
-            <li onClick={this.searchFocus}>{gettext('Search')}</li>
+            <li onClick={this.handleSearchFocus}>{gettext('Search')}</li>
             <a href='http://eventol.github.io/eventoL/#/'><li>{gettext('Documentation')}</li></a>
             <a href='#featured'><li>{gettext('Featured')}</li></a>
             <a href='#recent'><li>{gettext('Recent')}</li></a>

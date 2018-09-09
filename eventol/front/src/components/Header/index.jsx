@@ -5,15 +5,15 @@ import HeaderWide from './Wide';
 import './index.scss';
 
 const Header = ({user, logoHeader}) => (
-    <HeaderWide user={user} logoHeader={logoHeader}/>
-    <HeaderNarrow user={user} logoHeader={logoHeader}/>
   <header className='header'>
+    <HeaderWide logoHeader={logoHeader} user={user} />
+    <HeaderNarrow logoHeader={logoHeader} user={user} />
   </header>
 );
 
 Header.propTypes = {
-  user: PropTypes.object,
-  logoHeader: PropTypes.string
+  logoHeader: PropTypes.string,
+  user: PropTypes.object
 };
 
 export default Header;

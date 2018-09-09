@@ -7,30 +7,31 @@ import SignInNarrow from '../../../components/SignIn/Narrow';
 import './index.scss';
 
 
-export default class HeaderNarrow extends React.Component {
-
+export default class HeaderNarrow extends React.PureComponent {
   static propTypes = {
-    user: PropTypes.object,
-    logoHeader: PropTypes.string
+    logoHeader: PropTypes.string,
+    user: PropTypes.object
   };
 
-  toggle(){
-		const linksEl = document.querySelector('.narrowLinks');
+  handleToggle(){
+    const linksEl = document.querySelector('.narrow-links');
     const display = linksEl.style.display;
     linksEl.style.display = (display === 'block') ? 'none' : 'block';
-	}
+  }
 
   render(){
     const {user, logoHeader} = this.props;
     return (
-        <Logo logoHeader={logoHeader}/>
-          <a href="#" onClick={this.toggle}><i className="fa fa-bars fa-2x" /></a>
       <div className='nav-narrow'>
+        <Logo logoHeader={logoHeader} />
         <div className='nav-right'>
+          <a href='#' onClick={this.handleToggle}>
+            <i className='fa fa-bars fa-2x' />
+          </a>
           <div className='narrow-links'>
             <NavigationNarrow />
-            {user && <UserProfileNarrow user={user}/>}
-            {!user && <SignInNarrow/>}
+            {user && <UserProfileNarrow user={user} />}
+            {!user && <SignInNarrow />}
           </div>
         </div>
       </div>

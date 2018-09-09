@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 
 export default class Button extends React.Component {
   static propTypes = {
-    name: PropTypes.string,
+    handleOnClick: PropTypes.func.isRequired,
     label: PropTypes.string,
+    name: PropTypes.string,
     type: PropTypes.string,
-    handleOnClick: PropTypes.func
   };
 
   handleClick = ({target: {id}}) => {
@@ -18,8 +18,10 @@ export default class Button extends React.Component {
   render(){
     const {type, label, name} = this.props;
     return (
-      <a id={name} onClick={this.handleClick} className={`btn btn-raised btn-${type}`}>
-        <span id={name} aria-hidden="true">{label}</span>
+      <a className={`btn btn-raised btn-${type}`} id={name} onClick={this.handleClick}>
+        <span aria-hidden='true' id={name}>
+          {label}
+        </span>
       </a>
     );
   }

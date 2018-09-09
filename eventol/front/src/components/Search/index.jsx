@@ -5,14 +5,14 @@ import './index.scss'
 
 
 export default class Search extends React.Component {
+  static propTypes = {
+    onChange: PropTypes.func,
+    onEnter: PropTypes.func
+  };
+
   state = {
     searchTerm: ''
   }
-
-  static propTypes = {
-    onEnter: PropTypes.func,
-    onChange: PropTypes.func
-  };
 
   handleKeyUp = ({key}) => {
     if (key === 'Enter') {
@@ -33,11 +33,12 @@ export default class Search extends React.Component {
       <div className='search' id='search'>
         <input
           id='search-input'
-          onKeyUp={this.handleKeyUp}
           onChange={this.handleChange}
-          type='search'
+          onKeyUp={this.handleKeyUp}
           placeholder={gettext('Search by title...')}
-          value={searchTerm}/>
+          type='search'
+          value={searchTerm}
+        />
       </div>
     );
   }

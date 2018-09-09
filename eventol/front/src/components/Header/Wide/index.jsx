@@ -9,17 +9,17 @@ import './index.scss'
 
 
 const HeaderWide = ({user, logoHeader}) => (
-    <Logo logoHeader={logoHeader}/>
   <div className='nav-wide'>
+    <Logo logoHeader={logoHeader} />
     <Navigation />
-    {user && <UserProfile user={user}/>}
-    {!user && <SignIn/>}
+    {user && <UserProfile user={user} />}
+    {!user && <SignIn />}
   </div>
 );
 
 HeaderWide.propTypes = {
-  user: PropTypes.object,
-  logoHeader: PropTypes.string
+  logoHeader: PropTypes.string,
+  user: PropTypes.object
 };
 
 export default HeaderWide;

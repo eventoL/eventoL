@@ -3,7 +3,7 @@ import React from 'react'
 import './index.scss'
 
 
-export default class Navigation extends React.Component {
+export default class Navigation extends React.PureComponent {
   searchFocus(){
     document.getElementById('search-input').focus();
   }
@@ -18,5 +18,4 @@ export default class Navigation extends React.Component {
       </div>
     );
   }
-
 }
