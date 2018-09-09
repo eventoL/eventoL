@@ -10,19 +10,12 @@ describe('events Actions', () => {
     event = {
       model: 'events.event',
       pk: 1,
-      fields: {
-        name: 'Gitlab with workshop',
-        url: 'https://gitlab.com/FedeG/django-react-workshop/',
-        pending: false,
-        description: '',
-        user: 1
-      }
+      fields: {}
     }
     events = [event]
   });
 
   describe(SET_EVENTS, () => {
-
     beforeEach(() => {
       expectDefault = {
         type: SET_EVENTS,
@@ -39,11 +32,9 @@ describe('events Actions', () => {
       const result = setEvents(events)
       expect(result).toEqual(expectDefault)
     })
-
   })
 
   describe(UPDATE_EVENT, () => {
-
     beforeEach(() => {
       expectDefault = {
         type: UPDATE_EVENT,
@@ -60,11 +51,9 @@ describe('events Actions', () => {
       const result = updateEvent(event)
       expect(result).toEqual(expectDefault)
     })
-
   })
 
   describe(CREATE_EVENT, () => {
-
     beforeEach(() => {
       expectDefault = {
         type: CREATE_EVENT,
@@ -81,11 +70,9 @@ describe('events Actions', () => {
       const result = createEvent(event)
       expect(result).toEqual(expectDefault)
     })
-
   })
 
   describe(DELETE_EVENT, () => {
-
     beforeEach(() => {
       expectDefault = {
         type: DELETE_EVENT,
@@ -102,7 +89,5 @@ describe('events Actions', () => {
       const result = deleteEvent(event)
       expect(result).toEqual(expectDefault)
     })
-
   })
-
 })
