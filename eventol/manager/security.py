@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.utils.decorators import available_attrs
 from manager.models import Attendee, Collaborator, Installer, Organizer, Activity
 
@@ -145,6 +146,32 @@ def are_activities_public(user, event_slug=None):
         else:
             raise PermissionDenied(
                 "Only organizers and collaborators are authorized to access the activities list.")
+
+
+def is_activity_public():
+    """Return True if activities are public.
+
+    If activities are private only will return true for collaborator users or activity owner"""
+    def decorator(view_func):
+        @wraps(view_func, assigned=available_attrs(view_func))
+        def _wrapped_view(request, *args, **kwargs):
+            activity_id = kwargs['activity_id']
+            user = request.user
+            activity = get_object_or_404(Activity, pk=activity_id)
+            event_slug = kwargs['event_slug']
+
+            if any([
+                    not settings.PRIVATE_ACTIVITIES,
+                    activity.owner == user,
+                    user.is_authenticated() and is_organizer(user, event_slug=event_slug)
+            ]):
+                return view_func(request, *args, **kwargs)
+            else:
+                raise PermissionDenied("Only organizers and collaborators are authorized "
+                                       "to access the activities list.")
+        return _wrapped_view
+
+    return decorator
 
 
 def user_passes_test(test_func, name_redirect):
