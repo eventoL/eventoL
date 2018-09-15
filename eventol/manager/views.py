@@ -50,7 +50,7 @@ from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Hardware, Installation, InstallationMessage,
                             Installer, Organizer, Room, EventTag)
 from manager.security import (are_activities_public, add_attendance_permission,
-                              add_organizer_permissions, is_collaborator,
+                              add_organizer_permissions, is_activity_public, is_collaborator,
                               is_collaborator_or_installer, is_installer,
                               is_organizer, user_passes_test, is_speaker)
 from manager.utils.report import count_by
@@ -1722,6 +1722,7 @@ def event_add_image(request, event_slug):
     )
 
 
+@is_activity_public()
 def activity_detail(request, event_slug, activity_id):
     activity = get_object_or_404(Activity, pk=activity_id)
     activity.labels = activity.labels.split(',')
