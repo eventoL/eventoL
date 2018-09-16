@@ -48,11 +48,11 @@ from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Collaborator, Contact, ContactMessage, Event,
                             EventDate, EventUser, EventUserAttendanceDate,
                             Hardware, Installation, InstallationMessage,
-                            Installer, Organizer, Room, EventTag)
+                            Installer, Organizer, Room, Reviewer, EventTag)
 from manager.security import (are_activities_public, add_attendance_permission,
                               add_organizer_permissions, is_activity_public, is_collaborator,
                               is_collaborator_or_installer, is_installer,
-                              is_organizer, user_passes_test, is_speaker)
+                              is_organizer, is_reviewer, user_passes_test, is_speaker)
 from manager.utils.report import count_by
 
 from .utils import email as utils_email
@@ -499,6 +499,29 @@ def add_registration_people(request, event_slug):
             event_slug,
             {'form': form, 'registration_people': registration_people}
         )
+    )
+
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def add_reviewer(request, event_slug):
+    """Add reviewer access to Colaborator user."""
+    form = EventUserSearchForm(event_slug, request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            event_user = form.cleaned_data['event_user']
+            if event_user:
+                Reviewer.objects.get_or_create(event_user=event_user)
+                messages.success(
+                    request, _("{} has been successfully added as reviewer.".format(
+                        event_user.user.username))
+                )
+            return redirect(reverse('add_reviewer', args=[event_slug]))
+        messages.error(request, _('Something went wrong (please check form errors)'))
+    reviewers = Reviewer.objects.filter(event_user__event__event_slug=event_slug)
+    return render(
+        request, 'event/review_people.html',
+        update_event_info(event_slug, {'form': form, 'review_people': reviewers})
     )
 
 
@@ -1928,18 +1951,18 @@ def activity_vote(request, event_slug, activity_id, vote_type):
 
 
 @login_required
-@user_passes_test(is_organizer, 'index')
+@user_passes_test(is_reviewer, 'index')
 def activity_vote_up(request, event_slug, activity_id):
     return activity_vote(request, event_slug, activity_id, 'up')
 
 
 @login_required
-@user_passes_test(is_organizer, 'index')
+@user_passes_test(is_reviewer, 'index')
 def activity_vote_down(request, event_slug, activity_id):
     return activity_vote(request, event_slug, activity_id, 'down')
 
 
 @login_required
-@user_passes_test(is_organizer, 'index')
+@user_passes_test(is_reviewer, 'index')
 def activity_vote_cancel(request, event_slug, activity_id):
     return activity_vote(request, event_slug, activity_id, 'cancel')

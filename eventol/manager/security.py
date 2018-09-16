@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import available_attrs
-from manager.models import Attendee, Collaborator, Installer, Organizer, Activity
+from manager.models import Attendee, Collaborator, Installer, Organizer, Activity, Reviewer
 
 
 def get_or_create_attendance_permission():
@@ -128,6 +128,14 @@ def is_collaborator(user, event_slug=None):
             event_user__event__event_slug=event_slug).exists() or
         is_organizer(user, event_slug=event_slug))
 
+def is_reviewer(user, event_slug=None):
+    return event_slug and (
+        Reviewer.objects.filter(
+            event_user__user=user,
+            event_user__event__event_slug=event_slug).exists() or
+        is_organizer(user, event_slug=event_slug))
+
+
 
 def is_collaborator_or_installer(user, event_slug=None):
     return is_collaborator(user, event_slug=event_slug) or is_installer(user,
@@ -142,7 +150,7 @@ def are_activities_public(user, event_slug=None):
         return True
     else:
         if user.is_authenticated():
-            return is_collaborator(user, event_slug=event_slug)
+            return is_reviewer(user, event_slug=event_slug)
         else:
             raise PermissionDenied(
                 "Only organizers and collaborators are authorized to access the activities list.")
@@ -163,7 +171,7 @@ def is_activity_public():
             if any([
                     not settings.PRIVATE_ACTIVITIES,
                     activity.owner == user,
-                    user.is_authenticated() and is_organizer(user, event_slug=event_slug)
+                    user.is_authenticated() and is_reviewer(user, event_slug=event_slug)
             ]):
                 return view_func(request, *args, **kwargs)
             else:

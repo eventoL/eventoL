@@ -464,6 +464,18 @@ class Organizer(models.Model):
         return str(self.event_user)
 
 
+class Reviewer(models.Model):
+    """User that collaborates with activities review"""
+    objects = EventUserManager()
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
+                                   blank=True, null=True)
+
+    def __str__(self):
+        return str(self.event_user)
+
+
 class AttendeeManager(EventUserManager):
     @staticmethod
     def get_attendees(queryset):
