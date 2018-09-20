@@ -170,7 +170,7 @@ def is_activity_public():
 
             if any([
                     not settings.PRIVATE_ACTIVITIES,
-                    activity.owner == user,
+                    activity.owner.user == user,
                     user.is_authenticated() and is_reviewer(user, event_slug=event_slug)
             ]):
                 return view_func(request, *args, **kwargs)
