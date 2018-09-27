@@ -1,7 +1,7 @@
 import {
   setEvents, createEvent, updateEvent, deleteEvent,
   DELETE_EVENT, CREATE_EVENT, UPDATE_EVENT, SET_EVENTS
-} from './eventsActions'
+} from './eventsActions';
 
 describe('events Actions', () => {
   let event, events, expectDefault;
@@ -11,8 +11,8 @@ describe('events Actions', () => {
       model: 'events.event',
       pk: 1,
       fields: {}
-    }
-    events = [event]
+    };
+    events = [event];
   });
 
   describe(SET_EVENTS, () => {
@@ -20,74 +20,74 @@ describe('events Actions', () => {
       expectDefault = {
         type: SET_EVENTS,
         events
-      }
-    })
+      };
+    });
 
     test('returns a object', () => {
-      const result = setEvents(events)
-      expect(result).toBeDefined()
-    })
+      const result = setEvents(events);
+      expect(result).toBeDefined();
+    });
 
     test('returns correct events', () => {
-      const result = setEvents(events)
-      expect(result).toEqual(expectDefault)
-    })
-  })
+      const result = setEvents(events);
+      expect(result).toEqual(expectDefault);
+    });
+  });
 
   describe(UPDATE_EVENT, () => {
     beforeEach(() => {
       expectDefault = {
         type: UPDATE_EVENT,
         event
-      }
-    })
+      };
+    });
 
     test('returns a object', () => {
-      const result = updateEvent(event)
-      expect(result).toBeDefined()
-    })
+      const result = updateEvent(event);
+      expect(result).toBeDefined();
+    });
 
     test('returns correct events', () => {
-      const result = updateEvent(event)
-      expect(result).toEqual(expectDefault)
-    })
-  })
+      const result = updateEvent(event);
+      expect(result).toEqual(expectDefault);
+    });
+  });
 
   describe(CREATE_EVENT, () => {
     beforeEach(() => {
       expectDefault = {
         type: CREATE_EVENT,
         event
-      }
-    })
+      };
+    });
 
     test('returns a object', () => {
-      const result = createEvent(event)
-      expect(result).toBeDefined()
-    })
+      const result = createEvent(event);
+      expect(result).toBeDefined();
+    });
 
     test('returns correct events', () => {
-      const result = createEvent(event)
-      expect(result).toEqual(expectDefault)
-    })
-  })
+      const result = createEvent(event);
+      expect(result).toEqual(expectDefault);
+    });
+  });
 
   describe(DELETE_EVENT, () => {
     beforeEach(() => {
       expectDefault = {
         type: DELETE_EVENT,
         event
-      }
-    })
+      };
+    });
 
     test('returns a object', () => {
-      const result = deleteEvent(event)
-      expect(result).toBeDefined()
-    })
+      const result = deleteEvent(event);
+      expect(result).toBeDefined();
+    });
 
     test('returns correct events', () => {
-      const result = deleteEvent(event)
-      expect(result).toEqual(expectDefault)
-    })
-  })
-})
+      const result = deleteEvent(event);
+      expect(result).toEqual(expectDefault);
+    });
+  });
+});
