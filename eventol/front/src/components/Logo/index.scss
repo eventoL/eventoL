@@ -30,7 +30,9 @@
   cursor: pointer;
   margin-top: 2px;
 
-  svg path {
-    fill: $black !important;
+  svg {
+    path {
+      fill: $black !important;
+    }
   }
 }

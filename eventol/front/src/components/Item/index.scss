@@ -21,15 +21,6 @@
     text-decoration: none;
   }
 
-  .rating.tags a {
-    border-radius: 5px;
-    padding: 2px;
-
-    &:hover {
-      background-color: $eventol-color;
-    }
-  }
-
   .overlay {
     -webkit-transition: opacity .125s ease;
     // FF3.6-15
@@ -59,6 +50,17 @@
       font-size: 14px;
       opacity: 0;
       transition: opacity .25s ease .125s;
+
+      &.tags {
+        a {
+          border-radius: 5px;
+          padding: 2px;
+
+          &:hover {
+            background-color: $eventol-color;
+          }
+        }
+      }
     }
 
     .plot {
