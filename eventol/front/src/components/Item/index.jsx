@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ItemMap from '../ItemMap'
+import React from 'react';
+import PropTypes from 'prop-types';
+import ItemMap from '../ItemMap';
 
-import {getTagUrl} from '../../utils/urls'
+import {getTagUrl} from '../../utils/urls';
 
-import './index.scss'
+import './index.scss';
 
 
 const Item = props => {
@@ -19,17 +19,16 @@ const Item = props => {
           </div>
           { attendees !== undefined && (
             <div className='rating'>
-              {gettext('Attendees')}: {attendees}
+              {`${gettext('Attendees')}: ${attendees}`}
             </div>
           )}
           { tags !== undefined && (
             <div className='rating tags'>
-              {gettext('Tags')}: {tags.map(({name, slug}, index) => <a key={index} href={`${getTagUrl(slug)}`}>{name}</a>)}
+              {gettext('Tags')}: {tags.map(({name, slug}, index) => <a href={`${getTagUrl(slug)}`} key={index}>{name}</a>)}
+              {/*TODO: move map to function*/}
             </div>
           )}
-          <div className='plot'>
-            {overview}
-          </div>
+          <div className='plot'>{overview}</div>
         </div>
       </a>
     </div>

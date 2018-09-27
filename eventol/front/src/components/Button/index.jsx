@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 
 export default class Button extends React.Component {
@@ -7,12 +7,12 @@ export default class Button extends React.Component {
     handleOnClick: PropTypes.func.isRequired,
     label: PropTypes.string,
     name: PropTypes.string,
-    type: PropTypes.string,
+    type: PropTypes.string
   };
 
   handleClick = ({target: {id}}) => {
     const {handleOnClick} = this.props;
-    if (handleOnClick) handleOnClick(id);
+    handleOnClick(id);
   }
 
   render(){

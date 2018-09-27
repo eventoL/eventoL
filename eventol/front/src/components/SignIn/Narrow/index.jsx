@@ -1,7 +1,8 @@
-import React from 'react'
-import './index.scss'
+import React from 'react';
+import './index.scss';
 
 
+//TODO: merge with Signin default and move style to scss media query
 export default class Navigation extends React.PureComponent {
   searchFocus(){
     document.getElementById('search-input').focus();

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 import './index.scss';
 
@@ -10,6 +10,7 @@ export default class Hero extends React.Component {
       PropTypes.array,
       PropTypes.object,
       PropTypes.element
+      // TODO: search children proptypes details
     ]),
     logoLanding: PropTypes.string,
     message: PropTypes.string,
@@ -37,11 +38,7 @@ export default class Hero extends React.Component {
   getMessage(){
     const {slug, message} = this.props;
     if (message) {
-      return (
-        <h2>
-          {message}
-        </h2>
-      );
+      return <h2>{message}</h2>;
     }
     if (slug) {
       return (
@@ -52,11 +49,7 @@ export default class Hero extends React.Component {
         </h2>
       );
     }
-    return (
-      <h2>
-        {gettext('Search your event')}
-      </h2>
-    );
+    return <h2>{gettext('Search your event')}</h2>;
   }
 
   render(){
@@ -65,9 +58,7 @@ export default class Hero extends React.Component {
     return (
       <div className='hero' id='hero' style={{backgroundImage}}>
         <div className='content'>
-          <p>
-            <img alt='logo' className='logo' src={logoLanding} />
-          </p>
+          <p><img alt='logo' className='logo' src={logoLanding} /></p>
           {this.getMessage()}
           {children}
         </div>

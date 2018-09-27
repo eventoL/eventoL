@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import './index.scss';
 
 
@@ -19,7 +19,7 @@ export default class ItemMap extends React.PureComponent {
     try {
       this.loadMap();
     } catch(e){
-      console.error(e);
+      console.error(e); //TODO: move to utils for logging
     }
     document.getElementById(event_slug).classList.remove('max-size');
   }
@@ -62,11 +62,11 @@ export default class ItemMap extends React.PureComponent {
         <a href={url}>
           <div className='overlay'>
             <div className='title'>{title}</div>
-            <div className='rating'>{gettext('Attendees')}: {attendees}</div>
+            <div className='rating'>{`${gettext('Attendees')}: ${attendees}`}</div>
             <div className='plot'>{overview}</div>
           </div>
         </a>
       </div>
-    )
+    );
   }
 }

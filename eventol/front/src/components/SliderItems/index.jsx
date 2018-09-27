@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Slider from '../Slider'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Slider from '../Slider';
 
 import Item from '../Item';
 

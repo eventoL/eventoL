@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import './index.scss'
+import './index.scss';
 
 
 const Title = ({label, children}) => (
@@ -22,6 +22,6 @@ Title.propTypes = {
     PropTypes.array,
     PropTypes.object,
     PropTypes.element
-  ]),
+  ]), //TODO: search children default proptypes
   label: PropTypes.string
 };

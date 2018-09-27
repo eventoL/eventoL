@@ -1,8 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {CSVLink} from 'react-csv'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {CSVLink} from 'react-csv';
 
-import './index.scss'
+import './index.scss';
 
 export default class ExportButton extends React.Component {
   static propTypes = {
@@ -24,7 +24,7 @@ export default class ExportButton extends React.Component {
       if (!column.hasOwnProperty('Header')) return null;
       if (!column.hasOwnProperty('columns')) values.push(column[field]);
       else column.columns.forEach(subcolumn => values.push(subcolumn[field]));
-    })
+    });
     return values;
   }
 

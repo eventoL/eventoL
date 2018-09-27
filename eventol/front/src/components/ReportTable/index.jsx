@@ -1,22 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ReactTable from 'react-table'
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactTable from 'react-table';
 
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
 
 
 export default class ReportTable extends React.Component {
   static propTypes = {
     count: PropTypes.number,
-    totals: PropTypes.object,
     data: PropTypes.array,
-    pages: PropTypes.number,
-    loading: PropTypes.bool,
     defaultRows: PropTypes.number,
-    fetchData: PropTypes.func,
+    eventsPrivateData: PropTypes.object,
     exportButton: PropTypes.object,
+    fetchData: PropTypes.func,
+    loading: PropTypes.bool,
+    pages: PropTypes.number,
     table: PropTypes.string,
-    eventsPrivateData: PropTypes.object
+    totals: PropTypes.object
   };
 
   getEventColumns(){
@@ -27,7 +27,7 @@ export default class ReportTable extends React.Component {
         Header: gettext('Name'), accessor: 'name', resizable: false, sortable: true, total: `${gettext('Events')}: ${count}`,
         minWidth: 150, Footer: (<span><strong>{gettext('Events')}:  </strong>{count}</span>)
       }]
-    }
+    };
   }
 
   getOrganizersColumns(){
@@ -52,7 +52,7 @@ export default class ReportTable extends React.Component {
         Header: gettext('Province'), id: 'province',
         accessor: ({locationDetail: {province}}) => province
       }]
-    }
+    };
   }
 
   getAssitanceConfirmatedColumns(){
@@ -81,7 +81,7 @@ export default class ReportTable extends React.Component {
         accessor: ({report: {speakers}}) => speakers, total: totals.speakers,
         Footer: (<span><strong>{gettext('Total')}: </strong>{totals.speakers}</span>)
       }]
-    }
+    };
   }
 
   getActivitiesColumns(){
@@ -98,7 +98,7 @@ export default class ReportTable extends React.Component {
         accessor: ({report: {installation: {total}}}) => total, total: totals.installations.total,
         Footer: (<span><strong>{gettext('Total')}: </strong>{totals.installations.total}</span>)
       }]
-    }
+    };
   }
 
   getConfirmationColumnsBy(category, total_category, field, title){
@@ -119,7 +119,7 @@ export default class ReportTable extends React.Component {
         accessor: data => data[field][category].total, total: totals[total_category].total,
         Footer: (<span><strong>{gettext('Total')}: </strong>{totals[total_category].total}</span>)
       }]
-    }
+    };
   }
 
   getAssistancesFullColumns(){
@@ -135,7 +135,7 @@ export default class ReportTable extends React.Component {
         accessor: ({report: {speakers}}) => speakers, total: totals.speakers,
         Footer: (<span><strong>{gettext('Total')}: </strong>{totals.speakers}</span>)
       }
-    }
+    };
   }
 
   getSoftwaresColumns(){
@@ -146,8 +146,8 @@ export default class ReportTable extends React.Component {
         Header: software, id: `installations_${software}`,
         accessor: ({report: {installation: {software_count}}}) => software_count[software] || 0, total: totals.installations.softwares[software] || 0,
         Footer: (<span><strong>{gettext('Total')}: </strong>{totals.installations.softwares[software] || 0}</span>)
-      }
-    })
+      };
+    });
   }
 
   getInstallationsColumns(){
@@ -161,8 +161,8 @@ export default class ReportTable extends React.Component {
         accessor: ({report: {installation: {total}}}) => total, total: totals.installations.total,
         Footer: (<span><strong>{gettext('Total')}: </strong>{totals.installations.total}</span>)
       },
-      ...softwaresColumns
-    ]}
+      ...softwaresColumns]
+    };
   }
 
   getActivitiesFieldsColumns(category, plural_category, names){
@@ -174,22 +174,22 @@ export default class ReportTable extends React.Component {
         Header, id: `activity_${category}_${element}`,
         accessor: ({report: {activity}}) => activity[`${category}_count`][element] || 0, total: totals.activities.details[plural_category][element] || 0,
         Footer: (<span><strong>{gettext('Total')}: </strong>{totals.activities.details[plural_category][element] || 0}</span>)
-      }
-    })
+      };
+    });
   }
 
   getActivitiesFullColumns(){
     const confirmationColumn = this.getConfirmationColumnsBy('activity', 'activities', 'report', 'Attendees');
     if (!confirmationColumn.hasOwnProperty('columns')) return [];
-    const statusColumns = this.getActivitiesFieldsColumns('status', 'status', [gettext('Proposal'), gettext('Accepted'), gettext('Rejected')])
-    const typeColumns = this.getActivitiesFieldsColumns('type', 'types', [gettext('Talk'), gettext('Workshop'), gettext('Lightning talk'), gettext('Other')])
-    const levelColumns = this.getActivitiesFieldsColumns('level', 'levels', [gettext('Beginner'), gettext('Medium'), gettext('Advanced')])
+    const statusColumns = this.getActivitiesFieldsColumns('status', 'status', [gettext('Proposal'), gettext('Accepted'), gettext('Rejected')]);
+    const typeColumns = this.getActivitiesFieldsColumns('type', 'types', [gettext('Talk'), gettext('Workshop'), gettext('Lightning talk'), gettext('Other')]);
+    const levelColumns = this.getActivitiesFieldsColumns('level', 'levels', [gettext('Beginner'), gettext('Medium'), gettext('Advanced')]);
     confirmationColumn.columns = [
       ...confirmationColumn.columns,
       ...statusColumns,
       ...typeColumns,
       ...levelColumns
-    ]
+    ];
     return confirmationColumn;
   }
 
@@ -202,7 +202,7 @@ export default class ReportTable extends React.Component {
     const assistancesFullColumns = this.getAssistancesFullColumns();
     const installationsColumns = this.getInstallationsColumns();
     const activitiesFullColumns = this.getActivitiesFullColumns();
-    const columns = [eventColumns, locationColumns]
+    const columns = [eventColumns, locationColumns];
     if (eventsPrivateData) {
       const organizersColumns = this.getOrganizersColumns();
       columns.push(organizersColumns);
@@ -235,20 +235,20 @@ export default class ReportTable extends React.Component {
     if (exportButton) exportButton.updateCsv(columns);
     return (
       <ReactTable
-          noDataText={gettext('There isn\'t any event yet.')}
-          columns={columns}
-          manual
-          data={data}
-          pages={pages}
-          loading={loading}
-          onFetchData={fetchData}
-          defaultPageSize={defaultRows}
-          pageSizeOptions={[5, 10, 15 , 20, 25, 50, 100]}
-          className='-striped -highlight'
-          sortable={false}
-          multiSort={false}
-          defaultSorted={[{id: 'name', desc: false}]}
-        />
+        className='-striped -highlight'
+        columns={columns}
+        data={data}
+        defaultPageSize={defaultRows}
+        defaultSorted={[{id: 'name', desc: false}]}
+        loading={loading}
+        manual
+        multiSort={false}
+        noDataText={gettext('There isn\'t any event yet.')}
+        onFetchData={fetchData}
+        pageSizeOptions={[5, 10, 15 , 20, 25, 50, 100]}
+        pages={pages}
+        sortable={false}
+      />
     );
   }
 }

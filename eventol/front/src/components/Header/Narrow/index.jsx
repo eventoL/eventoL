@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 import Logo from '../../../components/Logo';
 import NavigationNarrow from '../../../components/Navigation/Narrow';
 import UserProfileNarrow from '../../../components/UserProfile/Narrow';
@@ -31,10 +31,11 @@ export default class HeaderNarrow extends React.PureComponent {
           <div className='narrow-links'>
             <NavigationNarrow />
             {user && <UserProfileNarrow user={user} />}
+            {/*TODO: move user condition to function */}
             {!user && <SignInNarrow />}
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

@@ -1,11 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Logo from '../../../components/Logo'
-import Navigation from '../../../components/Navigation'
-import UserProfile from '../../../components/UserProfile'
-import SignIn from '../../../components/SignIn'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Logo from '../../../components/Logo';
+import Navigation from '../../../components/Navigation';
+import UserProfile from '../../../components/UserProfile';
+import SignIn from '../../../components/SignIn';
 
-import './index.scss'
+import './index.scss';
 
 
 const HeaderWide = ({user, logoHeader}) => (
@@ -13,6 +13,7 @@ const HeaderWide = ({user, logoHeader}) => (
     <Logo logoHeader={logoHeader} />
     <Navigation />
     {user && <UserProfile user={user} />}
+    {/*TODO: move user condition to function */}
     {!user && <SignIn />}
   </div>
 );

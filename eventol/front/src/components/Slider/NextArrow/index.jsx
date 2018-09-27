@@ -1,6 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
+
+//TODO: merge with prev arrow
 const NextArrow = ({onClick, style}) => (
   <div
     className='arrow arrow-next fa fa-chevron-right'

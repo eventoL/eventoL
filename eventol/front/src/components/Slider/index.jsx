@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ReactSlickSlider from 'react-slick'
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactSlickSlider from 'react-slick';
 
 import NextArrow from './NextArrow';
 import PrevArrow from './PrevArrow';
@@ -14,7 +14,7 @@ const Slider = ({children:items}) => {
     ...SLIDER_BASE_SETTINGS,
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />
-  }
+  };
   return (
     <ReactSlickSlider className='container' {...settings}>
       {items}
