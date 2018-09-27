@@ -10,7 +10,7 @@ export const addQueryString = (url, query) => {
     return url;
   }
   return url;
-}
+};
 
 const genericFetch = (url, queryString, params) => {
   url = addQueryString(url, queryString);
@@ -27,7 +27,7 @@ const genericFetch = (url, queryString, params) => {
         window.location.href = '/';
       }
     });
-}
+};
 
 export const getUrl = (url, queryString) => {
   return genericFetch(url, queryString, {
@@ -38,7 +38,7 @@ export const getUrl = (url, queryString) => {
       'Content-Type': 'application/json',
       'X-CSRFToken': getCsrf()
     }
-  })
+  });
 };
 
 export const postUrl = (url, data, queryString) => {
@@ -56,4 +56,4 @@ export const postUrl = (url, data, queryString) => {
     })
     .then(res => res.json())
     .catch(err => console.error(err));
-}
+};

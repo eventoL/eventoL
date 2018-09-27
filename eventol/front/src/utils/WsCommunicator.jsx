@@ -1,9 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 
 class WsCommunicator extends React.Component {
-
   constructor(props) {
     super(props);
     this.checkWebSocketSupport();
@@ -15,7 +14,7 @@ class WsCommunicator extends React.Component {
       onCloses: [props.onClose],
       handlesNotSupportWs: [props.handleNotSupportWs],
       websocket
-    }
+    };
   }
 
   createWebSocket(url) {
@@ -28,12 +27,12 @@ class WsCommunicator extends React.Component {
 
   onMessage(data) {
     const {onMessages} = this.state;
-    onMessages.map((onMessageFunction) => onMessageFunction && onMessageFunction(data));
+    onMessages.map(onMessageFunction => onMessageFunction && onMessageFunction(data));
   }
 
   onOpen(data) {
     const {onOpens} = this.state;
-    onOpens.map((onOpenFunction) => onOpenFunction && onOpenFunction(data));
+    onOpens.map(onOpenFunction => onOpenFunction && onOpenFunction(data));
   }
 
   generateInterval(attempts) {
@@ -44,7 +43,7 @@ class WsCommunicator extends React.Component {
   onClose(data) {
     /* eslint-disable react/no-direct-mutation-state */
     const {onCloses} = this.state;
-    onCloses.map((onCloseFunction) => onCloseFunction && onCloseFunction(data, this.props.reconnect));
+    onCloses.map(onCloseFunction => onCloseFunction && onCloseFunction(data, this.props.reconnect));
     if (this.props.reconnect) {
       const time = this.generateInterval(this.state.attempts);
       this.state.attempts += 1;
@@ -58,7 +57,7 @@ class WsCommunicator extends React.Component {
 
   handleNotSupportWs() {
     const {handlesNotSupportWs} = this.state;
-    handlesNotSupportWs.map((hNotSupport) => hNotSupport && hNotSupport());
+    handlesNotSupportWs.map(hNotSupport => hNotSupport && hNotSupport());
   }
 
   addOnMessage(onMessageFunction) {
@@ -90,24 +89,23 @@ class WsCommunicator extends React.Component {
       throw error;
     }
   }
-
 }
 
 WsCommunicator.defaultProps = {
-  onOpen: (evt) => console.log('open', evt),
-  onMessage: (evt) => console.log('message', evt),
-  onClose: (evt) => console.warn('close', evt),
-  handleNotSupportWs: (evt) => console.warn('close', evt),
+  onOpen: evt => console.log('open', evt),
+  onMessage: evt => console.log('message', evt),
+  onClose: evt => console.warn('close', evt),
+  handleNotSupportWs: evt => console.warn('close', evt),
   reconnect: true
 };
 
 WsCommunicator.propTypes = {
-  onOpen: PropTypes.func,
+  handleNotSupportWs: PropTypes.func,
   onClose: PropTypes.func,
   onMessage: PropTypes.func,
+  onOpen: PropTypes.func,
   reconnect: PropTypes.bool,
-  handleNotSupportWs: PropTypes.func,
   ws_url: PropTypes.string.isRequired
-}
+};
 
 export default WsCommunicator;
