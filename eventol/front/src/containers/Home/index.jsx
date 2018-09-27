@@ -1,19 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Hero from '../../components/Hero'
-import Header from '../../components/Header'
-import Search from '../../components/Search'
-import TitleList from '../../components/TitleList'
-import {HOME_REQUIRED_FIELDS} from '../../utils/constants'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Hero from '../../components/Hero';
+import Header from '../../components/Header';
+import Search from '../../components/Search';
+import TitleList from '../../components/TitleList';
+import {HOME_REQUIRED_FIELDS} from '../../utils/constants';
 
-import './index.scss'
+import './index.scss';
 
 
 export default class Home extends React.Component {
-
   static propTypes = {
-    eventolMessage: PropTypes.string,
     background: PropTypes.string,
+    eventolMessage: PropTypes.string,
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
     user: PropTypes.object
@@ -25,7 +24,7 @@ export default class Home extends React.Component {
     searched: false
   }
 
-  onEnter = () => {
+  handleOnEnter = () => {
     const {searchTerm} = this.state;
     if (searchTerm !== '') {
       const searchUrl = `?search=${searchTerm}&fields=${HOME_REQUIRED_FIELDS}`;
@@ -33,42 +32,48 @@ export default class Home extends React.Component {
     }
   }
 
-  onChange = searchTerm => this.setState({searchTerm})
+  handleOnChange = searchTerm => this.setState({searchTerm})
 
   render(){
     const {searched, searchUrl} = this.state;
     const {user, eventolMessage, background, logoHeader, logoLanding} = this.props;
     return (
       <div>
-        <Header user={user} logoHeader={logoHeader}/>
+        <Header logoHeader={logoHeader} user={user} />
         <Hero background={background} logoLanding={logoLanding} message={eventolMessage}>
-          <Search onChange={this.onChange} onEnter={this.onEnter} />
+          <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
         </Hero>
-        {searched && <TitleList title={gettext('Search results')} url={searchUrl} showEmpty={true} />}
+        {searched && <TitleList showEmpty title={gettext('Search results')} url={searchUrl} />}
         <TitleList
           id='my_events'
           title={gettext('My Events')}
-          url={`?my_events=true&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?my_events=true&fields=${HOME_REQUIRED_FIELDS}`}
+        />
         <TitleList
           id='recent'
           title={gettext('Recent Events')}
-          url={`?ordering=-created_at&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?ordering=-created_at&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`}
+        />
         <TitleList
           id='featured'
           title={gettext('Featured Events')}
-          url={`?ordering=-attendees_count&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?ordering=-attendees_count&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`}
+        />
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?registration_is_open=true&ordering=last_date&fields=${HOME_REQUIRED_FIELDS}`}
+        />
         <TitleList
           id='schedule_confirmed'
           title={gettext('Events with Confirmed Schedule')}
-          url={`?schedule_confirmed=true&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?schedule_confirmed=true&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`}
+        />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?registration_is_open=false&ordering=-attendees_count&fields=${HOME_REQUIRED_FIELDS}`}
+        />
       </div>
     );
   }

@@ -1,15 +1,23 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Hero from '../../components/Hero'
-import Header from '../../components/Header'
-import Search from '../../components/Search'
-import TitleList from '../../components/TitleList'
-import {HOME_REQUIRED_FIELDS} from '../../utils/constants'
+import React from 'react';
+import PropTypes from 'prop-types';
+import Hero from '../../components/Hero';
+import Header from '../../components/Header';
+import Search from '../../components/Search';
+import TitleList from '../../components/TitleList';
+import {HOME_REQUIRED_FIELDS} from '../../utils/constants';
 
-import './index.scss'
+import './index.scss';
 
 
 export default class EventHome extends React.Component {
+  static propTypes = {
+    background: PropTypes.string,
+    logoHeader: PropTypes.string,
+    logoLanding: PropTypes.string,
+    tagMessage: PropTypes.string,
+    tagSlug: PropTypes.string,
+    user: PropTypes.object
+  }
 
   state = {
     searchTerm: '',
@@ -17,16 +25,7 @@ export default class EventHome extends React.Component {
     searched: false
   }
 
-  static propTypes = {
-    tagSlug: PropTypes.string,
-    background: PropTypes.string,
-    tagMessage: PropTypes.string,
-    logoHeader: PropTypes.string,
-    logoLanding: PropTypes.string,
-    user: PropTypes.object
-  }
-
-  onEnter = () => {
+  handleOnEnter = () => {
     const {tagSlug} = this.props;
     const {searchTerm} = this.state;
     if (searchTerm !== '') {
@@ -35,30 +34,33 @@ export default class EventHome extends React.Component {
     }
   }
 
-  onChange = searchTerm => this.setState({searchTerm})
+  handleOnChange = searchTerm => this.setState({searchTerm})
 
   render(){
     const {user, tagSlug, background, logoHeader, logoLanding, tagMessage} = this.props;
     const {searched, searchUrl} = this.state;
     return (
       <div>
-        <Header logoHeader={logoHeader} user={user}/>
-        <Hero slug={tagSlug} background={background} logoLanding={logoLanding} message={tagMessage}>
-          <Search onChange={this.onChange} onEnter={this.onEnter} />
+        <Header logoHeader={logoHeader} user={user} />
+        <Hero background={background} logoLanding={logoLanding} message={tagMessage} slug={tagSlug}>
+          <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
         </Hero>
-        {searched && <TitleList title={gettext('Search results')} url={searchUrl} showEmpty={true} />}
+        {searched && <TitleList showEmpty title={gettext('Search results')} url={searchUrl} />}
         <TitleList
           id='my_events'
           title={gettext('My Events')}
-          url={`?my_events=true&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?my_events=true&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`}
+        />
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?registration_is_open=true&ordering=last_date&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`}
+        />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?registration_is_open=false&ordering=-attendees_count&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`}
+        />
       </div>
     );
   }
