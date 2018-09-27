@@ -31,7 +31,7 @@ extends:
 rules:
  arrow-parens: [error, as-needed]
  brace-style: [error, 1tbs]
- comma-dangle: [error, only-multiline]
+ comma-dangle: [error, never]
  curly: [error, multi-line]
  func-style: [error, declaration, { allowArrowFunctions: true }]
  import/default: error
@@ -52,6 +52,7 @@ rules:
  no-console: warn
  no-inner-declarations: off
  no-unexpected-multiline: warn
+ no-unreachable: error
  no-unused-vars: [error, { argsIgnorePattern: ^(nextState|prevState|err|error|reject|getState|_|__)$ }]
  no-var: error
  object-curly-spacing: [error, never]
@@ -76,7 +77,7 @@ rules:
  react/no-unused-prop-types: warn
  react/require-default-props: off
  react/self-closing-comp: warn
- semi: off
+ semi: [error, always, {omitLastInOneLineBlock: true}]
  space-before-function-paren: [error, {anonymous: always, named: never, asyncArrow: always}]
 settings:
  react:
