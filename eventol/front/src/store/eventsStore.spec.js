@@ -2,14 +2,14 @@ const initState = {
   events: {
     events: []
   }
-}
+};
 
 describe('Events store', () => {
   let store, event, events;
 
   beforeEach(() => {
-    const get_store = require('./eventsStore').default
-    store = get_store()
+    const get_store = require('./eventsStore').default;
+    store = get_store();
     event = {
       model: 'events.event',
       pk: 1,
@@ -20,8 +20,8 @@ describe('Events store', () => {
         description: '',
         user: 1
       }
-    }
-    events = [event]
+    };
+    events = [event];
   });
 
   test('returns a state object', () => {
@@ -35,7 +35,6 @@ describe('Events store', () => {
   });
 
   describe('events reducers', () => {
-
     test('when dispatch SET_EVENTS returns correct state', () => {
       const expectData = {events};
       store.dispatch({type: 'SET_EVENTS', events});
@@ -48,7 +47,7 @@ describe('Events store', () => {
       store.dispatch({type: 'SET_EVENTS', events});
       store.dispatch({type: 'UPDATE_EVENT', event: {
         ...event,
-        data: { name: 'new name' },
+        data: {name: 'new name'}
       }});
       expect(store.getState().events).toEqual(expectData);
     });
@@ -62,21 +61,19 @@ describe('Events store', () => {
 
     test('when dispatch CREATE_EVENT returns correct state', () => {
       const createdEvent = {
-       fields: {
+        fields: {
           description: '',
           name: 'Gitlab with workshop',
           pending: false,
           url: 'https://gitlab.com/FedeG/django-react-workshop/',
-          user: 1,
+          user: 1
         },
-        pk: 1,
-      }
+        pk: 1
+      };
       const expectData = {events: [event, createdEvent]};
       store.dispatch({type: 'SET_EVENTS', events});
       store.dispatch({type: 'CREATE_EVENT', event});
       expect(store.getState().events).toEqual(expectData);
     });
-
   });
-
-})
+});
