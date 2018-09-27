@@ -6,8 +6,7 @@ export const addQueryString = (url, query) => {
   const queryKeys = query ? Object.keys(query) : [];
   if (queryKeys.length > 0) {
     const params = queryKeys.map(k => `${k}=${encodeURIComponent(query[k])}`);
-    url += `?${params.join('&')}`;
-    return url;
+    return `${url}?${params.join('&')}`;
   }
   return url;
 };
@@ -42,9 +41,9 @@ export const getUrl = (url, queryString) => {
 };
 
 export const postUrl = (url, data, queryString) => {
-  url = addQueryString(url, queryString);
+  const newUrl = addQueryString(url, queryString);
   return fetch(
-    url, {
+    newUrl, {
       method: 'POST',
       headers: {
         Accept: 'application/json, text/plain, */*',
@@ -54,6 +53,5 @@ export const postUrl = (url, data, queryString) => {
       body: JSON.stringify(data || {}),
       credentials: 'same-origin'
     })
-    .then(res => res.json())
-    .catch(err => console.error(err));
+    .then(res => res.json());
 };

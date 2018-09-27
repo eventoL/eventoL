@@ -1,4 +1,8 @@
 import eventsReducer from './events';
+import {
+  SET_EVENTS, UPDATE_EVENT,
+  CREATE_EVENT, DELETE_EVENT
+} from '../actions/events';
 
 const initState = {
   events: []
@@ -43,10 +47,10 @@ describe('events Reducer', () => {
     expect(result).toEqual(initState);
   });
 
-  describe('when dispatch SET_EVENTS', () => {
+  describe(`when dispatch ${SET_EVENTS}`, () => {
     test('when set events return correct events list', () => {
       const action = {
-        type: 'SET_EVENTS',
+        type: SET_EVENTS,
         events
       };
       const result = eventsReducer(initState, action);
@@ -54,10 +58,10 @@ describe('events Reducer', () => {
     });
   });
 
-  describe('when dispatch UPDATE_EVENT', () => {
+  describe(`when dispatch ${UPDATE_EVENT}`, () => {
     test('when update event update original event', () => {
       const action = {
-        type: 'UPDATE_EVENT',
+        type: UPDATE_EVENT,
         event: {
           ...event,
           data: {name: 'new name'}
@@ -70,7 +74,7 @@ describe('events Reducer', () => {
 
     test('when update event update only original event', () => {
       const action = {
-        type: 'UPDATE_EVENT',
+        type: UPDATE_EVENT,
         event: {
           ...event,
           data: {name: 'new name'}
@@ -82,10 +86,10 @@ describe('events Reducer', () => {
     });
   });
 
-  describe('when dispatch DELETE_EVENT', () => {
+  describe(`when dispatch ${DELETE_EVENT}`, () => {
     test('when delete event return empty events list', () => {
       const action = {
-        type: 'DELETE_EVENT',
+        type: DELETE_EVENT,
         event
       };
       const result = eventsReducer({events}, action);
@@ -93,10 +97,10 @@ describe('events Reducer', () => {
     });
   });
 
-  describe('when dispatch CREATE_EVENT', () => {
+  describe(`when dispatch ${CREATE_EVENT}`, () => {
     test('when create event return correct events list', () => {
       const action = {
-        type: 'CREATE_EVENT',
+        type: CREATE_EVENT,
         event
       };
       const createdEvent = {

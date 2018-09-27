@@ -29,7 +29,7 @@ export default class EventHome extends React.Component {
     const {tagSlug} = this.props;
     const {searchTerm} = this.state;
     if (searchTerm !== '') {
-      const searchUrl = `?search=${searchTerm}&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`;
+      const searchUrl = `?search=${searchTerm}&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`; // TODO: move to utils
       this.setState({searchUrl, searched: true});
     }
   }
@@ -49,17 +49,17 @@ export default class EventHome extends React.Component {
         <TitleList
           id='my_events'
           title={gettext('My Events')}
-          url={`?my_events=true&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`}
+          url={`?my_events=true&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
         />
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`}
+          url={`?registration_is_open=true&ordering=last_date&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
         />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`}
+          url={`?registration_is_open=false&ordering=-attendees_count&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
         />
       </div>
     );

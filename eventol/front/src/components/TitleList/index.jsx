@@ -50,7 +50,7 @@ export default class TitleList extends React.Component {
     }
     return {
       event_slug, title, attendees, overview, backdrop, place, tags,
-      key: event_slug, url: `/events/${event_slug}/`
+      key: event_slug, url: `/events/${event_slug}/` //TODO: move to utils
     };
   }
 
@@ -62,7 +62,7 @@ export default class TitleList extends React.Component {
       itemsData = results.map(this.parseItem);
     }
     if (!itemsData || itemsData.length === 0) {
-      if (!this.props.hasOwnProperty('showEmpty') || !this.props.showEmpty) return null;
+      if (!this.props.hasOwnProperty('showEmpty') || !this.props.showEmpty) return null; //TODO: move to HOC
       const emptyItem = {
         key: 'not_found',
         title: gettext('Event not found'),

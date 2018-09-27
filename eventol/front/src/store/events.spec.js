@@ -8,7 +8,7 @@ describe('Events store', () => {
   let store, event, events;
 
   beforeEach(() => {
-    const get_store = require('./eventsStore').default;
+    const get_store = require('./events').default;
     store = get_store();
     event = {
       model: 'events.event',

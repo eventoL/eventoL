@@ -1,7 +1,7 @@
 import {
   setEvents, createEvent, updateEvent, deleteEvent,
   DELETE_EVENT, CREATE_EVENT, UPDATE_EVENT, SET_EVENTS
-} from './eventsActions';
+} from './events';
 
 describe('events Actions', () => {
   let event, events, expectDefault;

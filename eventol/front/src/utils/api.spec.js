@@ -36,7 +36,7 @@ describe('Api utils', () => {
     it('should add a queryString', async () => {
       await getUrl(url, {test: true, name: 'Peter'});
       expect(global.fetch).toBeCalled();
-      expect(getLastCall()[0]).toBe(url + '?test=true&name=Peter');
+      expect(getLastCall()[0]).toBe(`${url}?test=true&name=Peter`);
     });
   });
 
@@ -51,7 +51,7 @@ describe('Api utils', () => {
     it('should add a queryString', async () => {
       await postUrl(url, data, {test: true, name: 'Peter'});
       expect(global.fetch).toBeCalled();
-      expect(getLastCall()[0]).toBe(url + '?test=true&name=Peter');
+      expect(getLastCall()[0]).toBe(`${url}?test=true&name=Peter`);
     });
   });
 });

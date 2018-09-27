@@ -1,4 +1,2 @@
-export function getEvent(pk, fields){
-  return {pk, fields};
-}
-//TODO: move to arrow functions
+
+export const getEvent = (pk, fields) => ({pk, fields});
