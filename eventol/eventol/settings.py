@@ -67,6 +67,7 @@ class Base(Configuration):
         'django_elasticsearch_dsl',
         'django_extensions',
         'vote',
+        'forms_builder.forms',
     )
 
     MIDDLEWARE_CLASSES = (

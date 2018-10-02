@@ -26,6 +26,7 @@ django-debug-toolbar==1.9.1
 django-elasticsearch-dsl==0.4.4
 django-extensions==2.0.7
 django-filter==1.1.0
+django-forms-builder==0.14.0
 django-formset-js==0.5.0
 django-image-cropping==1.1.0
 django-import-export==0.6.0
