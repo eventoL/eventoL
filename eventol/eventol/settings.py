@@ -86,11 +86,17 @@ class Base(Configuration):
 
     # Database
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
+            'USER': os.getenv('PSQL_USER', 'eventol'),
+            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
+            'HOST': os.getenv('PSQL_HOST', 'localhost'),
+            'PORT': os.getenv('PSQL_PORT', '5432'),
+            'OPTIONS': {
+                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
+            },
         }
     }
 
@@ -292,19 +298,6 @@ class Staging(Base):
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
-            'USER': os.getenv('PSQL_USER', 'eventol'),
-            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
-            'HOST': os.getenv('PSQL_HOST', 'localhost'),
-            'PORT': os.getenv('PSQL_PORT', '5432'),
-            'OPTIONS': {
-                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
-            },
-        }
-    }
     WEBPACK_LOADER = {
         'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/prod/',  # end with slash
