@@ -17,11 +17,12 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
+from forms_builder.forms.models import STATUS_PUBLISHED, STATUS_CHOICES, AbstractField, AbstractForm
 from image_cropping import ImageCropField, ImageRatioField
 
+from vote.models import VoteModel
 from manager.utils.report import count_by
 from manager.utils.slug import get_unique_slug
-from vote.models import VoteModel
 
 logger = logging.getLogger('eventol')
 
@@ -113,6 +114,41 @@ class EventTag(models.Model):
         if not self.slug:
             self.slug = get_unique_slug(self, 'name', 'slug')
         super().save(*args, **kwargs)
+
+
+class CustomForm(AbstractForm):
+    def published(self, for_user=None):
+        return True
+
+    def __str__(self):
+        return self.title
+
+    class Meta(object):
+        ordering = ['title']
+        verbose_name = _('Custom Form')
+        verbose_name_plural = _('Custom Forms')
+
+
+class CustomField(AbstractField):
+    form = models.ForeignKey(CustomForm, related_name='fields', on_delete=models.CASCADE)
+    order = models.IntegerField(_('Order'), null=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        fields_after = self.form.fields.filter(order__gte=self.order)
+        fields_after.update(order=models.F("order") - 1)
+        super().delete(*args, **kwargs)
+
+    def __str__(self):
+        return '{0}: {1} ({2})'.format(self.form, self.label, self.slug)
+
+    class Meta(object):
+        ordering = ['form', 'order']
+        verbose_name = _('Custom Field')
+        verbose_name_plural = _('Custom Fields')
+        unique_together = ('form', 'slug',)
 
 
 class Event(models.Model):
