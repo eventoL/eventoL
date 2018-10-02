@@ -166,7 +166,9 @@ class Event(models.Model):
     tags = models.ManyToManyField(
         EventTag, help_text=_("Select tags to show this event in the EventTag landing"))
     event_slug = models.SlugField(_('URL'), max_length=100,
-                            help_text=_('For example: flisol-caba'), unique=True)
+                                  help_text=_('For example: flisol-caba'), unique=True)
+    customForm = models.ForeignKey(CustomForm, verbose_name=_noop('Custom form'),
+                                   blank=True, null=True)
     cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
                              help_text=_('For example: flisol-caba'),
                              validators=[validate_url])
@@ -251,6 +253,8 @@ class Event(models.Model):
 
     class Meta(object):
         ordering = ['name']
+        verbose_name = _('Event')
+        verbose_name_plural = _('Events')
 
     def save(self, *args, **kwargs):
         """
@@ -270,6 +274,10 @@ class EventDate(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.event, self.date)
+
+    class Meta(object):
+        verbose_name = _('Event Date')
+        verbose_name_plural = _('Event Dates')
 
 
 class ContactMessage(models.Model):
