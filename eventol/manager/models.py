@@ -11,6 +11,7 @@ from string import digits, ascii_lowercase, ascii_uppercase
 from ckeditor.fields import RichTextField
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -581,6 +582,7 @@ class Attendee(models.Model):
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
     event_user = models.ForeignKey(
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True)
+    customFields = JSONField(default=dict)
 
     class Meta(object):
         verbose_name = _('Attendee')
