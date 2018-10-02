@@ -56,6 +56,7 @@ from manager.security import (are_activities_public, add_attendance_permission,
 from manager.utils.report import count_by
 
 from .utils import email as utils_email
+from .utils.forms import get_custom_fields
 
 logger = logging.getLogger('eventol')
 
@@ -1066,6 +1067,7 @@ def attendee_registration(request, event_slug):
                 attendee.event = event
                 attendee.registration_date = timezone.now()
                 attendee.email_token = uuid.uuid4().hex
+                attendee.customFields = get_custom_fields(event, request.POST)
                 attendee.save()
 
                 confirm_url = get_email_confirmation_url(
