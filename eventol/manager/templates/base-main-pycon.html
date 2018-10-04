@@ -1,0 +1,350 @@
+{% load staticfiles %}
+{% load filters %}
+{% load i18n %}
+{% load account %}
+
+{% user_display user as user_display %}
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% if event is not None %}
+            <meta name="description" content="EventoL - {{ event.name }}. Event Management Software">
+            <title>EventoL - {{ event.name }}</title>
+        {% else %}
+            <meta name="description" content="Event Management Software">
+            <title>EventoL</title>
+        {% endif %}
+
+        <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
+        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/eventol-bootstrap.css" %}"/>
+        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/eventol.css" %}"/>
+        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/pyconar.css" %}"/>
+
+        <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
+        <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+        {% block other-head %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+{% block navbar %}
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top color-1 glow">
+        <div class="">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="pull-left" href="/">
+                  {% if EVENTOL_SETTINGS.logo_header %}
+                    <img class="img-responsive eventol-logo" src="{{ EVENTOL_SETTINGS.logo_header.url }}" alt="EventoL Logo">
+                  {% else %}
+                    <img class="img-responsive eventol-logo" src="{% static "manager/img/eventol-white.png" %}" alt="EventoL Logo">
+                  {% endif %}
+                </a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse color-1 glow">
+              {% block navbar-menu %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated and event_slug is None %}
+                        <li>
+                            <a href="{% url "create_event" %}" class="btn btn-raised btn-warning"
+                               style="padding:0.6em; margin:1em; font-family: Roboto;">
+                                {% trans "Create event" %}
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if event_slug is not None %}
+                        {% if user.is_authenticated and user|is_organizer:event_slug %}
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown"><i class="fa fa-cogs"></i> {% trans "Manage event" %} <b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                  <a href="{% url "edit_event" event_slug %}">
+                                    <i class="fa fa-cogs"></i> {% trans "Edit event" %}
+                                  </a>
+                                </li>
+                                <li>
+                                  <a href="{% url "event_add_image" event_slug %}">
+                                    <i class="fa fa-cogs"></i> {% trans "Edit image" %}
+                                  </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                        {% if not user.is_authenticated or not user|is_registered_any_way:event_slug %}
+                            <li>
+                                <a href="{% url "attendee_registration" event_slug %}">{% trans "Registration" %}</a>
+                            </li>
+                        {% endif %}
+                        {% if event.activity_proposal_is_open and event.use_proposals %}
+                          <li>
+                            <a href="{% url "activity_proposal" event_slug %}">
+                              {% trans "Submit your talk" %}
+                            </a>
+                          </li>
+                        {% endif %}
+                        {% if user.is_authenticated and user|is_speaker:event_slug %}
+                            <li>
+                                <a href="{% url "my_proposals" event_slug %}">{% trans "My Proposals" %}</a>
+                            </li>
+                        {% endif %}
+                        {% if user.is_authenticated and user|is_registered:event_slug %}
+                            <li>
+                                <a href="{% url "view_ticket" event_slug %}">{% trans "View my Ticket" %}</a>
+                            </li>
+                        {% endif %}
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-th"></i> {% trans "Event" context "navbar" %} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                              {% if event.use_schedule %}
+                                <li>
+                                    <a href="{% url "schedule" event_slug %}">
+                                        <i class="fa fa-calendar"></i> <i class="fa pythofa-calendar"></i> {% trans "Schedule" %}
+                                    </a>
+                                </li>
+                                {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                <li>
+                                    <a href="{% url "rooms_list" event_slug %}">
+                                        <i class="fa fa-th"></i> {% trans "Manage Rooms" %}
+                                    </a>
+                                </li>
+                                {% endif %}
+                              {% endif %}
+                              {% if not PRIVATE_ACTIVITIES or user|is_collaborator:event_slug  %}
+                              <li>
+                                  <a href="{% url "activities" event_slug %}">
+                                      <i class="fa fa-th"></i> {% trans "View Activities" %}
+                                  </a>
+                              </li>
+                              {% endif %}
+                              <li>
+                                  <a href="{% url "reports" event_slug %}">
+                                      <i class="fa fa-bar-chart"></i> {% trans "View Reports" %}
+                                  </a>
+                              </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-group"></i> {% trans "Collaborators" %} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if event.use_collaborators %}
+                                  {% if not user.is_authenticated or not user|is_collaborator:event_slug %}
+                                      <li>
+                                          <a href="{% url "collaborator_registration" event_slug %}">
+                                              <i class="fa fa-pencil-square-o"></i> {% trans "Register as a Collaborator" %}
+                                          </a>
+                                      </li>
+                                  {% endif %}
+                                {% endif %}
+                                {% if event.use_installers %}
+                                  {% if not user.is_authenticated or not user|is_installer:event_slug %}
+                                      <li>
+                                          <a href="{% url "installer_registration" event_slug %}">
+                                              <i class="fa fa-linux"></i> {% trans "Register as an Installer" %}
+                                          </a>
+                                      </li>
+                                  {% endif %}
+                                {% endif %}
+                                {% if user.is_authenticated %}
+                                    {% if user|can_take_attendance:event_slug %}
+                                        <li>
+                                            <a href="{% url "manage_attendance" event_slug %}">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Manage Attendance" %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "attendee_registration_print_code" event_slug %}">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Print self-registration code" %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a target="_blank" href="{% url "attendance_by_autoreadqr" event_slug %}">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Open auto-read QR code page" %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if event.use_installations and user|is_installer:event_slug %}
+                                        <li>
+                                            <a href="{% url "installation" event_slug %}">
+                                                <i class="fa fa-laptop"></i> {% trans "Submit an installation" %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if user|is_organizer:event_slug %}
+                                        <!--
+                                        <li>
+                                            <a href="{% url "draw" event_slug %}">
+                                                <i class="fa fa-gift"></i> {% trans "Draw" %}
+                                            </a>
+                                        </li>
+                                        -->
+                                        <li>
+                                            <a href="{% url "add_organizer" event_slug %}">
+                                                <i class="fa fa-check-square-o"></i> {% trans "Manage Organizers" %}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url "add_registration_people" event_slug %}">
+                                                <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                {% endif %}
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown"><i class="fa fa-at"></i> {% trans "Follow Us!" %} <b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                {% for contact in contacts %}
+                                    <li><a href="{{ contact|get_contact_url }}" target="_blank">
+                                        <i class="fa {{ contact.type.icon_class }}"></i> {{ contact.text }}</a>
+                                    </li>
+                                {% endfor %}
+                                <li><a href="{% url "contact" event_slug %}">
+                                    <i class="fa fa-envelope"></i> {% trans "Contact Us!" %}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    {% get_available_languages as languages %}
+                    {% if languages %}
+                    <!-- language dropdown start-->
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="vertical-middle">
+                                <i class="fa fa-globe"></i>
+                            </span>
+                            {% trans "Languages" %}
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for lang_code, lang in languages %}
+                            <li>
+                                <a href="#" onclick="return change_lang('{{ lang_code }}');">
+                                  <i class="fa fa-flag"></i> {{ lang|title }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <!-- language.dropdown end -->
+                    {% endif %}
+                    {% if not user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown">{% trans "Organizadores" %} <b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{% url "account_login" %}">
+                                        <i class="material-icons">account_box</i> {% trans "Login" %}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="dropdown">
+                            <a href="#" data-target="#" class="dropdown-toggle"
+                               data-toggle="dropdown"><i
+                                    class="material-icons">account_box</i> {{ user_display }}<b
+                                    class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{% url "user_profile" %}">
+                                        <i class="material-icons">assignment_ind</i> {% trans "Profile" %}
+                                    </a>
+                                </li>
+                                {% if not user.has_usable_password %}
+                                    <li>
+                                        <a href="{% url "account_set_password" %}">
+                                            <i class="material-icons">vpn_key</i> {% trans "Set Password" %}
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li>
+                                    <a href="{% url "account_change_password" %}">
+                                        <i class="material-icons">autorenew</i> {% trans "Change Password" %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url "account_logout" %}">
+                                        <i class="material-icons">power_settings_new</i> {% trans "Logout" %}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+                {% endblock navbar-menu %}
+                {% block extra-nav %}{% endblock %}
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+<div class="container-fluid color-1">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{% ifequal message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center"
+                 role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% block main-content %}{% endblock %}
+</div>
+
+<footer class="footer">
+    <div class="container-fluid pull-right">
+        <a href="//github.com/gnutn/eventoL"><i class="fa fa-github"></i> {% trans "You have the power!" %}</a>
+    </div>
+</footer>
+
+{% block script %}
+    <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
+    <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
+    {% block material %}
+        <script>
+            $(document).ready(function () {
+                $.material.options.autofill = true;
+                $.material.init();
+            });
+            function change_lang(language_code) {
+                $.post(
+                    "{% url 'set_language' %}",
+                    {language: language_code, csrfmiddlewaretoken: "{{ csrf_token }}"},
+                    function(data, status, xhr) {
+                        location.reload();
+                    }
+                );
+            }
+        </script>
+    {% endblock %}
+    {% block other-script %}{% endblock %}
+{% endblock %}
+{% block more-script %}{% endblock %}
+</body>
+
+</html>

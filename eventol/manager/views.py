@@ -168,9 +168,13 @@ def index(request, event_slug):
         'dates': dates,
         'tags': event.tags.all()
     }
+    template_path = 'event/index.html'
+    if event_slug == 'asdfghj':
+        template_path = 'event/index-pycon.html'
+    
     return render(
         request,
-        'event/index.html',
+        template_path,
         update_event_info(
             event_slug,
             render_dict,
