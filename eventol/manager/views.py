@@ -168,6 +168,12 @@ def index(request, event_slug):
         'dates': dates,
         'tags': event.tags.all()
     }
+
+    # Esto claramente es horrible. Posiblemente habría que hacer
+    # algo como agregar un campo en la configuración del evento para sleccionar
+    # un template, o que sea posible subir un archivo template. 
+    # Esto o algo parecido pero no tan feo puede ser una opción semi
+    # zafagle para salir a prod en la pyconar 2018.
     template_path = 'event/index.html'
     if event_slug == 'asdfghj':
         template_path = 'event/index-pycon.html'
