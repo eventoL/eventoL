@@ -175,7 +175,7 @@ def index(request, event_slug):
     # Esto o algo parecido pero no tan feo puede ser una opción semi
     # zafagle para salir a prod en la pyconar 2018.
     template_path = 'event/index.html'
-    if event_slug == 'asdfghj':
+    if event_slug == 'pyconar2018':
         template_path = 'event/index-pycon.html'
     
     return render(
