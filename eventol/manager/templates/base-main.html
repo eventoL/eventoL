@@ -22,9 +22,6 @@
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
         <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/eventol-bootstrap.css" %}"/>
         <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/eventol.css" %}"/>
-        {% if event is not None and event.css_custom %}
-            <link rel="stylesheet" type="text/css" media="all" href="{{ event.css_custom.url }}"/>
-        {% endif %}
 
         <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>

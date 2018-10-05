@@ -5,6 +5,11 @@
 {% load cropping %}
 {% load filters %}
 {% block other-head %}
+    
+    {% if event is not None and event.css_custom %}
+        <link rel="stylesheet" type="text/css" media="all" href="{{ event.css_custom.url }}"/>
+    {% endif %}
+    
     <link rel="stylesheet"
           type="text/css" href="{% static "manager/bower_components/slick-carousel/slick/slick.css" %}"/>
     <link rel="stylesheet"
