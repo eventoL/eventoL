@@ -171,7 +171,7 @@ def index(request, event_slug):
 
     template_path = 'event/index.html'
     if event.template:
-        template_path = os.path.basename(event.template.name)
+        template_path = event.template.name
 
     return render(
         request,
