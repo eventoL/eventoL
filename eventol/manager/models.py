@@ -162,6 +162,12 @@ class Event(models.Model):
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
     activities_proposal_form_text = models.TextField(
         blank=True, null=True, help_text=_("A message to show in the activities proposal form"))
+    template = models.FileField(_('Template'),
+                                upload_to='templates', blank=True, null=True,
+                                help_text=_('Custom template html for event index page'))
+    css_custom = models.FileField(_('Custom css'),
+                                  upload_to='custom_css', blank=True, null=True,
+                                  help_text=_('Custom css file for event page'))
 
     @property
     def location(self):
