@@ -111,10 +111,17 @@ class Base(Configuration):
     USE_I18N = True
     USE_L10N = True
     USE_TZ = True
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = BASE_DIR + 'media/'
+    
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [
+                MEDIA_ROOT
+            ],
             'APP_DIRS': True,
             'OPTIONS': {
                 'debug': DEBUG,
@@ -266,9 +273,6 @@ class Base(Configuration):
     EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
     DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_FROM)
 
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
 
