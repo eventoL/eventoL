@@ -11,17 +11,19 @@ from string import digits, ascii_lowercase, ascii_uppercase
 from ckeditor.fields import RichTextField
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
+from forms_builder.forms.models import STATUS_PUBLISHED, STATUS_CHOICES, AbstractField, AbstractForm
 from image_cropping import ImageCropField, ImageRatioField
 
+from vote.models import VoteModel
 from manager.utils.report import count_by
 from manager.utils.slug import get_unique_slug
-from vote.models import VoteModel
 
 logger = logging.getLogger('eventol')
 
@@ -115,6 +117,41 @@ class EventTag(models.Model):
         super().save(*args, **kwargs)
 
 
+class CustomForm(AbstractForm):
+    def published(self, for_user=None):
+        return True
+
+    def __str__(self):
+        return self.title
+
+    class Meta(object):
+        ordering = ['title']
+        verbose_name = _('Custom Form')
+        verbose_name_plural = _('Custom Forms')
+
+
+class CustomField(AbstractField):
+    form = models.ForeignKey(CustomForm, related_name='fields', on_delete=models.CASCADE)
+    order = models.IntegerField(_('Order'), null=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        fields_after = self.form.fields.filter(order__gte=self.order)
+        fields_after.update(order=models.F("order") - 1)
+        super().delete(*args, **kwargs)
+
+    def __str__(self):
+        return '{0}: {1} ({2})'.format(self.form, self.label, self.slug)
+
+    class Meta(object):
+        ordering = ['form', 'order']
+        verbose_name = _('Custom Field')
+        verbose_name_plural = _('Custom Fields')
+        unique_together = ('form', 'slug',)
+
+
 class Event(models.Model):
     objects = EventManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
@@ -130,7 +167,9 @@ class Event(models.Model):
     tags = models.ManyToManyField(
         EventTag, help_text=_("Select tags to show this event in the EventTag landing"))
     event_slug = models.SlugField(_('URL'), max_length=100,
-                            help_text=_('For example: flisol-caba'), unique=True)
+                                  help_text=_('For example: flisol-caba'), unique=True)
+    customForm = models.ForeignKey(CustomForm, verbose_name=_noop('Custom form'),
+                                   blank=True, null=True)
     cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
                              help_text=_('For example: flisol-caba'),
                              validators=[validate_url])
@@ -221,6 +260,8 @@ class Event(models.Model):
 
     class Meta(object):
         ordering = ['name']
+        verbose_name = _('Event')
+        verbose_name_plural = _('Events')
 
     def save(self, *args, **kwargs):
         """
@@ -240,6 +281,10 @@ class EventDate(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.event, self.date)
+
+    class Meta(object):
+        verbose_name = _('Event Date')
+        verbose_name_plural = _('Event Dates')
 
 
 class ContactMessage(models.Model):
@@ -543,6 +588,7 @@ class Attendee(models.Model):
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
     event_user = models.ForeignKey(
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True)
+    customFields = JSONField(default=dict)
 
     class Meta(object):
         verbose_name = _('Attendee')
