@@ -84,7 +84,7 @@
                         {% endif %}
                         {% if not user.is_authenticated or not user|is_registered_any_way:event_slug %}
                             <li>
-                                <a href="{% url "attendee_registration" event_slug %}">{% trans "Registration" %}</a>
+                                <a title="Register to this event" href="{% url "attendee_registration" event_slug %}">{% trans "Check in" %}</a>
                             </li>
                         {% endif %}
                         {% if event.activity_proposal_is_open and event.use_proposals %}
