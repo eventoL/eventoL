@@ -44,6 +44,7 @@ docker dev image:
 python-testing:
   image: python:3.5
   stage: testing
+  allow_failure: true
   script:
     - curl -sL https://deb.nodesource.com/setup_8.x | bash -
     - apt install -y nodejs
