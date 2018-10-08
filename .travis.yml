@@ -3,12 +3,12 @@ language: python
 python:
   - "3.5"
 env:
-  - DJANGO=1.11.6 DB=postgres
+  - DJANGO=1.11.16
 services:
   - docker
 cache: pip
 before_install:
-  - docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5000:5432 -d postgres
+  - docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5432:5432 -d postgres
 install:
   - pip install -U pip wheel
   - pip install coverage coveralls
