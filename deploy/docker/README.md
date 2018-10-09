@@ -7,18 +7,27 @@
 
 ## Setup developer mode
 ```
+mkdir -p db/postgres
 cp .env.dist .env (Customize if necessary)
+
+cd ../../eventol/front/
 cp ./eventol/front/webpack.local-settings.js{.sample,}
+cd -
+
+docker-compose pull
+docker-compose build --force-rm
 docker-compose up -d --build
 ```
 
-## This creates 3 different containers
+## This creates 5 different containers
 ```
       Name                    Command               State                Ports
 --------------------------------------------------------------------------------------------
-eventol_reactjs_1   npm start                        Up                  0.0.0.0:3000->3000/tcp, 8000/tcp
-eventol_redis_1     docker-entrypoint.sh redis ...   Up                  0.0.0.0:32779->6379/tcp
-eventol_worker_1    python manage.py runserver ...   Up                  0.0.0.0:8000->8000/tcp
+docker_elasticsearch_1   /usr/local/bin/docker-entr ...   Up      9200/tcp, 9300/tcp              
+docker_postgres_1        docker-entrypoint.sh postgres    Up      5432/tcp                        
+docker_reactjs_1         tail -f /dev/null                Up      0.0.0.0:3000->3000/tcp, 8000/tcp
+docker_redis_1           docker-entrypoint.sh redis ...   Up      6379/tcp                        
+docker_worker_1          tail -f /dev/null                Up      0.0.0.0:8000->8000/tcp
 ```
 
 ## Running the django server

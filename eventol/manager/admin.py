@@ -3,6 +3,7 @@
 
 from django.contrib import admin
 from django.contrib.auth.models import User
+from forms_builder.forms.models import FormEntry, FieldEntry
 from image_cropping import ImageCroppingMixin
 from import_export import resources
 from import_export.admin import ExportMixin
@@ -12,7 +13,8 @@ from manager.models import (Activity, ActivityType, Attendee, EventolSetting,
                             ContactMessage, ContactType, Event, EventDate,
                             EventTag, EventUser, EventUserAttendanceDate,
                             Hardware, Installation, InstallationMessage,
-                            Installer, Organizer, Room, Software, Ticket)
+                            Installer, Organizer, Room, Software, Ticket,
+                            CustomForm, CustomField,)
 from manager.security import create_reporters_group
 
 
@@ -190,6 +192,26 @@ class CollaboratorAdmin(EventoLEventUserAdmin):
     resource_class = CollaboratorResource
 
 
+class FieldAdmin(admin.TabularInline):
+    model = CustomField
+    exclude = ('visible', 'placeholder_text',)
+
+
+class FormAdmin(admin.ModelAdmin):
+    formentry_model = FormEntry
+    fieldentry_model = FieldEntry
+
+    inlines = (FieldAdmin,)
+    list_display = ("title", "status",)
+    list_display_links = ("title",)
+    list_editable = ("status",)
+    list_filter = ("status",)
+    search_fields = ("title",)
+    radio_fields = {"status": admin.HORIZONTAL}
+    fields = ('title',)
+
+
+admin.site.register(CustomForm, FormAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Attendee, AttendeeAdmin)

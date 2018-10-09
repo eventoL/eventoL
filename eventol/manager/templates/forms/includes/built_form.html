@@ -1,0 +1,33 @@
+{% load filters %}
+{% load i18n %}
+
+{% if form_for_form.non_field_errors|length > 0 %}
+  <div class="alert alert-dismissable alert-danger">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <ul>
+      {% for error in form_for_form.non_field_errors %}
+        <li>{% trans error %}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<div class="col-lg-6 col-md-6">
+  {% for field in form_for_form.visible_fields %}
+    {% if not forloop.counter0|is_odd %}
+      {% include "form_field.html" with field=field only %}
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="col-lg-6 col-md-6">
+  {% for field in form_for_form.visible_fields %}
+    {% if forloop.counter0|is_odd %}
+      {% include "form_field.html" with field=field only %}
+    {% endif %}
+  {% endfor %}
+</div>
+
+{% for field in form_for_form.hidden_fields %}
+  {{ field }}
+{% endfor %}

@@ -6,10 +6,12 @@ services:
       - ../../:/usr/src/app
     environment:
       - DJANGO_CONFIGURATION=Dev
+      - PSQL_HOST=postgres
     ports:
       - "8000:8000"
     depends_on:
       - redis
+      - postgres
   reactjs:
     build: ../../.
     volumes:
@@ -30,3 +32,13 @@ services:
       - "9200"
     environment:
       - ES_JAVA_OPTS=-Xmx256m -Xms256m
+  postgres:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=eventol
+      - POSTGRES_DB=eventol
+    expose:
+      - "5432"
+    volumes:
+      - ./db/postgres:/var/lib/postgresql/data
