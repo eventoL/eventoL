@@ -21,7 +21,7 @@ Title.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
-    PropTypes.element
-  ]), //TODO: search children default proptypes
-  label: PropTypes.string
+    PropTypes.element,
+  ]).isRequired, // TODO: search children default proptypes
+  label: PropTypes.string.isRequired,
 };

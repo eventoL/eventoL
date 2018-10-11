@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import withSizes from 'react-sizes';
 
 import Header from '../../components/Header';
 import Hero from '../../components/Hero';
@@ -10,13 +11,14 @@ import {HOME_REQUIRED_FIELDS} from '../../utils/constants';
 import './index.scss';
 
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   static propTypes = {
     background: PropTypes.string,
     eventolMessage: PropTypes.string,
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
-    user: PropTypes.object
+    user: PropTypes.object,
+    isMobile: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -37,10 +39,13 @@ export default class Home extends React.Component {
 
   render(){
     const {searched, searchUrl} = this.state;
-    const {user, eventolMessage, background, logoHeader, logoLanding} = this.props;
+    const {
+      user, eventolMessage, background,
+      logoHeader, logoLanding, isMobile,
+    } = this.props;
     return (
       <div>
-        <Header logoHeader={logoHeader} user={user} />
+        <Header logoHeader={logoHeader} user={user} isMobile={isMobile} />
         <Hero background={background} logoLanding={logoLanding} message={eventolMessage}>
           <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
         </Hero>
@@ -79,3 +84,9 @@ export default class Home extends React.Component {
     );
   }
 }
+
+const mapSizesToProps = ({width}) => ({
+  isMobile: width < 950,
+});
+
+export default withSizes(mapSizesToProps)(Home);

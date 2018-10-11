@@ -1,11 +1,14 @@
 import React from 'react';
 import {render} from 'react-dom';
-import Home from '../containers/Home';
 import {Provider} from 'react-redux';
-import eventsStore from '../store/eventsStore';
+
+import getStore from '../store';
+import Home from '../containers/Home';
+
 import './index.scss';
 
-const store = eventsStore();
+const store = getStore();
+/* eslint-disable-next-line camelcase */
 window.render_components = properties => {
   window.params = {...properties};
   render(
@@ -19,10 +22,11 @@ window.render_components = properties => {
           user={properties.user}
         />
       </Provider>
-    ), document.getElementById('root'));
+    ), document.getElementById('root'),
+  );
 };
 
-if (module.hot) {
+if (module.hot){
   if (window.params) window.render_components(window.params);
   module.hot.accept();
 }

@@ -2,27 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-export default class Button extends React.Component {
+export default class Button extends React.PureComponent {
   static propTypes = {
     handleOnClick: PropTypes.func.isRequired,
     label: PropTypes.string,
     name: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.oneOf([
+      'default', 'primary',
+      'success', 'info',
+      'warning', 'danger',
+      'link',
+    ]),
   };
 
-  handleClick = ({target: {id}}) => {
+  static defaultProps = {
+    type: 'default',
+    name: 'btn',
+    label: '',
+  }
+
+  handleClick = event => {
+    event.preventDefault();
+    event.stopPropagation();
     const {handleOnClick} = this.props;
-    handleOnClick(id);
+    handleOnClick(event.target.id);
   }
 
   render(){
     const {type, label, name} = this.props;
+    const className = `btn btn-raised btn-${type}`;
     return (
-      <a className={`btn btn-raised btn-${type}`} id={name} onClick={this.handleClick}>
-        <span aria-hidden='true' id={name}>
+      <button className={className} id={name} onClick={this.handleClick} type='button'>
+        <span aria-hidden id={name}>
           {label}
         </span>
-      </a>
+      </button>
     );
   }
 }
