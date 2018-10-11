@@ -3,9 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node server.js",
-    "test": "./node_modules/.bin/jest --forceExit --ci --coverage",
-    "watch-test": "./node_modules/.bin/jest --watchAll",
-    "react-devtools": "react-devtools",
+    "test": "./node_modules/.bin/jest --forceExit --ci --coverage --detectOpenHandles",
+    "watch-test": "./node_modules/.bin/jest --watchAll --detectOpenHandles",
     "eslint": "./node_modules/.bin/eslint --ext .jsx --ext .js src",
     "eslint-fix": "./node_modules/.bin/eslint --ext .jsx --ext .js --fix src",
     "eslint-report": "./node_modules/.bin/eslint -f node_modules/eslint-html-reporter/reporter.js -o report.html --ext .jsx --ext .js src || true",
@@ -32,8 +31,9 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^21.22.0",
     "eslint-plugin-react": "^7.11.1",
-    "jest": "^23.5.0",
-    "react-test-renderer": "^16.4.2",
+    "jest": "^23.6.0",
+    "jest-fetch-mock": "^1.6.6",
+    "react-test-renderer": "^16.5.2",
     "webpack": "^1.12.13",
     "webpack-bundle-tracker": "0.0.93",
     "webpack-dev-server": "^1.14.1"
@@ -62,6 +62,7 @@
     "react-dom": "^16.4.2",
     "react-input-toggle": "^0.4.0",
     "react-redux": "^5.0.7",
+    "react-sizes": "^1.0.4",
     "react-slick": "^0.16.0",
     "react-table": "^6.8.6",
     "react-websocket": "^1.2.0",
@@ -80,58 +81,34 @@
     "yarn": "^1.9.4"
   },
   "jest": {
-    "globals": {
-      "__PLATFORM__": "test"
-    },
-    "setupFiles": [
-      "raf/polyfill"
-    ],
-    "setupTestFrameworkScriptFile": "<rootDir>/jest-setup.js",
-    "modulePaths": [
-      "node_modules",
-      "src"
-    ],
-    "clearMocks": true,
-    "verbose": true,
-    "coverageReporters": [
-      "html",
-      "text",
-      "text-summary"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "json",
-      "es6"
-    ],
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/timeout-transition-group",
-      "<rootDir>/node_modules/expect",
-      "<rootDir>/node_modules/classnames",
-      "<rootDir>/node_modules/sinon",
-      "<rootDir>/node_modules/redux",
-      "<rootDir>/node_modules/redux-thunk",
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-tools",
-      "<rootDir>/node_modules/react-devtools",
-      "react",
-      "enzyme",
-      "jest-enzyme"
-    ],
-    "modulePathIgnorePatterns": [
-      "/node_modules/",
-      "jest-setup.js"
-    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/config/jest/setupTests.js",
     "collectCoverageFrom": [
-      "src/components/**/*.{js,jsx}",
-      "src/containers/**/*.{js,jsx}",
-      "src/utils/**/*.js",
-      "src/actions/**/*.js",
-      "src/reducers/**/*.js",
-      "src/store/**/*.js"
+      "src/**/*.{js,jsx}"
+    ],
+    "setupFiles": [
+      "<rootDir>/config/polyfills.js"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx}",
+      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "testURL": "http://localhost:3000",
+    "transform": {
+      "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
+    ],
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
     ]
   }
 }
