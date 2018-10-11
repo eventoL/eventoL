@@ -1,5 +1,5 @@
-@import '../../styles/variables';
 @import '../../styles/commons';
+@import '../../styles/variables';
 
 .header {
   @extend %flex-element;
@@ -20,4 +20,53 @@
   top: 0;
   width: 100vw;
   z-index: 5;
+}
+
+.nav-wide {
+  display: none;
+}
+
+@media (min-width: 950px) {
+  .nav-wide {
+    @include flex-element;
+    box-sizing: border-box;
+    width: 100vw;
+  }
+
+  .nav-narrow {
+    display: none;
+  }
+}
+
+.nav-narrow {
+  @extend %flex-element;
+  box-sizing: border-box;
+  left: 0;
+  padding: 40px;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+
+  .nav-right {
+    margin-left: auto;
+
+    i {
+      float: right;
+      z-index: 5;
+    }
+
+    .narrow-links {
+      display: none;
+
+      a {
+        clear: right;
+        display: inline;
+        float: right;
+      }
+    }
+  }
+}
+
+a {
+  color: $a-color;
 }
