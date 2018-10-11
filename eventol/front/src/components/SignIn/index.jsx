@@ -3,9 +3,9 @@ import React from 'react';
 import './index.scss';
 
 
-export default class Navigation extends React.PureComponent {
-  searchFocus(){
-    document.getElementById('search-input').focus();
+export default class SignIn extends React.PureComponent {
+  searchFocus = () => {
+    document.getElementById('search-input').focus(); // TODO: move to utils 
   }
 
   render(){
