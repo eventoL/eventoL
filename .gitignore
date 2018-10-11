@@ -82,3 +82,4 @@ deploy/docker/.env
 eventol/front/scss-lint-report.html
 eventol/front/yarn-error.log
 data/
+deploy/docker/db/
