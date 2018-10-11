@@ -7,21 +7,21 @@ import './index.scss';
 export default class Search extends React.Component {
   static propTypes = {
     onChange: PropTypes.func,
-    onEnter: PropTypes.func
+    onEnter: PropTypes.func,
   };
 
   state = {
-    searchTerm: ''
+    searchTerm: '',
   }
 
   handleKeyUp = ({key}) => {
-    if (key === 'Enter') {
+    if (key === 'Enter'){
       const {onEnter} = this.props;
       if (onEnter) onEnter();
     }
   }
 
-  handleChange = ({target: {value:searchTerm}}) => {
+  handleChange = ({target: {value: searchTerm}}) => {
     this.setState({searchTerm});
     const {onChange} = this.props;
     if (onChange) onChange(searchTerm);

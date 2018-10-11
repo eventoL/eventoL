@@ -24,13 +24,13 @@ class Home extends React.Component {
   state = {
     searchTerm: '',
     searchUrl: '',
-    searched: false
+    searched: false,
   }
 
   handleOnEnter = () => {
     const {searchTerm} = this.state;
-    if (searchTerm !== '') {
-      const searchUrl = `?search=${searchTerm}&fields=${HOME_REQUIRED_FIELDS}`;  /*TODO: move to utils*/
+    if (searchTerm !== ''){
+      const searchUrl = `?search=${searchTerm}&fields=${HOME_REQUIRED_FIELDS}`; /* TODO: move to utils */
       this.setState({searchUrl, searched: true});
     }
   }
@@ -53,32 +53,32 @@ class Home extends React.Component {
         <TitleList
           id='my_events'
           title={gettext('My Events')}
-          url={`?my_events=true&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
+          url={`?my_events=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
         />
         <TitleList
           id='recent'
           title={gettext('Recent Events')}
-          url={`?ordering=-created_at&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
+          url={`?ordering=-created_at&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
         />
         <TitleList
           id='featured'
           title={gettext('Featured Events')}
-          url={`?ordering=-attendees_count&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
+          url={`?ordering=-attendees_count&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
         />
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
+          url={`?registration_is_open=true&ordering=last_date&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
         />
         <TitleList
           id='schedule_confirmed'
           title={gettext('Events with Confirmed Schedule')}
-          url={`?schedule_confirmed=true&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
+          url={`?schedule_confirmed=true&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
         />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&fields=${HOME_REQUIRED_FIELDS}` /*TODO: move to utils*/}
+          url={`?registration_is_open=false&ordering=-attendees_count&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
         />
       </div>
     );

@@ -8,10 +8,12 @@ import './index.scss';
 
 
 const Item = props => {
-  const {title, url, attendees, overview, backdrop, tags} = props;
+  const {
+    title, url, attendees, overview, backdrop, tags,
+  } = props;
   if (!backdrop) return <ItemMap {...props} />;
   return (
-    <div className='item' style={{backgroundImage: 'url(' + backdrop + ')'}} >
+    <div className='item' style={{backgroundImage: `url(${backdrop})`}}>
       <a href={url}>
         <div className='overlay'>
           <div className='title'>
@@ -40,7 +42,7 @@ Item.propTypes = {
   backdrop: PropTypes.string,
   overview: PropTypes.string,
   title: PropTypes.string,
-  url: PropTypes.string
+  url: PropTypes.string,
 };
 
 export default Item;

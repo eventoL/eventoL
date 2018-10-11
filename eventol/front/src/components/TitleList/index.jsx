@@ -40,13 +40,22 @@ export default class TitleList extends React.Component {
     }
   }
 
-  parseItem = ({tags, event_slug, place, image:backdrop, name:title, attendees_count:attendees, abstract:overview}) => {
+  parseItem = ({
+    tags, event_slug, place, image: backdrop, name: title, attendees_count: attendees, abstract: overview,
+  }) => {
     if (backdrop){
       backdrop = new URL(backdrop).pathname;
     }
     return {
-      event_slug, title, attendees, overview, backdrop, place, tags,
-      key: event_slug, url: `/events/${event_slug}/`, // TODO: move to utils
+      event_slug,
+      title,
+      attendees,
+      overview,
+      backdrop,
+      place,
+      tags,
+      key: event_slug,
+      url: `/events/${event_slug}/`, // TODO: move to utils
     };
   } // TODO: move to utils
 
@@ -81,7 +90,7 @@ export default class TitleList extends React.Component {
           </div>
         </div>
       );
-    };
+    }
     return (
       <div className='title-list' data-loaded={mounted} id={id}>
         <div className='category-title'>

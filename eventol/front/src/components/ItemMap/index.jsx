@@ -11,15 +11,15 @@ export default class ItemMap extends React.PureComponent {
     place: PropTypes.string,
     sliderId: PropTypes.string,
     title: PropTypes.string,
-    url: PropTypes.string
+    url: PropTypes.string,
   }
 
   componentDidMount(){
     const event_slug = this.getMapId();
     try {
       this.loadMap();
-    } catch(e){
-      console.error(e); //TODO: move to utils for logging
+    } catch (e){
+      console.error(e); // TODO: move to utils for logging
     }
     document.getElementById(event_slug).classList.remove('max-size');
   }
@@ -38,24 +38,26 @@ export default class ItemMap extends React.PureComponent {
     // TODO: move to constant
     const map = L.map(mapId, {
       scrollWheelZoom: false,
-      zoomControl    : false,
-      dragging       : false,
-      keyboard       : false,
+      zoomControl: false,
+      dragging: false,
+      keyboard: false,
       doubleClickZoom: false,
-      touchZoom      : false,
-      boxZoom        : false,
+      touchZoom: false,
+      boxZoom: false,
       minZoom: 11,
-      maxZoom: 11
+      maxZoom: 11,
     }).setView([event_lat, event_lon], 5);
     L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-      attribution: ''
+      attribution: '',
     }).addTo(map);
     map.attributionControl.setPrefix('');
     L.marker([event_lat, event_lon]).addTo(map);
   }
 
   render(){
-    const {title, url, attendees, overview} = this.props;
+    const {
+      title, url, attendees, overview,
+    } = this.props;
     const mapId = this.getMapId();
     return (
       <div className='item max-size' id={mapId}>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 
 class WsCommunicator extends React.Component {
-  constructor(props) {
+  constructor(props){
     super(props);
     this.checkWebSocketSupport();
     const websocket = this.createWebSocket(props.ws_url);
@@ -13,11 +13,11 @@ class WsCommunicator extends React.Component {
       onMessages: [props.onMessage],
       onCloses: [props.onClose],
       handlesNotSupportWs: [props.handleNotSupportWs],
-      websocket
+      websocket,
     };
   }
 
-  createWebSocket(url) {
+  createWebSocket(url){
     const websocket = new WebSocket(url);
     websocket.onopen = this.onOpen.bind(this);
     websocket.onmessage = this.onMessage.bind(this);
@@ -25,26 +25,26 @@ class WsCommunicator extends React.Component {
     return websocket;
   }
 
-  onMessage(data) {
+  onMessage(data){
     const {onMessages} = this.state;
     onMessages.map(onMessageFunction => onMessageFunction && onMessageFunction(data));
   }
 
-  onOpen(data) {
+  onOpen(data){
     const {onOpens} = this.state;
     onOpens.map(onOpenFunction => onOpenFunction && onOpenFunction(data));
   }
 
-  generateInterval(attempts) {
+  generateInterval(attempts){
     const seconds = Math.min(30, (Math.pow(2, attempts) - 1));
     return seconds * 1000;
   }
 
-  onClose(data) {
+  onClose(data){
     /* eslint-disable react/no-direct-mutation-state */
     const {onCloses} = this.state;
     onCloses.map(onCloseFunction => onCloseFunction && onCloseFunction(data, this.props.reconnect));
-    if (this.props.reconnect) {
+    if (this.props.reconnect){
       const time = this.generateInterval(this.state.attempts);
       this.state.attempts += 1;
       setTimeout(() => {
@@ -55,35 +55,35 @@ class WsCommunicator extends React.Component {
     /* eslint-enable react/no-direct-mutation-state */
   }
 
-  handleNotSupportWs() {
+  handleNotSupportWs(){
     const {handlesNotSupportWs} = this.state;
     handlesNotSupportWs.map(hNotSupport => hNotSupport && hNotSupport());
   }
 
-  addOnMessage(onMessageFunction) {
+  addOnMessage(onMessageFunction){
     const {onMessages} = this.state;
     onMessages.push(onMessageFunction);
   }
 
-  addOnOpen(onOpenFunction) {
+  addOnOpen(onOpenFunction){
     const {onOpens} = this.state;
     onOpens.push(onOpenFunction);
   }
 
-  addOnClose(onCloseFunction) {
+  addOnClose(onCloseFunction){
     const {onCloses} = this.state;
     onCloses.push(onCloseFunction);
   }
 
-  addHandleNotSupportWs(hNotSupport) {
+  addHandleNotSupportWs(hNotSupport){
     const {handlesNotSupportWs} = this.state;
     handlesNotSupportWs.push(hNotSupport);
   }
 
-  checkWebSocketSupport() {
-    if (!WebSocket) {
+  checkWebSocketSupport(){
+    if (!WebSocket){
       const error = gettext('websocket not supported by your browser');
-      if (this.props.handleNotSupportWs) {
+      if (this.props.handleNotSupportWs){
         return this.props.handleNotSupportWs(error);
       }
       throw error;
@@ -96,7 +96,7 @@ WsCommunicator.defaultProps = {
   onMessage: evt => console.log('message', evt),
   onClose: evt => console.warn('close', evt),
   handleNotSupportWs: evt => console.warn('close', evt),
-  reconnect: true
+  reconnect: true,
 };
 
 WsCommunicator.propTypes = {
@@ -105,7 +105,7 @@ WsCommunicator.propTypes = {
   onMessage: PropTypes.func,
   onOpen: PropTypes.func,
   reconnect: PropTypes.bool,
-  ws_url: PropTypes.string.isRequired
+  ws_url: PropTypes.string.isRequired,
 };
 
 export default WsCommunicator;

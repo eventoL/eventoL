@@ -5,7 +5,7 @@ import './index.scss';
 
 export default class SignIn extends React.PureComponent {
   searchFocus = () => {
-    document.getElementById('search-input').focus(); // TODO: move to utils 
+    document.getElementById('search-input').focus(); // TODO: move to utils
   }
 
   render(){

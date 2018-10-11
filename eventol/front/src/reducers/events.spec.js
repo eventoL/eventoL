@@ -78,7 +78,7 @@ describe('events Reducer', () => {
         event: {
           ...event,
           data: {name: 'new name'},
-        }
+        },
       };
       const expectedEvent = {fields: {name: 'new name'}, pk: 1};
       const result = eventsReducer({events: [event, event2]}, action);

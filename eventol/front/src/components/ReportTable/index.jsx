@@ -16,7 +16,7 @@ export default class ReportTable extends React.Component {
     loading: PropTypes.bool,
     pages: PropTypes.number,
     table: PropTypes.string,
-    totals: PropTypes.object
+    totals: PropTypes.object,
   };
 
   getEventColumns(){
@@ -188,7 +188,7 @@ export default class ReportTable extends React.Component {
       ...confirmationColumn.columns,
       ...statusColumns,
       ...typeColumns,
-      ...levelColumns
+      ...levelColumns,
     ];
     return confirmationColumn;
   }
@@ -203,26 +203,26 @@ export default class ReportTable extends React.Component {
     const installationsColumns = this.getInstallationsColumns();
     const activitiesFullColumns = this.getActivitiesFullColumns();
     const columns = [eventColumns, locationColumns];
-    if (eventsPrivateData) {
+    if (eventsPrivateData){
       const organizersColumns = this.getOrganizersColumns();
       columns.push(organizersColumns);
     }
-    if (table === 'confirmed') {
+    if (table === 'confirmed'){
       columns.push(assistanceConfirmatedColumns);
       columns.push(activitiesColumns);
     }
-    if (table === 'installations') {
+    if (table === 'installations'){
       columns.push(assistancesFullColumns.installers);
       columns.push(installationsColumns);
     }
-    if (table === 'assitance') {
+    if (table === 'assitance'){
       columns.push(assistancesFullColumns.attendees);
       columns.push(assistancesFullColumns.collaborators);
       columns.push(assistancesFullColumns.installers);
       columns.push(assistancesFullColumns.organizers);
       columns.push(assistancesFullColumns.speakers);
     }
-    if (table === 'activities') {
+    if (table === 'activities'){
       columns.push(assistancesFullColumns.speakers);
       columns.push(activitiesFullColumns);
     }
@@ -230,7 +230,9 @@ export default class ReportTable extends React.Component {
   }
 
   render(){
-    const {data, pages, loading, defaultRows, fetchData, exportButton} = this.props;
+    const {
+      data, pages, loading, defaultRows, fetchData, exportButton,
+    } = this.props;
     const columns = this.getColumns();
     if (exportButton) exportButton.updateCsv(columns);
     return (
@@ -245,7 +247,7 @@ export default class ReportTable extends React.Component {
         multiSort={false}
         noDataText={gettext('There isn\'t any event yet.')}
         onFetchData={fetchData}
-        pageSizeOptions={[5, 10, 15 , 20, 25, 50, 100]}
+        pageSizeOptions={[5, 10, 15, 20, 25, 50, 100]}
         pages={pages}
         sortable={false}
       />

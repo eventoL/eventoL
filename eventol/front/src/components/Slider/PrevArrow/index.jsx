@@ -11,7 +11,7 @@ const PrevArrow = ({onClick, style}) => (
 
 PrevArrow.propTypes = {
   onClick: PropTypes.func,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 export default PrevArrow;
