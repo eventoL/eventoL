@@ -12,22 +12,22 @@ export const SLIDER_BASE_SETTINGS = {
       slidesToShow: 3,
       slidesToScroll: 3,
       infinite: true,
-      dots: true
-    }
+      dots: true,
+    },
   }, {
     breakpoint: 900,
     settings: {
       slidesToShow: 2,
       slidesToScroll: 2,
-      initialSlide: 2
-    }
+      initialSlide: 2,
+    },
   }, {
     breakpoint: 610,
     settings: {
       slidesToShow: 1,
-      slidesToScroll: 1
-    }
-  }]
+      slidesToScroll: 1,
+    },
+  }],
 };
 
 export const HOME_REQUIRED_FIELDS = 'event_slug,place,image,name,attendees_count,abstract,tags';
