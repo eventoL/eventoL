@@ -1,8 +1,12 @@
 parser: babel-eslint
+extends:
+ - airbnb
+ - plugin:import/errors
+ - plugin:import/warnings
 env:
  browser: true
- es6: true
- jest/globals: true
+plugins:
+ - import
 globals:
  gettext: true
  $: true
@@ -12,6 +16,7 @@ globals:
  __dirname: true
  global: true
  window: true
+ document: true
 parserOptions:
  ecmaVersion: 6
  sourceType: module
@@ -19,66 +24,6 @@ parserOptions:
   jsx: true
   modules: true
   experimentalObjectRestSpread: true
-plugins:
- - react
- - jest
- - import
-extends:
- - eslint:recommended
- - plugin:react/all
- - plugin:import/errors
- - plugin:import/warnings
-rules:
- arrow-parens: [error, as-needed]
- brace-style: [error, 1tbs]
- comma-dangle: [error, never]
- curly: [error, multi-line]
- func-style: [error, declaration, { allowArrowFunctions: true }]
- import/default: error
- import/export: error
- import/named: error
- import/namespace: error
- import/no-duplicates: error
- import/no-unresolved: [error, {commonjs: true, amd: true}]
- indent: [error, 2]
- jest/no-disabled-tests: warn
- jest/no-focused-tests: error
- jest/no-identical-title: error
- jest/valid-expect: error
- jsx-a11y/href-no-hash: off
- jsx-a11y/rule-name: off
- jsx-quotes: [error, prefer-single]
- max-len: off
- no-console: warn
- no-inner-declarations: off
- no-unexpected-multiline: warn
- no-unreachable: error
- no-unused-vars: [error, { argsIgnorePattern: ^(nextState|prevState|err|error|reject|getState|_|__)$ }]
- no-var: error
- object-curly-spacing: [error, never]
- object-shorthand: error
- padded-blocks: [error, never]
- prefer-arrow-callback: [error, {allowNamedFunctions: false, allowUnboundThis: false}]
- prefer-const: error
- quote-props: [error, as-needed]
- quotes: [error, single]
- react/display-name: warn
- react/forbid-prop-types: off
- react/jsx-indent: [error, 2]
- react/jsx-indent-props: [error, 2]
- react/jsx-max-depth: [error, {max: 6}]
- react/jsx-max-props-per-line: [warn, {maximum: 4}]
- react/jsx-no-bind: off
- react/jsx-one-expression-per-line: [error, {allow: single-child}]
- react/jsx-uses-vars: warn
- react/no-did-mount-set-state: warn
- react/no-did-update-set-state: warn
- react/no-set-state: off
- react/no-unused-prop-types: warn
- react/require-default-props: off
- react/self-closing-comp: warn
- semi: [error, always, {omitLastInOneLineBlock: true}]
- space-before-function-paren: [error, {anonymous: always, named: never, asyncArrow: always}]
 settings:
  react:
    pragma: React
@@ -89,3 +34,31 @@ settings:
      extensions:
       - .js
       - .jsx
+rules:
+  arrow-parens: [error, as-needed]
+  camelcase: [error, {ignoreDestructuring: true}]
+  jsx-a11y/anchor-is-valid: off
+  jsx-quotes: [error, prefer-single]
+  no-prototype-builtins: off
+  object-curly-spacing: [error, never]  
+  space-before-blocks: [error, {functions: never, keywords: never, classes: always}]
+  space-before-function-paren: [error, {anonymous: always, named: never, asyncArrow: always}]
+overrides:
+  files:
+    - '**/jest/*.{js,jsx}'
+    - "**/*.{spec,test}.{js,jsx}"
+  env:
+    jest: true
+  plugins:
+    - jest
+  globals:
+    global: true
+    jest: true
+  rules:
+    jest/no-disabled-tests: warn
+    jest/no-focused-tests: error
+    jest/no-identical-title: error
+    jest/prefer-to-have-length: warn
+    jest/valid-expect: error
+    one-var: off
+    one-var-declaration-per-line: off

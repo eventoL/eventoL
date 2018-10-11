@@ -41,6 +41,8 @@
   "dependencies": {
     "css-loader": "^0.28.7",
     "es6-promise": "^4.2.4",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
     "file-loader": "^1.1.6",
     "image-webpack-loader": "^3.4.2",
     "imagemin-optipng": "^5.2.1",
