@@ -1,4 +1,7 @@
-import {API_URL, EVENTS_API_URL, WS_URL, EVENTS_WS_URL} from './urls.js';
+import {
+  API_URL, EVENTS_API_URL,
+  WS_URL, EVENTS_WS_URL,
+} from './urls';
 
 describe('Url utils', () => {
   beforeAll(() => {
@@ -18,14 +21,16 @@ describe('Url utils', () => {
   });
 
   describe('WS_URL', () => {
-    it('should is WS_URL is ws://${window.location.host}/', () => {
+    it('should is WS_URL is ws://window.location.host/', () => {
       expect(WS_URL).toEqual(`ws://${window.location.host}/`);
     });
   });
 
   describe('EVENTS_WS_URL', () => {
-    it('should is EVENTS_WS_URL is ws://${window.location.host}/update/events/', () => {
+    it('should is EVENTS_WS_URL is ws://window.location.host/update/events/', () => {
       expect(EVENTS_WS_URL).toEqual(`ws://${window.location.host}/updates/events/`);
     });
   });
 });
+
+// TODO: add tests for getTagUrl

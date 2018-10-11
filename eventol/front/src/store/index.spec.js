@@ -1,15 +1,16 @@
 const initState = {
   events: {
-    events: []
-  }
+    events: [],
+  },
 };
 
 describe('Events store', () => {
   let store, event, events;
 
   beforeEach(() => {
-    const get_store = require('./events').default;
-    store = get_store();
+    /* eslint-disable-next-line global-require */
+    const getStore = require('./index').default;
+    store = getStore();
     event = {
       model: 'events.event',
       pk: 1,
@@ -18,8 +19,8 @@ describe('Events store', () => {
         url: 'https://gitlab.com/FedeG/django-react-workshop/',
         pending: false,
         description: '',
-        user: 1
-      }
+        user: 1,
+      },
     };
     events = [event];
   });
@@ -45,10 +46,13 @@ describe('Events store', () => {
       const expectedEvent = {fields: {name: 'new name'}, pk: 1};
       const expectData = {events: [expectedEvent]};
       store.dispatch({type: 'SET_EVENTS', events});
-      store.dispatch({type: 'UPDATE_EVENT', event: {
-        ...event,
-        data: {name: 'new name'}
-      }});
+      store.dispatch({
+        type: 'UPDATE_EVENT',
+        event: {
+          ...event,
+          data: {name: 'new name'},
+        },
+      });
       expect(store.getState().events).toEqual(expectData);
     });
 
@@ -66,9 +70,9 @@ describe('Events store', () => {
           name: 'Gitlab with workshop',
           pending: false,
           url: 'https://gitlab.com/FedeG/django-react-workshop/',
-          user: 1
+          user: 1,
         },
-        pk: 1
+        pk: 1,
       };
       const expectData = {events: [event, createdEvent]};
       store.dispatch({type: 'SET_EVENTS', events});
@@ -77,3 +81,5 @@ describe('Events store', () => {
     });
   });
 });
+
+// TODO: Import event names

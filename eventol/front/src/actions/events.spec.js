@@ -1,6 +1,6 @@
 import {
   setEvents, createEvent, updateEvent, deleteEvent,
-  DELETE_EVENT, CREATE_EVENT, UPDATE_EVENT, SET_EVENTS
+  DELETE_EVENT, CREATE_EVENT, UPDATE_EVENT, SET_EVENTS,
 } from './events';
 
 describe('events Actions', () => {
@@ -10,7 +10,7 @@ describe('events Actions', () => {
     event = {
       model: 'events.event',
       pk: 1,
-      fields: {}
+      fields: {},
     };
     events = [event];
   });
@@ -19,7 +19,7 @@ describe('events Actions', () => {
     beforeEach(() => {
       expectDefault = {
         type: SET_EVENTS,
-        events
+        events,
       };
     });
 
@@ -38,7 +38,7 @@ describe('events Actions', () => {
     beforeEach(() => {
       expectDefault = {
         type: UPDATE_EVENT,
-        event
+        event,
       };
     });
 
@@ -57,7 +57,7 @@ describe('events Actions', () => {
     beforeEach(() => {
       expectDefault = {
         type: CREATE_EVENT,
-        event
+        event,
       };
     });
 
@@ -76,7 +76,7 @@ describe('events Actions', () => {
     beforeEach(() => {
       expectDefault = {
         type: DELETE_EVENT,
-        event
+        event,
       };
     });
 

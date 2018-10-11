@@ -1,11 +1,11 @@
 import eventsReducer from './events';
 import {
   SET_EVENTS, UPDATE_EVENT,
-  CREATE_EVENT, DELETE_EVENT
+  CREATE_EVENT, DELETE_EVENT,
 } from '../actions/events';
 
 const initState = {
-  events: []
+  events: [],
 };
 
 describe('events Reducer', () => {
@@ -20,8 +20,8 @@ describe('events Reducer', () => {
         url: 'https://gitlab.com/FedeG/django-react-workshop/',
         pending: false,
         description: '',
-        user: 1
-      }
+        user: 1,
+      },
     };
     event2 = {
       model: 'events.event',
@@ -31,8 +31,8 @@ describe('events Reducer', () => {
         url: 'https://fedeg.gitlab.io/django-react-workshop',
         pending: true,
         description: '',
-        user: 1
-      }
+        user: 1,
+      },
     };
     events = [event];
   });
@@ -51,7 +51,7 @@ describe('events Reducer', () => {
     test('when set events return correct events list', () => {
       const action = {
         type: SET_EVENTS,
-        events
+        events,
       };
       const result = eventsReducer(initState, action);
       expect(result.events).toEqual(events);
@@ -64,8 +64,8 @@ describe('events Reducer', () => {
         type: UPDATE_EVENT,
         event: {
           ...event,
-          data: {name: 'new name'}
-        }
+          data: {name: 'new name'},
+        },
       };
       const expectedEvent = {fields: {name: 'new name'}, pk: 1};
       const result = eventsReducer({events}, action);
@@ -77,7 +77,7 @@ describe('events Reducer', () => {
         type: UPDATE_EVENT,
         event: {
           ...event,
-          data: {name: 'new name'}
+          data: {name: 'new name'},
         }
       };
       const expectedEvent = {fields: {name: 'new name'}, pk: 1};
@@ -90,7 +90,7 @@ describe('events Reducer', () => {
     test('when delete event return empty events list', () => {
       const action = {
         type: DELETE_EVENT,
-        event
+        event,
       };
       const result = eventsReducer({events}, action);
       expect(result.events).toEqual([]);
@@ -101,7 +101,7 @@ describe('events Reducer', () => {
     test('when create event return correct events list', () => {
       const action = {
         type: CREATE_EVENT,
-        event
+        event,
       };
       const createdEvent = {
         fields: {
@@ -109,9 +109,9 @@ describe('events Reducer', () => {
           name: 'Gitlab with workshop',
           pending: false,
           url: 'https://gitlab.com/FedeG/django-react-workshop/',
-          user: 1
+          user: 1,
         },
-        pk: 1
+        pk: 1,
       };
       const result = eventsReducer({events}, action);
       expect(result.events).toEqual([event, createdEvent]);
