@@ -9,17 +9,17 @@ export default class Hero extends React.Component {
     children: PropTypes.oneOfType([
       PropTypes.array,
       PropTypes.object,
-      PropTypes.element
+      PropTypes.element,
       // TODO: search children proptypes details
     ]),
     logoLanding: PropTypes.string,
     message: PropTypes.string,
-    slug: PropTypes.string
+    slug: PropTypes.string,
   }
 
   static defaultProps = {
     background: '/static/manager/img/background.png', // TODO: move to constant
-    logoLanding: '/static/manager/img/logo.png' // TODO: move to constant
+    logoLanding: '/static/manager/img/logo.png', // TODO: move to constant
   }
 
   getSlugParsed(){ // TODO: move to utils
@@ -31,16 +31,16 @@ export default class Hero extends React.Component {
       .split('_')
       .join(' ')
       .split(' ')
-      .map(word => (word) ? word.replace(word[0], word[0].toUpperCase()) : '')
+      .map(word => ((word) ? word.replace(word[0], word[0].toUpperCase()) : ''))
       .join(' ');
   }
 
   getMessage(){
     const {slug, message} = this.props;
-    if (message) {
+    if (message){
       return <h2>{message}</h2>;
     }
-    if (slug) {
+    if (slug){
       return (
         <h2>
           {`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}

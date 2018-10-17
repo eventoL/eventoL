@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Desktop version Snapshot 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="nav-wide"
+  >
+    <div
+      className="logo-component"
+      id="logo"
+    >
+      <a
+        href="/"
+      >
+        <img
+          src="eventol.png"
+        />
+      </a>
+    </div>
+    <div
+      className="navigation"
+      id="navigation"
+    >
+      <nav>
+        <ul>
+          <a
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="link"
+            tabIndex="0"
+          >
+            <li>
+              Search
+            </li>
+          </a>
+          <a
+            href="http://eventol.github.io/eventoL/#/"
+          >
+            <li>
+              Documentation
+            </li>
+          </a>
+          <a
+            href="#featured"
+          >
+            <li>
+              Featured
+            </li>
+          </a>
+          <a
+            href="#recent"
+          >
+            <li>
+              Recent
+            </li>
+          </a>
+          <a
+            href="/report"
+          >
+            <li>
+              Generic report
+            </li>
+          </a>
+        </ul>
+      </nav>
+    </div>
+    <div
+      className="user-profile"
+    >
+      <a
+        href="/accounts/profile/"
+      >
+        <div
+          className="user"
+        >
+          <div
+            className="name"
+          >
+            first_name last_name
+          </div>
+          <div
+            className="image"
+          >
+            <div
+              className="fa fa-user fa-2x"
+            />
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</header>
+`;
+
+exports[`Header Mobile version Snapshot 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="nav-narrow"
+  >
+    <div
+      className="logo-component"
+      id="logo"
+    >
+      <a
+        href="/"
+      >
+        <img
+          src="eventol.png"
+        />
+      </a>
+    </div>
+    <div
+      className="nav-right"
+    >
+      <a
+        href="#"
+        onClick={[Function]}
+      >
+        <i
+          className="fa fa-bars fa-2x"
+        />
+      </a>
+      <div
+        className="narrow-links"
+      >
+        <div
+          className="navigation"
+          id="navigation"
+        >
+          <nav>
+            <ul>
+              <a
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="link"
+                tabIndex="0"
+              >
+                <li>
+                  Search
+                </li>
+              </a>
+              <a
+                href="http://eventol.github.io/eventoL/#/"
+              >
+                <li>
+                  Documentation
+                </li>
+              </a>
+              <a
+                href="#featured"
+              >
+                <li>
+                  Featured
+                </li>
+              </a>
+              <a
+                href="#recent"
+              >
+                <li>
+                  Recent
+                </li>
+              </a>
+              <a
+                href="/report"
+              >
+                <li>
+                  Generic report
+                </li>
+              </a>
+            </ul>
+          </nav>
+        </div>
+        <div
+          className="user-profile"
+        >
+          <a
+            href="/accounts/profile/"
+          >
+            <div
+              className="user"
+            >
+              <div
+                className="name"
+              >
+                first_name last_name
+              </div>
+              <div
+                className="image"
+              >
+                <div
+                  className="fa fa-user fa-2x"
+                />
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+`;

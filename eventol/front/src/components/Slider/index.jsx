@@ -9,11 +9,11 @@ import {SLIDER_BASE_SETTINGS} from '../../utils/constants';
 import './index.css';
 
 
-const Slider = ({children:items}) => {
+const Slider = ({children: items}) => {
   const settings = {
     ...SLIDER_BASE_SETTINGS,
     prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />
+    nextArrow: <NextArrow />,
   };
   return (
     <ReactSlickSlider className='container' {...settings}>
@@ -26,8 +26,8 @@ Slider.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.object,
-    PropTypes.element
-  ])
+    PropTypes.element,
+  ]),
 };
 
 export default Slider;

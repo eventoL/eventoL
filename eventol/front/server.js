@@ -12,7 +12,7 @@ new WebpackDevServer(webpack(config), {
   hot: true,
   inline: true,
   historyApiFallback: true,
-  headers: {'Access-Control-Allow-Origin': '*'}
+  headers: {'Access-Control-Allow-Origin': '*'},
 }).listen(port, host, err => {
   if (err) console.log(err);
   console.log(`Listening at ${host}:${port}`);

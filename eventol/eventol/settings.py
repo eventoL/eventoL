@@ -67,6 +67,7 @@ class Base(Configuration):
         'django_elasticsearch_dsl',
         'django_extensions',
         'vote',
+        'forms_builder.forms',
     )
 
     MIDDLEWARE_CLASSES = (
@@ -85,11 +86,17 @@ class Base(Configuration):
 
     # Database
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
+            'USER': os.getenv('PSQL_USER', 'eventol'),
+            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
+            'HOST': os.getenv('PSQL_HOST', 'localhost'),
+            'PORT': os.getenv('PSQL_PORT', '5432'),
+            'OPTIONS': {
+                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
+            },
         }
     }
 
@@ -111,10 +118,17 @@ class Base(Configuration):
     USE_I18N = True
     USE_L10N = True
     USE_TZ = True
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = BASE_DIR + 'media/'
+    
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [
+                MEDIA_ROOT
+            ],
             'APP_DIRS': True,
             'OPTIONS': {
                 'debug': DEBUG,
@@ -266,9 +280,6 @@ class Base(Configuration):
     EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
     DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_FROM)
 
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
 
@@ -291,19 +302,6 @@ class Staging(Base):
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
-            'USER': os.getenv('PSQL_USER', 'eventol'),
-            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
-            'HOST': os.getenv('PSQL_HOST', 'localhost'),
-            'PORT': os.getenv('PSQL_PORT', '5432'),
-            'OPTIONS': {
-                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
-            },
-        }
-    }
     WEBPACK_LOADER = {
         'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/prod/',  # end with slash

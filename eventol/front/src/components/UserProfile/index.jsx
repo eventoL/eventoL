@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -18,7 +19,10 @@ const UserProfile = ({user: {first_name, last_name}}) => (
 );
 
 UserProfile.propTypes = {
-  user: PropTypes.object //TODO: change to shape with first_name and last_name
+  user: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+  }).isRequired,
 };
 
 export default UserProfile;

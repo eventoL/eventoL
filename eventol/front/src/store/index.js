@@ -1,10 +1,12 @@
-import {compose, createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
+import {compose, createStore, applyMiddleware} from 'redux';
+
 import reducer from '../reducers';
 
-
-export default function linksStore() {
+const getStore = () => {
   const middleware = compose(applyMiddleware(thunk));
   const store = createStore(reducer, middleware);
   return store;
-}
+};
+
+export default getStore;

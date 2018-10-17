@@ -16,6 +16,6 @@ const eventsActions = {
   DELETE_EVENT,
   CREATE_EVENT,
   UPDATE_EVENT,
-  SET_EVENTS
+  SET_EVENTS,
 };
 export default eventsActions;

@@ -42,6 +42,15 @@ docker dev image:
     - develop
 
 python-testing:
+  services:
+    - postgres:9.6
+  variables:
+    PSQL_USER: eventol
+    PSQL_DBNAME: eventol
+    PSQL_HOST: postgres
+    POSTGRES_DB: eventol
+    POSTGRES_USER: eventol
+    POSTGRES_PASSWORD: secret
   image: python:3.5
   stage: testing
   script:

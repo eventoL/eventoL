@@ -6,8 +6,8 @@ import Item from '../Item';
 
 const SliderItems = ({itemsData, sliderId}) => {
   let items = '';
-  if(itemsData) {
-    items = itemsData.map(itemData => <div key={itemData.key}><Item sliderId={sliderId} {...itemData} /></div>);
+  if (itemsData){
+    items = itemsData.map(itemData => <div key={itemData.key}><Item sliderId={sliderId} {...itemData} /></div>); // TODO: move to function or new component
   }
   return (
     <Slider>
@@ -18,7 +18,11 @@ const SliderItems = ({itemsData, sliderId}) => {
 
 SliderItems.propTypes = {
   itemsData: PropTypes.array,
-  sliderId: PropTypes.string
+  sliderId: PropTypes.string.isRequired,
+};
+
+SliderItems.defaultProps = {
+  itemsData: [],
 };
 
 export default SliderItems;

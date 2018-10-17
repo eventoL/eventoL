@@ -1,10 +1,18 @@
 import json
 
-from django import template, forms
+from django import forms, template
 from django.utils.translation import ugettext_lazy as _
-from vote.models import Vote
 
-from manager.models import Installer, Collaborator, Organizer, EventUser, Attendee, Activity
+from manager.models import (
+    Activity,
+    Attendee,
+    Collaborator,
+    EventUser,
+    Installer,
+    Organizer,
+    Reviewer
+)
+from vote.models import Vote
 
 register = template.Library()
 
@@ -97,6 +105,14 @@ def is_installer(user, event_slug):
 @register.filter(name='is_collaborator')
 def is_collaborator(user, event_slug):
     exists_collaborator = Collaborator.objects.filter(
+        event_user__user=user,
+        event_user__event__event_slug=event_slug).exists()
+    return exists_collaborator or is_organizer(user, event_slug)
+
+
+@register.filter(name='is_reviewer')
+def is_reviewer(user, event_slug):
+    exists_collaborator = Reviewer.objects.filter(
         event_user__user=user,
         event_user__event__event_slug=event_slug).exists()
     return exists_collaborator or is_organizer(user, event_slug)

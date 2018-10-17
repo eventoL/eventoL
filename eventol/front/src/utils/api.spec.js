@@ -1,4 +1,5 @@
-import {getUrl, postUrl} from './api.js';
+import _ from 'lodash';
+import {getUrl, postUrl} from './api';
 
 describe('Api utils', () => {
   let url, data, body;
@@ -10,15 +11,13 @@ describe('Api utils', () => {
   });
 
   beforeEach(() => {
-    global.fetch = jest.fn().mockImplementation(() =>
-      Promise.resolve({
-        json: () => Promise.resolve([])
-      })
-    );
+    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
+      json: () => Promise.resolve([]),
+    }));
   });
 
-  function getLastCall() {
-    return global.fetch.mock.calls[global.fetch.mock.calls.length - 1];
+  function getLastCall(){
+    return _.last(global.fetch.mock.calls);
   }
 
   afterAll(() => {
@@ -55,3 +54,5 @@ describe('Api utils', () => {
     });
   });
 });
+
+// TODO: add tests for addQueryString

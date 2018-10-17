@@ -13,11 +13,11 @@ const Logo = ({logoHeader}) => (
 );
 
 Logo.propTypes = {
-  logoHeader: PropTypes.string
+  logoHeader: PropTypes.string,
 };
 
 Logo.defaultProps = {
-  logoHeader: '/static/manager/img/eventol-white.png' // TODO: move to constant
+  logoHeader: '/static/manager/img/eventol-white.png', // TODO: move to constant
 };
 
 export default Logo;

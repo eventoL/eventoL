@@ -6,14 +6,11 @@ $white: #fff;
 $black: #000;
 $light-gray: #fafafa;
 $dark-gray: #221f1f;
+$gray: #666a73;
 
 $a-color: $white;
 $text-color: $black;
 $gradient-color: $black;
 $gradient-gray-color: $light-gray;
 $gradient-end: $dark-gray;
-
-@value a-color #{$a-color};
-@value text-color #{$text-color};
-@value gradient-color #{$gradient-color};
-@value gradient-gray-color #{$gradient-gray-color};
+$user-profile: $gray;

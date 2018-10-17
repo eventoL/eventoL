@@ -11,7 +11,7 @@ const HeroButton = ({primary, text}) => (
 
 HeroButton.propTypes = {
   primary: PropTypes.string,
-  text: PropTypes.string
+  text: PropTypes.string,
 };
 
 export default HeroButton;
