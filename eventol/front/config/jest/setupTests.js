@@ -1,9 +1,9 @@
 import {WebSocket} from 'mock-socket';
 
-global.fetch = require('jest-fetch-mock');
+global.$ = jest.fn();
 global.WebSocket = WebSocket;
 global.gettext = jest.fn(text => text);
-global.$ = jest.fn();
+global.fetch = require('jest-fetch-mock');
 
 const matchMedia = () => ({
   matches: false,
