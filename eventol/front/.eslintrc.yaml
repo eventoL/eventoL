@@ -5,6 +5,7 @@ extends:
  - plugin:import/warnings
 env:
  browser: true
+ node: true
 plugins:
  - import
 globals:
@@ -17,6 +18,7 @@ globals:
  global: true
  window: true
  document: true
+ console: true
 parserOptions:
  ecmaVersion: 6
  sourceType: module
@@ -55,6 +57,7 @@ overrides:
     global: true
     jest: true
   rules:
+    import/first: off
     jest/no-disabled-tests: warn
     jest/no-focused-tests: error
     jest/no-identical-title: error
