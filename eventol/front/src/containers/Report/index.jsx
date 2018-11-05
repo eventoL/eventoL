@@ -1,11 +1,13 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Toggle from 'react-input-toggle';
-import Button from '../../components/Button';
-import ExportButton from '../../components/ExportButton';
-import TableReport from '../../components/ReportTable';
+
 import Title from '../../components/Title';
+import Button from '../../components/Button';
+import TableReport from '../../components/ReportTable';
+import ExportButton from '../../components/ExportButton';
+
 import {getUrl} from '../../utils/api';
 import {REPORT_REQUIRED_FIELDS} from '../../utils/constants';
 
@@ -20,15 +22,15 @@ export default class Report extends React.Component {
   }
 
   state = {
+    all_data: [],
+    columns: {},
     table: 'confirmed',
     count: 0,
     autoupdate: false,
     data: [],
-    all_data: [],
     totals: {},
     pages: null,
     loading: true,
-    columns: {},
   }
 
   componentDidMount(){

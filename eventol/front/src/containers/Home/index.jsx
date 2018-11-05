@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import withSizes from 'react-sizes';
 
-import Header from '../../components/Header';
 import Hero from '../../components/Hero';
+import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
 import {
