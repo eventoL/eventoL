@@ -7,10 +7,8 @@ export default class Hero extends React.Component {
   static propTypes = {
     background: PropTypes.string,
     children: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.object,
-      PropTypes.element,
-      // TODO: search children proptypes details
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
     ]),
     logoLanding: PropTypes.string,
     message: PropTypes.string,
@@ -20,6 +18,9 @@ export default class Hero extends React.Component {
   static defaultProps = {
     background: '/static/manager/img/background.png', // TODO: move to constant
     logoLanding: '/static/manager/img/logo.png', // TODO: move to constant
+    children: null,
+    message: null,
+    slug: null,
   }
 
   getSlugParsed(){ // TODO: move to utils

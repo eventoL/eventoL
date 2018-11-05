@@ -18,10 +18,16 @@ const Title = ({label, children}) => (
 );
 
 Title.propTypes = {
+  label: PropTypes.string,
   children: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.element,
-  ]).isRequired, // TODO: search children default proptypes
-  label: PropTypes.string.isRequired,
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
+
+Title.defaultProps = {
+  label: '',
+  children: null,
+};
+
+export default Title;

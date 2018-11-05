@@ -13,13 +13,24 @@ import './index.scss';
 
 class EventHome extends React.Component {
   static propTypes = {
+    isMobile: PropTypes.bool.isRequired,
     background: PropTypes.string,
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
     tagMessage: PropTypes.string,
     tagSlug: PropTypes.string,
-    user: PropTypes.object,
-    isMobile: PropTypes.bool.isRequired,
+    user: PropTypes.shape({
+      /* eslint-disable camelcase */
+      first_name: PropTypes.string,
+      last_name: PropTypes.string,
+      /* eslint-enable camelcase */
+    }),
+  }
+
+  static defaultProps = {
+    tagMessage: null,
+    tagSlug: null,
+    user: null,
   }
 
   state = {

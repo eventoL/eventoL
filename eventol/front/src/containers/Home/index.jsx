@@ -13,12 +13,22 @@ import './index.scss';
 
 class Home extends React.Component {
   static propTypes = {
+    isMobile: PropTypes.bool.isRequired,
     background: PropTypes.string,
     eventolMessage: PropTypes.string,
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
-    user: PropTypes.object,
-    isMobile: PropTypes.bool.isRequired,
+    user: PropTypes.shape({
+      /* eslint-disable camelcase */
+      first_name: PropTypes.string,
+      last_name: PropTypes.string,
+      /* eslint-enable camelcase */
+    }),
+  }
+
+  static defaultProps = {
+    eventolMessage: null,
+    user: null,
   }
 
   state = {

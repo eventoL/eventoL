@@ -2,11 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-class WsCommunicator extends React.Component {
+export default class WsCommunicator extends React.Component {
+  static propTypes = {
+    handleNotSupportWs: PropTypes.func,
+    onClose: PropTypes.func,
+    onMessage: PropTypes.func,
+    onOpen: PropTypes.func,
+    reconnect: PropTypes.bool,
+    wsUrl: PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    onOpen: evt => console.log('open', evt),
+    onMessage: evt => console.log('message', evt),
+    onClose: evt => console.warn('close', evt),
+    handleNotSupportWs: evt => console.warn('close', evt),
+    reconnect: true,
+  }
+
   constructor(props){
     super(props);
     this.checkWebSocketSupport();
-    const websocket = this.createWebSocket(props.ws_url);
+    const websocket = this.createWebSocket(props.wsUrl);
     this.state = {
       attempts: 1,
       onOpens: [props.onOpen],
@@ -90,22 +107,3 @@ class WsCommunicator extends React.Component {
     }
   }
 }
-
-WsCommunicator.defaultProps = {
-  onOpen: evt => console.log('open', evt),
-  onMessage: evt => console.log('message', evt),
-  onClose: evt => console.warn('close', evt),
-  handleNotSupportWs: evt => console.warn('close', evt),
-  reconnect: true,
-};
-
-WsCommunicator.propTypes = {
-  handleNotSupportWs: PropTypes.func,
-  onClose: PropTypes.func,
-  onMessage: PropTypes.func,
-  onOpen: PropTypes.func,
-  reconnect: PropTypes.bool,
-  ws_url: PropTypes.string.isRequired,
-};
-
-export default WsCommunicator;
