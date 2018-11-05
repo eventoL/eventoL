@@ -7,6 +7,7 @@ import Hero from '../../components/Hero';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
 import {
+  MOBILE_WIDTH,
   BACKGROUND_DEFAULT,
   LOGO_HEADER_DEFAULT,
   LOGO_LANDING_DEFAULT,
@@ -104,7 +105,7 @@ class Home extends React.Component {
 }
 
 const mapSizesToProps = ({width}) => ({
-  isMobile: width < 950,
+  isMobile: width < MOBILE_WIDTH,
 });
 
 export default withSizes(mapSizesToProps)(Home);

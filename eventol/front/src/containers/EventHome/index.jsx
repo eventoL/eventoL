@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
 import {
+  MOBILE_WIDTH,
   BACKGROUND_DEFAULT,
   LOGO_HEADER_DEFAULT,
   LOGO_LANDING_DEFAULT,
@@ -93,7 +94,7 @@ class EventHome extends React.Component {
 }
 
 const mapSizesToProps = ({width}) => ({
-  isMobile: width < 950,
+  isMobile: width < MOBILE_WIDTH,
 });
 
 export default withSizes(mapSizesToProps)(EventHome);
