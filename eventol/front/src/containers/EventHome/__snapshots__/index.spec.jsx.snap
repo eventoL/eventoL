@@ -1,137 +1,309 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EventHome Snapshot 1`] = `
+exports[`EventHome With user Desktop Default Snapshot 1`] = `
 <div>
-  <header
-    className="header"
-  >
-    <div
-      className="nav-wide"
-    >
-      <div
-        className="logo-component"
-        id="logo"
-      >
-        <a
-          href="/"
-        >
-          <img
-            src=""
-          />
-        </a>
-      </div>
-      <div
-        className="navigation"
-        id="navigation"
-      >
-        <nav>
-          <ul>
-            <a
-              onClick={[Function]}
-              onKeyPress={[Function]}
-              role="link"
-              tabIndex="0"
-            >
-              <li>
-                Search
-              </li>
-            </a>
-            <a
-              href="http://eventol.github.io/eventoL/#/"
-            >
-              <li>
-                Documentation
-              </li>
-            </a>
-            <a
-              href="#featured"
-            >
-              <li>
-                Featured
-              </li>
-            </a>
-            <a
-              href="#recent"
-            >
-              <li>
-                Recent
-              </li>
-            </a>
-            <a
-              href="/report"
-            >
-              <li>
-                Generic report
-              </li>
-            </a>
-          </ul>
-        </nav>
-      </div>
-      <div
-        className="user-profile"
-      >
-        <a
-          href="/accounts/profile/"
-        >
-          <div
-            className="user"
-          >
-            <div
-              className="name"
-            >
-              undefined undefined
-            </div>
-            <div
-              className="image"
-            >
-              <div
-                className="fa fa-user fa-2x"
-              />
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </header>
-  <div
-    className="hero"
-    id="hero"
-    style={
+  <Header
+    isMobile={false}
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={
       Object {
-        "backgroundImage": "url()",
+        "first_name": "first_name",
+        "last_name": "last_name",
       }
     }
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+    slug={null}
   >
-    <div
-      className="content"
-    >
-      <p>
-        <img
-          alt="logo"
-          className="logo"
-          src=""
-        />
-      </p>
-      <h2>
-        Search your event
-      </h2>
-      <div
-        className="search"
-        id="search"
-      >
-        <input
-          id="search-input"
-          onChange={[Function]}
-          onKeyUp={[Function]}
-          placeholder="Search by title..."
-          type="search"
-          value=""
-        />
-      </div>
-    </div>
-    <div
-      className="overlay"
+    <Search
+      onChange={[Function]}
+      onEnter={[Function]}
     />
-  </div>
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome With user Desktop With custom data Snapshot 1`] = `
+<div>
+  <Header
+    isMobile={false}
+    logoHeader="logoHeader"
+    user={
+      Object {
+        "first_name": "first_name",
+        "last_name": "last_name",
+      }
+    }
+  />
+  <Hero
+    background="background"
+    logoLanding="logoLanding"
+    message="eventolMessage"
+    slug="tagSlug"
+  >
+    <Search
+      onChange={[Function]}
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome With user Mobile Default Snapshot 1`] = `
+<div>
+  <Header
+    isMobile={true}
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={
+      Object {
+        "first_name": "first_name",
+        "last_name": "last_name",
+      }
+    }
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+    slug={null}
+  >
+    <Search
+      onChange={[Function]}
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome With user Mobile With custom data Snapshot 1`] = `
+<div>
+  <Header
+    isMobile={true}
+    logoHeader="logoHeader"
+    user={
+      Object {
+        "first_name": "first_name",
+        "last_name": "last_name",
+      }
+    }
+  />
+  <Hero
+    background="background"
+    logoLanding="logoLanding"
+    message="eventolMessage"
+    slug="tagSlug"
+  >
+    <Search
+      onChange={[Function]}
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome Without user Desktop Default Snapshot 1`] = `
+<div>
+  <Header
+    isMobile={false}
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={null}
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+    slug={null}
+  >
+    <Search
+      onChange={[Function]}
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome Without user Desktop With custom data Snapshot 1`] = `
+<div>
+  <Header
+    isMobile={false}
+    logoHeader="logoHeader"
+    user={null}
+  />
+  <Hero
+    background="background"
+    logoLanding="logoLanding"
+    message="eventolMessage"
+    slug="tagSlug"
+  >
+    <Search
+      onChange={[Function]}
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome Without user Mobile Default Snapshot 1`] = `
+<div>
+  <Header
+    isMobile={true}
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={null}
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+    slug={null}
+  >
+    <Search
+      onChange={[Function]}
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome Without user Mobile With custom data Snapshot 1`] = `
+<div>
+  <Header
+    isMobile={true}
+    logoHeader="logoHeader"
+    user={null}
+  />
+  <Hero
+    background="background"
+    logoLanding="logoLanding"
+    message="eventolMessage"
+    slug="tagSlug"
+  >
+    <Search
+      onChange={[Function]}
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
 </div>
 `;
