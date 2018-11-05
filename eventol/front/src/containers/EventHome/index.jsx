@@ -6,7 +6,12 @@ import Hero from '../../components/Hero';
 import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
-import {HOME_REQUIRED_FIELDS} from '../../utils/constants';
+import {
+  BACKGROUND_DEFAULT,
+  LOGO_HEADER_DEFAULT,
+  LOGO_LANDING_DEFAULT,
+  HOME_REQUIRED_FIELDS,
+} from '../../utils/constants';
 
 import './index.scss';
 
@@ -28,6 +33,9 @@ class EventHome extends React.Component {
   }
 
   static defaultProps = {
+    background: BACKGROUND_DEFAULT,
+    logoHeader: LOGO_HEADER_DEFAULT,
+    logoLanding: LOGO_LANDING_DEFAULT,
     tagMessage: null,
     tagSlug: null,
     user: null,

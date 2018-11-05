@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {BACKGROUND_DEFAULT, LOGO_LANDING_DEFAULT} from '../../utils/constants';
+
 import './index.scss';
+
 
 export default class Hero extends React.Component {
   static propTypes = {
@@ -16,8 +19,8 @@ export default class Hero extends React.Component {
   }
 
   static defaultProps = {
-    background: '/static/manager/img/background.png', // TODO: move to constant
-    logoLanding: '/static/manager/img/logo.png', // TODO: move to constant
+    background: BACKGROUND_DEFAULT,
+    logoLanding: LOGO_LANDING_DEFAULT,
     children: null,
     message: null,
     slug: null,
