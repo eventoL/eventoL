@@ -1,6 +1,6 @@
 asgi-ipc==1.4.2
 asgi-redis==1.4.3
-asgiref==1.1.2
+asgiref==2.3.2
 attrs==17.3.0
 autobahn==17.10.1
 Automat==0.6.0
