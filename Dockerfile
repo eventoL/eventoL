@@ -1,4 +1,4 @@
-FROM python:3.5-alpine
+FROM python:3.7.1-alpine
 
 # Set environment variables
 ENV APP_ROOT /usr/src/app
