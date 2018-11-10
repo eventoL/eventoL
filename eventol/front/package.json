@@ -53,7 +53,7 @@
     "raf": "^3.4.0",
     "react": "^16.0.0",
     "react-cookie": "^2.1.1",
-    "react-csv": "^1.0.14",
+    "react-csv": "^1.0.18",
     "react-dom": "^16.0.0",
     "react-input-toggle": "^0.4.0",
     "react-redux": "^5.0.6",

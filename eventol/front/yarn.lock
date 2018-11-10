@@ -5862,9 +5862,9 @@ react-cookie@^2.1.1:
     prop-types "^15.0.0"
     universal-cookie "^2.1.0"
 
-react-csv@^1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.0.14.tgz#7c9e444fc4c3ca1e1cf73a81129b1ec032838a71"
+react-csv@^1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.0.18.tgz#2c9e1ceda02da84fc9a6b12a54804ba5a08b8a0f"
 
 react-dom@^15.4.2:
   version "15.6.2"
