@@ -43,7 +43,7 @@ easy-thumbnails==2.5
 elasticsearch==5.5.2
 elasticsearch-dsl==5.4.0
 et-xmlfile==1.0.1
-hyperlink==17.3.1
+hyperlink==18.0.0
 idna==2.6
 incremental==17.5.0
 jdcal==1.3
