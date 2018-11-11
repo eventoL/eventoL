@@ -7,6 +7,7 @@ import UserProfile from '../UserProfile';
 import SignIn from '../SignIn';
 
 import './index.scss';
+import {LOGO_HEADER_DEFAULT} from '../../utils/constants';
 
 
 export default class Header extends React.PureComponent {
@@ -18,6 +19,11 @@ export default class Header extends React.PureComponent {
     }),
     isMobile: PropTypes.bool.isRequired,
   };
+
+  static defaultProps = {
+    logoHeader: LOGO_HEADER_DEFAULT,
+    user: null,
+  }
 
   handleToggle = event => {
     event.preventDefault();
