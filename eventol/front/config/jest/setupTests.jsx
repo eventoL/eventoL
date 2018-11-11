@@ -1,3 +1,4 @@
+import React from 'react';
 import {WebSocket} from 'mock-socket';
 
 global.$ = jest.fn();
@@ -12,3 +13,4 @@ const matchMedia = () => ({
 });
 
 window.matchMedia = window.matchMedia || matchMedia;
+jest.mock('react-sizes', () => () => Component => props => <Component {...props} />);

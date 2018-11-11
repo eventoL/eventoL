@@ -1,4 +1,3 @@
-jest.mock('react-sizes', () => () => Component => props => <Component {...props} />);
 import React from 'react';
 import renderer from 'react-test-renderer';
 

@@ -81,7 +81,7 @@
     "yarn": "^1.9.4"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/config/jest/setupTests.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/config/jest/setupTests.jsx",
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],
