@@ -1,118 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header Desktop version Snapshot 1`] = `
+exports[`Header With user Desktop version Snapshot 1`] = `
 <header
   className="header"
 >
   <div
     className="nav-wide"
   >
-    <div
-      className="logo-component"
-      id="logo"
-    >
-      <a
-        href="/"
-      >
-        <img
-          src="eventol.png"
-        />
-      </a>
-    </div>
-    <div
-      className="navigation"
-      id="navigation"
-    >
-      <nav>
-        <ul>
-          <a
-            onClick={[Function]}
-            onKeyPress={[Function]}
-            role="link"
-            tabIndex="0"
-          >
-            <li>
-              Search
-            </li>
-          </a>
-          <a
-            href="http://eventol.github.io/eventoL/#/"
-          >
-            <li>
-              Documentation
-            </li>
-          </a>
-          <a
-            href="#featured"
-          >
-            <li>
-              Featured
-            </li>
-          </a>
-          <a
-            href="#recent"
-          >
-            <li>
-              Recent
-            </li>
-          </a>
-          <a
-            href="/report"
-          >
-            <li>
-              Generic report
-            </li>
-          </a>
-        </ul>
-      </nav>
-    </div>
-    <div
-      className="user-profile"
-    >
-      <a
-        href="/accounts/profile/"
-      >
-        <div
-          className="user"
-        >
-          <div
-            className="name"
-          >
-            first_name last_name
-          </div>
-          <div
-            className="image"
-          >
-            <div
-              className="fa fa-user fa-2x"
-            />
-          </div>
-        </div>
-      </a>
-    </div>
+    <Logo
+      logoHeader="eventol.png"
+    />
+    <Navigation />
+    <UserProfile
+      user={
+        Object {
+          "first_name": "first_name",
+          "last_name": "last_name",
+        }
+      }
+    />
   </div>
 </header>
 `;
 
-exports[`Header Mobile version Snapshot 1`] = `
+exports[`Header With user Mobile version Snapshot 1`] = `
 <header
   className="header"
 >
   <div
     className="nav-narrow"
   >
-    <div
-      className="logo-component"
-      id="logo"
-    >
-      <a
-        href="/"
-      >
-        <img
-          src="eventol.png"
-        />
-      </a>
-    </div>
+    <Logo
+      logoHeader="eventol.png"
+    />
     <div
       className="nav-right"
     >
@@ -127,77 +47,63 @@ exports[`Header Mobile version Snapshot 1`] = `
       <div
         className="narrow-links"
       >
-        <div
-          className="navigation"
-          id="navigation"
-        >
-          <nav>
-            <ul>
-              <a
-                onClick={[Function]}
-                onKeyPress={[Function]}
-                role="link"
-                tabIndex="0"
-              >
-                <li>
-                  Search
-                </li>
-              </a>
-              <a
-                href="http://eventol.github.io/eventoL/#/"
-              >
-                <li>
-                  Documentation
-                </li>
-              </a>
-              <a
-                href="#featured"
-              >
-                <li>
-                  Featured
-                </li>
-              </a>
-              <a
-                href="#recent"
-              >
-                <li>
-                  Recent
-                </li>
-              </a>
-              <a
-                href="/report"
-              >
-                <li>
-                  Generic report
-                </li>
-              </a>
-            </ul>
-          </nav>
-        </div>
-        <div
-          className="user-profile"
-        >
-          <a
-            href="/accounts/profile/"
-          >
-            <div
-              className="user"
-            >
-              <div
-                className="name"
-              >
-                first_name last_name
-              </div>
-              <div
-                className="image"
-              >
-                <div
-                  className="fa fa-user fa-2x"
-                />
-              </div>
-            </div>
-          </a>
-        </div>
+        <Navigation />
+        <UserProfile
+          user={
+            Object {
+              "first_name": "first_name",
+              "last_name": "last_name",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</header>
+`;
+
+exports[`Header Without user and without logo Desktop version Snapshot 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="nav-wide"
+  >
+    <Logo
+      logoHeader="/static/manager/img/eventol-white.png"
+    />
+    <Navigation />
+    <SignIn />
+  </div>
+</header>
+`;
+
+exports[`Header Without user and without logo Mobile version Snapshot 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="nav-narrow"
+  >
+    <Logo
+      logoHeader="/static/manager/img/eventol-white.png"
+    />
+    <div
+      className="nav-right"
+    >
+      <a
+        href="#"
+        onClick={[Function]}
+      >
+        <i
+          className="fa fa-bars fa-2x"
+        />
+      </a>
+      <div
+        className="narrow-links"
+      >
+        <Navigation />
+        <SignIn />
       </div>
     </div>
   </div>

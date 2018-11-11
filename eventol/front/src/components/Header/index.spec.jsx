@@ -1,46 +1,81 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
+jest.mock('../Logo', () => 'Logo');
+jest.mock('../Navigation', () => 'Navigation');
+jest.mock('../UserProfile', () => 'UserProfile');
+jest.mock('../SignIn', () => 'SignIn');
+
 import Header from '.';
 
 describe('Header', () => {
   let component, tree, user, logo, isMobile;
 
   beforeEach(() => {
-    /* eslint-disable camelcase */
     user = {
       first_name: 'first_name',
       last_name: 'last_name',
     };
-    /* eslint-enable camelcase */
     logo = 'eventol.png';
   });
 
-  describe('Mobile version', () => {
-    beforeEach(() => {
-      isMobile = true;
-      component = renderer.create(
-        <Header logoHeader={logo} user={user} isMobile={isMobile} />,
-      );
-      tree = component.toJSON();
+  describe('With user', () => {
+    describe('Mobile version', () => {
+      beforeEach(() => {
+        isMobile = true;
+        component = renderer.create(
+          <Header logoHeader={logo} user={user} isMobile={isMobile} />,
+        );
+        tree = component.toJSON();
+      });
+  
+      test('Snapshot', () => {
+        expect(tree).toMatchSnapshot();
+      });
     });
-
-    test('Snapshot', () => {
-      expect(tree).toMatchSnapshot();
+  
+    describe('Desktop version', () => {
+      beforeEach(() => {
+        isMobile = false;
+        component = renderer.create(
+          <Header logoHeader={logo} user={user} isMobile={isMobile} />,
+        );
+        tree = component.toJSON();
+      });
+  
+      test('Snapshot', () => {
+        expect(tree).toMatchSnapshot();
+      });
     });
   });
 
-  describe('Desktop version', () => {
-    beforeEach(() => {
-      isMobile = false;
-      component = renderer.create(
-        <Header logoHeader={logo} user={user} isMobile={isMobile} />,
-      );
-      tree = component.toJSON();
+  describe('Without user and without logo', () => {
+    describe('Mobile version', () => {
+      beforeEach(() => {
+        isMobile = true;
+        component = renderer.create(
+          <Header isMobile={isMobile} />,
+        );
+        tree = component.toJSON();
+      });
+  
+      test('Snapshot', () => {
+        expect(tree).toMatchSnapshot();
+      });
     });
-
-    test('Snapshot', () => {
-      expect(tree).toMatchSnapshot();
+  
+    describe('Desktop version', () => {
+      beforeEach(() => {
+        isMobile = false;
+        component = renderer.create(
+          <Header isMobile={isMobile} />,
+        );
+        tree = component.toJSON();
+      });
+  
+      test('Snapshot', () => {
+        expect(tree).toMatchSnapshot();
+      });
     });
   });
 });
