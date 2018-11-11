@@ -8,7 +8,7 @@ import EventHome from '../containers/EventHome';
 import './index.scss';
 
 const store = getStore();
-/* eslint-disable-next-line camelcase */
+
 window.render_components = properties => {
   window.params = {...properties};
   render(

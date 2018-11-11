@@ -27,12 +27,10 @@ describe('EventHome', () => {
     logoHeader = 'logoHeader';
     logoLanding = 'logoLanding';
     tagMessage = 'eventolMessage';
-    /* eslint-disable camelcase */
     user = {
       first_name: 'first_name',
       last_name: 'last_name',
     };
-    /* eslint-enable camelcase */
     props = {
       user,
       tagSlug,

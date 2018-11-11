@@ -9,7 +9,7 @@ import {getCommunicator} from './utils/communicator';
 import './index.scss';
 
 const store = getStore();
-/* eslint-disable-next-line camelcase */
+
 window.render_components = properties => {
   window.params = {...properties};
   const communicator = getCommunicator(properties);

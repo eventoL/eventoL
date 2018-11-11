@@ -25,10 +25,8 @@ class Home extends React.Component {
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
     user: PropTypes.shape({
-      /* eslint-disable camelcase */
       first_name: PropTypes.string,
       last_name: PropTypes.string,
-      /* eslint-enable camelcase */
     }),
   }
 

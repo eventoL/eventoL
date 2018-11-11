@@ -1,12 +1,11 @@
 jest.mock('react-sizes', () => () => Component => props => <Component {...props} />);
+import React from 'react';
+import renderer from 'react-test-renderer';
 
 jest.mock('../../components/Hero', () => 'Hero');
 jest.mock('../../components/Header', () => 'Header');
 jest.mock('../../components/Search', () => 'Search');
 jest.mock('../../components/TitleList', () => 'TitleList');
-
-import React from 'react';
-import renderer from 'react-test-renderer';
 
 import Home from '.';
 
@@ -26,12 +25,10 @@ describe('Home', () => {
     logoHeader = 'logoHeader';
     logoLanding = 'logoLanding';
     eventolMessage = 'eventolMessage';
-    /* eslint-disable camelcase */
     user = {
       first_name: 'first_name',
       last_name: 'last_name',
     };
-    /* eslint-enable camelcase */
     props = {
       user,
       background,

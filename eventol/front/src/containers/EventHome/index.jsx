@@ -26,10 +26,8 @@ class EventHome extends React.Component {
     tagMessage: PropTypes.string,
     tagSlug: PropTypes.string,
     user: PropTypes.shape({
-      /* eslint-disable camelcase */
       first_name: PropTypes.string,
       last_name: PropTypes.string,
-      /* eslint-enable camelcase */
     }),
   }
 

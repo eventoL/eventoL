@@ -38,7 +38,7 @@ settings:
       - .jsx
 rules:
   arrow-parens: [error, as-needed]
-  camelcase: [error, {ignoreDestructuring: true}]
+  camelcase: [error, {ignoreDestructuring: true, {allow: ['^UNSAFE_', 'first_name', 'last_name']}}]
   jsx-a11y/anchor-is-valid: off
   jsx-quotes: [error, prefer-single]
   no-prototype-builtins: off
