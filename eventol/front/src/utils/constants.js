@@ -18,8 +18,6 @@ export const SLIDER_BASE_SETTINGS = {
     settings: {
       slidesToShow: 3,
       slidesToScroll: 3,
-      infinite: true,
-      dots: true,
     },
   }, {
     breakpoint: 900,
