@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactSlickSlider from 'react-slick';
 
-import NextArrow from './NextArrow';
-import PrevArrow from './PrevArrow';
+import Arrow from '../Arrow';
 import {SLIDER_BASE_SETTINGS} from '../../utils/constants';
 
 import './index.css';
@@ -12,8 +11,8 @@ import './index.css';
 const Slider = ({children: items}) => {
   const settings = {
     ...SLIDER_BASE_SETTINGS,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
+    prevArrow: <Arrow type='prev' />,
+    nextArrow: <Arrow type='next' />,
   };
   return (
     <ReactSlickSlider className='container' {...settings}>
@@ -24,10 +23,13 @@ const Slider = ({children: items}) => {
 
 Slider.propTypes = {
   children: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.object,
-    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
   ]),
+};
+
+Slider.defaultProps = {
+  children: null,
 };
 
 export default Slider;
