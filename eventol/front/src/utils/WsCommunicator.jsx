@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Logger from './logger';
+
 
 export default class WsCommunicator extends React.Component {
   static propTypes = {
@@ -13,10 +15,10 @@ export default class WsCommunicator extends React.Component {
   }
 
   static defaultProps = {
-    onOpen: evt => console.log('open', evt),
-    onMessage: evt => console.log('message', evt),
-    onClose: evt => console.warn('close', evt),
-    handleNotSupportWs: evt => console.warn('close', evt),
+    onOpen: evt => Logger.log('open', evt),
+    onMessage: evt => Logger.log('message', evt),
+    onClose: evt => Logger.warning('close', evt),
+    handleNotSupportWs: evt => Logger.warning('close', evt),
     reconnect: true,
   }
 
@@ -45,7 +47,7 @@ export default class WsCommunicator extends React.Component {
   }
 
   onClose = data => {
-    /* eslint-disable react/no-direct-mutation-state no-console */
+    /* eslint-disable react/no-direct-mutation-state */
     const {onCloses, attempts} = this.state;
     const {reconnect, wsUrl} = this.props;
     onCloses.map(onCloseFunction => onCloseFunction && onCloseFunction(data, reconnect));
@@ -53,11 +55,11 @@ export default class WsCommunicator extends React.Component {
       const time = this.generateInterval(attempts);
       this.state.attempts += 1;
       setTimeout(() => {
-        console.warn(`${gettext('Reconecting websocket, attemps')}: ${attempts}`);
+        Logger.warning(`${gettext('Reconecting websocket, attemps')}: ${attempts}`);
         this.state.websocket = this.createWebSocket(wsUrl);
       }, time);
     }
-    /* eslint-enable react/no-direct-mutation-state no-console */
+    /* eslint-enable react/no-direct-mutation-state */
   }
 
   generateInterval = attempts => {

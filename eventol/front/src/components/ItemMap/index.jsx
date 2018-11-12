@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import Logger from '../../utils/logger';
+
 import './index.scss';
 
 
@@ -19,7 +22,7 @@ export default class ItemMap extends React.PureComponent {
     try {
       this.loadMap();
     } catch (e){
-      console.error(e); // TODO: move to utils for logging
+      Logger.error(e);
     }
     document.getElementById(event_slug).classList.remove('max-size');
   }

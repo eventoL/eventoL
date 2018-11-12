@@ -4,6 +4,7 @@ import SliderItems from '../SliderItems';
 import {getUrl} from '../../utils/api';
 
 import './index.scss';
+import Logger from '../../utils/logger';
 
 
 export default class TitleList extends React.Component {
@@ -64,7 +65,7 @@ export default class TitleList extends React.Component {
     const fullUrl = `/api/events/${url}`;
     getUrl(fullUrl)
       .then(data => this.setState({data}))
-      .catch(err => console.error('There has been an error', err));
+      .catch(err => Logger.error('There has been an error', err));
   }
 
   render(){

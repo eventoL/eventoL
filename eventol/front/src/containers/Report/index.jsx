@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Toggle from 'react-input-toggle';
 
+import Logger from '../../utils/logger';
 import Title from '../../components/Title';
 import Button from '../../components/Button';
 import TableReport from '../../components/ReportTable';
@@ -45,7 +46,7 @@ export default class Report extends React.Component {
       ({results: all_data}) => this.setState({
         all_data, totals: this.parseTotals(all_data), loading: false,
       }),
-    ).catch(err => console.error(gettext('There has been an error'), err));
+    ).catch(err => Logger.error(gettext('There has been an error'), err));
   }
 
   loadContent(pageSize, page, sorted){
@@ -166,7 +167,7 @@ export default class Report extends React.Component {
           data: results.map(this.parseEvent), loading: false, count, pages,
         });
       },
-    ).catch(err => console.error(gettext('There has been an error'), err));
+    ).catch(err => Logger.error(gettext('There has been an error'), err));
   }
 
   onClick = name => this.setState({table: name})
