@@ -44,7 +44,7 @@ class EventManager(models.Manager):
         today = timezone.localdate()
         return super() \
             .get_queryset() \
-            .annotate(attendees_count=models.Count('attendee')) \
+            .annotate(attendees_count=models.Count('attendee', distinct=True)) \
             .annotate(last_date=models.Max('eventdate__date')) \
             .annotate(activity_proposal_is_open=models.Case(
                 models.When(models.Q(limit_proposal_date__gte=today), then=True),
