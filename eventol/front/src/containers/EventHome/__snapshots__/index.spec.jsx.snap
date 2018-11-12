@@ -16,7 +16,7 @@ exports[`EventHome With user Desktop Default Snapshot 1`] = `
     background="/static/manager/img/background.png"
     logoLanding="/static/manager/img/logo.png"
     message={null}
-    slug={null}
+    slug="tagSlug"
   >
     <Search
       onChange={[Function]}
@@ -26,17 +26,17 @@ exports[`EventHome With user Desktop Default Snapshot 1`] = `
   <TitleList
     id="my_events"
     title="My Events"
-    url="?my_events=true&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="next"
     title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="finished"
     title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
 </div>
 `;
@@ -67,17 +67,17 @@ exports[`EventHome With user Desktop With custom data Snapshot 1`] = `
   <TitleList
     id="my_events"
     title="My Events"
-    url="?my_events=true&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="next"
     title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="finished"
     title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
 </div>
 `;
@@ -98,7 +98,7 @@ exports[`EventHome With user Mobile Default Snapshot 1`] = `
     background="/static/manager/img/background.png"
     logoLanding="/static/manager/img/logo.png"
     message={null}
-    slug={null}
+    slug="tagSlug"
   >
     <Search
       onChange={[Function]}
@@ -108,17 +108,17 @@ exports[`EventHome With user Mobile Default Snapshot 1`] = `
   <TitleList
     id="my_events"
     title="My Events"
-    url="?my_events=true&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="next"
     title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="finished"
     title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
 </div>
 `;
@@ -149,17 +149,17 @@ exports[`EventHome With user Mobile With custom data Snapshot 1`] = `
   <TitleList
     id="my_events"
     title="My Events"
-    url="?my_events=true&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="next"
     title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="finished"
     title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
 </div>
 `;
@@ -175,7 +175,7 @@ exports[`EventHome Without user Desktop Default Snapshot 1`] = `
     background="/static/manager/img/background.png"
     logoLanding="/static/manager/img/logo.png"
     message={null}
-    slug={null}
+    slug="tagSlug"
   >
     <Search
       onChange={[Function]}
@@ -185,17 +185,17 @@ exports[`EventHome Without user Desktop Default Snapshot 1`] = `
   <TitleList
     id="my_events"
     title="My Events"
-    url="?my_events=true&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="next"
     title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="finished"
     title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
 </div>
 `;
@@ -221,17 +221,17 @@ exports[`EventHome Without user Desktop With custom data Snapshot 1`] = `
   <TitleList
     id="my_events"
     title="My Events"
-    url="?my_events=true&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="next"
     title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="finished"
     title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
 </div>
 `;
@@ -247,7 +247,7 @@ exports[`EventHome Without user Mobile Default Snapshot 1`] = `
     background="/static/manager/img/background.png"
     logoLanding="/static/manager/img/logo.png"
     message={null}
-    slug={null}
+    slug="tagSlug"
   >
     <Search
       onChange={[Function]}
@@ -257,17 +257,17 @@ exports[`EventHome Without user Mobile Default Snapshot 1`] = `
   <TitleList
     id="my_events"
     title="My Events"
-    url="?my_events=true&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="next"
     title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="finished"
     title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=null&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
 </div>
 `;
@@ -293,17 +293,17 @@ exports[`EventHome Without user Mobile With custom data Snapshot 1`] = `
   <TitleList
     id="my_events"
     title="My Events"
-    url="?my_events=true&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="next"
     title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
   <TitleList
     id="finished"
     title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&tags__slug=tagSlug&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=tagSlug"
   />
 </div>
 `;

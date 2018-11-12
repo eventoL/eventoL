@@ -45,7 +45,7 @@ describe('EventHome', () => {
     describe('Desktop', () => {
       describe('Default', () => {
         beforeEach(() => {
-          component = getComponent({user, isMobile: false});
+          component = getComponent({user, isMobile: false, tagSlug});
           tree = component.toJSON();
         });
 
@@ -69,7 +69,7 @@ describe('EventHome', () => {
     describe('Mobile', () => {
       describe('Default', () => {
         beforeEach(() => {
-          component = getComponent({user, isMobile: true});
+          component = getComponent({user, isMobile: true, tagSlug});
           tree = component.toJSON();
         });
 
@@ -95,7 +95,7 @@ describe('EventHome', () => {
     describe('Desktop', () => {
       describe('Default', () => {
         beforeEach(() => {
-          component = getComponent({isMobile: false});
+          component = getComponent({isMobile: false, tagSlug});
           tree = component.toJSON();
         });
 
@@ -126,7 +126,7 @@ describe('EventHome', () => {
     describe('Mobile', () => {
       describe('Default', () => {
         beforeEach(() => {
-          component = getComponent({isMobile: true});
+          component = getComponent({isMobile: true, tagSlug});
           tree = component.toJSON();
         });
 
