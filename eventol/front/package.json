@@ -71,7 +71,7 @@
     "redux-persist": "5.10.0",
     "redux-thunk": "2.3.0",
     "resolve-url": "0.2.1",
-    "resolve-url-loader": "2.3.1",
+    "resolve-url-loader": "3.0.0",
     "sass-lint": "1.12.1",
     "sass-loader": "7.1.0",
     "scss-lint-html-reporter": "0.3.2",
