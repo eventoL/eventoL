@@ -14,7 +14,14 @@ export default class ListToggle extends React.PureComponent {
   render(){
     const {toggled} = this.state;
     return (
-      <div className='list-toggle' data-toggled={toggled} onClick={this.handleClick}>
+      <div
+        className='list-toggle'
+        data-toggled={toggled}
+        onKeyPress={this.handleClick}
+        onClick={this.handleClick}
+        role='menuitem'
+        tabIndex='0'
+      >
         <div>
           <i className='fa fa-fw fa-plus' />
           <i className='fa fa-fw fa-check' />

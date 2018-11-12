@@ -9,7 +9,7 @@ import './index.scss';
 const Logo = ({logoHeader}) => (
   <div className='logo-component' id='logo'>
     <a href='/'>
-      <img src={logoHeader} />
+      <img alt='header logo' src={logoHeader} />
     </a>
   </div>
 );

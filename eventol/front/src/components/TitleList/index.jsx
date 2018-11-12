@@ -42,21 +42,24 @@ export default class TitleList extends React.Component {
   }
 
   parseItem = ({
-    tags, event_slug, place, image: backdrop, name: title, attendees_count: attendees, abstract: overview,
+    tags, place, image,
+    name: title, attendees_count: attendees,
+    abstract: overview, event_slug: eventSlug,
   }) => {
-    if (backdrop){
-      backdrop = new URL(backdrop).pathname;
+    let backdrop = image;
+    if (image){
+      backdrop = new URL(image).pathname;
     }
     return {
-      event_slug,
+      eventSlug,
       title,
       attendees,
       overview,
       backdrop,
       place,
       tags,
-      key: event_slug,
-      url: `/events/${event_slug}/`, // TODO: move to utils
+      key: eventSlug,
+      url: `/events/${eventSlug}/`, // TODO: move to utils
     };
   } // TODO: move to utils
 

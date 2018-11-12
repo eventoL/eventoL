@@ -28,12 +28,12 @@ describe('Header', () => {
         );
         tree = component.toJSON();
       });
-  
+
       test('Snapshot', () => {
         expect(tree).toMatchSnapshot();
       });
     });
-  
+
     describe('Desktop version', () => {
       beforeEach(() => {
         isMobile = false;
@@ -42,7 +42,7 @@ describe('Header', () => {
         );
         tree = component.toJSON();
       });
-  
+
       test('Snapshot', () => {
         expect(tree).toMatchSnapshot();
       });
@@ -58,12 +58,12 @@ describe('Header', () => {
         );
         tree = component.toJSON();
       });
-  
+
       test('Snapshot', () => {
         expect(tree).toMatchSnapshot();
       });
     });
-  
+
     describe('Desktop version', () => {
       beforeEach(() => {
         isMobile = false;
@@ -72,7 +72,7 @@ describe('Header', () => {
         );
         tree = component.toJSON();
       });
-  
+
       test('Snapshot', () => {
         expect(tree).toMatchSnapshot();
       });

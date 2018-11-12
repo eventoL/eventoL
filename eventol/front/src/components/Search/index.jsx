@@ -6,8 +6,8 @@ import './index.scss';
 
 export default class Search extends React.Component {
   static propTypes = {
-    onChange: PropTypes.func,
-    onEnter: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
+    onEnter: PropTypes.func.isRequired,
   };
 
   state = {

@@ -9,28 +9,28 @@ import './index.scss';
 
 export default class ItemMap extends React.PureComponent {
   static propTypes = {
-    attendees: PropTypes.number,
-    event_slug: PropTypes.string,
-    overview: PropTypes.string,
-    place: PropTypes.string,
-    sliderId: PropTypes.string,
-    title: PropTypes.string,
-    url: PropTypes.string,
+    attendees: PropTypes.number.isRequired,
+    eventSlug: PropTypes.string.isRequired,
+    overview: PropTypes.string.isRequired,
+    place: PropTypes.string.isRequired,
+    sliderId: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
   }
 
   componentDidMount(){
-    const event_slug = this.getMapId();
+    const eventSlug = this.getMapId();
     try {
       this.loadMap();
     } catch (e){
       Logger.error(e);
     }
-    document.getElementById(event_slug).classList.remove('max-size');
+    document.getElementById(eventSlug).classList.remove('max-size');
   }
 
   getMapId(){
-    const {event_slug, sliderId} = this.props;
-    return `${sliderId}${event_slug}`;
+    const {eventSlug, sliderId} = this.props;
+    return `${sliderId}${eventSlug}`;
   }
 
   loadMap(){
@@ -39,7 +39,6 @@ export default class ItemMap extends React.PureComponent {
     const eventLat = geometry.location.lat;
     const eventLon = geometry.location.lng;
     const mapId = this.getMapId();
-      attribution: '',
     const map = L
       .map(mapId, MAP_SETTINGS)
       .setView([eventLat, eventLon], 5);
