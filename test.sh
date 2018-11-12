@@ -106,7 +106,7 @@ function run_task {
   elif [ "$TASK" == "sass-lint" ] || [ "$TASK" == "sasslint" ]; then
     sasslint
   elif [ "$TASK" == "sass-lint-report" ] || [ "$TASK" == "sasslintreport" ]; then
-    sass-lint-report
+    sasslintreport
   elif [ "$TASK" == "eslint" ] || [ "$TASK" == "lint" ]; then
     eslint
   else
