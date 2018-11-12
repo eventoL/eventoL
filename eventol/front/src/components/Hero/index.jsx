@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {getSlugParsed} from '../../utils/events';
 import {BACKGROUND_DEFAULT, LOGO_LANDING_DEFAULT} from '../../utils/constants';
 
 import './index.scss';
@@ -26,19 +27,6 @@ export default class Hero extends React.Component {
     slug: null,
   }
 
-  getSlugParsed(){ // TODO: move to utils
-    const {slug} = this.props;
-    return slug
-      .toLowerCase()
-      .split('-')
-      .join(' ')
-      .split('_')
-      .join(' ')
-      .split(' ')
-      .map(word => ((word) ? word.replace(word[0], word[0].toUpperCase()) : ''))
-      .join(' ');
-  }
-
   getMessage(){
     const {slug, message} = this.props;
     if (message){
@@ -47,7 +35,7 @@ export default class Hero extends React.Component {
     if (slug){
       return (
         <h2>
-          {`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}
+          {`${gettext('You are seeing all of')} ${getSlugParsed(slug)} ${gettext('events')}`}
           <br />
           {`${gettext('Please, select one to continue')}`}
         </h2>

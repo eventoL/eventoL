@@ -11,8 +11,15 @@ import {
   BACKGROUND_DEFAULT,
   LOGO_HEADER_DEFAULT,
   LOGO_LANDING_DEFAULT,
-  HOME_REQUIRED_FIELDS,
 } from '../../utils/constants';
+import {
+  getSearchUrl, getMyEventsUrl,
+  getUpcommingEventsUrl,
+  getFinishedEventsUrl,
+  getEventsWithConfirmedScheduleUrl,
+  getFeaturedEventsUrl,
+  getRecentEventsUrl,
+} from '../../utils/urls';
 
 import './index.scss';
 
@@ -47,7 +54,7 @@ class Home extends React.Component {
   handleOnEnter = () => {
     const {searchTerm} = this.state;
     if (searchTerm !== ''){
-      const searchUrl = `?search=${searchTerm}&fields=${HOME_REQUIRED_FIELDS}`; /* TODO: move to utils */
+      const searchUrl = getSearchUrl(searchTerm);
       this.setState({searchUrl, searched: true});
     }
   }
@@ -66,36 +73,36 @@ class Home extends React.Component {
         <Hero background={background} logoLanding={logoLanding} message={eventolMessage}>
           <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
         </Hero>
-        {searched && <TitleList showEmpty title={gettext('Search results')} url={searchUrl} />}
+        {searched && <TitleList showEmpty id='search_results' title={gettext('Search results')} url={searchUrl} />}
         <TitleList
           id='my_events'
           title={gettext('My Events')}
-          url={`?my_events=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getMyEventsUrl()}
         />
         <TitleList
           id='recent'
           title={gettext('Recent Events')}
-          url={`?ordering=-created_at&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getRecentEventsUrl()}
         />
         <TitleList
           id='featured'
           title={gettext('Featured Events')}
-          url={`?ordering=-attendees_count&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getFeaturedEventsUrl()}
         />
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getUpcommingEventsUrl()}
         />
         <TitleList
           id='schedule_confirmed'
           title={gettext('Events with Confirmed Schedule')}
-          url={`?schedule_confirmed=true&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getEventsWithConfirmedScheduleUrl()}
         />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getFinishedEventsUrl()}
         />
       </div>
     );

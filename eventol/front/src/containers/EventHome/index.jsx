@@ -7,11 +7,15 @@ import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
 import {
+  getSearchUrl, getMyEventsUrl,
+  getUpcommingEventsUrl,
+  getFinishedEventsUrl,
+} from '../../utils/urls';
+import {
   MOBILE_WIDTH,
   BACKGROUND_DEFAULT,
   LOGO_HEADER_DEFAULT,
   LOGO_LANDING_DEFAULT,
-  HOME_REQUIRED_FIELDS,
 } from '../../utils/constants';
 
 import './index.scss';
@@ -50,7 +54,7 @@ class EventHome extends React.Component {
     const {tagSlug} = this.props;
     const {searchTerm} = this.state;
     if (searchTerm !== ''){
-      const searchUrl = `?search=${searchTerm}&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}`; // TODO: move to utils
+      const searchUrl = getSearchUrl(searchTerm, tagSlug);
       this.setState({searchUrl, searched: true});
     }
   }
@@ -70,21 +74,21 @@ class EventHome extends React.Component {
         <Hero background={background} logoLanding={logoLanding} message={tagMessage} slug={tagSlug}>
           <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
         </Hero>
-        {searched && <TitleList showEmpty title={gettext('Search results')} url={searchUrl} />}
+        {searched && <TitleList showEmpty id='search_results' title={gettext('Search results')} url={searchUrl} />}
         <TitleList
           id='my_events'
           title={gettext('My Events')}
-          url={`?my_events=true&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getMyEventsUrl(tagSlug)}
         />
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getUpcommingEventsUrl(tagSlug)}
         />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&tags__slug=${tagSlug}&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+          url={getFinishedEventsUrl(tagSlug)}
         />
       </div>
     );

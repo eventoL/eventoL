@@ -1,13 +1,19 @@
 import _ from 'lodash';
-import {getUrl, postUrl} from './api';
+
+import {getUrl, postUrl, addQueryString} from './api';
+
 
 describe('Api utils', () => {
-  let url, data, body;
+  let url, data, body, query;
 
   beforeAll(() => {
     url = '/api/';
     data = {user: 'example', password: 'secret'};
     body = JSON.stringify(data);
+    query = {
+      slug: 'event_slug',
+      registration: true,
+    };
   });
 
   beforeEach(() => {
@@ -53,6 +59,16 @@ describe('Api utils', () => {
       expect(getLastCall()[0]).toBe(`${url}?test=true&name=Peter`);
     });
   });
-});
 
-// TODO: add tests for addQueryString
+  describe('addQueryString', () => {
+    it('should return url with querystring', () => {
+      const urlWithQueryString = addQueryString(url, query);
+      expect(urlWithQueryString).toEqual('/api/?slug=event_slug&registration=true');
+    });
+
+    it('when empty querystring, should return url', () => {
+      const urlWithQueryString = addQueryString(url);
+      expect(urlWithQueryString).toEqual('/api/');
+    });
+  });
+});

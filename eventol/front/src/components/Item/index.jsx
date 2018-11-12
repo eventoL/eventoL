@@ -9,15 +9,17 @@ import './index.scss';
 
 export default class Item extends React.PureComponent {
   static propTypes = {
-    attendees: PropTypes.number.isRequired,
-    overview: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
+    overview: PropTypes.string.isRequired,
+    url: PropTypes.string,
     backdrop: PropTypes.string,
+    attendees: PropTypes.number,
   };
 
   static defaultProps = {
     backdrop: null,
+    attendees: null,
+    url: null,
   };
 
   getTagLink = ({name, slug}) => (
@@ -43,7 +45,7 @@ export default class Item extends React.PureComponent {
             <div className='title'>
               {title}
             </div>
-            { attendees !== undefined && (
+            { attendees !== null && (
               <div className='rating'>
                 {`${gettext('Attendees')}: ${attendees}`}
               </div>

@@ -30,24 +30,31 @@ export default class Header extends React.PureComponent {
     event.stopPropagation();
     const linksEl = document.querySelector('.narrow-links');
     const {style: {display}} = linksEl;
-    linksEl.style.display = (display === 'block') ? 'none' : 'block'; // TODO: move to utils
+    linksEl.style.display = (display === 'block') ? 'none' : 'block';
   }
 
-  mobileRender = (user, logoHeader) => (
-    <header className='header'>
-      <div className='nav-wide'>
-        <Logo logoHeader={logoHeader} />
-        <Navigation />
-        {user && <UserProfile user={user} />}
-        {/* TODO: move user condition to function */}
-        {!user && <SignIn />}
-      </div>
-    </header>
-  )
+  showUserIndicator = () => {
+    const {user} = this.props;
+    if (user) return <UserProfile user={user} />;
+    return <SignIn />;
+  }
+
+  mobileRender = () => {
+    const {logoHeader} = this.props;
+    return (
+      <header className='header'>
+        <div className='nav-wide'>
+          <Logo logoHeader={logoHeader} />
+          <Navigation />
+          {this.showUserIndicator()}
+        </div>
+      </header>
+    );
+  }
 
   render(){
-    const {isMobile, user, logoHeader} = this.props;
-    if (!isMobile) return this.mobileRender(user, logoHeader);
+    const {isMobile, logoHeader} = this.props;
+    if (!isMobile) return this.mobileRender();
     return (
       <header className='header'>
         <div className='nav-narrow'>
@@ -58,9 +65,7 @@ export default class Header extends React.PureComponent {
             </a>
             <div className='narrow-links'>
               <Navigation />
-              {user && <UserProfile user={user} />}
-              {/* TODO: move user condition to function */}
-              {!user && <SignIn />}
+              {this.showUserIndicator()}
             </div>
           </div>
         </div>

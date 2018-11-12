@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import Logger from '../../utils/logger';
 import SliderItems from '../SliderItems';
 import {getUrl} from '../../utils/api';
+import {getApiFullUrl} from '../../utils/urls';
+import {parseEventToItem, emptyEventItem} from '../../utils/events';
 
 import './index.scss';
-import Logger from '../../utils/logger';
 
 
 export default class TitleList extends React.Component {
@@ -41,31 +44,9 @@ export default class TitleList extends React.Component {
     }
   }
 
-  parseItem = ({
-    tags, place, image,
-    name: title, attendees_count: attendees,
-    abstract: overview, event_slug: eventSlug,
-  }) => {
-    let backdrop = image;
-    if (image){
-      backdrop = new URL(image).pathname;
-    }
-    return {
-      eventSlug,
-      title,
-      attendees,
-      overview,
-      backdrop,
-      place,
-      tags,
-      key: eventSlug,
-      url: `/events/${eventSlug}/`, // TODO: move to utils
-    };
-  } // TODO: move to utils
-
   loadContent(){
     const {url} = this.props;
-    const fullUrl = `/api/events/${url}`;
+    const fullUrl = getApiFullUrl(url);
     getUrl(fullUrl)
       .then(data => this.setState({data}))
       .catch(err => Logger.error('There has been an error', err));
@@ -76,21 +57,15 @@ export default class TitleList extends React.Component {
     const {mounted, data: {results}} = this.state;
     let itemsData = '';
     if (results){
-      itemsData = results.map(this.parseItem);
+      itemsData = results.map(parseEventToItem);
     }
     if (!itemsData || itemsData.length === 0){
-      if (!showEmpty) return null; // TODO: move to HOC
-      const emptyItem = {
-        key: 'not_found',
-        title: gettext('Event not found'),
-        overview: gettext('No Event found in your search'),
-        backdrop: '/static/manager/img/logo.png',
-      }; // TODO: move to constant
+      if (!showEmpty) return null;
       return (
         <div className='title-list' data-loaded={mounted} id={id}>
           <div className='category-title'>
             <h1>{title}</h1>
-            <SliderItems itemsData={[emptyItem]} />
+            <SliderItems itemsData={[emptyEventItem]} sliderId={`${id}_empty`} />
           </div>
         </div>
       );
