@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-import './index.scss'
+import './index.scss';
 
 
-export default class Navigation extends React.Component {
-  searchFocus(){
-    document.getElementById('search-input').focus();
+export default class SignIn extends React.PureComponent {
+  searchFocus = () => {
+    document.getElementById('search-input').focus(); // TODO: move to utils
   }
 
   render(){
     return (
-      <div className="SignIn">
+      <div className='sign-in'>
         <ul>
           <li><a href='/accounts/login/'>{gettext('Sign In')}</a></li>
           <li><a href='/accounts/signup/'>{gettext('Sign Up')}</a></li>
@@ -18,5 +18,4 @@ export default class Navigation extends React.Component {
       </div>
     );
   }
-
 }

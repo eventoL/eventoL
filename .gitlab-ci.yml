@@ -94,3 +94,20 @@ react-lint:
   allow_failure: true
   script:
     - ./test.sh -i lint
+
+sass-lint-report:
+  image: node:8
+  stage: styling
+  allow_failure: true
+  script:
+    - ./test.sh -i sass-lint-report
+  artifacts:
+    paths:
+      - eventol/front/scss-lint-report.html
+
+sass-lint:
+  image: node:8
+  stage: styling
+  allow_failure: true
+  script:
+    - ./test.sh -i sass-lint

@@ -1,8 +1,8 @@
-$white: #fff;
+@import '../../styles/variables';
 
 .export {
   a {
-    color: $white;
+    color: $a-color;
     text-decoration: none;
   }
 }

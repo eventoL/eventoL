@@ -1,38 +1,60 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {CSVLink} from 'react-csv'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {CSVLink} from 'react-csv';
 
-import './index.scss'
+import './index.scss';
 
-export default class ExportButton extends React.Component {
-  state = {header: [], rows: [], totals: []}
-
+export default class ExportButton extends React.PureComponent {
   static propTypes = {
-    data: PropTypes.array,
+    data: PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ]),
+    ),
+    filename: PropTypes.string,
     label: PropTypes.string,
-    type: PropTypes.string,
-    filename: PropTypes.string
+    type: PropTypes.oneOf([
+      'default', 'primary',
+      'success', 'info',
+      'warning', 'danger',
+      'link',
+    ]),
   };
 
-  getField(columns, field){
-    const values = [];
-    columns.forEach(column => {
-     if (!column.hasOwnProperty('Header')) return null;
-     if (!column.hasOwnProperty('columns')) values.push(column[field]);
-     else column.columns.forEach(subcolumn => values.push(subcolumn[field]));
-    })
-    return values;
+  static defaultProps = {
+    data: [],
+    filename: 'export',
+    label: '',
+    type: 'default',
   }
 
-  runAccessor(accessor, row){
-    if (typeof accessor === 'string') return row[accessor]
-    return accessor(row);
+  state = {
+    header: [],
+    rows: [],
+    totals: [],
+  }
+
+  getField = (columns, field) => {
+    const values = [];
+    columns.forEach(column => {
+      if (!column.hasOwnProperty('Header')) return null;
+      if (!column.hasOwnProperty('columns')) values.push(column[field]);
+      else column.columns.forEach(subcolumn => values.push(subcolumn[field]));
+      return column;
+    });
+    return values;
   }
 
   getRows(columns){
     const {data} = this.props;
     const accessors = this.getField(columns, 'accessor');
     return data.map(row => accessors.map(accessor => this.runAccessor(accessor, row)));
+  }
+
+  runAccessor = (accessor, row) => {
+    if (typeof accessor === 'string') return row[accessor];
+    return accessor(row);
   }
 
   updateCsv(columns){
@@ -51,7 +73,9 @@ export default class ExportButton extends React.Component {
     const csvData = [header, ...rows, totals];
     return (
       <div className={`export btn btn-raised btn-${type}`}>
-        <CSVLink filename={`${filename}.csv`} data={csvData}>{label}</CSVLink>
+        <CSVLink data={csvData} filename={`${filename}.csv`}>
+          {label}
+        </CSVLink>
       </div>
     );
   }

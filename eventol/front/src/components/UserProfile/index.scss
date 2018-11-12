@@ -1,55 +1,114 @@
-.UserProfile {
-  margin-left: auto;
-}
-.UserProfile a {
-  text-decoration: none;
-}
-.UserProfile .User {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-.UserProfile .User .image {
-  border-radius: 44px;
-  margin-left: 10px;
-  overflow: hidden;
-  width: 44px;
-  height: 44px;
-  box-sizing: border-box;
-  border: 3px solid transparent;
-  -webkit-transition: border .125s ease;
-  transition: border .125s ease;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  vertical-align: middle;
-  align-items: center;
-}
-.UserProfile .User .image img {
-  width: 100%;
-  display: block;
-}
-.UserProfile .User .name {
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  font-size: 18px;
-  font-weight: 300;
-  height: 44px;
+@import '../../styles/variables';
+@import '../../styles/commons';
+
+@media (min-width: 950px) {
+  .user-profile {
+    margin-left: auto;
+  
+    a {
+      text-decoration: none;
+    }
+  
+    .user {
+      @include flex-element;
+  
+      .image {
+        @include center-element;
+        -webkit-transition: border .125s ease;
+        border: 3px solid transparent;
+        border-radius: 44px;
+        box-sizing: border-box;
+        display: flex;
+        height: 44px;
+        margin-left: 10px;
+        overflow: hidden;
+        transition: border .125s ease;
+        vertical-align: middle;
+        width: 44px;
+  
+        img {
+          display: block;
+          width: 100%;
+        }
+      }
+  
+      .name {
+        @include flex-element;
+        @include center-element;
+        font-size: 18px;
+        font-weight: 300;
+        height: 44px;
+      }
+    }
+  
+    .user:hover {
+      cursor: pointer;
+  
+      .image {
+        border: 3px solid $eventol-color;
+      }
+    }
+  
+    .user-profile-menu {
+      display: none;
+    }
+  }
 }
 
-.UserProfile .User:hover {
-  cursor: pointer;
-}
-.UserProfile .User:hover .image {
-  border: 3px solid #1F6879;
-}
-.UserProfile .UserProfile-menu {
-  display: none;
+@media (max-width: 950px) {
+  .user-profile {
+    background: $user-profile;
+    margin-left: auto;
+    margin-right: 8vw;
+    opacity: .8;
+    z-index: 0;
+  
+    a {
+      float: unset !important;
+      text-decoration: none;
+    }
+  
+    .user {
+      @include flex-element;
+  
+      .image {
+        -webkit-transition: border .125s ease;
+        align-items: center;
+        border: 3px solid transparent;
+        border-radius: 44px;
+        box-sizing: border-box;
+        display: flex;
+        height: 44px;
+        justify-content: center;
+        margin-left: 10px;
+        overflow: hidden;
+        transition: border .125s ease;
+        vertical-align: middle;
+        width: 44px;
+  
+        img {
+          display: block;
+          width: 100%;
+        }
+      }
+  
+      .name {
+        @include flex-element;
+        @include center-element;
+        font-size: 14px;
+        font-weight: 300;
+        height: 44px;
+        padding-left: 10px;
+      }
+    }
+  
+    .user:hover {
+      background: $eventol-color;
+      cursor: pointer;
+    }
+  
+    .user-profile-narrow-menu {
+      display: none;
+    }
+  }
 }

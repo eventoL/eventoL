@@ -1,42 +1,63 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ItemMap from '../ItemMap'
+import React from 'react';
+import PropTypes from 'prop-types';
+import ItemMap from '../ItemMap';
 
-import {getTagUrl} from '../../utils/urls'
+import {getTagUrl, goToUrl} from '../../utils/urls';
 
-import './index.scss'
+import './index.scss';
 
 
-export default class Item extends React.Component {
+export default class Item extends React.PureComponent {
   static propTypes = {
-    url: PropTypes.string,
-    title: PropTypes.string,
+    attendees: PropTypes.number.isRequired,
+    overview: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
     backdrop: PropTypes.string,
-    overview: PropTypes.string,
-    attendees: PropTypes.number
   };
 
+  static defaultProps = {
+    backdrop: null,
+  };
+
+  getTagLink = ({name, slug}) => (
+    <a href={`${getTagUrl(slug)}`} key={name.toLocaleLowerCase()}>
+      {name}
+    </a>
+  )
+
+  goTo = () => {
+    const {url} = this.props;
+    goToUrl(url);
+  }
+
   render(){
-    const {title, url, attendees, overview, backdrop, tags} = this.props;
-    if (!backdrop) {
-      return <ItemMap {...this.props} />;
-    }
+    const {
+      title, attendees, overview, backdrop, tags,
+    } = this.props;
+    if (!backdrop) return <ItemMap {...this.props} />;
     return (
-      <div className="Item" style={{backgroundImage: 'url(' + backdrop + ')'}} >
-        <a href={url}>
-          <div className="overlay">
-            <div className="title">{title}</div>
-            { attendees !== undefined && (<div className="rating">{gettext('Attendees')}: {attendees}</div>)}
-            { tags !== undefined && (
-              <div className="rating tags">
-                {gettext('Tags')}: {tags.map(({name, slug}, index) => <a key={index} href={`${getTagUrl(slug)}`}>{name}</a>)}
+      <div className='item' style={{backgroundImage: `url(${backdrop})`}}>
+        <div onClick={this.goTo} onKeyPress={this.goTo} role='button' tabIndex='0'>
+          <div className='overlay'>
+            <div className='title'>
+              {title}
+            </div>
+            { attendees !== undefined && (
+              <div className='rating'>
+                {`${gettext('Attendees')}: ${attendees}`}
               </div>
             )}
-            <div className="plot">{overview}</div>
+            { tags !== undefined && (
+              <div className='rating tags'>
+                {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+                {gettext('Tags')}: {tags.map(this.getTagLink)}
+              </div>
+            )}
+            <div className='plot'>{overview}</div>
           </div>
-        </a>
+        </div>
       </div>
     );
   }
-
 }

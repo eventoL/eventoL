@@ -1,75 +1,109 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Hero from '../../components/Hero'
-import Header from '../../components/Header'
-import Search from '../../components/Search'
-import TitleList from '../../components/TitleList'
-import {HOME_REQUIRED_FIELDS} from '../../utils/constants'
+import React from 'react';
+import PropTypes from 'prop-types';
+import withSizes from 'react-sizes';
 
-import './index.scss'
+import Hero from '../../components/Hero';
+import Header from '../../components/Header';
+import Search from '../../components/Search';
+import TitleList from '../../components/TitleList';
+import {
+  MOBILE_WIDTH,
+  BACKGROUND_DEFAULT,
+  LOGO_HEADER_DEFAULT,
+  LOGO_LANDING_DEFAULT,
+  HOME_REQUIRED_FIELDS,
+} from '../../utils/constants';
+
+import './index.scss';
 
 
-export default class Home extends React.Component {
-
+class Home extends React.Component {
   static propTypes = {
-    eventolMessage: PropTypes.string,
+    isMobile: PropTypes.bool.isRequired,
     background: PropTypes.string,
+    eventolMessage: PropTypes.string,
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
-    user: PropTypes.object
+    user: PropTypes.shape({
+      first_name: PropTypes.string,
+      last_name: PropTypes.string,
+    }),
+  }
+
+  static defaultProps = {
+    background: BACKGROUND_DEFAULT,
+    logoHeader: LOGO_HEADER_DEFAULT,
+    logoLanding: LOGO_LANDING_DEFAULT,
+    eventolMessage: null,
+    user: null,
   }
 
   state = {
     searchTerm: '',
     searchUrl: '',
-    searched: false
+    searched: false,
   }
 
-  onEnter = () => {
+  handleOnEnter = () => {
     const {searchTerm} = this.state;
-    if (searchTerm !== '') {
-      const searchUrl = `?search=${searchTerm}&fields=${HOME_REQUIRED_FIELDS}`;
+    if (searchTerm !== ''){
+      const searchUrl = `?search=${searchTerm}&fields=${HOME_REQUIRED_FIELDS}`; /* TODO: move to utils */
       this.setState({searchUrl, searched: true});
     }
   }
 
-  onChange = searchTerm => this.setState({searchTerm})
+  handleOnChange = searchTerm => this.setState({searchTerm})
 
   render(){
     const {searched, searchUrl} = this.state;
-    const {user, eventolMessage, background, logoHeader, logoLanding} = this.props;
+    const {
+      user, eventolMessage, background,
+      logoHeader, logoLanding, isMobile,
+    } = this.props;
     return (
       <div>
-        <Header user={user} logoHeader={logoHeader}/>
+        <Header logoHeader={logoHeader} user={user} isMobile={isMobile} />
         <Hero background={background} logoLanding={logoLanding} message={eventolMessage}>
-          <Search onChange={this.onChange} onEnter={this.onEnter} />
+          <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
         </Hero>
-        {searched && <TitleList title={gettext('Search results')} url={searchUrl} showEmpty={true} />}
+        {searched && <TitleList showEmpty title={gettext('Search results')} url={searchUrl} />}
         <TitleList
           id='my_events'
           title={gettext('My Events')}
-          url={`?my_events=true&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?my_events=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+        />
         <TitleList
           id='recent'
           title={gettext('Recent Events')}
-          url={`?ordering=-created_at&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?ordering=-created_at&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+        />
         <TitleList
           id='featured'
           title={gettext('Featured Events')}
-          url={`?ordering=-attendees_count&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?ordering=-attendees_count&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+        />
         <TitleList
           id='next'
           title={gettext('Upcoming Events')}
-          url={`?registration_is_open=true&ordering=last_date&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?registration_is_open=true&ordering=last_date&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+        />
         <TitleList
           id='schedule_confirmed'
           title={gettext('Events with Confirmed Schedule')}
-          url={`?schedule_confirmed=true&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?schedule_confirmed=true&registration_is_open=true&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+        />
         <TitleList
           id='finished'
           title={gettext('Finished Events')}
-          url={`?registration_is_open=false&ordering=-attendees_count&fields=${HOME_REQUIRED_FIELDS}`} />
+          url={`?registration_is_open=false&ordering=-attendees_count&fields=${HOME_REQUIRED_FIELDS}` /* TODO: move to utils */}
+        />
       </div>
     );
   }
 }
+
+const mapSizesToProps = ({width}) => ({
+  isMobile: width < MOBILE_WIDTH,
+});
+
+export default withSizes(mapSizesToProps)(Home);

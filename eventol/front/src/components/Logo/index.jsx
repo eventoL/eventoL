@@ -1,23 +1,25 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import './index.scss'
+import {LOGO_HEADER_DEFAULT} from '../../utils/constants';
+
+import './index.scss';
 
 
 const Logo = ({logoHeader}) => (
-	<div id="logo" className="Logo">
-		<a href='/'>
-      <img src={logoHeader} />
-		</a>
+  <div className='logo-component' id='logo'>
+    <a href='/'>
+      <img alt='header logo' src={logoHeader} />
+    </a>
   </div>
 );
 
 Logo.propTypes = {
-  logoHeader: PropTypes.string
+  logoHeader: PropTypes.string,
 };
 
 Logo.defaultProps = {
-	logoHeader: '/static/manager/img/eventol-white.png'
-}
+  logoHeader: LOGO_HEADER_DEFAULT,
+};
 
 export default Logo;

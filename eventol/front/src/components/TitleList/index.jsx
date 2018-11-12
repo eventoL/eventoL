@@ -1,86 +1,107 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import SliderItems from '../SliderItems'
-import {getUrl} from '../../utils/api'
+import React from 'react';
+import PropTypes from 'prop-types';
+import SliderItems from '../SliderItems';
+import {getUrl} from '../../utils/api';
 
-import './index.scss'
+import './index.scss';
+import Logger from '../../utils/logger';
 
 
 export default class TitleList extends React.Component {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    showEmpty: PropTypes.bool,
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    showEmpty: false,
+  }
+
   state = {
     data: [],
-    mounted: false
-  }
-
-  static propTypes = {
-    showEmpty: PropTypes.bool,
-    title: PropTypes.string,
-    url: PropTypes.string,
-    id: PropTypes.string
-  }
-
-  loadContent(){
-    const url = `/api/events/${this.props.url}`;
-    getUrl(url)
-      .then(data => this.setState({data}))
-      .catch(err => console.error('There has been an error', err));
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(nextProps.url !== this.props.url && nextProps.url !== ''){
-      this.setState({mounted: true, url: nextProps.url},()=>{
-        this.loadContent();
-      });
-    }
+    mounted: false,
   }
 
   componentDidMount(){
-    if(this.props.url !== ''){
+    const {url} = this.props;
+    if (url !== ''){
       this.loadContent();
       this.setState({mounted: true});
     }
   }
 
-  parseItem({tags, event_slug, place, image:backdrop, name:title, attendees_count:attendees, abstract:overview}){
-    if (backdrop){
-      backdrop = new URL(backdrop).pathname;
-    }
-    return {
-      event_slug, title, attendees, overview, backdrop, place, tags,
-      key: event_slug, url: `/events/${event_slug}/`
+  componentWillReceiveProps({url}){
+    const {url: prevUrl} = this.props;
+    if (url !== prevUrl && url !== ''){
+      this.setState({mounted: true}, () => {
+        this.loadContent();
+      });
     }
   }
 
+  parseItem = ({
+    tags, place, image,
+    name: title, attendees_count: attendees,
+    abstract: overview, event_slug: eventSlug,
+  }) => {
+    let backdrop = image;
+    if (image){
+      backdrop = new URL(image).pathname;
+    }
+    return {
+      eventSlug,
+      title,
+      attendees,
+      overview,
+      backdrop,
+      place,
+      tags,
+      key: eventSlug,
+      url: `/events/${eventSlug}/`, // TODO: move to utils
+    };
+  } // TODO: move to utils
+
+  loadContent(){
+    const {url} = this.props;
+    const fullUrl = `/api/events/${url}`;
+    getUrl(fullUrl)
+      .then(data => this.setState({data}))
+      .catch(err => Logger.error('There has been an error', err));
+  }
+
   render(){
-    const {title, id} = this.props;
+    const {title, id, showEmpty} = this.props;
     const {mounted, data: {results}} = this.state;
     let itemsData = '';
-    if(results) {
+    if (results){
       itemsData = results.map(this.parseItem);
     }
-    if (!itemsData || itemsData.length === 0) {
-      if (!this.props.hasOwnProperty('showEmpty') || !this.props.showEmpty) return null;
+    if (!itemsData || itemsData.length === 0){
+      if (!showEmpty) return null; // TODO: move to HOC
       const emptyItem = {
         key: 'not_found',
         title: gettext('Event not found'),
         overview: gettext('No Event found in your search'),
-        backdrop: '/static/manager/img/logo.png'
-      }
-      return (<div id={id} className="TitleList" data-loaded={mounted}>
-        <div className="CategoryTitle">
-          <h1>{title}</h1>
-          <SliderItems itemsData={[emptyItem]}/>
+        backdrop: '/static/manager/img/logo.png',
+      }; // TODO: move to constant
+      return (
+        <div className='title-list' data-loaded={mounted} id={id}>
+          <div className='category-title'>
+            <h1>{title}</h1>
+            <SliderItems itemsData={[emptyItem]} />
+          </div>
         </div>
-      </div>)
+      );
     }
     return (
-      <div id={id} className="TitleList" data-loaded={mounted}>
-        <div className="CategoryTitle">
+      <div className='title-list' data-loaded={mounted} id={id}>
+        <div className='category-title'>
           <h1>{title}</h1>
-          <SliderItems itemsData={itemsData} sliderId={id}/>
+          <SliderItems itemsData={itemsData} sliderId={id} />
         </div>
       </div>
     );
   }
-
 }

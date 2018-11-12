@@ -1,27 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+
+import {BACKGROUND_DEFAULT, LOGO_LANDING_DEFAULT} from '../../utils/constants';
 
 import './index.scss';
 
+
 export default class Hero extends React.Component {
   static propTypes = {
-    slug: PropTypes.string,
-    message: PropTypes.string,
     background: PropTypes.string,
-    logoLanding: PropTypes.string,
     children: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.object,
-      PropTypes.element
-    ])
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+    logoLanding: PropTypes.string,
+    message: PropTypes.string,
+    slug: PropTypes.string,
   }
 
   static defaultProps = {
-    background: '/static/manager/img/background.png',
-    logoLanding: '/static/manager/img/logo.png'
+    background: BACKGROUND_DEFAULT,
+    logoLanding: LOGO_LANDING_DEFAULT,
+    children: null,
+    message: null,
+    slug: null,
   }
 
-  getSlugParsed(){
+  getSlugParsed(){ // TODO: move to utils
     const {slug} = this.props;
     return slug
       .toLowerCase()
@@ -30,17 +35,24 @@ export default class Hero extends React.Component {
       .split('_')
       .join(' ')
       .split(' ')
-      .map(word => (word) ? word.replace(word[0], word[0].toUpperCase()) : '')
+      .map(word => ((word) ? word.replace(word[0], word[0].toUpperCase()) : ''))
       .join(' ');
   }
 
   getMessage(){
     const {slug, message} = this.props;
-    if (message) return <h2>{message}</h2>;
-    if (slug) return (
-      <h2>{`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}<br />
-      {`${gettext('Please, select one to continue')}`}</h2>
-    );
+    if (message){
+      return <h2>{message}</h2>;
+    }
+    if (slug){
+      return (
+        <h2>
+          {`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}
+          <br />
+          {`${gettext('Please, select one to continue')}`}
+        </h2>
+      );
+    }
     return <h2>{gettext('Search your event')}</h2>;
   }
 
@@ -48,17 +60,14 @@ export default class Hero extends React.Component {
     const {children, background, logoLanding} = this.props;
     const backgroundImage = `url(${background})`;
     return (
-      <div id="hero" className="Hero" style={{backgroundImage}}>
-        <div className="content">
-          <p>
-            <img className="logo" src={logoLanding} alt="logo" />
-          </p>
-          { this.getMessage() }
+      <div className='hero' id='hero' style={{backgroundImage}}>
+        <div className='content'>
+          <p><img alt='logo' className='logo' src={logoLanding} /></p>
+          {this.getMessage()}
           {children}
         </div>
-        <div className="overlay" />
+        <div className='overlay' />
       </div>
     );
   }
-
 }
