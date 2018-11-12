@@ -4,6 +4,7 @@ export const BACKGROUND_DEFAULT = '/static/manager/img/background.png';
 export const LOGO_HEADER_DEFAULT = '/static/manager/img/eventol-white.png';
 export const REPORT_REQUIRED_FIELDS = 'name,event_slug,email,location,report,id,tags';
 export const HOME_REQUIRED_FIELDS = 'event_slug,place,image,name,attendees_count,abstract,tags';
+export const MAP_LAYER = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png';
 
 export const SLIDER_BASE_SETTINGS = {
   variableWidth: false,
@@ -33,4 +34,16 @@ export const SLIDER_BASE_SETTINGS = {
       slidesToScroll: 1,
     },
   }],
+};
+
+export const MAP_SETTINGS = {
+  scrollWheelZoom: false,
+  zoomControl: false,
+  dragging: false,
+  keyboard: false,
+  doubleClickZoom: false,
+  touchZoom: false,
+  boxZoom: false,
+  minZoom: 11,
+  maxZoom: 11,
 };

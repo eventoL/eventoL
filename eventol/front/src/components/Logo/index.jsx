@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {LOGO_HEADER_DEFAULT} from '../../utils/constants';
+
 import './index.scss';
 
 
@@ -17,7 +19,7 @@ Logo.propTypes = {
 };
 
 Logo.defaultProps = {
-  logoHeader: '/static/manager/img/eventol-white.png', // TODO: move to constant
+  logoHeader: LOGO_HEADER_DEFAULT,
 };
 
 export default Logo;
