@@ -46,7 +46,7 @@
     "file-loader": "1.1.11",
     "image-webpack-loader": "3.6.0",
     "imagemin-optipng": "5.2.1",
-    "imagemin-svgo": "6.0.0",
+    "imagemin-svgo": "7.0.0",
     "isomorphic-fetch": "2.2.1",
     "jest-cli": "23.6.0",
     "js-cookie": "2.2.0",
