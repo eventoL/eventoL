@@ -29,7 +29,7 @@
     "eslint-html-reporter": "0.5.2",
     "eslint-import-resolver-node": "0.3.2",
     "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jest": "21.27.2",
+    "eslint-plugin-jest": "22.0.0",
     "eslint-plugin-react": "7.11.1",
     "jest": "23.6.0",
     "jest-fetch-mock": "1.7.4",
