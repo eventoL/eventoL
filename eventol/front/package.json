@@ -44,7 +44,7 @@
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-jsx-a11y": "6.1.2",
     "file-loader": "1.1.11",
-    "image-webpack-loader": "3.6.0",
+    "image-webpack-loader": "4.5.0",
     "imagemin-optipng": "5.2.1",
     "imagemin-svgo": "6.0.0",
     "isomorphic-fetch": "2.2.1",
