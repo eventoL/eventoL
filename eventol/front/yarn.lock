@@ -6901,9 +6901,9 @@ querystringify@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.0.tgz#7ded8dfbf7879dcc60d0a644ac6754b283ad17ef"
 
-radium@0.24.1:
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/radium/-/radium-0.24.1.tgz#0a370ce761cfccc4103e058e9b5cbd679b7ea159"
+radium@0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/radium/-/radium-0.25.0.tgz#d039bb4e13a3f224c3d4e22bfbcd766048e8caa5"
   dependencies:
     exenv "^1.2.1"
     inline-style-prefixer "^4.0.0"
