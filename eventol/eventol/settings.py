@@ -46,9 +46,7 @@ class Base(Configuration):
         'easy_thumbnails.optimize',
         'image_cropping',
         'import_export',
-        'django_nose',
         'manager',
-        'autofixture',
         'djangoformsetjs',
         'django.contrib.sites',
         'allauth',
@@ -57,14 +55,12 @@ class Base(Configuration):
         'allauth.socialaccount.providers.twitter',
         'allauth.socialaccount.providers.google',
         'allauth.socialaccount.providers.github',
-        'debug_toolbar',
         'captcha',
         'django.contrib.postgres',
         'webpack_loader',
         'django_filters',
         'rest_framework',
         'channels',
-        'django_elasticsearch_dsl',
         'django_extensions',
         'vote',
         'forms_builder.forms',
@@ -360,47 +356,29 @@ class Staging(Base):
                 'maxBytes': 1024*1024*10,
                 'backupCount': 10,
                 'formatter': 'logservices'
-            },
-            'logstash': {
-                'level': 'DEBUG',
-                'class': 'logstash.TCPLogstashHandler',
-                'host': os.getenv('LOGSTASH_HOST', 'logstash'),
-                'port': os.getenv('LOGSTASH_PORT', 5000),
-                'version': 1,
-                'message_type': 'django',
-                'fqdn': False,
-                'tags': ['eventol', 'django.request', 'django.channels', 'django']
             }
         },
         'loggers': {
             'eventol': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'DEBUG',
                 'propagate': True
             },
             'django.channels': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'WARNING',
                 'propagate': True
             },
             'django.request': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'WARNING',
                 'propagate': True
             },
             'django': {
-                'handlers': ['logstash', 'console'],
+                'handlers': ['console'],
                 'level': 'WARNING',
                 'propagate': True
             }
-        }
-    }
-    ELASTICSEARCH_DSL = {
-        'default': {
-            'hosts': '{0}:{1}'.format(
-                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
-                os.getenv('ELASTICSEARCH_PORT', 9200)
-            )
         }
     }
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -414,6 +392,11 @@ class Prod(Staging):
 
 
 class Dev(Base):
+    INSTALLED_APPS = Base.INSTALLED_APPS + (
+        'django_nose',
+        'autofixture',
+        'debug_toolbar',
+    )
     AUTH_PASSWORD_VALIDATORS = []
     WEBPACK_LOADER = {
         'DEFAULT': {
@@ -451,14 +434,6 @@ class Dev(Base):
                 'level': 'ERROR',
                 'propagate': True
             }
-        }
-    }
-    ELASTICSEARCH_DSL = {
-        'default': {
-            'hosts': '{0}:{1}'.format(
-                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
-                os.getenv('ELASTICSEARCH_PORT', 9200)
-            )
         }
     }
 
