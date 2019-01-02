@@ -46,9 +46,7 @@ class Base(Configuration):
         'easy_thumbnails.optimize',
         'image_cropping',
         'import_export',
-        'django_nose',
         'manager',
-        'autofixture',
         'djangoformsetjs',
         'django.contrib.sites',
         'allauth',
@@ -57,7 +55,6 @@ class Base(Configuration):
         'allauth.socialaccount.providers.twitter',
         'allauth.socialaccount.providers.google',
         'allauth.socialaccount.providers.github',
-        'debug_toolbar',
         'captcha',
         'django.contrib.postgres',
         'webpack_loader',
@@ -414,6 +411,11 @@ class Prod(Staging):
 
 
 class Dev(Base):
+    INSTALLED_APPS = Base.INSTALLED_APPS + (
+        'django_nose',
+        'autofixture',
+        'debug_toolbar',
+    )
     AUTH_PASSWORD_VALIDATORS = []
     WEBPACK_LOADER = {
         'DEFAULT': {
