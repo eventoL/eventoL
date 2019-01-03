@@ -5,40 +5,33 @@ Hay dos opciones:
 
 ## Con Docker
 
-### Obtener imagen de docker
-Podes crear la tuya o tomar la generada de docker hub.
-
-#### Tomar la imagen de docker hub
-```bash
-docker pull eventol/eventol:latest
+### Configurar modo desarrollo y armado de imagenes
+```
+cp .env.dist .env (Customize if necessary)
+cp ./eventol/front/webpack.local-settings.js{.sample,}
+docker-compose up -d --build
 ```
 
-#### Crear imagen local con todas las dependencias
-```bash
-docker build --tag=eventol/eventol:latest .
+### Esto crea tres contenedores diferentes
+```
+      Name                    Command               State                Ports
+--------------------------------------------------------------------------------------------
+eventol_reactjs_1   npm start                        Up                  0.0.0.0:3000->3000/tcp, 8000/tcp
+eventol_redis_1     docker-entrypoint.sh redis ...   Up                  0.0.0.0:32779->6379/tcp
+eventol_worker_1    python manage.py runserver ...   Up                  0.0.0.0:8000->8000/tcp
 ```
 
-### Correr contenedores con esa imagen
-```bash
-# python
-docker run -d -it --name eventol -v $PWD:/src -p 8000:8000 --workdir /src eventol/eventol:latest bash
-
-# react
-docker run -d -it --name eventoljs -v $PWD:/src -p 3000:3000 --workdir /src/eventol/front/ eventol/eventol:latest bash
+### Ejecutar el servidor de Django
+```
+docker-compose exec worker ./deploy/scripts/install-container-dev.sh
+docker-compose exec worker python eventol/manage.py runserver 0.0.0.0:8000
 ```
 
-### Crear la base de datos y actualizar estaticos
-```bash
-docker exec -it eventol ./deploy/scripts/install-container-dev.sh
+
+### Ejecutar servidor de React (para desarrollo y hotreloading)
 ```
-
-### Correr el servidor para probar y desarrollar
-```bash
-# python
-docker exec -it eventol ./eventol/manage.py runserver 0.0.0.0:8000
-
-# react
-docker exec -it eventoljs npm start
+docker-compose exec reactjs yarn install
+docker-compose exec reactjs yarn start
 ```
 
 ## Sin docker
@@ -74,8 +67,6 @@ pip install -r requirements.txt -r requirements-dev.txt
 ```bash
 cd eventol
 ./manage.py migrate
-./manage.py loaddata manager/initial_data/attendee_data.json
-./manage.py loaddata manager/initial_data/email_addresses.json
 ./manage.py loaddata manager/initial_data/initial_data.json
 ./manage.py loaddata manager/initial_data/security.json
 ./manage.py loaddata manager/initial_data/software.json
@@ -129,8 +120,10 @@ docker exec -it eventol ./eventol/manage.py compilemessages
 
 ## Sin Docker
 ```bash
+cd eventol
 django-admin makemessages --locale=es
 django-admin compilemessages
+cd -
 ```
 
 # Configuración para inicio de sesión desde redes sociales
@@ -142,3 +135,7 @@ Una vez iniciado el server, visitamos la pagina de administración (Ejemplo: `ht
 * Complete los datos con el sitio y las credenciales de aplicaciones OAuth obtenidos del proveedor.
 
 Para cualquier problema con las cuentas sociales, por favor verifique en la [documentación de django-allauth](http://django-allauth.readthedocs.org).
+
+# Configurar visibilidad de actividades
+
+Utilizando la setting `PRIVATE_ACTIVITIES` se puede controlar si el listado de actividades es publico o únicamente accesible por organizadores.

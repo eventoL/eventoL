@@ -1,8 +1,9 @@
-import WsCommunicator from '../../utils/WsCommunicator'
+import {getWsUrl} from '../../utils/urls';
+import WsCommunicator from '../../utils/WsCommunicator';
 
-export function getCommunicator(properties){
-  return new WsCommunicator({
-    ws_url: `${properties.ws_protocol || 'ws'}://${window.location.host}/updates/`,
-    reconnect: true
-  })
-}
+
+/* eslint-disable-next-line import/prefer-default-export */
+export const getCommunicator = properties => new WsCommunicator({
+  wsUrl: getWsUrl(properties.ws_protocol),
+  reconnect: true,
+});

@@ -1,0 +1,58 @@
+{% extends "generic-bootstrap-model-form.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load account %}
+{% load socialaccount %}
+{% block page-header %}{% trans "Add review staff" %}{% endblock %}
+{% block page-name %}{% trans "Add review staff" %}{% endblock %}
+{% block pre-form %}
+
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p><i class="fa fa-info-circle fa-5x"></i>{% blocktrans %} People who can review and vote activities {% endblocktrans %} </p>
+    </div>
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+            <h3>{% trans "Current review staff:" %}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+            <div class="list-group">
+                {% for review_person in review_people %}
+                    {% user_display review_person.event_user.user as user_display %}
+                    {% get_social_accounts review_person.event_user.user as accounts %}
+                    <div class="list-group-item">
+                        <div class="row-picture">
+                            {% if review_person.event_user.user.socialaccount_set.all|length > 0 %}
+                                <img class="circle"
+                                     src="{{ review_person.event_user.user.socialaccount_set.all.0.get_avatar_url }}"/>
+                            {% else %}
+                                <img class="circle" src="https://www.lessonpaths.com/avatars/no_avatar_large.jpg"/>
+                            {% endif %}
+                        </div>
+                        <div class="row-content">
+                            <h4 class="list-group-item-heading">{{ user_display }}</h4>
+                            <p class="list-group-item-text">{{ review_person.event_user.user.first_name }} {{ organizer.event_user.user.last_name }}</p>
+                        </div>
+                    </div>
+                    <div class="list-group-separator"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+            <h3>{% trans "Add a new review person:" %}</h3>
+            <hr>
+        </div>
+    </div>
+{% endblock %}
+{% block form-id %}"add-review-people"{% endblock %}
+{% block form-name %}{% trans "Add" %}{% endblock %}
+{% block form-action %}"{% url "add_reviewer" event_slug %}"{% endblock %}
+{% block submit-button %}{% trans "Add" %}{% endblock %}
+{% block other-script %}
+    {{ form.media }}
+{% endblock %}

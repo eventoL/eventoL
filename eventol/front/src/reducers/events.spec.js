@@ -1,8 +1,12 @@
-import eventsReducer from './events'
+import eventsReducer from './events';
+import {
+  SET_EVENTS, UPDATE_EVENT,
+  CREATE_EVENT, DELETE_EVENT,
+} from '../actions/events';
 
 const initState = {
-  events: []
-}
+  events: [],
+};
 
 describe('events Reducer', () => {
   let event, events, event2;
@@ -16,9 +20,9 @@ describe('events Reducer', () => {
         url: 'https://gitlab.com/FedeG/django-react-workshop/',
         pending: false,
         description: '',
-        user: 1
-      }
-    }
+        user: 1,
+      },
+    };
     event2 = {
       model: 'events.event',
       pk: 2,
@@ -27,10 +31,10 @@ describe('events Reducer', () => {
         url: 'https://fedeg.gitlab.io/django-react-workshop',
         pending: true,
         description: '',
-        user: 1
-      }
-    }
-    events = [event]
+        user: 1,
+      },
+    };
+    events = [event];
   });
 
   test('when dispatch ANYTHING event returns a state object', () => {
@@ -43,29 +47,26 @@ describe('events Reducer', () => {
     expect(result).toEqual(initState);
   });
 
-  describe('when dispatch SET_EVENTS', () => {
-
+  describe(`when dispatch ${SET_EVENTS}`, () => {
     test('when set events return correct events list', () => {
       const action = {
-        type: 'SET_EVENTS',
-        events
-      }
+        type: SET_EVENTS,
+        events,
+      };
       const result = eventsReducer(initState, action);
       expect(result.events).toEqual(events);
     });
-
   });
 
-  describe('when dispatch UPDATE_EVENT', () => {
-
+  describe(`when dispatch ${UPDATE_EVENT}`, () => {
     test('when update event update original event', () => {
       const action = {
-        type: 'UPDATE_EVENT',
+        type: UPDATE_EVENT,
         event: {
           ...event,
-          data: { name: 'new name' },
-        }
-      }
+          data: {name: 'new name'},
+        },
+      };
       const expectedEvent = {fields: {name: 'new name'}, pk: 1};
       const result = eventsReducer({events}, action);
       expect(result.events).toEqual([expectedEvent]);
@@ -73,41 +74,37 @@ describe('events Reducer', () => {
 
     test('when update event update only original event', () => {
       const action = {
-        type: 'UPDATE_EVENT',
+        type: UPDATE_EVENT,
         event: {
           ...event,
-          data: { name: 'new name' },
-        }
-      }
+          data: {name: 'new name'},
+        },
+      };
       const expectedEvent = {fields: {name: 'new name'}, pk: 1};
       const result = eventsReducer({events: [event, event2]}, action);
       expect(result.events).toEqual([expectedEvent, event2]);
     });
-
   });
 
-  describe('when dispatch DELETE_EVENT', () => {
-
+  describe(`when dispatch ${DELETE_EVENT}`, () => {
     test('when delete event return empty events list', () => {
       const action = {
-        type: 'DELETE_EVENT',
-        event
-      }
+        type: DELETE_EVENT,
+        event,
+      };
       const result = eventsReducer({events}, action);
       expect(result.events).toEqual([]);
     });
-
   });
 
-  describe('when dispatch CREATE_EVENT', () => {
-
+  describe(`when dispatch ${CREATE_EVENT}`, () => {
     test('when create event return correct events list', () => {
       const action = {
-        type: 'CREATE_EVENT',
-        event
-      }
+        type: CREATE_EVENT,
+        event,
+      };
       const createdEvent = {
-       fields: {
+        fields: {
           description: '',
           name: 'Gitlab with workshop',
           pending: false,
@@ -115,11 +112,9 @@ describe('events Reducer', () => {
           user: 1,
         },
         pk: 1,
-      }
+      };
       const result = eventsReducer({events}, action);
       expect(result.events).toEqual([event, createdEvent]);
     });
-
   });
-
-})
+});

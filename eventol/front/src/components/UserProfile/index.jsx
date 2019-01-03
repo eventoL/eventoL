@@ -1,16 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import './index.scss'
+import {PROFILE_URL} from '../../utils/urls';
+
+import './index.scss';
 
 
-const UserProfile = ({user}) => (
-  <div className="UserProfile">
-    <a href='/accounts/profile/'>
-      <div className="User">
-        <div className="name">{user.first_name} {user.last_name}</div>
-        <div className="image">
-          <div className="fa fa-user fa-2x" />
+const UserProfile = ({user: {first_name, last_name}}) => (
+  <div className='user-profile'>
+    <a href={PROFILE_URL}>
+      <div className='user'>
+        <div className='name'>{`${first_name} ${last_name}`}</div>
+        <div className='image'>
+          <div className='fa fa-user fa-2x' />
         </div>
       </div>
     </a>
@@ -18,7 +20,10 @@ const UserProfile = ({user}) => (
 );
 
 UserProfile.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+  }).isRequired,
 };
 
 export default UserProfile;

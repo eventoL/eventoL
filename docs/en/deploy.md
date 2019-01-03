@@ -29,6 +29,7 @@ For a better and faster production implementation, **EventoL** is configurable t
 - REDIS_PORT (Default: **6379**)
 - EMAIL_USE_TLS (Default: **True**)
 - ADMIN_TITLE (Default: **EventoL**)
+- PRIVATE_ACTIVITIES (Default: **False** )
 
 ### Postgres:
 - PSQL_DBNAME (Default: **eventol**)
