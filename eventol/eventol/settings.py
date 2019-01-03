@@ -118,7 +118,7 @@ class Base(Configuration):
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = BASE_DIR + 'media/'
-    
+
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
