@@ -107,6 +107,7 @@ class Base(Configuration):
     LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
     LANGUAGES = (
         ('es', _('Spanish')),
+        ('da', _('Danish')),
         ('en', _('English')),
         ('nb', _('Norwegian Bokmal')),
     )
