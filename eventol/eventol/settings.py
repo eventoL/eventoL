@@ -111,6 +111,7 @@ class Base(Configuration):
         ('en', _('English')),
         ('nb', _('Norwegian Bokmal')),
         ('nl', _('Dutch')),
+        ('sv', _('Swedish')),
     )
 
     TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
