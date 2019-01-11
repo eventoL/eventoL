@@ -158,7 +158,8 @@ class Event(models.Model):
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     name = models.CharField(_('Event Name'), max_length=50)
     abstract = models.TextField(_('Abstract'), max_length=250,
-                                help_text=_('Idea of the event (one or two sentences)'))
+                                help_text=_('Idea of the event \
+                                            (one or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
     registration_closed = models.BooleanField(
@@ -489,7 +490,7 @@ class Collaborator(models.Model):
                                blank=True, null=True)
     additional_info = models.CharField(_('Additional Info'), max_length=200,
                                        blank=True, null=True,
-                                       help_text=_('Any additional info you consider relevant'))
+                                       help_text=_('Additional info you consider relevant'))
 
     class Meta(object):
         verbose_name = _('Collaborator')
@@ -581,8 +582,8 @@ class Attendee(models.Model):
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
     is_installing = models.BooleanField(_('Is going to install?'), default=False)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
-                                       help_text=_('Any additional info you consider \
-                                                   relevant for the organizers'))
+                                       help_text=_('Additional info you consider \
+                                                   relevant to the organizers'))
     email_confirmed = models.BooleanField(_('Email confirmed?'), default=False)
     email_token = models.CharField(_('Confirmation Token'), max_length=200, blank=True, null=True)
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
@@ -792,7 +793,7 @@ class Activity(VoteModel, models.Model):
                                           Free Software, Devuan'))
     presentation = models.FileField(_('Presentation'),
                                     upload_to='talks', blank=True, null=True,
-                                    help_text=_('Any material you are going to use \
+                                    help_text=_('Material you are going to use \
                                                 for the talk (optional, but recommended)'))
     level_choices = (
         ('1', _('Beginner')),
@@ -804,7 +805,8 @@ class Activity(VoteModel, models.Model):
     additional_info = models.TextField(_('Additional Info'),
                                        blank=True, null=True,
                                        help_text=_('Info you consider relevant \
-                                                   to the organizer, special activity requirements, etc.'))
+                                                   to the organizer, special \
+                                                   activity requirements, etc.'))
 
     status_choices = (
         ('1', _('Proposal')),
@@ -944,8 +946,8 @@ class Installation(models.Model):
                                   related_name='installed_by', blank=True,
                                   null=True)
     notes = models.TextField(_('Notes'), blank=True, null=True,
-                             help_text=_('Any info or trouble you found \
-                                         and consider relevant to document'))
+                             help_text=_('Info or trouble you \
+                                         consider relevant to document'))
 
     def __str__(self):
         return '{}, {}, {}'.format(self.attendee, self.hardware, self.software)
