@@ -158,7 +158,7 @@ class Event(models.Model):
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     name = models.CharField(_('Event Name'), max_length=50)
     abstract = models.TextField(_('Abstract'), max_length=250,
-                                help_text=_('Short idea of the event (One or two sentences)'))
+                                help_text=_('Short idea of the event (one or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
     registration_closed = models.BooleanField(
@@ -183,8 +183,8 @@ class Event(models.Model):
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
-    event_information = RichTextField(verbose_name=_('Event Information'),
-                                      help_text=_('Event Information HTML'),
+    event_information = RichTextField(verbose_name=_('Event Info'),
+                                      help_text=_('Event Info HTML'),
                                       blank=True, null=True)
     schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
     use_installations = models.BooleanField(_('Use Installations'), default=True)
@@ -203,10 +203,10 @@ class Event(models.Model):
         blank=True, null=True, help_text=_("A message to show in the activities proposal form"))
     template = models.FileField(_('Template'),
                                 upload_to='templates', blank=True, null=True,
-                                help_text=_('Custom template html for event index page'))
+                                help_text=_('Custom template HTML for event index page'))
     css_custom = models.FileField(_('Custom css'),
                                   upload_to='custom_css', blank=True, null=True,
-                                  help_text=_('Custom css file for event page'))
+                                  help_text=_('Custom CSS file for event page'))
 
     @property
     def location(self):
@@ -476,14 +476,14 @@ class Collaborator(models.Model):
     assignation = models.CharField(_('Assignation'), max_length=200,
                                    blank=True, null=True,
                                    help_text=_('Anything you can help with \
-                                               (i.e. Talks, Coffee...)'))
+                                               (i.e. Talks, Coffee…)'))
     time_availability = models.CharField(_('Time Availability'),
                                          max_length=200, blank=True,
                                          null=True,
-                                         help_text=_('Time gap in which you can \
+                                         help_text=_('Time period in which you can \
                                                      help during the event. i.e. \
                                                      "All the event", "Morning", \
-                                                     "Afternoon", ...'))
+                                                     "Afternoon", …'))
     phone = models.CharField(_('Phone'), max_length=200, blank=True, null=True)
     address = models.CharField(_('Address'), max_length=200,
                                blank=True, null=True)
@@ -783,13 +783,13 @@ class Activity(VoteModel, models.Model):
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
     activity_type = models.ForeignKey(ActivityType)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
-                                      help_text=_("Comma separated speaker's names"))
+                                      help_text=_("Comma separated speaker names"))
     speaker_bio = models.TextField(
         _('Speaker Bio'), null=True,
         help_text=_('Tell us about you (we will user it as your "bio" in our website'))
     labels = models.CharField(_('Labels'), max_length=200,
                               help_text=_('Comma separated tags. i.e. Linux, \
-                                          Free Software, Archlinux'))
+                                          Free Software, Devuan'))
     presentation = models.FileField(_('Presentation'),
                                     upload_to='talks', blank=True, null=True,
                                     help_text=_('Any material you are going to use \
@@ -805,7 +805,7 @@ class Activity(VoteModel, models.Model):
                                        blank=True, null=True,
                                        help_text=_('Any info you consider relevant \
                                                    for the organizer: i.e. Write here \
-                                                   if your activity has any special requirement'))
+                                                   if your activity has any special requirements'))
 
     status_choices = (
         ('1', _('Proposal')),
@@ -873,13 +873,13 @@ class Activity(VoteModel, models.Model):
         activities_room = Activity.objects.filter(
             room=proposal.room, event__event_slug=event_slug, start_date__date=event_date)
         if proposal.start_date == proposal.end_date:
-            message = _("The talk couldn't be registered because the schedule not \
-                        available (start time equals end time)")
+            message = _("The talk couldn't be registered because the schedule is not \
+                        available (starts and ends at the same time)")
             cls.check_status(message, error=error, request=request)
             return False
         if proposal.end_date < proposal.start_date:
             message = _("The talk couldn't be registered because the schedule is not \
-                        available (start time is after end time)")
+                        available (starts after it finishes)")
             cls.check_status(message, error=error, request=request)
             return False
         one_second = datetime.timedelta(seconds=1)
@@ -945,7 +945,7 @@ class Installation(models.Model):
                                   related_name='installed_by', blank=True,
                                   null=True)
     notes = models.TextField(_('Notes'), blank=True, null=True,
-                             help_text=_('Any information or trouble you found \
+                             help_text=_('Any info or trouble you found \
                                          and consider relevant to document'))
 
     def __str__(self):
@@ -962,7 +962,7 @@ class EventolSetting(models.Model):
         help_text=_("A image to show in the background of"))
     logo_header = models.ImageField(
         null=True, blank=True,
-        help_text=_("This logo will be showed in the corner right of the page"))
+        help_text=_("This logo will be showed in the right corner of the page"))
     logo_landing = models.ImageField(
         null=True, blank=True,
         help_text=_("Logo to show in the center of the page"))
@@ -975,7 +975,7 @@ class EventolSetting(models.Model):
         return obj
 
     def __str__(self):
-        return 'Eventol configuration'
+        return 'eventoL configuration'
 
     def save(self, *args, **kwargs):
         self.pk = 1
@@ -985,5 +985,5 @@ class EventolSetting(models.Model):
         pass
 
     class Meta:
-        verbose_name = _('Eventol setting')
-        verbose_name_plural = _('Eventol settings')
+        verbose_name = _('eventoL setting')
+        verbose_name_plural = _('eventoL settings')
