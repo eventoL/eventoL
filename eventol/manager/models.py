@@ -95,7 +95,7 @@ class EventTag(models.Model):
         help_text=_("A image to show in the background of"))
     logo_header = models.ImageField(
         null=True, blank=True,
-        help_text=_("This logo will be showed in the corner right of the page"))
+        help_text=_("This logo will be shown in the right corner of the page"))
     logo_landing = models.ImageField(
         null=True, blank=True,
         help_text=_("Logo to show in the center of the page"))
@@ -158,7 +158,7 @@ class Event(models.Model):
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     name = models.CharField(_('Event Name'), max_length=50)
     abstract = models.TextField(_('Abstract'), max_length=250,
-                                help_text=_('Short idea of the event (one or two sentences)'))
+                                help_text=_('Idea of the event (one or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
     registration_closed = models.BooleanField(
@@ -803,9 +803,8 @@ class Activity(VoteModel, models.Model):
                              help_text=_("Talk's Technical level"))
     additional_info = models.TextField(_('Additional Info'),
                                        blank=True, null=True,
-                                       help_text=_('Any info you consider relevant \
-                                                   for the organizer: i.e. Write here \
-                                                   if your activity has any special requirements'))
+                                       help_text=_('Info you consider relevant \
+                                                   to the organizer, special activity requirements, etc.'))
 
     status_choices = (
         ('1', _('Proposal')),
@@ -962,7 +961,7 @@ class EventolSetting(models.Model):
         help_text=_("A image to show in the background of"))
     logo_header = models.ImageField(
         null=True, blank=True,
-        help_text=_("This logo will be showed in the right corner of the page"))
+        help_text=_("This logo will be shown in the right corner of the page"))
     logo_landing = models.ImageField(
         null=True, blank=True,
         help_text=_("Logo to show in the center of the page"))
