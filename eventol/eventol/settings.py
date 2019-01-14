@@ -106,12 +106,13 @@ class Base(Configuration):
     LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en-US')
     LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
     LANGUAGES = (
-        ('es', _('Spanish')),
         ('da', _('Danish')),
         ('en', _('English')),
+        ('es', _('Spanish')),
         ('nb', _('Norwegian Bokmal')),
         ('nl', _('Dutch')),
         ('sv', _('Swedish')),
+        ('zh', _('Chinese')),
     )
 
     TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
