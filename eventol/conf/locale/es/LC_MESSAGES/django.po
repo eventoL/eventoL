@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-06 21:42+0000\n"
-"PO-Revision-Date: 2017-12-07 20:44+0000\n"
-"Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
+"PO-Revision-Date: 2019-01-14 04:34+0000\n"
+"Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
 "es/>\n"
 "Language: es\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 #: eventol/eventol/settings.py:106
 msgid "Spanish"
@@ -70,14 +70,12 @@ msgid "URL can only contain letters or numbers"
 msgstr "La url solo puede contener letras y/o números"
 
 #: eventol/manager/models.py:87
-#, fuzzy
-#| msgid "Event Name"
 msgid "EventTag Name"
-msgstr "Nombre del evento"
+msgstr "Nombre del tag"
 
 #: eventol/manager/models.py:88
 msgid "This name will be used as a slug"
-msgstr ""
+msgstr "Este nombre se va a usar para un identificador"
 
 #: eventol/manager/models.py:89 eventol/manager/models.py:120
 #: eventol/manager/models.py:312 eventol/manager/models.py:364
@@ -101,19 +99,19 @@ msgstr "Actualizado en"
 
 #: eventol/manager/models.py:93 eventol/manager/models.py:916
 msgid "A image to show in the background of"
-msgstr ""
+msgstr "Una imagen para mostrar en el fondo de"
 
 #: eventol/manager/models.py:96 eventol/manager/models.py:919
 msgid "This logo will be showed in the corner right of the page"
-msgstr ""
+msgstr "Este logo va a ser mostrado en la esquina derecha de la pagina"
 
 #: eventol/manager/models.py:99 eventol/manager/models.py:922
 msgid "Logo to show in the center of the page"
-msgstr ""
+msgstr "Logo para mostrar en el centro de la pagina"
 
 #: eventol/manager/models.py:101 eventol/manager/models.py:924
 msgid "A message to show in the center of the page"
-msgstr ""
+msgstr "Un mensaje para mostrar en el centro de la pagina"
 
 #: eventol/manager/models.py:102 eventol/manager/models.py:132
 msgid "URL"
@@ -241,7 +239,7 @@ msgstr "Este mensaje se muestra en el formulario de propuesta de actividades"
 
 #: eventol/manager/models.py:165
 msgid "Template"
-msgstr ""
+msgstr "Plantilla"
 
 #: eventol/manager/models.py:167
 msgid "Custom template html for event index page"
@@ -249,11 +247,11 @@ msgstr "Template personalizado para la página principal de este evento."
 
 #: eventol/manager/models.py:168
 msgid "Custom css"
-msgstr ""
+msgstr "Css alternativo"
 
 #: eventol/manager/models.py:170
 msgid "Custom css file for event page"
-msgstr ""
+msgstr "Archivo css alternativo para la pagina del evento"
 
 #: eventol/manager/models.py:239 eventol/manager/models.py:408
 #: eventol/manager/models.py:583
@@ -638,7 +636,7 @@ msgstr "Enviar una actividad"
 
 #: eventol/manager/models.py:726
 msgid "Speaker or the person in charge of the activity"
-msgstr ""
+msgstr "Disertante o responsable de la actividad"
 
 #: eventol/manager/models.py:727
 msgid "Title"
@@ -675,10 +673,8 @@ msgid "Comma separated speaker's names"
 msgstr "(Separados por coma) Nombre de los disertantes"
 
 #: eventol/manager/models.py:742
-#, fuzzy
-#| msgid "Speakers"
 msgid "Speaker Bio"
-msgstr "Disertantes"
+msgstr "Biografía del disertantes"
 
 #: eventol/manager/models.py:743
 msgid "Tell us about you (we will user it as your \"bio\" in our website"
@@ -696,12 +692,10 @@ msgid "Labels"
 msgstr "Etiquetas/Tags"
 
 #: eventol/manager/models.py:745
-#, fuzzy
-#| msgid "Comma separated tags. i.e. Linux, Free Software, Archlinux"
 msgid ""
 "Comma separated tags. i.e. Linux,                                           "
 "Free Software, Archlinux"
-msgstr "(Separados por coma) x.ej. Linux, Software Libre, Archlinux"
+msgstr "Separados por coma, ejemplo: Linux, Software Libre, Archlinux"
 
 #: eventol/manager/models.py:747
 msgid "Presentation"
@@ -888,6 +882,8 @@ msgid ""
 "You are not allowed to access the current page. Contact an administrator if "
 "you have any question."
 msgstr ""
+"No se le permite acceder a la página actual. Póngase en contacto con un "
+"administrador si tiene alguna pregunta."
 
 #: eventol/manager/templates/404.html:21
 msgid ""
@@ -1425,10 +1421,8 @@ msgstr "Sin Confirmar"
 
 #: eventol/manager/templates/activities/activities_home.html:162
 #: eventol/manager/templates/activities/detail.html:52
-#, fuzzy
-#| msgid "Notes"
 msgid "Votes"
-msgstr "Notas"
+msgstr "Votos"
 
 #: eventol/manager/templates/activities/activities_home.html:208
 #: eventol/manager/templates/activities/detail.html:104
@@ -1487,10 +1481,8 @@ msgstr "Subir"
 
 #: eventol/manager/templates/activities/my_proposals.html:14
 #: eventol/manager/templates/base-main.html:99
-#, fuzzy
-#| msgid "Use Proposals"
 msgid "My Proposals"
-msgstr "Tiene Propuesta de Charlas"
+msgstr "Mis Propuestas"
 
 #: eventol/manager/templates/activities/my_proposals.html:137
 #: eventol/manager/templates/activities/my_proposals.html:202
