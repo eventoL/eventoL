@@ -1,22 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Heimen Stoffels <vistausss@outlook.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2019-01-20 17:20+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/>"
+"\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.4-dev\n"
 
 msgid "Danish"
 msgstr ""
@@ -646,15 +646,23 @@ msgid ""
 "\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
+"Hallo, %(site_name)s hier,\n"
+"\n"
+"Je ontvangt deze e-mail omdat de gebruiker %(user_display)s op %(site_domain)"
+"s jouw e-mailadres heeft opgegeven om zijn/haar account te koppelen.\n"
+"\n"
+"Als dit klopt, ga dan naar %(activate_url)s\n"
 
 #, python-format
 msgid ""
 "Thank you from %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
+"Bedankt namens %(site_name)s,\n"
+"%(site_domain)s"
 
 msgid "Please Confirm Your E-mail Address"
-msgstr ""
+msgstr "Bevestig je e-mailadres"
 
 #, python-format
 msgid ""
@@ -665,22 +673,31 @@ msgid ""
 "It can be safely ignored if you did not request a password reset. Click the "
 "link below to reset your password."
 msgstr ""
+"Hallo, %(site_name)s hier,\n"
+"\n"
+"Je ontvangt deze e-mail omdat jij of iemand anders een wachtwoord heeft "
+"aangevraagd voor jouw gebruikersaccount op %(site_domain)s.\n"
+"\n"
+"Als je dit niet hebt aangevraagd, dan kun je deze e-mail negeren. Klik op "
+"onderstaande link om je wachtwoord in te stellen."
 
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr ""
+msgstr "Vergeet niet dat je gebruikersnaam %(username)s is."
 
 #, python-format
 msgid ""
 "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
+"Bedankt namens%(site_name)s,\n"
+"%(site_domain)s"
 
 msgid "Password Reset E-mail"
-msgstr ""
+msgstr "Wachtwoordherstele-mail"
 
 msgid "Confirm E-mail Address"
-msgstr ""
+msgstr "E-mailadres bevestigen"
 
 #, python-format
 msgid ""
@@ -689,9 +706,13 @@ msgid ""
 "mail address for user %(user_display)s\n"
 "                        ."
 msgstr ""
+"Bevestig dat\n"
+"                        <a href=\"mailto:%(email)s\">%(email)s</a> het e-"
+"mailadres is van de gebruiker %(user_display)s\n"
+"                        ."
 
 msgid "Confirm"
-msgstr ""
+msgstr "Bevestigen"
 
 #, python-format
 msgid ""
@@ -699,9 +720,12 @@ msgid ""
 "                        <a href=\"%(email_url)s\">issue a new e-mail "
 "confirmation request</a>."
 msgstr ""
+"Deze e-mailbevestigingslink is verlopen of ongeldig. Vraag\n"
+"                        <a href=\"%(email_url)s\">een nieuwe bevestiging "
+"aan</a>."
 
 msgid "Login"
-msgstr ""
+msgstr "Inloggen"
 
 #, python-format
 msgid ""
@@ -711,65 +735,79 @@ msgid ""
 "\">sign up</a>\n"
 "        for a %(site_name)s account and sign in below:"
 msgstr ""
+"Log in met één\n"
+"        van je reeds bestaande externe accounts of\n"
+"        <a href=\"%(signup_url)s\" style=\"font-size:18px; font-weight: 500;"
+"\">registreer</a>\n"
+"        een nieuw account voor %(site_name)s en log hieronder in:"
 
 msgid "or"
-msgstr ""
+msgstr "of"
 
 #, python-format
 msgid ""
 "If you have not created an account yet, then please\n"
 "            <a href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
+"Als je nog geen account hebt,\n"
+"            <a href=\"%(signup_url)s\">registreer</a> jezelf dan eerst."
 
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Wachtwoord vergeten?"
 
 msgid "Logout"
-msgstr ""
+msgstr "Uitloggen"
 
 msgid "Are you sure you want to sign out?"
-msgstr ""
+msgstr "Weet je zeker dat je wilt uitloggen?"
 
 msgid "Change Password"
-msgstr ""
+msgstr "Wachtwoord wijzigen"
 
 msgid "Password requirements:"
-msgstr ""
+msgstr "Wachtwoordvereisten:"
 
 msgid "Must contain at least 8 characters."
-msgstr ""
+msgstr "Moet minimaal 8 tekens bevatten."
 
 msgid "Can't be too similar to your other personal information."
-msgstr ""
+msgstr "Mag niet teveel overeenkomen met andere persoonlijke informatie."
 
 msgid "Can't be a commonly used password."
-msgstr ""
+msgstr "Mag geen vaak gebruikt wachtwoord zijn."
 
 msgid "Can't be entirely numeric."
-msgstr ""
+msgstr "Mag niet alleen uit cijfers bestaan."
 
 msgid "Password Reset"
-msgstr ""
+msgstr "Wachtwoord opnieuw instellen"
 
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
 msgstr ""
+"Ben je je wachtwoord vergeten? Voer dan hieronder je e-mailadres in. We "
+"sturen je dan een e-mail met herstelinstructies."
 
 msgid "Reset My Password"
-msgstr ""
+msgstr "Mijn wachtwoord opnieuw instellen"
 
 msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
+"Als je problemen ervaart tijdens het opnieuw instellen, neem dan contact met "
+"ons op."
 
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few\n"
 "                    minutes."
 msgstr ""
+"We hebben je een e-mail gestuurd. Als je de e-mail niet binnen een paar "
+"minuten ontvangt,\n"
+"                    neem dan contact met ons op."
 
 msgid "Bad Token"
-msgstr ""
+msgstr "Ongeldige toegangssleutel"
 
 #, python-format
 msgid ""
@@ -778,67 +816,76 @@ msgid ""
 "            request a\n"
 "            <a href=\"%(passwd_reset_url)s\">new password reset</a>."
 msgstr ""
+"De wachtwoordherstellink is ongeldig; mogelijk is deze al gebruikt.  Vraag\n"
+"            een nieuwe\n"
+"            <a href=\"%(passwd_reset_url)s\">herstellink aan</a>."
 
 msgid "Your password is now changed."
-msgstr ""
+msgstr "Je wachtwoord is nu gewijzigd."
 
 msgid "change password"
-msgstr ""
+msgstr "wachtwoord wijzigen"
 
 msgid "Set Password"
-msgstr ""
+msgstr "Wachtwoord instellen"
 
 #, python-format
 msgid "Welcome, %(user_display)s!"
-msgstr ""
+msgstr "Welkom, %(user_display)s!"
 
 msgid "Username:"
-msgstr ""
+msgstr "Gebruikersnaam:"
 
 msgid "First Name:"
-msgstr ""
+msgstr "Voornaam:"
 
 msgid "Last Name:"
-msgstr ""
+msgstr "Achternaam:"
 
 msgid "Email:"
-msgstr ""
+msgstr "E-mailadres:"
 
 msgid "Account Connections"
-msgstr ""
+msgstr "Accountkoppelingen"
 
 msgid ""
 "You can sign in to your account using any of the following third party\n"
 "                        accounts:"
 msgstr ""
+"Je kunt inloggen op je account via één van de volgende externe\n"
+"                        accounts:"
 
 msgid ""
 "You don't have any social account connected. You can connect one\n"
 "                        below"
 msgstr ""
+"Je hebt geen sociaalnetwerkaccount gekoppeld. Je kunt hieronder\n"
+"                        een account koppelen"
 
 msgid "Add a 3rd Party Account"
-msgstr ""
+msgstr "Extern account toevoegen"
 
 msgid "Sign Up"
-msgstr ""
+msgstr "Registreren"
 
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">login</a>."
-msgstr ""
+msgstr "Heb je al een account? <a href=\"%(login_url)s\">Log dan in</a>."
 
 msgid "Note"
-msgstr ""
+msgstr "Opmerking"
 
 #, python-format
 msgid ""
 "you are already logged in as %(user_display)s\n"
 "    ."
 msgstr ""
+"je bent al ingelogd als %(user_display)s\n"
+"    ."
 
 msgid "Verify Your E-mail Address"
-msgstr ""
+msgstr "Bevestig je e-mailadres"
 
 msgid ""
 "We have sent an e-mail to you for verification. Follow the link provided to "
@@ -847,6 +894,11 @@ msgid ""
 "receive it within a few\n"
 "                    minutes."
 msgstr ""
+"We hebben je een e-mail gestuurd ter verificatie. Volg de opgegeven link om "
+"het registratieproces\n"
+"                    af te ronden. Als je de e-mail niet binnen een paar "
+"minuten ontvangt, neem dan\n"
+"                    contact met ons op."
 
 msgid ""
 "This part of the site requires us to verify that\n"
@@ -854,6 +906,9 @@ msgid ""
 "require that you\n"
 "                    verify ownership of your e-mail address. "
 msgstr ""
+"Voor dit onderdeel van de site moeten we vaststellen\n"
+"                    wie je werkelijk bent; daarom moet je je\n"
+"                    e-mailadres verifiëren. "
 
 msgid ""
 "We have sent an e-mail to you for\n"
@@ -861,111 +916,119 @@ msgid ""
 "mail. Please\n"
 "                    contact us if you do not receive it within a few minutes."
 msgstr ""
+"We hebben je een e-mail gestuurd\n"
+"                    ter verificatie. Druk op de opgegeven link. Als je de e-"
+"mail\n"
+"                    niet binnen een paar minuten ontvangt, neem dan contact "
+"met ons op."
 
 #, python-format
 msgid ""
 "<strong>Note:</strong> you can still\n"
 "                    <a href=\"%(email_url)s\">change your e-mail address</a>."
 msgstr ""
+"<strong>Let op:</strong> je kunt je\n"
+"                    <a href=\"%(email_url)s\">e-mailadres nog steeds "
+"wijzigen</a>."
 
 msgid "Submit an activity"
-msgstr ""
+msgstr "Activiteit indienen"
 
 msgid "Manage Rooms"
-msgstr ""
+msgstr "Kamers beheren"
 
 msgid "Confirm Schedule"
-msgstr ""
+msgstr "Rooster bevestigen"
 
 msgid "Confirmed"
-msgstr ""
+msgstr "Bevestigd"
 
 msgid "Speakers"
-msgstr ""
+msgstr "Sprekers"
 
 msgid "Speakers Bio"
-msgstr ""
+msgstr "Spreker - Biografie"
 
 msgid "Start"
-msgstr ""
+msgstr "Start om"
 
 msgid "End"
-msgstr ""
+msgstr "Eindigt om"
 
 msgid "Description"
-msgstr ""
+msgstr "Omschrijving"
 
 msgid "Additional Information"
-msgstr ""
+msgstr "Extra informatie"
 
 msgid "View Talk"
-msgstr ""
+msgstr "Lezing bekijken"
 
 msgid "Reject Talk"
-msgstr ""
+msgstr "Lezing afwijzen"
 
 msgid "Resend Proposal"
-msgstr ""
+msgstr "Voorstel opnieuw insturen"
 
 msgid "Edit Talk"
-msgstr ""
+msgstr "Lezing bewerken"
 
 msgid "There isn't any proposed activity yet."
-msgstr ""
+msgstr "Er zijn nog geen voorgestelde activiteiten."
 
 msgid "Proposed"
-msgstr ""
+msgstr "Voorgesteld"
 
 msgid "Not Confirmed"
-msgstr ""
+msgstr "Niet-bevestigd"
 
 msgid "Votes"
-msgstr ""
+msgstr "Stemmen"
 
 msgid "Become Talk"
-msgstr ""
+msgstr "Instellen als lezing"
 
 msgid "View Proposal"
-msgstr ""
+msgstr "Voorstel bekijken"
 
 msgid "There isn't any rejected activity yet."
-msgstr ""
+msgstr "Er zijn nog geen afgewezen activiteiten."
 
 msgid "There isn't any talk proposal yet."
-msgstr ""
+msgstr "Er zijn nog geen lezingsvoorstellen."
 
 msgid "Submit yours!"
-msgstr ""
+msgstr "Dien jouw voorstel in!"
 
 msgid "Time"
-msgstr ""
+msgstr "Tijd"
 
 msgid "Download presentation"
-msgstr ""
+msgstr "Presentatie downloaden"
 
 msgid "Activity Proposal"
-msgstr ""
+msgstr "Activiteitsvoorstel"
 
 msgid "Please select the visible area for your image"
-msgstr ""
+msgstr "Selecteer het zichtbare gedeelte van je afbeelding"
 
 msgid "Upload"
-msgstr ""
+msgstr "Uploaden"
 
 msgid "My Proposals"
-msgstr ""
+msgstr "Mijn voorstellen"
 
 msgid "Edit Proposal"
-msgstr ""
+msgstr "Voorstel bewerken"
 
 msgid "Next"
-msgstr ""
+msgstr "Volgende"
 
 msgid "Submit"
-msgstr ""
+msgstr "Indienen"
 
 msgid "Activities Schedule"
-msgstr ""
+msgstr "Activiteitenrooster"
 
 #, python-format
 msgid ""
@@ -973,9 +1036,12 @@ msgid ""
 "                        Day %(day)s - %(data)s\n"
 "                  "
 msgstr ""
+"\n"
+"                        Dag %(day)s - %(data)s\n"
+"                  "
 
 msgid "The schedule is not confirmed yet"
-msgstr ""
+msgstr "Het rooster is nog niet bevestigd"
 
 msgid ""
 "\n"
