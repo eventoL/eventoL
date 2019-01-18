@@ -1,10 +1,11 @@
+# Allan Nordhøy <epost@anotheragency.no>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-14 04:34+0000\n"
-"Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
+"PO-Revision-Date: 2019-01-20 05:58+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
 "es/>\n"
 "Language: es\n"
@@ -1743,7 +1744,7 @@ msgstr ""
 "Aquí está tu entrada para el evento {event_name}.</p>\n"
 "<p>Recuerda <em>imprimirla y traerla</em> el/los día/s del evento.</p>\n"
 "<p>Saludos,\n"
-"el equipo de {event_name} y <em>eventoL</em>."
+"el equipo de {event_name} y <em>eventoL</em></p>."
 
 #, fuzzy, python-brace-format
 #| msgid ""
