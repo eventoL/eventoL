@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-20 17:20+0000\n"
+"PO-Revision-Date: 2019-01-22 18:04+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/djangojs/"
 "nl/>\n"
@@ -17,13 +17,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.4\n"
 
 msgid "Please, select one to continue"
 msgstr ""
 
 msgid "Attendees"
-msgstr ""
+msgstr "Deelnemers"
 
 msgid "Tags"
 msgstr ""
@@ -44,19 +44,19 @@ msgid "Generic report"
 msgstr ""
 
 msgid "Event"
-msgstr ""
+msgstr "Evenement"
 
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 msgid "Events"
-msgstr ""
+msgstr "Evenementen"
 
 msgid "Organizers"
-msgstr ""
+msgstr "Organisatoren"
 
 msgid "Email"
-msgstr ""
+msgstr "E-mailadres"
 
 msgid "Location"
 msgstr ""
@@ -65,7 +65,7 @@ msgid "Address detail"
 msgstr ""
 
 msgid "Address"
-msgstr ""
+msgstr "Adres"
 
 msgid "Province"
 msgstr ""
@@ -77,7 +77,7 @@ msgid "Total"
 msgstr ""
 
 msgid "Collaborators"
-msgstr ""
+msgstr "Medewerkers"
 
 msgid "Installers"
 msgstr ""
@@ -125,13 +125,13 @@ msgid "Other"
 msgstr ""
 
 msgid "Beginner"
-msgstr ""
+msgstr "Beginner"
 
 msgid "Medium"
-msgstr ""
+msgstr "Gevorderde"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Ervaren"
 
 msgid "There isn't any event yet."
 msgstr ""
