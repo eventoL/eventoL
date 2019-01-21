@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-20 17:20+0000\n"
+"PO-Revision-Date: 2019-01-22 18:04+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/>"
 "\n"
@@ -16,320 +16,325 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.4\n"
 
 msgid "Danish"
-msgstr ""
+msgstr "Deens"
 
 msgid "English"
-msgstr ""
+msgstr "Engels"
 
 msgid "Spanish"
-msgstr ""
+msgstr "Spaans"
 
 msgid "Norwegian Bokmal"
-msgstr ""
+msgstr "Noors (Bokmål)"
 
 msgid "Dutch"
-msgstr ""
+msgstr "Nederlands"
 
 msgid "Swedish"
-msgstr ""
+msgstr "Zweeds"
 
 msgid "Attendee"
-msgstr ""
+msgstr "Deelnemer"
 
 msgid "Collaborator/Installer"
-msgstr ""
+msgstr "Medewerker/Opbouwer"
 
 msgid "Repeat Email"
-msgstr ""
+msgstr "Herhaal e-mailadres"
 
 msgid "Emails do not match."
-msgstr ""
+msgstr "De e-mailadressen komen niet overeen."
 
 msgid "This field is required"
-msgstr ""
+msgstr "Dit veld is vereist"
 
 msgid "One or more dates of the event are the same date"
-msgstr ""
+msgstr "Eén of meer datums van het evenement zijn hetzelfde"
 
 msgid "First Name"
-msgstr ""
+msgstr "Voornaam"
 
 msgid "Last Name"
-msgstr ""
+msgstr "Achternaam"
 
 msgid "Are you a human?"
-msgstr ""
+msgstr "Ben je een mens?"
 
 msgid "Why do you reject this proposal?"
-msgstr ""
+msgstr "Waarom wijs je dit voorstel af?"
 
 msgid "URL can only contain letters or numbers"
-msgstr ""
+msgstr "De url mag alleen letters en cijfers bevatten"
 
 msgid "EventTag Name"
-msgstr ""
+msgstr "EvenTag-naam"
 
 msgid "This name will be used as a slug"
-msgstr ""
+msgstr "Deze naam wordt gebruikt als slug"
 
 msgid "Created At"
-msgstr ""
+msgstr "Gecreëerd op"
 
 msgid "Updated At"
-msgstr ""
+msgstr "Bijgewerkt op"
 
 msgid "A image to show in the background of"
-msgstr ""
+msgstr "Een afbeelding die wordt gebruikt als achtergrond van"
 
 msgid "This logo will be shown in the right corner of the page"
-msgstr ""
+msgstr "Dit logo wordt getoond in de rechterhoek van de pagina"
 
 msgid "Logo to show in the center of the page"
-msgstr ""
+msgstr "Logo dat wordt getoond op het midden van de pagina"
 
 msgid "A message to show in the center of the page"
-msgstr ""
+msgstr "Bericht dat wordt getoond op het midden van de pagina"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "For example: flisol-caba"
-msgstr ""
+msgstr "Bijvoorbeeld: flisol-caba"
 
 msgid "Custom Form"
-msgstr ""
+msgstr "Aangepast formulier"
 
 msgid "Custom Forms"
-msgstr ""
+msgstr "Aangepaste formulieren"
 
 msgid "Order"
-msgstr ""
+msgstr "Boeking"
 
 msgid "Custom Field"
-msgstr ""
+msgstr "Aangepast veld"
 
 msgid "Custom Fields"
-msgstr ""
+msgstr "Aangepaste velden"
 
 msgid "Event Name"
-msgstr ""
+msgstr "Evenementnaam"
 
 msgid "Abstract"
-msgstr ""
+msgstr "Uittreksel"
 
 msgid ""
 "Idea of the event                                             (one or two "
 "sentences)"
 msgstr ""
+"Omschrijving van het evenement                                            ("
+"één of twee zinnen)"
 
 msgid "Limit Proposals Date"
-msgstr ""
+msgstr "Voorsteldatum inperken"
 
 msgid "Limit date to submit talk proposals"
-msgstr ""
+msgstr "Perk de datum in waarop lezingsvoorstellen kunnen worden ingediend"
 
 msgid "set it to True to force the registration to be closed"
-msgstr ""
+msgstr "stel in op True om de registratie gedwongen te sluiten"
 
 msgid "Select tags to show this event in the EventTag landing"
-msgstr ""
+msgstr "Kies labels om dit evenement te tonen op de EvenTag-overzichtspagina"
 
 msgid "CNAME"
-msgstr ""
+msgstr "CNAME"
 
 msgid "code"
-msgstr ""
+msgstr "code"
 
 msgid "Code validator for in-place event self-registration"
-msgstr ""
+msgstr "Codevalidator voor zelfregistratie ter plekke"
 
 msgid "External URL"
-msgstr ""
+msgstr "Externe url"
 
 msgid "http://www.my-awesome-event.com"
-msgstr ""
+msgstr "https://www.mijn-geweldige-evenement.com"
 
 msgid "Email"
-msgstr ""
+msgstr "E-mailadres"
 
 msgid "Event Info"
-msgstr ""
+msgstr "Evenementinformatie"
 
 msgid "Event Info HTML"
-msgstr ""
+msgstr "Evenementinformatie - HTML"
 
 msgid "Schedule Confirmed"
-msgstr ""
+msgstr "Programma bevestigd"
 
 msgid "Use Installations"
-msgstr ""
+msgstr "Installaties gebruiken"
 
 msgid "Use Installers"
-msgstr ""
+msgstr "Installateurs gebruiken"
 
 msgid "Use Collaborators"
-msgstr ""
+msgstr "Medewerkers gebruiken"
 
 msgid "Use Proposals"
-msgstr ""
+msgstr "Voorstellen gebruiken"
 
 msgid "Is FLISoL"
-msgstr ""
+msgstr "Is FLISoL"
 
 msgid "Use Schedule"
-msgstr ""
+msgstr "Programma gebruiken"
 
 msgid "Place"
-msgstr ""
+msgstr "Locatie"
 
 msgid "Image"
-msgstr ""
+msgstr "Afbeelding"
 
 msgid "Cropping"
-msgstr ""
+msgstr "Bijsnijden"
 
 msgid "The image must be 700x450 px. You can crop it here."
-msgstr ""
+msgstr "De afbeelding moet 700x450px zijn; je kunt hem hier bijsnijden."
 
 msgid "A message to show in the activities proposal form"
 msgstr ""
+"Een bericht dat moet worden getoond op het activiteitenvoorstelformulier"
 
 msgid "Template"
-msgstr ""
+msgstr "Sjabloon"
 
 msgid "Custom template HTML for event index page"
-msgstr ""
+msgstr "Aangepast HTML-sjabloon voor de overzichtspagina van het evenement"
 
 msgid "Custom css"
-msgstr ""
+msgstr "Aangepaste CSS"
 
 msgid "Custom CSS file for event page"
-msgstr ""
+msgstr "Aangepast CSS-bestand voor de evenementpagina"
 
 msgid "Event"
-msgstr ""
+msgstr "Evenement"
 
 msgid "Events"
-msgstr ""
+msgstr "Evenementen"
 
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 msgid "When will your event be?"
-msgstr ""
+msgstr "Wanneer vindt je evenement plaats?"
 
 msgid "Event Date"
-msgstr ""
+msgstr "Evenementdatum"
 
 msgid "Event Dates"
-msgstr ""
+msgstr "Evenementdatums"
 
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 msgid "Message"
-msgstr ""
+msgstr "Bericht"
 
 msgid "Contact Message"
-msgstr ""
+msgstr "Contactbericht"
 
 msgid "Contact Messages"
-msgstr ""
+msgstr "Contactberichten"
 
 msgid "Validate URL"
-msgstr ""
+msgstr "URL goedkeuren"
 
 msgid "Validate Email"
-msgstr ""
+msgstr "E-mailadres goedkeuren"
 
 msgid "Don't validate"
-msgstr ""
+msgstr "Niet goedkeuren"
 
 msgid "Icon Class"
-msgstr ""
+msgstr "Pictogramklasse"
 
 msgid "Level"
-msgstr ""
+msgstr "Niveau"
 
 msgid "Type of field validation"
-msgstr ""
+msgstr "Soort veldgoedkeuring"
 
 msgid "Contact Type"
-msgstr ""
+msgstr "Soort contact"
 
 msgid "Contact Types"
-msgstr ""
+msgstr "Soorten contact"
 
 msgid "i.e. https://twitter.com/flisol"
-msgstr ""
+msgstr "bijv. https://twitter.com/flisol"
 
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 msgid "i.e. @Flisol"
-msgstr ""
+msgstr "bijv. @Flisol"
 
 msgid "Contact"
-msgstr ""
+msgstr "Contactpersoon"
 
 msgid "Contacts"
-msgstr ""
+msgstr "Contactpersonen"
 
 msgid "Sent"
-msgstr ""
+msgstr "Verstuurd"
 
 msgid "number"
-msgstr ""
+msgstr "nummer"
 
 msgid "Unique identifier for the ticket"
-msgstr ""
+msgstr "Unieke identificatie voor het ticket"
 
 msgid "User"
-msgstr ""
+msgstr "Gebruiker"
 
 msgid "Ticket"
-msgstr ""
+msgstr "Ticket"
 
 msgid "Event User"
-msgstr ""
+msgstr "Evenementgebruiker"
 
 msgid "Event Users"
-msgstr ""
+msgstr "Evenementgebruikers"
 
 msgid "The date of the attendance"
-msgstr ""
+msgstr "De datum van de deelname"
 
 msgid "Qr autoregistration"
-msgstr ""
+msgstr "Automatische registratie via QR"
 
 msgid "Qr ticket"
-msgstr ""
+msgstr "QR-ticket"
 
 msgid "Previous registration"
-msgstr ""
+msgstr "Vorige registratie"
 
 msgid "unregistred"
-msgstr ""
+msgstr "niet-geregistreerd"
 
 msgid "Mode"
-msgstr ""
+msgstr "Modus"
 
 msgid "Attendance mode"
-msgstr ""
+msgstr "Deelnamemodus"
 
 msgid "Assignation"
-msgstr ""
+msgstr "Toewijzing"
 
 msgid ""
 "Anything you can help with                                                (i."
 "e. Talks, Coffee…)"
 msgstr ""
+"Alle taken waarbij je kunt helpen                                            "
+"(bijv. lezingen, koffie, etc.)"
 
 msgid "Time Availability"
-msgstr ""
+msgstr "Beschikbaarheid"
 
 msgid ""
 "Time period in which you "
@@ -338,87 +343,95 @@ msgid ""
 "event\", \"Morning\",                                                      "
 "\"Afternoon\", …"
 msgstr ""
+"Tijdsperiode waarin je "
+"kunt                                                      helpen tijdens het "
+"evenement, bijv.                                                      \"Het "
+"hele evenement\", \"Ochtend\""
+",                                                      \"Middag\", etc."
 
 msgid "Phone"
-msgstr ""
+msgstr "Telefoonnnumer"
 
 msgid "Address"
-msgstr ""
+msgstr "Adres"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "Extra informatie"
 
 msgid "Additional info you consider relevant"
-msgstr ""
+msgstr "Extra informatie die voor jou van belang is"
 
 msgid "Collaborator"
-msgstr ""
+msgstr "Medewerker"
 
 msgid "Collaborators"
-msgstr ""
+msgstr "Medewerkers"
 
 msgid "Organizer"
-msgstr ""
+msgstr "Organisator"
 
 msgid "Organizers"
-msgstr ""
+msgstr "Organisatoren"
 
 msgid "Nickname"
-msgstr ""
+msgstr "Bijnaam"
 
 msgid "Is going to install?"
-msgstr ""
+msgstr "Gaat opbouwen?"
 
 msgid ""
 "Additional info you "
 "consider                                                    relevant to the "
 "organizers"
 msgstr ""
+"Extra informatie waarvan je denkt dat "
+"die                                                   van belang is voor de "
+"organisatoren"
 
 msgid "Email confirmed?"
-msgstr ""
+msgstr "E-mailadres bevestigd?"
 
 msgid "Confirmation Token"
-msgstr ""
+msgstr "Bevestigingssleutel"
 
 msgid "Registration Date"
-msgstr ""
+msgstr "Registratiedatum"
 
 msgid "Attendees"
-msgstr ""
+msgstr "Deelnemers"
 
 msgid "Message Body"
-msgstr ""
+msgstr "Berichtinhoud"
 
 msgid "Email message HTML Body"
-msgstr ""
+msgstr "E-mailbericht - HTML-inhoud"
 
 msgid "Contact Email"
-msgstr ""
+msgstr "Contacte-mail"
 
 msgid "Post-install Email"
-msgstr ""
+msgstr "E-mail voorafgaand aan het opbouwen"
 
 msgid "Post-install Emails"
-msgstr ""
+msgstr "E-mails voorafgaand aan het opbouwen"
 
 msgid "Beginner"
-msgstr ""
+msgstr "Beginner"
 
 msgid "Medium"
-msgstr ""
+msgstr "Gevorderde"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Ervaren"
 
 msgid "Super Hacker"
-msgstr ""
+msgstr "Superhacker"
 
 msgid "Knowledge level for an installation"
 msgstr ""
 
 msgid "Installer"
-msgstr ""
+msgstr "Opbouwer"
 
 msgid "Installers"
 msgstr ""
@@ -557,22 +570,29 @@ msgid ""
 msgstr ""
 
 msgid "Schedule not confirmed yet"
-msgstr ""
+msgstr "Programma nog niet bevestigd"
 
 msgid ""
 "The talk couldn't be registered because the schedule is "
 "not                         available (starts and ends at the same time)"
 msgstr ""
+"De lezing kan niet worden geregistreerd omdat het programma nog "
+"niet                         beschikbaar is (begin- en eindtijd zijn "
+"hetzelfde)"
 
 msgid ""
 "The talk couldn't be registered because the schedule is "
 "not                         available (starts after it finishes)"
 msgstr ""
+"De lezing kan niet worden geregistreerd omdat het programma nog "
+"niet                         beschikbaar is (begintijd ligt ná de eindtijd)"
 
 msgid ""
 "The talk couldn't be registered because the                             room "
 "or the schedule is not available"
 msgstr ""
+"De lezing kan niet worden geregistreerd omdat de                         "
+"kamer of het programma niet beschikbaar zijn"
 
 msgid "Activity"
 msgstr ""
@@ -938,7 +958,7 @@ msgid "Manage Rooms"
 msgstr "Kamers beheren"
 
 msgid "Confirm Schedule"
-msgstr "Rooster bevestigen"
+msgstr "Programma bevestigen"
 
 msgid "Confirmed"
 msgstr "Bevestigd"
@@ -1028,7 +1048,7 @@ msgid "Submit"
 msgstr "Indienen"
 
 msgid "Activities Schedule"
-msgstr "Activiteitenrooster"
+msgstr "Activiteitenprogramma"
 
 #, python-format
 msgid ""
@@ -1041,7 +1061,7 @@ msgstr ""
 "                  "
 
 msgid "The schedule is not confirmed yet"
-msgstr "Het rooster is nog niet bevestigd"
+msgstr "Het programma is nog niet bevestigd"
 
 msgid ""
 "\n"
@@ -1052,40 +1072,47 @@ msgid ""
 "up to date with the latest news of the event.\n"
 "                "
 msgstr ""
+"\n"
+"                    We zijn druk bezig het programma samen te stellen. Kom "
+"morgen terug om te zien\n"
+"                    of we\n"
+"                    het al gepubliceerd hebben of volg ons op sociale "
+"netwerken om op de hoogte te blijven van het laatste nieuws.\n"
+"                "
 
 msgid "Return to the event"
-msgstr ""
+msgstr "Terug naar evenement"
 
 msgid "Create event"
-msgstr ""
+msgstr "Evenement creëren"
 
 msgid "Manage event"
-msgstr ""
+msgstr "Evenement beheren"
 
 msgid "Edit event"
-msgstr ""
+msgstr "Evenement bewerken"
 
 msgid "Edit image"
-msgstr ""
+msgstr "Afbeelding bewerken"
 
 msgid "Check in"
-msgstr ""
+msgstr "Inchecken"
 
 msgid "Submit your talk"
-msgstr ""
+msgstr "Dien jouw lezing in"
 
 msgid "View my Ticket"
-msgstr ""
+msgstr "Bekijk mijn ticket"
 
 msgctxt "navbar"
 msgid "Event"
-msgstr ""
+msgstr "Evenement"
 
 msgid "Schedule"
-msgstr ""
+msgstr "Programma"
 
 msgid "View Activities"
-msgstr ""
+msgstr "Activiteiten bekijken"
 
 msgid "View Reports"
 msgstr ""
@@ -1094,7 +1121,7 @@ msgid "Register as a Collaborator"
 msgstr ""
 
 msgid "Register as an Installer"
-msgstr ""
+msgstr "Registereren als opbouwer"
 
 msgid "Manage Attendance"
 msgstr ""
@@ -1389,7 +1416,7 @@ msgid "Collaborator Registration"
 msgstr ""
 
 msgid "Installer Registration"
-msgstr ""
+msgstr "Opbouwer-registratie"
 
 msgid "Reports"
 msgstr ""
@@ -1693,7 +1720,7 @@ msgid "The verification URL is invalid. Try again."
 msgstr ""
 
 msgid "You have successfully registered as an installer"
-msgstr ""
+msgstr "Je hebt je geregisteerd als opbouwer"
 
 msgid "You have successfully registered as a collaborator"
 msgstr ""
