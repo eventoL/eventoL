@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-24 17:04+0000\n"
+"PO-Revision-Date: 2019-01-27 12:04+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/>"
 "\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 msgid "Danish"
 msgstr "Deens"
@@ -485,57 +485,63 @@ msgid "Kind of activity"
 msgstr "Soort activiteit"
 
 msgid "Speaker or the person in charge of the activity"
-msgstr ""
+msgstr "Spreker of de persoon die de leiding heeft over de activiteit"
 
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 msgid "Long Description"
-msgstr ""
+msgstr "Lange omschrijving"
 
 msgid "Short idea of the talk (Two or three sentences)"
-msgstr ""
+msgstr "Korte omschrijving van de lezing (twee of drie zinnen)"
 
 msgid "Justification"
-msgstr ""
+msgstr "Motivering"
 
 msgid "Start Time"
-msgstr ""
+msgstr "Begintijd"
 
 msgid "End Time"
-msgstr ""
+msgstr "Eindtijd"
 
 msgid "Speakers Names"
-msgstr ""
+msgstr "Namen van sprekers"
 
 msgid "Comma separated speaker names"
-msgstr ""
+msgstr "Kommagescheiden lijst met namen van sprekers"
 
 msgid "Speaker Bio"
-msgstr ""
+msgstr "Biografie"
 
 msgid "Tell us about you (we will user it as your \"bio\" in our website"
 msgstr ""
+"Vertel ons iets over jezelf (we gebruiken dit als \"bio\" op onze website)"
 
 msgid "Labels"
-msgstr ""
+msgstr "Labels"
 
 msgid ""
 "Comma separated tags. i.e. Linux,                                           "
 "Free Software, Devuan"
 msgstr ""
+"Kommagescheiden labels, bijv. "
+"Linux,                                           Vrije Software, Devuan"
 
 msgid "Presentation"
-msgstr ""
+msgstr "Presentatie"
 
 msgid ""
 "Material you are going to "
 "use                                                 for the talk (optional, "
 "but recommended)"
 msgstr ""
+"Materiaal dat je gaat "
+"gebruiken                                                 bij de lezing ("
+"optioneel, maar aanbevolen)"
 
 msgid "Talk's Technical level"
-msgstr ""
+msgstr "Technisch gehalte van lezen"
 
 msgid ""
 "Info you consider "
@@ -543,24 +549,27 @@ msgid ""
 "organizer, special                                                    "
 "activity requirements, etc."
 msgstr ""
+"Informatie die je van belang "
+"acht                                                    voor de organisator, "
+"speciale                                                    vereisten, etc."
 
 msgid "Proposal"
-msgstr ""
+msgstr "Voorstel"
 
 msgid "Accepted"
-msgstr ""
+msgstr "Geaccepteerd"
 
 msgid "Rejected"
-msgstr ""
+msgstr "Afgewezen"
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 msgid "Activity proposal status"
-msgstr ""
+msgstr "Voorstelstatus van activiteit"
 
 msgid "Is a dummy Activity?"
-msgstr ""
+msgstr "Is dit een schijnactiviteit?"
 
 msgid ""
 "A dummy activity is used for example for "
@@ -568,6 +577,11 @@ msgid ""
 "exclude it from the index                                                "
 "page and other places"
 msgstr ""
+"Een schijnactiviteit wordt gebruikt voor "
+"bijv.                                                koffiepauzes. We "
+"gebruiken dit om de activiteit uit te sluiten "
+"van                                                de overzichtspagina en "
+"andere plaatsen"
 
 msgid "Schedule not confirmed yet"
 msgstr "Programma nog niet bevestigd"
@@ -595,66 +609,75 @@ msgstr ""
 "kamer of het programma niet beschikbaar zijn"
 
 msgid "Activity"
-msgstr ""
+msgstr "Activiteit"
 
 msgid "Activities"
-msgstr ""
+msgstr "Activiteiten"
 
 msgid "Hardware"
-msgstr ""
+msgstr "Hardware"
 
 msgid "Software"
-msgstr ""
+msgstr "Software"
 
 msgid "The owner of the installed hardware"
-msgstr ""
+msgstr "De eigenaar van de geïnstalleerde hardware"
 
 msgid "Notes"
-msgstr ""
+msgstr "Opmerkingen"
 
 msgid ""
 "Info or trouble you                                          consider "
 "relevant to document"
 msgstr ""
+"Informatie of problemen                                          waarvan je "
+"vindt dat ze vermeld moeten worden"
 
 msgid "Installation"
-msgstr ""
+msgstr "Installatie"
 
 msgid "Installations"
-msgstr ""
+msgstr "Installaties"
 
 msgid "eventoL setting"
-msgstr ""
+msgstr "eventoL-instelling"
 
 msgid "eventoL settings"
-msgstr ""
+msgstr "eventoL-instellingen"
 
 msgid ""
 "You are not allowed to access the current page. Contact an administrator if "
 "you have any question."
 msgstr ""
+"Je bent niet gemachtigd om de huidige pagina te openen. Neem, bij vragen, "
+"contact op met een administrator."
 
 msgid ""
 "The page you're looking for is not here. Please try <a href=\"/\">here</a>."
 msgstr ""
+"De pagina zie je zoekt bevindt zich niet hier. Probeer het <a href=\"/\""
+">hier</a>."
 
 msgid ""
 "Something, somewhere went terribly wrong. Please,\n"
 "        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
 "\">let us know!</a>"
 msgstr ""
+"Er is ergens iet vreselijk misgegaan.\n"
+"        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank\""
+">Laat het ons weten!</a>"
 
 msgid "FAQ"
-msgstr ""
+msgstr "Veelgestelde vragen"
 
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Vragen die vaak gesteld worden"
 
 msgid "Account Inactive"
-msgstr ""
+msgstr "Account inactief"
 
 msgid "This account is inactive."
-msgstr ""
+msgstr "Dit account is inactief."
 
 #, python-format
 msgid ""
@@ -1115,122 +1138,127 @@ msgid "View Activities"
 msgstr "Activiteiten bekijken"
 
 msgid "View Reports"
-msgstr ""
+msgstr "Rapportages bekijken"
 
 msgid "Register as a Collaborator"
-msgstr ""
+msgstr "Registreren als medewerker"
 
 msgid "Register as an Installer"
 msgstr "Registereren als opbouwer"
 
 msgid "Manage Attendance"
-msgstr ""
+msgstr "Deelname beheren"
 
 msgid "Print self-registration code"
-msgstr ""
+msgstr "Code voor zelfregistratie afdrukken"
 
 msgid "Open auto-read QR code page"
-msgstr ""
+msgstr "Open de automatische QR-codepagina"
 
 msgid "Submit an installation"
-msgstr ""
+msgstr "Installatie indienen"
 
 msgid "Draw"
-msgstr ""
+msgstr "Tekenen"
 
 msgid "Manage Organizers"
-msgstr ""
+msgstr "Organisatoren beheren"
 
 msgid "Manage Registration People"
-msgstr ""
+msgstr "Registratiepersoneel beheren"
 
 msgid "Manage Rewievers"
-msgstr ""
+msgstr "Reviewers beheren"
 
 msgid "Follow Us!"
-msgstr ""
+msgstr "Volg ons!"
 
 msgid "Contact Us!"
-msgstr ""
+msgstr "Neem contact met ons op!"
 
 msgid "Languages"
-msgstr ""
+msgstr "Talen"
 
 msgid "Organizadores"
-msgstr ""
+msgstr "Organisatoren"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profiel"
 
 msgid "You have the power!"
-msgstr ""
+msgstr "Je hebt de macht!"
 
 msgid "ContactMessage"
-msgstr ""
+msgstr "Contactbericht"
 
 msgid "Create an event"
-msgstr ""
+msgstr "Evenement creëren"
 
 msgid "What's the name of your event?"
-msgstr ""
+msgstr "Hoe heet je evenement?"
 
 msgid "Select tags for your event"
-msgstr ""
+msgstr "Kies labels voor je evenement"
 
 msgid "Select features for your event"
-msgstr ""
+msgstr "Kies mogelijkheden voor je evenement"
 
 msgid ""
 "If the event is taking place in more than one day, you can add all of them "
 "here."
 msgstr ""
+"Als het evenement verspreidt is over meerdere dagen, dan kun je ze hier "
+"toevoegen."
 
 msgid "Choose an URL"
-msgstr ""
+msgstr "Kies een URL"
 
 msgid "Where can people contact you?"
-msgstr ""
+msgstr "Waar kunnen mensen je contacteren?"
 
 msgid "Where can people follow you?"
-msgstr ""
+msgstr "Waar kunnen mensen je volgen?"
 
 msgid "Where will your event be?"
-msgstr ""
+msgstr "Waar vind je evenement plaats?"
 
 msgid "Search for a place or address"
-msgstr ""
+msgstr "Zoek naar een plaats of adres"
 
 msgid "When is the last day to submit talk proposals?"
 msgstr ""
+"Wat is de laatste dag waarop lezingsvoorstellen kunnen worden ingediend?"
 
 msgid "Do you want to use your own homepage?"
-msgstr ""
+msgstr "Wil je je eigen website gebruiken?"
 
 msgid ""
 "You probably don't want to. But if you want, we can link to your page in our "
 "index. Provide the full URL here:"
 msgstr ""
+"Dit wil je waarschijnlijk niet. Maar als je het écht wilt, dan kunnen jouw "
+"pagina linken aan onze overzichtspagina. Geef de volledige URL op:"
 
 msgid "Please provide a abstract about your event"
-msgstr ""
+msgstr "Dien een uittreksel van je evenement in"
 
 msgid "Please provide as much information you can about your event"
-msgstr ""
+msgstr "Geef zoveel mogelijk informatie over je evenement"
 
 msgid "Winners"
-msgstr ""
+msgstr "Winnaars"
 
 msgid "Draw!!"
-msgstr ""
+msgstr "Gelijkspel!!"
 
 msgid "There aren't any more participants"
-msgstr ""
+msgstr "Er zijn verder geen deelnemers"
 
 msgid "Skip"
-msgstr ""
+msgstr "Overslaan"
 
 msgid "I am"
-msgstr ""
+msgstr "Ik ben"
 
 #, python-format
 msgid ""
@@ -1238,6 +1266,9 @@ msgid ""
 "                                %(the_month)s %(days)s\n"
 "                            "
 msgstr ""
+"\n"
+"                                %(the_month)s %(days)s\n"
+"                            "
 
 #, python-format
 msgid ""
@@ -1245,6 +1276,9 @@ msgid ""
 "                            - %(year)s\n"
 "                        "
 msgstr ""
+"\n"
+"                            - %(year)s\n"
+"                        "
 
 #, python-format
 msgid ""
@@ -1252,6 +1286,9 @@ msgid ""
 "                            In %(until)s\n"
 "                        "
 msgstr ""
+"\n"
+"                            In %(until)s\n"
+"                        "
 
 #, python-format
 msgid ""
@@ -1259,27 +1296,30 @@ msgid ""
 "                            This event was %(since)s ago.\n"
 "                        "
 msgstr ""
+"\n"
+"                            Dit evenement vond %(since)s geleden plaats.\n"
+"                        "
 
 msgid "About the event"
-msgstr ""
+msgstr "Over het evenement"
 
 msgid "Talks and Workshops"
-msgstr ""
+msgstr "Lezingen en workshops"
 
 msgid "We haven't published the activites"
-msgstr ""
+msgstr "We hebben geen activiteiten gepubliceerd"
 
 msgid "It means you can still send yours"
-msgstr ""
+msgstr "Dit betekent dat je jouw activiteit(en) nog steeds kunt insturen"
 
 msgid "Send your proposal!"
-msgstr ""
+msgstr "Stuur je voorstel in!"
 
 msgid "Follow"
-msgstr ""
+msgstr "Volgen"
 
 msgid "Add Organizers"
-msgstr ""
+msgstr "Organisatoren toevoegen"
 
 msgid ""
 " Organizers can edit the event information, view attendant's list, manage "
