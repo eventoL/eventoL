@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-22 18:04+0000\n"
+"PO-Revision-Date: 2019-01-24 17:04+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/>"
 "\n"
@@ -428,61 +428,61 @@ msgid "Super Hacker"
 msgstr "Superhacker"
 
 msgid "Knowledge level for an installation"
-msgstr ""
+msgstr "Kennisniveau m.b.t. opbouwen"
 
 msgid "Installer"
 msgstr "Opbouwer"
 
 msgid "Installers"
-msgstr ""
+msgstr "Opbouwers"
 
 msgid "Operative System"
-msgstr ""
+msgstr "Besturingssysteem"
 
 msgid "Application"
-msgstr ""
+msgstr "Sollicitatie"
 
 msgid "Support and Problem Fixing"
-msgstr ""
+msgstr "Ondersteuning en probleemoplossing"
 
 msgid "Other"
-msgstr ""
+msgstr "Overig"
 
 msgid "Type"
-msgstr ""
+msgstr "Soort"
 
 msgid "Mobile"
-msgstr ""
+msgstr "Mobiel"
 
 msgid "Notebook"
-msgstr ""
+msgstr "Laptop"
 
 msgid "Netbook"
-msgstr ""
+msgstr "Netbook"
 
 msgid "Tablet"
-msgstr ""
+msgstr "Tablet"
 
 msgid "Desktop"
-msgstr ""
+msgstr "Desktop"
 
 msgid "Manufacturer"
-msgstr ""
+msgstr "Fabrikant"
 
 msgid "Model"
-msgstr ""
+msgstr "Model"
 
 msgid "i.e. Classroom 256"
-msgstr ""
+msgstr "bijv. Lokaal 256"
 
 msgid "Room"
-msgstr ""
+msgstr "Kamer"
 
 msgid "Rooms"
-msgstr ""
+msgstr "Kamers"
 
 msgid "Kind of activity"
-msgstr ""
+msgstr "Soort activiteit"
 
 msgid "Speaker or the person in charge of the activity"
 msgstr ""
