@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-28 17:04+0000\n"
+"PO-Revision-Date: 2019-02-01 17:09+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/>"
 "\n"
@@ -1327,84 +1327,93 @@ msgid ""
 "            attendance and also add other organizers. Please choose "
 "carefully! "
 msgstr ""
+" Organisators kunnen de evenementinformatie aanpassen, de deelnamelijst "
+"bekijken, activiteiten beheren,\n"
+"            deelnames beheren en andere organisatoren toevoegen. Kies wijs! "
 
 msgid "Current organizers:"
-msgstr ""
+msgstr "Huidige organisatoren:"
 
 msgid "Add a new Organizer:"
-msgstr ""
+msgstr "Nieuwe organisator toevoegen:"
 
 msgid "Add Organizer"
-msgstr ""
+msgstr "Organisator toevoegen"
 
 msgid "Add registration staff"
-msgstr ""
+msgstr "Registratiestaf toevoegen"
 
 msgid ""
 " People who can manage attendance can register a\n"
 "            person the day of the event."
 msgstr ""
+" Personen die de deelname kunnen beheren kunnen een persoon\n"
+"            registreren op de dag van het evenement."
 
 msgid "Current registration staff:"
-msgstr ""
+msgstr "Huidige registratiestaf:"
 
 msgid "Add a new registration person:"
-msgstr ""
+msgstr "Nieuwe registratiepersoon toevoegen:"
 
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 msgid "Add review staff"
-msgstr ""
+msgstr "Reviewstaf toevoegen"
 
 msgid "People who can review and vote on activities"
-msgstr ""
+msgstr "Personen die kunnen reviewen en stemmen op activiteiten"
 
 msgid "Current review staff:"
-msgstr ""
+msgstr "Huidige reviewstaf:"
 
 msgid "Add a new review person:"
-msgstr ""
+msgstr "Nieuwe reviewpersoon toevoegen:"
 
 msgid "Browse..."
-msgstr ""
+msgstr "Bladeren..."
 
 msgid "Submit an Installation"
-msgstr ""
+msgstr "Installatie indienen"
 
 msgid "Register a Attendee"
-msgstr ""
+msgstr "Deelnemer registreren"
 
 msgid "Attendee Registration"
-msgstr ""
+msgstr "Deelnameregistratie"
 
 msgid "Register as a attendee"
-msgstr ""
+msgstr "Registreren als deelnemer"
 
 msgid "You are logged in!"
-msgstr ""
+msgstr "Je bent ingelogd!"
 
 msgid ""
 "Please close your session, do not leave it open!. This page can remain open "
 "without anybody being logged in. You will be logged out in 30 seconds."
 msgstr ""
+"Sluit je sessie; laat deze niet openstaan! Deze pagina kan openblijven "
+"zonder dat iemand is ingelogd. Je wordt over 30 seconden uitgelogd."
 
 msgid "Registration Instructions"
-msgstr ""
+msgstr "Registratie-instructies"
 
 msgid "Please scan your ticket using the webcam"
-msgstr ""
+msgstr "Scan je ticket middels je webcam"
 
 msgid "Center the QR Code in the camera display below"
-msgstr ""
+msgstr "Centreer de QR-code in de cameraweergave hieronder"
 
 msgid ""
 "There is a problem with the camera. Please, enable access or try manual "
 "entry."
 msgstr ""
+"Er is een probleem opgetreden met de camera. Schakel toegang in of voer "
+"alles handmatig in."
 
 msgid "Attendee Self Registration"
-msgstr ""
+msgstr "Deelname - zelfregistratie"
 
 msgid "Please confirm your email"
 msgstr "Bevestig je e-mailadres"
@@ -1467,104 +1476,105 @@ msgid "here"
 msgstr "klik hier"
 
 msgid "Collaborator Registration"
-msgstr ""
+msgstr "Mederwerker-registratie"
 
 msgid "Installer Registration"
 msgstr "Opbouwer-registratie"
 
 msgid "Reports"
-msgstr ""
+msgstr "Rapportages"
 
 msgid "Attended"
-msgstr ""
+msgstr "Deelgenomen"
 
 msgid "Didn't Attend"
-msgstr ""
+msgstr "Niet deelgenomen"
 
 msgid "Enrolled"
-msgstr ""
+msgstr "Ingeschreven"
 
 msgid "There aren't any enrolled attendees"
-msgstr ""
+msgstr "Er zijn geen ingeschreven deelnemers"
 
 msgid "Organizers and Speakers"
-msgstr ""
+msgstr "Organisatoren en sprekers"
 
 msgid "Total"
-msgstr ""
+msgstr "Totaal"
 
 msgid "There aren't any enrolled staff"
-msgstr ""
+msgstr "Er is geen ingeschreven staf"
 
 msgid "There aren't any enrolled installers"
-msgstr ""
+msgstr "Er zijn geen ingeschreven installateurs"
 
 msgid "There aren't any enrolled collaborators"
-msgstr ""
+msgstr "Er zijn geen ingeschreven medewerkers"
 
 msgid "Activities and Installations"
-msgstr ""
+msgstr "Activiteiten en installaties"
 
 msgid "There aren't any activities or installations submitted"
-msgstr ""
+msgstr "Er zijn geen activiteiten of installaties ingediend"
 
 msgid "Installers Per Level"
-msgstr ""
+msgstr "Installaties per niveau"
 
 msgid "There aren't any registered installations"
-msgstr ""
+msgstr "Er zijn geen installaties geregistreerd"
 
 msgid "Registered attendees in time"
-msgstr ""
+msgstr "Geregistreerde deelnemers per tijd"
 
 msgid "There aren't any attendees registered yet"
-msgstr ""
+msgstr "Er zijn nog geen ingeschreven deelnemers"
 
 msgid "Attendees attendance by hour"
-msgstr ""
+msgstr "Deelname-opkomst per uur"
 
 msgid "Talks"
-msgstr ""
+msgstr "Lezingen"
 
 msgid "Edit a Room"
-msgstr ""
+msgstr "Bewerk een kamer"
 
 msgid "Submit a Room"
-msgstr ""
+msgstr "Dien een kamer in"
 
 msgid "Edit Room"
-msgstr ""
+msgstr "Kamer bewerken"
 
 msgid "Create Room"
-msgstr ""
+msgstr "Kamer creëren"
 
 msgid "Add Room"
-msgstr ""
+msgstr "Kamer toevoegen"
 
 msgid "Number"
-msgstr ""
+msgstr "Nummer"
 
 msgid "Actions"
-msgstr ""
+msgstr "Acties"
 
 msgid "Edit"
-msgstr ""
+msgstr "Bewerken"
 
 msgid "Delete"
-msgstr ""
+msgstr "Verwijderen"
 
 msgid "There isn't any room yet."
-msgstr ""
+msgstr "Er zijn nog geen kamers."
 
 msgid "Social Network Login Failure"
-msgstr ""
+msgstr "Inloggen via sociaal netwerk mislukt"
 
 msgid ""
 "An error occurred while attempting to login via your social network account."
 msgstr ""
+"Er is een fout opgetreden tijdens het inloggen via je socialenetwerkaccount."
 
 msgid "Login Cancelled"
-msgstr ""
+msgstr "Inloggen afgebroken"
 
 #, python-format
 msgid ""
@@ -1573,6 +1583,10 @@ msgid ""
 "                    this was a mistake, please proceed to <a href="
 "\"%(login_url)s\">sign in</a>."
 msgstr ""
+"Je hebt besloten om het inloggen op onze site via één van je bestaande "
+"accounts af te breken. Als\n"
+"                    dit een foutje was, <a href=\"%(login_url)s\">log dan "
+"in</a>."
 
 #, python-format
 msgid ""
@@ -1580,21 +1594,26 @@ msgid ""
 "        %(provider_name)s account to login to\n"
 "        %(site_name)s. As a final step, please complete the following form:"
 msgstr ""
+"Je staat op het punt om je\n"
+"        %(provider_name)s-account te gebruiken om in te loggen op\n"
+"        %(site_name)s. Vul het volgende formulier in:"
 
 msgid ""
 "You can sign in to your account using any of the following third party\n"
 "    accounts:"
 msgstr ""
+"Je kunt inloggen op je account via één van de volgende externe\n"
+"    accounts:"
 
 msgid "N/A"
-msgstr ""
+msgstr "N/B"
 
 #, python-brace-format
 msgid "New information about your talk in the {event_name} event"
-msgstr ""
+msgstr "Nieuwe informatie over je lezing op het evenement {event_name}"
 
 msgid "Justification: {}\n"
-msgstr ""
+msgstr "Reden: {}\n"
 
 #, python-brace-format
 msgid ""
@@ -1604,9 +1623,15 @@ msgid ""
 "{justification}Regards,\n"
 "{event_name} and eventoL team"
 msgstr ""
+"Hallo,\n"
+"\n"
+"Je lezing, \"{activity_title}\", heeft de volgende status verkregen: \""
+"{activity_status}\".\n"
+"{justification}Met vriendelijke groet,\n"
+"{event_name} en het eventoL-team"
 
 msgid "<p>Justification: {}</p>\n"
-msgstr ""
+msgstr "<p>Reden: {}</p>\n"
 
 #, python-brace-format
 msgid ""
@@ -1617,10 +1642,16 @@ msgid ""
 "{justification}<p>Regards,</p>\n"
 "{event_name} and <em>eventoL</em> team</p>\n"
 msgstr ""
+"<p>Hallo,</p>\n"
+"<p>Je lezing, \"{activity_title}\", heeft de volgende status verkregen: \""
+"{activity_status}\".\n"
+"</p>\n"
+"{justification}<p>Met vriendelijke groet,</p>\n"
+"{event_name} en het <em>eventoL</em>-team</p>\n"
 
 #, python-brace-format
 msgid "Ticket for {event_name} event"
-msgstr ""
+msgstr "Ticket voor het evenement \"{event_name}\""
 
 #, python-brace-format
 msgid ""
@@ -1630,6 +1661,12 @@ msgid ""
 "Regards,\n"
 "{event_name} and eventoL team"
 msgstr ""
+"Hallo {first_name} {last_name},\n"
+"Hier is je ticket voor het evenement \"{event_name}\".\n"
+"Vergeet niet om je ticket uit te printen en mee te nemen op de dag(en) van "
+"het evenement.\n"
+"Met vriendelijke groet,\n"
+"{event_name} en het eventoL-team"
 
 #, python-brace-format
 msgid ""
@@ -1640,147 +1677,179 @@ msgid ""
 "<p>Regards,\n"
 "{event_name} and <em>eventoL</em> team</p>"
 msgstr ""
+"<p>Hallo {first_name} {last_name},<br />\n"
+"Hier is je ticket voor het evenement \"{event_name}\".</p>\n"
+"<p>Vergeet niet om je ticket <em>uit te printen en mee te nemen</em> op de "
+"dag(en) van het evenement.</p>\n"
+"<p>Met vriendelijke groet,,\n"
+"{event_name} en het <em>eventoL</em>-team</p>"
 
 #, python-brace-format
 msgid "{first_name} {last_name}, thank you for participating {event_name}"
-msgstr ""
+msgstr "{first_name} {last_name}, bedankt voor je deelname aan {event_name}"
 
 msgid "General Ticket"
-msgstr ""
+msgstr "Algemeen ticket"
 
 msgid ""
 "The email couldn't sent "
 "successfully,                                                   please retry "
 "later or contact a organizer"
 msgstr ""
+"De e-mail kan niet worden verstuurd;"
+"                                                   probeer het later opnieuw "
+"of neem contact op met een organisator"
 
 msgid "The installation has been registered successfully. Happy Hacking!"
-msgstr ""
+msgstr "De installatie is geregistreerd. Veel hackplezier!"
 
 msgid "The installation couldn't be registered (check form errors)"
 msgstr ""
+"De installatie kan niet worden geregistreerd (controleer het formulier op "
+"fouten)"
 
 msgid "The attendee has already been registered correctly."
-msgstr ""
+msgstr "De deelnemer is al op de juiste wijze geregistreerd."
 
 msgid "The attendee has been successfully registered. Happy Hacking!"
-msgstr ""
+msgstr "De deelnemer is geregistreerd. Veel hackplezier!"
 
 msgid "The collaborator has already been registered correctly."
-msgstr ""
+msgstr "De medewerker is al op de juiste wijze geregistreerd."
 
 msgid "The collaborator has been successfully registered. Happy Hacking!"
-msgstr ""
+msgstr "De medewerker is geregistreerd. Veel hackplezier!"
 
 msgid "There was a problem registering the attendee. Please try again."
 msgstr ""
+"Er is een probleem met de registratie van de deelnemer. Probeer het opnieuw."
 
 msgid "The user isn't registered for this event."
-msgstr ""
+msgstr "De gebruiker is niet geregistreerd voor het evenement."
 
 #, python-format
 msgid "%s has been successfully added as an Organizer."
-msgstr ""
+msgstr "%s is toegevoegd als organisator."
 
 msgid "Something went wrong (please check form errors)"
-msgstr ""
+msgstr "Er is iets misgegaan (controleer het formulier op fouten)"
 
 #, python-format
 msgid "%s has been successfully added to manage attendance."
-msgstr ""
+msgstr "%s is toegevoegd als deelnamebeheerder."
 
 msgid "{} has been successfully added as reviewer."
-msgstr ""
+msgstr "{} is toegevoegd als reviewer."
 
 msgid "The attendee is already registered for this event, use correct form"
 msgstr ""
+"De deelnemer is al geregistreerd voor het evenement; gebruik het juiste "
+"formulier"
 
 msgid "The attendee was successfully registered. Happy Hacking!"
-msgstr ""
+msgstr "De deelnemer is geregistreerd. Veel hackplezier!"
 
 msgid "The attendee couldn't be registered (check form errors)"
 msgstr ""
+"De deelnemer kan niet worden geregistreerd (controleer het formulier op "
+"fouten)"
 
 msgid ""
 "You can only register an attendance                                   at the "
 "day of the event or after"
 msgstr ""
+"Je kunt een deelname alleen registreren                                   op "
+"de dag van het evenement of erna"
 
 msgid "Self-registration"
-msgstr ""
+msgstr "Zelfregistratie"
 
 msgid "Scan this QR code to register yourself"
-msgstr ""
+msgstr "Scan deze QR-code om jezelf te registreren"
 
 msgid "The registration code does not seems to be valid for this event"
-msgstr ""
+msgstr "De registratiecode lijkt ongeldig te zijn voor dit evenement"
 
 msgid "You can only register by yourself on the event date"
-msgstr ""
+msgstr "Je kunt jezelf alleen registreren op de dag van het evenement"
 
 msgid "You are already registered!"
-msgstr ""
+msgstr "Je bent al geregistreerd!"
 
 msgid "You are now marked as present in the event, have fun!"
-msgstr ""
+msgstr "Je bent nu aangemerkt als 'aanwezig'. Veel plezier!"
 
 msgid "You couldn't be registered (check form errors)"
-msgstr ""
+msgstr "Registratie mislukt (controleer het formulier op fouten)"
 
 msgid ""
 "The registration code does                                   not seems to be "
 "valid for this event"
 msgstr ""
+"De registratiecode lijkt                                   ongeldig te zijn "
+"voor dit evenement"
 
 msgid "Auto-reading QR codes is only available at the event date"
 msgstr ""
+"Automatisch uitlezen van QR-codes is alleen mogelijk op de dag van het "
+"evenement"
 
 msgid "You are already registered and present! Go have fun"
-msgstr ""
+msgstr "Je bent al geregistreerd en 'aanwezig'! Ga jezelf vermaken"
 
 msgid "The ticket code is not valid for this event"
-msgstr ""
+msgstr "De ticketcode is ongeldig voor dit evenement"
 
 msgid "The message has been sent. You will receive a reply by email"
-msgstr ""
+msgstr "Het bericht is verstuurd; je ontvangt een antwoord per e-mail"
 
 msgid ""
 "There was a problem sending your message. Please try again in a few minutes."
 msgstr ""
+"Er is een fout opgetreden tijdens het versturen. Probeer het over een paar "
+"minuten opnieuw."
 
 msgid "You are already registered for this event"
-msgstr ""
+msgstr "Je bent al geregistreerd voor dit evenement"
 
 msgid "[eventoL] Please confirm your email"
-msgstr ""
+msgstr "[eventoL] Bevestig je e-mailadres"
 
 msgid "There is a problem with the registration (check form errors)"
 msgstr ""
+"Er is een fout opgetreden tijdens het registreren (controleer het formulier "
+"op fouten)"
 
 msgid "Email verification"
-msgstr ""
+msgstr "E-mailverificatie"
 
 msgid ""
 "We've sent you your ticket to your email! In case it doesn't arrive,         "
 "don't worry! You're already registered and we'll ask for your email address."
 msgstr ""
+"We hebben je ticket per e-mail aan je verstuurd! Als de e-mail niet "
+"binnenkomt,         maak je dan geen zorgen: je bent al geregistreerd, dus "
+"we vragen dan om je e-mailadres."
 
 msgid ""
 "The email couldn't sent successfully,                       please retry "
 "later or contact a organizer"
 msgstr ""
+"De e-mail kan niet worden verstuurd;                       probeer het later "
+"opnieuw of neem contact op met een organisator"
 
 msgid "The verification URL is invalid. Try again."
-msgstr ""
+msgstr "De verificatie-url is ongeldig; probeer het opnieuw."
 
 msgid "You have successfully registered as an installer"
 msgstr "Je hebt je geregisteerd als opbouwer"
 
 msgid "You have successfully registered as a collaborator"
-msgstr ""
+msgstr "Je bent geregisreerd als medewerker"
 
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
+"Er is een probleem met je evenement. Controleer het formulier op fouten."
 
 msgid ""
 "The activity proposal is already closed or the "
@@ -1788,11 +1857,18 @@ msgid ""
 "page. Please                            contact the Event Organization Team "
 "to submit it."
 msgstr ""
+"De activiteitsvoorstelperiode is al verlopen of het "
+"evenement                            accepteert geen voorstellen via deze "
+"pagina. Neem                            contact op met het team van de "
+"evenementorganisatie om je voorstel in te dienen."
 
 msgid ""
 "There was a problem submitting the "
 "proposal.                                   Please check the form for errors."
 msgstr ""
+"Er is een fout opgetreden tijdens het "
+"indienen.                                   Controleer het formulier op "
+"fouten."
 
 msgid ""
 "The activity proposal edition is already closed or the "
@@ -1800,63 +1876,83 @@ msgid ""
 "page. Please                            contact the Event Organization Team "
 "to submit it."
 msgstr ""
+"De activiteitsvoorstelperiode is al verlopen of het "
+"evenement                            accepteert geen voorstellen via deze "
+"pagina. Neem                            contact op met het team van de "
+"evenementorganisatie om je voorstel in te dienen."
 
 msgid "Please crop or upload a new image."
-msgstr ""
+msgstr "Snijd je afbeelding bij of upload een nieuwe."
 
 msgid ""
 "The proposal has been registered successfully! We'll contact                 "
 "you at the provided email"
 msgstr ""
+"Het voorstel is ingediend! We nemen contact met je op                 via "
+"het door jou opgegeven e-mailadres"
 
 msgid ""
 "The proposal couldn't be registered. Please         check the form for errors"
 msgstr ""
+"Er is een fout opgetreden tijdens het "
+"indienen.                                   Controleer het formulier op "
+"fouten"
 
 msgid ""
 "The email couldn't sent successfully,                                   "
 "please retry later or contact a organizer"
 msgstr ""
+"De e-mail kan niet worden verstuurd.                                   "
+"Probeer het later opnieuw of neem contact op met een organisator"
 
 msgid "The talk was registered successfully!"
-msgstr ""
+msgstr "De lezing is geregistreerd!"
 
 msgid ""
 "The talk couldn't be "
 "registered,                                                   please retry "
 "confirm the talk"
 msgstr ""
+"De lezing kan niet worden "
+"geregistreerd.                                                   Probeer je "
+"lezing opnieuw te bevestigen"
 
 msgid "The talk couldn't be registered (check form errors)"
 msgstr ""
+"De lezing kan niet worden geregistreerd (controleer het formulier op fouten)"
 
 msgid ""
 "The event has been updated successfully! We'll contact you at the provided "
 "email"
 msgstr ""
+"Het evenement is bijgewerkt! We nemen contact op via het door jou opgegeven "
+"e-mailadres"
 
 msgid ""
 "The event couldn't be updated.                                   Please "
 "check the form for errors"
 msgstr ""
+"Het evenement kan niet worden bijgewerkt.                                   "
+"Controleer het formulier op fouten"
 
 msgid "The Room has been edited successfully."
-msgstr ""
+msgstr "De kamer is bijgewerkt."
 
 msgid "The Room has been added successfully."
-msgstr ""
+msgstr "De kamer is toegevoegd."
 
 msgid "The room couldn't be edited (check form errors)"
-msgstr ""
+msgstr "De kamer kan niet worden bewerkt (controleer het formulier op fouten)"
 
 msgid "The room couldn't be added (check form errors)"
 msgstr ""
+"De kamer kan niet worden toegevoegd (controleer het formulier op fouten)"
 
 msgid "The room has assigned activities."
-msgstr ""
+msgstr "De kamer heeft toegewezen activiteiten."
 
 msgid "The Room has been removed successfully."
-msgstr ""
+msgstr "De kamer is verwijderd."
 
 msgid "Registration"
-msgstr ""
+msgstr "Registratie"
