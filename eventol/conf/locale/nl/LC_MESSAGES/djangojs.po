@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-22 18:04+0000\n"
+"PO-Revision-Date: 2019-01-27 12:04+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/djangojs/"
 "nl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4\n"
+"X-Generator: Weblate 3.5-dev\n"
 
 msgid "Please, select one to continue"
 msgstr ""
@@ -80,16 +80,16 @@ msgid "Collaborators"
 msgstr "Medewerkers"
 
 msgid "Installers"
-msgstr ""
+msgstr "Opbouwers"
 
 msgid "Speakers"
 msgstr "Sprekers"
 
 msgid "Activities"
-msgstr ""
+msgstr "Activiteiten"
 
 msgid "Installations"
-msgstr ""
+msgstr "Installaties"
 
 msgid "Confirmed"
 msgstr "Bevestigd"
@@ -104,13 +104,13 @@ msgid "Don't configured"
 msgstr ""
 
 msgid "Proposal"
-msgstr ""
+msgstr "Voorstel"
 
 msgid "Accepted"
-msgstr ""
+msgstr "Geaccepteerd"
 
 msgid "Rejected"
-msgstr ""
+msgstr "Afgewezen"
 
 msgid "Talk"
 msgstr ""
@@ -122,7 +122,7 @@ msgid "Lightning talk"
 msgstr ""
 
 msgid "Other"
-msgstr ""
+msgstr "Overig"
 
 msgid "Beginner"
 msgstr "Beginner"
