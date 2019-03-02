@@ -25,6 +25,10 @@ docker_elasticsearch_1     ...                       Up      9300/tcp 9200/tcp
 ### Running the django server
 ```
 docker-compose exec worker python eventol/manage.py migrate
+docker-compose exec worker bash -c "cd /usr/src/app/eventol/front && bower install --allow-root"
+docker-compose exec worker bash -c "cd /usr/src/app/eventol/manager/static/manager/css/"
+docker-compose exec worker bash -c "lessc /usr/src/app/eventol/front/eventol/static/manager/less/eventol.less > /usr/src/app/eventol/manager/static/manager/css/eventol.css"
+docker-compose exec worker bash -c "lessc /usr/src/app/eventol/front/eventol/static/manager/less/eventol-bootstrap.less > /usr/src/app/eventol/manager/static/manager/css/eventol-bootstrap.less"
 docker-compose exec worker python eventol/manage.py collectstatic
 docker-compose exec worker python eventol/manage.py runserver 0.0.0.0:8000
 ```
