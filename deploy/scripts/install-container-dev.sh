@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 cd eventol
 ./manage.py migrate
 ./manage.py createsuperuser

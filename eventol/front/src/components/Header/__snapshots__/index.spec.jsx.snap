@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header With user Desktop version Snapshot 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="nav-wide"
+  >
+    <Logo
+      logoHeader="eventol.png"
+    />
+    <Navigation />
+    <UserProfile
+      user={
+        Object {
+          "first_name": "first_name",
+          "last_name": "last_name",
+        }
+      }
+    />
+  </div>
+</header>
+`;
+
+exports[`Header With user Mobile version Snapshot 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="nav-narrow"
+  >
+    <Logo
+      logoHeader="eventol.png"
+    />
+    <div
+      className="nav-right"
+    >
+      <a
+        href="#"
+        onClick={[Function]}
+      >
+        <i
+          className="fa fa-bars fa-2x"
+        />
+      </a>
+      <div
+        className="narrow-links"
+      >
+        <Navigation />
+        <UserProfile
+          user={
+            Object {
+              "first_name": "first_name",
+              "last_name": "last_name",
+            }
+          }
+        />
+      </div>
+    </div>
+  </div>
+</header>
+`;
+
+exports[`Header Without user and without logo Desktop version Snapshot 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="nav-wide"
+  >
+    <Logo
+      logoHeader="/static/manager/img/eventol-white.png"
+    />
+    <Navigation />
+    <SignIn />
+  </div>
+</header>
+`;
+
+exports[`Header Without user and without logo Mobile version Snapshot 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="nav-narrow"
+  >
+    <Logo
+      logoHeader="/static/manager/img/eventol-white.png"
+    />
+    <div
+      className="nav-right"
+    >
+      <a
+        href="#"
+        onClick={[Function]}
+      >
+        <i
+          className="fa fa-bars fa-2x"
+        />
+      </a>
+      <div
+        className="narrow-links"
+      >
+        <Navigation />
+        <SignIn />
+      </div>
+    </div>
+  </div>
+</header>
+`;

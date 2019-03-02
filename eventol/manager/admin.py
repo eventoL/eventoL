@@ -3,20 +3,24 @@
 
 from django.contrib import admin
 from django.contrib.auth.models import User
+from forms_builder.forms.models import FormEntry, FieldEntry
+from image_cropping import ImageCroppingMixin
 from import_export import resources
 from import_export.admin import ExportMixin
-from image_cropping import ImageCroppingMixin
 
-from manager.models import (Organizer, Event, Attendee, Collaborator, Hardware,
-                            Software, Installer, Installation, Room,
-                            ContactType, Contact, Activity, ContactMessage,
-                            EventUser, InstallationMessage, Ticket, EventDate,
-                            AttendeeAttendanceDate, EventUserAttendanceDate)
+from manager.models import (Activity, ActivityType, Attendee, EventolSetting,
+                            AttendeeAttendanceDate, Collaborator, Contact,
+                            ContactMessage, ContactType, Event, EventDate,
+                            EventTag, EventUser, EventUserAttendanceDate,
+                            Hardware, Installation, InstallationMessage,
+                            Installer, Organizer, Room, Software, Ticket,
+                            CustomForm, CustomField,)
 from manager.security import create_reporters_group
 
 
 class EventoLAdmin(admin.ModelAdmin):
-    def filter_event(self, events, queryset):
+    @staticmethod
+    def filter_event(events, queryset):
         return queryset.filter(event__in=events)
 
     def queryset(self, request):
@@ -30,7 +34,7 @@ class EventoLAdmin(admin.ModelAdmin):
         if request.user.groups.filter(name=reporters.name).exists():
             return queryset
         organizers = Organizer.objects.filter(event_user__user=request.user)
-        events = [organizer.event_user.event for organizer in organizers]
+        events = [organizer.event_user.event for organizer in list(organizers)]
         if events:
             return self.filter_event(events, queryset)
         return queryset.none()
@@ -40,23 +44,27 @@ class EventoLAdmin(admin.ModelAdmin):
             return super() \
                 .formfield_for_foreignkey(db_field, request, **kwargs)
         organizers = Organizer.objects.filter(event_user__user=request.user)
-        events = [organizer.event_user.event for organizer in organizers]
+        events = [organizer.event_user.event for organizer in list(organizers)]
         queryset = None
-        if db_field.name == "room":
+        if db_field.name == 'room':
             queryset = Room.objects.filter(event__in=events).distinct()
-        if db_field.name == "event":
+        if db_field.name == 'event':
             events_pks = [event.pk for event in events]
             queryset = Event.objects.filter(pk__in=events_pks).distinct()
-        if db_field.name == "event_user":
+        if db_field.name in ['event_user', 'owner']:
             queryset = EventUser.objects.filter(event__in=events).distinct()
-        if db_field.name == "attendee":
+        if db_field.name == 'attendee':
             queryset = Attendee.objects.filter(event__in=events).distinct()
-        if db_field.name == "installer":
+        if db_field.name == 'installer':
             queryset = Installer.objects \
                 .filter(event_user__event__in=events).distinct()
-        if db_field.name == "user":
+        if db_field.name == 'activity_type':
+            queryset = ActivityType.objects.all().distinct()
+        if db_field.name == 'user':
             queryset = User.objects.none()
-        kwargs["queryset"] = queryset
+        if db_field.name in ['hardware', 'software', 'type', 'ticket']:
+            queryset = db_field.model.objects.all().distinct()
+        kwargs['queryset'] = queryset
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -94,8 +102,13 @@ class EventDateAdminInline(admin.TabularInline):
     model = EventDate
 
 
+class EventTagInline(admin.TabularInline):
+    model = Event.tags.through
+
+
 class EventAdmin(EventoLAdmin):
-    inlines = [EventDateAdminInline]
+    inlines = [EventDateAdminInline, EventTagInline]
+    exclude = ['tags']
 
     def filter_event(self, events, queryset):
         return queryset.filter(pk__in=[event.pk for event in events])
@@ -179,6 +192,26 @@ class CollaboratorAdmin(EventoLEventUserAdmin):
     resource_class = CollaboratorResource
 
 
+class FieldAdmin(admin.TabularInline):
+    model = CustomField
+    exclude = ('visible', 'placeholder_text',)
+
+
+class FormAdmin(admin.ModelAdmin):
+    formentry_model = FormEntry
+    fieldentry_model = FieldEntry
+
+    inlines = (FieldAdmin,)
+    list_display = ("title", "status",)
+    list_display_links = ("title",)
+    list_editable = ("status",)
+    list_filter = ("status",)
+    search_fields = ("title",)
+    radio_fields = {"status": admin.HORIZONTAL}
+    fields = ('title',)
+
+
+admin.site.register(CustomForm, FormAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
@@ -197,3 +230,6 @@ admin.site.register(ContactMessage, EventoLAdmin)
 admin.site.register(EventUser, EventUserAdmin)
 admin.site.register(AttendeeAttendanceDate, EventoLAdmin)
 admin.site.register(EventUserAttendanceDate, EventoLEventUserAdmin)
+admin.site.register(EventTag)
+admin.site.register(EventolSetting)
+admin.site.register(ActivityType)

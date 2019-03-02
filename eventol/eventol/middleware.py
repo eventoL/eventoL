@@ -3,7 +3,8 @@ from manager.models import Event
 
 
 class SubdomainMiddleware:
-    def process_request(self, request):
+    @staticmethod
+    def process_request(request):
         fqdn = request.get_host().split(':')[0]
         try:
             event = Event.objects.get(cname=fqdn)
@@ -16,6 +17,7 @@ class SubdomainMiddleware:
             if request.path == '/':
                 request.path_info = event.get_absolute_url()[:-1] + request.path
 
-    def process_response(self, _, response):
+    @staticmethod
+    def process_response(_, response):
         patch_vary_headers(response, ('Host',))
         return response

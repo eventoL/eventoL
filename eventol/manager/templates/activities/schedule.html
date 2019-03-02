@@ -35,6 +35,16 @@
         .fc-unthemed td {
             background-color: unset !important;
         }
+
+        .well {
+            display: inline-block;
+            margin-right: 30px;
+        }
+
+        .fc.fc-unthemed.fc-ltr {
+            min-width: {{ rooms|get_schedule_size }}px;
+        }
+
     </style>
 {% endblock %}
 

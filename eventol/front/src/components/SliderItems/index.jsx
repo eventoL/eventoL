@@ -1,18 +1,34 @@
 import React from 'react';
-import Slider from '../Slider'
+import PropTypes from 'prop-types';
+import Slider from '../Slider';
 
 import Item from '../Item';
 
-const SliderItems = ({itemsData, sliderId}) => {
-  let items = '';
-  if(itemsData) {
-    items = itemsData.map(itemData => <div key={itemData.key}><Item sliderId={sliderId} {...itemData}/></div>);
-  }
-  return (
-    <Slider>
-      {items}
-    </Slider>
-  );
-};
+export default class SliderItems extends React.PureComponent {
+  static propTypes = {
+    itemsData: PropTypes.arrayOf(PropTypes.object),
+    sliderId: PropTypes.string.isRequired,
+  };
 
-export default SliderItems;
+  static defaultProps = {
+    itemsData: [],
+  };
+
+  getItem = itemData => {
+    const {sliderId} = this.props;
+    return (
+      <div key={itemData.key}>
+        <Item sliderId={sliderId} {...itemData} />
+      </div>
+    );
+  }
+
+  render(){
+    const {itemsData} = this.props;
+    let items = '';
+    if (itemsData){
+      items = itemsData.map(this.getItem);
+    }
+    return <Slider>{items}</Slider>;
+  }
+}

@@ -1,50 +1,56 @@
-.ListToggle {
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  width: 32px;
-  height: 32px;
-  font-size: 16px;
+@import '../../styles/variables';
+@import '../../styles/commons';
+
+.list-toggle {
+  border: 2px solid $black;
   border-radius: 32px;
+  font-size: 16px;
+  height: 32px;
+  opacity: 0;
   overflow: hidden;
   position: absolute;
   right: 20px;
   top: 20px;
-  opacity: 0;
-}
-.ListToggle:hover {
-  border: 2px solid #ffffff;
-}
-.ListToggle:hover div {
-  top: -32px;
-}
-.ListToggle[data-toggled="true"] {
-  background: #1F6879;
-  border: 2px solid #1F6879;
-}
-.ListToggle[data-toggled="true"] div {
-  top: -32px;
-}
-.ListToggle div {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 64px;
   width: 32px;
-  -webkit-transition: .125s ease;
-  transition: .125s ease;
-}
-.ListToggle div i {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
+
+  &[data-toggled='true'] {
+    background: $eventol-color;
+    border: 2px solid $eventol-color;
+
+    div {
+      top: -32px;
+    }
+  }
+
+  div {
+    -webkit-transition: .125s ease;
+    height: 64px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transition: .125s ease;
+    width: 32px;
+
+    i {
+      @extend %flex-element;
       -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
       -ms-flex-pack: center;
-          justify-content: center;
-  height: 32px;
-  width: 32px;
+      -webkit-align-items: center;
+      -webkit-box-align: center;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+      align-items: center;
+      height: 32px;
+      justify-content: center;
+      width: 32px;
+    }
+  }
+}
+
+.list-toggle:hover {
+  border: 2px solid $black;
+
+  div {
+    top: -32px;
+  }
 }

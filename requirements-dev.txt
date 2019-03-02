@@ -1,10 +1,7 @@
-astroid==1.5.3
-pylint==1.7.4
-pylint-django==0.7.2
-pylint-plugin-utils==0.2.6
-pytest==3.2.3
-pytest-cov==2.5.1
-pytest-django==3.1.2
-django-dynamic-fixture==1.9.5
+pylint==1.8.4
 django-nose==1.4.5
+django-autofixture==0.12.1
+django-debug-toolbar==1.9.1
 mock==2.0.0
+pylint-django==0.11
+ipython

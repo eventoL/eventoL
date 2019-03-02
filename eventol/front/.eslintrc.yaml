@@ -1,57 +1,67 @@
 parser: babel-eslint
+extends:
+ - airbnb
+ - plugin:import/errors
+ - plugin:import/warnings
 env:
  browser: true
- es6: true
- jest/globals: true
+ node: true
+plugins:
+ - import
 globals:
  gettext: true
  $: true
+ L: true
  module: true
  process: true
  __dirname: true
  global: true
  window: true
+ document: true
+ console: true
 parserOptions:
  ecmaVersion: 6
  sourceType: module
  ecmaFeatures:
   jsx: true
-plugins:
- - react
- - jest
- - import
-extends:
- - eslint:recommended
- - plugin:react/recommended
- - plugin:import/errors
- - plugin:import/warnings
-rules:
- quotes: [2, "single"]
- no-var: 2
- no-console: 0
- prefer-const: 2
- comma-dangle: [2, "only-multiline"]
- no-inner-declarations: 0
- no-unused-vars: [2, { argsIgnorePattern: "^(nextState|prevState|err|error|reject|getState|_|__)$" }]
- react/no-did-update-set-state: [1]
- react/no-did-mount-set-state: [1]
- react/no-unused-prop-types: [1]
- react/jsx-no-bind: [0]
- react/self-closing-comp: [1]
- import/no-duplicates: 2
- jest/no-disabled-tests: 1
- jest/no-focused-tests: 2
- jest/no-identical-title: 2
- jest/valid-expect: 2
- import/no-unresolved: [2, {commonjs: true, amd: true}]
- import/named: 2
- import/namespace: 2
- import/default: 2
- import/export: 2
+  modules: true
+  experimentalObjectRestSpread: true
 settings:
+ react:
+   pragma: React
+   version: 16.4
  import/resolver:
    node:
      paths: ['src/']
      extensions:
       - .js
       - .jsx
+rules:
+  arrow-parens: [error, as-needed]
+  camelcase: [error, {ignoreDestructuring: true, allow: [^UNSAFE_, first_name, last_name, render_components, ws_protocol]}]
+  jsx-a11y/anchor-is-valid: off
+  jsx-quotes: [error, prefer-single]
+  no-prototype-builtins: off
+  object-curly-spacing: [error, never]  
+  space-before-blocks: [error, {functions: never, keywords: never, classes: always}]
+  space-before-function-paren: [error, {anonymous: always, named: never, asyncArrow: always}]
+overrides:
+  files:
+    - '**/jest/*.{js,jsx}'
+    - "**/*.{spec,test}.{js,jsx}"
+  env:
+    jest: true
+  plugins:
+    - jest
+  globals:
+    global: true
+    jest: true
+  rules:
+    import/first: off
+    jest/no-disabled-tests: warn
+    jest/no-focused-tests: error
+    jest/no-identical-title: error
+    jest/prefer-to-have-length: warn
+    jest/valid-expect: error
+    one-var: off
+    one-var-declaration-per-line: off

@@ -13,17 +13,17 @@
         <h1>
           {% trans "Activities" %}
           <div id="buttons" class="pull-right">
-              {% if user.is_authenticated and user|is_organizer:event_uid %}
-                  <a href="{% url "activity_proposal" event_slug event_uid %}" class="btn btn-raised btn-success">
+              {% if user.is_authenticated and user|is_organizer:event_slug %}
+                  <a href="{% url "activity_proposal"  event_slug %}" class="btn btn-raised btn-success">
                       {% trans 'Submit an activity' %}
                   </a>
-                  <a href="{% url "rooms_list" event_slug event_uid %}" class="btn btn-raised btn-success">
+                  <a href="{% url "rooms_list"  event_slug %}" class="btn btn-raised btn-success">
                       {% trans "Manage Rooms" %}
                   </a>
               {% endif %}
-              {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_uid %}
+              {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_slug %}
                    <a type="button" class="btn btn-raised btn-success"
-                      href="{% url "confirm_schedule" event_slug event_uid %}">
+                      href="{% url "confirm_schedule"  event_slug %}">
                       <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
                    </a>
               {% endif %}
@@ -69,28 +69,32 @@
                                         <div class="col-sm-8" style="padding-top: 10px">
                                             <div id='talk-info-{{ forloop.counter }}'>
                                                 {% if talk.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ talk.abstract }}</p>{% endif %}
-                                                {% if talk.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>{% endif %}
-                                                {% if talk.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                                {% if talk.speakers_names %}<p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>{% endif %}
+                                                {% if talk.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ talk.speaker_bio }}</p>{% endif %}
+                                                {% if talk.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                   {% for label in talk.labels %}
                                                       <span class="label">{{ label|lower }}</span>
                                                   {% endfor %}
                                                 </p>{% endif %}
-                                                {% if talk.type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.get_type_display }}</p>{% endif %}
+                                                {% if talk.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.activity_type.name }}</p>{% endif %}
                                                 {% if talk.room %}<p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>{% endif %}
                                                 {% if talk.start_date %}<p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>{% endif %}
                                                 {% if talk.end_date %}<p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>{% endif %}
                                                 {% if talk.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ talk.long_description }}</p>{% endif %}
-                                                <p><a href="{% url "activity_detail" event.slug event.uid talk.id %}">
+                                                {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                                    {% if talk.additional_info %}<p><strong>{% trans "Additional Information" %}:</strong> {{ talk.additional_info }}</p>{% endif %}
+                                                {% endif %}
+                                                <p><a href="{% url "activity_detail" event.event_slug talk.id %}">
                                                     {% trans "View Talk" %}
                                                 </a></p>
-                                                {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                                {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                     <p><a id='reject-{{ forloop.counter }}'
                                                           href='#'
                                                           data-toggle="collapse"
                                                           onclick="becomeTalk('talk-info-{{ forloop.counter }}','reject_talk-{{ forloop.counter }}')">
                                                         {% trans "Reject Talk" %}
                                                     </a></p>
-                                                    <p><a href="{% url "resend_proposal" event.slug event.uid talk.id %}?next={{ request.get_full_path|urlencode }}">
+                                                    <p><a href="{% url "resend_proposal" event.event_slug talk.id %}?next={{ request.get_full_path|urlencode }}">
                                                       {% trans "Resend Proposal" %}
                                                     </a></p>
                                                     <p><a id='edit-{{ forloop.counter }}'
@@ -101,7 +105,7 @@
                                                     </a></p>
                                                 {% endif %}
                                               </div>
-                                              {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                              {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                   <div id="edit_talk-{{ forloop.counter }}" class="panel-collapse collapse">
                                                       <div class="container col-sm-12">
                                                           {% include 'activities/to_talk_form.html' with form=talk.form errors=talk.errors form_id=talk.pk %}
@@ -153,6 +157,24 @@
                                                 {% trans "Not Confirmed" %}
                                             </span>
                                         {% endif %}
+                                        {% if user.is_authenticated and user|is_reviewer:event_slug %}
+                                          <div class="pull-right">
+                                            <span style="margin-right: 5px;">{% trans "Votes" %}: </span>
+                                            {% if user|exists_vote:proposal %}
+                                              <a href="{% url "activity_vote_cancel" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}" class="label {% if proposal.vote_score >= 0 %}label-success{% else %}label-danger{% endif %} pull-right status" style="width: 30px; margin-right: 5px;">
+                                                  <span class="vote-status">{{ proposal.vote_score }}</span>
+                                                  <span class="vote-cancel">x</span>
+                                              </a>
+                                            {% else %}
+                                              <a class="label label-danger pull-right" href="{% url "activity_vote_down" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
+                                                <i class="fa fa-thumbs-down"></i>
+                                              </a>
+                                              <a class="label label-success pull-right" href="{% url "activity_vote_up" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}">
+                                                  <i class="fa fa-thumbs-up"></i>
+                                              </a>
+                                            {% endif %}
+                                          </div>
+                                        {% endif %}
                                     </h4>
                                 </div>
                                 <div id="proposal-{{ forloop.counter }}" class="panel-collapse collapse">
@@ -168,15 +190,17 @@
                                             <div class="col-sm-8">
                                                 <div id="proposal-info-{{ forloop.counter }}">
                                                     {% if proposal.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>{% endif %}
-                                                    {% if proposal.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>{% endif %}
-                                                    {% if proposal.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                                    {% if proposal.speakers_names %}<p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>{% endif %}
+                                                    {% if proposal.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ proposal.speaker_bio }}</p>{% endif %}
+                                                    {% if proposal.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                       {% for label in proposal.labels %}
                                                           <span class="label">{{ label|lower }}</span>
                                                       {% endfor %}
                                                     </p>{% endif %}
-                                                    {% if proposal.type %}<p><strong>{% trans "Type" %}:</strong> {{ proposal.get_type_display }}</p>{% endif %}
+                                                    {% if proposal.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ proposal.activity_type.name }}</p>{% endif %}
                                                     {% if proposal.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ proposal.long_description }}</p>{% endif %}
-                                                    {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                                    {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                                        {% if proposal.additional_info %}<p><strong>{% trans "Additional Information" %}:</strong> {{ proposal.additional_info }}</p>{% endif %}
                                                         <p><a id='become-{{ forloop.counter }}'
                                                               href='#'
                                                               data-toggle="collapse"
@@ -185,8 +209,8 @@
                                                         </a></p>
                                                     {% endif %}
                                                 </div>
-                                                <p><a href="{% url "activity_detail" event.slug event.uid proposal.id %}">{% trans "View Proposal" %}</a></p>
-                                                {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                                <p><a href="{% url "activity_detail" event.event_slug proposal.id %}">{% trans "View Proposal" %}</a></p>
+                                                {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                     <p><a id='to-reject-{{ forloop.counter }}'
                                                           href='#'
                                                           data-toggle="collapse"
@@ -259,21 +283,26 @@
                                                 {% endif %}
                                             </div>
                                             <div class="col-sm-8" style="padding-top: 10px">
+                                              {% if activity.justification %}<p><strong>{% trans "Justification" %}:</strong> {{ activity.justification }}</p>{% endif %}
                                               {% if activity.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ activity.abstract }}</p>{% endif %}
                                               {% if activity.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names|title }}</p>{% endif %}
-                                              {% if activity.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
+                                              {% if activity.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ activity.speaker_bio }}</p>{% endif %}
+                                              {% if activity.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                 {% for label in activity.labels %}
                                                     <span class="label">{{ label|lower }}</span>
                                                 {% endfor %}
                                               </p>{% endif %}
-                                              {% if activity.type %}<p><strong>{% trans "Type" %}:</strong> {{ activity.get_type_display }}</p>{% endif %}
+                                              {% if activity.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ activity.activity_type.name }}</p>{% endif %}
                                               {% if activity.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ activity.long_description }}</p>{% endif %}
-                                              {% if user.is_authenticated and user|is_organizer:event_uid %}
-                                                  <p><a href="{% url "resend_proposal" event.slug event.uid activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                              {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                                  {% if activity.additional_info %}<p><strong>{% trans "Additional Information" %}:</strong> {{ activity.additional_info }}</p>{% endif %}
+                                              {% endif %}
+                                              {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                                  <p><a href="{% url "resend_proposal" event.event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
                                                       {% trans "Resend Proposal" %}
                                                   </a></p>
                                               {% endif %}
-                                              <p><a href="{% url "activity_detail" event.slug event.uid activity.id %}">{% trans "View Proposal" %}</a></p>
+                                              <p><a href="{% url "activity_detail" event.event_slug activity.id %}">{% trans "View Proposal" %}</a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -297,7 +326,7 @@
     {% else %}
         <div class="well">
             <p>
-                {% trans "There isn't any talk proposal yet." %} <a href="{% url "activity_proposal" event_slug event_uid %}">{% trans "Submit yours!" %}</a>
+                {% trans "There isn't any talk proposal yet." %} <a href="{% url "activity_proposal"  event_slug %}">{% trans "Submit yours!" %}</a>
             </p>
         </div>
     {% endif %}

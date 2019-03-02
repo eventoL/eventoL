@@ -1,28 +1,38 @@
-.Logo {
-  width: 151px;
+@import '../../styles/variables';
+@import '../../styles/commons';
+
+.logo-component {
+  -webkit-transition: margin .125s ease;
   height: 41px;
   margin-right: 10px;
-  -webkit-transition: margin .125s ease;
   transition: margin .125s ease;
+  width: 151px;
+
+  a {
+    text-decoration: none;
+  }
+
+  svg {
+    -webkit-transform: scale(.5);
+    -webkit-transform-origin: 0 0;
+    transform: scale(.5);
+    transform-origin: 0 0;
+
+    path {
+      -webkit-transition: fill .125s ease;
+      fill: $eventol-color;
+      transition: fill .125s ease;
+    }
+  }
 }
-.Logo a {
-  text-decoration: none;
-}
-.Logo svg {
-  -webkit-transform: scale(0.5);
-          transform: scale(0.5);
-  -webkit-transform-origin: 0 0;
-          transform-origin: 0 0;
-}
-.Logo svg path {
-  fill: #1F6879;
-  -webkit-transition: fill .125s ease;
-  transition: fill .125s ease;
-}
-.Logo:hover {
+
+.logo-component:hover {
   cursor: pointer;
   margin-top: 2px;
-}
-.Logo:hover svg path {
-  fill: #ffffff !important;
+
+  svg {
+    path {
+      fill: $black !important;
+    }
+  }
 }
