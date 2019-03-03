@@ -39,6 +39,29 @@ docker-compose exec reactjs yarn install
 docker-compose exec reactjs yarn start
 ```
 
+### Para ver la instancia local de eventoL
+```
+http://localhost:8000
+```
+
+### Para parar el sistema
+```
+docker-compose stop
+```
+
+### Para apagar los contenedores y limpiar el entorno:
+```
+docker-compose down
+```
+
+### Para reiniciar una vez configurado
+```
+docker-compose up -d  
+# cada uno de los siguientes en terminales diferentes
+docker-compose exec worker python eventol/manage.py runserver 0.0.0.0:8000
+docker-compose exec reactjs yarn start
+```
+
 ### To see the logs of any of them:
 ```
 docker-compose logs -f [reactjs|worker|redis]
