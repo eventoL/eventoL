@@ -1257,7 +1257,7 @@ msgid "What's the name of your event?"
 msgstr "Cuál es el nombre del evento?"
 
 msgid "Select tags for your event"
-msgstr "Seleccione las características de su evento"
+msgstr "Seleccione las etiquetas de su evento"
 
 msgid "Select features for your event"
 msgstr "Seleccione las características de su evento"
