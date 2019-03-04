@@ -116,6 +116,7 @@ sass-lint:
 deploy:
   stage: deploy
   image: node:latest
+  when: manual
   only:
    - autodeploy
   script:
