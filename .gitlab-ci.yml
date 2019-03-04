@@ -127,7 +127,7 @@ deploy:
     - eval $(ssh-agent -s)
 
     # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-    - echo "${SSH_PRIVATE_KEY}" | ssh-add -
+    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 --decode)
 
     # For Docker builds disable host key checking. Be aware that by adding that
     # you are suspectible to man-in-the-middle attacks.
