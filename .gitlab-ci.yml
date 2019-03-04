@@ -122,4 +122,4 @@ deploy:
   script:
     - apk update && apk add sshpass
     - export SSHPASS=$SSH_PASS
-    - sshpass -e ssh -p $SSH_PORT -o stricthostkeychecking=no -x $SSH_USER@$SSH_HOST $SSH_SCRIPT
+    - sshpass -e ssh -p$SSH_PORT -o stricthostkeychecking=no -x $SSH_USER@$SSH_HOST $SSH_SCRIPT
