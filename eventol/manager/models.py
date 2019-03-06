@@ -18,7 +18,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
-from forms_builder.forms.models import STATUS_PUBLISHED, STATUS_CHOICES, AbstractField, AbstractForm
+from forms_builder.forms.models import AbstractField, AbstractForm
 from image_cropping import ImageCropField, ImageRatioField
 
 from vote.models import VoteModel
