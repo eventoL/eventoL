@@ -117,7 +117,7 @@ deploy:
   stage: deploy
   when: manual
   only:
-   - autodeploy
+   - master
   image: docker:git
   script:
     - apk update && apk add sshpass
