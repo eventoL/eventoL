@@ -2,6 +2,7 @@ import json
 
 from django import forms, template
 from django.utils.translation import ugettext_lazy as _
+from vote.models import Vote
 
 from manager.models import (
     Activity,
@@ -12,7 +13,6 @@ from manager.models import (
     Organizer,
     Reviewer
 )
-from vote.models import Vote
 
 register = template.Library()
 
@@ -45,7 +45,7 @@ def get_schedule_date(dic, key):
 
 @register.filter(name='addcss')
 def addcss(field, css):
-    return field.as_widget(attrs={"class": css})
+    return field.as_widget(attrs={'class': css})
 
 
 @register.filter(name='is_checkbox')
@@ -112,10 +112,10 @@ def is_collaborator(user, event_slug):
 
 @register.filter(name='is_reviewer')
 def is_reviewer(user, event_slug):
-    exists_collaborator = Reviewer.objects.filter(
+    exists_reviewer = Reviewer.objects.filter(
         event_user__user=user,
         event_user__event__event_slug=event_slug).exists()
-    return exists_collaborator or is_organizer(user, event_slug)
+    return exists_reviewer or is_organizer(user, event_slug)
 
 
 @register.filter(name='is_organizer')
