@@ -26,7 +26,8 @@ script:
   - cd eventol
   - python manage.py makemigrations manager
   - python manage.py migrate
-  - coverage run --source='.' pytest --cov-report term-missing --cov-report html --cov
+  - cd -
+  - coverage run --source='.' ./test.sh -i backend
 after_success:
   - coverage report
   - coveralls
