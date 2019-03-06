@@ -391,7 +391,6 @@ class Prod(Staging):
 
 class Dev(Base):
     INSTALLED_APPS = Base.INSTALLED_APPS + (
-        'django_nose',
         'autofixture',
         'debug_toolbar',
     )
