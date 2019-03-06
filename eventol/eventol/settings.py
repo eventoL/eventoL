@@ -283,13 +283,6 @@ class Base(Configuration):
 
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
-
-    # Change test runner
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-    NOSE_ARGS = [
-        '--with-coverage',
-        '--cover-package=manager,eventol',
-    ]
     PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
 
 
