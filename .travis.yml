@@ -27,7 +27,7 @@ script:
   - python manage.py makemigrations manager
   - python manage.py migrate
   - cd -
-  - coverage run --source='.' ./test.sh -i backend
+  - ./test.sh -i backend
 after_success:
   - coverage report
   - coveralls
