@@ -49,40 +49,6 @@ services:
       - "5432"
     volumes:
       - /srv/deploys/eventoldata/postgres:/var/lib/postgresql/data
-  elasticsearch:
-    restart: always
-    image: docker.elastic.co/elasticsearch/elasticsearch-basic:6.2.1
-    volumes:
-      - ./elk/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-    environment:
-      - ES_JAVA_OPTS=-Xmx256m -Xms256m
-    expose:
-      - "9300"
-      - "9200"
-  logstash:
-    restart: always
-    image: docker.elastic.co/logstash/logstash-x-pack:6.2.1
-    volumes:
-      - ./elk/logstash/config:/usr/share/logstash/config:ro
-      - ./elk/logstash/pipeline:/usr/share/logstash/pipeline:ro
-    environment:
-      - LS_JAVA_OPTS=-Xmx256m -Xms256m
-    depends_on:
-      - elasticsearch
-    expose:
-      - "5000"
-  kibana:
-    restart: always
-    image: docker.elastic.co/kibana/kibana-x-pack:6.2.1
-    volumes:
-      - ./elk/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
-    environment:
-      - VIRTUAL_HOST=${KIBANA_EXTERNAL_HOST}
-      - VIRTUAL_PORT=5601
-    expose:
-      - "5601"
-    depends_on:
-      - elasticsearch
   nginx-proxy:
     restart: always
     image: jwilder/nginx-proxy
