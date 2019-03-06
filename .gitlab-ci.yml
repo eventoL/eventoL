@@ -2,6 +2,7 @@ stages:
   - testing
   - styling
   - build
+  - deploy
 
 variables:
   CONTAINER_DEPLOY_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
@@ -111,3 +112,14 @@ sass-lint:
   allow_failure: true
   script:
     - ./test.sh -i sass-lint
+
+deploy:
+  stage: deploy
+  when: manual
+  only:
+   - master
+  image: docker:git
+  script:
+    - apk update && apk add sshpass
+    - export SSHPASS=$SSH_PASS
+    - sshpass -e ssh -p$SSH_PORT -o stricthostkeychecking=no -x $SSH_USER@$SSH_HOST $SSH_SCRIPT
