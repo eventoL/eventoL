@@ -88,7 +88,7 @@ function pythontest {
   timeout 20 yarn start || true
   cd -
   cd eventol/
-  py.test --cov-report term-missing --cov-report html --cov
+  py.test --cov-report term-missing --cov-report html --cov --cov-branch
   cd -
 }
 
