@@ -26,7 +26,7 @@ script:
   - cd eventol
   - python manage.py makemigrations manager
   - python manage.py migrate
-  - py.test --cov-report term-missing --cov-report html --cov
+  - py.test --cov-report term-missing --cov-report html --cov --cov-branch
 after_success:
   - coverage report
   - coveralls
