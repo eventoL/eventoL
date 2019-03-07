@@ -6,6 +6,23 @@ from manager.templatetags import filters
 
 
 # get_contact_url
+def test_get_contact_url_with_type_1_should_return_same_url(mocker):
+    url = 'http://url/'
+    contact = mocker.Mock()
+    contact.url = url
+    contact.type.validate = '1'
+    assert filters.get_contact_url(contact) == url
+
+
+def test_get_contact_url_with_type_2_should_return_mailto_url(mocker):
+    url = 'eventol@eventol.org'
+    expectedUrl = 'mailto:{}'.format(url)
+    contact = mocker.Mock()
+    contact.url = url
+    contact.type.validate = '2'
+    assert filters.get_contact_url(contact) == expectedUrl
+
+
 # get_schedule_size
 # get_schedule_date
 # addcss
@@ -128,13 +145,20 @@ def test_is_installer_with_installer_should_return_true(installer1, event1):
 
 
 @pytest.mark.django_db
-def test_is_installer_with_organizer_should_return_true(organizer1, event1):
+def test_is_installer_with_organizer_should_return_true(mocker, organizer1, event1):
+    mock_is_organizer = mocker.patch('manager.templatetags.filters.is_organizer')
+    mock_is_organizer.return_value = True
     assert filters.is_installer(organizer1.event_user.user, event1.event_slug)
+    mock_is_organizer.assert_called_once_with(organizer1.event_user.user, event1.event_slug)
 
 
 @pytest.mark.django_db
-def test_is_installer_with_organizer_from_another_event_should_return_false(organizer2, event1):
+def test_is_installer_with_organizer_from_another_event_should_return_false(mocker, organizer2, event1):
+    mock_is_organizer = mocker.patch('manager.templatetags.filters.is_organizer')
+    mock_is_organizer.return_value = False
     assert not filters.is_installer(organizer2.event_user.user, event1.event_slug)
+    mock_is_organizer.assert_called_once_with(organizer2.event_user.user, event1.event_slug)
+
 
 # is_collaborator
 @pytest.mark.django_db
@@ -158,13 +182,19 @@ def test_is_collaborator_with_collaborator_should_return_true(collaborator1, eve
 
 
 @pytest.mark.django_db
-def test_is_collaborator_with_organizer_should_return_true(organizer1, event1):
+def test_is_collaborator_with_organizer_should_return_true(mocker, organizer1, event1):
+    mock_is_organizer = mocker.patch('manager.templatetags.filters.is_organizer')
+    mock_is_organizer.return_value = True
     assert filters.is_collaborator(organizer1.event_user.user, event1.event_slug)
+    mock_is_organizer.assert_called_once_with(organizer1.event_user.user, event1.event_slug)
 
 
 @pytest.mark.django_db
-def test_is_collaborator_with_organizer_from_another_event_should_return_false(organizer2, event1):
+def test_is_collaborator_with_organizer_from_another_event_should_return_false(mocker, organizer2, event1):
+    mock_is_organizer = mocker.patch('manager.templatetags.filters.is_organizer')
+    mock_is_organizer.return_value = False
     assert not filters.is_collaborator(organizer2.event_user.user, event1.event_slug)
+    mock_is_organizer.assert_called_once_with(organizer2.event_user.user, event1.event_slug)
 
 
 # is_reviewer
@@ -189,13 +219,19 @@ def test_is_reviewer_with_reviewer_should_return_true(reviewer1, event1):
 
 
 @pytest.mark.django_db
-def test_is_reviewer_with_organizer_should_return_true(organizer1, event1):
+def test_is_reviewer_with_organizer_should_return_true(mocker, organizer1, event1):
+    mock_is_organizer = mocker.patch('manager.templatetags.filters.is_organizer')
+    mock_is_organizer.return_value = True
     assert filters.is_reviewer(organizer1.event_user.user, event1.event_slug)
+    mock_is_organizer.assert_called_once_with(organizer1.event_user.user, event1.event_slug)
 
 
 @pytest.mark.django_db
-def test_is_reviewer_with_organizer_from_another_event_should_return_false(organizer2, event1):
+def test_is_reviewer_with_organizer_from_another_event_should_return_false(mocker, organizer2, event1):
+    mock_is_organizer = mocker.patch('manager.templatetags.filters.is_organizer')
+    mock_is_organizer.return_value = False
     assert not filters.is_reviewer(organizer2.event_user.user, event1.event_slug)
+    mock_is_organizer.assert_called_once_with(organizer2.event_user.user, event1.event_slug)
 
 
 # is_organizer
