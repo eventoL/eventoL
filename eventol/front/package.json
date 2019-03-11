@@ -36,7 +36,7 @@
     "react-test-renderer": "16.6.1",
     "webpack": "1.15.0",
     "webpack-bundle-tracker": "0.0.93",
-    "webpack-dev-server": "1.16.5"
+    "webpack-dev-server": "3.2.1"
   },
   "dependencies": {
     "css-loader": "0.28.11",
