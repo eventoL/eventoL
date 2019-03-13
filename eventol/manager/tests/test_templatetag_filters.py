@@ -497,4 +497,43 @@ def test_can_register_as_collaborator_with_user_not_collaborator_and_event_with_
     mock_is_collaborator.assert_called_once_with(user1, event1.event_slug)
 
 
+# can_register_as_installer
+@pytest.mark.django_db
+def test_can_register_as_installer_with_event_without_installers_should_return_false(event1):
+    event1.use_installers = False
+    event1.save()
+    anonymous_user = AnonymousUser()
+    assert not filters.can_register_as_installer(anonymous_user, event1)
+
+
+@pytest.mark.django_db
+def test_can_register_as_installer_with_authenticated_installer_and_event_with_installers_should_return_false(event1, mocker):
+    mock_is_installer = mocker.patch('manager.templatetags.filters.is_installer')
+    mock_is_installer.return_value = True
+    event1.use_installers = True
+    event1.save()
+    user = mocker.MagicMock()
+    user.is_authenticated = True
+    assert not filters.can_register_as_installer(user, event1)
+    mock_is_installer.assert_called_once_with(user, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_can_register_as_installer_with_anonymous_user_and_event_with_installers_should_return_true(event1):
+    event1.use_installers = True
+    event1.save()
+    anonymous_user = AnonymousUser()
+    assert filters.can_register_as_installer(anonymous_user, event1)
+
+
+@pytest.mark.django_db
+def test_can_register_as_installer_with_user_not_installer_and_event_with_installers_should_return_true(event1, user1, mocker):
+    mock_is_installer = mocker.patch('manager.templatetags.filters.is_installer')
+    mock_is_installer.return_value = False
+    event1.use_installers = True
+    event1.save()
+    assert filters.can_register_as_installer(user1, event1)
+    mock_is_installer.assert_called_once_with(user1, event1.event_slug)
+
+
 # show_collaborators_tab
