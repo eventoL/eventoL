@@ -439,4 +439,23 @@ def test_exists_vote_when_exists_vote_should_return_true(user1, activity1):
 
 
 # is_speaker
+@pytest.mark.django_db
+def test_is_speaker_when_user_not_owner_should_return_false(event_user1, event1):
+    assert not filters.is_speaker(event_user1.user, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_is_speaker_when_user_is_activity_owner_in_another_event_should_return_false(event_user1, event1, activity2):
+    activity2.owner = event_user1
+    activity2.save()
+    assert not filters.is_speaker(event_user1.user, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_is_speaker_when_user_is_activity_owner_in_event_should_return_true(event_user1, event1, activity1):
+    activity1.owner = event_user1
+    activity1.save()
+    assert filters.is_speaker(event_user1.user, event1.event_slug)
+
+
 # show_collaborators_tab
