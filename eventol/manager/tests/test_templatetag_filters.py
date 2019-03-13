@@ -421,5 +421,22 @@ def test_keyvalue_should_return_correct_value(dictionary, key, expected):
 
 
 # exists_vote
+@pytest.mark.django_db
+def test_exists_vote_when_user_without_votes_should_return_false(user1, activity1):
+    assert not filters.exists_vote(user1, activity1)
+
+
+@pytest.mark.django_db
+def test_exists_vote_when_user_vote_only_another_activity_should_return_false(user1, activity1, activity2):
+    autofixture.create_one('vote.Vote', {'user_id': user1.id, 'object_id': activity2.id})
+    assert not filters.exists_vote(user1, activity1)
+
+
+@pytest.mark.django_db
+def test_exists_vote_when_exists_vote_should_return_true(user1, activity1):
+    autofixture.create_one('vote.Vote', {'user_id': user1.id, 'object_id': activity1.id})
+    assert filters.exists_vote(user1, activity1)
+
+
 # is_speaker
 # show_collaborators_tab
