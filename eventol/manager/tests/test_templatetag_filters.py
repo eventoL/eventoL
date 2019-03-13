@@ -336,9 +336,23 @@ def test_can_take_attendance_with_user_without_perm_should_return_false(mocker, 
 
 
 @pytest.mark.django_db
-def test_if_is_collaborator_and_has_perm_can_take_attendance_return_true(mocker, user1, event1):
+def test_can_take_attendance_with_user_with_perms_should_return_true(mocker, user1, event1):
     user1.has_perm = mocker.Mock(return_value=True)
     assert filters.can_take_attendance(user1, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_can_take_attendance_should_call_user_has_perm_with_add_attendee(mocker, user1, event1):
+    user1.has_perm = mocker.Mock(return_value=True)
+    filters.can_take_attendance(user1, event1.event_slug)
+    user1.has_perm.assert_any_call('manager.add_attendee')
+
+
+@pytest.mark.django_db
+def test_can_take_attendance_should_call_user_has_perm_with_can_take_attendance(mocker, user1, event1):
+    user1.has_perm = mocker.Mock(return_value=True)
+    filters.can_take_attendance(user1, event1.event_slug)
+    user1.has_perm.assert_any_call('manager.can_take_attendance')
 
 
 # add
