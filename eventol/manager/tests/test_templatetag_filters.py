@@ -411,6 +411,15 @@ def test_as_days_with_four_days_should_return_sorted_days(
 
 
 # keyvalue
+@pytest.mark.parametrize('dictionary, key, expected', [
+    ({'key': 1}, 'key', 1),
+    ({'key2': 2}, 'key2', 2),
+    ({'key2': 2, 'key': 1}, 'key2', 2)
+])
+def test_keyvalue_should_return_correct_value(dictionary, key, expected):
+    assert filters.keyvalue(dictionary, key) == expected
+
+
 # exists_vote
 # is_speaker
 # show_collaborators_tab
