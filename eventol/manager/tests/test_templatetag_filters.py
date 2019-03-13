@@ -367,6 +367,17 @@ def test_add_should_return_sum(num1, num2, expected):
 
 
 # installer_level
+@pytest.mark.parametrize('value, expected', [
+    ('0', _('N/A')),
+    ('1', _('Beginner')),
+    ('2', _('Medium')),
+    ('3', _('Advanced')),
+    ('4', _('Super Hacker')),
+])
+def test_installer_level_should_return_correct_text(value, expected):
+    assert filters.installer_level(value) == expected
+
+
 # as_days
 # keyvalue
 # exists_vote
