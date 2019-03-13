@@ -313,6 +313,19 @@ def test_is_organizer_with_organizer_should_return_true(organizer1, event1):
 
 
 # is_attendee
+@pytest.mark.django_db
+def test_is_attendee_with_user_not_is_attendee_should_return_false(user1, event1):
+    assert not filters.is_attendee(user1, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_is_attendee_with_attendee_from_another_event_should_return_false(attendee_from_event_user2, event1):
+    assert not filters.is_attendee(attendee_from_event_user2.event_user.user, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_is_attendee_with_attendee_should_return_false(attendee_from_event_user1, event1):
+    assert filters.is_attendee(attendee_from_event_user1.event_user.user, event1.event_slug)
 
 
 # can_take_attendance
