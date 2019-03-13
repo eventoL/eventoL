@@ -1,8 +1,11 @@
 # pylint: disable=invalid-name,line-too-long,too-many-public-methods,
 import json
+import autofixture
 import pytest
 
 from django import forms
+from django.contrib.auth.models import AnonymousUser
+from django.utils.translation import ugettext_lazy as _
 from manager.templatetags import filters
 
 
