@@ -458,4 +458,43 @@ def test_is_speaker_when_user_is_activity_owner_in_event_should_return_true(even
     assert filters.is_speaker(event_user1.user, event1.event_slug)
 
 
+# can_register_as_collaborator
+@pytest.mark.django_db
+def test_can_register_as_collaborator_with_event_without_collaborators_should_return_false(event1):
+    event1.use_collaborators = False
+    event1.save()
+    anonymous_user = AnonymousUser()
+    assert not filters.can_register_as_collaborator(anonymous_user, event1)
+
+
+@pytest.mark.django_db
+def test_can_register_as_collaborator_with_authenticated_collaborator_and_event_with_collaborators_should_return_false(event1, mocker):
+    mock_is_collaborator = mocker.patch('manager.templatetags.filters.is_collaborator')
+    mock_is_collaborator.return_value = True
+    event1.use_collaborators = True
+    event1.save()
+    user = mocker.MagicMock()
+    user.is_authenticated = True
+    assert not filters.can_register_as_collaborator(user, event1)
+    mock_is_collaborator.assert_called_once_with(user, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_can_register_as_collaborator_with_anonymous_user_and_event_with_collaborators_should_return_true(event1):
+    event1.use_collaborators = True
+    event1.save()
+    anonymous_user = AnonymousUser()
+    assert filters.can_register_as_collaborator(anonymous_user, event1)
+
+
+@pytest.mark.django_db
+def test_can_register_as_collaborator_with_user_not_collaborator_and_event_with_collaborators_should_return_true(event1, user1, mocker):
+    mock_is_collaborator = mocker.patch('manager.templatetags.filters.is_collaborator')
+    mock_is_collaborator.return_value = False
+    event1.use_collaborators = True
+    event1.save()
+    assert filters.can_register_as_collaborator(user1, event1)
+    mock_is_collaborator.assert_called_once_with(user1, event1.event_slug)
+
+
 # show_collaborators_tab
