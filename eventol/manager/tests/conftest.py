@@ -48,6 +48,19 @@ def event_user2(user2, event2):
     yield autofixture.create_one('manager.EventUser', {'user': user2, 'event': event2})
 
 
+# Attendee without User
+@pytest.fixture
+@pytest.mark.django_db
+def attendee_without_user1(event1):
+    yield autofixture.create_one('manager.Attendee', {'event_user': None, 'event': event1})
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def attendee_without_user2(event2):
+    yield autofixture.create_one('manager.Attendee', {'event_user': None, 'event': event2})
+
+
 # Organizers
 @pytest.fixture
 @pytest.mark.django_db
