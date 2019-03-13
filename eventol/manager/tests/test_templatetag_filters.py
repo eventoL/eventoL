@@ -24,6 +24,16 @@ def test_get_contact_url_with_type_2_should_return_mailto_url(mocker):
 
 
 # get_schedule_size
+@pytest.mark.parametrize('rooms, expected', [
+    ([], 0 * 200),
+    (['R'], 1 * 200),
+    (['R'] * 2, 2 * 200),
+    (['R'] * 3, 3 * 200),
+])
+def test_get_schedule_size_should_return_200_for_each_room(rooms, expected):
+    assert filters.get_schedule_size(json.dumps(rooms)) == expected
+
+
 # get_schedule_date
 # addcss
 def test_addcss_should_call_field_as_widget(mocker):
