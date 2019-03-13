@@ -178,19 +178,33 @@ def is_speaker(user, event_slug):
     return Activity.objects.filter(owner__user=user, event__event_slug=event_slug).exists()
 
 
-@register.filter(name='show_collaborators_tab')
-def show_collaborators_tab(user, event):
+def can_register_as_collaborator(user, event):
     if event.use_collaborators:
         if not user.is_authenticated or not is_collaborator(user, event.event_slug):
             return True
+    return False
+
+
+def can_register_as_installer(user, event):
     if event.use_installers:
         if not user.is_authenticated or not is_installer(user, event.event_slug):
             return True
+    return False
+
+
+def can_register_installations(user, event):
     if user.is_authenticated:
-        if can_take_attendance(user, event.event_slug):
-            return True
         if event.use_installations and is_installer(user, event.event_slug):
             return True
-        if is_organizer(user, event.event_slug):
-            return True
     return False
+
+
+@register.filter(name='show_collaborators_tab')
+def show_collaborators_tab(user, event):
+    return (
+        can_register_as_collaborator(user, event) or
+        can_register_as_installer(user, event) or
+        can_register_installations(user, event) or
+        can_take_attendance(user, event.event_slug) or
+        is_organizer(user, event.event_slug)
+    )
