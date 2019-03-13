@@ -379,6 +379,34 @@ def test_installer_level_should_return_correct_text(value, expected):
 
 
 # as_days
+@pytest.mark.django_db
+def test_as_days_with_empty_list_should_return_empty_list():
+    assert filters.as_days([]) == []
+
+
+@pytest.mark.django_db
+def test_as_days_with_one_day_should_return_this_day(event_date_24_01_2019):
+    assert filters.as_days([event_date_24_01_2019]) == [24]
+
+
+@pytest.mark.django_db
+def test_as_days_with_two_days_should_return_sorted_days(event_date_24_01_2019, event_date_25_01_2019):
+    days = [event_date_24_01_2019, event_date_25_01_2019]
+    assert filters.as_days(days) == [24, 25]
+
+
+@pytest.mark.django_db
+def test_as_days_with_four_days_should_return_sorted_days(
+        event_date_24_01_2019, event_date_25_01_2019,
+        event_date_26_01_2019, event_date_27_01_2019
+):
+    days = [
+        event_date_27_01_2019, event_date_26_01_2019,
+        event_date_24_01_2019, event_date_25_01_2019
+    ]
+    assert filters.as_days(days) == [24, 25, 26, 27]
+
+
 # keyvalue
 # exists_vote
 # is_speaker
