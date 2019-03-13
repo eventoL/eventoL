@@ -142,6 +142,18 @@ def test_is_registered_with_not_event_user_should_return_false(event_user1, even
 
 
 # is_registered_any_way
+@pytest.mark.django_db
+def test_is_registered_any_way_with_is_attendee_true_should_return_true(mocker, user1, event1):
+    mock_is_attendee = mocker.patch('manager.templatetags.filters.is_attendee')
+    mock_is_registered = mocker.patch('manager.templatetags.filters.is_registered')
+    mock_is_attendee.return_value = True
+    mock_is_registered.return_value = False
+    assert filters.is_registered_any_way(user1, event1.event_slug)
+    assert mock_is_attendee.called
+    assert not mock_is_registered.called
+    mock_is_attendee.assert_called_once_with(user1, event1.event_slug)
+
+
 # is_installer
 @pytest.mark.django_db
 def test_is_installer_with_not_eventuser_should_return_false(user1, event1):
