@@ -577,3 +577,91 @@ def test_can_register_installations_with_authenticated_intaller_and_event_with_i
 
 
 # show_collaborators_tab
+@pytest.mark.django_db
+def test_show_collaborators_tab_when_can_register_as_collaborator_should_return_true(user1, event1, mocker):
+    mock_can_register_as_collaborator = mocker.patch('manager.templatetags.filters.can_register_as_collaborator')
+    mock_can_register_as_collaborator.return_value = True
+    assert filters.show_collaborators_tab(user1, event1)
+    mock_can_register_as_collaborator.assert_called_once_with(user1, event1)
+
+
+@pytest.mark.django_db
+def test_show_collaborators_tab_when_can_register_as_installer_should_return_true(user1, event1, mocker):
+    mock_can_register_as_collaborator = mocker.patch('manager.templatetags.filters.can_register_as_collaborator')
+    mock_can_register_as_collaborator.return_value = False
+    mock_can_register_as_installer = mocker.patch('manager.templatetags.filters.can_register_as_installer')
+    mock_can_register_as_installer.return_value = True
+    assert filters.show_collaborators_tab(user1, event1)
+    mock_can_register_as_collaborator.assert_called_once_with(user1, event1)
+    mock_can_register_as_installer.assert_called_once_with(user1, event1)
+
+
+@pytest.mark.django_db
+def test_show_collaborators_tab_when_can_register_installations_should_return_true(user1, event1, mocker):
+    mock_can_register_as_collaborator = mocker.patch('manager.templatetags.filters.can_register_as_collaborator')
+    mock_can_register_as_collaborator.return_value = False
+    mock_can_register_as_installer = mocker.patch('manager.templatetags.filters.can_register_as_installer')
+    mock_can_register_as_installer.return_value = False
+    mock_can_register_installations = mocker.patch('manager.templatetags.filters.can_register_installations')
+    mock_can_register_installations.return_value = True
+    assert filters.show_collaborators_tab(user1, event1)
+    mock_can_register_as_collaborator.assert_called_once_with(user1, event1)
+    mock_can_register_as_installer.assert_called_once_with(user1, event1)
+    mock_can_register_installations.assert_called_once_with(user1, event1)
+
+
+@pytest.mark.django_db
+def test_show_collaborators_tab_when_can_take_attendance_should_return_true(user1, event1, mocker):
+    mock_can_register_as_collaborator = mocker.patch('manager.templatetags.filters.can_register_as_collaborator')
+    mock_can_register_as_collaborator.return_value = False
+    mock_can_register_as_installer = mocker.patch('manager.templatetags.filters.can_register_as_installer')
+    mock_can_register_as_installer.return_value = False
+    mock_can_register_installations = mocker.patch('manager.templatetags.filters.can_register_installations')
+    mock_can_register_installations.return_value = False
+    mock_can_take_attendance = mocker.patch('manager.templatetags.filters.can_take_attendance')
+    mock_can_take_attendance.return_value = True
+    assert filters.show_collaborators_tab(user1, event1)
+    mock_can_register_as_collaborator.assert_called_once_with(user1, event1)
+    mock_can_register_as_installer.assert_called_once_with(user1, event1)
+    mock_can_register_installations.assert_called_once_with(user1, event1)
+    mock_can_take_attendance.assert_called_once_with(user1, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_show_collaborators_tab_when_is_organizer_should_return_true(user1, event1, mocker):
+    mock_can_register_as_collaborator = mocker.patch('manager.templatetags.filters.can_register_as_collaborator')
+    mock_can_register_as_collaborator.return_value = False
+    mock_can_register_as_installer = mocker.patch('manager.templatetags.filters.can_register_as_installer')
+    mock_can_register_as_installer.return_value = False
+    mock_can_register_installations = mocker.patch('manager.templatetags.filters.can_register_installations')
+    mock_can_register_installations.return_value = False
+    mock_can_take_attendance = mocker.patch('manager.templatetags.filters.can_take_attendance')
+    mock_can_take_attendance.return_value = False
+    mock_is_organizer = mocker.patch('manager.templatetags.filters.is_organizer')
+    mock_is_organizer.return_value = True
+    assert filters.show_collaborators_tab(user1, event1)
+    mock_can_register_as_collaborator.assert_called_once_with(user1, event1)
+    mock_can_register_as_installer.assert_called_once_with(user1, event1)
+    mock_can_register_installations.assert_called_once_with(user1, event1)
+    mock_can_take_attendance.assert_called_once_with(user1, event1.event_slug)
+    mock_is_organizer.assert_called_once_with(user1, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_show_collaborators_tab_when_all_checks_are_false_should_return_false(user1, event1, mocker):
+    mock_can_register_as_collaborator = mocker.patch('manager.templatetags.filters.can_register_as_collaborator')
+    mock_can_register_as_collaborator.return_value = False
+    mock_can_register_as_installer = mocker.patch('manager.templatetags.filters.can_register_as_installer')
+    mock_can_register_as_installer.return_value = False
+    mock_can_register_installations = mocker.patch('manager.templatetags.filters.can_register_installations')
+    mock_can_register_installations.return_value = False
+    mock_can_take_attendance = mocker.patch('manager.templatetags.filters.can_take_attendance')
+    mock_can_take_attendance.return_value = False
+    mock_is_organizer = mocker.patch('manager.templatetags.filters.is_organizer')
+    mock_is_organizer.return_value = False
+    assert not filters.show_collaborators_tab(user1, event1)
+    mock_can_register_as_collaborator.assert_called_once_with(user1, event1)
+    mock_can_register_as_installer.assert_called_once_with(user1, event1)
+    mock_can_register_installations.assert_called_once_with(user1, event1)
+    mock_can_take_attendance.assert_called_once_with(user1, event1.event_slug)
+    mock_is_organizer.assert_called_once_with(user1, event1.event_slug)
