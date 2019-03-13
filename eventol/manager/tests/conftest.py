@@ -124,3 +124,18 @@ def reviewer1(event_user1):
 @pytest.mark.django_db
 def reviewer2(event_user2):
     yield autofixture.create_one('manager.Reviewer', {'event_user': event_user2})
+
+
+# Activity
+@pytest.fixture
+@pytest.mark.django_db
+def activity1(event1):
+    yield autofixture.create_one('manager.Activity', {'event': event1}, generate_fk=True)
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def activity2(event2):
+    yield autofixture.create_one('manager.Activity', {'event': event2}, generate_fk=True)
+
+
