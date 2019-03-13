@@ -1,4 +1,6 @@
 # pylint: redefined-outer-name
+from datetime import datetime
+
 import autofixture
 import pytest
 
@@ -139,3 +141,32 @@ def activity2(event2):
     yield autofixture.create_one('manager.Activity', {'event': event2}, generate_fk=True)
 
 
+# EventDate
+@pytest.mark.django_db
+def get_event_date(datestring):
+    date = datetime.strptime(datestring, "%d/%m/%Y")
+    return autofixture.create_one('manager.EventDate', {'date': date.date()})
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def event_date_24_01_2019():
+    yield get_event_date('24/01/2019')
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def event_date_25_01_2019():
+    yield get_event_date('25/01/2019')
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def event_date_26_01_2019():
+    yield get_event_date('26/01/2019')
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def event_date_27_01_2019():
+    yield get_event_date('27/01/2019')
