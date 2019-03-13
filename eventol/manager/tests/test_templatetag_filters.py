@@ -356,6 +356,16 @@ def test_can_take_attendance_should_call_user_has_perm_with_can_take_attendance(
 
 
 # add
+@pytest.mark.parametrize('num1, num2, expected', [
+    (0, 0, 0),
+    (0, 1, 1),
+    (2, 0, 2),
+    (5, 7, 12)
+])
+def test_add_should_return_sum(num1, num2, expected):
+    assert filters.add(num1, num2) == expected
+
+
 # installer_level
 # as_days
 # keyvalue
