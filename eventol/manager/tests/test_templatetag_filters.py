@@ -35,6 +35,14 @@ def test_get_schedule_size_should_return_200_for_each_room(rooms, expected):
 
 
 # get_schedule_date
+@pytest.mark.parametrize('dic, key, expected', [
+    ({'key': json.dumps({'datestring': 1})}, 'key', 1),
+    ({'key2': json.dumps({'datestring': 2})}, 'key2', 2),
+])
+def test_get_schedule_date_should_return_correct_element(dic, key, expected):
+    assert filters.get_schedule_date(dic, key) == expected
+
+
 # addcss
 def test_addcss_should_call_field_as_widget(mocker):
     field = mocker.Mock()
