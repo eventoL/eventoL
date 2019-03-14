@@ -15,6 +15,9 @@
                 <div class="col-sm-12 panel-heading">
                   <div class="col-sm-11">
                     <h1>{{ activity.title }}</h1>
+                    {% if activity.justification and activity.status == '3' %}
+                      <p><strong>{% trans "Justification" %}:</strong> {{ activity.justification }}</p>
+                    {% endif %}
                   </div>
                   <div class="col-sm-1 pull-right">
                     {% if activity.status == '1' %}
@@ -30,7 +33,7 @@
                     <p style="font-weight: 500">{{ activity.abstract }}</p>
                     <hr/>
                     <div class="row">
-                         {% if user.is_authenticated and user|is_organizer:event_uid %}
+                         {% if user.is_authenticated and user|is_organizer:event_slug %}
                              <div id="become-talk" class="{% if not errors %}panel-collapse collapse{% endif %}">
                                  <div class="container col-sm-12">
                                      {% include 'activities/to_talk_form.html' with form=form errors=errors form_id=activity.pk %}
@@ -44,14 +47,35 @@
                           {% endif %}
                           <div class='col-sm-12' id='activity-detail'>
                               <div class="col-md-6 col-sm-12">
-                                  {% if activity.type %}
-                                      <p><strong>{% trans "Type" %}:</strong> {{ activity.get_type_display|capfirst }}</p>
+                                  {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                    <p>
+                                      <span style="margin-right: 5px;"><strong>{% trans "Votes" %}: </strong></span>
+                                      {% if user|exists_vote:activity %}
+                                        <a href="{% url "activity_vote_cancel" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}" class="label {% if proposal.vote_score >= 0 %}label-success{% else %}label-danger{% endif %} status" style="width: 30px; margin-right: 5px;">
+                                            <span class="vote-status">{{ activity.vote_score }}</span>
+                                            <span class="vote-cancel">x</span>
+                                        </a>
+                                      {% else %}
+                                        <a class="label label-success" href="{% url "activity_vote_up" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                            <i class="fa fa-thumbs-up"></i>
+                                        </a>
+                                        <a class="label label-danger" href="{% url "activity_vote_down" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
+                                          <i class="fa fa-thumbs-down"></i>
+                                        </a>
+                                      {% endif %}
+                                    </p>
+                                  {% endif %}
+                                  {% if activity.activity_type %}
+                                      <p><strong>{% trans "Type" %}:</strong> {{ activity.activity_type.name }}</p>
                                   {% endif %}
                                   {% if activity.level %}
                                       <p><strong>{% trans "Level" %}:</strong> {{ activity.get_level_display|capfirst }}</p>
                                   {% endif %}
                                   {% if activity.speakers_names %}
                                       <p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names }}</p>
+                                  {% endif %}
+                                  {% if activity.speaker_bio %}
+                                      <p><strong>{% trans "Speakers Bio" %}:</strong> {{ activity.speaker_bio }}</p>
                                   {% endif %}
                                   {% if activity.start_date and activity.end_date %}
                                       <p>
@@ -61,13 +85,16 @@
                                   {% if activity.room %}
                                       <p><strong>{% trans "Room" %}:</strong> {{ activity.room.name|capfirst }}</p>
                                   {% endif %}
-                                  <p>
-                                      {% for label in activity.labels %}
-                                          <span class="label">{{ label|lower }}</span>
-                                      {% endfor %}
-                                  </p>
-                                  {% if user.is_authenticated and user|is_organizer:event_uid %}
-                                      {% if activity.status != '1' %}<p><a href="{% url "resend_proposal" event.slug event.uid activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                  {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                      {% if activity.additional_info %}<p><strong>{% trans "Additional Information" %}:</strong> {{ activity.additional_info }}</p>{% endif %}
+                                  {% endif %}
+                                  {% if activity.labels %}<p><strong>{% trans "Labels" %}:</strong>
+                                    {% for label in activity.labels %}
+                                        <span class="label">{{ label|lower }}</span>
+                                    {% endfor %}
+                                  </p>{% endif %}
+                                  {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                      {% if activity.status != '1' %}<p><a href="{% url "resend_proposal" event.event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
                                         {% trans "Resend Proposal" %}
                                       </a></p>{% endif %}
                                       {% if activity.status != '2' %}

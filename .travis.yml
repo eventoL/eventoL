@@ -1,24 +1,38 @@
 sudo: required
 language: python
 python:
-  - "3.5"
+  - "3.6"
 env:
-  - DJANGO=1.11.6 DB=postgres
+  global:
+    - DB=postgres
+    - PSQL_PORT=5000
+    - PSQL_USER=eventol
+    - PSQL_DBNAME=eventol
+    - PSQL_HOST=localhost
+    - PSQL_PASSWORD=secret
+    - CC_TEST_REPORTER_ID=74cbdb599d4cabc78a5dd07f26f1ddcc36910ffca3104c35c2ba66603818031c 
+  matrix:
+    - DJANGO=1.11.20
 services:
   - docker
 cache: pip
 before_install:
-  - docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5000:5432 -d postgres
+  - docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5000:5432 -d postgres:9.6
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build 
 install:
   - pip install -U pip wheel
   - pip install coverage coveralls
   - pip install -r requirements.txt
   - pip install -r requirements-dev.txt
 script:
+  - mv ./cc-test-reporter ./eventol/cc-test-reporter
   - cd eventol
   - python manage.py makemigrations manager
   - python manage.py migrate
-  - coverage run --source='.' manage.py test -v 3
+  - py.test --cov-report xml --cov-report term-missing --cov-report html --cov --cov-branch
 after_success:
   - coverage report
   - coveralls
+  - ./cc-test-reporter after-build -t coverage.py -d --exit-code $TRAVIS_TEST_RESULT

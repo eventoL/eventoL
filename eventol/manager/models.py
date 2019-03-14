@@ -11,15 +11,19 @@ from string import digits, ascii_lowercase, ascii_uppercase
 from ckeditor.fields import RichTextField
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
+from forms_builder.forms.models import AbstractField, AbstractForm
 from image_cropping import ImageCropField, ImageRatioField
-from manager.utils.report import count_by
 
+from vote.models import VoteModel
+from manager.utils.report import count_by
+from manager.utils.slug import get_unique_slug
 
 logger = logging.getLogger('eventol')
 
@@ -40,7 +44,7 @@ class EventManager(models.Manager):
         today = timezone.localdate()
         return super() \
             .get_queryset() \
-            .annotate(attendees_count=models.Count('attendee')) \
+            .annotate(attendees_count=models.Count('attendee', distinct=True)) \
             .annotate(last_date=models.Max('eventdate__date')) \
             .annotate(activity_proposal_is_open=models.Case(
                 models.When(models.Q(limit_proposal_date__gte=today), then=True),
@@ -54,13 +58,13 @@ class EventManager(models.Manager):
             ))
 
     @staticmethod
-    def get_event_by_user(user, slug):
+    def get_event_by_user(user, tag_slug=None):
         if user.is_authenticated():
             event_users = EventUser.objects.filter(user=user)
             event_ids = [event_user.event.pk for event_user in list(event_users)]
             queryset = Event.objects.filter(pk__in=event_ids)
-            if slug:
-                queryset = Event.objects.filter(slug=slug)
+            if tag_slug:
+                queryset = queryset.filter(tags__slug=tag_slug)
         else:
             queryset = Event.objects.none()
         return queryset
@@ -80,28 +84,96 @@ class EventManager(models.Manager):
         return events
 
 
+class EventTag(models.Model):
+    """A Event grouper"""
+    name = models.CharField(_('EventTag Name'), max_length=50, unique=True,
+                            help_text=_("This name will be used as a slug"))
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
+    background = models.ImageField(
+        null=True, blank=True,
+        help_text=_("A image to show in the background of"))
+    logo_header = models.ImageField(
+        null=True, blank=True,
+        help_text=_("This logo will be shown in the right corner of the page"))
+    logo_landing = models.ImageField(
+        null=True, blank=True,
+        help_text=_("Logo to show in the center of the page"))
+    message = models.TextField(max_length=280, null=True, blank=True,
+                               help_text=_("A message to show in the center of the page"))
+    slug = models.SlugField(_('URL'), max_length=100,
+                            help_text=_('For example: flisol-caba'), unique=True)
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        """
+        Override default save
+
+        it will add the slug field using slugify.
+        """
+        if not self.slug:
+            self.slug = get_unique_slug(self, 'name', 'slug')
+        super().save(*args, **kwargs)
+
+
+class CustomForm(AbstractForm):
+    def published(self, for_user=None):
+        return True
+
+    def __str__(self):
+        return self.title
+
+    class Meta(object):
+        ordering = ['title']
+        verbose_name = _('Custom Form')
+        verbose_name_plural = _('Custom Forms')
+
+
+class CustomField(AbstractField):
+    form = models.ForeignKey(CustomForm, related_name='fields', on_delete=models.CASCADE)
+    order = models.IntegerField(_('Order'), null=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        fields_after = self.form.fields.filter(order__gte=self.order)
+        fields_after.update(order=models.F("order") - 1)
+        super().delete(*args, **kwargs)
+
+    def __str__(self):
+        return '{0}: {1} ({2})'.format(self.form, self.label, self.slug)
+
+    class Meta(object):
+        ordering = ['form', 'order']
+        verbose_name = _('Custom Field')
+        verbose_name_plural = _('Custom Fields')
+        unique_together = ('form', 'slug',)
+
+
 class Event(models.Model):
     objects = EventManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     name = models.CharField(_('Event Name'), max_length=50)
     abstract = models.TextField(_('Abstract'), max_length=250,
-                                help_text=_('Short idea of the event (One or two sentences)'))
+                                help_text=_('Idea of the event \
+                                            (one or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
                                            help_text=_('Limit date to submit talk proposals'))
-    slug = models.CharField(_('URL'), max_length=20,
-                            help_text=_('For example: flisol-caba'),
-                            validators=[validate_url])
+    registration_closed = models.BooleanField(
+        default=False, help_text=_("set it to True to force the registration to be closed"))
+
+    tags = models.ManyToManyField(
+        EventTag, help_text=_("Select tags to show this event in the EventTag landing"))
+    event_slug = models.SlugField(_('URL'), max_length=100,
+                                  help_text=_('For example: flisol-caba'), unique=True)
+    customForm = models.ForeignKey(CustomForm, verbose_name=_noop('Custom form'),
+                                   blank=True, null=True)
     cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
                              help_text=_('For example: flisol-caba'),
                              validators=[validate_url])
-    uid = models.UUIDField(
-        default=uuid4,
-        editable=False,
-        unique=True,
-        verbose_name=_('UID'),
-        help_text=_('Unique identifier for the event'),
-    )
     registration_code = models.UUIDField(
         default=uuid4,
         editable=False,
@@ -112,8 +184,8 @@ class Event(models.Model):
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
-    event_information = RichTextField(verbose_name=_('Event Information'),
-                                      help_text=_('Event Information HTML'),
+    event_information = RichTextField(verbose_name=_('Event Info'),
+                                      help_text=_('Event Info HTML'),
                                       blank=True, null=True)
     schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
     use_installations = models.BooleanField(_('Use Installations'), default=True)
@@ -128,6 +200,14 @@ class Event(models.Model):
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
+    activities_proposal_form_text = models.TextField(
+        blank=True, null=True, help_text=_("A message to show in the activities proposal form"))
+    template = models.FileField(_('Template'),
+                                upload_to='templates', blank=True, null=True,
+                                help_text=_('Custom template HTML for event index page'))
+    css_custom = models.FileField(_('Custom css'),
+                                  upload_to='custom_css', blank=True, null=True,
+                                  help_text=_('Custom CSS file for event page'))
 
     @property
     def location(self):
@@ -171,17 +251,28 @@ class Event(models.Model):
             'speakers': speakers_count
         }
 
-
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
-        return '/event/{}/{}/'.format(self.slug, self.uid)
+        return reverse('event', kwargs={'event_slug': self.event_slug})
 
     def __str__(self):
         return self.name
 
     class Meta(object):
         ordering = ['name']
+        verbose_name = _('Event')
+        verbose_name_plural = _('Events')
+
+    def save(self, *args, **kwargs):
+        """
+        Override default save
+
+        it will add the slug field using slugify.
+        """
+        if not self.event_slug:
+            self.event_slug = get_unique_slug(self, 'name', 'slug')
+        super().save(*args, **kwargs)
 
 
 class EventDate(models.Model):
@@ -191,6 +282,10 @@ class EventDate(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.event, self.date)
+
+    class Meta(object):
+        verbose_name = _('Event Date')
+        verbose_name_plural = _('Event Dates')
 
 
 class ContactMessage(models.Model):
@@ -322,8 +417,8 @@ class EventUser(models.Model):
 
     def __str__(self):
         if self.user:
-            return '{} - {} {}'.format(self.event, self.user.first_name, self.user.last_name)
-        return '{}'.format(self.event)
+            return '{} at event:{}'.format(self.user.username, self.event)
+        return '{}'.format(self.event.title)
 
     def get_ticket_data(self):
         if self.ticket is None:
@@ -382,20 +477,20 @@ class Collaborator(models.Model):
     assignation = models.CharField(_('Assignation'), max_length=200,
                                    blank=True, null=True,
                                    help_text=_('Anything you can help with \
-                                               (i.e. Talks, Coffee...)'))
+                                               (i.e. Talks, Coffee…)'))
     time_availability = models.CharField(_('Time Availability'),
                                          max_length=200, blank=True,
                                          null=True,
-                                         help_text=_('Time gap in which you can \
+                                         help_text=_('Time period in which you can \
                                                      help during the event. i.e. \
                                                      "All the event", "Morning", \
-                                                     "Afternoon", ...'))
+                                                     "Afternoon", …'))
     phone = models.CharField(_('Phone'), max_length=200, blank=True, null=True)
     address = models.CharField(_('Address'), max_length=200,
                                blank=True, null=True)
     additional_info = models.CharField(_('Additional Info'), max_length=200,
                                        blank=True, null=True,
-                                       help_text=_('Any additional info you consider relevant'))
+                                       help_text=_('Additional info you consider relevant'))
 
     class Meta(object):
         verbose_name = _('Collaborator')
@@ -416,6 +511,18 @@ class Organizer(models.Model):
     class Meta(object):
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
+
+    def __str__(self):
+        return str(self.event_user)
+
+
+class Reviewer(models.Model):
+    """User that collaborates with activities review"""
+    objects = EventUserManager()
+    created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
+    event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
+                                   blank=True, null=True)
 
     def __str__(self):
         return str(self.event_user)
@@ -475,13 +582,14 @@ class Attendee(models.Model):
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
     is_installing = models.BooleanField(_('Is going to install?'), default=False)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
-                                       help_text=_('Any additional info you consider \
-                                                   relevant for the organizers'))
+                                       help_text=_('Additional info you consider \
+                                                   relevant to the organizers'))
     email_confirmed = models.BooleanField(_('Email confirmed?'), default=False)
     email_token = models.CharField(_('Confirmation Token'), max_length=200, blank=True, null=True)
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
     event_user = models.ForeignKey(
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True)
+    customFields = JSONField(default=dict)
 
     class Meta(object):
         verbose_name = _('Attendee')
@@ -631,7 +739,7 @@ class ActivityManager(models.Manager):
     def get_counts(queryset):
         level_count = count_by(queryset, lambda activity: activity.level)
         status_count = count_by(queryset, lambda activity: activity.status)
-        type_count = count_by(queryset, lambda activity: activity.type)
+        type_count = count_by(queryset, lambda activity: activity.activity_type)
         total = queryset.count()
         confirmed = queryset.filter(room__isnull=False).count()
         return {
@@ -648,11 +756,21 @@ class ActivityManager(models.Manager):
         return self.get_counts(queryset)
 
 
-class Activity(models.Model):
+class ActivityType(models.Model):
+    """User created type of activities"""
+    name = models.CharField(max_length=60, help_text=_("Kind of activity"))
+
+    def __str__(self):
+        return self.name
+
+
+class Activity(VoteModel, models.Model):
     objects = ActivityManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event = models.ForeignKey(Event, verbose_name=_('Event'))
+    owner = models.ForeignKey(
+        EventUser, help_text=_("Speaker or the person in charge of the activity"))
     title = models.CharField(_('Title'), max_length=100,
                              blank=False, null=False)
     long_description = models.TextField(_('Long Description'))
@@ -664,25 +782,18 @@ class Activity(models.Model):
                              blank=True, null=True)
     start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
-    activity_type_choices = (
-        ('1', _('Talk')),
-        ('2', _('Workshop')),
-        ('3', _('Lightning talk')),
-        ('4', _('Other'))
-    )
-    type = models.CharField(
-        _('Type'), choices=activity_type_choices, max_length=200, null=True, blank=True)
+    activity_type = models.ForeignKey(ActivityType)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
-                                      help_text=_("Comma separated speaker's names"))
-    speaker_contact = models.EmailField(_('Speaker Contact'),
-                                        help_text=_('Where can whe reach you \
-                                                    from the organization team?'))
+                                      help_text=_("Comma separated speaker names"))
+    speaker_bio = models.TextField(
+        _('Speaker Bio'), null=True,
+        help_text=_('Tell us about you (we will user it as your "bio" in our website'))
     labels = models.CharField(_('Labels'), max_length=200,
                               help_text=_('Comma separated tags. i.e. Linux, \
-                                          Free Software, Archlinux'))
+                                          Free Software, Devuan'))
     presentation = models.FileField(_('Presentation'),
                                     upload_to='talks', blank=True, null=True,
-                                    help_text=_('Any material you are going to use \
+                                    help_text=_('Material you are going to use \
                                                 for the talk (optional, but recommended)'))
     level_choices = (
         ('1', _('Beginner')),
@@ -693,9 +804,9 @@ class Activity(models.Model):
                              help_text=_("Talk's Technical level"))
     additional_info = models.TextField(_('Additional Info'),
                                        blank=True, null=True,
-                                       help_text=_('Any info you consider relevant \
-                                                   for the organizer: i.e. Write here \
-                                                   if your activity has any special requirement'))
+                                       help_text=_('Info you consider relevant \
+                                                   to the organizer, special \
+                                                   activity requirements, etc.'))
 
     status_choices = (
         ('1', _('Proposal')),
@@ -724,7 +835,7 @@ class Activity(models.Model):
         return '{} - {}'.format(self.event, self.title)
 
     def get_absolute_url(self):
-        return reverse('activity_detail', args=(self.event.slug, self.event.uid, self.pk))
+        return reverse('activity_detail', args=(self.event.event_slug, self.pk))
 
     def get_schedule_info(self):
         schedule_info = {
@@ -755,21 +866,21 @@ class Activity(models.Model):
         if request:
             messages.error(request, message)
 
-    #pylint: disable=too-many-arguments
+    # pylint: disable=too-many-arguments
     @classmethod
     def room_available(cls, request, proposal,
-                       event_uid, event_date,
+                       event_slug, event_date,
                        error=False):
         activities_room = Activity.objects.filter(
-            room=proposal.room, event__uid=event_uid, start_date__date=event_date)
+            room=proposal.room, event__event_slug=event_slug, start_date__date=event_date)
         if proposal.start_date == proposal.end_date:
-            message = _("The talk couldn't be registered because the schedule not \
-                        available (start time equals end time)")
+            message = _("The talk couldn't be registered because the schedule is not \
+                        available (starts and ends at the same time)")
             cls.check_status(message, error=error, request=request)
             return False
         if proposal.end_date < proposal.start_date:
             message = _("The talk couldn't be registered because the schedule is not \
-                        available (start time is after end time)")
+                        available (starts after it finishes)")
             cls.check_status(message, error=error, request=request)
             return False
         one_second = datetime.timedelta(seconds=1)
@@ -835,8 +946,8 @@ class Installation(models.Model):
                                   related_name='installed_by', blank=True,
                                   null=True)
     notes = models.TextField(_('Notes'), blank=True, null=True,
-                             help_text=_('Any information or trouble you found \
-                                         and consider relevant to document'))
+                             help_text=_('Info or trouble you \
+                                         consider relevant to document'))
 
     def __str__(self):
         return '{}, {}, {}'.format(self.attendee, self.hardware, self.software)
@@ -844,3 +955,36 @@ class Installation(models.Model):
     class Meta(object):
         verbose_name = _('Installation')
         verbose_name_plural = _('Installations')
+
+
+class EventolSetting(models.Model):
+    background = models.ImageField(
+        null=True, blank=True,
+        help_text=_("A image to show in the background of"))
+    logo_header = models.ImageField(
+        null=True, blank=True,
+        help_text=_("This logo will be shown in the right corner of the page"))
+    logo_landing = models.ImageField(
+        null=True, blank=True,
+        help_text=_("Logo to show in the center of the page"))
+    message = models.TextField(max_length=280, null=True, blank=True,
+                               help_text=_("A message to show in the center of the page"))
+
+    @classmethod
+    def load(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+    def __str__(self):
+        return 'eventoL configuration'
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(EventolSetting, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    class Meta:
+        verbose_name = _('eventoL setting')
+        verbose_name_plural = _('eventoL settings')

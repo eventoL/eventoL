@@ -1,33 +1,82 @@
-.SignIn {
-  display: block;
-  position: absolute;
-  right: 20px;
+@import '../../styles/variables';
+@import '../../styles/commons';
+
+@media (min-width: 950px) {
+  .sign-in {
+    display: block;
+    position: absolute;
+    right: 20px;
+  
+    ul {
+      @include flex-element;
+      @include center-element;
+      height: 37px;
+      padding: 0 10px;
+  
+      li {
+        -webkit-transition: background .125s ease;
+        border-radius: 3px;
+        font-size: 20px;
+        font-weight: 400;
+        margin-right: 20px;
+        padding: 7px 10px;
+        transition: background .125s ease;
+  
+        a {
+          text-decoration: none;
+        }
+      }
+  
+      li:hover {
+        background: $eventol-color;
+        cursor: pointer;
+      }
+    }
+  }
 }
-.SignIn ul {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: 37px;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0 10px;
-}
-.SignIn ul li {
-  font-weight: 400;
-  padding: 7px 10px;
-  font-size: 20px;
-  margin-right: 20px;
-  -webkit-transition: background .125s ease;
-  transition: background .125s ease;
-  border-radius: 3px;
-}
-.SignIn ul li a {
-  text-decoration: none;
-}
-.SignIn ul li:hover {
-  background: #1F6879;
-  cursor: pointer;
+
+@media (max-width: 950px) {
+  .sign-in {
+    ul {
+      background: #666a73;
+      margin-right: 8vw;
+      opacity: .8;
+      z-index: 0;
+
+      a {
+        float: unset !important;
+        text-decoration: none;
+
+        li:hover {
+          background: $eventol-color;
+          cursor: pointer;
+        }
+
+        li {
+          -webkit-transition: background .125s ease;
+          border-radius: 3px;
+          font-size: 14px;
+          font-weight: 400;
+          padding: 7px 10px;
+          text-align: left;
+          transition: background .125s ease;
+        }
+      }
+
+      li {
+        -webkit-transition: background .125s ease;
+        border-radius: 3px;
+        font-size: 14px;
+        font-weight: 400;
+        padding: 7px 10px;
+        text-align: left;
+        transition: background .125s ease;
+      }
+
+      li:hover {
+        background: $eventol-color;
+        cursor: pointer;
+      }
+    }
+  }
 }

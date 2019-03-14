@@ -46,9 +46,7 @@ class Base(Configuration):
         'easy_thumbnails.optimize',
         'image_cropping',
         'import_export',
-        'django_nose',
         'manager',
-        'autofixture',
         'djangoformsetjs',
         'django.contrib.sites',
         'allauth',
@@ -57,14 +55,15 @@ class Base(Configuration):
         'allauth.socialaccount.providers.twitter',
         'allauth.socialaccount.providers.google',
         'allauth.socialaccount.providers.github',
-        'debug_toolbar',
         'captcha',
         'django.contrib.postgres',
         'webpack_loader',
         'django_filters',
         'rest_framework',
         'channels',
-        'django_elasticsearch_dsl',
+        'django_extensions',
+        'vote',
+        'forms_builder.forms',
     )
 
     MIDDLEWARE_CLASSES = (
@@ -83,11 +82,17 @@ class Base(Configuration):
 
     # Database
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
+            'USER': os.getenv('PSQL_USER', 'eventol'),
+            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
+            'HOST': os.getenv('PSQL_HOST', 'localhost'),
+            'PORT': os.getenv('PSQL_PORT', '5432'),
+            'OPTIONS': {
+                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
+            },
         }
     }
 
@@ -101,18 +106,30 @@ class Base(Configuration):
     LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en-US')
     LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
     LANGUAGES = (
-        ('es', _('Spanish')),
+        ('da', _('Danish')),
         ('en', _('English')),
+        ('es', _('Spanish')),
+        ('nb', _('Norwegian Bokmal')),
+        ('nl', _('Dutch')),
+        ('sv', _('Swedish')),
+        ('zh', _('Chinese')),
     )
 
     TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
     USE_I18N = True
     USE_L10N = True
     USE_TZ = True
+
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = BASE_DIR + 'media/'
+
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [],
+            'DIRS': [
+                MEDIA_ROOT
+            ],
             'APP_DIRS': True,
             'OPTIONS': {
                 'debug': DEBUG,
@@ -124,7 +141,8 @@ class Base(Configuration):
                     'django.template.context_processors.static',
                     'django.template.context_processors.tz',
                     'django.contrib.messages.context_processors.messages',
-                    'django.template.context_processors.request'
+                    'django.template.context_processors.request',
+                    'manager.context_processors.eventol_settings',
                 ],
             },
         },
@@ -263,18 +281,10 @@ class Base(Configuration):
     EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
     DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_FROM)
 
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = BASE_DIR + 'media/'
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
+    PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
 
-    # Change test runner
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-    NOSE_ARGS = [
-        '--with-coverage',
-        '--cover-package=manager,eventol',
-    ]
 
 class Staging(Base):
     import socket
@@ -286,16 +296,6 @@ class Staging(Base):
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
-            'USER': os.getenv('PSQL_USER', 'eventol'),
-            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
-            'HOST': os.getenv('PSQL_HOST', 'localhost'),
-            'PORT': os.getenv('PSQL_PORT', '5432'),
-        }
-    }
     WEBPACK_LOADER = {
         'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/prod/',  # end with slash
@@ -354,47 +354,29 @@ class Staging(Base):
                 'maxBytes': 1024*1024*10,
                 'backupCount': 10,
                 'formatter': 'logservices'
-            },
-            'logstash': {
-                'level': 'DEBUG',
-                'class': 'logstash.TCPLogstashHandler',
-                'host': os.getenv('LOGSTASH_HOST', 'logstash'),
-                'port': os.getenv('LOGSTASH_PORT', 5000),
-                'version': 1,
-                'message_type': 'django',
-                'fqdn': False,
-                'tags': ['eventol', 'django.request', 'django.channels', 'django']
             }
         },
         'loggers': {
             'eventol': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'DEBUG',
                 'propagate': True
             },
             'django.channels': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'WARNING',
                 'propagate': True
             },
             'django.request': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'WARNING',
                 'propagate': True
             },
             'django': {
-                'handlers': ['logstash', 'console'],
+                'handlers': ['console'],
                 'level': 'WARNING',
                 'propagate': True
             }
-        }
-    }
-    ELASTICSEARCH_DSL = {
-        'default': {
-            'hosts': '{0}:{1}'.format(
-                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
-                os.getenv('ELASTICSEARCH_PORT', 9200)
-            )
         }
     }
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -408,6 +390,10 @@ class Prod(Staging):
 
 
 class Dev(Base):
+    INSTALLED_APPS = Base.INSTALLED_APPS + (
+        'autofixture',
+        'debug_toolbar',
+    )
     AUTH_PASSWORD_VALIDATORS = []
     WEBPACK_LOADER = {
         'DEFAULT': {
@@ -445,14 +431,6 @@ class Dev(Base):
                 'level': 'ERROR',
                 'propagate': True
             }
-        }
-    }
-    ELASTICSEARCH_DSL = {
-        'default': {
-            'hosts': '{0}:{1}'.format(
-                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
-                os.getenv('ELASTICSEARCH_PORT', 9200)
-            )
         }
     }
 

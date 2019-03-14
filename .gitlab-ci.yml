@@ -2,6 +2,7 @@ stages:
   - testing
   - styling
   - build
+  - deploy
 
 variables:
   CONTAINER_DEPLOY_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
@@ -42,6 +43,15 @@ docker dev image:
     - develop
 
 python-testing:
+  services:
+    - postgres:9.6
+  variables:
+    PSQL_USER: eventol
+    PSQL_DBNAME: eventol
+    PSQL_HOST: postgres
+    POSTGRES_DB: eventol
+    POSTGRES_USER: eventol
+    POSTGRES_PASSWORD: secret
   image: python:3.5
   stage: testing
   script:
@@ -85,3 +95,31 @@ react-lint:
   allow_failure: true
   script:
     - ./test.sh -i lint
+
+sass-lint-report:
+  image: node:8
+  stage: styling
+  allow_failure: true
+  script:
+    - ./test.sh -i sass-lint-report
+  artifacts:
+    paths:
+      - eventol/front/scss-lint-report.html
+
+sass-lint:
+  image: node:8
+  stage: styling
+  allow_failure: true
+  script:
+    - ./test.sh -i sass-lint
+
+deploy:
+  stage: deploy
+  when: manual
+  only:
+   - master
+  image: docker:git
+  script:
+    - apk update && apk add sshpass
+    - export SSHPASS=$SSH_PASS
+    - sshpass -e ssh -p$SSH_PORT -o stricthostkeychecking=no -x $SSH_USER@$SSH_HOST $SSH_SCRIPT

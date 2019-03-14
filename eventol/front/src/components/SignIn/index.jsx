@@ -1,22 +1,24 @@
-import React from 'react'
+import React from 'react';
 
-import './index.scss'
+import DOM from '../../utils/dom';
+import {LOGIN_URL, LOGOUT_URL} from '../../utils/urls';
+
+import './index.scss';
 
 
-export default class Navigation extends React.Component {
-  searchFocus(){
-    document.getElementById('search-input').focus();
+export default class SignIn extends React.PureComponent {
+  searchFocus = () => {
+    DOM.focusOn('search-input');
   }
 
   render(){
     return (
-      <div className="SignIn">
+      <div className='sign-in'>
         <ul>
-          <li><a href='/accounts/login/'>{gettext('Sign In')}</a></li>
-          <li><a href='/accounts/signup/'>{gettext('Sign Up')}</a></li>
+          <li><a href={LOGIN_URL}>{gettext('Sign In')}</a></li>
+          <li><a href={LOGOUT_URL}>{gettext('Sign Up')}</a></li>
         </ul>
       </div>
     );
   }
-
 }

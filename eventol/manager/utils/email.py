@@ -71,9 +71,8 @@ def get_ticket_body(first_name, last_name, event_name):
 
 
 def get_installation_subject(first_name, last_name, event_name):
-    # ToDo: has FLISoL string
     return _(
-        '{first_name} {last_name}, thank you for participating in FLISoL {event_name}'
+        '{first_name} {last_name}, thank you for participating {event_name}'
     ).format(
         first_name=first_name, last_name=last_name, event_name=event_name
     )
@@ -83,7 +82,7 @@ def send_activity_email(event, activity, justification=None):
     event_name = event.name
     activity_title = activity.title
     activity_status = activity.status_choices[int(activity.status) -1][1]
-    email_to = activity.speaker_contact
+    email_to = activity.owner.user.email
     email = EmailMultiAlternatives()
     email.subject = get_activity_subject(event_name)
     body_txt, body_html = get_activity_body(event_name, activity_title, activity_status, justification)

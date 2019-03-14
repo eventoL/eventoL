@@ -1,10 +1,11 @@
+# Allan Nordhøy <epost@anotheragency.no>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-30 19:34+0000\n"
-"PO-Revision-Date: 2017-12-07 20:44+0000\n"
-"Last-Translator: Arie Kurniawan <hubungi.aja@gmail.com>\n"
+"POT-Creation-Date: 2019-01-14 04:58+0000\n"
+"PO-Revision-Date: 2019-01-20 05:58+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
 "es/>\n"
 "Language: es\n"
@@ -12,13 +13,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18-dev\n"
+"X-Generator: Weblate 3.4-dev\n"
 
-msgid "Spanish"
+#, fuzzy
+#| msgid "Spanish"
+msgid "Danish"
 msgstr "Español"
 
 msgid "English"
 msgstr "Ingles"
+
+msgid "Spanish"
+msgstr "Español"
+
+msgid "Norwegian Bokmal"
+msgstr ""
+
+msgid "Dutch"
+msgstr ""
+
+msgid "Swedish"
+msgstr ""
 
 msgid "Attendee"
 msgstr "Asistente"
@@ -53,26 +68,31 @@ msgstr "¿Por qué rechazas esta propuesta?"
 msgid "URL can only contain letters or numbers"
 msgstr "La url solo puede contener letras y/o números"
 
+msgid "EventTag Name"
+msgstr "Nombre del tag"
+
+msgid "This name will be used as a slug"
+msgstr "Este nombre se va a usar para un identificador"
+
 msgid "Created At"
 msgstr "Creado en"
 
 msgid "Updated At"
 msgstr "Actualizado en"
 
-msgid "Event Name"
-msgstr "Nombre del evento"
+msgid "A image to show in the background of"
+msgstr "Una imagen para mostrar en el fondo de"
 
-msgid "Abstract"
-msgstr "Resumen"
+#, fuzzy
+#| msgid "This logo will be showed in the corner right of the page"
+msgid "This logo will be shown in the right corner of the page"
+msgstr "Este logo va a ser mostrado en la esquina derecha de la pagina"
 
-msgid "Short idea of the event (One or two sentences)"
-msgstr "Uno o dos oraciones que describan la actividad"
+msgid "Logo to show in the center of the page"
+msgstr "Logo para mostrar en el centro de la pagina"
 
-msgid "Limit Proposals Date"
-msgstr "Fecha límite para enviar propuestas de actividades"
-
-msgid "Limit date to submit talk proposals"
-msgstr "Fecha límite para enviar propuestas de actividades"
+msgid "A message to show in the center of the page"
+msgstr "Un mensaje para mostrar en el centro de la pagina"
 
 msgid "URL"
 msgstr "URL"
@@ -80,14 +100,62 @@ msgstr "URL"
 msgid "For example: flisol-caba"
 msgstr "Por ejemplo: flisol-caba"
 
+#, fuzzy
+#| msgid "Custom css"
+msgid "Custom Form"
+msgstr "Css alternativo"
+
+#, fuzzy
+#| msgid "Custom css"
+msgid "Custom Forms"
+msgstr "Css alternativo"
+
+msgid "Order"
+msgstr ""
+
+#, fuzzy
+#| msgid "Custom css"
+msgid "Custom Field"
+msgstr "Css alternativo"
+
+#, fuzzy
+#| msgid "Custom css"
+msgid "Custom Fields"
+msgstr "Css alternativo"
+
+msgid "Event Name"
+msgstr "Nombre del evento"
+
+msgid "Abstract"
+msgstr "Resumen"
+
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                            - %(year)s\n"
+#| "                        "
+msgid ""
+"Idea of the event                                             (one or two "
+"sentences)"
+msgstr ""
+"\n"
+"                            de %(year)s\n"
+"                        "
+
+msgid "Limit Proposals Date"
+msgstr "Fecha límite para enviar propuestas de actividades"
+
+msgid "Limit date to submit talk proposals"
+msgstr "Fecha límite para enviar propuestas de actividades"
+
+msgid "set it to True to force the registration to be closed"
+msgstr "Configurar en True para cerrar la registración del evento"
+
+msgid "Select tags to show this event in the EventTag landing"
+msgstr "Selecciona los tags correspondientes a este Evento."
+
 msgid "CNAME"
 msgstr "CNAME"
-
-msgid "UID"
-msgstr "UID"
-
-msgid "Unique identifier for the event"
-msgstr "Identificador único para el evento"
 
 msgid "code"
 msgstr "código"
@@ -104,10 +172,14 @@ msgstr "http://www.mi-super-evento.com"
 msgid "Email"
 msgstr "Correo electrónico"
 
-msgid "Event Information"
+#, fuzzy
+#| msgid "Event Information"
+msgid "Event Info"
 msgstr "Información del evento"
 
-msgid "Event Information HTML"
+#, fuzzy
+#| msgid "Event Information HTML"
+msgid "Event Info HTML"
 msgstr "HTML de Información del Evento"
 
 msgid "Schedule Confirmed"
@@ -143,29 +215,54 @@ msgstr "Recorte"
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr "La imagen debe ser de 700x450px. La puedes recortar aquí."
 
+msgid "A message to show in the activities proposal form"
+msgstr "Este mensaje se muestra en el formulario de propuesta de actividades"
+
+msgid "Template"
+msgstr "Plantilla"
+
+#, fuzzy
+#| msgid "Custom template html for event index page"
+msgid "Custom template HTML for event index page"
+msgstr "Template personalizado para la página principal de este evento."
+
+msgid "Custom css"
+msgstr "Css alternativo"
+
+#, fuzzy
+#| msgid "Custom css file for event page"
+msgid "Custom CSS file for event page"
+msgstr "Archivo css alternativo para la pagina del evento"
+
+msgid "Event"
+msgstr "Nombre del evento"
+
+#, fuzzy
+#| msgid "Event"
+msgid "Events"
+msgstr "Nombre del evento"
+
 msgid "Date"
 msgstr "Fecha"
 
 msgid "When will your event be?"
 msgstr "Cuándo será el evento?"
 
+#, fuzzy
+#| msgid "Event Name"
+msgid "Event Date"
+msgstr "Nombre del evento"
+
+#, fuzzy
+#| msgid "Event Name"
+msgid "Event Dates"
+msgstr "Nombre del evento"
+
 msgid "Name"
 msgstr "Nombre"
 
 msgid "Message"
 msgstr "Mensaje"
-
-#, python-brace-format
-msgid ""
-"Message received from: {name}\n"
-"User email: {email}\n"
-"\n"
-"{message}"
-msgstr ""
-"Mensaje recibido de: {name}\n"
-"Email del usuario: {email}\n"
-"\n"
-"{message}"
 
 msgid "Contact Message"
 msgstr "Mensaje de contacto"
@@ -224,9 +321,6 @@ msgstr "Identificador único para la entrada"
 msgid "User"
 msgstr "Usuario"
 
-msgid "Event"
-msgstr "Nombre del evento"
-
 msgid "Ticket"
 msgstr "Entrada"
 
@@ -260,18 +354,23 @@ msgstr "Modo de asistencia"
 msgid "Assignation"
 msgstr "Asignación"
 
-msgid "Anything you can help with (i.e. Talks, Coffee...)"
+#, fuzzy
+#| msgid "Anything you can help with (i.e. Talks, Coffee...)"
+msgid ""
+"Anything you can help with                                                (i."
+"e. Talks, Coffee…)"
 msgstr "Cualquier cosa en la que puedas ayudar (x.ej. Charlas, Café, etc.)"
 
 msgid "Time Availability"
 msgstr "Disponibilidad Horaria"
 
 msgid ""
-"Time gap in which you can help during the event. i.e. \"All the event\", "
-"\"Morning\", \"Afternoon\", ..."
+"Time period in which you "
+"can                                                      help during the "
+"event. i.e.                                                      \"All the "
+"event\", \"Morning\",                                                      "
+"\"Afternoon\", …"
 msgstr ""
-"Tiempo en el que puedes ayudar en el evento. x.ej. \"Todo el evento\", "
-"\"Mañana\", \"Tarde\", ..."
 
 msgid "Phone"
 msgstr "Teléfono"
@@ -282,7 +381,9 @@ msgstr "Dirección"
 msgid "Additional Info"
 msgstr "Información Adicional"
 
-msgid "Any additional info you consider relevant"
+#, fuzzy
+#| msgid "Any additional info you consider relevant"
+msgid "Additional info you consider relevant"
 msgstr "Cualquier información que consideres relevante para la organización"
 
 msgid "Collaborator"
@@ -303,7 +404,12 @@ msgstr "Sobrenombre"
 msgid "Is going to install?"
 msgstr "Trae un dispositivo para instalar?"
 
-msgid "Any additional info you consider relevant for the organizers"
+#, fuzzy
+#| msgid "Any additional info you consider relevant for the organizers"
+msgid ""
+"Additional info you "
+"consider                                                    relevant to the "
+"organizers"
 msgstr "Cualquier información que consideres relevante para la organización"
 
 msgid "Email confirmed?"
@@ -399,6 +505,14 @@ msgstr "Sala"
 msgid "Rooms"
 msgstr "Salas"
 
+#, fuzzy
+#| msgid "Submit an activity"
+msgid "Kind of activity"
+msgstr "Enviar una actividad"
+
+msgid "Speaker or the person in charge of the activity"
+msgstr "Disertante o responsable de la actividad"
+
 msgid "Title"
 msgstr "Título"
 
@@ -417,38 +531,42 @@ msgstr "Hora de Inicio"
 msgid "End Time"
 msgstr "Hora de Fin"
 
-msgid "Talk"
-msgstr "Charla"
-
-msgid "Workshop"
-msgstr "Taller"
-
-msgid "Lightning talk"
-msgstr "Charla relampago"
-
 msgid "Speakers Names"
 msgstr "Nombre de los disertantes"
 
-msgid "Comma separated speaker's names"
+#, fuzzy
+#| msgid "Comma separated speaker's names"
+msgid "Comma separated speaker names"
 msgstr "(Separados por coma) Nombre de los disertantes"
 
-msgid "Speaker Contact"
-msgstr "Contacto del disertante"
+msgid "Speaker Bio"
+msgstr "Biografía del disertantes"
 
-msgid "Where can whe reach you from the organization team?"
-msgstr "A qué mail podemos contactarte desde el equipo de organización?"
+msgid "Tell us about you (we will user it as your \"bio\" in our website"
+msgstr ""
 
 msgid "Labels"
 msgstr "Etiquetas/Tags"
 
-msgid "Comma separated tags. i.e. Linux, Free Software, Archlinux"
-msgstr "(Separados por coma) x.ej. Linux, Software Libre, Archlinux"
+#, fuzzy
+#| msgid ""
+#| "Comma separated tags. i.e. "
+#| "Linux,                                           Free Software, Archlinux"
+msgid ""
+"Comma separated tags. i.e. Linux,                                           "
+"Free Software, Devuan"
+msgstr "Separados por coma, ejemplo: Linux, Software Libre, Archlinux"
 
 msgid "Presentation"
 msgstr "Presentación"
 
+#, fuzzy
+#| msgid ""
+#| "Any material you are going to use for the talk (optional, but recommended)"
 msgid ""
-"Any material you are going to use for the talk (optional, but recommended)"
+"Material you are going to "
+"use                                                 for the talk (optional, "
+"but recommended)"
 msgstr ""
 "Cualquier material que vayas a usar para la actividad (opcional pero "
 "recomendado)"
@@ -456,9 +574,15 @@ msgstr ""
 msgid "Talk's Technical level"
 msgstr "Nivel técnico de la actividad"
 
+#, fuzzy
+#| msgid ""
+#| "Any info you consider relevant for the organizer: i.e. Write here if your "
+#| "activity has any special requirement"
 msgid ""
-"Any info you consider relevant for the organizer: i.e. Write here if your "
-"activity has any special requirement"
+"Info you consider "
+"relevant                                                    to the "
+"organizer, special                                                    "
+"activity requirements, etc."
 msgstr ""
 "Cualquier información que consideres relevante para la organización: x.ej. "
 "Escribe aquí si la actividad requiere algún elemento especial"
@@ -481,9 +605,15 @@ msgstr "Estado de la propuesta"
 msgid "Is a dummy Activity?"
 msgstr "Es una actividad dummy?"
 
+#, fuzzy
+#| msgid ""
+#| "A dummy activity is used for example for coffee breaks. We use this to "
+#| "exclude it from the index page and other places"
 msgid ""
-"A dummy activity is used for example for coffee breaks. We use this to "
-"exclude it from the index page and other places"
+"A dummy activity is used for example for "
+"coffee                                                breaks. We use this to "
+"exclude it from the index                                                "
+"page and other places"
 msgstr ""
 "Una actividad dummy se utiliza por ejemplo para poner cofee breaks, "
 "intervalos, registración, etc. en el cronograma.Usamos este campo para cosas "
@@ -492,23 +622,35 @@ msgstr ""
 msgid "Schedule not confirmed yet"
 msgstr "El cronograma de actividades no está confirmado aún"
 
+#, fuzzy
+#| msgid ""
+#| "The talk couldn't be registered because the schedule is not available "
+#| "(start time is after end time)"
 msgid ""
-"The talk couldn't be registered because the schedule not available (start "
-"time equals end time)"
-msgstr ""
-"La charla no pudo ser registrada porque el horario no está disponible (la "
-"hora de inicio es igual a la de fin)"
-
-msgid ""
-"The talk couldn't be registered because the schedule is not available (start "
-"time is after end time)"
+"The talk couldn't be registered because the schedule is "
+"not                         available (starts and ends at the same time)"
 msgstr ""
 "La charla no pudo ser registrada porque el horario no está disponible (la "
 "hora de inicio es posterior a la de fin)"
 
+#, fuzzy
+#| msgid ""
+#| "The talk couldn't be registered because the schedule is not available "
+#| "(start time is after end time)"
 msgid ""
-"The talk couldn't be registered because the room or the schedule is not "
-"available"
+"The talk couldn't be registered because the schedule is "
+"not                         available (starts after it finishes)"
+msgstr ""
+"La charla no pudo ser registrada porque el horario no está disponible (la "
+"hora de inicio es posterior a la de fin)"
+
+#, fuzzy
+#| msgid ""
+#| "The talk couldn't be registered because the room or the schedule is not "
+#| "available"
+msgid ""
+"The talk couldn't be registered because the                             room "
+"or the schedule is not available"
 msgstr ""
 "La propuesta no se pudo registrar. Por favor verifica los errores en el "
 "formulario"
@@ -531,7 +673,12 @@ msgstr "El dueño del dispositivo instalado"
 msgid "Notes"
 msgstr "Notas"
 
-msgid "Any information or trouble you found and consider relevant to document"
+#, fuzzy
+#| msgid ""
+#| "Any information or trouble you found and consider relevant to document"
+msgid ""
+"Info or trouble you                                          consider "
+"relevant to document"
 msgstr "Cualquier información o problema que consideres relevante documentar"
 
 msgid "Installation"
@@ -539,6 +686,23 @@ msgstr "Instalación"
 
 msgid "Installations"
 msgstr "Instalaciones"
+
+#, fuzzy
+#| msgid "Event User"
+msgid "eventoL setting"
+msgstr "Usuario del evento"
+
+#, fuzzy
+#| msgid "Event Users"
+msgid "eventoL settings"
+msgstr "Usuarios del evento"
+
+msgid ""
+"You are not allowed to access the current page. Contact an administrator if "
+"you have any question."
+msgstr ""
+"No se le permite acceder a la página actual. Póngase en contacto con un "
+"administrador si tiene alguna pregunta."
 
 msgid ""
 "The page you're looking for is not here. Please try <a href=\"/\">here</a>."
@@ -878,6 +1042,11 @@ msgstr "Confirmado"
 msgid "Speakers"
 msgstr "Disertantes"
 
+#, fuzzy
+#| msgid "Speakers"
+msgid "Speakers Bio"
+msgstr "Disertantes"
+
 msgid "Start"
 msgstr "Inicio"
 
@@ -886,6 +1055,11 @@ msgstr "Fin"
 
 msgid "Description"
 msgstr "Descripción completa"
+
+#, fuzzy
+#| msgid "Additional Info"
+msgid "Additional Information"
+msgstr "Información Adicional"
 
 msgid "View Talk"
 msgstr "Ver Charla"
@@ -907,6 +1081,9 @@ msgstr "Propuesta"
 
 msgid "Not Confirmed"
 msgstr "Sin Confirmar"
+
+msgid "Votes"
+msgstr "Votos"
 
 msgid "Become Talk"
 msgstr "Convertir a Charla"
@@ -937,6 +1114,14 @@ msgstr "Selecciona el área visible de tu imagen"
 
 msgid "Upload"
 msgstr "Subir"
+
+msgid "My Proposals"
+msgstr "Mis Propuestas"
+
+#, fuzzy
+#| msgid "View Proposal"
+msgid "Edit Proposal"
+msgstr "Ver Propuesta"
 
 msgid "Next"
 msgstr "Siguiente"
@@ -992,8 +1177,8 @@ msgstr "Editar evento"
 msgid "Edit image"
 msgstr "Editar imagen"
 
-msgid "Registration"
-msgstr "Registrame"
+msgid "Check in"
+msgstr "Anotate"
 
 msgid "Submit your talk"
 msgstr "Proponé tu Actividad"
@@ -1041,6 +1226,9 @@ msgstr "Administrar organizadores"
 msgid "Manage Registration People"
 msgstr "Administrar miembros de registración"
 
+msgid "Manage Rewievers"
+msgstr "Administrar rewievers"
+
 msgid "Follow Us!"
 msgstr "Síguenos!"
 
@@ -1067,6 +1255,9 @@ msgstr "Crear un evento"
 
 msgid "What's the name of your event?"
 msgstr "Cuál es el nombre del evento?"
+
+msgid "Select tags for your event"
+msgstr "Seleccione las etiquetas de su evento"
 
 msgid "Select features for your event"
 msgstr "Seleccione las características de su evento"
@@ -1171,6 +1362,15 @@ msgstr "Acerca del evento"
 msgid "Talks and Workshops"
 msgstr "Actividades"
 
+msgid "We haven't published the activites"
+msgstr "Todavía no publicamos las actividades"
+
+msgid "It means you can still send yours"
+msgstr "Eso significa que todavia podes proponer las tuyas"
+
+msgid "Send your proposal!"
+msgstr "Envia tu propuesta!"
+
 msgid "Follow"
 msgstr "Seguir"
 
@@ -1216,6 +1416,20 @@ msgstr "Agregar miembro de registración:"
 msgid "Add"
 msgstr "Agregar"
 
+msgid "Add review staff"
+msgstr "Agregar miembro de review"
+
+#, fuzzy
+#| msgid " People who can review and vote activities "
+msgid "People who can review and vote on activities"
+msgstr "Personas que pueden votar o revisar actividades."
+
+msgid "Current review staff:"
+msgstr "Miembros de review actuales:"
+
+msgid "Add a new review person:"
+msgstr "Agregar miembro de review:"
+
 msgid "Browse..."
 msgstr "Buscar archivo..."
 
@@ -1234,11 +1448,15 @@ msgstr "Registrarse como asistente"
 msgid "You are logged in!"
 msgstr "¡Estás conectado!"
 
+#, fuzzy
+#| msgid ""
+#| " Please close your session, do not leave it open!. This page can remain "
+#| "open without the\n"
+#| "                    need of anybody being logged in. You will be logged "
+#| "out in 30 seconds. "
 msgid ""
-" Please close your session, do not leave it open!. This page can remain open "
-"without the\n"
-"                    need of anybody being logged in. You will be logged out "
-"in 30 seconds. "
+"Please close your session, do not leave it open!. This page can remain open "
+"without anybody being logged in. You will be logged out in 30 seconds."
 msgstr ""
 "Por favor cerrá tu sesión, ¡no la dejes abierta!. Esta página puede "
 "permanecer abierta sin la necesidad de que alguien esté conectado con sesión "
@@ -1526,20 +1744,27 @@ msgstr ""
 "Aquí está tu entrada para el evento {event_name}.</p>\n"
 "<p>Recuerda <em>imprimirla y traerla</em> el/los día/s del evento.</p>\n"
 "<p>Saludos,\n"
-"el equipo de {event_name} y <em>eventoL</em>."
+"el equipo de {event_name} y <em>eventoL</em></p>."
 
-#, python-brace-format
-msgid ""
-"{first_name} {last_name}, thank you for participating in FLISoL {event_name}"
+#, fuzzy, python-brace-format
+#| msgid ""
+#| "{first_name} {last_name}, thank you for participating in FLISoL "
+#| "{event_name}"
+msgid "{first_name} {last_name}, thank you for participating {event_name}"
 msgstr ""
 "{first_name} {last_name}, gracias por participar en FLISoL {event_name}"
 
 msgid "General Ticket"
 msgstr "Entrada General"
 
+#, fuzzy
+#| msgid ""
+#| "The email couldn't sent successfully, please retry later or contact a "
+#| "organizer"
 msgid ""
-"The email couldn't sent successfully, please retry later or contact a "
-"organizer"
+"The email couldn't sent "
+"successfully,                                                   please retry "
+"later or contact a organizer"
 msgstr ""
 "El mail no se pudo enviar correctamente, por favor intente mas tarde o "
 "contactese con un organizador"
@@ -1583,6 +1808,9 @@ msgstr "Algo malió sal. Por favor verifica los errores en el formulario"
 msgid "%s has been successfully added to manage attendance."
 msgstr "%s ha sido añadido como miembro de registración."
 
+msgid "{} has been successfully added as reviewer."
+msgstr "%s ha sido añadido como Rewiever."
+
 msgid "The attendee is already registered for this event, use correct form"
 msgstr ""
 "El asistente ya está registrado para este evento. Por favor usa el "
@@ -1596,7 +1824,11 @@ msgstr ""
 "No se pudo registrar el asistente. Por favor verifica los errores en el "
 "formulario"
 
-msgid "You can only register an attendance at the day of the event or after"
+#, fuzzy
+#| msgid "You can only register an attendance at the day of the event or after"
+msgid ""
+"You can only register an attendance                                   at the "
+"day of the event or after"
 msgstr "Solo podés registrar una asistencia en el día del evento o después"
 
 msgid "Self-registration"
@@ -1620,6 +1852,13 @@ msgstr "Ahora estás marcado como presente en el evento, ¡divertite!"
 msgid "You couldn't be registered (check form errors)"
 msgstr "No pudiste ser registrado (verificá los errores del formulario)"
 
+#, fuzzy
+#| msgid "The registration code does not seems to be valid for this event"
+msgid ""
+"The registration code does                                   not seems to be "
+"valid for this event"
+msgstr "El código de registración no parece ser válido para este evento"
+
 msgid "Auto-reading QR codes is only available at the event date"
 msgstr ""
 "La lectura automática de códigos QR solo está disponible en el día del evento"
@@ -1629,10 +1868,6 @@ msgstr "¡Ya estás presente y registrado! Andá a divertirte"
 
 msgid "The ticket code is not valid for this event"
 msgstr "El asistente no se encuentra registrado para este evento."
-
-#, python-brace-format
-msgid "[eventoL] Contact message from {name}"
-msgstr "[eventoL] Mensaje de contacto de {name}"
 
 msgid "The message has been sent. You will receive a reply by email"
 msgstr ""
@@ -1647,57 +1882,6 @@ msgstr ""
 msgid "You are already registered for this event"
 msgstr "Ya estás registrado en este evento"
 
-#, python-brace-format
-msgid ""
-"Hi! You are receiving this message because you have registered to attend to "
-"FLISoL {event_name}, being held on {event_dates}.\n"
-"\n"
-"Please follow this link to confirm your email address and we will send you "
-"your ticket:\n"
-"{confirm_url}\n"
-"\n"
-"If you encounter any issue, please contact the event organizer in "
-"{event_contact_url}.\n"
-"\n"
-"Happily yours,\n"
-"{event_name} and eventoL team"
-msgstr ""
-"Hola! Estas recibiendo este mensaje porque te registraste para asistir a "
-"FLISoL {event_name}, celebrado en el/los día/s {event_dates}.\n"
-"\n"
-"Por favor, seguí este enlace para confirmar tu dirección de correo "
-"electrónico y te enviaremos tu entrada:\n"
-"{confirm_url}\n"
-"\n"
-"Si te encontrás con cualquier inconveniente, por favor contactate con el "
-"organizador del evento en {event_contact_url}.\n"
-"Felizmente tuyos,\n"
-"El equipo de {event_name} y eventoL"
-
-#, python-brace-format
-msgid ""
-"<p>Hi! You are receiving this message because you have registered to attend "
-"to <strong>FLISoL {event_name}</strong>, being held on {event_dates}.</p>\n"
-"<p>Please <em>follow this link to confirm your email address</em> and we "
-"will send you your ticket:<br />\n"
-"<a href=\"{confirm_url}\">{confirm_url}</a></p>\n"
-"<p>If you encounter any issue, please contact the event organizer in <a href="
-"\"{event_contact_url}\">{event_contact_url}</a>.</p>\n"
-"<p>Happily yours,<br />\n"
-"{event_name} and <em>eventoL</em> team</p>"
-msgstr ""
-"<p>¡Hola! Estás recibiendo este mensaje porque te has registrado para "
-"asistir a <strong>FLISoL {event_name}</strong>, celebrado en el/los día/s "
-"{event_dates}.</p>\n"
-"<p>Por favor <em>seguí este enlace para confirmar tu dirección de correo "
-"electrónico</em> y te enviaremos tu entrada:<br />\n"
-"<a href=\"{confirm_url}\">{confirm_url}</a></p>\n"
-"<p>Si te encontrás con cualquier inconveniente, por favor contactate con el "
-"organizador del evento en  <a href="
-"\"{event_contact_url}\">{event_contact_url}</a>.</p>\n"
-"<p>Felizmente tuyos,<br />\n"
-"Los equipos de {event_name} y <em>eventoL</em></p>"
-
 msgid "[eventoL] Please confirm your email"
 msgstr "[eventoL] Por favor confirmá tu dirección de correo electrónico"
 
@@ -1709,15 +1893,33 @@ msgstr ""
 msgid "Email verification"
 msgstr "Verificar email"
 
+#, fuzzy
+#| msgid ""
+#| "We've sent you your ticket to your email! In case it doesn't arrive, "
+#| "don't worry! You're already registered and we'll ask for your email "
+#| "address."
 msgid ""
-"We've sent you your ticket to your email! In case it doesn't arrive, don't "
-"worry! You're already registered and we'll ask for your email address."
+"We've sent you your ticket to your email! In case it doesn't arrive,         "
+"don't worry! You're already registered and we'll ask for your email address."
 msgstr ""
 "Te hemos enviado tu entrada a tu correo! En caso que no la recibas, no te "
 "preocupes! Ya estas registrado y el día del evento te preguntaremos la "
 "dirección de correo que ingresaste."
 
-msgid "The verification URL is invalid. Try again. "
+#, fuzzy
+#| msgid ""
+#| "The email couldn't sent successfully, please retry later or contact a "
+#| "organizer"
+msgid ""
+"The email couldn't sent successfully,                       please retry "
+"later or contact a organizer"
+msgstr ""
+"El mail no se pudo enviar correctamente, por favor intente mas tarde o "
+"contactese con un organizador"
+
+#, fuzzy
+#| msgid "The verification URL is invalid. Try again. "
+msgid "The verification URL is invalid. Try again."
 msgstr "La URL de verificación es inválida. Inténtalo de nuevo."
 
 msgid "You have successfully registered as an installer"
@@ -1726,49 +1928,95 @@ msgstr "Te has registrado exitosamente como instalador"
 msgid "You have successfully registered as a collaborator"
 msgstr "Te has registrado exitosamente como colaborador"
 
-msgid "You are not an organizer for this event URL, use a different URL"
-msgstr "No sos un organizador para esta URL de evento, usá una URL diferente"
-
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
 "Hay algún problema con los datos ingresados. Por favor verifica los errores "
 "en el formulario."
 
+#, fuzzy
+#| msgid ""
+#| "The activity proposal is already closed or the event is not accepting "
+#| "proposals through this page. Please contact the Event Organization Team "
+#| "to submit it."
 msgid ""
-"The activity proposal is already closed or the event is not accepting "
-"proposals through this page. Please contact the Event Organization Team to "
-"submit it."
+"The activity proposal is already closed or the "
+"event                            is not accepting proposals through this "
+"page. Please                            contact the Event Organization Team "
+"to submit it."
 msgstr ""
 "La propuesta de actividades ya está cerrada o el evento no está aceptando "
 "propuestas a través de esta página. Por favor, ponte en contacto con el "
 "equipo de organización del evento para enviarla."
 
+#, fuzzy
+#| msgid ""
+#| "There was a problem submitting the proposal. Please check the form for "
+#| "errors."
 msgid ""
-"There was a problem submitting the proposal. Please check the form for "
-"errors."
+"There was a problem submitting the "
+"proposal.                                   Please check the form for errors."
 msgstr ""
 "Hay algún problema con los datos ingresados. Por favor verifica los errores "
 "en el formulario"
 
+#, fuzzy
+#| msgid ""
+#| "The activity proposal is already closed or the event is not accepting "
+#| "proposals through this page. Please contact the Event Organization Team "
+#| "to submit it."
+msgid ""
+"The activity proposal edition is already closed or the "
+"event                            is not accepting proposals through this "
+"page. Please                            contact the Event Organization Team "
+"to submit it."
+msgstr ""
+"La propuesta de actividades ya está cerrada o el evento no está aceptando "
+"propuestas a través de esta página. Por favor, ponte en contacto con el "
+"equipo de organización del evento para enviarla."
+
 msgid "Please crop or upload a new image."
 msgstr "Recorta la imagen o sube una nueva."
 
+#, fuzzy
+#| msgid ""
+#| "The proposal has been registered successfully! We'll contact you at the "
+#| "provided email"
 msgid ""
-"The proposal has been registered successfully! We'll contact you at the "
-"provided email"
+"The proposal has been registered successfully! We'll contact                 "
+"you at the provided email"
 msgstr ""
 "La propuesta se ha registrado exitosamente! Pronto te contactaremos alemail "
 "que ingresaste"
 
-msgid "The proposal couldn't be registered. Please check the form for errors"
+#, fuzzy
+#| msgid ""
+#| "The proposal couldn't be registered. Please check the form for errors"
+msgid ""
+"The proposal couldn't be registered. Please         check the form for errors"
 msgstr ""
 "La propuesta no se pudo registrar. Por favor verifica los errores en el "
 "formulario"
 
+#, fuzzy
+#| msgid ""
+#| "The email couldn't sent successfully, please retry later or contact a "
+#| "organizer"
+msgid ""
+"The email couldn't sent successfully,                                   "
+"please retry later or contact a organizer"
+msgstr ""
+"El mail no se pudo enviar correctamente, por favor intente mas tarde o "
+"contactese con un organizador"
+
 msgid "The talk was registered successfully!"
 msgstr "¡La charla fue registrada satisfactoriamente!"
 
-msgid "The talk couldn't be registered, please retry confirm the talk"
+#, fuzzy
+#| msgid "The talk couldn't be registered, please retry confirm the talk"
+msgid ""
+"The talk couldn't be "
+"registered,                                                   please retry "
+"confirm the talk"
 msgstr ""
 "La propuesta no se pudo registrar. Por favor reintente confirmar la propuesta"
 
@@ -1782,7 +2030,11 @@ msgstr ""
 "¡El evento ha sido actualizado satisfactoriamente! Te contactaremos a la "
 "dirección de correo electrónico provista"
 
-msgid "The event couldn't be updated. Please check the form for errors"
+#, fuzzy
+#| msgid "The event couldn't be updated. Please check the form for errors"
+msgid ""
+"The event couldn't be updated.                                   Please "
+"check the form for errors"
 msgstr ""
 "El evento no pudo ser actualizado. Por favor verificá los errores en el "
 "formulario"
@@ -1804,6 +2056,43 @@ msgstr "La sala tiene actividades asignadas."
 
 msgid "The Room has been removed successfully."
 msgstr "¡La sala fue borrada satisfactoriamente!"
+
+msgid "Registration"
+msgstr "Registrame"
+
+#~ msgid "Short idea of the event (One or two sentences)"
+#~ msgstr "Uno o dos oraciones que describan la actividad"
+
+#, fuzzy
+#~| msgid ""
+#~| "The talk couldn't be registered because the schedule not available "
+#~| "(start time equals end time)"
+#~ msgid ""
+#~ "The talk couldn't be registered because the schedule "
+#~ "not                         available (start time equals end time)"
+#~ msgstr ""
+#~ "La charla no pudo ser registrada porque el horario no está disponible (la "
+#~ "hora de inicio es igual a la de fin)"
+
+#~ msgid "Talk"
+#~ msgstr "Charla"
+
+#~ msgid "Workshop"
+#~ msgstr "Taller"
+
+#~ msgid "Lightning talk"
+#~ msgstr "Charla relampago"
+
+#~ msgid "Speaker Contact"
+#~ msgstr "Contacto del disertante"
+
+#, fuzzy
+#~| msgid "Where can whe reach you from the organization team?"
+#~ msgid ""
+#~ "Where can whe reach "
+#~ "you                                                     from the "
+#~ "organization team?"
+#~ msgstr "A qué mail podemos contactarte desde el equipo de organización?"
 
 #~ msgid "Home"
 #~ msgstr "Inicio"

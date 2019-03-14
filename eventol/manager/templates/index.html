@@ -22,6 +22,22 @@
     <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
     <script>
       window.render_components({
+        {% if EVENTOL_SETTINGS.message and EVENTOL_SETTINGS.message.strip %}
+          message: '{{ EVENTOL_SETTINGS.message }}',
+        {% endif %}
+
+        {% if EVENTOL_SETTINGS.background %}
+          background: '{{ EVENTOL_SETTINGS.background.url }}',
+        {% endif %}
+
+        {% if EVENTOL_SETTINGS.logo_header %}
+          logo_header: '{{ EVENTOL_SETTINGS.logo_header.url }}',
+        {% endif %}
+
+        {% if EVENTOL_SETTINGS.logo_landing %}
+          logo_landing: '{{ EVENTOL_SETTINGS.logo_landing.url }}',
+        {% endif %}
+
         {% if user.is_authenticated %}
           user: {
             username: '{{ user.username | safe }}',

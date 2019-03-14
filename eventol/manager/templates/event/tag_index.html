@@ -1,0 +1,61 @@
+<!doctype html>
+{% load render_bundle from webpack_loader %}
+{% load staticfiles %}
+{% load i18n %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
+    <meta name="description" content="Event Management Software">
+    <title>EventoL</title>
+    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
+    <link rel="stylesheet" href="{% static "manager/bower_components/slick-carousel/slick/slick-theme.css" %}"/>
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    {% render_bundle 'vendors' %}
+    {% render_bundle 'EventHome' %}
+    <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
+    <script>
+      window.render_components({
+          tag_slug: '{{ tag.slug }}',
+
+        {% if tag.message and tag.message.strip %}
+          message: '{{ tag.message }}',
+        {% elif EVENTOL_SETTINGS.message and EVENTOL_SETTINGS.message.strip %}
+          message: '{{ EVENTOL_SETTINGS.message }}',
+        {% endif %}
+
+        {% if tag.background %}
+          background: '{{ tag.background.url }}',
+        {% elif EVENTOL_SETTINGS.background %}
+          background: '{{ EVENTOL_SETTINGS.background.url }}',
+        {% endif %}
+
+        {% if tag.logo_header %}
+          logo_header: '{{ tag.logo_header.url }}',
+        {% elif EVENTOL_SETTINGS.logo_header %}
+          logo_header: '{{ EVENTOL_SETTINGS.logo_header.url }}',
+        {% endif %}
+
+        {% if tag.logo_landing %}
+          logo_landing: '{{ tag.logo_landing.url }}',
+        {% elif EVENTOL_SETTINGS.logo_landing %}
+          logo_landing: '{{ EVENTOL_SETTINGS.logo_landing.url }}',
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          user: {
+            username: '{{ user.username | safe }}',
+            first_name: '{{ user.first_name | safe }}',
+            last_name: '{{ user.last_name | safe }}'
+          }
+        {% endif %}
+      });
+    </script>
+  </body>
+</html>

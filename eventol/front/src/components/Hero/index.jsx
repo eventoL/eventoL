@@ -1,49 +1,61 @@
 import React from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+
+import {getSlugParsed} from '../../utils/events';
+import {BACKGROUND_DEFAULT, LOGO_LANDING_DEFAULT} from '../../utils/constants';
 
 import './index.scss';
 
+
 export default class Hero extends React.Component {
   static propTypes = {
-    slug: PropTypes.string,
+    background: PropTypes.string,
     children: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.object,
-      PropTypes.element
-    ])
-  };
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+    logoLanding: PropTypes.string,
+    message: PropTypes.string,
+    slug: PropTypes.string,
+  }
 
-  getSlugParsed(){
-    const {slug} = this.props;
-    return slug
-      .toLowerCase()
-      .split('-')
-      .join(' ')
-      .split('_')
-      .join(' ')
-      .split(' ')
-      .map(word => (word) ? word.replace(word[0], word[0].toUpperCase()) : '')
-      .join(' ');
+  static defaultProps = {
+    background: BACKGROUND_DEFAULT,
+    logoLanding: LOGO_LANDING_DEFAULT,
+    children: null,
+    message: null,
+    slug: null,
+  }
+
+  getMessage(){
+    const {slug, message} = this.props;
+    if (message){
+      return <h2>{message}</h2>;
+    }
+    if (slug){
+      return (
+        <h2>
+          {`${gettext('You are seeing all of')} ${getSlugParsed(slug)} ${gettext('events')}`}
+          <br />
+          {`${gettext('Please, select one to continue')}`}
+        </h2>
+      );
+    }
+    return <h2>{gettext('Search your event')}</h2>;
   }
 
   render(){
-    const {slug, children} = this.props;
+    const {children, background, logoLanding} = this.props;
+    const backgroundImage = `url(${background})`;
     return (
-      <div id="hero" className="Hero" style={{backgroundImage: 'url(/static/manager/img/background.png)'}}>
-        <div className="content">
-          <p>
-            <img className="logo" src="/static/manager/img/logo.png" alt="eventol logo" />
-          </p>
-          { slug && (
-            <h2>{`${gettext('You are seeing all of')} ${this.getSlugParsed()} ${gettext('events')}`}<br />
-            {`${gettext('Please, select one to continue')}`}</h2>
-        )}
-          { !slug && <h2>{gettext('Search your event')}</h2> }
+      <div className='hero' id='hero' style={{backgroundImage}}>
+        <div className='content'>
+          <p><img alt='logo' className='logo' src={logoLanding} /></p>
+          {this.getMessage()}
           {children}
         </div>
-        <div className="overlay" />
+        <div className='overlay' />
       </div>
     );
   }
-
 }

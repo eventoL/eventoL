@@ -16,8 +16,7 @@
             <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h1><i class="fa fa-info-warning"></i> {% trans "You are logged in!" %}</h1>
-                <p>{% blocktrans %} Please close your session, do not leave it open!. This page can remain open without the
-                    need of anybody being logged in. You will be logged out in 30 seconds. {% endblocktrans %}
+                <p>{% blocktrans %}Please close your session, do not leave it open!. This page can remain open without anybody being logged in. You will be logged out in 30 seconds.{% endblocktrans %}
                     <a href="{% url 'account_logout' %}?next={{ request.get_full_path|urlencode }}"></a></p>
             </div>
         </div>
@@ -40,7 +39,7 @@
 
 {% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
 
-{% block form-action %}"{% url "attendance_by_autoreadqr" event_slug event_uid %}"{% endblock %}
+{% block form-action %}"{% url "attendance_by_autoreadqr"  event_slug %}"{% endblock %}
 
 {% block buttons %}
     <div class="row">
@@ -58,7 +57,7 @@
         $(document).ready(function () {
             $('#qr_reader').empty();//Prevents stacking
             $('#qr_reader').html5_qrcode(function (data) {
-              var url = '{% url "attendance_by_autoreadqr" event_slug event_uid %}';
+              var url = '{% url "attendance_by_autoreadqr"  event_slug %}';
               $(location).attr(
                 "href",
                 url + '/?event_registration_code={{ event_registration_code }}&ticket=' + data
