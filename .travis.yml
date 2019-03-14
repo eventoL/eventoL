@@ -35,4 +35,4 @@ script:
 after_success:
   - coverage report
   - coveralls
-  - ./cc-test-reporter after-build -t coverage.py -d --prefix eventol/ --exit-code $TRAVIS_TEST_RESULT
+  - ./cc-test-reporter after-build -t coverage.py -d --prefix /home/travis/build/eventoL/eventoL/eventol --exit-code $TRAVIS_TEST_RESULT
