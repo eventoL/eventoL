@@ -10,6 +10,7 @@ env:
     - PSQL_DBNAME=eventol
     - PSQL_HOST=localhost
     - PSQL_PASSWORD=secret
+    - CC_TEST_REPORTER_ID=74cbdb599d4cabc78a5dd07f26f1ddcc36910ffca3104c35c2ba66603818031c 
   matrix:
     - DJANGO=1.11.20
 services:
@@ -17,6 +18,9 @@ services:
 cache: pip
 before_install:
   - docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5000:5432 -d postgres:9.6
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build 
 install:
   - pip install -U pip wheel
   - pip install coverage coveralls
@@ -30,3 +34,4 @@ script:
 after_success:
   - coverage report
   - coveralls
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
