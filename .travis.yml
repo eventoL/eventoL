@@ -18,15 +18,16 @@ services:
 cache: pip
 before_install:
   - docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5000:5432 -d postgres:9.6
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
-  - chmod +x /cc-test-reporter
-  - /cc-test-reporter before-build 
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build 
 install:
   - pip install -U pip wheel
   - pip install coverage coveralls
   - pip install -r requirements.txt
   - pip install -r requirements-dev.txt
 script:
+  - mv ./cc-test-reporter ./eventol/cc-test-reporter
   - cd eventol
   - python manage.py makemigrations manager
   - python manage.py migrate
@@ -34,4 +35,4 @@ script:
 after_success:
   - coverage report
   - coveralls
-  - /cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
