@@ -1,0 +1,48 @@
+engines:
+  bandit:
+    enabled: true
+
+plugins:
+  bandit:
+    enabled: true
+  eslint:
+    enabled: true
+    config:
+      config: eventol/front/.eslintrc.yaml
+  fixme:
+    enabled: true
+  config:
+    strings:
+      - FIXME
+      - BUG
+      - CHECK
+      - TODO
+      - FIX
+      - CHANGE
+  git-legal:
+    enabled: true
+  markdownlint:
+    enabled: true
+  nodesecurity:
+    enabled: true
+  pep8:
+    enabled: true
+  radon: 
+    enabled: true
+    config: 
+      python_version: 3.6
+  sass-lint:
+    enabled: true
+    config:
+      file: eventol/front/.sass-lint.yml
+  scss-lint:
+    enabled: true
+    config:
+      file: eventol/front/.sass-lint.yml
+  sonar-python:
+    enabled: true  
+    config:
+      tests_patterns:
+        - eventol/manager/tests/**
+        - eventol/eventol/tests/**
+
