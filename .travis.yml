@@ -35,4 +35,4 @@ script:
 after_success:
   - coverage report
   - coveralls
-  - ./cc-test-reporter format-coverage -d -t coverage.py -o - .coverage
+  - ./cc-test-reporter after-build -t coverage.py -d --exit-code $TRAVIS_TEST_RESULT
