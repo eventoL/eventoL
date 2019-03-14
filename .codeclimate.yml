@@ -1,7 +1,3 @@
-engines:
-  bandit:
-    enabled: true
-
 plugins:
   bandit:
     enabled: true
