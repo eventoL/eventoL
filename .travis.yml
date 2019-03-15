@@ -33,7 +33,6 @@ install:
   - pip install -r requirements.txt
   - pip install -r requirements-dev.txt
 script:
-  - mv ./cc-test-reporter ./eventol/cc-test-reporter
   - cd eventol
   - python manage.py makemigrations manager
   - python manage.py migrate
@@ -44,7 +43,13 @@ script:
   - yarn test
   - cd -
 after_success:
+  - cd eventol
   - coverage report
   - coveralls
-  - ./cc-test-reporter format-coverage -d -t coverage.py -o coverage/codeclimate.json --add-prefix eventol/
+  - cd -
+  - mv cc-test-reporter eventol/cc-test-reporter 
+  - cd eventol
+  - ./cc-test-reporter format-coverage -d -t coverage.py -o coverage/python.json --add-prefix eventol
+  - ./cc-test-reporter format-coverage ./front/coverage/lcov.info -d -t lcov -o ./coverage/javascript.json --add-prefix eventol
+  - ./cc-test-reporter sum-coverage -o -d -p 2 coverage/python.json coverage/javascript.json
   - ./cc-test-reporter upload-coverage -d
