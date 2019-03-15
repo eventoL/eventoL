@@ -6,7 +6,10 @@ env:
   global:
     - DB=postgres
     - PSQL_PORT=5000
+    - PSQL_VERSION=9.6
     - PSQL_USER=eventol
+    - NODE_VERSION=10.15
+    - YARN_VERSION=1.13.0
     - PSQL_DBNAME=eventol
     - PSQL_HOST=localhost
     - PSQL_PASSWORD=secret
@@ -21,13 +24,13 @@ cache:
   directories:
     - eventol/front/node_modules
 before_install:
-  - docker run --name eventol-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=eventol -e POSTGRES_DB=eventol -p 5000:5432 -d postgres:9.6
+  - docker run --name eventol-postgres -e POSTGRES_PASSWORD=$PSQL_PASSWORD -e POSTGRES_USER=$PSQL_USER -e POSTGRES_DB=$PSQL_DBNAME -p $PSQL_PORT:5432 -d postgres:$PSQL_VERSION
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build 
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.13.0
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
   - export PATH=$HOME/.yarn/bin:$PATH
-  - nvm install 10.15
+  - nvm install $NODE_VERSION
 install:
   - pip install -U pip wheel
   - pip install coverage coveralls
