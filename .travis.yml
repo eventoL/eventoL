@@ -52,5 +52,5 @@ after_success:
   - cd eventol
   - ./cc-test-reporter format-coverage -d -t coverage.py -o coverage/python.json --add-prefix eventol
   - ./cc-test-reporter format-coverage ./front/coverage/lcov.info -d -t lcov -o ./coverage/javascript.json --add-prefix eventol
-  - ./cc-test-reporter sum-coverage -o -d -p 2 coverage/python.json coverage/javascript.json
+  - ./cc-test-reporter sum-coverage --output coverage/codeclimate.json -d -p 2 coverage/python.json coverage/javascript.json
   - ./cc-test-reporter upload-coverage -d
