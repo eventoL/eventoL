@@ -38,6 +38,11 @@ script:
   - python manage.py makemigrations manager
   - python manage.py migrate
   - py.test --cov-report xml --cov-report term-missing --cov-report html --cov --cov-branch
+  - cd -
+  - cd eventol/front
+  - yarn install
+  - yarn test
+  - cd -
 after_success:
   - coverage report
   - coveralls
