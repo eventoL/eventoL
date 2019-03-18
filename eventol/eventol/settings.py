@@ -436,4 +436,5 @@ class Dev(Base):
 
 
 class Test(Dev):
-    pass
+    WEBPACK_LOADER = Prod.WEBPACK_LOADER
+    REST_FRAMEWORK = Prod.REST_FRAMEWORK
