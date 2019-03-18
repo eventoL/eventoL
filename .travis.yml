@@ -37,9 +37,14 @@ install:
   - pip install -r requirements.txt
   - pip install -r requirements-dev.txt
 script:
+  - cd eventol/front
+  - yarn build
+  - cd -
+  - mkdir -p eventol/static
   - cd eventol
   - python manage.py makemigrations manager
   - python manage.py migrate
+  - python manage.py collectstatic --noinput
   - py.test --cov-report xml --cov-report term-missing --cov-report html --cov --cov-branch
   - cd -
   - cd eventol/front
