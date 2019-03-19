@@ -59,6 +59,7 @@ python-testing:
     - apt install -y nodejs
     - npm install -g yarn yarnpkg
     - cd eventol/front
+    - yarn install
     - yarn build
     - cd -
     - ./test.sh -i backend
