@@ -296,13 +296,18 @@ def test_is_reviewer_with_organizer_from_another_event_should_return_false(mocke
 
 # is_organizer
 @pytest.mark.django_db
-def test_is_organizer_with_eventuser_not_organizer_should_return_false(user1, event1):
-    assert not filters.is_organizer(user1, event1.event_slug)
+def test_is_organizer_with_anonymous_user_should_return_false(event1):
+    assert not filters.is_organizer(AnonymousUser(), event1.event_slug)
 
 
 @pytest.mark.django_db
 def test_is_organizer_with_user_not_eventuser_should_return_false(user1, event1):
     assert not filters.is_organizer(user1, event1.event_slug)
+
+
+@pytest.mark.django_db
+def test_is_organizer_with_eventuser_not_organizer_should_return_false(event_user1, event1):
+    assert not filters.is_organizer(event_user1.user, event1.event_slug)
 
 
 @pytest.mark.django_db

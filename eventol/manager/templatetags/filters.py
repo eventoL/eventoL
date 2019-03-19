@@ -120,7 +120,7 @@ def is_reviewer(user, event_slug):
 
 @register.filter(name='is_organizer')
 def is_organizer(user, event_slug):
-    return Organizer.objects.filter(
+    return user.is_authenticated and Organizer.objects.filter(
         event_user__user=user,
         event_user__event__event_slug=event_slug).exists()
 
