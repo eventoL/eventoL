@@ -52,12 +52,15 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
-  image: python:3.5
+  image: python:3.6
   stage: testing
   script:
     - curl -sL https://deb.nodesource.com/setup_8.x | bash -
     - apt install -y nodejs
     - npm install -g yarn yarnpkg
+    - cd eventol/front
+    - yarn build
+    - cd -
     - ./test.sh -i backend
   artifacts:
     paths:
