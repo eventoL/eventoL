@@ -1,11 +1,12 @@
 # Allan Nordhøy <epost@anotheragency.no>, 2019.
+# juanman <jmm@cafelug.org.ar>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-20 05:58+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"PO-Revision-Date: 2019-03-24 17:38+0000\n"
+"Last-Translator: juanman <jmm@cafelug.org.ar>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
 "es/>\n"
 "Language: es\n"
@@ -13,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #, fuzzy
 #| msgid "Spanish"
@@ -33,7 +34,7 @@ msgid "Dutch"
 msgstr ""
 
 msgid "Swedish"
-msgstr ""
+msgstr "Sueco"
 
 msgid "Attendee"
 msgstr "Asistente"
@@ -371,6 +372,11 @@ msgid ""
 "event\", \"Morning\",                                                      "
 "\"Afternoon\", …"
 msgstr ""
+"El período de tiempo en el que "
+"puedes                                                      ayudar durante "
+"el evento. Por ej.                                                      \""
+"Todo el evento\", \"Mañana\""
+",                                                      \"A la tarde\", …"
 
 msgid "Phone"
 msgstr "Teléfono"
@@ -544,6 +550,7 @@ msgstr "Biografía del disertantes"
 
 msgid "Tell us about you (we will user it as your \"bio\" in our website"
 msgstr ""
+"Cuéntanos acerca de ti (lo usaremos como tu \"bio\" en nuestro sitio web)"
 
 msgid "Labels"
 msgstr "Etiquetas/Tags"
