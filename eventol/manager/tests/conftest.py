@@ -141,6 +141,19 @@ def activity2(event2):
     yield autofixture.create_one('manager.Activity', {'event': event2}, generate_fk=True)
 
 
+# Room
+@pytest.fixture
+@pytest.mark.django_db
+def room1(event1):
+    yield autofixture.create_one('manager.Room', {'event': event1})
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def room2(event2):
+    yield autofixture.create_one('manager.Room', {'event': event2})
+
+
 # EventDate
 @pytest.mark.django_db
 def get_event_date(datestring):
