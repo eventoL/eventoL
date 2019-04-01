@@ -11,6 +11,23 @@ from ..models import generate_ticket_code
 @pytest.mark.django_db
 def admin():
     yield autofixture.create_one('auth.User', {'is_superuser': True, 'is_staff': True})
+# EventTag
+@pytest.fixture
+@pytest.mark.django_db
+def event_tag_1():
+    yield autofixture.create_one(
+        'manager.EventTag',
+        {'name': 'test1', 'slug': 'test1'}
+    )
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def event_tag_2():
+    yield autofixture.create_one(
+        'manager.EventTag',
+        {'name': 'test2', 'slug': 'test2'}
+    )
 
 
 # Events
