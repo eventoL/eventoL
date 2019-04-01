@@ -204,3 +204,52 @@ def event_date_26_01_2019():
 @pytest.mark.django_db
 def event_date_27_01_2019():
     yield get_event_date('27/01/2019')
+
+
+# Groups
+@pytest.fixture
+@pytest.mark.django_db
+def event_data1(
+        event_tag_1, event1, user1,
+        event_user1, attendee_without_user1,
+        attendee_from_event_user1, organizer1,
+        collaborator1, installer1, reviewer1,
+        activity1, room1):
+    yield {
+        'event': event1,
+        'event_tag': event_tag_1,
+        'user': user1,
+        'event_user': event_user1,
+        'attendee_without_user': attendee_without_user1,
+        'attendee_from_event_user': attendee_from_event_user1,
+        'organizer': organizer1,
+        'collaborator': collaborator1,
+        'installer': installer1,
+        'reviewer': reviewer1,
+        'activity': activity1,
+        'room': room1
+    }
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def event_data2(
+        event_tag_2, event2, user2,
+        event_user2, attendee_without_user2,
+        attendee_from_event_user2, organizer2,
+        collaborator2, installer2, reviewer2,
+        activity2, room2):
+    yield {
+        'event': event2,
+        'event_tag': event_tag_2,
+        'user': user2,
+        'event_user': event_user2,
+        'attendee_without_user': attendee_without_user2,
+        'attendee_from_event_user': attendee_from_event_user2,
+        'organizer': organizer2,
+        'collaborator': collaborator2,
+        'installer': installer2,
+        'reviewer': reviewer2,
+        'activity': activity2,
+        'room': room2
+    }
