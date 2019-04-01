@@ -40,14 +40,20 @@ def event_tag_2():
 # Events
 @pytest.fixture
 @pytest.mark.django_db
-def event1():
-    yield autofixture.create_one('manager.Event')
+def event1(event_tag_1):
+    yield autofixture.create_one(
+        'manager.Event',
+        {'name': 'event1', 'slug': 'event1', 'tags': [event_tag_1]}
+    )
 
 
 @pytest.fixture
 @pytest.mark.django_db
-def event2():
-    yield autofixture.create_one('manager.Event')
+def event2(event_tag_2):
+    yield autofixture.create_one(
+        'manager.Event',
+        {'name': 'event2', 'slug': 'event2', 'tags': [event_tag_2]}
+    )
 
 
 # Users
