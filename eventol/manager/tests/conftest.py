@@ -60,13 +60,23 @@ def event2(event_tag_2):
 @pytest.fixture
 @pytest.mark.django_db
 def user1():
-    yield autofixture.create_one('auth.User', {'is_superuser': False, 'is_staff': False})
+    yield autofixture.create_one('auth.User', {
+        'username': 'user1',
+        'password': 'secret',
+        'is_superuser': False,
+        'is_staff': False
+    })
 
 
 @pytest.fixture
 @pytest.mark.django_db
 def user2():
-    yield autofixture.create_one('auth.User', {'is_superuser': False, 'is_staff': False})
+    yield autofixture.create_one('auth.User', {
+        'username': 'user2',
+        'password': 'secret',
+        'is_superuser': False,
+        'is_staff': False
+    })
 
 
 # EventUsers
