@@ -4,6 +4,15 @@ from datetime import datetime
 import autofixture
 import pytest
 
+from .constants import (
+    ADMIN_USERNAME, ADMIN_PASSWORD,
+    EVENT_TAG_NAME_1, EVENT_TAG_NAME_2,
+    EVENT_TAG_SLUG_1, EVENT_TAG_SLUG_2,
+    EVENT_NAME_1, EVENT_NAME_2,
+    EVENT_SLUG_1, EVENT_SLUG_2,
+    USER_USERNAME_1, USER_USERNAME_2,
+    USER_PASSWORD_1, USER_PASSWORD_2
+)
 from ..models import generate_ticket_code
 
 
@@ -11,8 +20,8 @@ from ..models import generate_ticket_code
 @pytest.mark.django_db
 def admin():
     yield autofixture.create_one('auth.User', {
-        'username': 'testadmin',
-        'password': 'secret',
+        'username': ADMIN_USERNAME,
+        'password': ADMIN_PASSWORD,
         'is_superuser': True,
         'is_staff': True
     })
@@ -24,7 +33,7 @@ def admin():
 def event_tag_1():
     yield autofixture.create_one(
         'manager.EventTag',
-        {'name': 'test1', 'slug': 'test1'}
+        {'name': EVENT_TAG_NAME_1, 'slug': EVENT_TAG_SLUG_1}
     )
 
 
@@ -33,7 +42,7 @@ def event_tag_1():
 def event_tag_2():
     yield autofixture.create_one(
         'manager.EventTag',
-        {'name': 'test2', 'slug': 'test2'}
+        {'name': EVENT_TAG_NAME_2, 'slug': EVENT_TAG_SLUG_2}
     )
 
 
@@ -43,7 +52,7 @@ def event_tag_2():
 def event1(event_tag_1):
     yield autofixture.create_one(
         'manager.Event',
-        {'name': 'event1', 'slug': 'event1', 'tags': [event_tag_1]}
+        {'name': EVENT_NAME_1, 'slug': EVENT_SLUG_1, 'tags': [event_tag_1]}
     )
 
 
@@ -52,7 +61,7 @@ def event1(event_tag_1):
 def event2(event_tag_2):
     yield autofixture.create_one(
         'manager.Event',
-        {'name': 'event2', 'slug': 'event2', 'tags': [event_tag_2]}
+        {'name': EVENT_NAME_2, 'slug': EVENT_SLUG_2, 'tags': [event_tag_2]}
     )
 
 
@@ -61,8 +70,8 @@ def event2(event_tag_2):
 @pytest.mark.django_db
 def user1():
     yield autofixture.create_one('auth.User', {
-        'username': 'user1',
-        'password': 'secret',
+        'username': USER_USERNAME_1,
+        'password': USER_PASSWORD_1,
         'is_superuser': False,
         'is_staff': False
     })
@@ -72,8 +81,8 @@ def user1():
 @pytest.mark.django_db
 def user2():
     yield autofixture.create_one('auth.User', {
-        'username': 'user2',
-        'password': 'secret',
+        'username': USER_USERNAME_2,
+        'password': USER_PASSWORD_2,
         'is_superuser': False,
         'is_staff': False
     })

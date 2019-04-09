@@ -1,3 +1,24 @@
+# TESTING
+ADMIN_USERNAME = 'testadmin'
+ADMIN_PASSWORD = 'secret'
+
+USER_USERNAME_1 = 'user1'
+USER_USERNAME_2 = 'user2'
+USER_PASSWORD_1 = 'secret'
+USER_PASSWORD_2 = 'secret'
+
+EVENT_TAG_NAME_1 = 'test1'
+EVENT_TAG_NAME_2 = 'test2'
+EVENT_TAG_SLUG_1 = 'test1'
+EVENT_TAG_SLUG_2 = 'test2'
+
+EVENT_NAME_1 = 'event1'
+EVENT_NAME_2 = 'event2'
+EVENT_SLUG_1 = 'event1'
+EVENT_SLUG_2 = 'event2'
+
+# URLS AND VIEWS
+
 # Admin
 ADMIN_MODELS = [
     'contact', 'contactmessage', 'eventtag',
