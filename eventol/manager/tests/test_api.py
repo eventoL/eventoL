@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 
 import pytest
 
-from .constants import ALL_API_URL_NAMES
+from .constants import ALL_API_URL_NAMES, ALL_API_URLS_REQUIRED_FROM_PAGE
 
 
 @pytest.mark.django_db(transaction=True)
@@ -26,3 +26,16 @@ def test_get_event(api_request_factory, api_client):
     assert json['next'] is None
     assert json['previous'] is None
     assert json['results'] == []
+
+
+@pytest.mark.parametrize('api_reverse_name, query_params', ALL_API_URLS_REQUIRED_FROM_PAGE)
+@pytest.mark.django_db(transaction=True)
+def test_index_query(api_reverse_name, query_params, api_request_factory, api_client):
+    endpoint = reverse(api_reverse_name)
+    url = '{}?{}'.format(endpoint, query_params)
+    request = api_request_factory.get(url, format='json')
+    url = request.get_raw_uri()
+    response = api_client.get(url)
+    assert response.ok
+    assert response.status_code == 200
+
