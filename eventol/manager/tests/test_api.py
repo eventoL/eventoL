@@ -1,6 +1,4 @@
-from django.test import Client
 from django.core.urlresolvers import reverse
-from rest_framework.test import RequestsClient, APIRequestFactory
 
 import pytest
 
@@ -9,20 +7,17 @@ from .constants import ALL_API_URL_NAMES
 
 @pytest.mark.django_db(transaction=True)
 @pytest.mark.parametrize('url_name', ALL_API_URL_NAMES)
-def test_anonymous_user_should_see_all_api_endpoints(url_name):
-    client = Client()
+def test_anonymous_user_should_see_all_api_endpoints(url_name, web_client):
     endpoint = reverse(url_name)
-    response = client.get(endpoint)
+    response = web_client.get(endpoint)
     assert response.status_code == 200
 
 
 @pytest.mark.django_db(transaction=True)
-def test_get_event():
-    factory = APIRequestFactory()
-    client = RequestsClient()
-    request = factory.get('/api/events/', format='json')
+def test_get_event(api_request_factory, api_client):
+    request = api_request_factory.get('/api/events/', format='json')
     url = request.get_raw_uri()
-    response = client.get(url)
+    response = api_client.get(url)
     assert response.ok
     assert response.status_code == 200
 

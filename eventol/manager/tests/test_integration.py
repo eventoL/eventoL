@@ -1,5 +1,3 @@
-from django.test import Client
-
 import pytest
 
 
@@ -13,7 +11,6 @@ import pytest
     ('/report', 200)
 ])
 
-def test_get_page_with_anonymous_user(url, expectedCode):
-    client = Client()
-    response = client.get(url)
+def test_get_page_with_anonymous_user(url, expectedCode, web_client):
+    response = web_client.get(url)
     assert response.status_code == expectedCode

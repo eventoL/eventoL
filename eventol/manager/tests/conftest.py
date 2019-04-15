@@ -1,5 +1,7 @@
 # pylint: redefined-outer-name
 from datetime import datetime
+from django.test import Client
+from rest_framework.test import RequestsClient, APIRequestFactory
 
 import autofixture
 import pytest
@@ -285,3 +287,18 @@ def event_data2(
         'activity': activity2,
         'room': room2
     }
+
+# Client fixtures
+@pytest.fixture
+def api_client():
+    yield RequestsClient()
+
+
+@pytest.fixture
+def api_request_factory():
+    yield APIRequestFactory()
+
+
+@pytest.fixture
+def web_client():
+    yield Client()
