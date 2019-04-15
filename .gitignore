@@ -67,6 +67,7 @@ webpack-stats-local.json
 eventol/front/eventol/static/bower_components
 eventol/front/eventol/static/manager/*
 !eventol/front/eventol/static/manager/less
+eventol/front/eventol/static/bundles/
 eventol/front/report.html
 .coverage
 .cache
@@ -87,3 +88,5 @@ deploy/docker/db/
 .ipython/
 .python_history
 .yarnrc
+	
+eventol/front/webpack-stats-prod.json
