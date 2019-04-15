@@ -93,6 +93,30 @@ API_MODELS = [
 API_URL_NAMES = ['{0}-list'.format(model) for model in API_MODELS]
 ALL_API_URL_NAMES = [API_BASE_URL_NAME] + API_URL_NAMES
 
+API_URLS_REQUIRED_FROM_INDEX_PAGE = [
+    ('event-list', 'my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags'),
+    ('event-list', 'ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags'),
+    ('event-list', 'ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags'),
+    ('event-list', 'registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags'),
+    ('event-list', 'schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags'),
+    ('event-list', 'registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags'),
+]
+API_URLS_REQUIRED_FROM_EVENT_INDEX_PAGE = [
+    ('event-list', 'my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=qwertyui'),
+    ('event-list', 'registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=qwertyui'),
+    ('event-list', 'registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags&tags__slug=qwertyui'),
+    ('event-list', 'limit=15&offset=0&fields=name,event_slug,email,location,report,id,tags&ordering=name'),
+    ('event-list', 'limit=5000&offset=0&fields=report'),
+]
+API_URLS_REQUIRED_FROM_REPORT_PAGE = [
+    ('event-list', 'limit=15&offset=0&fields=name,event_slug,email,location,report,id,tags&ordering=name'),
+    ('event-list', 'limit=5000&offset=0&fields=report'),
+]
+
+ALL_API_URLS_REQUIRED_FROM_PAGE = API_URLS_REQUIRED_FROM_INDEX_PAGE + \
+    API_URLS_REQUIRED_FROM_EVENT_INDEX_PAGE + \
+    API_URLS_REQUIRED_FROM_REPORT_PAGE
+
 # Event
 EVENT_URLS_DATA = [
     ('home', 'manager.views.home', []),
