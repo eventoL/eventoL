@@ -49,7 +49,7 @@ export default class Report extends React.Component {
     ).catch(err => Logger.error(gettext('There has been an error'), err));
   }
 
-  loadContent(pageSize, page, sorted){
+  loadContent = (pageSize, page, sorted) => {
     const offset = page * pageSize;
     let queryParams = `limit=${pageSize}&offset=${offset}&fields=${REPORT_REQUIRED_FIELDS}`;
     if (sorted && sorted.length > 0){
@@ -134,7 +134,7 @@ export default class Report extends React.Component {
     const {eventsPrivateData} = this.props;
     const privateData = _.find(eventsPrivateData, {id: event.id});
     const {location, report: {attendee}} = event;
-    event = {
+    const eventData = {
       locationDetail: {
         address_detail: location.slice(0, -3).join(' '),
         address: location[location.length - 3],
@@ -149,8 +149,8 @@ export default class Report extends React.Component {
       },
       ...event,
     };
-    if (privateData) return {...privateData, ...event};
-    return event;
+    if (privateData) return {...privateData, ...eventData};
+    return eventData;
   }
 
   fetchData = ({
@@ -159,7 +159,8 @@ export default class Report extends React.Component {
     this.setState({loading: true});
     this.loadContent(pageSize, page, sorted, filtered).then(
       ({count, results}) => {
-        // Now just get the rows of data to your React Table (and update anything else like total pages or loading)
+        // Now just get the rows of data to your React Table
+        //   (and update anything else like total pages or loading)
         const quotient = Math.floor(count / pageSize);
         const remainder = count % pageSize;
         const pages = (remainder > 0) ? quotient + 1 : quotient;
