@@ -209,6 +209,25 @@ def room2(event2):
     yield autofixture.create_one('manager.Room', {'event': event2})
 
 
+# Installation
+@pytest.fixture
+@pytest.mark.django_db
+def installation1(attendee_from_event_user1, installer1):
+    yield autofixture.create_one(
+        'manager.Installation',
+        {'attendee': attendee_from_event_user1, 'installer': installer1.event_user}
+    )
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def installation2(attendee_from_event_user2, installer2):
+    yield autofixture.create_one(
+        'manager.Installation',
+        {'attendee': attendee_from_event_user2, 'installer': installer2.event_user}
+    )
+
+
 # EventDate
 @pytest.mark.django_db
 def get_event_date(datestring):
