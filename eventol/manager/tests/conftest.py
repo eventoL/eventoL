@@ -267,7 +267,7 @@ def event_data1(
         event_user1, attendee_without_user1,
         attendee_from_event_user1, organizer1,
         collaborator1, installer1, reviewer1,
-        activity1, room1):
+        activity1, room1, installation1):
     yield {
         'event': event1,
         'event_tag': event_tag_1,
@@ -278,6 +278,7 @@ def event_data1(
         'organizer': organizer1,
         'collaborator': collaborator1,
         'installer': installer1,
+        'installation': installation1,
         'reviewer': reviewer1,
         'activity': activity1,
         'room': room1
@@ -291,7 +292,7 @@ def event_data2(
         event_user2, attendee_without_user2,
         attendee_from_event_user2, organizer2,
         collaborator2, installer2, reviewer2,
-        activity2, room2):
+        activity2, room2, installation2):
     yield {
         'event': event2,
         'event_tag': event_tag_2,
@@ -302,6 +303,7 @@ def event_data2(
         'organizer': organizer2,
         'collaborator': collaborator2,
         'installer': installer2,
+        'installation': installation2,
         'reviewer': reviewer2,
         'activity': activity2,
         'room': room2
