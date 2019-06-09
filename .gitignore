@@ -70,6 +70,7 @@ eventol/front/eventol/static/manager/*
 eventol/front/eventol/static/bundles/
 eventol/front/report.html
 .coverage
+.coverage.*
 .cache
 htmlcov/
 coverage/
@@ -90,3 +91,6 @@ deploy/docker/db/
 .yarnrc
 	
 eventol/front/webpack-stats-prod.json
+.yarn/
+.pytest_cache/
+.local/
