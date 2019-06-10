@@ -16,8 +16,7 @@
             <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h1><i class="fa fa-info-warning"></i> {% trans "You are logged in!" %}</h1>
-                <p>{% blocktrans %} Please close your session, do not leave it open!. This page can remain open without the
-                    need of anybody being logged in. You will be logged out in 30 seconds. {% endblocktrans %}
+                <p>{% blocktrans %}Please close your session, do not leave it open!. This page can remain open without anybody being logged in. You will be logged out in 30 seconds.{% endblocktrans %}
                     <a href="{% url 'account_logout' %}?next={{ request.get_full_path|urlencode }}"></a></p>
             </div>
         </div>

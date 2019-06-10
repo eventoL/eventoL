@@ -2,6 +2,7 @@ import json
 
 from django import forms, template
 from django.utils.translation import ugettext_lazy as _
+from vote.models import Vote
 
 from manager.models import (
     Activity,
@@ -12,7 +13,6 @@ from manager.models import (
     Organizer,
     Reviewer
 )
-from vote.models import Vote
 
 register = template.Library()
 
@@ -45,7 +45,7 @@ def get_schedule_date(dic, key):
 
 @register.filter(name='addcss')
 def addcss(field, css):
-    return field.as_widget(attrs={"class": css})
+    return field.as_widget(attrs={'class': css})
 
 
 @register.filter(name='is_checkbox')
@@ -112,15 +112,15 @@ def is_collaborator(user, event_slug):
 
 @register.filter(name='is_reviewer')
 def is_reviewer(user, event_slug):
-    exists_collaborator = Reviewer.objects.filter(
+    exists_reviewer = Reviewer.objects.filter(
         event_user__user=user,
         event_user__event__event_slug=event_slug).exists()
-    return exists_collaborator or is_organizer(user, event_slug)
+    return exists_reviewer or is_organizer(user, event_slug)
 
 
 @register.filter(name='is_organizer')
 def is_organizer(user, event_slug):
-    return Organizer.objects.filter(
+    return user.is_authenticated and Organizer.objects.filter(
         event_user__user=user,
         event_user__event__event_slug=event_slug).exists()
 
@@ -176,3 +176,35 @@ def exists_vote(user, activity):
 @register.filter(name='is_speaker')
 def is_speaker(user, event_slug):
     return Activity.objects.filter(owner__user=user, event__event_slug=event_slug).exists()
+
+
+def can_register_as_collaborator(user, event):
+    if event.use_collaborators:
+        if not user.is_authenticated or not is_collaborator(user, event.event_slug):
+            return True
+    return False
+
+
+def can_register_as_installer(user, event):
+    if event.use_installers:
+        if not user.is_authenticated or not is_installer(user, event.event_slug):
+            return True
+    return False
+
+
+def can_register_installations(user, event):
+    if user.is_authenticated:
+        if event.use_installations and is_installer(user, event.event_slug):
+            return True
+    return False
+
+
+@register.filter(name='show_collaborators_tab')
+def show_collaborators_tab(user, event):
+    return (
+        can_register_as_collaborator(user, event) or
+        can_register_as_installer(user, event) or
+        can_register_installations(user, event) or
+        can_take_attendance(user, event.event_slug) or
+        is_organizer(user, event.event_slug)
+    )

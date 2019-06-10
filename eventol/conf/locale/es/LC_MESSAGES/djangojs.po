@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-28 09:50+0000\n"
+"POT-Creation-Date: 2019-01-14 04:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,20 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "You are seeing all of"
-msgstr "Estás viendo todo lo de"
-
-msgid "events"
-msgstr "eventos"
-
 msgid "Please, select one to continue"
 msgstr "Por favor, seleccioná uno para continuar"
 
-msgid "Search your event"
-msgstr "Busca tu evento"
-
 msgid "Attendees"
 msgstr "Asistentes"
+
+msgid "Tags"
+msgstr ""
 
 msgid "Search"
 msgstr "Buscar"
@@ -150,23 +144,17 @@ msgstr "Iniciar sesión"
 msgid "Sign Up"
 msgstr "Registrarse"
 
-msgid "Event not found"
-msgstr "Evento no encontrado"
-
-msgid "No Event found in your search"
-msgstr "Ningún Evento encontrado en tu búsqueda"
-
 msgid "Search results"
 msgstr "Resultados de Busqueda"
+
+msgid "My Events"
+msgstr "Mis Eventos"
 
 msgid "Upcoming Events"
 msgstr "Proximos Eventos"
 
 msgid "Finished Events"
 msgstr "Eventos Finalizados"
-
-msgid "My Events"
-msgstr "Mis Eventos"
 
 msgid "Recent Events"
 msgstr "Eventos Recientes"
@@ -198,8 +186,23 @@ msgstr "Reconectando websocket, intentos"
 msgid "websocket not supported by your browser"
 msgstr "Tu navegador no soporta websocket"
 
-msgid "Super Hacker"
-msgstr "Super Hacker"
+msgid "Event not found"
+msgstr "Evento no encontrado"
 
-msgid "Event Management Software"
-msgstr "Software de Gestión de Eventos"
+msgid "No Event found in your search"
+msgstr "Ningún Evento encontrado en tu búsqueda"
+
+#~ msgid "You are seeing all of"
+#~ msgstr "Estás viendo todo lo de"
+
+#~ msgid "events"
+#~ msgstr "eventos"
+
+#~ msgid "Search your event"
+#~ msgstr "Busca tu evento"
+
+#~ msgid "Super Hacker"
+#~ msgstr "Super Hacker"
+
+#~ msgid "Event Management Software"
+#~ msgstr "Software de Gestión de Eventos"
