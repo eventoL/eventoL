@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import django.db.models.deletion
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import MultipleObjectsReturned
 from django.db import migrations, models
 from django.utils.crypto import get_random_string
 
@@ -20,14 +21,22 @@ def set_owner_defaults(apps, schema_editor):
         username = "{}-{}".format(email.split("@")[0], get_random_string(4))
         password = make_password(None)
         defaults = {'username': username, 'password': password}
-        user, created = User.objects.get_or_create(email=email, defaults=defaults)
-        if created:
-            print("new user created: {}, (activity: {})".format(user.email, activity.title))
+        try:
+            user, created = User.objects.get_or_create(email=email, defaults=defaults)
+            if created:
+                print("new user created: {}, (activity: {})".format(user.email, activity.title))
+        except MultipleObjectsReturned:
+            print("Multiple EventUser returned: {}, (activity: {})".format(user, activity.title))
+            user = User.objects.filter(email=email).first()
         # get a EventUser
-        event_user, created = EventUser.objects.get_or_create(
-            user=user, defaults={'event': activity.event})
-        if created:
-            print("new EventUser created: {}, (activity: {})".format(event_user, activity.title))
+        try:
+            event_user, created = EventUser.objects.get_or_create(
+                user=user, defaults={'event': activity.event})
+            if created:
+                print("new EventUser created: {}, (activity: {})".format(event_user, activity.title))
+        except MultipleObjectsReturned:
+            print("Multiple EventUser returned: {}, (activity: {})".format(user, activity.title))
+            event_user = EventUser.objects.filter(user=user).first()
         activity.owner = event_user
         activity.save()
 

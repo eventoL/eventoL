@@ -1,11 +1,11 @@
 [run]
 source =
-    links/
-    workshop/
+    manager/
+    eventol/
 omit =
-    links/migrations/*
-    links/test_*
-    links/tests/*
-    workshop/migrations/*
-    workshop/test_*
-    workshop/tests/*
+    manager/migrations/*
+    manager/test_*
+    manager/tests/*
+    eventol/migrations/*
+    eventol/test_*
+    eventol/tests/*

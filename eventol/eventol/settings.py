@@ -46,9 +46,7 @@ class Base(Configuration):
         'easy_thumbnails.optimize',
         'image_cropping',
         'import_export',
-        'django_nose',
         'manager',
-        'autofixture',
         'djangoformsetjs',
         'django.contrib.sites',
         'allauth',
@@ -57,14 +55,12 @@ class Base(Configuration):
         'allauth.socialaccount.providers.twitter',
         'allauth.socialaccount.providers.google',
         'allauth.socialaccount.providers.github',
-        'debug_toolbar',
         'captcha',
         'django.contrib.postgres',
         'webpack_loader',
         'django_filters',
         'rest_framework',
         'channels',
-        'django_elasticsearch_dsl',
         'django_extensions',
         'vote',
         'forms_builder.forms',
@@ -110,8 +106,13 @@ class Base(Configuration):
     LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en-US')
     LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
     LANGUAGES = (
-        ('es', _('Spanish')),
+        ('da', _('Danish')),
         ('en', _('English')),
+        ('es', _('Spanish')),
+        ('nb', _('Norwegian Bokmal')),
+        ('nl', _('Dutch')),
+        ('sv', _('Swedish')),
+        ('zh', _('Chinese')),
     )
 
     TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
@@ -122,7 +123,7 @@ class Base(Configuration):
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = BASE_DIR + 'media/'
-    
+
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -282,13 +283,6 @@ class Base(Configuration):
 
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
-
-    # Change test runner
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-    NOSE_ARGS = [
-        '--with-coverage',
-        '--cover-package=manager,eventol',
-    ]
     PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
 
 
@@ -360,47 +354,29 @@ class Staging(Base):
                 'maxBytes': 1024*1024*10,
                 'backupCount': 10,
                 'formatter': 'logservices'
-            },
-            'logstash': {
-                'level': 'DEBUG',
-                'class': 'logstash.TCPLogstashHandler',
-                'host': os.getenv('LOGSTASH_HOST', 'logstash'),
-                'port': os.getenv('LOGSTASH_PORT', 5000),
-                'version': 1,
-                'message_type': 'django',
-                'fqdn': False,
-                'tags': ['eventol', 'django.request', 'django.channels', 'django']
             }
         },
         'loggers': {
             'eventol': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'DEBUG',
                 'propagate': True
             },
             'django.channels': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'WARNING',
                 'propagate': True
             },
             'django.request': {
-                'handlers': ['logstash', 'file'],
+                'handlers': ['file'],
                 'level': 'WARNING',
                 'propagate': True
             },
             'django': {
-                'handlers': ['logstash', 'console'],
+                'handlers': ['console'],
                 'level': 'WARNING',
                 'propagate': True
             }
-        }
-    }
-    ELASTICSEARCH_DSL = {
-        'default': {
-            'hosts': '{0}:{1}'.format(
-                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
-                os.getenv('ELASTICSEARCH_PORT', 9200)
-            )
         }
     }
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
@@ -414,6 +390,10 @@ class Prod(Staging):
 
 
 class Dev(Base):
+    INSTALLED_APPS = Base.INSTALLED_APPS + (
+        'autofixture',
+        'debug_toolbar',
+    )
     AUTH_PASSWORD_VALIDATORS = []
     WEBPACK_LOADER = {
         'DEFAULT': {
@@ -453,15 +433,8 @@ class Dev(Base):
             }
         }
     }
-    ELASTICSEARCH_DSL = {
-        'default': {
-            'hosts': '{0}:{1}'.format(
-                os.getenv('ELASTICSEARCH_HOST', 'elasticsearch'),
-                os.getenv('ELASTICSEARCH_PORT', 9200)
-            )
-        }
-    }
 
 
 class Test(Dev):
-    pass
+    WEBPACK_LOADER = Prod.WEBPACK_LOADER
+    REST_FRAMEWORK = Prod.REST_FRAMEWORK
