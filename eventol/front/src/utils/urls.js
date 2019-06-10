@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {HOME_REQUIRED_FIELDS} from './constants';
 
 
@@ -21,7 +22,7 @@ export const EVENTS_WS_URL = `${WS_URL}updates/events/`;
 export const getTagUrl = slug => `/tags/${slug}`;
 export const getEventUrl = slug => `/events/${slug}/`;
 export const getApiFullUrl = url => `/api/events/${url}`;
-export const getWsUrl = (protocol = 'ws') => `${protocol}://${host}/updates/`;
+export const getWsUrl = protocol => `${_.isEmpty(protocol) ? 'ws' : protocol}://${host}/updates/`;
 
 const addSlugParams = slug => (slug ? `&tags__slug=${slug}` : '');
 export const getMyEventsUrl = slug => `?my_events=true&fields=${HOME_REQUIRED_FIELDS}${addSlugParams(slug)}`;
