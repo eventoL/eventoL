@@ -88,8 +88,9 @@ API_BASE_URL_NAME = 'api-root'
 API_MODELS = [
     'activity', 'attendee', 'collaborator', 'eventuser',
     'event', 'hardware', 'installation', 'installer',
-    'organizer', 'room', 'software', 'eventtag'
+    'organizer', 'room', 'software', 'eventtag', 'activitytype'
 ]
+
 API_URL_NAMES = ['{0}-list'.format(model) for model in API_MODELS]
 ALL_API_URL_NAMES = [API_BASE_URL_NAME] + API_URL_NAMES
 
