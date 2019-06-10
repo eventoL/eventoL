@@ -1,8 +1,9 @@
 {
-  "name": "links",
-  "version": "0.0.1",
+  "name": "eventol",
+  "version": "1.0.0",
   "scripts": {
     "start": "node server.js",
+    "build": "./node_modules/.bin/webpack --config webpack.prod.config.js",
     "test": "./node_modules/.bin/jest --forceExit --ci --coverage --detectOpenHandles",
     "watch-test": "./node_modules/.bin/jest --watchAll --detectOpenHandles",
     "eslint": "./node_modules/.bin/eslint --ext .jsx --ext .js src",
