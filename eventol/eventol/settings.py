@@ -106,8 +106,13 @@ class Base(Configuration):
     LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en-US')
     LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
     LANGUAGES = (
-        ('es', _('Spanish')),
+        ('da', _('Danish')),
         ('en', _('English')),
+        ('es', _('Spanish')),
+        ('nb', _('Norwegian Bokmal')),
+        ('nl', _('Dutch')),
+        ('sv', _('Swedish')),
+        ('zh', _('Chinese')),
     )
 
     TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
@@ -118,7 +123,7 @@ class Base(Configuration):
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = BASE_DIR + 'media/'
-    
+
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -278,13 +283,6 @@ class Base(Configuration):
 
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
-
-    # Change test runner
-    TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-    NOSE_ARGS = [
-        '--with-coverage',
-        '--cover-package=manager,eventol',
-    ]
     PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
 
 
@@ -393,7 +391,6 @@ class Prod(Staging):
 
 class Dev(Base):
     INSTALLED_APPS = Base.INSTALLED_APPS + (
-        'django_nose',
         'autofixture',
         'debug_toolbar',
     )
@@ -439,4 +436,5 @@ class Dev(Base):
 
 
 class Test(Dev):
-    pass
+    WEBPACK_LOADER = Prod.WEBPACK_LOADER
+    REST_FRAMEWORK = Prod.REST_FRAMEWORK
