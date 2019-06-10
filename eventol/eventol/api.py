@@ -81,6 +81,7 @@ class ActivitySerializer(EventolSerializer):
                   'start_date', 'end_date', 'activity_type', 'labels', 'level',
                   'status', 'is_dummy', 'long_description', 'abstract')
 
+
 class ActivityTypeSerializer(EventolSerializer):
     class Meta:
         model = ActivityType
@@ -231,7 +232,6 @@ class ActivityViewSet(EventUserModelViewSet):
     def get_counts(self):
         queryset = self.filter_queryset(self.get_queryset())
         return Activity.objects.get_counts(queryset)
-
 
 
 class ActivityTypeViewSet(viewsets.ModelViewSet):
