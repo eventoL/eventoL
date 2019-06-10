@@ -1,0 +1,192 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-14 04:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Please, select one to continue"
+msgstr ""
+
+msgid "Attendees"
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Documentation"
+msgstr ""
+
+msgid "Featured"
+msgstr ""
+
+msgid "Recent"
+msgstr ""
+
+msgid "Generic report"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Events"
+msgstr ""
+
+msgid "Organizers"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "Address detail"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "Province"
+msgstr ""
+
+msgid "Assistance (confirmed)"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Collaborators"
+msgstr ""
+
+msgid "Installers"
+msgstr ""
+
+msgid "Speakers"
+msgstr ""
+
+msgid "Activities"
+msgstr ""
+
+msgid "Installations"
+msgstr ""
+
+msgid "Confirmed"
+msgstr ""
+
+msgid "Not Confirmed"
+msgstr ""
+
+msgid "Quantity"
+msgstr ""
+
+msgid "Don't configured"
+msgstr ""
+
+msgid "Proposal"
+msgstr ""
+
+msgid "Accepted"
+msgstr ""
+
+msgid "Rejected"
+msgstr ""
+
+msgid "Talk"
+msgstr ""
+
+msgid "Workshop"
+msgstr ""
+
+msgid "Lightning talk"
+msgstr ""
+
+msgid "Other"
+msgstr ""
+
+msgid "Beginner"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
+
+msgid "There isn't any event yet."
+msgstr ""
+
+msgid "Search by title..."
+msgstr ""
+
+msgid "Sign In"
+msgstr ""
+
+msgid "Sign Up"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "My Events"
+msgstr ""
+
+msgid "Upcoming Events"
+msgstr ""
+
+msgid "Finished Events"
+msgstr ""
+
+msgid "Recent Events"
+msgstr ""
+
+msgid "Featured Events"
+msgstr ""
+
+msgid "Events with Confirmed Schedule"
+msgstr ""
+
+msgid "There has been an error"
+msgstr ""
+
+msgid "National report"
+msgstr ""
+
+msgid "Autoupdate"
+msgstr ""
+
+msgid "Assistance detail"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Reconecting websocket, attemps"
+msgstr ""
+
+msgid "websocket not supported by your browser"
+msgstr ""
+
+msgid "Event not found"
+msgstr ""
+
+msgid "No Event found in your search"
+msgstr ""

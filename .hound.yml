@@ -1,0 +1,20 @@
+esversion: 6
+
+python:
+  enabled: true
+  config_file: .pylintrc
+
+eslint:
+  enabled: true
+  config_file: eventol/front/.eslintrc.yaml
+
+javascript:
+  enable: true
+  esversion: 6
+  config_file: eventol/front/.eslintrc.yaml
+
+scss:
+  enabled: true
+  config_file: eventol/front/.sass-lint.yml
+
+

@@ -35,11 +35,12 @@ class EventSerializer(EventolSerializer):
 
     class Meta:
         model = Event
-        fields = ('url', 'name', 'abstract', 'limit_proposal_date', 'tags',
-                  'external_url', 'report', 'event_information', 'updated_at',
-                  'schedule_confirmed', 'place', 'image', 'cropping', 'event_slug',
-                  'activity_proposal_is_open', 'registration_is_open', 'id',
-                  'attendees_count', 'last_date', 'created_at', 'location')
+        fields = ('url', 'name', 'abstract', 'limit_proposal_date',
+                  'tags', 'external_url', 'report', 'event_information',
+                  'updated_at', 'schedule_confirmed', 'place', 'image',
+                  'cropping', 'event_slug', 'activity_proposal_is_open',
+                  'registration_is_open', 'id', 'attendees_count',
+                  'last_date', 'created_at', 'location')
 
 
 class EventTagSerializer(EventolSerializer):
@@ -246,7 +247,8 @@ class InstallationViewSet(EventUserModelViewSet):
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
     search_fields = ('notes')
-    filter_fields = ('attendee__event__event_slug', 'attendee__event_user__event__event_slug',
+    filter_fields = ('attendee__event__event_slug',
+                     'attendee__event_user__event__event_slug',
                      'software', 'hardware', 'attendee')
     ordering_fields = ('created_at', 'updated_at',)
 
