@@ -2,6 +2,7 @@ stages:
   - testing
   - styling
   - build
+  - deploy
 
 variables:
   CONTAINER_DEPLOY_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
@@ -51,12 +52,16 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
-  image: python:3.5
+  image: python:3.6
   stage: testing
   script:
     - curl -sL https://deb.nodesource.com/setup_8.x | bash -
     - apt install -y nodejs
     - npm install -g yarn yarnpkg
+    - cd eventol/front
+    - yarn install
+    - yarn build
+    - cd -
     - ./test.sh -i backend
   artifacts:
     paths:
@@ -111,3 +116,14 @@ sass-lint:
   allow_failure: true
   script:
     - ./test.sh -i sass-lint
+
+deploy:
+  stage: deploy
+  when: manual
+  only:
+   - master
+  image: docker:git
+  script:
+    - apk update && apk add sshpass
+    - export SSHPASS=$SSH_PASS
+    - sshpass -e ssh -p$SSH_PORT -o stricthostkeychecking=no -x $SSH_USER@$SSH_HOST $SSH_SCRIPT
