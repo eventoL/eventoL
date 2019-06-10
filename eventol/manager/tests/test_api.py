@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 
 import pytest
 
+from eventol.api import EventSerializer
 from .constants import ALL_API_URL_NAMES, ALL_API_URLS_REQUIRED_FROM_PAGE
 
 
@@ -25,7 +26,7 @@ def test_get_event(api_request_factory, api_client, event1):
     assert json['count'] == 1
     assert json['next'] is None
     assert json['previous'] is None
-    assert json['results'] == []
+    assert json['results'][0]['name'] == EventSerializer(event1, context={'request': request}).data['name']
 
 
 @pytest.mark.parametrize('api_reverse_name, query_params', ALL_API_URLS_REQUIRED_FROM_PAGE)
