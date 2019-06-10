@@ -3,7 +3,7 @@ django-autofixture==0.12.1
 django-debug-toolbar==1.9.1
 ipython
 pylint==1.8.4
-pylint-django==0.11
+pylint-django==2.0.9
 pytest==4.4.0
 pytest-cov==2.6.1
 pytest-django==3.4.8
