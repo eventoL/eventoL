@@ -11,7 +11,7 @@ from rest_framework_filters import BooleanFilter, FilterSet
 
 from manager.models import (Activity, Attendee, Collaborator, Event, EventUser,
                             Hardware, Installation, Installer, Organizer, Room,
-                            Software, EventTag)
+                            Software, EventTag, ActivityType)
 
 
 # Serializers define the API representation.
@@ -78,8 +78,14 @@ class ActivitySerializer(EventolSerializer):
     class Meta:
         model = Activity
         fields = ('url', 'created_at', 'updated_at', 'event', 'title', 'room',
-                  'start_date', 'end_date', 'type', 'labels', 'level', 'status',
-                  'is_dummy', 'long_description', 'abstract')
+                  'start_date', 'end_date', 'activity_type', 'labels', 'level',
+                  'status', 'is_dummy', 'long_description', 'abstract')
+
+
+class ActivityTypeSerializer(EventolSerializer):
+    class Meta:
+        model = ActivityType
+        fields = ('url', 'name')
 
 
 class AttendeeSerializer(EventolSerializer):
@@ -218,13 +224,22 @@ class ActivityViewSet(EventUserModelViewSet):
     serializer_class = ActivitySerializer
     search_fields = ('title', 'labels', 'additional_info',
                      'speakers_names', 'long_description')
-    filter_fields = ('event__event_slug', 'room', 'title', 'type',
-                     'status', 'level', 'is_dummy')
+    filter_fields = ('event__event_slug', 'room', 'title',
+                     'activity_type', 'status',
+                     'level', 'is_dummy')
     ordering_fields = ('created_at', 'updated_at', 'start_date', 'end_date')
 
     def get_counts(self):
         queryset = self.filter_queryset(self.get_queryset())
         return Activity.objects.get_counts(queryset)
+
+
+class ActivityTypeViewSet(viewsets.ModelViewSet):
+    queryset = ActivityType.objects.all()
+    serializer_class = ActivityTypeSerializer
+    filter_fields = ('name',)
+    search_fields = ('name',)
+    ordering_fields = None
 
 
 class SoftwareViewSet(viewsets.ModelViewSet):

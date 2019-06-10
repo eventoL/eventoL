@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node server.js",
-    "build": "./node_modules/.bin/webpack --config webpack.prod.config.js",
-    "test": "./node_modules/.bin/jest --forceExit --ci --coverage --detectOpenHandles",
-    "watch-test": "./node_modules/.bin/jest --watchAll --detectOpenHandles",
-    "eslint": "./node_modules/.bin/eslint --ext .jsx --ext .js src",
-    "eslint-fix": "./node_modules/.bin/eslint --ext .jsx --ext .js --fix src",
-    "eslint-report": "./node_modules/.bin/eslint -f node_modules/eslint-html-reporter/reporter.js -o report.html --ext .jsx --ext .js src || true",
-    "sass-lint": "./node_modules/.bin/sass-lint -v -q",
-    "sass-lint-report": "./node_modules/.bin/sass-lint -v -q -f JSON | node ./node_modules/scss-lint-html-reporter/bin/reporter.js"
+    "build": "webpack --config webpack.prod.config.js",
+    "test": "jest --forceExit --ci --coverage --detectOpenHandles",
+    "watch-test": "jest --watchAll --detectOpenHandles",
+    "eslint": "eslint --ext .jsx --ext .js src",
+    "eslint-fix": "eslint --ext .jsx --ext .js --fix src",
+    "eslint-report": "eslint -f node_modules/eslint-html-reporter/reporter.js -o report.html --ext .jsx --ext .js src || true",
+    "sass-lint": "sass-lint -v -q",
+    "sass-lint-report": "sass-lint -v -q -f JSON | node ./node_modules/scss-lint-html-reporter/bin/reporter.js"
   },
   "devDependencies": {
     "babel": "6.23.0",
