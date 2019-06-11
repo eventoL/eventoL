@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 04:58+0000\n"
+"POT-Creation-Date: 2019-06-11 20:05+0000\n"
 "PO-Revision-Date: 2019-01-15 09:19+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
@@ -34,6 +34,9 @@ msgid "Dutch"
 msgstr ""
 
 msgid "Swedish"
+msgstr ""
+
+msgid "Chinese"
 msgstr ""
 
 msgid "Attendee"
@@ -1711,7 +1714,4 @@ msgid "The room has assigned activities."
 msgstr ""
 
 msgid "The Room has been removed successfully."
-msgstr ""
-
-msgid "Registration"
 msgstr ""

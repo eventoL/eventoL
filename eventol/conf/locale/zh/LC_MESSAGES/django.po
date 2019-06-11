@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 04:58+0000\n"
+"POT-Creation-Date: 2019-06-11 20:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,9 @@ msgid "Dutch"
 msgstr ""
 
 msgid "Swedish"
+msgstr ""
+
+msgid "Chinese"
 msgstr ""
 
 msgid "Attendee"
@@ -1708,7 +1711,4 @@ msgid "The room has assigned activities."
 msgstr ""
 
 msgid "The Room has been removed successfully."
-msgstr ""
-
-msgid "Registration"
 msgstr ""
