@@ -79,6 +79,8 @@ coverage/
 jest_*
 venv/
 .vscode/
+*.orig
+
 
 .config/
 deploy/docker/.env
