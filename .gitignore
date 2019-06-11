@@ -29,6 +29,8 @@ nosetests.xml
 
 # Translations
 *.mo
+eventol/conf/locale/en/
+eventol/conf/locale/**/*.mo
 
 # Mr Developer
 .mr.developer.cfg
