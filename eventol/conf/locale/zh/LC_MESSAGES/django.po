@@ -1712,3 +1712,6 @@ msgstr ""
 
 msgid "The Room has been removed successfully."
 msgstr ""
+
+msgid "Registration"
+msgstr ""

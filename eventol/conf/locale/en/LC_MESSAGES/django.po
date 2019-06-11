@@ -1,40 +1,39 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Allan Nordhøy <epost@anotheragency.no>, 2019.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-11 20:52+0000\n"
-"PO-Revision-Date: 2019-04-19 12:33+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
-"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
-"django/nb_NO/>\n"
-"Language: nb\n"
+"POT-Creation-Date: 2019-06-11 20:05+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6-dev\n"
 
 msgid "Danish"
-msgstr "Dansk"
+msgstr ""
 
 msgid "English"
-msgstr "Engelsk"
+msgstr ""
 
 msgid "Spanish"
-msgstr "Spansk"
+msgstr ""
 
 msgid "Norwegian Bokmal"
-msgstr "Norsk bokmål"
+msgstr ""
 
 msgid "Dutch"
 msgstr ""
 
 msgid "Swedish"
-msgstr "Svensk"
+msgstr ""
 
 msgid "Chinese"
 msgstr ""
@@ -46,31 +45,31 @@ msgid "Collaborator/Installer"
 msgstr ""
 
 msgid "Repeat Email"
-msgstr "Gjenta e-post"
+msgstr ""
 
 msgid "Emails do not match."
-msgstr "E-postene samsvarer ikke."
+msgstr ""
 
 msgid "This field is required"
-msgstr "Dette feltet er påkrevd"
+msgstr ""
 
 msgid "One or more dates of the event are the same date"
 msgstr ""
 
 msgid "First Name"
-msgstr "Fornavn"
+msgstr ""
 
 msgid "Last Name"
-msgstr "Etternavn"
+msgstr ""
 
 msgid "Are you a human?"
-msgstr "Er du et menneske?"
+msgstr ""
 
 msgid "Why do you reject this proposal?"
-msgstr "Hvorfor avslår du dette forslaget?"
+msgstr ""
 
 msgid "URL can only contain letters or numbers"
-msgstr "Nettadressen kan kunn inneholde bokstaver og tall"
+msgstr ""
 
 msgid "EventTag Name"
 msgstr ""
@@ -97,10 +96,10 @@ msgid "A message to show in the center of the page"
 msgstr ""
 
 msgid "URL"
-msgstr "Nettadresse"
+msgstr ""
 
 msgid "For example: flisol-caba"
-msgstr "For eksempel: flison-caba"
+msgstr ""
 
 msgid "Custom Form"
 msgstr ""
@@ -109,13 +108,13 @@ msgid "Custom Forms"
 msgstr ""
 
 msgid "Order"
-msgstr "Rekkefølge"
+msgstr ""
 
 msgid "Custom Field"
-msgstr "Egendefinert felt"
+msgstr ""
 
 msgid "Custom Fields"
-msgstr "Egendefinerte felter"
+msgstr ""
 
 msgid "Event Name"
 msgstr ""
@@ -150,14 +149,13 @@ msgid "Code validator for in-place event self-registration"
 msgstr ""
 
 msgid "External URL"
-msgstr "Ekstern nettadresse"
+msgstr ""
 
 msgid "http://www.my-awesome-event.com"
 msgstr ""
 
-#, fuzzy
 msgid "Email"
-msgstr "E-post"
+msgstr ""
 
 msgid "Event Info"
 msgstr ""
@@ -202,22 +200,22 @@ msgid "A message to show in the activities proposal form"
 msgstr ""
 
 msgid "Template"
-msgstr "Mal"
+msgstr ""
 
 msgid "Custom template HTML for event index page"
 msgstr ""
 
 msgid "Custom css"
-msgstr "Egendefinert CSS"
+msgstr ""
 
 msgid "Custom CSS file for event page"
 msgstr ""
 
 msgid "Event"
-msgstr "Hendelse"
+msgstr ""
 
 msgid "Events"
-msgstr "Hendelser"
+msgstr ""
 
 msgid "Date"
 msgstr ""
@@ -232,70 +230,70 @@ msgid "Event Dates"
 msgstr ""
 
 msgid "Name"
-msgstr "Navn"
+msgstr ""
 
 msgid "Message"
-msgstr "Melding"
+msgstr ""
 
 msgid "Contact Message"
-msgstr "Kontaktmelding"
+msgstr ""
 
 msgid "Contact Messages"
-msgstr "Kontaktmeldinger"
+msgstr ""
 
 msgid "Validate URL"
-msgstr "Bekreft nettadresse"
+msgstr ""
 
 msgid "Validate Email"
-msgstr "Bekreft e-post"
+msgstr ""
 
 msgid "Don't validate"
-msgstr "Ikke bekreft"
+msgstr ""
 
 msgid "Icon Class"
-msgstr "Ikonklasse"
+msgstr ""
 
 msgid "Level"
-msgstr "Nivå"
+msgstr ""
 
 msgid "Type of field validation"
 msgstr ""
 
 msgid "Contact Type"
-msgstr "Kontakttype"
+msgstr ""
 
 msgid "Contact Types"
-msgstr "Kontakttyper"
+msgstr ""
 
 msgid "i.e. https://twitter.com/flisol"
 msgstr ""
 
 msgid "Text"
-msgstr "Tekst"
+msgstr ""
 
 msgid "i.e. @Flisol"
 msgstr ""
 
 msgid "Contact"
-msgstr "Kontakt"
+msgstr ""
 
 msgid "Contacts"
-msgstr "Kontakter"
+msgstr ""
 
 msgid "Sent"
-msgstr "Sendt"
+msgstr ""
 
 msgid "number"
-msgstr "nummer"
+msgstr ""
 
 msgid "Unique identifier for the ticket"
 msgstr ""
 
 msgid "User"
-msgstr "Bruker"
+msgstr ""
 
 msgid "Ticket"
-msgstr "Billett"
+msgstr ""
 
 msgid "Event User"
 msgstr ""
@@ -319,7 +317,7 @@ msgid "unregistred"
 msgstr ""
 
 msgid "Mode"
-msgstr "Modus"
+msgstr ""
 
 msgid "Attendance mode"
 msgstr ""
@@ -344,31 +342,31 @@ msgid ""
 msgstr ""
 
 msgid "Phone"
-msgstr "Telefon"
+msgstr ""
 
 msgid "Address"
-msgstr "Adresse"
+msgstr ""
 
 msgid "Additional Info"
-msgstr "Ytterligere info"
+msgstr ""
 
 msgid "Additional info you consider relevant"
-msgstr "Ytterligere info du finner relevant"
+msgstr ""
 
 msgid "Collaborator"
 msgstr ""
 
 msgid "Collaborators"
-msgstr "Hjelpere"
+msgstr ""
 
 msgid "Organizer"
 msgstr ""
 
 msgid "Organizers"
-msgstr "Organisatorer"
+msgstr ""
 
 msgid "Nickname"
-msgstr "Kallenavn"
+msgstr ""
 
 msgid "Is going to install?"
 msgstr ""
@@ -380,20 +378,19 @@ msgid ""
 msgstr ""
 
 msgid "Email confirmed?"
-msgstr "E-post bekreftet?"
+msgstr ""
 
 msgid "Confirmation Token"
-msgstr "Bekreftelsessymbol"
+msgstr ""
 
 msgid "Registration Date"
-msgstr "Registreringsdato"
+msgstr ""
 
-#, fuzzy
 msgid "Attendees"
-msgstr "Oppmøtte"
+msgstr ""
 
 msgid "Message Body"
-msgstr "Meldingskropp"
+msgstr ""
 
 msgid "Email message HTML Body"
 msgstr ""
@@ -408,16 +405,16 @@ msgid "Post-install Emails"
 msgstr ""
 
 msgid "Beginner"
-msgstr "Begynner"
+msgstr ""
 
 msgid "Medium"
-msgstr "Middels"
+msgstr ""
 
 msgid "Advanced"
-msgstr "Avansert"
+msgstr ""
 
 msgid "Super Hacker"
-msgstr "Superhacker"
+msgstr ""
 
 msgid "Knowledge level for an installation"
 msgstr ""
@@ -426,25 +423,25 @@ msgid "Installer"
 msgstr ""
 
 msgid "Installers"
-msgstr "Installatører"
+msgstr ""
 
 msgid "Operative System"
-msgstr "Operativsystem"
+msgstr ""
 
 msgid "Application"
-msgstr "Program"
+msgstr ""
 
 msgid "Support and Problem Fixing"
-msgstr "Støtte og feilretting"
+msgstr ""
 
 msgid "Other"
-msgstr "Annet"
+msgstr ""
 
 msgid "Type"
-msgstr "Type"
+msgstr ""
 
 msgid "Mobile"
-msgstr "Mobiltelefon"
+msgstr ""
 
 msgid "Notebook"
 msgstr ""
@@ -456,34 +453,34 @@ msgid "Tablet"
 msgstr ""
 
 msgid "Desktop"
-msgstr "Skrivebordsmaskin"
+msgstr ""
 
 msgid "Manufacturer"
-msgstr "Fabrikat/merke"
+msgstr ""
 
 msgid "Model"
-msgstr "Modell"
+msgstr ""
 
 msgid "i.e. Classroom 256"
 msgstr ""
 
 msgid "Room"
-msgstr "Rom"
+msgstr ""
 
 msgid "Rooms"
-msgstr "Rom"
+msgstr ""
 
 msgid "Kind of activity"
-msgstr "Aktivitetstype"
+msgstr ""
 
 msgid "Speaker or the person in charge of the activity"
 msgstr ""
 
 msgid "Title"
-msgstr "Tittel"
+msgstr ""
 
 msgid "Long Description"
-msgstr "Lang beskrivelse"
+msgstr ""
 
 msgid "Short idea of the talk (Two or three sentences)"
 msgstr ""
@@ -492,10 +489,10 @@ msgid "Justification"
 msgstr ""
 
 msgid "Start Time"
-msgstr "Starttid"
+msgstr ""
 
 msgid "End Time"
-msgstr "Sluttid"
+msgstr ""
 
 msgid "Speakers Names"
 msgstr ""
@@ -518,7 +515,7 @@ msgid ""
 msgstr ""
 
 msgid "Presentation"
-msgstr "Presentasjon"
+msgstr ""
 
 msgid ""
 "Material you are going to "
@@ -537,16 +534,16 @@ msgid ""
 msgstr ""
 
 msgid "Proposal"
-msgstr "Forslag"
+msgstr ""
 
 msgid "Accepted"
-msgstr "Godkjent"
+msgstr ""
 
 msgid "Rejected"
-msgstr "Avslått"
+msgstr ""
 
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 msgid "Activity proposal status"
 msgstr ""
@@ -580,22 +577,22 @@ msgid ""
 msgstr ""
 
 msgid "Activity"
-msgstr "Aktivitet"
+msgstr ""
 
 msgid "Activities"
-msgstr "Aktiviteter"
+msgstr ""
 
 msgid "Hardware"
-msgstr "Maskinvare"
+msgstr ""
 
 msgid "Software"
-msgstr "Programvare"
+msgstr ""
 
 msgid "The owner of the installed hardware"
 msgstr ""
 
 msgid "Notes"
-msgstr "Merknader"
+msgstr ""
 
 msgid ""
 "Info or trouble you                                          consider "
@@ -603,10 +600,10 @@ msgid ""
 msgstr ""
 
 msgid "Installation"
-msgstr "Installasjon"
+msgstr ""
 
 msgid "Installations"
-msgstr "Installasjoner"
+msgstr ""
 
 msgid "eventoL setting"
 msgstr ""
@@ -630,13 +627,13 @@ msgid ""
 msgstr ""
 
 msgid "FAQ"
-msgstr "O-S-S"
+msgstr ""
 
 msgid "Frequently Asked Questions"
-msgstr "Ofte stilte spørsmål"
+msgstr ""
 
 msgid "Account Inactive"
-msgstr "Inaktiv konto"
+msgstr ""
 
 msgid "This account is inactive."
 msgstr ""
@@ -685,7 +682,7 @@ msgid "Password Reset E-mail"
 msgstr ""
 
 msgid "Confirm E-mail Address"
-msgstr "Bekreft e-postadresse"
+msgstr ""
 
 #, python-format
 msgid ""
@@ -696,7 +693,7 @@ msgid ""
 msgstr ""
 
 msgid "Confirm"
-msgstr "Bekreft"
+msgstr ""
 
 #, python-format
 msgid ""
@@ -706,7 +703,7 @@ msgid ""
 msgstr ""
 
 msgid "Login"
-msgstr "Logg inn"
+msgstr ""
 
 #, python-format
 msgid ""
@@ -718,7 +715,7 @@ msgid ""
 msgstr ""
 
 msgid "or"
-msgstr "eller"
+msgstr ""
 
 #, python-format
 msgid ""
@@ -730,19 +727,19 @@ msgid "Forgot Password?"
 msgstr ""
 
 msgid "Logout"
-msgstr "Logg ut"
+msgstr ""
 
 msgid "Are you sure you want to sign out?"
 msgstr ""
 
 msgid "Change Password"
-msgstr "Endre passord"
+msgstr ""
 
 msgid "Password requirements:"
-msgstr "Passordkrav:"
+msgstr ""
 
 msgid "Must contain at least 8 characters."
-msgstr "Må inneholde minst 8 tegn."
+msgstr ""
 
 msgid "Can't be too similar to your other personal information."
 msgstr ""
@@ -762,7 +759,7 @@ msgid ""
 msgstr ""
 
 msgid "Reset My Password"
-msgstr "Tilbakestill passordet mitt"
+msgstr ""
 
 msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
@@ -774,7 +771,7 @@ msgid ""
 msgstr ""
 
 msgid "Bad Token"
-msgstr "Feilaktig symbol"
+msgstr ""
 
 #, python-format
 msgid ""
@@ -785,29 +782,29 @@ msgid ""
 msgstr ""
 
 msgid "Your password is now changed."
-msgstr "Passordet ditt er nå endret."
+msgstr ""
 
 msgid "change password"
-msgstr "endre passord"
+msgstr ""
 
 msgid "Set Password"
-msgstr "Sett passord"
+msgstr ""
 
 #, python-format
 msgid "Welcome, %(user_display)s!"
-msgstr "Velkommen, %(user_display)s."
+msgstr ""
 
 msgid "Username:"
-msgstr "Brukernavn:"
+msgstr ""
 
 msgid "First Name:"
-msgstr "Fornavn:"
+msgstr ""
 
 msgid "Last Name:"
-msgstr "Etternavn:"
+msgstr ""
 
 msgid "Email:"
-msgstr "E-post:"
+msgstr ""
 
 msgid "Account Connections"
 msgstr ""
@@ -826,7 +823,7 @@ msgid "Add a 3rd Party Account"
 msgstr ""
 
 msgid "Sign Up"
-msgstr "Registrer deg"
+msgstr ""
 
 #, python-format
 msgid ""
@@ -883,25 +880,25 @@ msgid "Confirm Schedule"
 msgstr ""
 
 msgid "Confirmed"
-msgstr "Bekreftet"
+msgstr ""
 
 msgid "Speakers"
-msgstr "Talere"
+msgstr ""
 
 msgid "Speakers Bio"
 msgstr ""
 
 msgid "Start"
-msgstr "Start"
+msgstr ""
 
 msgid "End"
-msgstr "Slutt"
+msgstr ""
 
 msgid "Description"
-msgstr "Beskrivelse"
+msgstr ""
 
 msgid "Additional Information"
-msgstr "Ytterligere info"
+msgstr ""
 
 msgid "View Talk"
 msgstr ""
@@ -922,7 +919,7 @@ msgid "Proposed"
 msgstr ""
 
 msgid "Not Confirmed"
-msgstr "Ikke bekreftet"
+msgstr ""
 
 msgid "Votes"
 msgstr ""
@@ -1349,7 +1346,7 @@ msgid "Organizers and Speakers"
 msgstr ""
 
 msgid "Total"
-msgstr "Totalt"
+msgstr ""
 
 msgid "There aren't any enrolled staff"
 msgstr ""
@@ -1714,7 +1711,4 @@ msgid "The room has assigned activities."
 msgstr ""
 
 msgid "The Room has been removed successfully."
-msgstr ""
-
-msgid "Registration"
 msgstr ""
