@@ -48,12 +48,15 @@ python-install-dev: ## Python install dev dependencies
 	pip install -r requirements.txt
 	pip install -r requirements-dev.txt
 
+python-test: ## Python run test with coverage
+	cd eventol && py.test --cov-report xml --cov-report term-missing --cov-report html --cov --cov-branch
+
 travis-script: install-js-dependencies build-js ## Travis script for run tests (python and react)
 	mkdir -p eventol/static
 	cd eventol && python manage.py makemigrations manager
 	cd eventol && python manage.py migrate
 	cd eventol && python manage.py collectstatic --noinput
-	cd eventol && py.test --cov-report xml --cov-report term-missing --cov-report html --cov --cov-branch
+	@$(MAKE) -f $(THIS_FILE) python-test
 	cd eventol/front && yarn install
 	cd eventol/front && yarn test
 
