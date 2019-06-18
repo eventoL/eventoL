@@ -6,6 +6,7 @@ env:
   global:
     - DB=postgres
     - PSQL_PORT=5000
+    - PSQL_HOST=localhost
     - CC_TEST_REPORTER_ID=74cbdb599d4cabc78a5dd07f26f1ddcc36910ffca3104c35c2ba66603818031c 
   matrix:
     - DJANGO=1.11.21
