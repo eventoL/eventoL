@@ -22,6 +22,7 @@ travis-install: ## Travis install before script
 	pip install -r requirements.txt
 	pip install -r requirements-dev.txt
 
+.ONESHELL:
 travis-script: ## Travis script for run tests (python and react)
 	cd eventol/front
 	yarn install
@@ -39,6 +40,7 @@ travis-script: ## Travis script for run tests (python and react)
 	yarn test
 	cd -
 
+.ONESHELL:
 travis-after: ## Travis after script for success case
 	cd eventol
 	coverage report
