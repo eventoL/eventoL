@@ -9,7 +9,6 @@ SHELL := /bin/bash
 NODE_VERSION = 10.x
 YARN_VERSION = 1.13.0
 PSQL_DBNAME = eventol
-PSQL_HOST = localhost
 PSQL_PASSWORD = secret
 PSQL_USER = eventol
 PSQL_VERSION = 9.6
