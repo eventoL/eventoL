@@ -6,13 +6,6 @@ env:
   global:
     - DB=postgres
     - PSQL_PORT=5000
-    - PSQL_VERSION=9.6
-    - PSQL_USER=eventol
-    - NODE_VERSION=10.15
-    - YARN_VERSION=1.13.0
-    - PSQL_DBNAME=eventol
-    - PSQL_HOST=localhost
-    - PSQL_PASSWORD=secret
     - CC_TEST_REPORTER_ID=74cbdb599d4cabc78a5dd07f26f1ddcc36910ffca3104c35c2ba66603818031c 
   matrix:
     - DJANGO=1.11.21
