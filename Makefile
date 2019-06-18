@@ -20,7 +20,7 @@ help:
 
 python-image-install-yarn: ## Install yarn in python image
 	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
-	export PATH=$$HOME/.yarn/bin:$$PATH
+	export PATH="$$HOME/.yarn/bin:$$HOME/.config/yarn/global/node_modules/.bin:$$PATH"
 
 install-js-dependencies: ## Install dev dependencies
 	cd eventol/front && yarn install
