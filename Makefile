@@ -14,7 +14,7 @@ PSQL_PASSWORD = secret
 PSQL_PORT = 5000
 PSQL_USER = eventol
 PSQL_VERSION = 9.6
-PATH = "$$HOME/.yarn/bin:$$HOME/.config/yarn/global/node_modules/.bin:$$PATH"
+PATH = $$PATH:$$HOME/.yarn/bin:$$HOME/.config/yarn/global/node_modules/.bin
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
