@@ -6,7 +6,7 @@ SHELL := /bin/bash
 .DEFAULT: help
 
 .EXPORT_ALL_VARIABLES:
-NODE_VERSION = 10.15
+NODE_VERSION = 10.x
 YARN_VERSION = 1.13.0
 PSQL_DBNAME = eventol
 PSQL_HOST = localhost
@@ -16,10 +16,17 @@ PSQL_USER = eventol
 PSQL_VERSION = 9.6
 PATH = $(shell printenv PATH):$(HOME)/.yarn/bin:$(HOME)/.config/yarn/global/node_modules/.bin
 
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 python-image-install-yarn: ## Install yarn in python image
+	if which node > /dev/null; then \
+        echo "node is installed, skipping..."; \
+    else \
+        curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
+		apt install -y nodejs; \
+    fi
 	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
 
 install-js-dependencies: ## Install dev dependencies
