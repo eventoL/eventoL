@@ -14,7 +14,7 @@ PSQL_PASSWORD = secret
 PSQL_PORT = 5000
 PSQL_USER = eventol
 PSQL_VERSION = 9.6
-PATH = $(shell printenv PATH):$(HOME)/.yarn/bin:$(HOME)/.config/yarn/global/node_modules/.bin
+PATH = $(shell printenv PATH):~/.yarn/bin:$(HOME)/.yarn/bin:$(HOME)/.config/yarn/global/node_modules/.bin
 
 
 help:
