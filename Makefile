@@ -15,7 +15,6 @@ travis-before: ## Travis before commands
 	./cc-test-reporter before-build 
 	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
 	export PATH=$$HOME/.yarn/bin:$$PATH
-	nvm install $$NODE_VERSION
 
 travis-install: ## Travis install before script
 	pip install -U pip wheel
