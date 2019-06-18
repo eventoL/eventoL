@@ -9,13 +9,13 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 travis-before: ## Travis before commands
-	docker run --name eventol-postgres -e POSTGRES_PASSWORD=$PSQL_PASSWORD -e POSTGRES_USER=$PSQL_USER -e POSTGRES_DB=$PSQL_DBNAME -p $PSQL_PORT:5432 -d postgres:$PSQL_VERSION
+	docker run --name eventol-postgres -e POSTGRES_PASSWORD=$$PSQL_PASSWORD -e POSTGRES_USER=$$PSQL_USER -e POSTGRES_DB=$$PSQL_DBNAME -p $$PSQL_PORT:5432 -d postgres:$$PSQL_VERSION
 	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 	chmod +x ./cc-test-reporter
 	./cc-test-reporter before-build 
-	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
-	export PATH=$HOME/.yarn/bin:$PATH
-	nvm install $NODE_VERSION
+	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
+	export PATH=$$HOME/.yarn/bin:$$PATH
+	nvm install $$NODE_VERSION
 
 travis-install: ## Travis install before script
 	pip install -U pip wheel
