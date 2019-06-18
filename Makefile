@@ -8,13 +8,22 @@ SHELL := /bin/bash
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+python-image-install-yarn: ## Install yarn in python image
+	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
+	export PATH=$$HOME/.yarn/bin:$$PATH
+
+install-js-dependencies: ## Install dev dependencies
+	cd eventol/front && yarn install
+
+build-js: ## Build js code for production environment
+	cd eventol/front && yarn build
+
 travis-before: ## Travis before commands
 	docker run --name eventol-postgres -e POSTGRES_PASSWORD=$$PSQL_PASSWORD -e POSTGRES_USER=$$PSQL_USER -e POSTGRES_DB=$$PSQL_DBNAME -p $$PSQL_PORT:5432 -d postgres:$$PSQL_VERSION
 	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 	chmod +x ./cc-test-reporter
 	./cc-test-reporter before-build 
-	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
-	export PATH=$$HOME/.yarn/bin:$$PATH
+	@$(MAKE) -f $(THIS_FILE) python-image-install-yarn
 
 travis-install: ## Travis install before script
 	pip install -U pip wheel
@@ -22,9 +31,7 @@ travis-install: ## Travis install before script
 	pip install -r requirements.txt
 	pip install -r requirements-dev.txt
 
-travis-script: ## Travis script for run tests (python and react)
-	cd eventol/front && yarn install
-	cd eventol/front && yarn build
+travis-script: install-js-dependencies build-js ## Travis script for run tests (python and react)
 	mkdir -p eventol/static
 	cd eventol && python manage.py makemigrations manager
 	cd eventol && python manage.py migrate
