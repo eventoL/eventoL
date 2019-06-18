@@ -26,7 +26,7 @@ cache:
 before_install:
   - make travis-before
 install:
-  - make travis-install
+  - make python-install-dev
 script:
   - make travis-script
 after_success:

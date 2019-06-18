@@ -42,7 +42,7 @@ travis-before: ## Travis before commands
 	./cc-test-reporter before-build 
 	@$(MAKE) -f $(THIS_FILE) python-image-install-yarn
 
-travis-install: ## Travis install before script
+python-install-dev: ## Python install dev dependencies
 	pip install -U pip wheel
 	pip install coverage coveralls
 	pip install -r requirements.txt

@@ -58,7 +58,8 @@ python-testing:
     - make python-image-install-yarn
     - make install-js-dependencies
     - make build-js
-    - ./test.sh -i backend
+    - make python-install-dev
+    - make python-test
   artifacts:
     paths:
       - eventol/htmlcov
