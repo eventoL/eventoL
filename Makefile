@@ -5,6 +5,16 @@ SHELL := /bin/bash
 
 .DEFAULT: help
 
+.EXPORT_ALL_VARIABLES:
+NODE_VERSION = 10.15
+YARN_VERSION = 1.13.0
+PSQL_DBNAME = eventol
+PSQL_HOST = localhost
+PSQL_PASSWORD = secret
+PSQL_PORT = 5000
+PSQL_USER = eventol
+PSQL_VERSION = 9.6
+
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
