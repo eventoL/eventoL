@@ -50,7 +50,7 @@ RUN pip3 install --no-cache-dir -r requirements-dev.txt
 COPY ./eventol/front/package.json ${APP_ROOT}/eventol/front/
 COPY ./eventol/front/yarn.lock ${APP_ROOT}/eventol/front/
 RUN cd ${APP_ROOT}/eventol/front && yarn install
-RUN cd ${APP_ROOT}/eventol/front && npm rebuild node-sass --force
+# RUN cd ${APP_ROOT}/eventol/front && npm rebuild node-sass --force
 
 # Install bower dependencies
 COPY ./eventol/front/bower.json ${APP_ROOT}/eventol/front/
