@@ -7,7 +7,6 @@ addons:
     packages:
       - nodejs
       - nodejs-legacy
-      - node
 env:
   global:
     - DB=postgres
