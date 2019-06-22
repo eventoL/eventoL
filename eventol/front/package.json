@@ -5,9 +5,9 @@
   "scripts": {
     "start": "node server.js",
     "build": "webpack --config webpack.prod.config.js",
-    "build-dev": "webpack --config webpack.local.config.js",
+    "build:dev": "webpack --config webpack.local.config.js",
     "test": "jest --forceExit --ci --coverage --detectOpenHandles",
-    "watch-test": "jest --watchAll --detectOpenHandles",
+    "test:watch": "jest --watchAll --detectOpenHandles",
     "eslint": "eslint --ext .jsx --ext .js src",
     "eslint:fix": "eslint --ext .jsx --ext .js --fix src",
     "eslint:report": "eslint -f node_modules/eslint-html-reporter/reporter.js -o report.html --ext .jsx --ext .js src || true",

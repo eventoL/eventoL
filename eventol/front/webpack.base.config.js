@@ -22,6 +22,10 @@ module.exports = {
   
   plugins: [],
   
+  performance: {
+    hints: process.env.NODE_ENV === 'production' ? "warning" : false
+  },
+
   optimization: {
     removeEmptyChunks: true,
     mergeDuplicateChunks: true,
