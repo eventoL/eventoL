@@ -2,6 +2,10 @@ sudo: required
 language: python
 python:
   - "3.6"
+addons:
+  apt:
+    packages:
+      - nodejs
 env:
   global:
     - DB=postgres
