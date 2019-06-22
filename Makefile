@@ -19,13 +19,13 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 python-image-install-yarn: ## Install yarn in python image
-    if which node > /dev/null; then \
-        echo "node is installed, skipping..."; \
-        node -v; \
-    else \
-        curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
+	if which node > /dev/null; then \
+		echo "node is installed, skipping..."; \
+		node -v; \
+	else \
+		curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
 		apt install -y nodejs; \
-    fi
+	fi
 	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
 
 install-js-dependencies: ## Install dev dependencies
