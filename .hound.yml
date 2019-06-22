@@ -7,6 +7,10 @@ python:
   enabled: true
   config_file: .pylintrc
 
+prettier:
+  enabled: true
+  config_file: eventol/front/.prettierrc
+
 eslint:
   enabled: true
   config_file: eventol/front/.eslintrc.json
