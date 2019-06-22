@@ -5,14 +5,15 @@
   "scripts": {
     "start": "node server.js",
     "build": "webpack --config webpack.prod.config.js",
-    "build-dev": "webpack --config webpack.local.config.js",
+    "build:dev": "webpack --config webpack.local.config.js",
     "test": "jest --forceExit --ci --coverage --detectOpenHandles",
     "watch-test": "jest --watchAll --detectOpenHandles",
     "eslint": "eslint --ext .jsx --ext .js src",
-    "sass-lint": "sass-lint -v -q",
-    "sass-lint-report": "sass-lint -v -q -f JSON | node ./node_modules/scss-lint-html-reporter/bin/reporter.js"
     "eslint:fix": "eslint --ext .jsx --ext .js --fix src",
     "eslint:report": "eslint -f node_modules/eslint-html-reporter/reporter.js -o report.html --ext .jsx --ext .js src || true",
+    "sasslint": "sass-lint -v -q",
+    "sasslint:fix": "sass-lint-auto-fix -c .sass-lint-auto-fix.yml --config-sass-lint .sass-lint.yml",
+    "sasslint:report": "sass-lint -v -q -f JSON | node ./node_modules/scss-lint-html-reporter/bin/reporter.js"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/config/jest/setupTests.jsx",
@@ -96,6 +97,8 @@
     "react-table": "^6.10.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "sass-lint": "^1.13.1",
+    "sass-lint-auto-fix": "^0.17.0",
     "sass-loader": "^7.1.0",
     "slick-carousel": "^1.8.1",
     "style-loader": "^0.23.1",
