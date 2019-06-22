@@ -19,6 +19,7 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 python-image-install-node: ## Install node in python image
+	sudo dpkg --get-selections | grep node
 	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | sudo bash -;
 	sudo apt install -y nodejs nodejs-legacy node;
 
