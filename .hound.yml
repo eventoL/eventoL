@@ -1,5 +1,8 @@
 esversion: 6
 
+jshint:
+  enabled: false
+
 python:
   enabled: true
   config_file: .pylintrc
