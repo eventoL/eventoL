@@ -1,10 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const webpack = require('webpack');
-const config = require('./webpack.base.config.js');
 const BundleTracker = require('webpack-bundle-tracker');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
+const config = require('./webpack.base.config.js');
 
 config.output.path = require('path').resolve('./eventol/static/bundles/prod/');
 
@@ -39,28 +40,23 @@ config.optimization.minimizer = [
   new OptimizeCSSAssetsPlugin({
     cssProcessorOptions: {
       parser: safePostCssParser,
-      map: false
-      ? {
-        inline: false,
-        annotation: true,
-      }
-      : false,
+      map: false,
     },
-  })
+  }),
 ];
 
 config.mode = 'production';
 
 config.plugins = config.plugins.concat([
   new BundleTracker({filename: './webpack-stats-prod.json'}),
-  
+
   // removes a lot of debugging code in React
   new webpack.DefinePlugin({
     'process.env': {
-      NODE_ENV: JSON.stringify('production')
-    }
+      NODE_ENV: JSON.stringify('production'),
+    },
   }),
-  
+
   // keeps hashes consistent between compilations
   new webpack.optimize.OccurrenceOrderPlugin(),
 ]);

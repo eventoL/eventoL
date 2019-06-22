@@ -1,35 +1,34 @@
+/* eslint-disable import/no-extraneous-dependencies,no-unused-vars */
 const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   context: __dirname,
-  
+
   entry: {
     Home: './src/views/Home',
     EventHome: './src/views/EventHome',
     Report: './src/views/Report',
-    vendors: ['react', 'react-dom', 'redux', '@babel/polyfill']
+    vendors: ['react', 'react-dom', 'redux', '@babel/polyfill'],
   },
-  
+
   output: {
     path: path.resolve('./eventol/static/bundles/local/'),
-    filename: '[name]-[hash].js'
+    filename: '[name]-[hash].js',
   },
-  
-  externals: [
-  ], // add all vendor libs
-  
+
+  externals: [], // add all vendor libs
+
   plugins: [],
-  
+
   performance: {
-    hints: process.env.NODE_ENV === 'production' ? "warning" : false
+    hints: process.env.NODE_ENV === 'production' ? 'warning' : false,
   },
 
   optimization: {
     removeEmptyChunks: true,
     mergeDuplicateChunks: true,
-    
     minimizer: [
       new UglifyJsPlugin({
         cache: true,
@@ -37,29 +36,21 @@ module.exports = {
         uglifyOptions: {
           compress: false,
           ecma: 6,
-          mangle: true
+          mangle: true,
         },
-        sourceMap: true
-      })
-    ]
+        sourceMap: true,
+      }),
+    ],
   },
-  
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(gif|png|jpe?g|svg)$/i,
@@ -70,45 +61,42 @@ module.exports = {
             options: {
               mozjpeg: {
                 progressive: true,
-                quality: 65
+                quality: 65,
               },
               optipng: {
                 enabled: false,
               },
               pngquant: {
                 quality: '65-90',
-                speed: 4
+                speed: 4,
               },
               gifsicle: {
-                interlaced: false
+                interlaced: false,
               },
               webp: {
-                quality: 75
+                quality: 75,
               },
               svgo: {
-                enabled: true
-              }
-            }
+                enabled: true,
+              },
+            },
           },
-        ]
+        ],
       },
       {
         test: /\.(eot|woff2|woff|ttf)$/,
-        use: 'file-loader'
+        use: 'file-loader',
       },
       {test: /\.jsx?$/, exclude: /node_modules/, loaders: ['babel-loader']},
       {
-        include: [
-          {test: /\Toggle.js?$/},
-          {test: /\effects.js?$/},
-        ],
-        use: ['babel-loader']
-      }
-    ]
+        include: [{test: /\Toggle.js?$/}, {test: /\effects.js?$/}],
+        use: ['babel-loader'],
+      },
+    ],
   },
-  
+
   resolve: {
     modules: ['node_modules', 'bower_components'],
-    extensions: ['.js', '.jsx']
-  }
+    extensions: ['.js', '.jsx'],
+  },
 };
