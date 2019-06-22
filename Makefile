@@ -19,17 +19,15 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 python-image-install-node: ## Install node in python image
-	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | sudo bash -
-	sudo apt install -y nodejs
-	nvm use 10
+	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -
+	apt install -y nodejs
 
 python-image-install-yarn: ## Install yarn and node in python image if node is not installed
 	if which node > /dev/null; then \
 		node -v; \
 		echo "node is installed, skipping..."; \
 	else \
-		curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
-		apt install -y nodejs; \
+		@$(MAKE) -f $(THIS_FILE) python-image-install-node; \
 	fi
 	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
 
@@ -45,7 +43,6 @@ travis-before: ## Travis before commands
 	chmod +x ./cc-test-reporter
 	./cc-test-reporter before-build
 	node -v;
-	@$(MAKE) -f $(THIS_FILE) python-image-install-node
 	@$(MAKE) -f $(THIS_FILE) python-image-install-yarn
 
 python-install-dev: ## Python install dev dependencies
