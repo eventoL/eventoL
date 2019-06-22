@@ -6,12 +6,12 @@ python:
 
 eslint:
   enabled: true
-  config_file: eventol/front/.eslintrc.yaml
+  config_file: eventol/front/.eslintrc.json
 
 javascript:
   enable: true
   esversion: 6
-  config_file: eventol/front/.eslintrc.yaml
+  config_file: eventol/front/.eslintrc.json
 
 scss:
   enabled: true
