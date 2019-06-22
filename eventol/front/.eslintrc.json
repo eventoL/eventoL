@@ -33,7 +33,7 @@
     "node": true
   },
   "rules": {
-    "prettier/prettier": ["error", {"trailingComma": "es5"}],
+    "prettier/prettier": "error",
     "arrow-parens": ["error", "as-needed"],
     "object-curly-spacing": ["error", "never"],
     "quotes": ["error", "single"],
