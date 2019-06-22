@@ -20,7 +20,7 @@ help:
 
 python-image-install-node: ## Install node in python image
 	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | sudo bash -
-	sudo apt install -y nodejs nodejs-legacy node
+	sudo apt install -y nodejs nodejs-legacy
 
 python-image-install-yarn: ## Install yarn and node in python image if node is not installed
 	if which node > /dev/null; then \
