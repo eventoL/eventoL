@@ -52,23 +52,20 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
-  image: python:3.6
+  image: python:3.7
   stage: testing
   script:
-    - curl -sL https://deb.nodesource.com/setup_8.x | bash -
-    - apt install -y nodejs
-    - npm install -g yarn yarnpkg
-    - cd eventol/front
-    - yarn install
-    - yarn build
-    - cd -
-    - ./test.sh -i backend
+    - make python-image-install-yarn
+    - make install-js-dependencies
+    - make build-js
+    - make python-install-dev
+    - make python-test
   artifacts:
     paths:
       - eventol/htmlcov
 
 react-testing:
-  image: node:8
+  image: node:10
   stage: testing
   script:
     - ./test.sh -i frontend
@@ -77,14 +74,14 @@ react-testing:
       - eventol/front/coverage
 
 python-lint:
-  image: python:3.5
+  image: python:3.7
   stage: styling
   allow_failure: true
   script:
     - ./test.sh -i pythonlint
 
 react-lint-report:
-  image: node:8
+  image: node:10
   stage: styling
   allow_failure: true
   script:
@@ -94,14 +91,14 @@ react-lint-report:
       - eventol/front/report.html
 
 react-lint:
-  image: node:8
+  image: node:10
   stage: styling
   allow_failure: true
   script:
     - ./test.sh -i lint
 
 sass-lint-report:
-  image: node:8
+  image: node:10
   stage: styling
   allow_failure: true
   script:
@@ -111,7 +108,7 @@ sass-lint-report:
       - eventol/front/scss-lint-report.html
 
 sass-lint:
-  image: node:8
+  image: node:10
   stage: styling
   allow_failure: true
   script:
