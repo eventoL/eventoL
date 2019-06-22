@@ -27,8 +27,8 @@ python-image-install-yarn: ## Install yarn and node in python image if node is n
 		node -v; \
 		echo "node is installed, skipping..."; \
 	else \
-		curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -;
-		apt install -y nodejs;
+		curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
+		apt install -y nodejs; \
 	fi
 	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
 
