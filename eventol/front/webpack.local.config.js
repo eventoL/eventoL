@@ -6,6 +6,17 @@ const localSettings = require('./webpack.local-settings.js');
 const ip = localSettings.ip;
 const port = 3000;
 
+config.devServer = {
+  historyApiFallback: true,
+  noInfo: true,
+  overlay: true,
+  port,
+  host: ip,
+  disableHostCheck: true,
+  public: `${ip}:${port}`,
+  publicPath: `http://${ip}:${port}`
+}
+
 const addDevVendors = module => [
   `webpack-dev-server/client?http://${ip}:${port}`,
   'webpack/hot/only-dev-server',
