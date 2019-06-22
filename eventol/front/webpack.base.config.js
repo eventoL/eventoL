@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies,no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies,no-unused-vars,no-useless-escape */
 const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
