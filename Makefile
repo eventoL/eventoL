@@ -18,13 +18,24 @@ PATH = $(shell printenv PATH):~/.yarn/bin:$(HOME)/.yarn/bin:$(HOME)/.config/yarn
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-python-image-install-yarn: ## Install yarn in python image
-	if which node > /dev/null; then \
+fruta:
+	if [ which node ] || [[ -z $FORCE ]] > /dev/null; then \
+		echo "node is installed, skipping..."; \
+	else \
+		echo "to install"; \
+	fi
+	echo "fin"; \
+
+python-image-install-node: ## Install node in python image
+	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -;
+	apt install -y nodejs;
+
+python-image-install-yarn: ## Install yarn and node in python image if node is not installed
+	if [ which node ] || [[ -z $FORCE ]] > /dev/null; then \
 		echo "node is installed, skipping..."; \
 		node -v; \
 	else \
-		curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
-		apt install -y nodejs; \
+		@$(MAKE) -f $(THIS_FILE) python-image-install-node; \
 	fi
 	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
 
@@ -39,6 +50,7 @@ travis-before: ## Travis before commands
 	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 	chmod +x ./cc-test-reporter
 	./cc-test-reporter before-build
+	@$(MAKE) -f $(THIS_FILE) python-image-install-node
 	@$(MAKE) -f $(THIS_FILE) python-image-install-yarn
 
 python-install-dev: ## Python install dev dependencies
