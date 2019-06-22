@@ -27,7 +27,8 @@ python-image-install-yarn: ## Install yarn and node in python image if node is n
 		node -v; \
 		echo "node is installed, skipping..."; \
 	else \
-		@$(MAKE) -f $(THIS_FILE) python-image-install-node; \
+		curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
+		apt install -y nodejs; \
 	fi
 	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
 
@@ -42,7 +43,6 @@ travis-before: ## Travis before commands
 	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 	chmod +x ./cc-test-reporter
 	./cc-test-reporter before-build
-	node -v;
 	@$(MAKE) -f $(THIS_FILE) python-image-install-yarn
 
 python-install-dev: ## Python install dev dependencies
