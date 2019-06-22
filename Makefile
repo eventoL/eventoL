@@ -19,8 +19,9 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 python-image-install-yarn: ## Install yarn in python image
-	if which node > /dev/null; then \
+    if which node > /dev/null; then \
         echo "node is installed, skipping..."; \
+        node -v; \
     else \
         curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
 		apt install -y nodejs; \
@@ -37,7 +38,7 @@ travis-before: ## Travis before commands
 	docker run --name eventol-postgres -e POSTGRES_PASSWORD=$$PSQL_PASSWORD -e POSTGRES_USER=$$PSQL_USER -e POSTGRES_DB=$$PSQL_DBNAME -p $$PSQL_PORT:5432 -d postgres:$$PSQL_VERSION
 	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 	chmod +x ./cc-test-reporter
-	./cc-test-reporter before-build 
+	./cc-test-reporter before-build
 	@$(MAKE) -f $(THIS_FILE) python-image-install-yarn
 
 python-install-dev: ## Python install dev dependencies
