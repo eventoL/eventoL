@@ -57,9 +57,6 @@ COPY ./eventol/front/bower.json ${APP_ROOT}/eventol/front/
 COPY ./eventol/front/.bowerrc ${APP_ROOT}/eventol/front/
 RUN cd ${APP_ROOT}/eventol/front && bower install --allow-root
 
-# Copy test script file
-COPY ./test.sh ${APP_ROOT}/test.sh
-
 # Copy python code
 COPY ./eventol ${APP_ROOT}/eventol
 RUN mkdir -p ${APP_ROOT}/eventol/manager/static
