@@ -4043,6 +4043,13 @@ eslint-config-prettier@^5.0.0:
   dependencies:
     get-stdin "^6.0.0"
 
+eslint-html-reporter@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/eslint-html-reporter/-/eslint-html-reporter-0.7.3.tgz#8c87baf0827ca0b8b08c5827a8370134ce3d7c40"
+  integrity sha512-IuF1yJ9OoIXDLHTv1SP1rxVGKtlPVkZuIbGk6gF8ysqVGWmE4dF5LhNPtUysM1QgmHT15x07FUCRpbXlGF13oA==
+  dependencies:
+    hairballs "^0.3.1"
+
 eslint-import-resolver-node@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.2.tgz#58f15fb839b8d0576ca980413476aab2472db66a"
@@ -5185,12 +5192,19 @@ growly@^1.3.0:
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
   integrity sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
 
+hairballs@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/hairballs/-/hairballs-0.3.1.tgz#da2fc2f163781258dc93607c12499e671c16bd5f"
+  integrity sha512-jUFhYzChUxY/72ZpwMSem/+RzpCqfghK9WQe/eDmWyp0dpkD/ItTpIhV/NndmH9AqIkqm0XTdFwR/LAT4/+Hvg==
+  dependencies:
+    handlebars "4.1.2"
+
 handle-thing@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.0.tgz#0e039695ff50c93fc288557d696f3c1dc6776754"
   integrity sha512-d4sze1JNC454Wdo2fkuyzCr6aHcbL6PGGuFAz0Li/NcOm1tCHGnWDRmJP85dh9IhQErTc2svWFEX5xHIOo//kQ==
 
-handlebars@^4.1.2:
+handlebars@4.1.2, handlebars@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.2.tgz#b6b37c1ced0306b221e094fc7aca3ec23b131b67"
   integrity sha512-nvfrjqvt9xQ8Z/w0ijewdD/vvWDTOweBUm96NTr66Wfvo1mJenBLwcYmPs3TIBP5ruzYGD7Hx/DaM9RmhroGPw==
