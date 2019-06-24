@@ -81,7 +81,7 @@ react-lint-report:
   stage: styling
   allow_failure: true
   script:
-    - make gitlab-react-lint-report
+    - make gitlab-react-lint-with-report
   artifacts:
     paths:
       - eventol/front/report.html
