@@ -9453,6 +9453,13 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
+scss-lint-html-reporter@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/scss-lint-html-reporter/-/scss-lint-html-reporter-0.4.1.tgz#42daaff5f98311149b7da930078fa36fc1277e64"
+  integrity sha512-snOvBRvfEiMtIzXsDaIheudilzV4uonwYcTxcBHusZqZfHxPUlPhWA38awHC9O0RsiRQa8O6g+DZbZ3RGJMWLg==
+  dependencies:
+    hairballs "^0.3.1"
+
 scss-tokenizer@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz#8eb06db9a9723333824d3f5530641149847ce5d1"
