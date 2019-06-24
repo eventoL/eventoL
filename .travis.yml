@@ -21,7 +21,7 @@ cache:
 before_install:
   - make travis-before
 install:
-  - make python-install-dev
+  - make backend-install-dev
   - make travis-install-dependencies
 script:
   - make travis-script
