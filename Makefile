@@ -129,6 +129,6 @@ gitlab-python-testing: install-yarn-in-python-image frontend-install-dependencie
 gitlab-python-lint: backend-install-dev backend-lint-with-report ## Gitlab command for python-lint job
 gitlab-react-testing: frontend-install-dependencies frontend-test ## Gitlab command for react-testing job
 gitlab-react-lint: frontend-install-dependencies frontend-lint ## Gitlab command for react-lint job
-gitlab-react-lint-report: frontend-install-dependencies frontend-lint-with-report ## Gitlab command for react-lint-report job
+gitlab-react-lint-with-report: frontend-install-dependencies frontend-lint-with-report ## Gitlab command for react-lint-report job
 gitlab-react-sasslint: frontend-install-dependencies frontend-sasslint ## Gitlab command for react-sasslint job
-gitlab-react-sasslint-report: frontend-install-dependencies frontend-sasslint-with-report ## Gitlab command for react-sasslint-report job
+gitlab-react-sasslint-with-report: frontend-install-dependencies frontend-sasslint-with-report ## Gitlab command for react-sasslint-report job
