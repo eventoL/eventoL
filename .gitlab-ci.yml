@@ -55,11 +55,7 @@ python-testing:
   image: python:3.7
   stage: testing
   script:
-    - make python-image-install-yarn
-    - make install-js-dependencies
-    - make build-js
-    - make python-install-dev
-    - make python-test
+    - make gitlab-python-testing
   artifacts:
     paths:
       - eventol/htmlcov
@@ -68,7 +64,7 @@ react-testing:
   image: node:10
   stage: testing
   script:
-    - ./test.sh -i frontend
+    - make gitlab-react-testing
   artifacts:
     paths:
       - eventol/front/coverage
@@ -78,14 +74,14 @@ python-lint:
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i pythonlint
+    - make gitlab-python-lint
 
 react-lint-report:
   image: node:10
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i lint-report
+    - make gitlab-react-lint-report
   artifacts:
     paths:
       - eventol/front/report.html
@@ -95,14 +91,14 @@ react-lint:
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i lint
+    - make gitlab-react-lint
 
 sass-lint-report:
   image: node:10
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i sass-lint-report
+    - make gitlab-react-sasslint-with-report
   artifacts:
     paths:
       - eventol/front/scss-lint-report.html
@@ -112,7 +108,7 @@ sass-lint:
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i sass-lint
+    - make gitlab-react-sasslint
 
 deploy:
   stage: deploy
