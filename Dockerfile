@@ -1,4 +1,4 @@
-FROM python:3.5-alpine
+FROM python:3.7.3-alpine
 
 # Set environment variables
 ENV APP_ROOT /usr/src/app
@@ -15,13 +15,13 @@ RUN apk add --upgrade --no-cache --repository http://dl-cdn.alpinelinux.org/alpi
 ## Install system dependencies
 RUN apk --update add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
     bash wget dpkg-dev libffi nodejs nodejs-npm git gcc musl-dev gettext \
-    postgresql-dev libffi-dev py3-setuptools jpeg-dev make \
+    postgresql-dev libffi-dev py3-setuptools jpeg-dev make autoconf automake \
     zlib-dev freetype-dev lcms2-dev openjpeg-dev libxslt-dev alpine-sdk \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Install react dependencies
 RUN npm install -g npm
-RUN npm install -g yarn webpack@^1.12.13 bower less
+RUN npm install -g yarn bower less
 
 ## Install python dependencies
 RUN pip3 install --no-cache-dir cffi cairocffi psycopg2
@@ -50,15 +50,12 @@ RUN pip3 install --no-cache-dir -r requirements-dev.txt
 COPY ./eventol/front/package.json ${APP_ROOT}/eventol/front/
 COPY ./eventol/front/yarn.lock ${APP_ROOT}/eventol/front/
 RUN cd ${APP_ROOT}/eventol/front && yarn install
-RUN cd ${APP_ROOT}/eventol/front && npm rebuild node-sass --force
+# RUN cd ${APP_ROOT}/eventol/front && npm rebuild node-sass --force
 
 # Install bower dependencies
 COPY ./eventol/front/bower.json ${APP_ROOT}/eventol/front/
 COPY ./eventol/front/.bowerrc ${APP_ROOT}/eventol/front/
 RUN cd ${APP_ROOT}/eventol/front && bower install --allow-root
-
-# Copy test script file
-COPY ./test.sh ${APP_ROOT}/test.sh
 
 # Copy python code
 COPY ./eventol ${APP_ROOT}/eventol
@@ -75,7 +72,7 @@ COPY ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
 COPY ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
 
 # Compile reactjs code
-RUN cd ${APP_ROOT}/eventol/front && webpack --config webpack.prod.config.js
+RUN cd ${APP_ROOT}/eventol/front && yarn build
 
 # Collect statics
 RUN mkdir -p ${APP_ROOT}/eventol/static

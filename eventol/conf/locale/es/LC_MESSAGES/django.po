@@ -1,11 +1,11 @@
-# Allan Nordhøy <epost@anotheragency.no>, 2019.
+# Federico Gonzalez <federicogonzalez761@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-01-20 05:58+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"POT-Creation-Date: 2019-06-11 21:00+0000\n"
+"PO-Revision-Date: 2019-06-18 19:03+0000\n"
+"Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
 "es/>\n"
 "Language: es\n"
@@ -13,12 +13,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.7\n"
 
-#, fuzzy
-#| msgid "Spanish"
 msgid "Danish"
-msgstr "Español"
+msgstr "Danés"
 
 msgid "English"
 msgstr "Ingles"
@@ -27,13 +25,16 @@ msgid "Spanish"
 msgstr "Español"
 
 msgid "Norwegian Bokmal"
-msgstr ""
+msgstr "Noruego bokmal"
 
 msgid "Dutch"
-msgstr ""
+msgstr "Holandés"
 
 msgid "Swedish"
-msgstr ""
+msgstr "Sueco"
+
+msgid "Chinese"
+msgstr "Chino"
 
 msgid "Attendee"
 msgstr "Asistente"
@@ -83,8 +84,6 @@ msgstr "Actualizado en"
 msgid "A image to show in the background of"
 msgstr "Una imagen para mostrar en el fondo de"
 
-#, fuzzy
-#| msgid "This logo will be showed in the corner right of the page"
 msgid "This logo will be shown in the right corner of the page"
 msgstr "Este logo va a ser mostrado en la esquina derecha de la pagina"
 
@@ -100,28 +99,20 @@ msgstr "URL"
 msgid "For example: flisol-caba"
 msgstr "Por ejemplo: flisol-caba"
 
-#, fuzzy
-#| msgid "Custom css"
 msgid "Custom Form"
-msgstr "Css alternativo"
+msgstr "Formulario alternativo"
 
-#, fuzzy
-#| msgid "Custom css"
 msgid "Custom Forms"
-msgstr "Css alternativo"
+msgstr "Formularios alternativos"
 
 msgid "Order"
-msgstr ""
+msgstr "Orden"
 
-#, fuzzy
-#| msgid "Custom css"
 msgid "Custom Field"
-msgstr "Css alternativo"
+msgstr "Campo personalizado"
 
-#, fuzzy
-#| msgid "Custom css"
 msgid "Custom Fields"
-msgstr "Css alternativo"
+msgstr "Campos personalizados"
 
 msgid "Event Name"
 msgstr "Nombre del evento"
@@ -170,15 +161,11 @@ msgid "http://www.my-awesome-event.com"
 msgstr "http://www.mi-super-evento.com"
 
 msgid "Email"
-msgstr "Correo electrónico"
+msgstr "Mail"
 
-#, fuzzy
-#| msgid "Event Information"
 msgid "Event Info"
 msgstr "Información del evento"
 
-#, fuzzy
-#| msgid "Event Information HTML"
 msgid "Event Info HTML"
 msgstr "HTML de Información del Evento"
 
@@ -221,26 +208,20 @@ msgstr "Este mensaje se muestra en el formulario de propuesta de actividades"
 msgid "Template"
 msgstr "Plantilla"
 
-#, fuzzy
-#| msgid "Custom template html for event index page"
 msgid "Custom template HTML for event index page"
-msgstr "Template personalizado para la página principal de este evento."
+msgstr "Plantilla personalizada para la página principal de este evento."
 
 msgid "Custom css"
 msgstr "Css alternativo"
 
-#, fuzzy
-#| msgid "Custom css file for event page"
 msgid "Custom CSS file for event page"
 msgstr "Archivo css alternativo para la pagina del evento"
 
 msgid "Event"
-msgstr "Nombre del evento"
+msgstr "Evento"
 
-#, fuzzy
-#| msgid "Event"
 msgid "Events"
-msgstr "Nombre del evento"
+msgstr "Eventos"
 
 msgid "Date"
 msgstr "Fecha"
@@ -248,15 +229,11 @@ msgstr "Fecha"
 msgid "When will your event be?"
 msgstr "Cuándo será el evento?"
 
-#, fuzzy
-#| msgid "Event Name"
 msgid "Event Date"
-msgstr "Nombre del evento"
+msgstr "Fecha del evento"
 
-#, fuzzy
-#| msgid "Event Name"
 msgid "Event Dates"
-msgstr "Nombre del evento"
+msgstr "Fechas del evento"
 
 msgid "Name"
 msgstr "Nombre"
@@ -354,8 +331,6 @@ msgstr "Modo de asistencia"
 msgid "Assignation"
 msgstr "Asignación"
 
-#, fuzzy
-#| msgid "Anything you can help with (i.e. Talks, Coffee...)"
 msgid ""
 "Anything you can help with                                                (i."
 "e. Talks, Coffee…)"
@@ -381,10 +356,8 @@ msgstr "Dirección"
 msgid "Additional Info"
 msgstr "Información Adicional"
 
-#, fuzzy
-#| msgid "Any additional info you consider relevant"
 msgid "Additional info you consider relevant"
-msgstr "Cualquier información que consideres relevante para la organización"
+msgstr "Cualquier información adicional que consideres relevante"
 
 msgid "Collaborator"
 msgstr "Colaborador"
@@ -485,7 +458,7 @@ msgid "Netbook"
 msgstr "Netbook"
 
 msgid "Tablet"
-msgstr "Tablet"
+msgstr "Tableta"
 
 msgid "Desktop"
 msgstr "PC de escritorio"
@@ -534,16 +507,16 @@ msgstr "Hora de Fin"
 msgid "Speakers Names"
 msgstr "Nombre de los disertantes"
 
-#, fuzzy
-#| msgid "Comma separated speaker's names"
 msgid "Comma separated speaker names"
-msgstr "(Separados por coma) Nombre de los disertantes"
+msgstr "Nombre de los disertantes (Separados por coma)"
 
 msgid "Speaker Bio"
 msgstr "Biografía del disertantes"
 
 msgid "Tell us about you (we will user it as your \"bio\" in our website"
 msgstr ""
+"Cuéntanos acerca de ti (lo usaremos como tu \"biografía\" en nuestro sitio "
+"web"
 
 msgid "Labels"
 msgstr "Etiquetas/Tags"
@@ -687,15 +660,11 @@ msgstr "Instalación"
 msgid "Installations"
 msgstr "Instalaciones"
 
-#, fuzzy
-#| msgid "Event User"
 msgid "eventoL setting"
-msgstr "Usuario del evento"
+msgstr "Configuración de EventoL"
 
-#, fuzzy
-#| msgid "Event Users"
 msgid "eventoL settings"
-msgstr "Usuarios del evento"
+msgstr "Configuraciones de EventoL"
 
 msgid ""
 "You are not allowed to access the current page. Contact an administrator if "
@@ -1042,10 +1011,8 @@ msgstr "Confirmado"
 msgid "Speakers"
 msgstr "Disertantes"
 
-#, fuzzy
-#| msgid "Speakers"
 msgid "Speakers Bio"
-msgstr "Disertantes"
+msgstr "Biografiá del Disertante"
 
 msgid "Start"
 msgstr "Inicio"
@@ -1056,8 +1023,6 @@ msgstr "Fin"
 msgid "Description"
 msgstr "Descripción completa"
 
-#, fuzzy
-#| msgid "Additional Info"
 msgid "Additional Information"
 msgstr "Información Adicional"
 
@@ -1080,7 +1045,7 @@ msgid "Proposed"
 msgstr "Propuesta"
 
 msgid "Not Confirmed"
-msgstr "Sin Confirmar"
+msgstr "No confirmado"
 
 msgid "Votes"
 msgstr "Votos"
@@ -1118,10 +1083,8 @@ msgstr "Subir"
 msgid "My Proposals"
 msgstr "Mis Propuestas"
 
-#, fuzzy
-#| msgid "View Proposal"
 msgid "Edit Proposal"
-msgstr "Ver Propuesta"
+msgstr "Editar Propuesta"
 
 msgid "Next"
 msgstr "Siguiente"
@@ -1245,7 +1208,7 @@ msgid "Profile"
 msgstr "Perfil"
 
 msgid "You have the power!"
-msgstr "You have the power!"
+msgstr "¡Tenes el poder!"
 
 msgid "ContactMessage"
 msgstr "Mensaje de contacto"
@@ -1419,8 +1382,6 @@ msgstr "Agregar"
 msgid "Add review staff"
 msgstr "Agregar miembro de review"
 
-#, fuzzy
-#| msgid " People who can review and vote activities "
 msgid "People who can review and vote on activities"
 msgstr "Personas que pueden votar o revisar actividades."
 
@@ -1689,10 +1650,10 @@ msgid ""
 "{event_name} and eventoL team"
 msgstr ""
 "Hola,\n"
-"Tu charla \"{activity_title}\" fue actualizada al estado "
-"\"{activity_status}\" .\n"
+"Tu charla \"{activity_title}\" fue actualizada al estado \"{activity_status}"
+"\" .\n"
 "{justification}Saludos,\n"
-"el equipo de {event_name} y <em>eventoL</em>."
+"El equipo de {event_name} y <em>eventoL</em>."
 
 msgid "<p>Justification: {}</p>\n"
 msgstr "<p>Justificación: {}</p>\n"
@@ -1729,7 +1690,7 @@ msgstr ""
 "Aquí está tu entrada para el evento {event_name}.\n"
 "Recuerda imprimirla y traerla el día del evento.\n"
 "Saludos,\n"
-"el equipo de {event_name} y eventoL."
+"El equipo de {event_name} y eventoL."
 
 #, python-brace-format
 msgid ""
@@ -1744,15 +1705,11 @@ msgstr ""
 "Aquí está tu entrada para el evento {event_name}.</p>\n"
 "<p>Recuerda <em>imprimirla y traerla</em> el/los día/s del evento.</p>\n"
 "<p>Saludos,\n"
-"el equipo de {event_name} y <em>eventoL</em></p>."
+"El equipo de {event_name} y <em>eventoL</em></p>."
 
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "{first_name} {last_name}, thank you for participating in FLISoL "
-#| "{event_name}"
+#, python-brace-format
 msgid "{first_name} {last_name}, thank you for participating {event_name}"
-msgstr ""
-"{first_name} {last_name}, gracias por participar en FLISoL {event_name}"
+msgstr "{first_name} {last_name}, gracias por participar en {event_name}"
 
 msgid "General Ticket"
 msgstr "Entrada General"
@@ -1867,7 +1824,7 @@ msgid "You are already registered and present! Go have fun"
 msgstr "¡Ya estás presente y registrado! Andá a divertirte"
 
 msgid "The ticket code is not valid for this event"
-msgstr "El asistente no se encuentra registrado para este evento."
+msgstr "El código del ticket no es valido para este evento"
 
 msgid "The message has been sent. You will receive a reply by email"
 msgstr ""
@@ -1917,8 +1874,6 @@ msgstr ""
 "El mail no se pudo enviar correctamente, por favor intente mas tarde o "
 "contactese con un organizador"
 
-#, fuzzy
-#| msgid "The verification URL is invalid. Try again. "
 msgid "The verification URL is invalid. Try again."
 msgstr "La URL de verificación es inválida. Inténtalo de nuevo."
 
@@ -2057,8 +2012,8 @@ msgstr "La sala tiene actividades asignadas."
 msgid "The Room has been removed successfully."
 msgstr "¡La sala fue borrada satisfactoriamente!"
 
-msgid "Registration"
-msgstr "Registrame"
+#~ msgid "Registration"
+#~ msgstr "Registrame"
 
 #~ msgid "Short idea of the event (One or two sentences)"
 #~ msgstr "Uno o dos oraciones que describan la actividad"

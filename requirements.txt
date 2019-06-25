@@ -1,5 +1,5 @@
 asgi-redis==1.4.3
-Django==1.11.20
+Django==1.11.21
 django-configurations==2.0
 easy-thumbnails==2.5
 django-autocomplete-light==3.2.10
@@ -17,7 +17,7 @@ djangorestframework-filters==0.10.2
 djangorestframework-queryfields==1.0.0
 django-vote==2.1.7
 channels==1.1.8
-django-extensions==2.0.7
+django-extensions==2.1.4
 django-forms-builder==0.14.0
 asgi-ipc==1.4.2
 PyQRCode==1.2.1
