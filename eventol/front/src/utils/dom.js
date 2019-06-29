@@ -1,4 +1,3 @@
-
 const focusOn = query => {
   document.getElementById(query).focus();
 };

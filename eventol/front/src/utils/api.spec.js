@@ -2,9 +2,11 @@ import _ from 'lodash';
 
 import {getUrl, postUrl, addQueryString} from './api';
 
-
 describe('Api utils', () => {
-  let url, data, body, query;
+  let url;
+  let data;
+  let body;
+  let query;
 
   beforeAll(() => {
     url = '/api/';
@@ -17,12 +19,14 @@ describe('Api utils', () => {
   });
 
   beforeEach(() => {
-    global.fetch = jest.fn().mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve([]),
-    }));
+    global.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve([]),
+      })
+    );
   });
 
-  function getLastCall(){
+  function getLastCall() {
     return _.last(global.fetch.mock.calls);
   }
 
@@ -63,7 +67,9 @@ describe('Api utils', () => {
   describe('addQueryString', () => {
     it('should return url with querystring', () => {
       const urlWithQueryString = addQueryString(url, query);
-      expect(urlWithQueryString).toEqual('/api/?slug=event_slug&registration=true');
+      expect(urlWithQueryString).toEqual(
+        '/api/?slug=event_slug&registration=true'
+      );
     });
 
     it('when empty querystring, should return url', () => {

@@ -4,7 +4,7 @@ const getCsrf = () => Cookies.get('csrftoken');
 
 export const addQueryString = (url, query) => {
   const queryKeys = query ? Object.keys(query) : [];
-  if (queryKeys.length > 0){
+  if (queryKeys.length > 0) {
     const params = queryKeys.map(k => `${k}=${encodeURIComponent(query[k])}`);
     return `${url}?${params.join('&')}`;
   }
@@ -15,13 +15,13 @@ const genericFetch = (url, queryString, params) => {
   const newUrl = addQueryString(url, queryString);
   return fetch(newUrl, params)
     .then(res => {
-      if (!res.ok){
+      if (!res.ok) {
         return Promise.reject(res.status, res.statusText);
       }
       return res.json();
     })
     .catch(status => {
-      if (status === 403){
+      if (status === 403) {
         window.location.hash = '/';
         window.location.href = '/';
       }

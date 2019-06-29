@@ -1,7 +1,12 @@
 import {
-  API_URL, EVENTS_API_URL,
-  WS_URL, EVENTS_WS_URL,
-  getTagUrl, getWsUrl, getEventUrl, getApiFullUrl,
+  API_URL,
+  EVENTS_API_URL,
+  WS_URL,
+  EVENTS_WS_URL,
+  getTagUrl,
+  getWsUrl,
+  getEventUrl,
+  getApiFullUrl,
 } from './urls';
 
 describe('Url utils', () => {
@@ -30,7 +35,9 @@ describe('Url utils', () => {
 
   describe('EVENTS_WS_URL', () => {
     it('EVENTS_WS_URL should be ws://window.location.host/update/events/', () => {
-      expect(EVENTS_WS_URL).toEqual(`ws://${window.location.host}/updates/events/`);
+      expect(EVENTS_WS_URL).toEqual(
+        `ws://${window.location.host}/updates/events/`
+      );
     });
   });
 
@@ -50,7 +57,7 @@ describe('Url utils', () => {
 
   describe('getApiFullUrl', () => {
     it('getApiFullUrl should returns /api/event/url', () => {
-      const url = '/event_slug?registrataion=true';
+      const url = '/event_slug?registration=true';
       expect(getApiFullUrl(url)).toEqual(`/api/events/${url}`);
     });
   });
@@ -58,7 +65,9 @@ describe('Url utils', () => {
   describe('getWsUrl', () => {
     it('getWsUrl should returns protocol://host/updates/', () => {
       const protocol = 'wss';
-      expect(getWsUrl(protocol)).toEqual(`${protocol}://${window.location.host}/updates/`);
+      expect(getWsUrl(protocol)).toEqual(
+        `${protocol}://${window.location.host}/updates/`
+      );
     });
 
     it('when protocol is undefined, getWsUrl should returns ws://host/updates/', () => {
