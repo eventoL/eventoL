@@ -53,12 +53,7 @@
     "react/jsx-props-no-spreading": ["error", {
       "exceptions": ["WrappedComponent"]
     }],
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": [
-      "src/**/*.{spec,test}.{js,jsx}",
-      "src/**/__mocks__/*.{js,jsx}",
-      "src/setupTests.{js,jsx}",
-      "src/**/*.stories.{js,jsx}"
-    ]}]
+    "import/no-extraneous-dependencies": "off"
   },
   "overrides": [{
     "files": [
