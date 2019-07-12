@@ -3,40 +3,39 @@ import PropTypes from 'prop-types';
 
 import Logger from '../../utils/logger';
 
-
 export default class Arrow extends React.PureComponent {
   static propTypes = {
-    onClick: PropTypes.func,
+    handleOnClick: PropTypes.func,
     style: PropTypes.shape({}),
     type: PropTypes.oneOf(['prev', 'next']).isRequired,
   };
 
   static defaultProps = {
+    handleOnClick: Logger.log,
     style: {},
-    onClick: Logger.log,
-  }
+  };
 
-  getClassNameByType(){
+  getClassNameByType() {
     const {type} = this.props;
-    if (type === 'prev'){
+    if (type === 'prev') {
       return 'arrow-prev fa fa-chevron-left';
     }
-    if (type === 'next'){
+    if (type === 'next') {
       return 'arrow-next fa fa-chevron-right';
     }
     return '';
   }
 
-  render(){
-    const {onClick, style} = this.props;
+  render() {
+    const {handleOnClick, style} = this.props;
     return (
       <div
         className={`arrow ${this.getClassNameByType()}`}
-        role='button'
-        tabIndex='0'
+        onClick={handleOnClick}
+        onKeyPress={handleOnClick}
+        role="button"
         style={{...style, display: 'block', color: 'black'}}
-        onKeyPress={onClick}
-        onClick={onClick}
+        tabIndex="0"
       />
     );
   }
