@@ -15,12 +15,11 @@ import {REPORT_REQUIRED_FIELDS} from '../../utils/constants';
 import './react-input-toggle.css';
 import 'react-table/react-table.css';
 
-
 export default class Report extends React.Component {
   static propTypes = {
     communicator: PropTypes.object,
     eventsPrivateData: PropTypes.object,
-  }
+  };
 
   state = {
     all_data: [],
@@ -32,9 +31,9 @@ export default class Report extends React.Component {
     totals: {},
     pages: null,
     loading: true,
-  }
+  };
 
-  componentDidMount(){
+  componentDidMount() {
     const {communicator} = this.props;
     communicator.addOnMessage(this.updateTable);
     let autoupdate = localStorage.getItem('autoupdate');
@@ -42,43 +41,60 @@ export default class Report extends React.Component {
     else autoupdate = JSON.parse(autoupdate);
     this.setState({loading: true, autoupdate});
     const url = '/api/events/?limit=5000&offset=0&fields=report';
-    return getUrl(url).then(
-      ({results: all_data}) => this.setState({
-        all_data, totals: this.parseTotals(all_data), loading: false,
-      }),
-    ).catch(err => Logger.error(gettext('There has been an error'), err));
+    return getUrl(url)
+      .then(({results: all_data}) =>
+        this.setState({
+          all_data,
+          totals: this.parseTotals(all_data),
+          loading: false,
+        })
+      )
+      .catch(err => Logger.error(gettext('There has been an error'), err));
   }
 
   loadContent = (pageSize, page, sorted) => {
     const offset = page * pageSize;
     let queryParams = `limit=${pageSize}&offset=${offset}&fields=${REPORT_REQUIRED_FIELDS}`;
-    if (sorted && sorted.length > 0){
+    if (sorted && sorted.length > 0) {
       const [{id: name, desc}] = sorted;
-      queryParams += `&ordering=${(desc) ? '-' : ''}${name}`;
+      queryParams += `&ordering=${desc ? '-' : ''}${name}`;
     }
     const url = `/api/events/?${queryParams}`;
     return getUrl(url);
-  }
+  };
 
   parseInstallationSoftwares = all_data => {
     const softwares = new Set();
-    all_data.forEach(event => Object.keys(event.report.installation.software_count).forEach(key => softwares.add(key)));
+    all_data.forEach(event =>
+      Object.keys(event.report.installation.software_count).forEach(key =>
+        softwares.add(key)
+      )
+    );
     const installationsSoftwares = {};
     softwares.forEach(software => {
-      const sum = _.sumBy(all_data, `report.installation.software_count.${software}`);
+      const sum = _.sumBy(
+        all_data,
+        `report.installation.software_count.${software}`
+      );
       installationsSoftwares[software] = sum;
     });
     return installationsSoftwares;
-  }
+  };
 
   parseActivitiesDetails = all_data => {
     const status = new Set();
     const types = new Set();
     const levels = new Set();
     all_data.forEach(event => {
-      Object.keys(event.report.activity.status_count).forEach(key => status.add(key));
-      Object.keys(event.report.activity.type_count).forEach(key => types.add(key));
-      Object.keys(event.report.activity.level_count).forEach(key => levels.add(key));
+      Object.keys(event.report.activity.status_count).forEach(key =>
+        status.add(key)
+      );
+      Object.keys(event.report.activity.type_count).forEach(key =>
+        types.add(key)
+      );
+      Object.keys(event.report.activity.level_count).forEach(key =>
+        levels.add(key)
+      );
     });
     const activityDetail = {types: {}, status: {}, levels: {}};
     status.forEach(element => {
@@ -94,14 +110,20 @@ export default class Report extends React.Component {
       activityDetail.levels[level] = sum;
     });
     return activityDetail;
-  }
+  };
 
   parseTotals = all_data => ({
     speakers: _.sumBy(all_data, 'report.speakers'),
     attendees: {
-      confirmed: _.sumBy(all_data, 'report.attendee.with_event_user.confirmed') + _.sumBy(all_data, 'report.attendee.without_event_user.confirmed'),
-      not_confirmed: _.sumBy(all_data, 'report.attendee.with_event_user.not_confirmed') + _.sumBy(all_data, 'report.attendee.without_event_user.not_confirmed'),
-      total: _.sumBy(all_data, 'report.attendee.with_event_user.total') + _.sumBy(all_data, 'report.attendee.without_event_user.total'),
+      confirmed:
+        _.sumBy(all_data, 'report.attendee.with_event_user.confirmed') +
+        _.sumBy(all_data, 'report.attendee.without_event_user.confirmed'),
+      not_confirmed:
+        _.sumBy(all_data, 'report.attendee.with_event_user.not_confirmed') +
+        _.sumBy(all_data, 'report.attendee.without_event_user.not_confirmed'),
+      total:
+        _.sumBy(all_data, 'report.attendee.with_event_user.total') +
+        _.sumBy(all_data, 'report.attendee.without_event_user.total'),
     },
     organizers: {
       confirmed: _.sumBy(all_data, 'report.organizer.confirmed'),
@@ -128,12 +150,15 @@ export default class Report extends React.Component {
       total: _.sumBy(all_data, 'report.installation.total'),
       softwares: this.parseInstallationSoftwares(all_data),
     },
-  })
+  });
 
   parseEvent = event => {
     const {eventsPrivateData} = this.props;
     const privateData = _.find(eventsPrivateData, {id: event.id});
-    const {location, report: {attendee}} = event;
+    const {
+      location,
+      report: {attendee},
+    } = event;
     const eventData = {
       locationDetail: {
         address_detail: location.slice(0, -3).join(' '),
@@ -142,74 +167,98 @@ export default class Report extends React.Component {
       },
       assistanceDetail: {
         attendees: {
-          confirmed: attendee.with_event_user.confirmed + attendee.without_event_user.confirmed,
-          not_confirmed: attendee.with_event_user.not_confirmed + attendee.without_event_user.not_confirmed,
-          total: attendee.with_event_user.total + attendee.without_event_user.total,
+          confirmed:
+            attendee.with_event_user.confirmed +
+            attendee.without_event_user.confirmed,
+          not_confirmed:
+            attendee.with_event_user.not_confirmed +
+            attendee.without_event_user.not_confirmed,
+          total:
+            attendee.with_event_user.total + attendee.without_event_user.total,
         },
       },
       ...event,
     };
     if (privateData) return {...privateData, ...eventData};
     return eventData;
-  }
+  };
 
-  fetchData = ({
-    pageSize, page, sorted, filtered,
-  }) => {
+  fetchData = ({pageSize, page, sorted, filtered}) => {
     this.setState({loading: true});
-    this.loadContent(pageSize, page, sorted, filtered).then(
-      ({count, results}) => {
+    this.loadContent(pageSize, page, sorted, filtered)
+      .then(({count, results}) => {
         // Now just get the rows of data to your React Table
         //   (and update anything else like total pages or loading)
         const quotient = Math.floor(count / pageSize);
         const remainder = count % pageSize;
-        const pages = (remainder > 0) ? quotient + 1 : quotient;
+        const pages = remainder > 0 ? quotient + 1 : quotient;
         this.setState({
-          data: results.map(this.parseEvent), loading: false, count, pages,
+          data: results.map(this.parseEvent),
+          loading: false,
+          count,
+          pages,
         });
-      },
-    ).catch(err => Logger.error(gettext('There has been an error'), err));
-  }
+      })
+      .catch(err => Logger.error(gettext('There has been an error'), err));
+  };
 
-  onClick = name => this.setState({table: name})
+  onClick = name => this.setState({table: name});
 
   handleToggleAutoupdate = () => {
     const {autoupdate} = this.state;
     localStorage.setItem('autoupdate', !autoupdate);
     this.setState({autoupdate: !autoupdate});
-  }
+  };
 
   updateTable = () => {
     const {autoupdate} = this.state;
     if (autoupdate) location.reload();
-  }
+  };
 
-  render(){
-    const {
-      data, pages, loading, count, table, totals, autoupdate,
-    } = this.state;
+  render() {
+    const {data, pages, loading, count, table, totals, autoupdate} = this.state;
     const {eventsPrivateData} = this.props;
     return (
       <div>
         <Title label={gettext('National report')}>
           <Toggle
             checked={autoupdate}
-            effect='echo'
+            effect="echo"
             label={gettext('Autoupdate')}
-            labelPosition='left'
+            labelPosition="left"
             name={gettext('Autoupdate')}
             onChange={this.handleToggleAutoupdate}
           />
-          <Button handleOnClick={this.onClick} label={gettext('Assistance (confirmed)')} name='confirmed' type='success' />
-          <Button handleOnClick={this.onClick} label={gettext('Assistance detail')} name='assitance' type='success' />
-          <Button handleOnClick={this.onClick} label={gettext('Installations')} name='installations' type='success' />
-          <Button handleOnClick={this.onClick} label={gettext('Activities')} name='activities' type='success' />
+          <Button
+            handleOnClick={this.onClick}
+            label={gettext('Assistance (confirmed)')}
+            name="confirmed"
+            type="success"
+          />
+          <Button
+            handleOnClick={this.onClick}
+            label={gettext('Assistance detail')}
+            name="assitance"
+            type="success"
+          />
+          <Button
+            handleOnClick={this.onClick}
+            label={gettext('Installations')}
+            name="installations"
+            type="success"
+          />
+          <Button
+            handleOnClick={this.onClick}
+            label={gettext('Activities')}
+            name="activities"
+            type="success"
+          />
           <ExportButton
+            ref={exportButton => (this.exportButton = exportButton)}
             data={data}
             filename={table}
             label={gettext('Export')}
-            ref={exportButton => this.exportButton = exportButton}
-            type='success'
+            type="success"
           />
         </Title>
         <TableReport

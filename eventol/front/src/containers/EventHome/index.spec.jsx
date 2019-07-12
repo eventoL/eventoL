@@ -1,4 +1,6 @@
-jest.mock('react-sizes', () => () => Component => props => <Component {...props} />);
+jest.mock('react-sizes', () => () => Component => props => (
+  <Component {...props} />
+));
 
 jest.mock('../../components/Hero', () => 'Hero');
 jest.mock('../../components/Header', () => 'Header');
@@ -10,11 +12,16 @@ import renderer from 'react-test-renderer';
 
 import EventHome from '.';
 
-
 describe('EventHome', () => {
-  let component, tree, background,
-    logoHeader, logoLanding, tagSlug,
-    tagMessage, user, props;
+  let component;
+  let tree;
+  let background;
+  let logoHeader;
+  let logoLanding;
+  let tagSlug;
+  let tagMessage;
+  let user;
+  let props;
 
   const getComponent = allProps => {
     component = renderer.create(<EventHome {...allProps} />);

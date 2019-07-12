@@ -9,7 +9,11 @@ jest.mock('../SignIn', () => 'SignIn');
 import Header from '.';
 
 describe('Header', () => {
-  let component, tree, user, logo, isMobile;
+  let component;
+  let tree;
+  let user;
+  let logo;
+  let isMobile;
 
   beforeEach(() => {
     user = {
@@ -24,7 +28,7 @@ describe('Header', () => {
       beforeEach(() => {
         isMobile = true;
         component = renderer.create(
-          <Header logoHeader={logo} user={user} isMobile={isMobile} />,
+          <Header isMobile={isMobile} logoHeader={logo} user={user} />
         );
         tree = component.toJSON();
       });
@@ -38,7 +42,7 @@ describe('Header', () => {
       beforeEach(() => {
         isMobile = false;
         component = renderer.create(
-          <Header logoHeader={logo} user={user} isMobile={isMobile} />,
+          <Header isMobile={isMobile} logoHeader={logo} user={user} />
         );
         tree = component.toJSON();
       });
@@ -53,9 +57,7 @@ describe('Header', () => {
     describe('Mobile version', () => {
       beforeEach(() => {
         isMobile = true;
-        component = renderer.create(
-          <Header isMobile={isMobile} />,
-        );
+        component = renderer.create(<Header isMobile={isMobile} />);
         tree = component.toJSON();
       });
 
@@ -67,9 +69,7 @@ describe('Header', () => {
     describe('Desktop version', () => {
       beforeEach(() => {
         isMobile = false;
-        component = renderer.create(
-          <Header isMobile={isMobile} />,
-        );
+        component = renderer.create(<Header isMobile={isMobile} />);
         tree = component.toJSON();
       });
 

@@ -8,11 +8,15 @@ jest.mock('../../components/TitleList', () => 'TitleList');
 
 import Home from '.';
 
-
 describe('Home', () => {
-  let component, tree, background,
-    logoHeader, logoLanding,
-    eventolMessage, user, props;
+  let component;
+  let tree;
+  let background;
+  let logoHeader;
+  let logoLanding;
+  let eventolMessage;
+  let user;
+  let props;
 
   const getComponent = allProps => {
     component = renderer.create(<Home {...allProps} />);

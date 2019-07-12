@@ -5,18 +5,21 @@ import {LOGIN_URL, LOGOUT_URL} from '../../utils/urls';
 
 import './index.scss';
 
-
 export default class SignIn extends React.PureComponent {
   searchFocus = () => {
     DOM.focusOn('search-input');
-  }
+  };
 
-  render(){
+  render() {
     return (
-      <div className='sign-in'>
+      <div className="sign-in">
         <ul>
-          <li><a href={LOGIN_URL}>{gettext('Sign In')}</a></li>
-          <li><a href={LOGOUT_URL}>{gettext('Sign Up')}</a></li>
+          <li>
+            <a href={LOGIN_URL}>{gettext('Sign In')}</a>
+          </li>
+          <li>
+            <a href={LOGOUT_URL}>{gettext('Sign Up')}</a>
+          </li>
         </ul>
       </div>
     );

@@ -28,8 +28,8 @@ const genericFetch = (url, queryString, params) => {
     });
 };
 
-export const getUrl = (url, queryString) => genericFetch(
-  url, queryString, {
+export const getUrl = (url, queryString) =>
+  genericFetch(url, queryString, {
     method: 'GET',
     credentials: 'same-origin',
     headers: {
@@ -37,8 +37,7 @@ export const getUrl = (url, queryString) => genericFetch(
       'Content-Type': 'application/json',
       'X-CSRFToken': getCsrf(),
     },
-  },
-);
+  });
 
 export const postUrl = (url, data, queryString) => {
   const newUrl = addQueryString(url, queryString);

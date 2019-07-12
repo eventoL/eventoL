@@ -13,8 +13,9 @@ import {
   LOGO_LANDING_DEFAULT,
 } from '../../utils/constants';
 import {
-  getSearchUrl, getMyEventsUrl,
-  getUpcommingEventsUrl,
+  getSearchUrl,
+  getMyEventsUrl,
+  getUpcomingEventsUrl,
   getFinishedEventsUrl,
   getEventsWithConfirmedScheduleUrl,
   getFeaturedEventsUrl,
@@ -23,84 +24,98 @@ import {
 
 import './index.scss';
 
-
 class Home extends React.Component {
   static propTypes = {
-    isMobile: PropTypes.bool.isRequired,
     background: PropTypes.string,
     eventolMessage: PropTypes.string,
+    isMobile: PropTypes.bool.isRequired,
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
     user: PropTypes.shape({
       first_name: PropTypes.string,
       last_name: PropTypes.string,
     }),
-  }
+  };
 
   static defaultProps = {
     background: BACKGROUND_DEFAULT,
+    eventolMessage: null,
     logoHeader: LOGO_HEADER_DEFAULT,
     logoLanding: LOGO_LANDING_DEFAULT,
-    eventolMessage: null,
     user: null,
-  }
+  };
 
   state = {
     searchTerm: '',
     searchUrl: '',
     searched: false,
-  }
+  };
 
   handleOnEnter = () => {
     const {searchTerm} = this.state;
-    if (searchTerm !== ''){
+    if (searchTerm !== '') {
       const searchUrl = getSearchUrl(searchTerm);
       this.setState({searchUrl, searched: true});
     }
-  }
+  };
 
-  handleOnChange = searchTerm => this.setState({searchTerm})
+  handleOnChange = searchTerm => this.setState({searchTerm});
 
-  render(){
+  render() {
     const {searched, searchUrl} = this.state;
     const {
-      user, eventolMessage, background,
-      logoHeader, logoLanding, isMobile,
+      user,
+      eventolMessage,
+      background,
+      logoHeader,
+      logoLanding,
+      isMobile,
     } = this.props;
     return (
       <div>
-        <Header logoHeader={logoHeader} user={user} isMobile={isMobile} />
-        <Hero background={background} logoLanding={logoLanding} message={eventolMessage}>
+        <Header isMobile={isMobile} logoHeader={logoHeader} user={user} />
+        <Hero
+          background={background}
+          logoLanding={logoLanding}
+          message={eventolMessage}
+        >
           <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
         </Hero>
-        {searched && <TitleList showEmpty id='search_results' title={gettext('Search results')} url={searchUrl} />}
+        {searched && (
+          <TitleList
+            id="search_results"
+            showEmpty
+            title={gettext('Search results')}
+            url={searchUrl}
+          />
+        )}
         <TitleList
-          id='my_events'
+          id="my_events"
           title={gettext('My Events')}
           url={getMyEventsUrl()}
         />
         <TitleList
-          id='recent'
+          id="recent"
           title={gettext('Recent Events')}
           url={getRecentEventsUrl()}
         />
         <TitleList
-          id='featured'
+          id="featured"
           title={gettext('Featured Events')}
           url={getFeaturedEventsUrl()}
         />
         <TitleList
-          id='next'
+          id="next"
           title={gettext('Upcoming Events')}
-          url={getUpcommingEventsUrl()}
+          url={getUpcomingEventsUrl()}
         />
         <TitleList
-          id='schedule_confirmed'
+          id="schedule_confirmed"
           title={gettext('Events with Confirmed Schedule')}
           url={getEventsWithConfirmedScheduleUrl()}
         />
         <TitleList
-          id='finished'
+          id="finished"
           title={gettext('Finished Events')}
           url={getFinishedEventsUrl()}
         />

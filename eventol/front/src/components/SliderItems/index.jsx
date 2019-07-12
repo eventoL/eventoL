@@ -21,12 +21,12 @@ export default class SliderItems extends React.PureComponent {
         <Item sliderId={sliderId} {...itemData} />
       </div>
     );
-  }
+  };
 
-  render(){
+  render() {
     const {itemsData} = this.props;
     let items = '';
-    if (itemsData){
+    if (itemsData) {
       items = itemsData.map(this.getItem);
     }
     return <Slider>{items}</Slider>;
