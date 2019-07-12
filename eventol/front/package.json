@@ -16,7 +16,9 @@
     "sasslint:report": "sass-lint -v -q -f JSON | node ./node_modules/scss-lint-html-reporter/bin/reporter.js"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/config/jest/setupTests.jsx",
+    "setupFilesAfterEnv": [
+      "<rootDir>/config/jest/setupTests.jsx"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],
