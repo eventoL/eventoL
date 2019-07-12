@@ -32,9 +32,12 @@ export default class Hero extends React.PureComponent {
       return <h2>{message}</h2>;
     }
     if (slug) {
+      const parsedSlug = getSlugParsed(slug);
       return (
         <h2>
-          {`${gettext('You are seeing all of')} ${getSlugParsed(slug)} ${gettext('events')}`}
+          {`${gettext('You are seeing all of')} ${parsedSlug} ${gettext(
+            'events'
+          )}`}
           <br />
           {`${gettext('Please, select one to continue')}`}
         </h2>
