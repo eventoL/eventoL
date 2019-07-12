@@ -40,10 +40,10 @@
 @media (max-width: 950px) {
   .navigation {
     ul {
+      background: #666a73;
+      margin-right: 8vw;
       opacity: 0.8;
       z-index: 0;
-      margin-right: 8vw;
-      background: #666a73;
     }
   
     ul a {
@@ -52,13 +52,13 @@
     }
   
     ul li, ul a li {
+      -webkit-transition: background .125s ease;
+      border-radius: 3px;
+      font-size: 14px;
       font-weight: 400;
       padding: 7px 10px;
-      font-size: 14px;
-      -webkit-transition: background .125s ease;
-      transition: background .125s ease;
-      border-radius: 3px;
       text-align: left;
+      transition: background .125s ease;
     }
   
     ul li:hover, ul a li:hover {
