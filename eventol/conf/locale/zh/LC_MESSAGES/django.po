@@ -792,9 +792,9 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
-#, fuzzy, python-format
+#, python-format
 msgid "Welcome, %(user_display)s!"
-msgstr "欢迎，你！"
+msgstr "欢迎，%(user_display)s!"
 
 msgid "Username:"
 msgstr ""
