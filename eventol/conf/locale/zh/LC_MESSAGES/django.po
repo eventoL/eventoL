@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Elizabeth Sherrock <lizzyd710@gmail.com>, 2019.
+# Allan Nordhøy <epost@anotheragency.no>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-06-11 21:00+0000\n"
-"PO-Revision-Date: 2019-07-02 15:01+0000\n"
-"Last-Translator: Elizabeth Sherrock <lizzyd710@gmail.com>\n"
+"PO-Revision-Date: 2019-07-15 05:40+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "eventol/django/zh_Hans/>\n"
 "Language: zh\n"
@@ -793,7 +794,7 @@ msgstr ""
 
 #, python-format
 msgid "Welcome, %(user_display)s!"
-msgstr "欢迎，你！"
+msgstr "欢迎，%(user_display)s!"
 
 msgid "Username:"
 msgstr ""
