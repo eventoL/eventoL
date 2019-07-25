@@ -49,9 +49,9 @@
     "react/jsx-max-depth": ["error", {"max": 5}],
     "react/state-in-constructor": ["error", "never"],
     "react/no-set-state": "off",
-    "react/boolean-prop-naming": ["error", { "rule": "^(is|has|show|use|focus)([A-Z]?)([A-Za-z0-9]?)+"}],
+    "react/boolean-prop-naming": ["error", { "rule": "^(is|has|show|use|focus|reconnect)([A-Z]?)([A-Za-z0-9]?)+"}],
     "react/jsx-props-no-spreading": ["error", {
-      "exceptions": ["WrappedComponent"]
+      "exceptions": ["WrappedComponent", "ReactSlickSlider"]
     }],
     "import/no-extraneous-dependencies": "off"
   },
@@ -76,7 +76,9 @@
       "jest/no-identical-title": "error",
       "jest/prefer-to-have-length": "warn",
       "jest/valid-expect": "error",
+      "react/jsx-props-no-spreading": "off",
       "no-underscore-dangle": "off",
+      "react/display-name": "off",
       "import/first": "off"
     }
   }, {
