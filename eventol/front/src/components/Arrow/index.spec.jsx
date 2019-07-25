@@ -14,13 +14,8 @@ describe('Arrow', () => {
     event = {
       preventDefault: jest.fn(),
       stopPropagation: jest.fn(),
-      target: {
-        id: 'button',
-      },
     };
-    component = renderer.create(
-      <Arrow handleOnClick={onClickSpy} type="prev" />
-    );
+    component = renderer.create(<Arrow onClick={onClickSpy} type="prev" />);
     tree = component.toJSON();
   });
 
@@ -52,7 +47,8 @@ describe('Arrow', () => {
 
   test('should be call onClick handle', () => {
     tree.props.onClick(event);
+    expect(event.preventDefault).toBeCalled();
+    expect(event.stopPropagation).toBeCalled();
     expect(onClickSpy).toBeCalled();
-    expect(onClickSpy).toBeCalledWith(event);
   });
 });
