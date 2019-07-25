@@ -6,7 +6,23 @@ import Item from '../Item';
 
 export default class SliderItems extends React.PureComponent {
   static propTypes = {
-    itemsData: PropTypes.arrayOf(PropTypes.object),
+    itemsData: PropTypes.arrayOf(
+      PropTypes.shape({
+        attendees: PropTypes.number,
+        backdrop: PropTypes.string,
+        eventSlug: PropTypes.string.isRequired,
+        overview: PropTypes.string.isRequired,
+        place: PropTypes.string.isRequired,
+        tags: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            slug: PropTypes.string.isRequired,
+          })
+        ),
+        title: PropTypes.string.isRequired,
+        url: PropTypes.string,
+      })
+    ),
     sliderId: PropTypes.string.isRequired,
   };
 
@@ -18,7 +34,7 @@ export default class SliderItems extends React.PureComponent {
     const {sliderId} = this.props;
     return (
       <div key={itemData.key}>
-        <Item sliderId={sliderId} {...itemData} />
+        <Item data={itemData} sliderId={sliderId} />
       </div>
     );
   };

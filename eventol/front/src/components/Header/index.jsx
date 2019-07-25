@@ -40,7 +40,7 @@ export default class Header extends React.PureComponent {
     return <SignIn />;
   };
 
-  mobileRender = () => {
+  wideRender = () => {
     const {logoHeader} = this.props;
     return (
       <header className="header">
@@ -55,15 +55,15 @@ export default class Header extends React.PureComponent {
 
   render() {
     const {isMobile, logoHeader} = this.props;
-    if (!isMobile) return this.mobileRender();
+    if (!isMobile) return this.wideRender();
     return (
       <header className="header">
         <div className="nav-narrow">
           <Logo logoHeader={logoHeader} />
           <div className="nav-right">
-            <a href="#" onClick={this.handleToggle}>
+            <button onClick={this.handleToggle} type="button">
               <i className="fa fa-bars fa-2x" />
-            </a>
+            </button>
             <div className="narrow-links">
               <Navigation />
               {this.showUserIndicator()}

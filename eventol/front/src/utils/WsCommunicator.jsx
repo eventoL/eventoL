@@ -14,10 +14,10 @@ export default class WsCommunicator extends React.Component {
   };
 
   static defaultProps = {
-    onOpen: evt => Logger.log('open', evt),
-    onMessage: evt => Logger.log('message', evt),
-    onClose: evt => Logger.warning('close', evt),
     handleNotSupportWs: evt => Logger.warning('close', evt),
+    onClose: evt => Logger.warning('close', evt),
+    onMessage: evt => Logger.log('message', evt),
+    onOpen: evt => Logger.log('open', evt),
     reconnect: true,
   };
 
@@ -25,6 +25,7 @@ export default class WsCommunicator extends React.Component {
     super(props);
     this.checkWebSocketSupport();
     const websocket = this.createWebSocket(props.wsUrl);
+    // eslint-disable-next-line react/state-in-constructor
     this.state = {
       attempts: 1,
       onOpens: [props.onOpen],

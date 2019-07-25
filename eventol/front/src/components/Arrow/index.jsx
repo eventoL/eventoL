@@ -5,13 +5,13 @@ import Logger from '../../utils/logger';
 
 export default class Arrow extends React.PureComponent {
   static propTypes = {
-    handleOnClick: PropTypes.func,
+    onClick: PropTypes.func,
     style: PropTypes.shape({}),
     type: PropTypes.oneOf(['prev', 'next']).isRequired,
   };
 
   static defaultProps = {
-    handleOnClick: Logger.log,
+    onClick: Logger.log,
     style: {},
   };
 
@@ -26,13 +26,20 @@ export default class Arrow extends React.PureComponent {
     return '';
   }
 
+  handleOnClick = event => {
+    event.preventDefault();
+    event.stopPropagation();
+    const {onClick} = this.props;
+    onClick();
+  };
+
   render() {
-    const {handleOnClick, style} = this.props;
+    const {style} = this.props;
     return (
       <div
         className={`arrow ${this.getClassNameByType()}`}
-        onClick={handleOnClick}
-        onKeyPress={handleOnClick}
+        onClick={this.handleOnClick}
+        onKeyPress={this.handleOnClick}
         role="button"
         style={{...style, display: 'block', color: 'black'}}
         tabIndex="0"

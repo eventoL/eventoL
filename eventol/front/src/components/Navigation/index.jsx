@@ -17,14 +17,15 @@ export default class Navigation extends React.PureComponent {
       <div className="navigation" id="navigation">
         <nav>
           <ul>
-            <a
+            <button
               onClick={this.handleSearchFocus}
               onKeyPress={this.handleSearchFocus}
               role="link"
               tabIndex="0"
+              type="button"
             >
               <li>{gettext('Search')}</li>
-            </a>
+            </button>
             <a href={EVENTOL_DOCUMENTATION}>
               <li>{gettext('Documentation')}</li>
             </a>

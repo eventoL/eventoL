@@ -1,10 +1,11 @@
+import _ from 'lodash';
 import Cookies from 'js-cookie';
 
 const getCsrf = () => Cookies.get('csrftoken');
 
 export const addQueryString = (url, query) => {
   const queryKeys = query ? Object.keys(query) : [];
-  if (queryKeys.length > 0) {
+  if (!_.isEmpty(queryKeys)) {
     const params = queryKeys.map(k => `${k}=${encodeURIComponent(query[k])}`);
     return `${url}?${params.join('&')}`;
   }

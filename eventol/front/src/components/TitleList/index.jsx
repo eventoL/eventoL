@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,7 +10,7 @@ import {parseEventToItem, emptyEventItem} from '../../utils/events';
 
 import './index.scss';
 
-export default class TitleList extends React.Component {
+export default class TitleList extends React.PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     showEmpty: PropTypes.bool,
@@ -28,15 +29,17 @@ export default class TitleList extends React.Component {
 
   componentDidMount() {
     const {url} = this.props;
-    if (url !== '') {
+    if (!_.isEmpty(url)) {
       this.loadContent();
+
+      // eslint-disable-next-line react/no-did-mount-set-state
       this.setState({mounted: true});
     }
   }
 
   componentWillReceiveProps({url}) {
     const {url: prevUrl} = this.props;
-    if (url !== prevUrl && url !== '') {
+    if (!_.isEqual(url, prevUrl) && !_.isEmpty(url)) {
       this.setState({mounted: true}, () => {
         this.loadContent();
       });
@@ -61,7 +64,7 @@ export default class TitleList extends React.Component {
     if (results) {
       itemsData = results.map(parseEventToItem);
     }
-    if (!itemsData || itemsData.length === 0) {
+    if (_.isEmpty(itemsData)) {
       if (!showEmpty) return null;
       return (
         <div className="title-list" data-loaded={mounted} id={id}>

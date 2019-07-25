@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {CSVLink} from 'react-csv';
@@ -61,7 +62,7 @@ export default class ExportButton extends React.PureComponent {
 
   updateCsv(columns) {
     const {data} = this.props;
-    if (data.length > 0) {
+    if (!_.isEmpty(data)) {
       const header = this.getField(columns, 'Header');
       const rows = this.getRows(columns);
       const totals = this.getField(columns, 'total');

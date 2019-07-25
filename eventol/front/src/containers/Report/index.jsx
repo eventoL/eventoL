@@ -22,7 +22,7 @@ export default class Report extends React.Component {
   };
 
   state = {
-    all_data: [],
+    allData: [],
     columns: {},
     table: 'confirmed',
     count: 0,
@@ -37,15 +37,15 @@ export default class Report extends React.Component {
     const {communicator} = this.props;
     communicator.addOnMessage(this.updateTable);
     let autoupdate = localStorage.getItem('autoupdate');
-    if (autoupdate === null) autoupdate = false;
+    if (_.isNull(autoupdate)) autoupdate = false;
     else autoupdate = JSON.parse(autoupdate);
     this.setState({loading: true, autoupdate});
     const url = '/api/events/?limit=5000&offset=0&fields=report';
     return getUrl(url)
-      .then(({results: all_data}) =>
+      .then(({results: allData}) =>
         this.setState({
-          all_data,
-          totals: this.parseTotals(all_data),
+          allData,
+          totals: this.parseTotals(allData),
           loading: false,
         })
       )
@@ -63,9 +63,9 @@ export default class Report extends React.Component {
     return getUrl(url);
   };
 
-  parseInstallationSoftwares = all_data => {
+  parseInstallationSoftwares = allData => {
     const softwares = new Set();
-    all_data.forEach(event =>
+    allData.forEach(event =>
       Object.keys(event.report.installation.software_count).forEach(key =>
         softwares.add(key)
       )
@@ -73,7 +73,7 @@ export default class Report extends React.Component {
     const installationsSoftwares = {};
     softwares.forEach(software => {
       const sum = _.sumBy(
-        all_data,
+        allData,
         `report.installation.software_count.${software}`
       );
       installationsSoftwares[software] = sum;
@@ -81,11 +81,11 @@ export default class Report extends React.Component {
     return installationsSoftwares;
   };
 
-  parseActivitiesDetails = all_data => {
+  parseActivitiesDetails = allData => {
     const status = new Set();
     const types = new Set();
     const levels = new Set();
-    all_data.forEach(event => {
+    allData.forEach(event => {
       Object.keys(event.report.activity.status_count).forEach(key =>
         status.add(key)
       );
@@ -98,57 +98,57 @@ export default class Report extends React.Component {
     });
     const activityDetail = {types: {}, status: {}, levels: {}};
     status.forEach(element => {
-      const sum = _.sumBy(all_data, `report.activity.status_count.${element}`);
+      const sum = _.sumBy(allData, `report.activity.status_count.${element}`);
       activityDetail.status[element] = sum;
     });
     types.forEach(type => {
-      const sum = _.sumBy(all_data, `report.activity.type_count.${type}`);
+      const sum = _.sumBy(allData, `report.activity.type_count.${type}`);
       activityDetail.types[type] = sum;
     });
     levels.forEach(level => {
-      const sum = _.sumBy(all_data, `report.activity.level_count.${level}`);
+      const sum = _.sumBy(allData, `report.activity.level_count.${level}`);
       activityDetail.levels[level] = sum;
     });
     return activityDetail;
   };
 
-  parseTotals = all_data => ({
-    speakers: _.sumBy(all_data, 'report.speakers'),
+  parseTotals = allData => ({
+    speakers: _.sumBy(allData, 'report.speakers'),
     attendees: {
       confirmed:
-        _.sumBy(all_data, 'report.attendee.with_event_user.confirmed') +
-        _.sumBy(all_data, 'report.attendee.without_event_user.confirmed'),
+        _.sumBy(allData, 'report.attendee.with_event_user.confirmed') +
+        _.sumBy(allData, 'report.attendee.without_event_user.confirmed'),
       not_confirmed:
-        _.sumBy(all_data, 'report.attendee.with_event_user.not_confirmed') +
-        _.sumBy(all_data, 'report.attendee.without_event_user.not_confirmed'),
+        _.sumBy(allData, 'report.attendee.with_event_user.not_confirmed') +
+        _.sumBy(allData, 'report.attendee.without_event_user.not_confirmed'),
       total:
-        _.sumBy(all_data, 'report.attendee.with_event_user.total') +
-        _.sumBy(all_data, 'report.attendee.without_event_user.total'),
+        _.sumBy(allData, 'report.attendee.with_event_user.total') +
+        _.sumBy(allData, 'report.attendee.without_event_user.total'),
     },
     organizers: {
-      confirmed: _.sumBy(all_data, 'report.organizer.confirmed'),
-      not_confirmed: _.sumBy(all_data, 'report.organizer.not_confirmed'),
-      total: _.sumBy(all_data, 'report.organizer.total'),
+      confirmed: _.sumBy(allData, 'report.organizer.confirmed'),
+      not_confirmed: _.sumBy(allData, 'report.organizer.not_confirmed'),
+      total: _.sumBy(allData, 'report.organizer.total'),
     },
     collaborators: {
-      confirmed: _.sumBy(all_data, 'report.collaborator.confirmed'),
-      not_confirmed: _.sumBy(all_data, 'report.collaborator.not_confirmed'),
-      total: _.sumBy(all_data, 'report.collaborator.total'),
+      confirmed: _.sumBy(allData, 'report.collaborator.confirmed'),
+      not_confirmed: _.sumBy(allData, 'report.collaborator.not_confirmed'),
+      total: _.sumBy(allData, 'report.collaborator.total'),
     },
     installers: {
-      confirmed: _.sumBy(all_data, 'report.installer.confirmed'),
-      not_confirmed: _.sumBy(all_data, 'report.installer.not_confirmed'),
-      total: _.sumBy(all_data, 'report.installer.total'),
+      confirmed: _.sumBy(allData, 'report.installer.confirmed'),
+      not_confirmed: _.sumBy(allData, 'report.installer.not_confirmed'),
+      total: _.sumBy(allData, 'report.installer.total'),
     },
     activities: {
-      confirmed: _.sumBy(all_data, 'report.activity.confirmed'),
-      not_confirmed: _.sumBy(all_data, 'report.activity.not_confirmed'),
-      total: _.sumBy(all_data, 'report.activity.total'),
-      details: this.parseActivitiesDetails(all_data),
+      confirmed: _.sumBy(allData, 'report.activity.confirmed'),
+      not_confirmed: _.sumBy(allData, 'report.activity.not_confirmed'),
+      total: _.sumBy(allData, 'report.activity.total'),
+      details: this.parseActivitiesDetails(allData),
     },
     installations: {
-      total: _.sumBy(all_data, 'report.installation.total'),
-      softwares: this.parseInstallationSoftwares(all_data),
+      total: _.sumBy(allData, 'report.installation.total'),
+      softwares: this.parseInstallationSoftwares(allData),
     },
   });
 
