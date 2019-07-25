@@ -3,8 +3,8 @@
 exports[`Arrow Snapshots Default 1`] = `
 <div
   className="arrow arrow-prev fa fa-chevron-left"
-  onClick={[MockFunction]}
-  onKeyPress={[MockFunction]}
+  onClick={[Function]}
+  onKeyPress={[Function]}
   role="button"
   style={
     Object {
