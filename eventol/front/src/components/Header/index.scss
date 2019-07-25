@@ -50,6 +50,17 @@
   .nav-right {
     margin-left: auto;
 
+    button {
+      border: 0;
+      background-color: transparent;
+      color: #fff;
+      display: contents;
+      font-size: 100%;
+      margin: 0;
+      padding: 0;
+      vertical-align: baseline;
+    }
+
     i {
       float: right;
       z-index: 5;
@@ -61,7 +72,6 @@
       a {
         clear: right;
         display: inline;
-        float: right;
       }
     }
   }

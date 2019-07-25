@@ -1,6 +1,23 @@
 @import '../../styles/variables';
 @import '../../styles/commons';
 
+.navigation {
+  nav {
+    ul {
+      button {
+        border: 0;
+        background-color: transparent;
+        color: #fff;
+        display: contents;
+        font-size: 100%;
+        margin: 0;
+        padding: 0;
+        vertical-align: baseline;
+      }
+    }
+  }
+}
+
 @media (min-width: 950px) {
   .navigation {
     ul {
