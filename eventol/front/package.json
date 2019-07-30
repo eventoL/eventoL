@@ -1,5 +1,6 @@
 {
   "name": "eventol",
+  "homepage": "http://eventol.org/",
   "version": "2.0.0",
   "license": "SEE LICENSE IN ../../LICENSE",
   "scripts": {
