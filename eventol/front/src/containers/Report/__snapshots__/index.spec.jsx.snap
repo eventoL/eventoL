@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Report Snapshots Default 1`] = `
+<div>
+  <Title
+    label="National report"
+  >
+    <Toggle
+      checked={false}
+      effect="echo"
+      label="Autoupdate"
+      labelPosition="left"
+      name="Autoupdate"
+      onChange={[Function]}
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Assistance (confirmed)"
+      name="confirmed"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Assistance detail"
+      name="assitance"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Installations"
+      name="installations"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Activities"
+      name="activities"
+      type="success"
+    />
+    <ExportButton
+      data={Array []}
+      filename="confirmed"
+      label="Export"
+      type="success"
+    />
+  </Title>
+  <TableReport
+    count={0}
+    data={Array []}
+    defaultRows={15}
+    eventsPrivateData={Array []}
+    exportButton={null}
+    fetchData={[Function]}
+    loading={true}
+    pages={null}
+    table="confirmed"
+    totals={Object {}}
+  />
+</div>
+`;

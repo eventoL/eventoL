@@ -17,8 +17,14 @@ import 'react-table/react-table.css';
 
 export default class Report extends React.Component {
   static propTypes = {
-    communicator: PropTypes.object,
-    eventsPrivateData: PropTypes.object,
+    communicator: PropTypes.shape({
+      addOnMessage: PropTypes.func.isRequired,
+    }).isRequired,
+    eventsPrivateData: PropTypes.arrayOf(PropTypes.shape()),
+  };
+
+  static defaultProps = {
+    eventsPrivateData: [],
   };
 
   state = {
@@ -154,7 +160,6 @@ export default class Report extends React.Component {
 
   parseEvent = event => {
     const {eventsPrivateData} = this.props;
-    const privateData = _.find(eventsPrivateData, {id: event.id});
     const {
       location,
       report: {attendee},
@@ -179,7 +184,10 @@ export default class Report extends React.Component {
       },
       ...event,
     };
-    if (privateData) return {...privateData, ...eventData};
+    if (!_.isEmpty(eventsPrivateData)) {
+      const privateData = _.find(eventsPrivateData, {id: event.id});
+      if (!_.isEmpty(privateData)) return {...privateData, ...eventData};
+    }
     return eventData;
   };
 
