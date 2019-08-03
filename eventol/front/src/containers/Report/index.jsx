@@ -48,13 +48,14 @@ export default class Report extends React.Component {
     this.setState({loading: true, autoupdate});
     const url = '/api/events/?limit=5000&offset=0&fields=report';
     return getUrl(url)
-      .then(({results: allData}) =>
-        this.setState({
+      .then(({results: allData}) => {
+        console.log('getUrl results allData', allData);
+        return this.setState({
           allData,
           totals: this.parseTotals(allData),
           loading: false,
-        })
-      )
+        });
+      })
       .catch(err => Logger.error(gettext('There has been an error'), err));
   }
 
@@ -195,6 +196,8 @@ export default class Report extends React.Component {
     this.setState({loading: true});
     this.loadContent(pageSize, page, sorted, filtered)
       .then(({count, results}) => {
+        console.log('fetchData count', count);
+        console.log('fetchData results', results);
         // Now just get the rows of data to your React Table
         //   (and update anything else like total pages or loading)
         const quotient = Math.floor(count / pageSize);

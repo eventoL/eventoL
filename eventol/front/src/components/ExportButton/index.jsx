@@ -7,9 +7,7 @@ import './index.scss';
 
 export default class ExportButton extends React.PureComponent {
   static propTypes = {
-    data: PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    ),
+    data: PropTypes.arrayOf(PropTypes.shape()),
     filename: PropTypes.string,
     label: PropTypes.string,
     type: PropTypes.oneOf([

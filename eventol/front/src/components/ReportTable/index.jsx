@@ -9,7 +9,7 @@ export default class ReportTable extends React.PureComponent {
     count: PropTypes.number,
     data: PropTypes.array,
     defaultRows: PropTypes.number,
-    eventsPrivateData: PropTypes.object,
+    eventsPrivateData: PropTypes.arrayOf(PropTypes.shape()),
     exportButton: PropTypes.object,
     fetchData: PropTypes.func,
     loading: PropTypes.bool,
