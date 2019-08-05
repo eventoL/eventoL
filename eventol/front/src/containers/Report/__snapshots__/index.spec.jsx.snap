@@ -2763,8 +2763,9 @@ exports[`Report Snapshots Default 2`] = `
             <a
               download="confirmed.csv"
               href="data:text/csv;charset=utf-8,﻿\\"Name\\",\\"Address detail\\",\\"Address\\",\\"Province\\",\\"Email\\",\\"Organizers\\",\\"Attendees\\",\\"Organizers\\",\\"Collaborators\\",\\"Installers\\",\\"Speakers\\",\\"Activities\\",\\"Installations\\"
-\\"Alias cupidie\\",\\"San Nicolas\\",\\"Comuna 1\\",\\"Buenos Aires\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"4\\",\\"2\\"
-\\"Events: 1\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"3\\",\\"2\\""
+\\"event name\\",\\"Capital Federal\\",\\"Pompeya\\",\\"Buenos Aires\\",\\"organizer1@mailinator.com\\",\\"FirstName1 LastName1 Username1\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"event 2 name\\",\\"Capital Federal\\",\\"Monserrat\\",\\"Buenos Aires\\",\\"organizer2@mailinator.com\\",\\"FirstName2 LastName2 Username2\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"Events: 2\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"6\\",\\"14\\",\\"6\\",\\"12\\",\\"18\\",\\"2\\",\\"4\\""
               onClick={[Function]}
               target="_self"
             >
@@ -3221,7 +3222,7 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              Alias cupidie
+              event name
             </div>
             <div
               className="rt-td"
@@ -3235,7 +3236,7 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              San Nicolas
+              Capital Federal
             </div>
             <div
               className="rt-td"
@@ -3249,7 +3250,7 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              Comuna 1
+              Pompeya
             </div>
             <div
               className="rt-td"
@@ -3276,32 +3277,8 @@ exports[`Report Snapshots Default 2`] = `
                   "width": "100px",
                 }
               }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
             >
-              4
+              organizer1@mailinator.com
             </div>
             <div
               className="rt-td"
@@ -3315,35 +3292,7 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
+              FirstName1 LastName1 Username1
             </div>
             <div
               className="rt-td"
@@ -3371,7 +3320,63 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              4
+              7
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              6
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              9
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
             </div>
             <div
               className="rt-td"
@@ -3394,12 +3399,12 @@ exports[`Report Snapshots Default 2`] = `
           role="rowgroup"
         >
           <div
-            className="rt-tr -padRow -even"
+            className="rt-tr -even"
             role="row"
-            style={Object {}}
           >
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3409,12 +3414,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              event 2 name
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3424,12 +3428,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Capital Federal
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3439,12 +3442,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Monserrat
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3454,12 +3456,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Buenos Aires
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3469,12 +3470,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              organizer2@mailinator.com
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3484,12 +3484,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              FirstName2 LastName2 Username2
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3499,12 +3498,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3514,12 +3512,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              7
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3529,12 +3526,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3544,12 +3540,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              6
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3559,12 +3554,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              9
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3574,12 +3568,11 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -3589,9 +3582,7 @@ exports[`Report Snapshots Default 2`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              2
             </div>
           </div>
         </div>
@@ -6301,7 +6292,7 @@ exports[`Report Snapshots Default 2`] = `
               <strong>
                 Events: 
               </strong>
-              1
+              2
             </span>
           </div>
           <div
@@ -6376,7 +6367,7 @@ exports[`Report Snapshots Default 2`] = `
                 Total
                 : 
               </strong>
-              4
+              6
             </span>
           </div>
           <div
@@ -6396,7 +6387,7 @@ exports[`Report Snapshots Default 2`] = `
                 Total
                 : 
               </strong>
-              0
+              14
             </span>
           </div>
           <div
@@ -6416,7 +6407,7 @@ exports[`Report Snapshots Default 2`] = `
                 Total
                 : 
               </strong>
-              0
+              6
             </span>
           </div>
           <div
@@ -6436,7 +6427,7 @@ exports[`Report Snapshots Default 2`] = `
                 Total
                 : 
               </strong>
-              0
+              12
             </span>
           </div>
           <div
@@ -6456,27 +6447,7 @@ exports[`Report Snapshots Default 2`] = `
                 Total
                 : 
               </strong>
-              3
-            </span>
-          </div>
-          <div
-            className="rt-td"
-            role="gridcell"
-            style={
-              Object {
-                "flex": "100 0 auto",
-                "maxWidth": null,
-                "width": "100px",
-              }
-            }
-          >
-            <span>
-              <strong>
-                 
-                Total
-                : 
-              </strong>
-              3
+              18
             </span>
           </div>
           <div
@@ -6497,6 +6468,26 @@ exports[`Report Snapshots Default 2`] = `
                 : 
               </strong>
               2
+            </span>
+          </div>
+          <div
+            className="rt-td"
+            role="gridcell"
+            style={
+              Object {
+                "flex": "100 0 auto",
+                "maxWidth": null,
+                "width": "100px",
+              }
+            }
+          >
+            <span>
+              <strong>
+                 
+                Total
+                : 
+              </strong>
+              4
             </span>
           </div>
         </div>
@@ -6755,8 +6746,9 @@ exports[`Report Snapshots Default 3`] = `
             <a
               download="confirmed.csv"
               href="data:text/csv;charset=utf-8,﻿\\"Name\\",\\"Address detail\\",\\"Address\\",\\"Province\\",\\"Email\\",\\"Organizers\\",\\"Attendees\\",\\"Organizers\\",\\"Collaborators\\",\\"Installers\\",\\"Speakers\\",\\"Activities\\",\\"Installations\\"
-\\"Alias cupidie\\",\\"San Nicolas\\",\\"Comuna 1\\",\\"Buenos Aires\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"4\\",\\"2\\"
-\\"Events: 1\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"3\\",\\"2\\""
+\\"event name\\",\\"Capital Federal\\",\\"Pompeya\\",\\"Buenos Aires\\",\\"organizer1@mailinator.com\\",\\"FirstName1 LastName1 Username1\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"event 2 name\\",\\"Capital Federal\\",\\"Monserrat\\",\\"Buenos Aires\\",\\"organizer2@mailinator.com\\",\\"FirstName2 LastName2 Username2\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"Events: 2\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"6\\",\\"14\\",\\"6\\",\\"12\\",\\"18\\",\\"2\\",\\"4\\""
               onClick={[Function]}
               target="_self"
             >
@@ -7213,7 +7205,7 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              Alias cupidie
+              event name
             </div>
             <div
               className="rt-td"
@@ -7227,7 +7219,7 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              San Nicolas
+              Capital Federal
             </div>
             <div
               className="rt-td"
@@ -7241,7 +7233,7 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              Comuna 1
+              Pompeya
             </div>
             <div
               className="rt-td"
@@ -7268,32 +7260,8 @@ exports[`Report Snapshots Default 3`] = `
                   "width": "100px",
                 }
               }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
             >
-              4
+              organizer1@mailinator.com
             </div>
             <div
               className="rt-td"
@@ -7307,35 +7275,7 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
+              FirstName1 LastName1 Username1
             </div>
             <div
               className="rt-td"
@@ -7363,7 +7303,63 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              4
+              7
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              6
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              9
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
             </div>
             <div
               className="rt-td"
@@ -7386,12 +7382,12 @@ exports[`Report Snapshots Default 3`] = `
           role="rowgroup"
         >
           <div
-            className="rt-tr -padRow -even"
+            className="rt-tr -even"
             role="row"
-            style={Object {}}
           >
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7401,12 +7397,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              event 2 name
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7416,12 +7411,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Capital Federal
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7431,12 +7425,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Monserrat
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7446,12 +7439,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Buenos Aires
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7461,12 +7453,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              organizer2@mailinator.com
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7476,12 +7467,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              FirstName2 LastName2 Username2
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7491,12 +7481,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7506,12 +7495,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              7
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7521,12 +7509,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7536,12 +7523,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              6
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7551,12 +7537,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              9
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7566,12 +7551,11 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -7581,9 +7565,7 @@ exports[`Report Snapshots Default 3`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              2
             </div>
           </div>
         </div>
@@ -10293,7 +10275,7 @@ exports[`Report Snapshots Default 3`] = `
               <strong>
                 Events: 
               </strong>
-              1
+              2
             </span>
           </div>
           <div
@@ -10368,7 +10350,7 @@ exports[`Report Snapshots Default 3`] = `
                 Total
                 : 
               </strong>
-              4
+              6
             </span>
           </div>
           <div
@@ -10388,7 +10370,7 @@ exports[`Report Snapshots Default 3`] = `
                 Total
                 : 
               </strong>
-              0
+              14
             </span>
           </div>
           <div
@@ -10408,7 +10390,7 @@ exports[`Report Snapshots Default 3`] = `
                 Total
                 : 
               </strong>
-              0
+              6
             </span>
           </div>
           <div
@@ -10428,7 +10410,7 @@ exports[`Report Snapshots Default 3`] = `
                 Total
                 : 
               </strong>
-              0
+              12
             </span>
           </div>
           <div
@@ -10448,27 +10430,7 @@ exports[`Report Snapshots Default 3`] = `
                 Total
                 : 
               </strong>
-              3
-            </span>
-          </div>
-          <div
-            className="rt-td"
-            role="gridcell"
-            style={
-              Object {
-                "flex": "100 0 auto",
-                "maxWidth": null,
-                "width": "100px",
-              }
-            }
-          >
-            <span>
-              <strong>
-                 
-                Total
-                : 
-              </strong>
-              3
+              18
             </span>
           </div>
           <div
@@ -10489,6 +10451,26 @@ exports[`Report Snapshots Default 3`] = `
                 : 
               </strong>
               2
+            </span>
+          </div>
+          <div
+            className="rt-td"
+            role="gridcell"
+            style={
+              Object {
+                "flex": "100 0 auto",
+                "maxWidth": null,
+                "width": "100px",
+              }
+            }
+          >
+            <span>
+              <strong>
+                 
+                Total
+                : 
+              </strong>
+              4
             </span>
           </div>
         </div>
@@ -10747,8 +10729,9 @@ exports[`Report Snapshots Default 4`] = `
             <a
               download="confirmed.csv"
               href="data:text/csv;charset=utf-8,﻿\\"Name\\",\\"Address detail\\",\\"Address\\",\\"Province\\",\\"Email\\",\\"Organizers\\",\\"Attendees\\",\\"Organizers\\",\\"Collaborators\\",\\"Installers\\",\\"Speakers\\",\\"Activities\\",\\"Installations\\"
-\\"Alias cupidie\\",\\"San Nicolas\\",\\"Comuna 1\\",\\"Buenos Aires\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"4\\",\\"2\\"
-\\"Events: 1\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"3\\",\\"2\\""
+\\"event name\\",\\"Capital Federal\\",\\"Pompeya\\",\\"Buenos Aires\\",\\"organizer1@mailinator.com\\",\\"FirstName1 LastName1 Username1\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"event 2 name\\",\\"Capital Federal\\",\\"Monserrat\\",\\"Buenos Aires\\",\\"organizer2@mailinator.com\\",\\"FirstName2 LastName2 Username2\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"Events: 2\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"6\\",\\"14\\",\\"6\\",\\"12\\",\\"18\\",\\"2\\",\\"4\\""
               onClick={[Function]}
               target="_self"
             >
@@ -11205,7 +11188,7 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              Alias cupidie
+              event name
             </div>
             <div
               className="rt-td"
@@ -11219,7 +11202,7 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              San Nicolas
+              Capital Federal
             </div>
             <div
               className="rt-td"
@@ -11233,7 +11216,7 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              Comuna 1
+              Pompeya
             </div>
             <div
               className="rt-td"
@@ -11260,32 +11243,8 @@ exports[`Report Snapshots Default 4`] = `
                   "width": "100px",
                 }
               }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
             >
-              4
+              organizer1@mailinator.com
             </div>
             <div
               className="rt-td"
@@ -11299,35 +11258,7 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
+              FirstName1 LastName1 Username1
             </div>
             <div
               className="rt-td"
@@ -11355,7 +11286,63 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              4
+              7
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              6
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              9
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
             </div>
             <div
               className="rt-td"
@@ -11378,12 +11365,12 @@ exports[`Report Snapshots Default 4`] = `
           role="rowgroup"
         >
           <div
-            className="rt-tr -padRow -even"
+            className="rt-tr -even"
             role="row"
-            style={Object {}}
           >
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11393,12 +11380,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              event 2 name
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11408,12 +11394,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Capital Federal
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11423,12 +11408,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Monserrat
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11438,12 +11422,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Buenos Aires
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11453,12 +11436,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              organizer2@mailinator.com
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11468,12 +11450,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              FirstName2 LastName2 Username2
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11483,12 +11464,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11498,12 +11478,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              7
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11513,12 +11492,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11528,12 +11506,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              6
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11543,12 +11520,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              9
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11558,12 +11534,11 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -11573,9 +11548,7 @@ exports[`Report Snapshots Default 4`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              2
             </div>
           </div>
         </div>
@@ -14285,7 +14258,7 @@ exports[`Report Snapshots Default 4`] = `
               <strong>
                 Events: 
               </strong>
-              1
+              2
             </span>
           </div>
           <div
@@ -14360,7 +14333,7 @@ exports[`Report Snapshots Default 4`] = `
                 Total
                 : 
               </strong>
-              4
+              6
             </span>
           </div>
           <div
@@ -14380,7 +14353,7 @@ exports[`Report Snapshots Default 4`] = `
                 Total
                 : 
               </strong>
-              0
+              14
             </span>
           </div>
           <div
@@ -14400,7 +14373,7 @@ exports[`Report Snapshots Default 4`] = `
                 Total
                 : 
               </strong>
-              0
+              6
             </span>
           </div>
           <div
@@ -14420,7 +14393,7 @@ exports[`Report Snapshots Default 4`] = `
                 Total
                 : 
               </strong>
-              0
+              12
             </span>
           </div>
           <div
@@ -14440,27 +14413,7 @@ exports[`Report Snapshots Default 4`] = `
                 Total
                 : 
               </strong>
-              3
-            </span>
-          </div>
-          <div
-            className="rt-td"
-            role="gridcell"
-            style={
-              Object {
-                "flex": "100 0 auto",
-                "maxWidth": null,
-                "width": "100px",
-              }
-            }
-          >
-            <span>
-              <strong>
-                 
-                Total
-                : 
-              </strong>
-              3
+              18
             </span>
           </div>
           <div
@@ -14481,6 +14434,26 @@ exports[`Report Snapshots Default 4`] = `
                 : 
               </strong>
               2
+            </span>
+          </div>
+          <div
+            className="rt-td"
+            role="gridcell"
+            style={
+              Object {
+                "flex": "100 0 auto",
+                "maxWidth": null,
+                "width": "100px",
+              }
+            }
+          >
+            <span>
+              <strong>
+                 
+                Total
+                : 
+              </strong>
+              4
             </span>
           </div>
         </div>
@@ -14739,8 +14712,9 @@ exports[`Report Snapshots Default 5`] = `
             <a
               download="confirmed.csv"
               href="data:text/csv;charset=utf-8,﻿\\"Name\\",\\"Address detail\\",\\"Address\\",\\"Province\\",\\"Email\\",\\"Organizers\\",\\"Attendees\\",\\"Organizers\\",\\"Collaborators\\",\\"Installers\\",\\"Speakers\\",\\"Activities\\",\\"Installations\\"
-\\"Alias cupidie\\",\\"San Nicolas\\",\\"Comuna 1\\",\\"Buenos Aires\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"4\\",\\"2\\"
-\\"Events: 1\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"3\\",\\"2\\""
+\\"event name\\",\\"Capital Federal\\",\\"Pompeya\\",\\"Buenos Aires\\",\\"organizer1@mailinator.com\\",\\"FirstName1 LastName1 Username1\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"event 2 name\\",\\"Capital Federal\\",\\"Monserrat\\",\\"Buenos Aires\\",\\"organizer2@mailinator.com\\",\\"FirstName2 LastName2 Username2\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"Events: 2\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"6\\",\\"14\\",\\"6\\",\\"12\\",\\"18\\",\\"2\\",\\"4\\""
               onClick={[Function]}
               target="_self"
             >
@@ -15197,7 +15171,7 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              Alias cupidie
+              event name
             </div>
             <div
               className="rt-td"
@@ -15211,7 +15185,7 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              San Nicolas
+              Capital Federal
             </div>
             <div
               className="rt-td"
@@ -15225,7 +15199,7 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              Comuna 1
+              Pompeya
             </div>
             <div
               className="rt-td"
@@ -15252,32 +15226,8 @@ exports[`Report Snapshots Default 5`] = `
                   "width": "100px",
                 }
               }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
             >
-              4
+              organizer1@mailinator.com
             </div>
             <div
               className="rt-td"
@@ -15291,35 +15241,7 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
+              FirstName1 LastName1 Username1
             </div>
             <div
               className="rt-td"
@@ -15347,7 +15269,63 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              4
+              7
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              6
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              9
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
             </div>
             <div
               className="rt-td"
@@ -15370,12 +15348,12 @@ exports[`Report Snapshots Default 5`] = `
           role="rowgroup"
         >
           <div
-            className="rt-tr -padRow -even"
+            className="rt-tr -even"
             role="row"
-            style={Object {}}
           >
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15385,12 +15363,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              event 2 name
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15400,12 +15377,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Capital Federal
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15415,12 +15391,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Monserrat
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15430,12 +15405,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Buenos Aires
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15445,12 +15419,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              organizer2@mailinator.com
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15460,12 +15433,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              FirstName2 LastName2 Username2
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15475,12 +15447,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15490,12 +15461,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              7
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15505,12 +15475,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15520,12 +15489,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              6
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15535,12 +15503,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              9
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15550,12 +15517,11 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -15565,9 +15531,7 @@ exports[`Report Snapshots Default 5`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              2
             </div>
           </div>
         </div>
@@ -18277,7 +18241,7 @@ exports[`Report Snapshots Default 5`] = `
               <strong>
                 Events: 
               </strong>
-              1
+              2
             </span>
           </div>
           <div
@@ -18352,7 +18316,7 @@ exports[`Report Snapshots Default 5`] = `
                 Total
                 : 
               </strong>
-              4
+              6
             </span>
           </div>
           <div
@@ -18372,7 +18336,7 @@ exports[`Report Snapshots Default 5`] = `
                 Total
                 : 
               </strong>
-              0
+              14
             </span>
           </div>
           <div
@@ -18392,7 +18356,7 @@ exports[`Report Snapshots Default 5`] = `
                 Total
                 : 
               </strong>
-              0
+              6
             </span>
           </div>
           <div
@@ -18412,7 +18376,7 @@ exports[`Report Snapshots Default 5`] = `
                 Total
                 : 
               </strong>
-              0
+              12
             </span>
           </div>
           <div
@@ -18432,27 +18396,7 @@ exports[`Report Snapshots Default 5`] = `
                 Total
                 : 
               </strong>
-              3
-            </span>
-          </div>
-          <div
-            className="rt-td"
-            role="gridcell"
-            style={
-              Object {
-                "flex": "100 0 auto",
-                "maxWidth": null,
-                "width": "100px",
-              }
-            }
-          >
-            <span>
-              <strong>
-                 
-                Total
-                : 
-              </strong>
-              3
+              18
             </span>
           </div>
           <div
@@ -18473,6 +18417,26 @@ exports[`Report Snapshots Default 5`] = `
                 : 
               </strong>
               2
+            </span>
+          </div>
+          <div
+            className="rt-td"
+            role="gridcell"
+            style={
+              Object {
+                "flex": "100 0 auto",
+                "maxWidth": null,
+                "width": "100px",
+              }
+            }
+          >
+            <span>
+              <strong>
+                 
+                Total
+                : 
+              </strong>
+              4
             </span>
           </div>
         </div>
@@ -18731,8 +18695,9 @@ exports[`Report Snapshots Default 6`] = `
             <a
               download="confirmed.csv"
               href="data:text/csv;charset=utf-8,﻿\\"Name\\",\\"Address detail\\",\\"Address\\",\\"Province\\",\\"Email\\",\\"Organizers\\",\\"Attendees\\",\\"Organizers\\",\\"Collaborators\\",\\"Installers\\",\\"Speakers\\",\\"Activities\\",\\"Installations\\"
-\\"Alias cupidie\\",\\"San Nicolas\\",\\"Comuna 1\\",\\"Buenos Aires\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"4\\",\\"2\\"
-\\"Events: 1\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"3\\",\\"2\\""
+\\"event name\\",\\"Capital Federal\\",\\"Pompeya\\",\\"Buenos Aires\\",\\"organizer1@mailinator.com\\",\\"FirstName1 LastName1 Username1\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"event 2 name\\",\\"Capital Federal\\",\\"Monserrat\\",\\"Buenos Aires\\",\\"organizer2@mailinator.com\\",\\"FirstName2 LastName2 Username2\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"Events: 2\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"6\\",\\"14\\",\\"6\\",\\"12\\",\\"18\\",\\"2\\",\\"4\\""
               onClick={[Function]}
               target="_self"
             >
@@ -19189,7 +19154,7 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              Alias cupidie
+              event name
             </div>
             <div
               className="rt-td"
@@ -19203,7 +19168,7 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              San Nicolas
+              Capital Federal
             </div>
             <div
               className="rt-td"
@@ -19217,7 +19182,7 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              Comuna 1
+              Pompeya
             </div>
             <div
               className="rt-td"
@@ -19244,32 +19209,8 @@ exports[`Report Snapshots Default 6`] = `
                   "width": "100px",
                 }
               }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
             >
-              4
+              organizer1@mailinator.com
             </div>
             <div
               className="rt-td"
@@ -19283,35 +19224,7 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
+              FirstName1 LastName1 Username1
             </div>
             <div
               className="rt-td"
@@ -19339,7 +19252,63 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              4
+              7
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              6
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              9
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
             </div>
             <div
               className="rt-td"
@@ -19362,12 +19331,12 @@ exports[`Report Snapshots Default 6`] = `
           role="rowgroup"
         >
           <div
-            className="rt-tr -padRow -even"
+            className="rt-tr -even"
             role="row"
-            style={Object {}}
           >
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19377,12 +19346,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              event 2 name
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19392,12 +19360,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Capital Federal
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19407,12 +19374,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Monserrat
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19422,12 +19388,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Buenos Aires
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19437,12 +19402,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              organizer2@mailinator.com
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19452,12 +19416,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              FirstName2 LastName2 Username2
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19467,12 +19430,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19482,12 +19444,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              7
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19497,12 +19458,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19512,12 +19472,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              6
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19527,12 +19486,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              9
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19542,12 +19500,11 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -19557,9 +19514,7 @@ exports[`Report Snapshots Default 6`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              2
             </div>
           </div>
         </div>
@@ -22269,7 +22224,7 @@ exports[`Report Snapshots Default 6`] = `
               <strong>
                 Events: 
               </strong>
-              1
+              2
             </span>
           </div>
           <div
@@ -22344,7 +22299,7 @@ exports[`Report Snapshots Default 6`] = `
                 Total
                 : 
               </strong>
-              4
+              6
             </span>
           </div>
           <div
@@ -22364,7 +22319,7 @@ exports[`Report Snapshots Default 6`] = `
                 Total
                 : 
               </strong>
-              0
+              14
             </span>
           </div>
           <div
@@ -22384,7 +22339,7 @@ exports[`Report Snapshots Default 6`] = `
                 Total
                 : 
               </strong>
-              0
+              6
             </span>
           </div>
           <div
@@ -22404,7 +22359,7 @@ exports[`Report Snapshots Default 6`] = `
                 Total
                 : 
               </strong>
-              0
+              12
             </span>
           </div>
           <div
@@ -22424,27 +22379,7 @@ exports[`Report Snapshots Default 6`] = `
                 Total
                 : 
               </strong>
-              3
-            </span>
-          </div>
-          <div
-            className="rt-td"
-            role="gridcell"
-            style={
-              Object {
-                "flex": "100 0 auto",
-                "maxWidth": null,
-                "width": "100px",
-              }
-            }
-          >
-            <span>
-              <strong>
-                 
-                Total
-                : 
-              </strong>
-              3
+              18
             </span>
           </div>
           <div
@@ -22465,6 +22400,26 @@ exports[`Report Snapshots Default 6`] = `
                 : 
               </strong>
               2
+            </span>
+          </div>
+          <div
+            className="rt-td"
+            role="gridcell"
+            style={
+              Object {
+                "flex": "100 0 auto",
+                "maxWidth": null,
+                "width": "100px",
+              }
+            }
+          >
+            <span>
+              <strong>
+                 
+                Total
+                : 
+              </strong>
+              4
             </span>
           </div>
         </div>
@@ -22723,8 +22678,9 @@ exports[`Report Snapshots Default 7`] = `
             <a
               download="confirmed.csv"
               href="data:text/csv;charset=utf-8,﻿\\"Name\\",\\"Address detail\\",\\"Address\\",\\"Province\\",\\"Email\\",\\"Organizers\\",\\"Attendees\\",\\"Organizers\\",\\"Collaborators\\",\\"Installers\\",\\"Speakers\\",\\"Activities\\",\\"Installations\\"
-\\"Alias cupidie\\",\\"San Nicolas\\",\\"Comuna 1\\",\\"Buenos Aires\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"4\\",\\"2\\"
-\\"Events: 1\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"4\\",\\"0\\",\\"0\\",\\"0\\",\\"3\\",\\"3\\",\\"2\\""
+\\"event name\\",\\"Capital Federal\\",\\"Pompeya\\",\\"Buenos Aires\\",\\"organizer1@mailinator.com\\",\\"FirstName1 LastName1 Username1\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"event 2 name\\",\\"Capital Federal\\",\\"Monserrat\\",\\"Buenos Aires\\",\\"organizer2@mailinator.com\\",\\"FirstName2 LastName2 Username2\\",\\"3\\",\\"7\\",\\"3\\",\\"6\\",\\"9\\",\\"3\\",\\"2\\"
+\\"Events: 2\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"6\\",\\"14\\",\\"6\\",\\"12\\",\\"18\\",\\"2\\",\\"4\\""
               onClick={[Function]}
               target="_self"
             >
@@ -23181,7 +23137,7 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              Alias cupidie
+              event name
             </div>
             <div
               className="rt-td"
@@ -23195,7 +23151,7 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              San Nicolas
+              Capital Federal
             </div>
             <div
               className="rt-td"
@@ -23209,7 +23165,7 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              Comuna 1
+              Pompeya
             </div>
             <div
               className="rt-td"
@@ -23236,32 +23192,8 @@ exports[`Report Snapshots Default 7`] = `
                   "width": "100px",
                 }
               }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            />
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
             >
-              4
+              organizer1@mailinator.com
             </div>
             <div
               className="rt-td"
@@ -23275,35 +23207,7 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
-            </div>
-            <div
-              className="rt-td"
-              onClick={[Function]}
-              role="gridcell"
-              style={
-                Object {
-                  "flex": "100 0 auto",
-                  "maxWidth": null,
-                  "width": "100px",
-                }
-              }
-            >
-              0
+              FirstName1 LastName1 Username1
             </div>
             <div
               className="rt-td"
@@ -23331,7 +23235,63 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              4
+              7
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              6
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              9
+            </div>
+            <div
+              className="rt-td"
+              onClick={[Function]}
+              role="gridcell"
+              style={
+                Object {
+                  "flex": "100 0 auto",
+                  "maxWidth": null,
+                  "width": "100px",
+                }
+              }
+            >
+              3
             </div>
             <div
               className="rt-td"
@@ -23354,12 +23314,12 @@ exports[`Report Snapshots Default 7`] = `
           role="rowgroup"
         >
           <div
-            className="rt-tr -padRow -even"
+            className="rt-tr -even"
             role="row"
-            style={Object {}}
           >
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23369,12 +23329,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              event 2 name
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23384,12 +23343,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Capital Federal
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23399,12 +23357,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Monserrat
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23414,12 +23371,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              Buenos Aires
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23429,12 +23385,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              organizer2@mailinator.com
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23444,12 +23399,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              FirstName2 LastName2 Username2
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23459,12 +23413,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23474,12 +23427,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              7
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23489,12 +23441,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23504,12 +23455,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              6
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23519,12 +23469,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              9
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23534,12 +23483,11 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              3
             </div>
             <div
               className="rt-td"
+              onClick={[Function]}
               role="gridcell"
               style={
                 Object {
@@ -23549,9 +23497,7 @@ exports[`Report Snapshots Default 7`] = `
                 }
               }
             >
-              <span>
-                 
-              </span>
+              2
             </div>
           </div>
         </div>
@@ -26261,7 +26207,7 @@ exports[`Report Snapshots Default 7`] = `
               <strong>
                 Events: 
               </strong>
-              1
+              2
             </span>
           </div>
           <div
@@ -26336,7 +26282,7 @@ exports[`Report Snapshots Default 7`] = `
                 Total
                 : 
               </strong>
-              4
+              6
             </span>
           </div>
           <div
@@ -26356,7 +26302,7 @@ exports[`Report Snapshots Default 7`] = `
                 Total
                 : 
               </strong>
-              0
+              14
             </span>
           </div>
           <div
@@ -26376,7 +26322,7 @@ exports[`Report Snapshots Default 7`] = `
                 Total
                 : 
               </strong>
-              0
+              6
             </span>
           </div>
           <div
@@ -26396,7 +26342,7 @@ exports[`Report Snapshots Default 7`] = `
                 Total
                 : 
               </strong>
-              0
+              12
             </span>
           </div>
           <div
@@ -26416,27 +26362,7 @@ exports[`Report Snapshots Default 7`] = `
                 Total
                 : 
               </strong>
-              3
-            </span>
-          </div>
-          <div
-            className="rt-td"
-            role="gridcell"
-            style={
-              Object {
-                "flex": "100 0 auto",
-                "maxWidth": null,
-                "width": "100px",
-              }
-            }
-          >
-            <span>
-              <strong>
-                 
-                Total
-                : 
-              </strong>
-              3
+              18
             </span>
           </div>
           <div
@@ -26457,6 +26383,26 @@ exports[`Report Snapshots Default 7`] = `
                 : 
               </strong>
               2
+            </span>
+          </div>
+          <div
+            className="rt-td"
+            role="gridcell"
+            style={
+              Object {
+                "flex": "100 0 auto",
+                "maxWidth": null,
+                "width": "100px",
+              }
+            }
+          >
+            <span>
+              <strong>
+                 
+                Total
+                : 
+              </strong>
+              4
             </span>
           </div>
         </div>
