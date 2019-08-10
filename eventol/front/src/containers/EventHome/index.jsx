@@ -21,7 +21,7 @@ import {
 
 import './index.scss';
 
-class EventHome extends React.Component {
+class EventHome extends React.PureComponent {
   static propTypes = {
     background: PropTypes.string,
     isMobile: PropTypes.bool.isRequired,
