@@ -1,5 +1,4 @@
-@import '../../styles/commons';
-@import '../../styles/variables';
+@import '../../styles/index';
 
 .header {
   @extend %flex-element;
@@ -51,9 +50,9 @@
     margin-left: auto;
 
     button {
-      border: 0;
       background-color: transparent;
-      color: #fff;
+      border: 0;
+      color: $white;
       display: contents;
       font-size: 100%;
       margin: 0;

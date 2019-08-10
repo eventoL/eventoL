@@ -1,8 +1,7 @@
-@import '../../styles/variables';
-@import '../../styles/commons';
+@import '../../styles/index';
 
 .category-title {
-  color: #666a73;
+  color: $gray;
 }
 
 .title-list {

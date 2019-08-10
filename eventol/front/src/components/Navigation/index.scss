@@ -1,13 +1,12 @@
-@import '../../styles/variables';
-@import '../../styles/commons';
+@import '../../styles/index';
 
 .navigation {
   nav {
     ul {
       button {
-        border: 0;
         background-color: transparent;
-        color: #fff;
+        border: 0;
+        color: $white;
         display: contents;
         font-size: 100%;
         margin: 0;
@@ -28,7 +27,7 @@
       align-items: center;
       height: 37px;
       padding: 0 10px;
-  
+
       li {
         -webkit-transition: background .125s ease;
         border-radius: 3px;
@@ -36,51 +35,61 @@
         font-weight: 400;
         padding: 7px 10px;
         transition: background .125s ease;
-  
+
         a {
           text-decoration: none;
         }
       }
-  
+
       a {
         text-decoration: none;
       }
-  
+
       li:hover {
         background: $eventol-color;
         cursor: pointer;
       }
     }
-  }  
+  }
 }
 
 @media (max-width: 950px) {
-  .navigation {
-    ul {
-      background: #666a73;
-      margin-right: 8vw;
-      opacity: 0.8;
-      z-index: 0;
-    }
-  
-    ul a {
-      float: unset !important;
-      text-decoration: none;
-    }
-  
-    ul li, ul a li {
-      -webkit-transition: background .125s ease;
-      border-radius: 3px;
-      font-size: 14px;
-      font-weight: 400;
-      padding: 7px 10px;
-      text-align: left;
-      transition: background .125s ease;
-    }
-  
-    ul li:hover, ul a li:hover {
+  @mixin li-element {
+    -webkit-transition: background .125s ease;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 7px 10px;
+    text-align: left;
+    transition: background .125s ease;
+
+    &:hover {
       background: $eventol-color;
       cursor: pointer;
+    }
+  }
+
+  .navigation {
+    ul {
+      background: $gray;
+      margin-right: 8vw;
+      opacity: .8;
+      z-index: 0;
+
+      a {
+        // sass-lint:disable no-important
+        float: unset !important;
+        // sass-lint:enable no-important
+        text-decoration: none;
+
+        li {
+          @include li-element;
+        }
+      }
+
+      li {
+        @include li-element;
+      }
     }
   }
 }
