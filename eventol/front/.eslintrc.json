@@ -40,7 +40,7 @@
     }],
     "arrow-parens": ["error", "as-needed"],
     "object-curly-spacing": ["error", "never"],
-    "quotes": ["error", "single"],
+    "quotes": ["error", "single", {"avoidEscape": true}],
     "no-prototype-builtins": "off",
     "no-underscore-dangle": ["error", {"allow": ["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]}],
     "react-hooks/rules-of-hooks": "error",
