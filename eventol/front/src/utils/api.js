@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import Cookies from 'js-cookie';
 
+import {getReportUrl} from './urls';
+
 const getCsrf = () => Cookies.get('csrftoken');
 
 export const addQueryString = (url, query) => {
@@ -53,3 +55,6 @@ export const postUrl = (url, data, queryString) => {
     credentials: 'same-origin',
   }).then(res => res.json());
 };
+
+export const loadReports = (pageSize, page, sorted) =>
+  getUrl(getReportUrl(pageSize, page, sorted));
