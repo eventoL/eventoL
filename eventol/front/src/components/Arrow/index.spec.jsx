@@ -24,6 +24,12 @@ describe('Arrow', () => {
       expect(tree).toMatchSnapshot();
     });
 
+    test('unknown type', () => {
+      component = renderer.create(<Arrow type="unknown" />);
+      tree = component.toJSON();
+      expect(tree).toMatchSnapshot();
+    });
+
     test('prev', () => {
       component = renderer.create(<Arrow type="prev" />);
       tree = component.toJSON();
