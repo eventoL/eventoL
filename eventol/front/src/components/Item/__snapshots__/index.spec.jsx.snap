@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Item Default render 1`] = `
+<ItemMap
+  attendees={null}
+  url={null}
+/>
+`;
+
+exports[`Item Render event 1 1`] = `
+<div
+  className="item"
+  style={
+    Object {
+      "backgroundImage": "url(event1backdrop)",
+    }
+  }
+>
+  <div
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex="0"
+  >
+    <div
+      className="overlay"
+    >
+      <div
+        className="title"
+      >
+        event 1
+      </div>
+      <div
+        className="rating"
+      >
+        Attendees: 10
+      </div>
+      <div
+        className="rating tags"
+      >
+        Tags
+        : 
+        <a
+          href="tag-url"
+        >
+          slug-name
+        </a>
+      </div>
+      <div
+        className="plot"
+      >
+        event1overview
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Item should shows ItemMap when data has not backdrop 1`] = `<ItemMap />`;
