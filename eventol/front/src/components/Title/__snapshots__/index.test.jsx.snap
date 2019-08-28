@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title Default Snapshot 1`] = `
+<div
+  className="row"
+>
+  <div
+    className="col-sm-12"
+  >
+    <div
+      className="title"
+    >
+      <h1>
+        
+      </h1>
+      <div
+        className="buttons pull-right"
+      />
+    </div>
+  </div>
+</div>
+`;

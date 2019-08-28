@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logo Default Snapshot 1`] = `
+<div
+  className="logo-component"
+  id="logo"
+>
+  <a
+    href="/"
+  >
+    <img
+      alt="header logo"
+      src="/static/manager/img/eventol-white.png"
+    />
+  </a>
+</div>
+`;

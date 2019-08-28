@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slider Default Snapshot 1`] = `
+<div
+  className="slick-slider container slick-initialized"
+>
+  
+  <div
+    className="slick-list"
+  >
+    <div
+      className="slick-track"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "WebkitTransform": "translate3d(0px, 0px, 0px)",
+          "WebkitTransition": "",
+          "msTransform": "translateX(0px)",
+          "opacity": 1,
+          "transform": "translate3d(0px, 0px, 0px)",
+          "transition": "",
+        }
+      }
+    />
+  </div>
+  
+  
+</div>
+`;
