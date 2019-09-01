@@ -21,7 +21,8 @@
       "<rootDir>/config/jest/setupTests.jsx"
     ],
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx}"
+      "src/**/*.{js,jsx}",
+      "!src/utils/__mock__/**/*.{js,jsx}"
     ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
