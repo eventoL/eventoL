@@ -59,6 +59,7 @@
     "files": [
       "src/**/*.{spec,test}.{js,jsx}",
       "src/**/__mocks__/*.{js,jsx}",
+      "config/jest/setupTests.jsx",
       "src/setupTests.js"
     ],
     "globals": {

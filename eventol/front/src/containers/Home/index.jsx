@@ -46,20 +46,16 @@ class Home extends React.PureComponent {
   };
 
   state = {
-    searchTerm: '',
     searchUrl: '',
     searched: false,
   };
 
-  handleOnEnter = () => {
-    const {searchTerm} = this.state;
+  handleOnEnter = searchTerm => {
     if (searchTerm !== '') {
       const searchUrl = getSearchUrl(searchTerm);
       this.setState({searchUrl, searched: true});
     }
   };
-
-  handleOnChange = searchTerm => this.setState({searchTerm});
 
   render() {
     const {searched, searchUrl} = this.state;
@@ -79,7 +75,7 @@ class Home extends React.PureComponent {
           logoLanding={logoLanding}
           message={eventolMessage}
         >
-          <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
+          <Search onEnter={this.handleOnEnter} />
         </Hero>
         {searched && (
           <TitleList

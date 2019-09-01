@@ -1,8 +1,9 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Slider from '../Slider';
 
 import Item from '../Item';
+import Slider from '../Slider';
 
 export default class SliderItems extends React.PureComponent {
   static propTypes = {
@@ -42,7 +43,7 @@ export default class SliderItems extends React.PureComponent {
   render() {
     const {itemsData} = this.props;
     let items = '';
-    if (itemsData) {
+    if (!_.isEmpty(itemsData)) {
       items = itemsData.map(this.getItem);
     }
     return <Slider>{items}</Slider>;

@@ -5,22 +5,31 @@ import Title from '.';
 
 describe('Title', () => {
   let component;
-  let instance;
+  let label;
   let tree;
 
   const getComponent = () => {
-    component = renderer.create(<Title />);
+    component = renderer.create(<Title label={label} />);
     return component;
   };
 
   beforeEach(() => {
+    label = undefined;
     component = getComponent();
-    instance = renderer.root;
     tree = component.toJSON();
   });
 
   describe('Default', () => {
     test('Snapshot', () => {
+      expect(tree).toMatchSnapshot();
+    });
+  });
+
+  describe('With data', () => {
+    test('Snapshot', () => {
+      label = 'label';
+      component = getComponent();
+      tree = component.toJSON();
       expect(tree).toMatchSnapshot();
     });
   });

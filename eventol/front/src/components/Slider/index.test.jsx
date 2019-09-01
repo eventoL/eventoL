@@ -1,11 +1,19 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
+jest.mock('react-slick', () => 'ReactSlickSlider');
+jest.mock('../Arrow', () => 'Arrow');
+jest.mock('../../utils/constants', () => ({
+  SLIDER_BASE_SETTINGS: {
+    dots: true,
+    speed: 500,
+  },
+}));
+
 import Slider from '.';
 
 describe('Slider', () => {
   let component;
-  let instance;
   let tree;
 
   const getComponent = () => {
@@ -15,7 +23,6 @@ describe('Slider', () => {
 
   beforeEach(() => {
     component = getComponent();
-    instance = renderer.root;
     tree = component.toJSON();
   });
 
