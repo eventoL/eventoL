@@ -1,3 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserProfile Default Snapshot 1`] = `undefined`;
+exports[`UserProfile Default Snapshot 1`] = `
+<div
+  className="user-profile"
+>
+  <a
+    href="PROFILE_URL"
+  >
+    <div
+      className="user"
+    >
+      <div
+        className="name"
+      >
+        first_name last_name
+      </div>
+      <div
+        className="image"
+      >
+        <div
+          className="fa fa-user fa-2x"
+        />
+      </div>
+    </div>
+  </a>
+</div>
+`;

@@ -15,3 +15,19 @@ exports[`Logo Default Snapshot 1`] = `
   </a>
 </div>
 `;
+
+exports[`Logo With custom logo Snapshot 1`] = `
+<div
+  className="logo-component"
+  id="logo"
+>
+  <a
+    href="/"
+  >
+    <img
+      alt="header logo"
+      src="http://logoHeader/"
+    />
+  </a>
+</div>
+`;
