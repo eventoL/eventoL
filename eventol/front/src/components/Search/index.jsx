@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 
 import './index.scss';
 
-export default class Search extends React.Component {
+export default class Search extends React.PureComponent {
   static propTypes = {
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     onEnter: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    onChange: () => {},
   };
 
   state = {
@@ -16,14 +20,15 @@ export default class Search extends React.Component {
   handleKeyUp = ({key}) => {
     if (key === 'Enter') {
       const {onEnter} = this.props;
-      if (onEnter) onEnter();
+      const {searchTerm} = this.state;
+      onEnter(searchTerm);
     }
   };
 
   handleChange = ({target: {value: searchTerm}}) => {
     this.setState({searchTerm});
     const {onChange} = this.props;
-    if (onChange) onChange(searchTerm);
+    onChange(searchTerm);
   };
 
   render() {

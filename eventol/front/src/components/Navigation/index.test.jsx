@@ -5,7 +5,6 @@ import Navigation from '.';
 
 describe('Navigation', () => {
   let component;
-  let instance;
   let tree;
 
   const getComponent = () => {
@@ -15,7 +14,6 @@ describe('Navigation', () => {
 
   beforeEach(() => {
     component = getComponent();
-    instance = renderer.root;
     tree = component.toJSON();
   });
 

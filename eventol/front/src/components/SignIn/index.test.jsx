@@ -5,7 +5,6 @@ import SignIn from '.';
 
 describe('SignIn', () => {
   let component;
-  let instance;
   let tree;
 
   const getComponent = () => {
@@ -15,7 +14,6 @@ describe('SignIn', () => {
 
   beforeEach(() => {
     component = getComponent();
-    instance = renderer.root;
     tree = component.toJSON();
   });
 

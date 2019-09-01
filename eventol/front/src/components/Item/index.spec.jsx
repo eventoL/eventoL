@@ -11,7 +11,6 @@ jest.mock('../../utils/urls', () => ({
 import ItemMap from '../ItemMap';
 
 import {event1} from '../../utils/__mock__/data';
-import {getTagUrl, goToUrl} from '../../utils/urls';
 
 import Item from '.';
 

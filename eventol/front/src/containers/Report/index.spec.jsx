@@ -9,8 +9,6 @@ jest.mock('../../components/Button', () => 'Button');
 jest.mock('../../components/ReportTable', () => 'TableReport');
 jest.mock('../../components/ExportButton', () => 'ExportButton');
 
-jest.mock('../../utils/logger', () => ({error: jest.fn()}));
-
 import Report from '.';
 import {eventsPrivateData} from '../../utils/__mock__/report';
 
