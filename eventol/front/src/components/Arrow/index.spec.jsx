@@ -51,7 +51,7 @@ describe('Arrow', () => {
     });
   });
 
-  test('should be call onClick handle', () => {
+  test('should call onClick handle', () => {
     tree.props.onClick(event);
     expect(event.preventDefault).toBeCalled();
     expect(event.stopPropagation).toBeCalled();

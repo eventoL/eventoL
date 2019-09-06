@@ -5,10 +5,10 @@ import './index.scss';
 export default class ListToggle extends React.PureComponent {
   state = {toggled: false};
 
-  handleClick() {
+  handleClick = () => {
     const {toggled} = this.state;
     this.setState({toggled: !toggled});
-  }
+  };
 
   render() {
     const {toggled} = this.state;

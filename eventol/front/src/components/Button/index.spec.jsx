@@ -26,7 +26,7 @@ describe('Button', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('should be call onClick handle', () => {
+  test('should call onClick handle', () => {
     tree.props.onClick(event);
     expect(onClickSpy).toBeCalled();
     expect(onClickSpy).toBeCalledWith('button');

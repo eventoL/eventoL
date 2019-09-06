@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Logger from '../../utils/logger';
 import SliderItems from '../SliderItems';
 import {getUrl} from '../../utils/api';
 import {getApiFullUrl} from '../../utils/urls';
@@ -49,9 +48,7 @@ export default class TitleList extends React.PureComponent {
   loadContent() {
     const {url} = this.props;
     const fullUrl = getApiFullUrl(url);
-    getUrl(fullUrl)
-      .then(data => this.setState({data}))
-      .catch(err => Logger.error('There has been an error', err));
+    getUrl(fullUrl).then(data => this.setState({data}));
   }
 
   render() {

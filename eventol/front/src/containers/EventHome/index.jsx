@@ -45,21 +45,17 @@ class EventHome extends React.PureComponent {
   };
 
   state = {
-    searchTerm: '',
     searchUrl: '',
     searched: false,
   };
 
-  handleOnEnter = () => {
+  handleOnEnter = searchTerm => {
     const {tagSlug} = this.props;
-    const {searchTerm} = this.state;
     if (searchTerm !== '') {
       const searchUrl = getSearchUrl(searchTerm, tagSlug);
       this.setState({searchUrl, searched: true});
     }
   };
-
-  handleOnChange = searchTerm => this.setState({searchTerm});
 
   render() {
     const {searched, searchUrl} = this.state;
@@ -81,7 +77,7 @@ class EventHome extends React.PureComponent {
           message={tagMessage}
           slug={tagSlug}
         >
-          <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
+          <Search onEnter={this.handleOnEnter} />
         </Hero>
         {searched && (
           <TitleList

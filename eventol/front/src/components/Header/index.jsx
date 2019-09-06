@@ -61,7 +61,11 @@ export default class Header extends React.PureComponent {
         <div className="nav-narrow">
           <Logo logoHeader={logoHeader} />
           <div className="nav-right">
-            <button onClick={this.handleToggle} type="button">
+            <button
+              onClick={this.handleToggle}
+              onKeyPress={this.handleToggle}
+              type="button"
+            >
               <i className="fa fa-bars fa-2x" />
             </button>
             <div className="narrow-links">
