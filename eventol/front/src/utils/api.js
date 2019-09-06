@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import Cookies from 'js-cookie';
 
+import Logger from './logger';
 import {getReportUrl} from './urls';
 
 const getCsrf = () => Cookies.get('csrftoken');
@@ -23,10 +24,12 @@ const genericFetch = (url, queryString, params) => {
       }
       return res.json();
     })
-    .catch(status => {
+    .catch((status, error) => {
       if (status === 403) {
         window.location.hash = '/';
         window.location.href = '/';
+      } else {
+        Logger.error('There has been an error', status, error);
       }
     });
 };
