@@ -19,7 +19,7 @@ exports[`Navigation Default Snapshot 1`] = `
         </li>
       </button>
       <a
-        href="http://eventol.github.io/eventoL/#/"
+        href="EVENTOL_DOCUMENTATION"
       >
         <li>
           Documentation
@@ -40,7 +40,7 @@ exports[`Navigation Default Snapshot 1`] = `
         </li>
       </a>
       <a
-        href="/report"
+        href="REPORT_URL"
       >
         <li>
           Generic report

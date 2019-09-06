@@ -3,6 +3,7 @@
 exports[`Item Default render 1`] = `
 <ItemMap
   attendees={null}
+  sliderId={1}
   url={null}
 />
 `;
@@ -56,4 +57,14 @@ exports[`Item Render event 1 1`] = `
 </div>
 `;
 
-exports[`Item should shows ItemMap when data has not backdrop 1`] = `<ItemMap />`;
+exports[`Item should shows ItemMap when data has not backdrop 1`] = `
+<ItemMap
+  attendees={10}
+  eventSlug="event1slug"
+  overview="event1overview"
+  place="{\\"address_components\\":[{\\"long_name\\":\\"1667\\",\\"short_name\\":\\"1667\\",\\"types\\":[\\"street_number\\"]},{\\"long_name\\":\\"Ayacucho\\",\\"short_name\\":\\"Ayacucho\\",\\"types\\":[\\"route\\"]},{\\"long_name\\":\\"Centro\\",\\"short_name\\":\\"Centro\\",\\"types\\":[\\"neighborhood\\",\\"political\\"]},{\\"long_name\\":\\"Rosario\\",\\"short_name\\":\\"Rosario\\",\\"types\\":[\\"locality\\",\\"political\\"]},{\\"long_name\\":\\"Departamento Rosario\\",\\"short_name\\":\\"Departamento Rosario\\",\\"types\\":[\\"administrative_area_level_2\\",\\"political\\"]},{\\"long_name\\":\\"Santa Fe\\",\\"short_name\\":\\"Santa Fe\\",\\"types\\":[\\"administrative_area_level_1\\",\\"political\\"]},{\\"long_name\\":\\"Argentina\\",\\"short_name\\":\\"AR\\",\\"types\\":[\\"country\\",\\"political\\"]},{\\"long_name\\":\\"S2000\\",\\"short_name\\":\\"S2000\\",\\"types\\":[\\"postal_code\\"]},{\\"long_name\\":\\"BYS\\",\\"short_name\\":\\"BYS\\",\\"types\\":[\\"postal_code_suffix\\"]}],\\"formatted_address\\":\\"Ayacucho 1667, S2000BYS Rosario, Santa Fe, Argentina\\",\\"geometry\\":{\\"location\\":{\\"lat\\":-32.9586923,\\"lng\\":-60.629729},\\"location_type\\":\\"ROOFTOP\\",\\"viewport\\":{\\"south\\":-32.9600412802915,\\"west\\":-60.63107798029148,\\"north\\":-32.9573433197085,\\"east\\":-60.628380019708516}},\\"place_id\\":\\"ChIJ7QvrMwCrt5URpyBml6doLnY\\",\\"plus_code\\":{\\"compound_code\\":\\"29RC+G4 Rosario, Santa Fe, Argentina\\",\\"global_code\\":\\"47VX29RC+G4\\"},\\"types\\":[\\"street_address\\"]}"
+  sliderId={1}
+  title="event 1"
+  url="event1Url"
+/>
+`;

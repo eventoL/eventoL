@@ -38,6 +38,7 @@ exports[`Header With user Mobile version Snapshot 1`] = `
     >
       <button
         onClick={[Function]}
+        onKeyPress={[Function]}
         type="button"
       >
         <i
@@ -93,6 +94,7 @@ exports[`Header Without user and without logo Mobile version Snapshot 1`] = `
     >
       <button
         onClick={[Function]}
+        onKeyPress={[Function]}
         type="button"
       >
         <i
