@@ -1,20 +1,18 @@
-version: "2"
+version: '3.4'
+
 services:
   daphne:
     restart: always
     image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
-    expose:
-      - "8000"
     depends_on:
       - worker
       - redis
-      - elasticsearch
-      - logstash
     env_file:
       - .env
     environment:
       - DJANGO_CONFIGURATION=Prod
-    command: bash -c "cd eventol; daphne -b 0.0.0.0 -p 8000 eventol.asgi:channel_layer"
+    command: bash -c 'cd eventol; daphne -b 0.0.0.0 -p 8000 eventol.asgi:channel_layer'
+  
   worker:
     restart: always
     image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
@@ -38,6 +36,7 @@ services:
       - worker
     environment:
       - VIRTUAL_HOST=${HOST}
+  
   postgres:
     restart: always
     image: postgres:9.6
@@ -45,22 +44,20 @@ services:
       - POSTGRES_PASSWORD=${PSQL_PASSWORD}
       - POSTGRES_USER=${PSQL_USER}
       - POSTGRES_DB=${PSQL_DBNAME}
-    expose:
-      - "5432"
     volumes:
       - /srv/deploys/eventoldata/postgres:/var/lib/postgresql/data
+  
   nginx-proxy:
     restart: always
     image: jwilder/nginx-proxy
     depends_on:
       - nginx
     ports:
-      - "${EXTERNAL_PORT}:80"
+      - '${EXTERNAL_PORT}:80'
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./nginx_proxy_settings.conf:/etc/nginx/conf.d/eventol_settings.conf:ro
+  
   redis:
     image: redis:4.0.2
     restart: always
-    expose:
-      - "6379"
