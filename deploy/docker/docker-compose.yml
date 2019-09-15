@@ -2,7 +2,9 @@ version: '3.4'
 
 services:
   worker:
-    build: ../../.
+    build:
+      context: ../../.
+      target: development
     volumes:
       - ../../:/usr/src/app
     environment:
@@ -15,7 +17,9 @@ services:
       - postgres
 
   reactjs:
-    build: ../../.
+    build:
+      context: ../../.
+      target: frontend
     volumes:
       - ../../eventol/front/src:/app/src
       - ../../eventol/front/webpack-stats-local.json:/app/webpack-stats-local.json
