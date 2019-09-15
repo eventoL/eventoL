@@ -1,78 +1,95 @@
-FROM python:3.7.3-alpine
-
-# Set environment variables
-ENV APP_ROOT /usr/src/app
-ENV APP_USER_NAME app
-ENV APP_USER_UID 1000
-ENV IS_ALPINE true
-ENV NODE_VERSION 8.x
-
-# Install alpine dependencies
-
-## Upgrade apk-tools
-RUN apk add --upgrade --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main apk-tools
+#########################################
+# frontend image
+#########################################
+FROM node:12.2.0-alpine as frontend
 
 ## Install system dependencies
-RUN apk --update add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
-    bash wget dpkg-dev libffi nodejs nodejs-npm git gcc musl-dev gettext \
-    postgresql-dev libffi-dev py3-setuptools jpeg-dev make autoconf automake \
-    zlib-dev freetype-dev lcms2-dev openjpeg-dev libxslt-dev alpine-sdk \
+RUN apk --update add --no-cache \
+    git gcc make autoconf automake musl-dev \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-## Install react dependencies
-RUN npm install -g npm
-RUN npm install -g yarn bower less
+# Install bower and less
+RUN npm install -g bower less
+
+# Set working directory
+WORKDIR /app
+RUN chown -R node:node /app
+
+# Set user
+USER node
+
+# Install yarn dependencies
+COPY --chown=node:node ./eventol/front/package.json ./eventol/front/yarn.lock ./
+RUN yarn install
+
+# Install bower dependencies
+COPY --chown=node:node ./eventol/front/bower.json ./eventol/front/.bowerrc ./
+RUN bower install
+
+# Build less files
+COPY --chown=node:node ./eventol/front/eventol/static/manager/less/ ./eventol/static/manager/less/
+RUN mkdir -p ./eventol/static/manager/css/
+RUN lessc ./eventol/static/manager/less/eventol.less > ./eventol/static/manager/css/eventol.css
+RUN lessc ./eventol/static/manager/less/eventol-bootstrap.less > ./eventol/static/manager/css/eventol-bootstrap.css
+
+# Copy code
+COPY --chown=node:node ./eventol/front/ .
+
+# Build
+RUN yarn build
+
+EXPOSE 3000
+
+CMD ["tail", "-f", "/dev/null"]
+
+#########################################
+# build image
+#########################################
+FROM python:3.7.3-alpine as development
+
+# Set environment variables
+ENV APP_ROOT /usr/src/app/
+ENV IS_ALPINE true
+
+# Install system dependencies
+RUN apk --update add --no-cache \
+  bash git gcc cairo-dev postgresql-dev libxslt-dev \
+  gettext musl-dev py3-setuptools jpeg-dev \
+  && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Install python dependencies
 RUN pip3 install --no-cache-dir cffi cairocffi psycopg2
 RUN apk --update add --no-cache cairo-dev \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Create user
-RUN adduser -D -h ${APP_ROOT} \
-    -s /bin/bash \
-    -u ${APP_USER_UID} \
-    ${APP_USER_NAME}
-
 # Create folders for deploy
 RUN mkdir -p ${APP_ROOT}
 RUN mkdir -p /var/log/eventol
-RUN chown ${APP_USER_NAME}:root /var/log/eventol
 WORKDIR ${APP_ROOT}
 
+# Create user
+RUN adduser -D -h ${APP_ROOT} -s /bin/bash app
+RUN chown app:app ${APP_ROOT}
+RUN chown app:app /var/log/eventol
+
 # Install python requirements
-COPY ./requirements.txt ${APP_ROOT}
-COPY ./requirements-dev.txt ${APP_ROOT}
-RUN pip3 install --no-cache-dir -r requirements.txt
+COPY --chown=app:app ./requirements.txt ./requirements-dev.txt ${APP_ROOT}
 RUN pip3 install --no-cache-dir -r requirements-dev.txt
 
-# Install node modules
-COPY ./eventol/front/package.json ${APP_ROOT}/eventol/front/
-COPY ./eventol/front/yarn.lock ${APP_ROOT}/eventol/front/
-RUN cd ${APP_ROOT}/eventol/front && yarn install
-# RUN cd ${APP_ROOT}/eventol/front && npm rebuild node-sass --force
-
-# Install bower dependencies
-COPY ./eventol/front/bower.json ${APP_ROOT}/eventol/front/
-COPY ./eventol/front/.bowerrc ${APP_ROOT}/eventol/front/
-RUN cd ${APP_ROOT}/eventol/front && bower install --allow-root
+# Set user
+USER app
 
 # Copy python code
-COPY ./eventol ${APP_ROOT}/eventol
+COPY --chown=app:app ./eventol ${APP_ROOT}/eventol
 RUN mkdir -p ${APP_ROOT}/eventol/manager/static
 RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
 
-# Compile scss
-RUN mkdir -p ${APP_ROOT}/eventol/manager/static/manager/css/
-RUN lessc ${APP_ROOT}/eventol/front/eventol/static/manager/less/eventol.less > ${APP_ROOT}/eventol/manager/static/manager/css/eventol.css
-RUN lessc ${APP_ROOT}/eventol/front/eventol/static/manager/less/eventol-bootstrap.less > ${APP_ROOT}/eventol/manager/static/manager/css/eventol-bootstrap.css
+# Copy css
+COPY --chown=app:app --from=frontend /app/eventol/static/manager/css/ ${APP_ROOT}/eventol/manager/static/manager/css/
 
 # Copy script for docker-compose wait and start-eventol
-COPY ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
-COPY ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
-
-# Compile reactjs code
-RUN cd ${APP_ROOT}/eventol/front && yarn build
+COPY --chown=app:app ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
+COPY --chown=app:app ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
 
 # Collect statics
 RUN mkdir -p ${APP_ROOT}/eventol/static
@@ -80,15 +97,6 @@ RUN cd ${APP_ROOT}/eventol && python manage.py collectstatic --noinput
 
 # Create media folder
 RUN mkdir -p ${APP_ROOT}/eventol/media
-
-# Clean and chown files
-RUN rm -rf ${APP_ROOT}/eventol/front \
-  && mkdir -p ${APP_ROOT}/eventol/front
-RUN chmod 0755 ${APP_ROOT}
-RUN chown --changes --recursive ${APP_USER_NAME}:${APP_USER_NAME} ${APP_ROOT}/
-
-# Drop privs
-USER ${APP_USER_NAME}
 
 # Create log file
 RUN touch /var/log/eventol/eventol.log
