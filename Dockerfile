@@ -50,6 +50,7 @@ FROM python:3.7.3-alpine as development
 # Set environment variables
 ENV APP_ROOT /usr/src/app/
 ENV IS_ALPINE true
+ENV DJANGO_CONFIGURATION=Prod
 
 # Install system dependencies
 RUN apk --update add --no-cache \
@@ -69,7 +70,6 @@ WORKDIR ${APP_ROOT}
 
 # Create user
 RUN adduser -D -h ${APP_ROOT} -s /bin/bash app
-RUN chown app:app ${APP_ROOT}
 RUN chown app:app /var/log/eventol
 
 # Install python requirements
@@ -86,6 +86,10 @@ RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
 
 # Copy css
 COPY --chown=app:app --from=frontend /app/eventol/static/manager/css/ ${APP_ROOT}/eventol/manager/static/manager/css/
+
+# Copy frontend files
+COPY --chown=app:app --from=frontend /app/webpack-stats-prod.json ${APP_ROOT}/eventol/front/webpack-stats-prod.json
+COPY --chown=app:app --from=frontend /app/eventol/static ${APP_ROOT}/eventol/front/eventol/static
 
 # Copy script for docker-compose wait and start-eventol
 COPY --chown=app:app ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
