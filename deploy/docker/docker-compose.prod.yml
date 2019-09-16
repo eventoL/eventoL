@@ -3,7 +3,9 @@ version: '3.4'
 services:
   daphne:
     restart: always
-    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
+    build:
+      context: ../../.
+      target: development
     depends_on:
       - worker
       - redis
@@ -15,13 +17,18 @@ services:
   
   worker:
     restart: always
-    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
+    build:
+      context: ../../.
+      target: development
     env_file:
       - .env
     volumes:
-      - /usr/src/app
-      - /srv/deploys/eventoldata/static:/usr/src/app/eventol/static
-      - /srv/deploys/eventoldata/media:/usr/src/app/eventol/media
+      - type: bind
+        source: /srv/deploys/eventoldata/static
+        target: /usr/src/app/eventol/static
+      - type: bind
+        source: /srv/deploys/eventoldata/media
+        target: /usr/src/app/eventol/media
     environment:
       - DJANGO_CONFIGURATION=Prod
     command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
@@ -32,8 +39,15 @@ services:
     depends_on:
       - daphne
       - worker
-    volumes_from:
-      - worker
+    volumes:
+      - type: bind
+        source: /srv/deploys/eventoldata/static
+        target: /usr/src/app/eventol/static
+        read_only: true
+      - type: bind
+        source: /srv/deploys/eventoldata/media
+        target: /usr/src/app/eventol/media
+        read_only: true
     environment:
       - VIRTUAL_HOST=${HOST}
   
@@ -45,7 +59,9 @@ services:
       - POSTGRES_USER=${PSQL_USER}
       - POSTGRES_DB=${PSQL_DBNAME}
     volumes:
-      - /srv/deploys/eventoldata/postgres:/var/lib/postgresql/data
+      - type: bind
+        source: /srv/deploys/eventoldata/postgres
+        target: /var/lib/postgresql/data
   
   nginx-proxy:
     restart: always
@@ -55,8 +71,14 @@ services:
     ports:
       - '${EXTERNAL_PORT}:80'
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx_proxy_settings.conf:/etc/nginx/conf.d/eventol_settings.conf:ro
+      - type: bind
+        source: /var/run/docker.sock
+        target: /tmp/docker.sock
+        read_only: true
+      - type: bind
+        source: ./nginx_proxy_settings.conf
+        target: /etc/nginx/conf.d/eventol_settings.conf
+        read_only: true
   
   redis:
     image: redis:4.0.2
