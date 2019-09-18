@@ -1,6 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
+jest.mock('../../utils/logger', () => ({error: jest.fn()}));
+
 import ItemMap from '.';
 
 import {event1} from '../../utils/__mock__/data';

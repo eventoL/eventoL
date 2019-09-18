@@ -1,5 +1,11 @@
 import _ from 'lodash';
 
+jest.mock('./logger', () => ({
+  error: jest.fn(),
+  warning: jest.fn(),
+  log: jest.fn(),
+}));
+
 import {getUrl, postUrl, addQueryString} from './api';
 
 describe('Api utils', () => {

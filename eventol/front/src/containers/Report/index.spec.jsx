@@ -4,10 +4,13 @@ import renderer from 'react-test-renderer';
 
 jest.mock('react-input-toggle', () => 'Toggle');
 
+
 jest.mock('../../components/Title', () => 'Title');
 jest.mock('../../components/Button', () => 'Button');
 jest.mock('../../components/ReportTable', () => 'TableReport');
 jest.mock('../../components/ExportButton', () => 'ExportButton');
+
+jest.mock('../../utils/logger', () => ({error: jest.fn()}));
 jest.mock('../../utils/api', () => ({
   loadReports: jest.fn(),
 }));

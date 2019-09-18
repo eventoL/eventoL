@@ -1,6 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
+jest.mock('../../utils/logger', () => ({log: jest.fn()}));
+
 import Arrow from '.';
 
 describe('Arrow', () => {

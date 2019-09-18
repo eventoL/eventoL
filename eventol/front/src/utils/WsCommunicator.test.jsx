@@ -1,4 +1,11 @@
+jest.mock('./logger', () => ({
+  error: jest.fn(),
+  warning: jest.fn(),
+  log: jest.fn(),
+}));
+
 import WsCommunicator from './WsCommunicator';
+
 import {event1} from './__mock__/data';
 
 describe('WsCommunicator', () => {
