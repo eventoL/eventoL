@@ -1,5 +1,5 @@
-const focusOn = query => {
-  document.getElementById(query).focus();
+const focusOn = id => {
+  document.getElementById(id).focus();
 };
 
 const DOM = {focusOn};
