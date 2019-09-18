@@ -32,9 +32,3 @@ global.L = {
     addTo: jest.fn(),
   })),
 };
-
-jest.mock('../../src/utils/logger', () => ({
-  error: jest.fn(),
-  warning: jest.fn(),
-  log: jest.fn(),
-}));

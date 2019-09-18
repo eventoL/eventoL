@@ -93,6 +93,7 @@
     "image-webpack-loader": "^5.0.0",
     "jest": "^24.8.0",
     "jest-fetch-mock": "^2.1.2",
+    "jest-mock-console": "^1.0.0",
     "js-cookie": "^2.2.0",
     "mock-socket": "^8.0.5",
     "node-sass": "^4.12.0",
