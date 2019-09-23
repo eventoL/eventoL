@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import mockConsole from 'jest-mock-console';
 
 describe('Logger utils', () => {

@@ -4,7 +4,6 @@ import renderer from 'react-test-renderer';
 
 jest.mock('react-input-toggle', () => 'Toggle');
 
-
 jest.mock('../../components/Title', () => 'Title');
 jest.mock('../../components/Button', () => 'Button');
 jest.mock('../../components/ReportTable', () => 'TableReport');
