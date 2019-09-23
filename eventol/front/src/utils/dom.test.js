@@ -1,4 +1,5 @@
-import DOM from './dom';
+import {focusOn, mapSizesToProps} from './dom';
+import {MOBILE_WIDTH} from './constants';
 
 describe('DOM utils', () => {
   const id = 'search';
@@ -15,7 +16,7 @@ describe('DOM utils', () => {
 
   describe('focusOn', () => {
     test('should call getElementById with id', () => {
-      DOM.focusOn(id);
+      focusOn(id);
 
       expect(getElementById).toBeCalled();
       expect(getElementById).toBeCalledWith(id);
@@ -25,9 +26,26 @@ describe('DOM utils', () => {
       const focus = jest.fn();
       getElementById.mockImplementation(() => ({focus}));
 
-      DOM.focusOn(id);
+      focusOn(id);
 
       expect(focus).toBeCalled();
+    });
+  });
+
+  describe('mapSizesToProps', () => {
+    test('should return isMobile: true when width < MOBILE_WIDTH', () => {
+      const {isMobile} = mapSizesToProps({width: MOBILE_WIDTH - 1});
+      expect(isMobile).toBeTruthy();
+    });
+
+    test('should return isMobile: false when width > MOBILE_WIDTH', () => {
+      const {isMobile} = mapSizesToProps({width: MOBILE_WIDTH + 1});
+      expect(isMobile).toBeFalsy();
+    });
+
+    test('should return isMobile: false when width === MOBILE_WIDTH', () => {
+      const {isMobile} = mapSizesToProps({width: MOBILE_WIDTH});
+      expect(isMobile).toBeFalsy();
     });
   });
 });

@@ -6,8 +6,8 @@ import Hero from '../../components/Hero';
 import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
+import {mapSizesToProps} from '../../utils/dom';
 import {
-  MOBILE_WIDTH,
   BACKGROUND_DEFAULT,
   LOGO_HEADER_DEFAULT,
   LOGO_LANDING_DEFAULT,
@@ -119,9 +119,5 @@ class Home extends React.PureComponent {
     );
   }
 }
-
-const mapSizesToProps = ({width}) => ({
-  isMobile: width < MOBILE_WIDTH,
-});
 
 export default withSizes(mapSizesToProps)(Home);

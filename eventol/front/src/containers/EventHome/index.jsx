@@ -13,13 +13,13 @@ import {
   getFinishedEventsUrl,
 } from '../../utils/urls';
 import {
-  MOBILE_WIDTH,
   BACKGROUND_DEFAULT,
   LOGO_HEADER_DEFAULT,
   LOGO_LANDING_DEFAULT,
 } from '../../utils/constants';
 
 import './index.scss';
+import {mapSizesToProps} from '../../utils/dom';
 
 class EventHome extends React.PureComponent {
   static propTypes = {
@@ -106,9 +106,5 @@ class EventHome extends React.PureComponent {
     );
   }
 }
-
-const mapSizesToProps = ({width}) => ({
-  isMobile: width < MOBILE_WIDTH,
-});
 
 export default withSizes(mapSizesToProps)(EventHome);
