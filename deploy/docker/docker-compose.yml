@@ -6,7 +6,9 @@ services:
       context: ../../.
       target: development
     volumes:
-      - ../../:/usr/src/app
+      - type: bind
+        source: ../../
+        target: /usr/src/app
     environment:
       - DJANGO_CONFIGURATION=Dev
       - PSQL_HOST=postgres
@@ -21,8 +23,12 @@ services:
       context: ../../.
       target: frontend
     volumes:
-      - ../../eventol/front/src:/app/src
-      - ../../eventol/front/webpack-stats-local.json:/app/webpack-stats-local.json
+      - type: bind
+        source: ../../eventol/front/src
+        target: /app/src
+      - type: bind
+        source: ../../eventol/front/webpack-stats-local.json
+        target: /app/webpack-stats-local.json
     ports:
       - '3000:3000'
 
@@ -38,4 +44,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./db/postgres:/var/lib/postgresql/data
+      - type: bind
+        source: ./db/postgres
+        target: /var/lib/postgresql/data
+
