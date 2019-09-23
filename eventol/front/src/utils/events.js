@@ -5,12 +5,9 @@ export const getEvent = (pk, fields) => ({pk, fields});
 export const getSlugParsed = slug =>
   slug
     .toLowerCase()
-    .split('-')
-    .join(' ')
-    .split('_')
-    .join(' ')
+    .replace(/[-_]/g, ' ')
     .split(' ')
-    .map(word => (word ? word.replace(word[0], word[0].toUpperCase()) : ''))
+    .map(word => word.replace(word[0], word[0].toUpperCase()))
     .join(' ');
 
 export const parseEventToItem = ({
