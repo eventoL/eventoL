@@ -52,6 +52,15 @@ describe('Search', () => {
     expect(onChange).toBeCalledWith(value);
   });
 
+  test('handle onChange without onChange function', () => {
+    onChange = undefined;
+    component = getComponent();
+    instance = component.root;
+
+    const value = 'searchTerm';
+    instance.findByType('input').props.onChange({target: {value}});
+  });
+
   describe('handle onKeyUp', () => {
     test('With not Enter key', () => {
       instance.findByType('input').props.onKeyUp({key: 'A'});

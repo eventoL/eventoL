@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DOM from '../../utils/dom';
+import {focusOn} from '../../utils/dom';
 import {EVENTOL_DOCUMENTATION, REPORT_URL} from '../../utils/urls';
 
 import './index.scss';
@@ -9,7 +9,7 @@ export default class Navigation extends React.PureComponent {
   handleSearchFocus = event => {
     event.preventDefault();
     event.stopPropagation();
-    DOM.focusOn('search-input');
+    focusOn('search-input');
   };
 
   render() {

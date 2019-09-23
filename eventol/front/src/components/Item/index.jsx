@@ -46,7 +46,9 @@ export default class Item extends React.PureComponent {
     const {
       data: {url},
     } = this.props;
-    goToUrl(url);
+    if (url) {
+      goToUrl(url);
+    }
   };
 
   render() {
@@ -76,7 +78,7 @@ export default class Item extends React.PureComponent {
         >
           <div className="overlay">
             <div className="title">{title}</div>
-            {!_.isNull(attendees) && (
+            {!_.isNull(attendees) && !_.isUndefined(attendees) && (
               <div className="rating">
                 {`${gettext('Attendees')}: ${attendees}`}
               </div>

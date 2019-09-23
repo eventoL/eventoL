@@ -11,7 +11,7 @@ jest.mock('../../utils/urls', () => ({
 }));
 
 import Navigation from '.';
-import DOM from '../../utils/dom';
+import {focusOn} from '../../utils/dom';
 
 describe('Navigation', () => {
   let tree;
@@ -35,31 +35,31 @@ describe('Navigation', () => {
   });
 
   afterEach(() => {
-    DOM.focusOn.mockClear();
+    focusOn.mockClear();
   });
 
-  test('should call event.stopPropagation, event.preventDefault and DOM.focusOn on click event', () => {
+  test('should call event.stopPropagation, event.preventDefault and focusOn on click event', () => {
     expect(event.preventDefault).not.toBeCalled();
     expect(event.stopPropagation).not.toBeCalled();
-    expect(DOM.focusOn).not.toBeCalled();
+    expect(focusOn).not.toBeCalled();
 
     instance.findByType('button').props.onClick(event);
 
     expect(event.preventDefault).toBeCalled();
     expect(event.stopPropagation).toBeCalled();
-    expect(DOM.focusOn).toBeCalled();
+    expect(focusOn).toBeCalled();
   });
 
-  test('should call event.stopPropagation, event.preventDefault and DOM.focusOn on key press event', () => {
+  test('should call event.stopPropagation, event.preventDefault and focusOn on key press event', () => {
     expect(event.preventDefault).not.toBeCalled();
     expect(event.stopPropagation).not.toBeCalled();
-    expect(DOM.focusOn).not.toBeCalled();
+    expect(focusOn).not.toBeCalled();
 
     instance.findByType('button').props.onKeyPress(event);
 
     expect(event.preventDefault).toBeCalled();
     expect(event.stopPropagation).toBeCalled();
-    expect(DOM.focusOn).toBeCalled();
+    expect(focusOn).toBeCalled();
   });
 
   describe('Default', () => {
