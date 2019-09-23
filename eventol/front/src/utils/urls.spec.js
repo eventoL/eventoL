@@ -7,7 +7,11 @@ import {
   getWsUrl,
   getEventUrl,
   getApiFullUrl,
+  getEventApiUrl,
+  getReportQueryParams,
+  getReportUrl,
 } from './urls';
+import {REPORT_REQUIRED_FIELDS} from './constants';
 
 describe('Url utils', () => {
   beforeAll(() => {
@@ -72,6 +76,71 @@ describe('Url utils', () => {
 
     test('when protocol is undefined, getWsUrl should returns ws://host/updates/', () => {
       expect(getWsUrl()).toEqual(`ws://${window.location.host}/updates/`);
+    });
+  });
+
+  describe('getEventApiUrl', () => {
+    test('getEventApiUrl should returns /api/events/?queryParams', () => {
+      const queryParams = 'name=Peter';
+      expect(getEventApiUrl(queryParams)).toEqual(
+        `/api/events/?${queryParams}`
+      );
+    });
+
+    test('when queryParams is undefined, getWsUrl should returns /api/events/?', () => {
+      expect(getEventApiUrl()).toEqual('/api/events/?');
+    });
+  });
+
+  describe('getReportQueryParams', () => {
+    let page;
+    let offset;
+    let sorted;
+    let pageSize;
+    let defaultQueryParams;
+
+    beforeEach(() => {
+      pageSize = 10;
+      page = 1;
+      sorted = [{id: 'name', desc: true}];
+      offset = page * pageSize;
+      defaultQueryParams = `limit=${pageSize}&offset=${offset}&fields=${REPORT_REQUIRED_FIELDS}`;
+    });
+
+    test('should returns query params', () => {
+      const queryParams = getReportQueryParams(pageSize, page, sorted);
+      expect(queryParams).toEqual(`${defaultQueryParams}&ordering=-name`);
+    });
+
+    test('should returns query params without sorted', () => {
+      const queryParams = getReportQueryParams(pageSize, page, []);
+      expect(queryParams).toEqual(defaultQueryParams);
+    });
+  });
+
+  describe('getReportUrl', () => {
+    let page;
+    let offset;
+    let sorted;
+    let pageSize;
+    let defaultQueryParams;
+
+    beforeEach(() => {
+      pageSize = 10;
+      page = 1;
+      sorted = [{id: 'name', desc: true}];
+      offset = page * pageSize;
+      defaultQueryParams = `limit=${pageSize}&offset=${offset}&fields=${REPORT_REQUIRED_FIELDS}`;
+    });
+
+    test('should returns query params', () => {
+      const url = getReportUrl(pageSize, page, sorted);
+      expect(url).toEqual(`/api/events/?${defaultQueryParams}&ordering=-name`);
+    });
+
+    test('should returns query params without sorted', () => {
+      const url = getReportUrl(pageSize, page, []);
+      expect(url).toEqual(`/api/events/?${defaultQueryParams}`);
     });
   });
 });
