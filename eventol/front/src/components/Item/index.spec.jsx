@@ -1,14 +1,14 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-jest.mock('../ItemMap', () => 'ItemMap');
+jest.mock('../Map', () => 'Map');
 
 jest.mock('../../utils/urls', () => ({
   getTagUrl: jest.fn().mockImplementation(() => 'tag-url'),
   goToUrl: jest.fn(),
 }));
 
-import ItemMap from '../ItemMap';
+import Map from '../Map';
 
 import {goToUrl} from '../../utils/urls';
 import {event1} from '../../utils/__mock__/data';
@@ -18,6 +18,7 @@ import Item from '.';
 describe('Item', () => {
   let tree;
   let data;
+  let event;
   let instance;
   let sliderId;
   let component;
@@ -31,6 +32,10 @@ describe('Item', () => {
   beforeEach(() => {
     data = undefined;
     sliderId = event1.id;
+    event = {
+      preventDefault: jest.fn(),
+      stopPropagation: jest.fn(),
+    };
   });
 
   afterEach(() => {
@@ -48,7 +53,9 @@ describe('Item', () => {
 
     expect(goToUrl).not.toBeCalled();
 
-    instance.children[0].props.children.props.onClick();
+    instance.children[0].props.children.props.onClick(event);
+    expect(event.preventDefault).toBeCalled();
+    expect(event.stopPropagation).toBeCalled();
 
     expect(goToUrl).toBeCalled();
     expect(goToUrl).toBeCalledWith(data.url);
@@ -60,29 +67,25 @@ describe('Item', () => {
 
     expect(goToUrl).not.toBeCalled();
 
-    instance.children[0].props.children.props.onKeyPress();
+    instance.children[0].props.children.props.onKeyPress(event);
+
+    expect(event.preventDefault).toBeCalled();
+    expect(event.stopPropagation).toBeCalled();
 
     expect(goToUrl).toBeCalled();
     expect(goToUrl).toBeCalledWith(data.url);
   });
 
-  test('should shows ItemMap when data has not backdrop', () => {
+  test('should shows Map when data has not backdrop', () => {
     data = {...event1, backdrop: undefined};
     renderItem();
     expect(tree).toMatchSnapshot();
 
-    const itemMap = component.root.findByType(ItemMap);
+    const itemMap = component.root.findByType(Map);
     expect(itemMap).toBeDefined();
 
     expect(itemMap.props.sliderId).toEqual(sliderId);
-    const props = [
-      'attendees',
-      'eventSlug',
-      'overview',
-      'place',
-      'title',
-      'url',
-    ];
+    const props = ['eventSlug', 'place'];
     props.forEach(prop => expect(itemMap.props[prop]).toEqual(data[prop]));
   });
 
