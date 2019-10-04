@@ -11,6 +11,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-size: 100%;
+  cursor: pointer;
   flex: 1 0 auto;
   height: 200px;
   margin-right: 30px;
@@ -40,7 +41,7 @@
     .title {
       -webkit-transition: opacity .25s ease;
       font-size: 22px;
-      font-weight: 200;
+      font-weight: 500;
       opacity: 0;
       transition: opacity .25s ease;
     }
@@ -69,7 +70,7 @@
       -webkit-transition: margin .25s ease .125s, opacity .25s ease .25s;
       display: -webkit-box;
       font-size: 14px;
-      font-weight: 300;
+      font-weight: 500;
       line-height: 1.6;
       margin-top: 100px;
       opacity: 0;

@@ -1,0 +1,19 @@
+@import '../../styles/variables';
+
+.leaflet-container {
+  font: unset;
+
+  a {
+    color: unset;
+  }
+}
+
+.item {
+  .overlay {
+    z-index: 500;
+  }
+
+  .max-size {
+    max-width: 22vw;
+  }
+}

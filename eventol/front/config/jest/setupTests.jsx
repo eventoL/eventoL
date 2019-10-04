@@ -13,4 +13,22 @@ const matchMedia = () => ({
 });
 
 window.matchMedia = window.matchMedia || matchMedia;
-jest.mock('react-sizes', () => () => Component => props => <Component {...props} />);
+jest.mock('react-sizes', () => () => Component => props => (
+  <Component {...props} />
+));
+
+global.L = {
+  map: jest.fn(() => ({
+    setView: jest.fn(() => ({
+      attributionControl: {
+        setPrefix: jest.fn(),
+      },
+    })),
+  })),
+  tileLayer: jest.fn(() => ({
+    addTo: jest.fn(),
+  })),
+  marker: jest.fn(() => ({
+    addTo: jest.fn(),
+  })),
+};

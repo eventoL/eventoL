@@ -1,6 +1,9 @@
-const focusOn = query => {
-  document.getElementById(query).focus();
+import {MOBILE_WIDTH} from './constants';
+
+export const focusOn = id => {
+  document.getElementById(id).focus();
 };
 
-const DOM = {focusOn};
-export default DOM;
+export const mapSizesToProps = ({width}) => ({
+  isMobile: width < MOBILE_WIDTH,
+});
