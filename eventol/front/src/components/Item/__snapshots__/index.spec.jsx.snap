@@ -17,11 +17,6 @@ exports[`Item Default render 1`] = `
         className="title"
       />
       <div
-        className="rating"
-      >
-        Attendees: 0
-      </div>
-      <div
         className="plot"
       />
     </div>
