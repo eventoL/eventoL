@@ -1,4 +1,4 @@
-# pylint: redefined-outer-name
+# pylint: redefined-outer-name disable=to-many-arguments
 from datetime import datetime
 from django.test import Client
 from rest_framework.test import RequestsClient, APIRequestFactory
@@ -121,14 +121,24 @@ def attendee_without_user2(event2):
 @pytest.mark.django_db
 def attendee_from_event_user1(event_user1, event1):
     yield autofixture.create_one(
-        'manager.Attendee', {'event_user': event_user1, 'event': event1, 'email_token': generate_ticket_code()})
+        'manager.Attendee', {
+            'event_user': event_user1,
+            'event': event1,
+            'email_token': generate_ticket_code()
+        }
+    )
 
 
 @pytest.fixture
 @pytest.mark.django_db
 def attendee_from_event_user2(event_user2, event2):
     yield autofixture.create_one(
-        'manager.Attendee', {'event_user': event_user2, 'event': event2, 'email_token': generate_ticket_code()})
+        'manager.Attendee', {
+            'event_user': event_user2,
+            'event': event2,
+            'email_token': generate_ticket_code()
+        }
+    )
 
 
 # Organizers
@@ -308,6 +318,7 @@ def event_data2(
         'activity': activity2,
         'room': room2
     }
+
 
 # Client fixtures
 @pytest.fixture

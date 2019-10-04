@@ -1,3 +1,5 @@
+# pylint: disable=line-too-long
+
 # TESTING
 ADMIN_USERNAME = 'testadmin'
 ADMIN_PASSWORD = 'secret'
