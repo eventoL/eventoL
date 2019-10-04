@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {CSVLink} from 'react-csv';
@@ -6,18 +7,16 @@ import './index.scss';
 
 export default class ExportButton extends React.PureComponent {
   static propTypes = {
-    data: PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-      ]),
-    ),
+    data: PropTypes.arrayOf(PropTypes.shape()),
     filename: PropTypes.string,
     label: PropTypes.string,
     type: PropTypes.oneOf([
-      'default', 'primary',
-      'success', 'info',
-      'warning', 'danger',
+      'default',
+      'primary',
+      'success',
+      'info',
+      'warning',
+      'danger',
       'link',
     ]),
   };
@@ -27,13 +26,13 @@ export default class ExportButton extends React.PureComponent {
     filename: 'export',
     label: '',
     type: 'default',
-  }
+  };
 
   state = {
     header: [],
     rows: [],
     totals: [],
-  }
+  };
 
   getField = (columns, field) => {
     const values = [];
@@ -44,22 +43,24 @@ export default class ExportButton extends React.PureComponent {
       return column;
     });
     return values;
-  }
+  };
 
-  getRows(columns){
+  getRows(columns) {
     const {data} = this.props;
     const accessors = this.getField(columns, 'accessor');
-    return data.map(row => accessors.map(accessor => this.runAccessor(accessor, row)));
+    return data.map(row =>
+      accessors.map(accessor => this.runAccessor(accessor, row))
+    );
   }
 
   runAccessor = (accessor, row) => {
     if (typeof accessor === 'string') return row[accessor];
     return accessor(row);
-  }
+  };
 
-  updateCsv(columns){
+  updateCsv(columns) {
     const {data} = this.props;
-    if (data.length > 0){
+    if (!_.isEmpty(data)) {
       const header = this.getField(columns, 'Header');
       const rows = this.getRows(columns);
       const totals = this.getField(columns, 'total');
@@ -67,7 +68,7 @@ export default class ExportButton extends React.PureComponent {
     }
   }
 
-  render(){
+  render() {
     const {type, label, filename} = this.props;
     const {header, rows, totals} = this.state;
     const csvData = [header, ...rows, totals];

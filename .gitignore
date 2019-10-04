@@ -29,6 +29,8 @@ nosetests.xml
 
 # Translations
 *.mo
+eventol/conf/locale/en/
+eventol/conf/locale/**/*.mo
 
 # Mr Developer
 .mr.developer.cfg
@@ -77,6 +79,8 @@ coverage/
 jest_*
 venv/
 .vscode/
+*.orig
+
 
 .config/
 deploy/docker/.env

@@ -1,10 +1,18 @@
 import {
-  setEvents, createEvent, updateEvent, deleteEvent,
-  DELETE_EVENT, CREATE_EVENT, UPDATE_EVENT, SET_EVENTS,
+  setEvents,
+  createEvent,
+  updateEvent,
+  deleteEvent,
+  DELETE_EVENT,
+  CREATE_EVENT,
+  UPDATE_EVENT,
+  SET_EVENTS,
 } from './events';
 
 describe('events Actions', () => {
-  let event, events, expectDefault;
+  let event;
+  let events;
+  let expectDefault;
 
   beforeEach(() => {
     event = {

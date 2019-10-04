@@ -1,5 +1,4 @@
-@import '../../styles/commons';
-@import '../../styles/variables';
+@import '../../styles/index';
 
 .header {
   @extend %flex-element;
@@ -50,6 +49,17 @@
   .nav-right {
     margin-left: auto;
 
+    button {
+      background-color: transparent;
+      border: 0;
+      color: $white;
+      display: contents;
+      font-size: 100%;
+      margin: 0;
+      padding: 0;
+      vertical-align: baseline;
+    }
+
     i {
       float: right;
       z-index: 5;
@@ -61,7 +71,6 @@
       a {
         clear: right;
         display: inline;
-        float: right;
       }
     }
   }
