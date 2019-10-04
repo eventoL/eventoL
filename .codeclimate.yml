@@ -26,6 +26,9 @@ plugins:
     enabled: true
     config:
       file: .pylintrc
+    channel: "beta"
+    plugins:
+      - django
   radon: 
     enabled: true
     config: 
