@@ -1,4 +1,6 @@
-# pylint: redefined-outer-name disable=to-many-arguments
+# pylint: redefined-outer-name
+# pylint: disable=to-many-arguments
+
 from datetime import datetime
 from django.test import Client
 from rest_framework.test import RequestsClient, APIRequestFactory
