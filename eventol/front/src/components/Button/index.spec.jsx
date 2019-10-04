@@ -4,7 +4,10 @@ import renderer from 'react-test-renderer';
 import Button from '.';
 
 describe('Button', () => {
-  let component, tree, onClickSpy, event;
+  let component;
+  let tree;
+  let onClickSpy;
+  let event;
 
   beforeEach(() => {
     onClickSpy = jest.fn();
@@ -15,9 +18,7 @@ describe('Button', () => {
         id: 'button',
       },
     };
-    component = renderer.create(
-      <Button handleOnClick={onClickSpy} />,
-    );
+    component = renderer.create(<Button handleOnClick={onClickSpy} />);
     tree = component.toJSON();
   });
 
@@ -25,7 +26,7 @@ describe('Button', () => {
     expect(tree).toMatchSnapshot();
   });
 
-  test('should be call onClick handle', () => {
+  test('should call onClick handle', () => {
     tree.props.onClick(event);
     expect(onClickSpy).toBeCalled();
     expect(onClickSpy).toBeCalledWith('button');

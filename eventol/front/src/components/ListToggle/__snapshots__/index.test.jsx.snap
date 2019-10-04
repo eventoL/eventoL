@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListToggle Default Snapshot 1`] = `
+<div
+  className="list-toggle"
+  data-toggled={false}
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="menuitem"
+  tabIndex="0"
+>
+  <div>
+    <i
+      className="fa fa-fw fa-plus"
+    />
+    <i
+      className="fa fa-fw fa-check"
+    />
+  </div>
+</div>
+`;
+
+exports[`ListToggle Default Snapshot with toggle change (onClick) 1`] = `
+<div
+  className="list-toggle"
+  data-toggled={false}
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="menuitem"
+  tabIndex="0"
+>
+  <div>
+    <i
+      className="fa fa-fw fa-plus"
+    />
+    <i
+      className="fa fa-fw fa-check"
+    />
+  </div>
+</div>
+`;
+
+exports[`ListToggle Default Snapshot with toggle change (onClick) 2`] = `
+<div
+  className="list-toggle"
+  data-toggled={true}
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="menuitem"
+  tabIndex="0"
+>
+  <div>
+    <i
+      className="fa fa-fw fa-plus"
+    />
+    <i
+      className="fa fa-fw fa-check"
+    />
+  </div>
+</div>
+`;

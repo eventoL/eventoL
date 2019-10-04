@@ -350,7 +350,7 @@ class Staging(Base):
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.handlers.RotatingFileHandler',
-                'filename': os.getenv('LOG_FILE', '/var/log/eventol.log'),
+                'filename': os.getenv('LOG_FILE', '/var/log/eventol/eventol.log'),
                 'maxBytes': 1024*1024*10,
                 'backupCount': 10,
                 'formatter': 'logservices'

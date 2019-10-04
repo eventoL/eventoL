@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {HOME_REQUIRED_FIELDS} from './constants';
+import {HOME_REQUIRED_FIELDS, REPORT_REQUIRED_FIELDS} from './constants';
 
 // eslint-disable-next-line prefer-destructuring
 export const host = window.location.host;
@@ -21,6 +21,22 @@ export const EVENTS_WS_URL = `${WS_URL}updates/events/`;
 export const getTagUrl = slug => `/tags/${slug}`;
 export const getEventUrl = slug => `/events/${slug}/`;
 export const getApiFullUrl = url => `/api/events/${url}`;
+
+export const getEventApiUrl = (queryParams = '') =>
+  `/api/events/?${queryParams}`;
+
+export const getReportQueryParams = (pageSize, page, sorted) => {
+  const offset = page * pageSize;
+  let queryParams = `limit=${pageSize}&offset=${offset}&fields=${REPORT_REQUIRED_FIELDS}`;
+  if (sorted && sorted.length > 0) {
+    const [{id: name, desc}] = sorted;
+    queryParams += `&ordering=${desc ? '-' : ''}${name}`;
+  }
+  return queryParams;
+};
+
+export const getReportUrl = (pageSize, page, sorted) =>
+  getEventApiUrl(getReportQueryParams(pageSize, page, sorted));
 
 export const getWsUrl = protocol =>
   `${_.isEmpty(protocol) ? 'ws' : protocol}://${host}/updates/`;
