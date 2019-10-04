@@ -38,6 +38,7 @@ export const parseEventToItem = ({
 
 export const emptyEventItem = {
   key: 'not_found',
+  empty: true,
   title: gettext('Event not found'),
   overview: gettext('No Event found in your search'),
   backdrop: LOGO_LANDING_DEFAULT,
