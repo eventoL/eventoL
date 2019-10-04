@@ -1,5 +1,5 @@
 asgi-redis==1.4.3
-Django==1.11.21
+Django==1.11.23
 django-configurations==2.0
 easy-thumbnails==2.5
 django-autocomplete-light==3.2.10
@@ -9,7 +9,7 @@ django-import-export==0.6.0
 django-formset-js==0.5.0
 django-allauth==0.34.0
 django-simple-captcha==0.5.6
-psycopg2-binary==2.7.5
+psycopg2-binary==2.7.6.1
 django-webpack-loader==0.5.0
 django-filter==1.1.0
 djangorestframework==3.7.3
