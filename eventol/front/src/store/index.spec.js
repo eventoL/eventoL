@@ -1,6 +1,8 @@
 import {
-  SET_EVENTS, UPDATE_EVENT,
-  DELETE_EVENT, CREATE_EVENT,
+  SET_EVENTS,
+  UPDATE_EVENT,
+  DELETE_EVENT,
+  CREATE_EVENT,
 } from '../actions/events';
 
 const initState = {
@@ -10,7 +12,9 @@ const initState = {
 };
 
 describe('Events store', () => {
-  let store, event, events;
+  let store;
+  let event;
+  let events;
 
   beforeEach(() => {
     /* eslint-disable-next-line global-require */
