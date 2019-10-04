@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignIn Default Snapshot 1`] = `
+<div
+  className="sign-in"
+>
+  <ul>
+    <li>
+      <a
+        href="/accounts/login/"
+      >
+        Sign In
+      </a>
+    </li>
+    <li>
+      <a
+        href="/accounts/signup/"
+      >
+        Sign Up
+      </a>
+    </li>
+  </ul>
+</div>
+`;

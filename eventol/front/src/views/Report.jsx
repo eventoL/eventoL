@@ -14,19 +14,18 @@ window.render_components = properties => {
   window.params = {...properties};
   const communicator = getCommunicator(properties);
   render(
-    (
-      <Provider store={store}>
-        <Report
-          communicator={communicator}
-          eventsPrivateData={properties.events_private_data}
-          user={properties.user}
-        />
-      </Provider>
-    ), document.getElementById('root'),
+    <Provider store={store}>
+      <Report
+        communicator={communicator}
+        eventsPrivateData={properties.events_private_data}
+        user={properties.user}
+      />
+    </Provider>,
+    document.getElementById('root')
   );
 };
 
-if (module.hot){
+if (module.hot) {
   if (window.params) window.render_components(window.params);
   module.hot.accept();
 }

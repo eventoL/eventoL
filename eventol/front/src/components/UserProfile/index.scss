@@ -1,17 +1,16 @@
-@import '../../styles/variables';
-@import '../../styles/commons';
+@import '../../styles/index';
 
 @media (min-width: 950px) {
   .user-profile {
     margin-left: auto;
-  
+
     a {
       text-decoration: none;
     }
-  
+
     .user {
       @include flex-element;
-  
+
       .image {
         @include center-element;
         -webkit-transition: border .125s ease;
@@ -25,13 +24,13 @@
         transition: border .125s ease;
         vertical-align: middle;
         width: 44px;
-  
+
         img {
           display: block;
           width: 100%;
         }
       }
-  
+
       .name {
         @include flex-element;
         @include center-element;
@@ -40,15 +39,15 @@
         height: 44px;
       }
     }
-  
+
     .user:hover {
       cursor: pointer;
-  
+
       .image {
         border: 3px solid $eventol-color;
       }
     }
-  
+
     .user-profile-menu {
       display: none;
     }
@@ -62,15 +61,17 @@
     margin-right: 8vw;
     opacity: .8;
     z-index: 0;
-  
+
     a {
+      // sass-lint:disable no-important
       float: unset !important;
+      // sass-lint:enable no-important
       text-decoration: none;
     }
-  
+
     .user {
       @include flex-element;
-  
+
       .image {
         -webkit-transition: border .125s ease;
         align-items: center;
@@ -85,13 +86,13 @@
         transition: border .125s ease;
         vertical-align: middle;
         width: 44px;
-  
+
         img {
           display: block;
           width: 100%;
         }
       }
-  
+
       .name {
         @include flex-element;
         @include center-element;
@@ -101,12 +102,12 @@
         padding-left: 10px;
       }
     }
-  
+
     .user:hover {
       background: $eventol-color;
       cursor: pointer;
     }
-  
+
     .user-profile-narrow-menu {
       display: none;
     }

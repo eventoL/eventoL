@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hero Default render 1`] = `
+<div
+  className="hero"
+  id="hero"
+  style={
+    Object {
+      "backgroundImage": "url(BACKGROUND_DEFAULT)",
+    }
+  }
+>
+  <div
+    className="content"
+  >
+    <p>
+      <img
+        alt="logo"
+        className="logo"
+        src="LOGO_LANDING_DEFAULT"
+      />
+    </p>
+    <h2>
+      Search your event
+    </h2>
+  </div>
+  <div
+    className="overlay"
+  />
+</div>
+`;
+
+exports[`Hero With custom backgound 1`] = `
+<div
+  className="hero"
+  id="hero"
+  style={
+    Object {
+      "backgroundImage": "url(custom-background)",
+    }
+  }
+>
+  <div
+    className="content"
+  >
+    <p>
+      <img
+        alt="logo"
+        className="logo"
+        src="LOGO_LANDING_DEFAULT"
+      />
+    </p>
+    <h2>
+      Search your event
+    </h2>
+  </div>
+  <div
+    className="overlay"
+  />
+</div>
+`;
+
+exports[`Hero With custom logo 1`] = `
+<div
+  className="hero"
+  id="hero"
+  style={
+    Object {
+      "backgroundImage": "url(BACKGROUND_DEFAULT)",
+    }
+  }
+>
+  <div
+    className="content"
+  >
+    <p>
+      <img
+        alt="logo"
+        className="logo"
+        src="logo-custom"
+      />
+    </p>
+    <h2>
+      Search your event
+    </h2>
+  </div>
+  <div
+    className="overlay"
+  />
+</div>
+`;
+
+exports[`Hero With message 1`] = `
+<div
+  className="hero"
+  id="hero"
+  style={
+    Object {
+      "backgroundImage": "url(BACKGROUND_DEFAULT)",
+    }
+  }
+>
+  <div
+    className="content"
+  >
+    <p>
+      <img
+        alt="logo"
+        className="logo"
+        src="LOGO_LANDING_DEFAULT"
+      />
+    </p>
+    <h2>
+      message
+    </h2>
+  </div>
+  <div
+    className="overlay"
+  />
+</div>
+`;
+
+exports[`Hero With slug 1`] = `
+<div
+  className="hero"
+  id="hero"
+  style={
+    Object {
+      "backgroundImage": "url(BACKGROUND_DEFAULT)",
+    }
+  }
+>
+  <div
+    className="content"
+  >
+    <p>
+      <img
+        alt="logo"
+        className="logo"
+        src="LOGO_LANDING_DEFAULT"
+      />
+    </p>
+    <h2>
+      You are seeing all of parsed-slug events
+      <br />
+      Please, select one to continue
+    </h2>
+  </div>
+  <div
+    className="overlay"
+  />
+</div>
+`;
