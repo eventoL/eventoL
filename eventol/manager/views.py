@@ -1,3 +1,5 @@
+# pylint: disable=broad-except
+# pylint: disable=too-many-lines
 import datetime
 import io
 import itertools
@@ -684,7 +686,9 @@ def attendee_registration_print_code(request, event_slug):
 
 def attendee_registration_by_self(request, event_slug, event_registration_code):
     event_index_url = reverse('index', args=[event_slug])
-    event = Event.objects.filter(event_slug=event_slug, registration_code=event_registration_code).first()
+    event = Event.objects.filter(
+        event_slug=event_slug, registration_code=event_registration_code
+    ).first()
     if not event:
         messages.error(
             request, _('The registration code does not seems to be valid for this event'))
@@ -723,28 +727,27 @@ def attendee_registration_by_self(request, event_slug, event_registration_code):
             if attendee.attended_today():
                 messages.info(request, 'You are already registered and present! Go have fun')
                 return redirect(event_index_url)
-            else:
-                try:
-                    attendance_date = AttendeeAttendanceDate()
-                    attendance_date.mode = mode
-                    attendance_date.attendee = attendee
-                    attendance_date.save()
-                    messages.success(
-                        request,
-                        _(
-                            'You are now marked as present in the event, have fun!'
-                        )
+            try:
+                attendance_date = AttendeeAttendanceDate()
+                attendance_date.mode = mode
+                attendance_date.attendee = attendee
+                attendance_date.save()
+                messages.success(
+                    request,
+                    _(
+                        'You are now marked as present in the event, have fun!'
                     )
-                    return redirect(event_index_url)
-                except Exception as error_message:
-                    logger.error(error_message)
-                    try:
-                        if attendee is not None:
-                            Attendee.objects.delete(attendee)
-                        if attendance_date is not None:
-                            AttendeeAttendanceDate.objects.delete(attendance_date)
-                    except Exception:
-                        pass
+                )
+                return redirect(event_index_url)
+            except Exception as error_message:
+                logger.error(error_message)
+                try:
+                    if attendee is not None:
+                        Attendee.objects.delete(attendee)
+                    if attendance_date is not None:
+                        AttendeeAttendanceDate.objects.delete(attendance_date)
+                except Exception:
+                    pass
         messages.error(
             request,
             _(
@@ -890,7 +893,7 @@ def contact(request, event_slug):
         )
     )
 
-
+# pylint: disable=too-many-locals
 def reports(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
     event_dates = EventDate.objects.filter(event=event)
@@ -958,7 +961,10 @@ def reports(request, event_slug):
             render_dict=template_dict
         )
     )
+# pylint: enable=too-many-locals
 
+
+# pylint: disable=too-many-arguments
 @login_required
 def generic_registration(request, event_slug,
                          registration_model, new_role_form,
@@ -1019,7 +1025,7 @@ def generic_registration(request, event_slug,
             {'forms': forms, 'errors': errors, 'multipart': False}
         )
     )
-
+# pylint: enable=too-many-arguments
 
 def get_email_confirmation_url(request, event_slug, attendee_id, token):
     url = reverse(
@@ -1231,20 +1237,27 @@ def collaborator_registration(request, event_slug):
         template
     )
 
-
+# pylint: disable=too-many-branches
 @login_required
 def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
     contacts_formset = modelformset_factory(Contact, form=ContactForm, can_delete=True)
 
+    # pylint: disable=unexpected-keyword-arg
     contacts_formset = contacts_formset(
         request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
+    # pylint: enable=unexpected-keyword-arg
 
     event_date_formset = modelformset_factory(
         EventDate, form=EventDateForm, formset=EventDateModelFormset, can_delete=True)
+
+    # pylint: disable=unexpected-keyword-arg
     event_date_formset = event_date_formset(
-        request.POST or None, prefix='event-date-form',
-        queryset=EventDate.objects.none())
+        request.POST or None,
+        prefix='event-date-form',
+        queryset=EventDate.objects.none()
+    )
+    # pylint: enable=unexpected-keyword-arg
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
@@ -1296,6 +1309,7 @@ def create_event(request):
                   {'form': event_form, 'domain': request.get_host(),
                    'protocol': request.scheme, 'contacts_formset': contacts_formset,
                    'event_date_formset': event_date_formset})
+# pylint: enable=too-many-branches
 
 
 @login_required
@@ -1305,16 +1319,21 @@ def edit_event(request, event_slug):
     event_form = EventForm(request.POST or None, prefix='event', instance=event)
 
     contacts_formset = modelformset_factory(Contact, form=ContactForm, can_delete=True)
+    # pylint: disable=unexpected-keyword-arg
     contacts_formset = contacts_formset(
         request.POST or None, prefix='contacts-form',
         queryset=event.contacts.all())
+    # pylint: enable=unexpected-keyword-arg
 
     event_date_formset = modelformset_factory(
         EventDate, form=EventDateForm,
         formset=EventDateModelFormset, can_delete=True)
+
+    # pylint: disable=unexpected-keyword-arg
     event_date_formset = event_date_formset(
         request.POST or None, prefix='event-date-form',
         queryset=EventDate.objects.filter(event=event))
+    # pylint: enable=unexpected-keyword-arg
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
@@ -1631,7 +1650,7 @@ def my_proposals(request, event_slug):
         )
     )
 
-
+# pylint: disable=too-many-locals
 @login_required
 @user_passes_test(is_organizer, 'index')
 def talk_registration(request, event_slug, proposal_id):
@@ -1700,6 +1719,7 @@ def talk_registration(request, event_slug, proposal_id):
     return render(request,
                   'activities/detail.html',
                   update_event_info(event_slug, render_dict))
+# pylint: enable=too-many-locals
 
 
 @login_required

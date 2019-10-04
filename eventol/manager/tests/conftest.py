@@ -1,5 +1,5 @@
 # pylint: redefined-outer-name
-# pylint: disable=to-many-arguments
+# pylint: disable=too-many-arguments
 
 from datetime import datetime
 from django.test import Client
@@ -96,13 +96,17 @@ def user2():
 @pytest.fixture
 @pytest.mark.django_db
 def event_user1(user1, event1):
-    yield autofixture.create_one('manager.EventUser', {'user': user1, 'event': event1}, generate_fk=True)
+    yield autofixture.create_one(
+        'manager.EventUser', {'user': user1, 'event': event1}, generate_fk=True
+    )
 
 
 @pytest.fixture
 @pytest.mark.django_db
 def event_user2(user2, event2):
-    yield autofixture.create_one('manager.EventUser', {'user': user2, 'event': event2}, generate_fk=True)
+    yield autofixture.create_one(
+        'manager.EventUser', {'user': user2, 'event': event2}, generate_fk=True
+    )
 
 
 # Attendee without User

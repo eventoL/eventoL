@@ -145,16 +145,17 @@ def add(base, value_to_sum):
     return base + value_to_sum
 
 
+INSTALLER_LEVELS = {
+    '1': _('Beginner'),
+    '2': _('Medium'),
+    '3': _('Advanced'),
+    '4': _('Super Hacker')
+}
+
 @register.filter(name='installer_level')
 def installer_level(value):
-    if value == '1':
-        return _('Beginner')
-    elif value == '2':
-        return _('Medium')
-    elif value == '3':
-        return _('Advanced')
-    elif value == '4':
-        return _('Super Hacker')
+    if value in INSTALLER_LEVELS:
+        return INSTALLER_LEVELS[value]
     return _('N/A')
 
 

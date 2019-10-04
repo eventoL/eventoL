@@ -1,3 +1,5 @@
+# pylint: disable=arguments-differ
+
 import datetime
 import itertools
 import json
@@ -124,7 +126,7 @@ class CustomForm(AbstractForm):
     def __str__(self):
         return self.title
 
-    class Meta(object):
+    class Meta:
         ordering = ['title']
         verbose_name = _('Custom Form')
         verbose_name_plural = _('Custom Forms')
@@ -145,7 +147,7 @@ class CustomField(AbstractField):
     def __str__(self):
         return '{0}: {1} ({2})'.format(self.form, self.label, self.slug)
 
-    class Meta(object):
+    class Meta:
         ordering = ['form', 'order']
         verbose_name = _('Custom Field')
         verbose_name_plural = _('Custom Fields')
@@ -259,7 +261,7 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta(object):
+    class Meta:
         ordering = ['name']
         verbose_name = _('Event')
         verbose_name_plural = _('Events')
@@ -283,7 +285,7 @@ class EventDate(models.Model):
     def __str__(self):
         return '{} - {}'.format(self.event, self.date)
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Event Date')
         verbose_name_plural = _('Event Dates')
 
@@ -306,7 +308,7 @@ class ContactMessage(models.Model):
             message=self.message
         )
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Contact Message')
         verbose_name_plural = _('Contact Messages')
 
@@ -331,7 +333,7 @@ class ContactType(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Contact Type')
         verbose_name_plural = _('Contact Types')
 
@@ -349,7 +351,7 @@ class Contact(models.Model):
     def __str__(self):
         return '{} - {} - {}'.format(self.event, self.type, self.text)
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Contact')
         verbose_name_plural = _('Contacts')
 
@@ -418,7 +420,7 @@ class EventUser(models.Model):
     def __str__(self):
         if self.user:
             return '{} at event:{}'.format(self.user.username, self.event)
-        return '{}'.format(self.event.title)
+        return '{}'.format(self.event)
 
     def get_ticket_data(self):
         if self.ticket is None:
@@ -440,7 +442,7 @@ class EventUser(models.Model):
         return EventUserAttendanceDate.objects.filter(
             event_user=self, date__date=timezone.localdate()).exists()
 
-    class Meta(object):
+    class Meta:
         unique_together = (('event', 'user'),)
         verbose_name = _('Event User')
         verbose_name_plural = _('Event Users')
@@ -492,7 +494,7 @@ class Collaborator(models.Model):
                                        blank=True, null=True,
                                        help_text=_('Additional info you consider relevant'))
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Collaborator')
         verbose_name_plural = _('Collaborators')
 
@@ -508,7 +510,7 @@ class Organizer(models.Model):
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
                                    blank=True, null=True)
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Organizer')
         verbose_name_plural = _('Organizers')
 
@@ -591,7 +593,7 @@ class Attendee(models.Model):
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True)
     customFields = JSONField(default=dict)
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Attendee')
         verbose_name_plural = _('Attendees')
         unique_together = (('event', 'email'),)
@@ -650,7 +652,7 @@ class InstallationMessage(models.Model):
         'Email message HTML Body'), blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('Contact Email'))
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Post-install Email')
         verbose_name_plural = _('Post-install Emails')
 
@@ -674,7 +676,7 @@ class Installer(models.Model):
                              max_length=200,
                              help_text=_('Knowledge level for an installation'))
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Installer')
         verbose_name_plural = _('Installers')
 
@@ -728,7 +730,7 @@ class Room(models.Model):
     def get_schedule_info(self):
         return {'id': self.pk, 'title': self.name}
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Room')
         verbose_name_plural = _('Rooms')
         ordering = ['name']
@@ -904,7 +906,7 @@ class Activity(VoteModel, models.Model):
             return False
         return True
 
-    class Meta(object):
+    class Meta:
         ordering = ['title']
         verbose_name = _('Activity')
         verbose_name_plural = _('Activities')
@@ -952,7 +954,7 @@ class Installation(models.Model):
     def __str__(self):
         return '{}, {}, {}'.format(self.attendee, self.hardware, self.software)
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('Installation')
         verbose_name_plural = _('Installations')
 

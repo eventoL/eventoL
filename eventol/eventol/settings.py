@@ -258,7 +258,7 @@ class Base(Configuration):
         },
     }
 
-    IS_ALPINE = os.getenv('IS_ALPINE', False)
+    IS_ALPINE = os.getenv('IS_ALPINE', "not found") != "not found"
     if IS_ALPINE:
         CHANNEL_LAYERS['default'] = {
             'BACKEND': 'asgi_redis.RedisChannelLayer',

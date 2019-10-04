@@ -74,7 +74,7 @@ class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
 
 
 class OrganizerResource(resources.ModelResource):
-    class Meta(object):
+    class Meta:
         model = Organizer
         fields = ('event_user__user__first_name',
                   'event_user__user__last_name', 'event_user__user__username',
@@ -87,7 +87,7 @@ class OrganizerAdmin(EventoLEventUserAdmin):
 
 
 class EventUserResource(resources.ModelResource):
-    class Meta(object):
+    class Meta:
         model = EventUser
         fields = ('user__first_name', 'user__last_name', 'user__username',
                   'user__email', 'user__date_joined')
@@ -115,7 +115,7 @@ class EventAdmin(EventoLAdmin):
 
 
 class InstallerResource(resources.ModelResource):
-    class Meta(object):
+    class Meta:
         model = Installer
         fields = ('event_user__user__first_name',
                   'event_user__user__last_name', 'event_user__user__username',
@@ -129,7 +129,7 @@ class InstallerAdmin(EventoLEventUserAdmin):
 
 
 class InstallationResource(resources.ModelResource):
-    class Meta(object):
+    class Meta:
         model = Installation
         fields = ('hardware__type', 'hardware__manufacturer',
                   'hardware__model', 'software__type', 'software__name',
@@ -145,7 +145,7 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
 
 
 class TicketResource(resources.ModelResource):
-    class Meta(object):
+    class Meta:
         model = Ticket
         fields = ('sent',)
         export_order = fields
@@ -156,7 +156,7 @@ class TicketAdmin(EventoLAdmin):
 
 
 class AttendeeResource(resources.ModelResource):
-    class Meta(object):
+    class Meta:
         model = Attendee
         fields = ('first_name', 'last_name', 'nickname', 'email',
                   'email_confirmed', 'is_installing',
@@ -169,7 +169,7 @@ class AttendeeAdmin(ExportMixin, EventoLAdmin):
 
 
 class ActivityResource(resources.ModelResource):
-    class Meta(object):
+    class Meta:
         model = Activity
 
 
@@ -178,7 +178,7 @@ class ActivityAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
 
 
 class CollaboratorResource(resources.ModelResource):
-    class Meta(object):
+    class Meta:
         model = Collaborator
         fields = ('event_user__user__first_name',
                   'event_user__user__last_name', 'event_user__user__username',

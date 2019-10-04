@@ -196,7 +196,7 @@ class EventUserSearchForm(forms.Form):
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email',
                   'additional_info', 'is_installing',
@@ -217,7 +217,7 @@ class InstallationForm(forms.ModelForm):
 
     event_slug = forms.CharField()
 
-    class Meta(object):
+    class Meta:
         model = Installation
         fields = ('attendee', 'notes', 'software')
         widgets = {'notes': forms.Textarea(attrs={'rows': 3}),
@@ -228,13 +228,13 @@ class InstallationForm(forms.ModelForm):
 
 
 class HardwareForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Hardware
         fields = ('type', 'manufacturer', 'model')
 
 
 class ActivityForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Activity
         fields = ['start_date', 'end_date', 'room', 'event']
         widgets = {
@@ -255,17 +255,17 @@ class ActivityForm(ModelForm):
 
 
 class CollaboratorRegistrationForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Collaborator
         widgets = {'event_user': forms.HiddenInput()}
-        exclude = ()
+        fields = "__all__"
 
 
 class AttendeeRegistrationFromUserForm(ModelForm):
     field_order = ['first_name', 'last_name', 'nickname', 'additional_info',
                    'is_installing', 'email', 'event', 'event_user', 'registration_date']
 
-    class Meta(object):
+    class Meta:
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email',
                   'additional_info', 'is_installing',
@@ -281,9 +281,9 @@ class AttendeeRegistrationFromUserForm(ModelForm):
 
 
 class EventUserRegistrationForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = EventUser
-        exclude = ['user', 'ticket']
+        fields = ['event']
         widgets = {'event': forms.HiddenInput()}
 
 
@@ -295,7 +295,7 @@ class AttendeeRegistrationForm(ModelForm):
                    'is_installing', 'email', 'repeat_email', 'captcha',
                    'event', 'registration_date']
 
-    class Meta(object):
+    class Meta:
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email',
                   'additional_info', 'is_installing',
@@ -327,28 +327,28 @@ class InstallerRegistrationForm(ModelForm):
         .format(protocol, url, target, link_text)
     read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 
-    class Meta(object):
+    class Meta:
         model = Installer
         widgets = {'event_user': forms.HiddenInput()}
-        exclude = ()
+        fields = "__all__"
 
 
 class ImageCroppingForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Activity
         fields = ('image', 'cropping')
 
 
 class EventImageCroppingForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Event
         fields = ('image', 'cropping')
 
 
 class ContactForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Contact
-        exclude = ['event']
+        fields = ['type', 'url', 'text']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -374,14 +374,14 @@ class ContactForm(ModelForm):
 
 
 class ContactMessageForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = ContactMessage
         fields = ('name', 'email', 'message',)
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
 
 
 class EventDateForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = EventDate
         fields = ('date',)
 
@@ -412,7 +412,7 @@ class EventDateModelFormset(BaseModelFormSet):
 
 
 class EventForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Event
         fields = ('name', 'event_slug', 'limit_proposal_date', 'registration_closed', 'email',
                   'place', 'external_url', 'abstract', 'event_information',
@@ -531,7 +531,7 @@ class ActivityProposalForm(ModelForm):
                    'long_description', 'labels', 'level', 'activity_type',
                    'presentation', 'additional_info', 'captcha', 'status']
 
-    class Meta(object):
+    class Meta:
         model = Activity
         fields = ['event', 'title', 'speakers_names', 'speaker_bio', 'abstract',
                   'long_description', 'labels', 'presentation', 'level',
@@ -551,7 +551,7 @@ class RejectForm(Form):
 
 
 class RoomForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Room
         fields = ['name', 'event']
         widgets = {'event': forms.HiddenInput()}

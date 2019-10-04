@@ -3,6 +3,7 @@
 """
 # pylint: disable=too-many-ancestors
 # pylint: disable=missing-docstring
+# pylint: disable=no-member
 
 from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
