@@ -1,3 +1,4 @@
+import wait from 'waait';
 import React from 'react';
 import renderer from 'react-test-renderer';
 
@@ -6,16 +7,27 @@ jest.mock('../../components/Header', () => 'Header');
 jest.mock('../../components/Search', () => 'Search');
 jest.mock('../../components/TitleList', () => 'TitleList');
 
+import Search from '../../components/Search';
+import TitleList from '../../components/TitleList';
+
 import Home from '.';
 
-
 describe('Home', () => {
-  let component, tree, background,
-    logoHeader, logoLanding,
-    eventolMessage, user, props;
+  let tree;
+  let user;
+  let props;
+  let element;
+  let instance;
+  let component;
+  let background;
+  let logoHeader;
+  let logoLanding;
+  let eventolMessage;
 
   const getComponent = allProps => {
-    component = renderer.create(<Home {...allProps} />);
+    element = <Home {...allProps} />;
+    component = renderer.create(element);
+    instance = component.root;
     return component;
   };
 
@@ -35,6 +47,43 @@ describe('Home', () => {
       logoLanding,
       eventolMessage,
     };
+  });
+
+  describe('Search', () => {
+    beforeEach(() => {
+      component = getComponent({});
+      tree = component.toJSON();
+    });
+
+    test('Should show a new TitleList for search', async () => {
+      expect(tree).toMatchSnapshot();
+
+      const value = 'searchTerm';
+      instance.findByType(Search).props.onEnter(value);
+      component.update(element);
+      await wait(0);
+
+      tree = component.toJSON();
+      expect(tree).toMatchSnapshot();
+
+      const titleLists = instance.findAllByType(TitleList);
+      expect(titleLists[0].props.id).toEqual('search_results');
+    });
+
+    test('Should not show a new TitleList for search with value is ""', async () => {
+      expect(tree).toMatchSnapshot();
+
+      const value = '';
+      instance.findByType(Search).props.onEnter(value);
+      component.update(element);
+      await wait(0);
+
+      tree = component.toJSON();
+      expect(tree).toMatchSnapshot();
+
+      const titleLists = instance.findAllByType(TitleList);
+      expect(titleLists[0].props.id).not.toEqual('search_results');
+    });
   });
 
   describe('With user', () => {

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Default Snapshot 1`] = `
+<div
+  className="search"
+  id="search"
+>
+  <input
+    id="search-input"
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Search by title..."
+    type="search"
+    value=""
+  />
+</div>
+`;
+
+exports[`Search Default Snapshot with update text 1`] = `
+<div
+  className="search"
+  id="search"
+>
+  <input
+    id="search-input"
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Search by title..."
+    type="search"
+    value=""
+  />
+</div>
+`;
+
+exports[`Search Default Snapshot with update text 2`] = `
+<div
+  className="search"
+  id="search"
+>
+  <input
+    id="search-input"
+    onChange={[Function]}
+    onKeyUp={[Function]}
+    placeholder="Search by title..."
+    type="search"
+    value="searchTerm"
+  />
+</div>
+`;
