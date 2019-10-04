@@ -99,16 +99,16 @@ notes=FIXME,XXX,TODO
 [BASIC]
 
 # Naming hint for argument names
-argument-name-hint=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
+argument-name-hint=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*)|pk|id)$
 
 # Regular expression matching correct argument names
-argument-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
+argument-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*)|pk|id)$
 
 # Naming hint for attribute names
-attr-name-hint=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
+attr-name-hint=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*)|pk|id)$
 
 # Regular expression matching correct attribute names
-attr-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
+attr-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*)|pk|id)$
 
 # Bad variable names which should always be refused, separated by a comma
 bad-names=foo,bar,baz,toto,tutu,tata
@@ -178,10 +178,10 @@ no-docstring-rgx=^_
 property-classes=abc.abstractproperty
 
 # Naming hint for variable names
-variable-name-hint=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
+variable-name-hint=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*)|pk|id)$
 
 # Regular expression matching correct variable names
-variable-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
+variable-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*)|pk|id)$
 
 
 [FORMAT]
