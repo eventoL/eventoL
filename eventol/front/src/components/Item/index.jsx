@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import ItemMap from '../ItemMap';
+import Map from '../Map';
 import {getTagUrl, goToUrl} from '../../utils/urls';
 
 import './index.scss';
@@ -12,6 +12,7 @@ export default class Item extends React.PureComponent {
     data: PropTypes.shape({
       attendees: PropTypes.number,
       backdrop: PropTypes.string,
+      empty: PropTypes.bool,
       eventSlug: PropTypes.string.isRequired,
       overview: PropTypes.string.isRequired,
       place: PropTypes.string.isRequired,
@@ -29,9 +30,9 @@ export default class Item extends React.PureComponent {
 
   static defaultProps = {
     data: {
-      attendees: null,
       backdrop: null,
       tags: [],
+      empty: true,
       url: null,
     },
   };
@@ -42,7 +43,9 @@ export default class Item extends React.PureComponent {
     </a>
   );
 
-  handleOnClick = () => {
+  handleOnClick = event => {
+    event.preventDefault();
+    event.stopPropagation();
     const {
       data: {url},
     } = this.props;
@@ -51,47 +54,51 @@ export default class Item extends React.PureComponent {
     }
   };
 
+  getItem = () => {
+    const {
+      data: {title, attendees, overview, tags, empty},
+    } = this.props;
+    return (
+      <div
+        onClick={this.handleOnClick}
+        onKeyPress={this.handleOnClick}
+        role="button"
+        tabIndex="0"
+      >
+        <div className="overlay">
+          <div className="title">{title}</div>
+          {!empty && (
+            <div className="rating">
+              {`${gettext('Attendees')}: ${attendees || 0}`}
+            </div>
+          )}
+          {!_.isEmpty(tags) && (
+            <div className="rating tags">
+              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+              {gettext('Tags')}: {tags.map(this.getTagLink)}
+            </div>
+          )}
+          <div className="plot">{overview}</div>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const {
-      data: {title, attendees, overview, backdrop, eventSlug, place, url, tags},
+      data: {backdrop, eventSlug, place},
       sliderId,
     } = this.props;
+    const item = this.getItem();
     if (!backdrop)
       return (
-        <ItemMap
-          attendees={attendees}
-          eventSlug={eventSlug}
-          overview={overview}
-          place={place}
-          sliderId={sliderId}
-          title={title}
-          url={url}
-        />
+        <Map eventSlug={eventSlug} place={place} sliderId={sliderId}>
+          {item}
+        </Map>
       );
     return (
       <div className="item" style={{backgroundImage: `url(${backdrop})`}}>
-        <div
-          onClick={this.handleOnClick}
-          onKeyPress={this.handleOnClick}
-          role="button"
-          tabIndex="0"
-        >
-          <div className="overlay">
-            <div className="title">{title}</div>
-            {!_.isNull(attendees) && !_.isUndefined(attendees) && (
-              <div className="rating">
-                {`${gettext('Attendees')}: ${attendees}`}
-              </div>
-            )}
-            {!_.isEmpty(tags) && (
-              <div className="rating tags">
-                {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-                {gettext('Tags')}: {tags.map(this.getTagLink)}
-              </div>
-            )}
-            <div className="plot">{overview}</div>
-          </div>
-        </div>
+        {item}
       </div>
     );
   }
