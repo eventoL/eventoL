@@ -22,8 +22,10 @@ plugins:
     enabled: true
   nodesecurity:
     enabled: true
-  pep8:
+  pylint:
     enabled: true
+    config:
+      file: .pylintrc
   radon: 
     enabled: true
     config: 
