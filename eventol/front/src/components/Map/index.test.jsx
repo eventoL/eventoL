@@ -3,17 +3,25 @@ import renderer from 'react-test-renderer';
 
 jest.mock('../../utils/logger', () => ({error: jest.fn()}));
 
-import ItemMap from '.';
+import Map from '.';
 
 import {event1} from '../../utils/__mock__/data';
 
-describe('ItemMap', () => {
+describe('Map', () => {
   let component;
   let sliderId;
   let tree;
 
   const getComponent = () => {
-    component = renderer.create(<ItemMap sliderId={sliderId} {...event1} />);
+    component = renderer.create(
+      <Map
+        eventSlug={event1.eventSlug}
+        place={event1.place}
+        sliderId={sliderId}
+      >
+        Children
+      </Map>
+    );
     return component;
   };
 

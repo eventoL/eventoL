@@ -6,15 +6,12 @@ import {MAP_SETTINGS, MAP_LAYER} from '../../utils/constants';
 
 import './index.scss';
 
-export default class ItemMap extends React.PureComponent {
+export default class Map extends React.PureComponent {
   static propTypes = {
-    attendees: PropTypes.number.isRequired,
+    children: PropTypes.element.isRequired,
     eventSlug: PropTypes.string.isRequired,
-    overview: PropTypes.string.isRequired,
     place: PropTypes.string.isRequired,
     sliderId: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
   };
 
   componentDidMount() {
@@ -45,19 +42,11 @@ export default class ItemMap extends React.PureComponent {
   }
 
   render() {
-    const {title, url, attendees, overview} = this.props;
+    const {children} = this.props;
     const mapId = this.getMapId();
     return (
       <div className="item max-size" id={mapId}>
-        <a href={url}>
-          <div className="overlay">
-            <div className="title">{title}</div>
-            <div className="rating">
-              {`${gettext('Attendees')}: ${attendees}`}
-            </div>
-            <div className="plot">{overview}</div>
-          </div>
-        </a>
+        {children}
       </div>
     );
   }
