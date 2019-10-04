@@ -145,7 +145,7 @@ exports[`TitleList Default without event data in request should be null when sho
 exports[`TitleList Default without event data in request should be show empty event when showEmpty is true 1`] = `
 <div
   className="title-list"
-  data-loaded={true}
+  data-loaded={false}
   id="id"
 >
   <div

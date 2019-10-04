@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
 
 import SliderItems from '../SliderItems';
@@ -9,79 +9,58 @@ import {parseEventToItem, emptyEventItem} from '../../utils/events';
 
 import './index.scss';
 
-export default class TitleList extends React.PureComponent {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    showEmpty: PropTypes.bool,
-    title: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-  };
+const TitleList = props => {
+  const [data, setData] = useState({results: []});
+  const [mounted, setMounted] = useState(false);
+  const {title, id, showEmpty, url} = props;
 
-  static defaultProps = {
-    showEmpty: false,
-  };
-
-  state = {
-    data: [],
-    mounted: false,
-  };
-
-  componentDidMount() {
-    const {url} = this.props;
-    if (!_.isEmpty(url)) {
-      this.loadContent();
-
-      // eslint-disable-next-line react/no-did-mount-set-state
-      this.setState({mounted: true});
-    }
-  }
-
-  componentWillReceiveProps({url}) {
-    const {url: prevUrl} = this.props;
-    if (!_.isEqual(url, prevUrl) && !_.isEmpty(url)) {
-      this.setState({mounted: true}, () => {
-        this.loadContent();
-      });
-    }
-  }
-
-  loadContent() {
-    const {url} = this.props;
+  const loadContent = useCallback(() => {
     const fullUrl = getApiFullUrl(url);
-    getUrl(fullUrl).then(data => this.setState({data}));
-  }
+    getUrl(fullUrl).then(setData);
+  }, [url, setData]);
 
-  render() {
-    const {title, id, showEmpty} = this.props;
-    const {
-      mounted,
-      data: {results},
-    } = this.state;
-    let itemsData = '';
-    if (results) {
-      itemsData = results.map(parseEventToItem);
+  useEffect(() => {
+    if (!_.isEmpty(url)) {
+      setMounted(true);
+      loadContent();
     }
-    if (_.isEmpty(itemsData)) {
-      if (!showEmpty) return null;
-      return (
-        <div className="title-list" data-loaded={mounted} id={id}>
-          <div className="category-title">
-            <h1>{title}</h1>
-            <SliderItems
-              itemsData={[emptyEventItem]}
-              sliderId={`${id}_empty`}
-            />
-          </div>
-        </div>
-      );
-    }
+  }, [loadContent, setMounted, url]);
+
+  const {results} = data;
+  let itemsData = '';
+  if (results) {
+    itemsData = results.map(parseEventToItem);
+  }
+  if (_.isEmpty(itemsData)) {
+    if (!showEmpty) return null;
     return (
       <div className="title-list" data-loaded={mounted} id={id}>
         <div className="category-title">
           <h1>{title}</h1>
-          <SliderItems itemsData={itemsData} sliderId={id} />
+          <SliderItems itemsData={[emptyEventItem]} sliderId={`${id}_empty`} />
         </div>
       </div>
     );
   }
-}
+  return (
+    <div className="title-list" data-loaded={mounted} id={id}>
+      <div className="category-title">
+        <h1>{title}</h1>
+        <SliderItems itemsData={itemsData} sliderId={id} />
+      </div>
+    </div>
+  );
+};
+
+TitleList.propTypes = {
+  id: PropTypes.string.isRequired,
+  showEmpty: PropTypes.bool,
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
+
+TitleList.defaultProps = {
+  showEmpty: false,
+};
+
+export default TitleList;
