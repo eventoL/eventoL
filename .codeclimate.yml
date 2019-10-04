@@ -32,10 +32,6 @@ plugins:
     enabled: true
     config:
       file: eventol/front/.sass-lint.yml
-  scss-lint:
-    enabled: true
-    config:
-      file: eventol/front/.sass-lint.yml
   sonar-python:
     enabled: true  
     config:
