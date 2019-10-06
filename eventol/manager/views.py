@@ -24,7 +24,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.core.validators import validate_email
-from django.forms import modelformset_factory
+from django.forms import HiddenInput, modelformset_factory
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -1070,6 +1070,9 @@ def attendee_registration(request, event_slug):
     else:
         attendee_form = AttendeeRegistrationForm(request.POST or None,
                                                  initial={'event': event})
+
+    if not event.use_installations:
+        attendee_form.fields['is_installing'].widget = HiddenInput()
 
     if request.POST:
         if attendee_form.is_valid():
