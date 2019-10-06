@@ -320,7 +320,7 @@ class AttendeeRegistrationForm(ModelForm):
 
 class InstallerRegistrationForm(ModelForm):
     protocol = 'https://'
-    url = 'wiki.cafelug.org.ar/index.php?title=Flisol/Guía_del_buen_instalador'
+    url = 'wiki.antifa-glug.org/books/flisol-caba/page/guía-del-buen-instalador'
     target = '_blank'
     link_text = 'Sagrada Guía del Buen Instalador'
     text = 'Afirmo que he leido la "<a href="{0}{1}" target="{2}">{3}</a>"' \
