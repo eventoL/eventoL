@@ -165,29 +165,45 @@
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center">
-                    <strong>{% trans "Activities and Installations" %}</strong>
+                    <strong>
+                        {% if event.use_installations %}
+                            {% trans "Activities and Installations" %}
+                        {% else %}
+                            {% trans "Activities" %}
+                        {% endif %}
+                    </strong>
                 </div>
                 <div class="panel-body">
-                    {% if activities_count > 0 or installations_count > 0 %}
+                    {% if activities_count > 0 or event.use_installations and installations_count > 0 %}
                         <div id="counts"></div>
                         <div class="col-md-12">
                             <table class="table table-striped table-condensed">
                                 <thead>
                                 <tr>
                                     <th>{% trans "Activities" %}</th>
-                                    <th>{% trans "Installations" %}</th>
+                                    {% if event.use_installations %}
+                                        <th>{% trans "Installations" %}</th>
+                                    {% endif %}
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>{{ activities_count }}</td>
-                                    <td>{{ installations_count }}</td>
+                                    {% if event.use_installations %}
+                                        <td>{{ installations_count }}</td>
+                                    {% endif %}
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     {% else %}
-                        <strong>{% trans "There aren't any activities or installations submitted" %}</strong>
+                        <strong>
+                            {% if event.use_installations %}
+                                {% trans "There aren't any activities or installations submitted" %}
+                            {% else %}
+                                {% trans "There aren't any activities submitted" %}
+                            {% endif %}
+                        </strong>
                     {% endif %}
                 </div>
             </div>
@@ -231,40 +247,43 @@
         </div>
     {% endif %}
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading text-center">
-                    <strong>{% trans "Installations" %}</strong>
-                </div>
-                <div class="panel-body">
-                    {% if installation_for_software %}
-                        <div id="installations"></div>
-                        <div class="col-md-12">
-                            <table class="table table-striped table-condensed">
-                                <thead>
-                                <tr>
-                                    {% for item, value in installation_for_software.items %}
-                                        <th>{{ item }}</th>
-                                    {% endfor %}
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    {% for item, value in installation_for_software.items %}
-                                        <td>{{ value }}</td>
-                                    {% endfor %}
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    {% else %}
-                        <strong>{% trans "There aren't any registered installations" %}</strong>
-                    {% endif %}
+    {% if event.use_installations %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading text-center">
+                        <strong>{% trans "Installations" %}</strong>
+                    </div>
+                    <div class="panel-body">
+                        {% if installation_for_software %}
+                            <div id="installations"></div>
+                            <div class="col-md-12">
+                                <table class="table table-striped table-condensed">
+                                    <thead>
+                                    <tr>
+                                        {% for item, value in installation_for_software.items %}
+                                            <th>{{ item }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        {% for item, value in installation_for_software.items %}
+                                            <td>{{ value }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <strong>{% trans "There aren't any registered installations" %}</strong>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endif %}
+
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-primary">
@@ -401,12 +420,14 @@
                 });
             {% endif %}
 
-            {% if activities_count > 0 or installations_count > 0 %}
+            {% if activities_count > 0 or event.use_installations and installations_count > 0 %}
                 Morris.Bar({
                     element: 'counts',
                     data   : [
                         {y: '{% trans "Talks" %}', a: {{activities_count}}},
-                        {y: '{% trans "Installations" %}', a: {{installations_count}}}
+                        {% if event.use_installations %}
+                            {y: '{% trans "Installations" %}', a: {{installations_count}}}
+                        {% endif %}
                     ],
                     xkey   : 'y',
                     ykeys  : ['a'],
@@ -414,7 +435,7 @@
                 });
             {% endif %}
 
-            {% if installation_for_software %}
+            {% if event.use_installations and installation_for_software %}
                 Morris.Bar({
                     element: 'installations',
                     data   : [{% for item, value in installation_for_software.items%}
