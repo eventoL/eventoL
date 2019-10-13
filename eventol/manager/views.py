@@ -1604,7 +1604,10 @@ def resend_proposal(request, event_slug, activity_id):
 def activities(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
     proposed_activities, accepted_activities, rejected_activities = [], [], []
-    activities_instances = Activity.objects.filter(event=event)
+    activities_instances = Activity.objects.filter(event=event, is_dummy=False)
+    speakers = set([activity.owner for activity in activities_instances])
+    emails = ','.join([speaker.user.email for speaker in speakers])
+
     for activity in list(activities_instances):
         activity.labels = activity.labels.split(',')
         if activity.status == '1':
@@ -1621,6 +1624,7 @@ def activities(request, event_slug):
         update_event_info(
             event_slug,
             {
+                'emails': emails,
                 'proposed_activities': proposed_activities,
                 'accepted_activities': accepted_activities,
                 'rejected_activities': rejected_activities

@@ -6,6 +6,7 @@
 {% block other-head %}
     <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
     <script type="text/javascript" src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
     <link rel="stylesheet" href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
 {% endblock %}
 {% block page-header %}
@@ -14,6 +15,12 @@
           {% trans "Activities" %}
           <div id="buttons" class="pull-right">
               {% if user.is_authenticated and user|is_organizer:event_slug %}
+                  <a class="btn btn-raised btn-success" href="mailto:{{ emails }}">
+                      {% trans 'Send mail to speakers' %}
+                  </a>
+                  <a class="btn btn-raised btn-success" data-clipboard-text="{{ emails }}">
+                      {% trans 'Copy speakers emails' %}
+                  </a>
                   <a href="{% url "activity_proposal"  event_slug %}" class="btn btn-raised btn-success">
                       {% trans 'Submit an activity' %}
                   </a>
@@ -341,6 +348,7 @@
         }
 
         $(document).ready(function() {
+            new ClipboardJS('.btn');
 
             function toggleChevron(e) {
                 $(e.target)
