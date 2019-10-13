@@ -45,7 +45,7 @@ class EventoLAdmin(admin.ModelAdmin):
                 .formfield_for_foreignkey(db_field, request, **kwargs)
         organizers = Organizer.objects.filter(event_user__user=request.user)
         events = [organizer.event_user.event for organizer in list(organizers)]
-        queryset = None
+        queryset = self.model.objects.none()
         if db_field.name == 'room':
             queryset = Room.objects.filter(event__in=events).distinct()
         if db_field.name == 'event':
