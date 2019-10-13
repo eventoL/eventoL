@@ -163,6 +163,7 @@ class Event(models.Model):
                                 help_text=_('Idea of the event \
                                             (one or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
+                                           blank=True, null=True,
                                            help_text=_('Limit date to submit talk proposals'))
     registration_closed = models.BooleanField(
         default=False, help_text=_("set it to True to force the registration to be closed"))
