@@ -759,6 +759,16 @@ class ActivityManager(models.Manager):
             'not_confirmed': total - confirmed,
             'total': total
         }
+    
+    @staticmethod
+    def get_activities_report(event):
+        activities = Activity.objects.filter(event=event, is_dummy=False)
+        return activities.values(
+            'id', 'title', 'abstract', 'long_description',
+            'activity_type', 'labels', 'level', 'additional_info',
+            'speakers_names', 'owner__user__username', 'owner__user__first_name',
+            'owner__user__last_name', 'owner__user__email', 'speaker_bio'
+        )
 
     def get_counts_by_event(self, event):
         queryset = Activity.objects.filter(event=event)

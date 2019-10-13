@@ -33,6 +33,7 @@ from django.utils.formats import date_format, localize
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
 from django.utils.translation import ugettext
+from djqscsv import render_to_csv_response
 from lxml import etree
 
 from manager.forms import (ActivityForm, ActivityProposalForm,
@@ -1631,6 +1632,28 @@ def activities(request, event_slug):
             }
         )
     )
+
+@login_required
+@user_passes_test(is_organizer, 'index')
+def activities_csv(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
+    activities_instances = Activity.objects.get_activities_report(event)
+    header = {
+        'title': _('Title'), 
+        'abstract': _('Abstract'), 
+        'long_description': _('Description'), 
+        'activity_type': _('Type'), 
+        'labels': _('Labels'), 
+        'level': _('Level'), 
+        'additional_info': _('Additional info'), 
+        'speakers_names': _('Speakers names'), 
+        'owner__user__username': _('Speaker username'), 
+        'owner__user__first_name': _('Speaker first name'), 
+        'owner__user__last_name': _('Speaker last name'), 
+        'owner__user__email': _('Speaker email'), 
+        'speaker_bio': _('Speaker bio')
+    }
+    return render_to_csv_response(activities_instances, field_header_map=header)
 
 
 @login_required

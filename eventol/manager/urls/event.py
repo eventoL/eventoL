@@ -62,6 +62,8 @@ event_patterns = [
         views.talk_registration, name='talk_registration'),
     url(r'^activity/confirm_schedule/$',
         views.confirm_schedule, name='confirm_schedule'),
+    url(r'^activity/csv/$',
+        views.activities_csv, name='activities_csv'),
     url(r'^activity/reject_activity/(?P<activity_id>\d+)/$',
         views.reject_activity, name='reject_activity'),
     url(r'^activity/resend_proposal/(?P<activity_id>\d+)/$',
