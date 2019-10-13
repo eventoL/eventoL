@@ -198,21 +198,25 @@
 
                     <br>
                     <br>
-                    <h4>{% trans 'When is the last day to submit talk proposals?' %}</h4>
-                    {% if form.limit_proposal_date.errors|length > 0 %}
-                        <span class="fa fa-exclamation-triangle"
-                              style="color: #f44336">{{ form.limit_proposal_date.errors.as_text }}</span>
-                    {% endif %}
-                    <div class="row">
-                        <div class="col-sm-4 col-sm-offset-4 col-xs-12">
-                            <div class="limit-proposal-picker" data-date="{% now "f" %}"></div>
+
+                    <div class='event-limit_proposal_date'>
+                        <h4>{% trans 'When is the last day to submit talk proposals?' %}</h4>
+                        {% if form.limit_proposal_date.errors|length > 0 %}
+                            <span class="fa fa-exclamation-triangle"
+                                style="color: #f44336">{{ form.limit_proposal_date.errors.as_text }}</span>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-sm-4 col-sm-offset-4 col-xs-12">
+                                <div class="limit-proposal-picker" data-date="{% now "f" %}"></div>
+                            </div>
                         </div>
+
+                        {{ form.limit_proposal_date }}
+
+                        <br>
+                        <br>
                     </div>
-
-                    {{ form.limit_proposal_date }}
-
-                    <br>
-                    <br>
+                    
                     <h4>{% trans "Do you want to use your own homepage?" %}</h4>
                     <p>{% trans "You probably don't want to. But if you want, we can link to your page in our index. Provide the full URL here:" %}</p>
                     <br>
@@ -265,6 +269,24 @@
     <script>
         $(document).ready(function () {
             $.material.init();
+
+            var fieldsDependencies = {{ fields_dependencies | safe }};
+            
+            Object.keys(fieldsDependencies).forEach(function(field){
+                function updateForm(checked) {
+                    fieldsDependencies[field].forEach(function(dependence){
+                        var element = $('.event-' + dependence);
+                        if (checked) element.show();
+                        else element.hide();
+                    });
+                };
+
+                var fieldId = '#id_event-' + field;
+                updateForm($(fieldId).is(":checked"));
+                $(fieldId).change(function(){
+                    updateForm(this.checked)
+                });
+            });
         });
     </script>
 {% endblock %}
