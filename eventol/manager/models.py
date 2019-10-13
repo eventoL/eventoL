@@ -212,6 +212,12 @@ class Event(models.Model):
                                   upload_to='custom_css', blank=True, null=True,
                                   help_text=_('Custom CSS file for event page'))
 
+    @classmethod
+    def get_fields_dependencies(cls):
+        return {
+            'use_proposals': ['limit_proposal_date', 'activities_proposal_form_text']
+        }
+
     @property
     def location(self):
         try:

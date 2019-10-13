@@ -1311,6 +1311,7 @@ def create_event(request):
                   'event/create.html',
                   {'form': event_form, 'domain': request.get_host(),
                    'protocol': request.scheme, 'contacts_formset': contacts_formset,
+                   'fields_dependencies': Event.get_fields_dependencies(),
                    'event_date_formset': event_date_formset})
 # pylint: enable=too-many-branches
 
@@ -1370,7 +1371,8 @@ def edit_event(request, event_slug):
                 'domain': request.get_host(),
                 'protocol': request.scheme,
                 'contacts_formset': contacts_formset,
-                'event_date_formset': event_date_formset
+                'event_date_formset': event_date_formset,
+                'fields_dependencies': Event.get_fields_dependencies()
             }
         )
     )
