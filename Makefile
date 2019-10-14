@@ -158,3 +158,61 @@ gitlab-build-and-push: ## Gitlab pull, build and push docker image
 
 gitlab-update-image: gitlab-registry-login gitlab-build-and-push ## Gitlab update docker image in gitlab registry
 
+# EventoL*
+pull: ## Pull docker images for production environment
+	$(DOCKER_COMPOSE_PROD) pull
+
+pull-dev: ## Pull docker images for development environment
+	$(DOCKER_COMPOSE) pull
+
+build: ## Build docker images for production environment
+	$(DOCKER_COMPOSE_PROD) build --force-rm --parallel
+
+build-dev: ## Build docker images for development environment
+	$(DOCKER_COMPOSE) build --force-rm --parallel
+
+deploy: pull build ## Deploy eventol with production environment
+	$(DOCKER_COMPOSE_PROD) up -d --remove-orphans
+
+deploy-dev: pull-dev build-dev ## Deploy eventol with development environment
+	$(DOCKER_COMPOSE) up -d --remove-orphans
+
+logs: ## Show docker-compose logs of production environment
+	$(DOCKER_COMPOSE_PROD) logs
+
+logs-dev: ## Show docker-compose logs of development environment
+	$(DOCKER_COMPOSE) logs
+
+logs-follow: ## Show and follow docker-compose logs of production environment
+	$(DOCKER_COMPOSE_PROD) logs -f
+
+logs-follow-dev: ## Show and follow docker-compose logs of development environment
+	$(DOCKER_COMPOSE) logs -f
+
+restart: ## Restart eventol in production environment
+	$(DOCKER_COMPOSE_PROD) restart
+
+restart-dev: ## Restart eventol in development environment
+	$(DOCKER_COMPOSE) restart
+
+stop: ## Stop eventol in production environment
+	$(DOCKER_COMPOSE_PROD) stop
+
+stop-dev: ## Stop eventol in development environment
+	$(DOCKER_COMPOSE) stop
+
+undeploy: stop ## Remove eventol in production environment
+	$(DOCKER_COMPOSE_PROD) down --remove-orphans
+
+undeploy-dev: stop-dev ## Remove eventol in development environment
+	$(DOCKER_COMPOSE) down --remove-orphans
+
+undeploy-full: stop ## Remove eventol and data in production environment
+	$(DOCKER_COMPOSE_PROD) down --remove-orphans --volumes
+
+undeploy-full-dev: stop-dev ## Remove eventol and data in development environment
+	$(DOCKER_COMPOSE) down --remove-orphans --volumes
+
+update: undeploy deploy ## Update eventol in production environment
+update-dev: undeploy-dev deploy-dev ## Update eventol in development environment
+
