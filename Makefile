@@ -216,3 +216,63 @@ undeploy-full-dev: stop-dev ## Remove eventol and data in development environmen
 update: undeploy deploy ## Update eventol in production environment
 update-dev: undeploy-dev deploy-dev ## Update eventol in development environment
 
+# EventoL commands from docker-compose
+docker-backend-test: ## Run backend test with coverage in docker-compose
+	$(DOCKER_COMPOSE) exec worker make backend-test
+
+docker-backend-makemigrations: ## Run backend make migrations from manager app in docker-compose
+	$(DOCKER_COMPOSE) exec worker make backend-makemigrations
+
+docker-backend-migrate: ## Run backend migrate database in docker-compose
+	$(DOCKER_COMPOSE_PROD) exec worker make backend-migrate
+
+docker-backend-collectstatic: ## Run backend collect static files in docker-compose
+	$(DOCKER_COMPOSE_PROD) exec worker make backend-collectstatic
+
+docker-backend-lint: ## Run backend linter in docker-compose
+	$(DOCKER_COMPOSE) exec worker make backend-lint
+
+docker-backend-lint-with-report: ## Run backend linter and generate report in docker-compose
+	$(DOCKER_COMPOSE) exec worker make backend-lint-with-report
+
+docker-backend-make-translations: ## Update translations files (update .po files) in docker-compose
+	$(DOCKER_COMPOSE) exec worker make backend-make-translations
+
+docker-backend-compile-translations: ## Compile translations files (update .mo files) in docker-compose
+	$(DOCKER_COMPOSE_PROD) exec worker make backend-compile-translations
+
+docker-backend-runserver: ## Runserver for development environment in docker-compose
+	$(DOCKER_COMPOSE_PROD) exec worker make backend-runserver
+
+docker-frontend-start-dev: ## Start frontend for development environment in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn start
+
+docker-frontend-install-dependencies: ## Install frontend dev dependencies in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn install
+
+docker-frontend-build: ## Build frontend code for production environment in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn build
+
+docker-frontend-build-dev: ## Build frontend code for development environment in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn yarn build:dev
+
+docker-frontend-test: ## Run frontend test in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn test
+
+docker-frontend-lint: ## Run frontend linter in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn eslint
+
+docker-frontend-lint-fix: ## Run frontend linter and autofix errors in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn eslint:fix
+
+docker-frontend-lint-with-report: ## Run frontend linter and generate report in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn eslint:report
+
+docker-frontend-sasslint: ## Run sass linter in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn sasslint
+
+docker-frontend-sasslint-fix: ## Run sass linter and autofix errors in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn sasslint:fix
+
+docker-frontend-sasslint-with-report: ## Run sass linter and generate report in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs yarn sasslint:report
