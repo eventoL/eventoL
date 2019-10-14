@@ -148,3 +148,13 @@ gitlab-install-sshpass: ## Gitlab install sshpass in worker
 gitlab-autodeploy: gitlab-install-sshpass ## Gitlab autodeploy command to remote server
     sshpass -e ssh -p$(SSH_PORT) -o stricthostkeychecking=no -x $(SSH_USER)@$(SSH_HOST) $(SSH_SCRIPT)
 
+gitlab-registry-login: ## Gitlab login docker to registry
+	echo "docker login -u gitlab-ci-token -p $(CI_BUILD_TOKEN) $(CI_REGISTRY)"
+
+gitlab-build-and-push: ## Gitlab pull, build and push docker image
+	echo "docker pull $(IMAGE_NAME) || true"
+	echo "docker build --cache-from $(IMAGE_NAME) -t $(IMAGE_NAME) ."
+	echo "docker push $(IMAGE_NAME)"
+
+gitlab-update-image: gitlab-registry-login gitlab-build-and-push ## Gitlab update docker image in gitlab registry
+
