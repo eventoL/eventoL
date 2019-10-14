@@ -72,6 +72,9 @@ backend-runserver: ## Runserver for development environment
 	cd eventol && python manage.py runserver 0.0.0.0:8000
 
 ## Frontend tasks
+frontend-start-dev: ## Start frontend for development environment
+	cd eventol/front && yarn start
+
 frontend-install-dependencies: ## Install frontend dev dependencies
 	cd eventol/front && yarn install
 
