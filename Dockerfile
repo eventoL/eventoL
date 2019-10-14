@@ -55,7 +55,7 @@ ENV DJANGO_CONFIGURATION=Prod
 # Install system dependencies
 RUN apk --update add --no-cache \
   bash git gcc cairo-dev postgresql-dev libxslt-dev \
-  gettext musl-dev py3-setuptools jpeg-dev \
+  gettext musl-dev py3-setuptools jpeg-dev make \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Install python dependencies
@@ -80,6 +80,7 @@ RUN pip3 install --no-cache-dir -r requirements-dev.txt
 USER app
 
 # Copy python code
+COPY --chown=app:app ./Makefile ${APP_ROOT}/Makefile
 COPY --chown=app:app ./eventol ${APP_ROOT}/eventol
 RUN mkdir -p ${APP_ROOT}/eventol/manager/static
 RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
