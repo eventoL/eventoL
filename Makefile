@@ -68,6 +68,9 @@ backend-make-translations: ## Update translations files (update .po files)
 backend-compile-translations: ## Compile translations files (update .mo files)
 	cd eventol && python manage.py compilemessages
 
+backend-runserver: ## Runserver for development environment
+	cd eventol && python manage.py runserver 0.0.0.0:8000
+
 ## Frontend tasks
 frontend-install-dependencies: ## Install frontend dev dependencies
 	cd eventol/front && yarn install
