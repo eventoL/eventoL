@@ -141,3 +141,10 @@ gitlab-react-lint: frontend-install-dependencies frontend-lint ## Gitlab command
 gitlab-react-lint-with-report: frontend-install-dependencies frontend-lint-with-report ## Gitlab command for react-lint-report job
 gitlab-react-sasslint: frontend-install-dependencies frontend-sasslint ## Gitlab command for react-sasslint job
 gitlab-react-sasslint-with-report: frontend-install-dependencies frontend-sasslint-with-report ## Gitlab command for react-sasslint-report job
+
+gitlab-install-sshpass: ## Gitlab install sshpass in worker
+	apk update && apk add sshpass
+
+gitlab-autodeploy: gitlab-install-sshpass ## Gitlab autodeploy command to remote server
+    sshpass -e ssh -p$(SSH_PORT) -o stricthostkeychecking=no -x $(SSH_USER)@$(SSH_HOST) $(SSH_SCRIPT)
+
