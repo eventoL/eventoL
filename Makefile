@@ -142,19 +142,16 @@ gitlab-react-lint-with-report: frontend-install-dependencies frontend-lint-with-
 gitlab-react-sasslint: frontend-install-dependencies frontend-sasslint ## Gitlab command for react-sasslint job
 gitlab-react-sasslint-with-report: frontend-install-dependencies frontend-sasslint-with-report ## Gitlab command for react-sasslint-report job
 
-gitlab-install-sshpass: ## Gitlab install sshpass in worker
-	apk update && apk add sshpass
-
-gitlab-autodeploy: gitlab-install-sshpass ## Gitlab autodeploy command to remote server
+gitlab-autodeploy: ## Gitlab autodeploy command to remote server
 	sshpass -e ssh -p$(SSH_PORT) -o stricthostkeychecking=no -x $(SSH_USER)@$(SSH_HOST) $(SSH_SCRIPT)
 
 gitlab-registry-login: ## Gitlab login docker to registry
-	echo "docker login -u gitlab-ci-token -p $(CI_BUILD_TOKEN) $(CI_REGISTRY)"
+	docker login -u gitlab-ci-token -p $(CI_BUILD_TOKEN) $(CI_REGISTRY)
 
 gitlab-build-and-push: ## Gitlab pull, build and push docker image
-	echo "docker pull $(IMAGE_NAME) || true"
-	echo "docker build --cache-from $(IMAGE_NAME) -t $(IMAGE_NAME) ."
-	echo "docker push $(IMAGE_NAME)"
+	docker pull $(IMAGE_NAME) || true
+	docker build --cache-from $(IMAGE_NAME) -t $(IMAGE_NAME) .
+	docker push $(IMAGE_NAME)
 
 gitlab-update-image: gitlab-registry-login gitlab-build-and-push ## Gitlab update docker image in gitlab registry
 

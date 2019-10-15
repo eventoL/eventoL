@@ -18,9 +18,11 @@ docker master image:
     - docker:dind
   script:
     - VERSION=$(date +"%y%m%d")
-    - export IMAGE_NAME=$CONTAINER_RELEASE_IMAGE;
-    - make gitlab-update-image;
-    - docker tag $IMAGE_NAME $CI_REGISTRY_IMAGE:$VERSION
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CONTAINER_RELEASE_IMAGE || true
+    - docker build --cache-from $CONTAINER_RELEASE_IMAGE -t $CONTAINER_RELEASE_IMAGE .
+    - docker tag $CONTAINER_RELEASE_IMAGE $CI_REGISTRY_IMAGE:$VERSION
+    - docker push $CONTAINER_RELEASE_IMAGE 
     - docker push $CI_REGISTRY_IMAGE:$VERSION
   only:
     - master
@@ -33,8 +35,10 @@ docker dev image:
   services:
     - docker:dind
   script:
-    - export IMAGE_NAME=$CI_REGISTRY_IMAGE:latest-dev
-    - make gitlab-update-dev-image
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest-dev || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest-dev -t $CI_REGISTRY_IMAGE:latest-dev .
+    - docker push $CI_REGISTRY_IMAGE:latest-dev
   only:
     - develop
 
@@ -113,5 +117,6 @@ deploy:
    - master
   image: docker:git
   script:
+    - apk update && apk add sshpass
     - export SSHPASS=$SSH_PASS
-    - make gitlab-autodeploy
+    - sshpass -e ssh -p$SSH_PORT -o stricthostkeychecking=no -x $SSH_USER@$SSH_HOST $SSH_SCRIPT
