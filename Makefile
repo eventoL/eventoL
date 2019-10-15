@@ -55,6 +55,9 @@ backend-migrate: ## Run backend migrate database
 backend-collectstatic: ## Run backend collect static files
 	cd eventol && python manage.py collectstatic --noinput
 
+backend-createsuperuser: ## Run backend create super user
+	cd eventol && python manage.py createsuperuser
+
 backend-lint: ## Run backend linter
 	pylint --output-format=colorized eventol/eventol eventol/manager
 
@@ -104,6 +107,14 @@ frontend-sasslint-fix: ## Run sass linter and autofix errors
 
 frontend-sasslint-with-report: ## Run sass linter and generate report
 	cd eventol/front && yarn sasslint:report
+
+install-bower-dependencies: ## Install bower dependencies
+	cd eventol/front && bower install --verbose --force
+
+update-css-files: ## Compile css files
+	cd eventol/front && mkdir -p ./eventol/static/manager/css/
+	cd eventol/front && lessc ./eventol/static/manager/less/eventol.less > ./eventol/static/manager/css/eventol.css
+	cd eventol/front && lessc ./eventol/static/manager/less/eventol-bootstrap.less > ./eventol/static/manager/css/eventol-bootstrap.css
 
 ## Travis CI
 travis-install-dependencies: ## Install coverage and coveralls dependencies
@@ -161,6 +172,15 @@ pull: ## Pull docker images for production environment
 
 pull-dev: ## Pull docker images for development environment
 	$(DOCKER_COMPOSE) pull
+
+status: ## Status for production environment
+	$(DOCKER_COMPOSE_PROD) ps
+
+status-dev: ## Status for development environment
+	$(DOCKER_COMPOSE) ps
+
+build-local: ## Build eventol latest image locally
+	docker build --force-rm --tag=eventol/eventol:latest .
 
 build: ## Build docker images for production environment
 	$(DOCKER_COMPOSE_PROD) build --force-rm --parallel
@@ -226,6 +246,9 @@ docker-backend-migrate: ## Run backend migrate database in docker-compose
 docker-backend-collectstatic: ## Run backend collect static files in docker-compose
 	$(DOCKER_COMPOSE_PROD) exec worker make backend-collectstatic
 
+docker-backend-createsuperuser: ## Run backend create super user in docker-compose
+	$(DOCKER_COMPOSE_PROD) exec worker make backend-createsuperuser
+
 docker-backend-lint: ## Run backend linter in docker-compose
 	$(DOCKER_COMPOSE) exec worker make backend-lint
 
@@ -273,3 +296,21 @@ docker-frontend-sasslint-fix: ## Run sass linter and autofix errors in docker-co
 
 docker-frontend-sasslint-with-report: ## Run sass linter and generate report in docker-compose
 	$(DOCKER_COMPOSE) exec reactjs yarn sasslint:report
+
+docker-install-bower-dependencies: ## Install bower dependencies in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs bower install --allow-root --verbose --force
+
+docker-update-css-files: ## Compile css files in docker-compose
+	$(DOCKER_COMPOSE) exec reactjs mkdir -p ./eventol/static/manager/css/
+	$(DOCKER_COMPOSE) exec reactjs sh -c "lessc ./eventol/static/manager/less/eventol.less > ./eventol/static/manager/css/eventol.css"
+	$(DOCKER_COMPOSE) exec reactjs sh -c "lessc ./eventol/static/manager/less/eventol-bootstrap.less > ./eventol/static/manager/css/eventol-bootstrap.css"
+
+## Alias
+collectstatic: docker-backend-collectstatic ## Alias to docker-backend-collectstatic
+createsuperuser: docker-backend-createsuperuser ## Alias to docker-backend-createsuperuser
+migrate: docker-backend-migrate ## Alias to docker-backend-migrate
+runserver: docker-backend-runserver ## Alias to docker-backend-runserver
+setup-frontend: docker-install-bower-dependencies docker-update-css-files docker-frontend-install-dependencies ## Setup front end (install bower depencies, compile css and install yarn dependencies) in docker-compose
+start-frontend: docker-frontend-start-dev ## Alias to docker-frontend-start-dev
+make-translations: docker-backend-make-translations ## Alias to docker-backend-make-translations
+compile-translations: docker-backend-compile-translations ## Alias to docker-backend-compile-translations
