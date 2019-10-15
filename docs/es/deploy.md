@@ -4,14 +4,16 @@ Para un mejor y mas rápido deploy a producción, **EventoL** es configurable me
 
 ## Variables de entorno de **EventoL**
 
-### Docker y Django:
+### Docker y Django
+
 - HOST (Default: **localhost**)
 - EXTERNAL_PORT (Default: 80)
 - DOCKER_IMAGE_NAME (Default: **eventol/eventol**)
 - DOCKER_IMAGE_VERSION (Default: **latest**)
 - APP_DNS (Default: **localhost**)
 
-### Django:
+### Django
+
 - DEBUG (Default: **False**)
 - TEMPLATE_DEBUG (Default: **False**)
 - EMAIL_BACKEND (Default: **django.core.mail.backends.console.EmailBackend**)
@@ -29,9 +31,13 @@ Para un mejor y mas rápido deploy a producción, **EventoL** es configurable me
 - REDIS_PORT (Default: **6379**)
 - EMAIL_USE_TLS (Default: **True**)
 - ADMIN_TITLE (Default: **EventoL**)
-- PRIVATE_ACTIVITIES (Default: **False** )
+- PRIVATE_ACTIVITIES (Default: **False**)
+- LOG_FILE (Default: **/var/log/eventol/eventol.log**)
+- LOAD_INITIAL_DATA (Default: **true**)
+- WS_PROTOCOL (Default: **ws**)
 
-### Postgres:
+### Postgres
+
 - PSQL_DBNAME (Default: **eventol**)
 - PSQL_USER (Default: **eventol**)
 - PSQL_PASSWORD (Default: **secret**)
