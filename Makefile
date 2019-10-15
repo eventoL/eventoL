@@ -146,7 +146,7 @@ gitlab-install-sshpass: ## Gitlab install sshpass in worker
 	apk update && apk add sshpass
 
 gitlab-autodeploy: gitlab-install-sshpass ## Gitlab autodeploy command to remote server
-    sshpass -e ssh -p$(SSH_PORT) -o stricthostkeychecking=no -x $(SSH_USER)@$(SSH_HOST) $(SSH_SCRIPT)
+	sshpass -e ssh -p$(SSH_PORT) -o stricthostkeychecking=no -x $(SSH_USER)@$(SSH_HOST) $(SSH_SCRIPT)
 
 gitlab-registry-login: ## Gitlab login docker to registry
 	echo "docker login -u gitlab-ci-token -p $(CI_BUILD_TOKEN) $(CI_REGISTRY)"
