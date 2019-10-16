@@ -1606,6 +1606,7 @@ def activities(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
     proposed_activities, accepted_activities, rejected_activities = [], [], []
     activities_instances = Activity.objects.filter(event=event, is_dummy=False)
+    dummy_activities = Activity.objects.filter(event=event, is_dummy=True)
     speakers = {activity.owner for activity in activities_instances}
     emails = ','.join([speaker.user.email for speaker in speakers])
 
@@ -1617,6 +1618,7 @@ def activities(request, event_slug):
             accepted_activities.append(activity)
         else:
             rejected_activities.append(activity)
+    for activity in list(dummy_activities) + list(activities_instances):
         setattr(activity, 'form', ActivityForm(event_slug, instance=activity))
         setattr(activity, 'reject_form', RejectForm())
         setattr(activity, 'errors', [])
@@ -1626,6 +1628,7 @@ def activities(request, event_slug):
             event_slug,
             {
                 'emails': emails,
+                'dummy_activities': dummy_activities,
                 'proposed_activities': proposed_activities,
                 'accepted_activities': accepted_activities,
                 'rejected_activities': rejected_activities
