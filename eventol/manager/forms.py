@@ -562,6 +562,18 @@ class ActivityProposalForm(ModelForm):
         }
 
 
+class ActivityDummyForm(ModelForm):
+    field_order = ['event', 'title', 'abstract', 'status']
+
+    class Meta:
+        model = Activity
+        fields = ['event', 'title', 'abstract', 'status']
+        widgets = {
+            'event': forms.HiddenInput(),
+            'status': forms.HiddenInput(),
+        }
+
+
 class RejectForm(Form):
     justification = forms.CharField(required=False, label=_('Why do you reject this proposal?'))
 
