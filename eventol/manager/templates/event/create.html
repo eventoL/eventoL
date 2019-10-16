@@ -79,6 +79,9 @@
                           {% include "form_field.html" with field=form.use_collaborators only %}
                         </div>
                         <div class="col-sm-4">
+                          {% include "form_field.html" with field=form.use_talks only %}
+                        </div>
+                        <div class="col-sm-4">
                           {% include "form_field.html" with field=form.use_proposals only %}
                         </div>
                         <div class="col-sm-4">
@@ -272,19 +275,37 @@
 
             var fieldsDependencies = {{ fields_dependencies | safe }};
             
-            Object.keys(fieldsDependencies).forEach(function(field){
-                function updateForm(checked) {
-                    fieldsDependencies[field].forEach(function(dependence){
-                        var element = $('.event-' + dependence);
-                        if (checked) element.show();
-                        else element.hide();
-                    });
-                };
+            function is_checkbox(fieldName) {
+                return fieldName.indexOf('use_') !== -1;
+            }
 
-                var fieldId = '#id_event-' + field;
-                updateForm($(fieldId).is(":checked"));
+            function updateForm(field, checked) {
+                if (fieldsDependencies.hasOwnProperty(field)) {
+                    fieldsDependencies[field].forEach(function(dependence){
+                        var dependenceElement = $('.event-' + dependence);
+                        if (checked) dependenceElement.show();
+                        else {
+                            if (is_checkbox(dependence)) {
+                                var inputId = getFieldId(dependence);
+                                var inputElement = $(inputId);
+                                inputElement.prop('checked', false);
+                                updateForm(dependence, false);
+                            }
+                            dependenceElement.hide();
+                        }
+                    });
+                }
+            };
+
+            function getFieldId(field) {
+                return '#id_event-' + field
+            }
+            
+            Object.keys(fieldsDependencies).forEach(function(field){
+                var fieldId = getFieldId(field);
+                updateForm(field, $(fieldId).is(":checked"));
                 $(fieldId).change(function(){
-                    updateForm(this.checked)
+                    updateForm(field, this.checked)
                 });
             });
         });
