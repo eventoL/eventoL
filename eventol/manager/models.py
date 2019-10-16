@@ -1,4 +1,5 @@
 # pylint: disable=arguments-differ
+# pylint: disable=too-many-lines
 
 import datetime
 import itertools
@@ -49,7 +50,7 @@ class EventManager(models.Manager):
             .annotate(attendees_count=models.Count('attendee', distinct=True)) \
             .annotate(last_date=models.Max('eventdate__date')) \
             .annotate(activity_proposal_is_open=models.Case(
-                models.When(models.Q(limit_proposal_date__isnull=False) and models.Q(limit_proposal_date__gte=today), then=True),
+                models.When(models.Q(limit_proposal_date__gte=today), then=True),
                 default=False,
                 output_field=models.BooleanField()
             )) \
@@ -163,7 +164,6 @@ class Event(models.Model):
                                 help_text=_('Idea of the event \
                                             (one or two sentences)'))
     limit_proposal_date = models.DateField(_('Limit Proposals Date'),
-                                           blank=True, null=True,
                                            help_text=_('Limit date to submit talk proposals'))
     registration_closed = models.BooleanField(
         default=False, help_text=_("set it to True to force the registration to be closed"))
@@ -759,7 +759,7 @@ class ActivityManager(models.Manager):
             'not_confirmed': total - confirmed,
             'total': total
         }
-    
+
     @staticmethod
     def get_activities_report(event):
         activities = Activity.objects.filter(event=event, is_dummy=False)

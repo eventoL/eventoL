@@ -422,17 +422,21 @@ class EventForm(ModelForm):
         widgets = {'place': forms.HiddenInput(),
                    'limit_proposal_date': forms.HiddenInput()}
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['limit_proposal_date'].required = False
+
     def clean(self):
         cleaned_data = super().clean()
         use_proposals = cleaned_data.get("use_proposals")
+        limit_proposal_date = cleaned_data.get("limit_proposal_date")
 
-        if use_proposals:
-            limit_proposal_date = cleaned_data.get("limit_proposal_date")
-
-            if not limit_proposal_date:
-                print('add error')
-                self.add_error(
-                    'limit_proposal_date', 'When the event uses proposals, this field is required')
+        if use_proposals and not limit_proposal_date:
+            self.add_error(
+                'limit_proposal_date', 'When the event uses proposals, this field is required')
+        elif not use_proposals:
+            cleaned_data['limit_proposal_date'] = datetime.date.today()
+        return cleaned_data
 
 
 class LoginForm(AllAuthLoginForm):
