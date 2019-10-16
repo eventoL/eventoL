@@ -218,6 +218,7 @@ class Event(models.Model):
         return {
             'use_proposals': ['limit_proposal_date', 'activities_proposal_form_text'],
             'use_talks': ['use_proposals'],
+            'use_installations': ['use_installers']
         }
 
     @property
