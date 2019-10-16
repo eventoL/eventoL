@@ -169,7 +169,7 @@ class Event(models.Model):
         default=False, help_text=_("set it to True to force the registration to be closed"))
 
     tags = models.ManyToManyField(
-        EventTag, help_text=_("Select tags to show this event in the EventTag landing"))
+        EventTag, blank=True, help_text=_("Select tags to show this event in the EventTag landing"))
     event_slug = models.SlugField(_('URL'), max_length=100,
                                   help_text=_('For example: flisol-caba'), unique=True)
     customForm = models.ForeignKey(CustomForm, verbose_name=_noop('Custom form'),
