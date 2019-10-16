@@ -308,6 +308,7 @@ docker-update-css-files: ## Compile css files in docker-compose
 ## Alias
 collectstatic: docker-backend-collectstatic ## Alias to docker-backend-collectstatic
 createsuperuser: docker-backend-createsuperuser ## Alias to docker-backend-createsuperuser
+makemigrations: docker-backend-makemigrations ## Alias to docker-backend-makemigrations
 migrate: docker-backend-migrate ## Alias to docker-backend-migrate
 runserver: docker-backend-runserver ## Alias to docker-backend-runserver
 setup-frontend: docker-install-bower-dependencies docker-update-css-files docker-frontend-install-dependencies ## Setup front end (install bower depencies, compile css and install yarn dependencies) in docker-compose
