@@ -159,8 +159,8 @@ def installer_level(value):
     return _('N/A')
 
 
-@register.filter(name='as_days')
-def as_days(dates):
+@register.filter(name='sorted_days')
+def sorted_days(dates):
     return sorted([date.date.day for date in dates])
 
 

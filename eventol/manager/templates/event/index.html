@@ -59,7 +59,7 @@
                 {% if event.registration_is_open %}
                     <h3><i class="fa fa-calendar"></i>
                         {% for month in dates_by_month %}
-                            {% blocktrans with days=month.list|as_days|join:", " the_month=month.grouper %}
+                            {% blocktrans with days=month.list|sorted_days|join:", " the_month=month.grouper %}
                                 {{ the_month }} {{ days }}
                             {% endblocktrans %}
                             {% if not forloop.last %}
@@ -78,7 +78,7 @@
                 {% else %}
                     <h3><i class="fa fa-calendar"></i>
                         {% for month in dates_by_month %}
-                            {% blocktrans with days=month.list|as_days|join:", " the_month=month.grouper %}
+                            {% blocktrans with days=month.list|sorted_days|join:", " the_month=month.grouper %}
                                 {{ the_month }} {{ days }}
                             {% endblocktrans %}
                             {% if not forloop.last %}
