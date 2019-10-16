@@ -801,7 +801,7 @@ class Activity(VoteModel, models.Model):
                              blank=True, null=True)
     start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
-    activity_type = models.ForeignKey(ActivityType)
+    activity_type = models.ForeignKey(ActivityType, verbose_name=_('Activity Type'))
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
                                       help_text=_("Comma separated speaker names"))
     speaker_bio = models.TextField(
