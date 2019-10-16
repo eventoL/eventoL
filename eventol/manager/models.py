@@ -195,6 +195,7 @@ class Event(models.Model):
     use_installers = models.BooleanField(_('Use Installers'), default=True)
     use_collaborators = models.BooleanField(_('Use Collaborators'), default=True)
     use_proposals = models.BooleanField(_('Use Proposals'), default=True)
+    use_talks = models.BooleanField(_('Use Talks'), default=True)
     is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
     use_schedule = models.BooleanField(_('Use Schedule'), default=True)
     place = models.TextField(_('Place'))
@@ -215,7 +216,8 @@ class Event(models.Model):
     @classmethod
     def get_fields_dependencies(cls):
         return {
-            'use_proposals': ['limit_proposal_date', 'activities_proposal_form_text']
+            'use_proposals': ['limit_proposal_date', 'activities_proposal_form_text'],
+            'use_talks': ['use_proposals'],
         }
 
     @property
