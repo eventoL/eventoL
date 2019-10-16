@@ -204,11 +204,13 @@
                                                     <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
                                                 </a>
                                             </li>
-                                            <li>
-                                                <a href="{% url "add_reviewer" event_slug %}">
-                                                 <i class="fa fa-pencil-square-o"></i> {% trans "Manage Rewievers" %}
-                                                </a>
-                                            </li>
+                                            {% if event.use_talks or event.use_proposals %}
+                                                <li>
+                                                    <a href="{% url "add_reviewer" event_slug %}">
+                                                    <i class="fa fa-pencil-square-o"></i> {% trans "Manage Rewievers" %}
+                                                    </a>
+                                                </li>
+                                            {% endif %}
                                         {% endif %}
                                     {% endif %}
                                 </ul>
