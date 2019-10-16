@@ -46,12 +46,14 @@ from manager.forms import (ActivityForm, ActivityProposalForm,
                            EventImageCroppingForm, EventUserRegistrationForm,
                            EventUserSearchForm, HardwareForm,
                            ImageCroppingForm, InstallationForm,
-                           InstallerRegistrationForm, RejectForm, RoomForm)
+                           InstallerRegistrationForm, RejectForm, RoomForm,
+                           ActivityDummyForm)
 from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Collaborator, Contact, ContactMessage, Event,
                             EventDate, EventUser, EventUserAttendanceDate,
                             Hardware, Installation, InstallationMessage,
-                            Installer, Organizer, Room, Reviewer, EventTag)
+                            Installer, Organizer, Room, Reviewer, EventTag,
+                            ActivityType)
 from manager.security import (are_activities_public, add_attendance_permission,
                               add_organizer_permissions, is_activity_public, is_collaborator,
                               is_collaborator_or_installer, is_installer,
@@ -1408,6 +1410,45 @@ def draw(request, event_slug):
         update_event_info(
             event_slug,
             {'eventusers': users, 'eventusersjson': json.dumps(users)}
+        )
+    )
+
+
+@login_required
+@user_passes_test(is_reviewer, 'index')
+def activity_dummy(request, event_slug):
+    event = get_object_or_404(Event, event_slug=event_slug)
+    event_user = get_object_or_404(EventUser, user=request.user, event=event)
+    activity_type, created = ActivityType.objects.get_or_create(name=_('Dummy'))
+
+    activity = Activity(
+        event=event, status='2', owner=event_user,
+        is_dummy=True, activity_type=activity_type
+    )
+    activity_form = ActivityDummyForm(request.POST or None, instance=activity)
+    if request.POST:
+        if activity_form.is_valid():
+            try:
+                activity = activity_form.save()
+                return redirect(
+                    reverse(
+                        'activities',
+                        args=[event_slug]
+                    )
+                )
+            except Exception as error_message:
+                logger.error(error_message)
+
+        messages.error(request, _("There was a problem submitting the proposal. \
+                                  Please check the form for errors."))
+
+    return render(
+        request,
+        'activities/proposal.html',
+        update_event_info(
+            event_slug,
+            {'form': activity_form, 'errors': [], 'multipart': True},
+            event=event
         )
     )
 
