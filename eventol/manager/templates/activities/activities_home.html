@@ -16,25 +16,42 @@
           <div id="buttons" class="pull-right">
               {% if user.is_authenticated and user|is_organizer:event_slug %}
                   <button class="btn btn-raised dropdown" style="padding: 0px;margin: 0px;">
-                    <a class="btn btn-raised btn-success dropdown-toggle" style="margin: 0px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="btn btn-raised btn-success dropdown-toggle" style="margin: 0px;" type="button" id="speakersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% trans 'Speakers' %}
                         <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="mailto:{{ emails }}">
+                    <ul class="dropdown-menu" aria-labelledby="speakersDropdown">
+                        <li><a class="dropdown-item btn" href="mailto:{{ emails }}">
                             {% trans 'Send mail to speakers' %}
                         </a></li>
-                        <li><a class="dropdown-item" data-clipboard-text="{{ emails }}">
+                        <li><a class="dropdown-item btn" data-clipboard-text="{{ emails }}">
                             {% trans 'Copy speakers emails' %}
                         </a></li>
-                        <li><a class="dropdown-item" href="{% url "activities_csv"  event_slug %}">
+                        <li><a class="dropdown-item btn" href="{% url "activities_csv"  event_slug %}">
                             {% trans 'Export to csv' %}
                         </a></li>
                     </ul>
-                  </button>  
-                  <a href="{% url "activity_proposal"  event_slug %}" class="btn btn-raised btn-success">
-                      {% trans 'Submit an activity' %}
-                  </a>
+                  </button>
+                  <button class="btn btn-raised dropdown" style="padding: 0px;margin: 0px;">
+                    <a class="btn btn-raised btn-success dropdown-toggle" style="margin: 0px;" type="button" id="activityDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% trans 'Submit an activity' %}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="activityDropdown">
+                        {% if event.use_talks or event.use_proposals %}
+                            <li>
+                                <a href="{% url "activity_proposal"  event_slug %}" class="dropdown-item btn">
+                                    {% trans 'Proposal' %}
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{% url "activity_dummy"  event_slug %}" class="dropdown-item btn">
+                                {% trans 'Dummy activity' %}
+                            </a>
+                        </li>
+                    </ul>
+                  </button>
                   <a href="{% url "rooms_list"  event_slug %}" class="btn btn-raised btn-success">
                       {% trans "Manage Rooms" %}
                   </a>
