@@ -50,6 +50,8 @@ event_patterns = [
     url(r'^my_proposals$', views.my_proposals, name='my_proposals'),
     url(r'^activity/(?P<activity_id>\d+)/$', views.activity_detail,
         name='activity_detail'),
+    url(r'^activity/dummy/$', views.activity_dummy,
+        name='activity_dummy'),
     url(r'^activity/proposal/$', views.activity_proposal,
         name='activity_proposal'),
     url(r'^activity/proposal/(?P<activity_id>\d+)/edit/$', views.edit_activity_proposal,
