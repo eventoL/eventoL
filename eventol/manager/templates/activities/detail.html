@@ -44,6 +44,11 @@
                                      {% include 'activities/reject_form.html' with form=reject_form form_id=activity.pk %}
                                  </div>
                              </div>
+                             <div id="edit-activity-{{ forloop.counter }}" class="panel-collapse collapse">
+                                 <div class="container col-sm-12">
+                                     {% include 'activities/to_talk_form.html' with form=activity.form errors=activity.errors form_id=activity.pk %}
+                                 </div>
+                             </div>
                           {% endif %}
                           <div class='col-sm-12' id='activity-detail'>
                               <div class="col-md-6 col-sm-12">
@@ -94,23 +99,31 @@
                                     {% endfor %}
                                   </p>{% endif %}
                                   {% if user.is_authenticated and user|is_organizer:event_slug %}
-                                      {% if activity.status != '1' %}<p><a href="{% url "resend_proposal" event.event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                      {% if not activity.is_dummy and activity.status != '1' %}<p><a href="{% url "resend_proposal" event.event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
                                         {% trans "Resend Proposal" %}
                                       </a></p>{% endif %}
-                                      {% if activity.status != '2' %}
+                                      {% if not activity.is_dummy and activity.status != '2' %}
                                       <p><a href='#'
                                             data-toggle="collapse"
                                             onclick="becomeTalk()">
                                           {% trans "Become Talk" %}
                                       </a></p>
                                       {% endif %}
-                                      {% if activity.status != '3' %}
+                                      {% if not activity.is_dummy and activity.status != '3' %}
                                       <p><a id='reject'
                                             href='#'
                                             data-toggle="collapse"
                                             onclick="rejectActivity()">
                                           {% trans "Reject Talk" %}
                                       </a></p>
+                                      {% endif %}
+                                      {% if activity.status != '1' %}
+                                        <p><a id='edit-{{ forloop.counter }}'
+                                                href='#'
+                                                data-toggle="collapse"
+                                                onclick="becomeTalk('activity-info-{{ forloop.counter }}','edit-activity-{{ forloop.counter }}')">
+                                            {% trans "Edit activity" %}
+                                        </a></p>
                                       {% endif %}
                                   {% endif %}
                               </div>
