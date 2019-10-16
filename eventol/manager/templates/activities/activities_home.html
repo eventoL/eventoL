@@ -8,6 +8,17 @@
     <script type="text/javascript" src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
     <link rel="stylesheet" href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
+    <style>
+        .dropdown-menu li a {
+            padding: 13px 16px;
+            margin: 0px;
+        }
+
+        .dropdown-menu li a:hover {
+            color: #262626;
+            background-color: #f5f5f5;
+        }
+    </style>
 {% endblock %}
 {% block page-header %}
     <div class="row">
