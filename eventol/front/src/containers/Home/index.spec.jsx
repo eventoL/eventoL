@@ -18,6 +18,7 @@ describe('Home', () => {
   let props;
   let element;
   let instance;
+  let isMobile;
   let component;
   let background;
   let logoHeader;
@@ -32,6 +33,7 @@ describe('Home', () => {
   };
 
   beforeEach(() => {
+    isMobile = false;
     background = 'background';
     logoHeader = 'logoHeader';
     logoLanding = 'logoLanding';
@@ -42,6 +44,7 @@ describe('Home', () => {
     };
     props = {
       user,
+      isMobile,
       background,
       logoHeader,
       logoLanding,
@@ -51,7 +54,7 @@ describe('Home', () => {
 
   describe('Search', () => {
     beforeEach(() => {
-      component = getComponent({});
+      component = getComponent({isMobile: false});
       tree = component.toJSON();
     });
 

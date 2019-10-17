@@ -54,7 +54,7 @@ describe('EventHome', () => {
 
   describe('Search', () => {
     beforeEach(() => {
-      component = getComponent({});
+      component = getComponent({isMobile: false});
       tree = component.toJSON();
     });
 

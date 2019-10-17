@@ -30,7 +30,7 @@ describe('Item', () => {
   };
 
   beforeEach(() => {
-    data = undefined;
+    data = event1;
     sliderId = event1.id;
     event = {
       preventDefault: jest.fn(),
@@ -48,9 +48,6 @@ describe('Item', () => {
   });
 
   test('should call goToUrl on click event', () => {
-    data = event1;
-    renderItem();
-
     expect(goToUrl).not.toBeCalled();
 
     instance.children[0].props.children.props.onClick(event);
@@ -62,9 +59,6 @@ describe('Item', () => {
   });
 
   test('should call goToUrl on key press event', () => {
-    data = event1;
-    renderItem();
-
     expect(goToUrl).not.toBeCalled();
 
     instance.children[0].props.children.props.onKeyPress(event);
@@ -90,8 +84,6 @@ describe('Item', () => {
   });
 
   test('Render event 1', () => {
-    data = event1;
-    renderItem();
     expect(tree).toMatchSnapshot();
   });
 });

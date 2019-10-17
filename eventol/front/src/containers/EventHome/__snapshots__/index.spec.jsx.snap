@@ -3,6 +3,7 @@
 exports[`EventHome Search Should not show a new TitleList for search with value is "" 1`] = `
 <div>
   <Header
+    isMobile={false}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -37,6 +38,7 @@ exports[`EventHome Search Should not show a new TitleList for search with value 
 exports[`EventHome Search Should not show a new TitleList for search with value is "" 2`] = `
 <div>
   <Header
+    isMobile={false}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -71,6 +73,7 @@ exports[`EventHome Search Should not show a new TitleList for search with value 
 exports[`EventHome Search Should show a new TitleList for search 1`] = `
 <div>
   <Header
+    isMobile={false}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -105,6 +108,7 @@ exports[`EventHome Search Should show a new TitleList for search 1`] = `
 exports[`EventHome Search Should show a new TitleList for search 2`] = `
 <div>
   <Header
+    isMobile={false}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />

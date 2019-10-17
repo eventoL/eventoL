@@ -58,7 +58,7 @@ describe('Report', () => {
       tree = component.toJSON();
       expect(tree).toMatchSnapshot();
 
-      expect(component.getInstance().state.autoupdate).toBeTruthy();
+      expect(instance.findByType(Toggle).props.checked).toBeTruthy();
 
       instance.findByType(Toggle).props.onChange();
       component.update(element);
@@ -67,8 +67,8 @@ describe('Report', () => {
       tree = component.toJSON();
       expect(tree).toMatchSnapshot();
 
-      instance = component.getInstance();
-      expect(component.getInstance().state.autoupdate).toBeFalsy();
+      instance = component.root;
+      expect(instance.findByType(Toggle).props.checked).toBeFalsy();
     });
   });
 
@@ -91,15 +91,6 @@ describe('Report', () => {
       });
 
       expect(tree).toMatchSnapshot();
-
-      component.update(element);
-      await wait(0);
-      tree = component.toJSON();
-
-      expect(tree).toMatchSnapshot();
-
-      instance = component.getInstance();
-      instance.fetchData(5, 1, false, false);
 
       component.update(element);
       await wait(0);

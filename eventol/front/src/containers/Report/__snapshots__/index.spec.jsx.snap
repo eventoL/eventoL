@@ -62,6 +62,7 @@ exports[`Report Snapshots Default 1`] = `
         },
       ]
     }
+    exportButton={null}
     fetchData={[Function]}
     isLoading={true}
     pages={null}
@@ -133,6 +134,7 @@ exports[`Report Snapshots Default 2`] = `
         },
       ]
     }
+    exportButton={null}
     fetchData={[Function]}
     isLoading={true}
     pages={null}
@@ -204,6 +206,7 @@ exports[`Report Snapshots fetch data 1`] = `
         },
       ]
     }
+    exportButton={null}
     fetchData={[Function]}
     isLoading={true}
     pages={null}
@@ -275,92 +278,12 @@ exports[`Report Snapshots fetch data 2`] = `
         },
       ]
     }
+    exportButton={null}
     fetchData={[Function]}
     isLoading={true}
     pages={null}
     table="confirmed"
     totals={Object {}}
-  />
-</div>
-`;
-
-exports[`Report Snapshots fetch data 3`] = `
-<div>
-  <Title
-    label="National report"
-  >
-    <Toggle
-      checked={false}
-      effect="echo"
-      label="Autoupdate"
-      labelPosition="left"
-      name="Autoupdate"
-      onChange={[Function]}
-    />
-    <Button
-      handleOnClick={[Function]}
-      label="Assistance (confirmed)"
-      name="confirmed"
-      type="success"
-    />
-    <Button
-      handleOnClick={[Function]}
-      label="Assistance detail"
-      name="assitance"
-      type="success"
-    />
-    <Button
-      handleOnClick={[Function]}
-      label="Installations"
-      name="installations"
-      type="success"
-    />
-    <Button
-      handleOnClick={[Function]}
-      label="Activities"
-      name="activities"
-      type="success"
-    />
-    <ExportButton
-      data={
-        Array [
-          undefined,
-          undefined,
-        ]
-      }
-      filename="confirmed"
-      label="Export"
-      type="success"
-    />
-  </Title>
-  <TableReport
-    count={2}
-    data={
-      Array [
-        undefined,
-        undefined,
-      ]
-    }
-    defaultRows={15}
-    eventsPrivateData={
-      Array [
-        Object {
-          "email": "organizer1@mailinator.com",
-          "id": 1,
-          "organizers": "FirstName1 LastName1 Username1",
-        },
-        Object {
-          "email": "organizer2@mailinator.com",
-          "id": 2,
-          "organizers": "FirstName2 LastName2 Username2",
-        },
-      ]
-    }
-    exportButton={null}
-    fetchData={[Function]}
-    isLoading={false}
-    pages={NaN}
-    table="confirmed"
   />
 </div>
 `;
@@ -427,6 +350,7 @@ exports[`Report Toggle update autoupdate on onChange event toggle autoupdate val
         },
       ]
     }
+    exportButton={null}
     fetchData={[Function]}
     isLoading={true}
     pages={null}
