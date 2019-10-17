@@ -85,3 +85,20 @@ def test_event_api_my_events(api_request_factory, api_client, event1, event2, or
     api_client.logout()
 
 
+@pytest.mark.django_db(transaction=True)
+def test_event_api_tags(api_request_factory, api_client, event1, event2, event_tag_1):
+    endpoint = reverse('event-list')
+    url = '{}?tags__slug={}'.format(endpoint, event_tag_1.slug)
+    request = api_request_factory.get(url, format='json')
+    url = request.get_raw_uri()
+    response = api_client.get(url)
+    assert response.status_code == 200
+
+    json = response.json()
+    assert json['count'] == 1
+    assert json['next'] is None
+    assert json['previous'] is None
+    assert len(json['results']) == 1
+    assert json['results'][0]['id'] == event1.id
+
+
