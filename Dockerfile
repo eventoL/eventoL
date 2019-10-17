@@ -1,7 +1,7 @@
 #########################################
 # frontend image
 #########################################
-FROM node:12.11.1-alpine as frontend
+FROM node:12.12.0-alpine as frontend
 
 ## Install system dependencies
 RUN apk --update add --no-cache \
@@ -45,7 +45,7 @@ CMD ["tail", "-f", "/dev/null"]
 #########################################
 # build image
 #########################################
-FROM python:3.7.4-alpine as development
+FROM python:3.8.0-alpine as development
 
 # Set environment variables
 ENV APP_ROOT /usr/src/app/
