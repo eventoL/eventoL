@@ -171,3 +171,17 @@ def test_event_api_filter_schedule_confirmed(api_request_factory, api_client, ev
     assert json['results'][0]['id'] == event1.id
 
 
+@pytest.mark.django_db(transaction=True)
+def test_event_api_pagination(api_request_factory, api_client, event1, event2):
+    endpoint = reverse('event-list')
+    url = '{}?limit=1&offset=0'.format(endpoint)
+    request = api_request_factory.get(url, format='json')
+    url = request.get_raw_uri()
+    response = api_client.get(url)
+    assert response.status_code == 200
+
+    json = response.json()
+    assert json['count'] == 2
+    assert json['next'] is not None
+    assert json['previous'] is None
+    assert len(json['results']) == 1
