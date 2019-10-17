@@ -139,3 +139,35 @@ def test_event_api_ordering_descending(api_request_factory, api_client, event1, 
     assert json['results'][1]['id'] == event1.id
 
 
+@pytest.mark.django_db(transaction=True)
+def test_event_api_filter_schedule_confirmed(api_request_factory, api_client, event1, event2):
+    event2.schedule_confirmed = True
+    event2.save()
+    endpoint = reverse('event-list')
+    url = '{}?schedule_confirmed=true'.format(endpoint)
+    request = api_request_factory.get(url, format='json')
+    url = request.get_raw_uri()
+    response = api_client.get(url)
+    assert response.status_code == 200
+
+    json = response.json()
+    assert json['count'] == 1
+    assert json['next'] is None
+    assert json['previous'] is None
+    assert len(json['results']) == 1
+    assert json['results'][0]['id'] == event2.id
+
+    url = '{}?schedule_confirmed=false'.format(endpoint)
+    request = api_request_factory.get(url, format='json')
+    url = request.get_raw_uri()
+    response = api_client.get(url)
+    assert response.status_code == 200
+
+    json = response.json()
+    assert json['count'] == 1
+    assert json['next'] is None
+    assert json['previous'] is None
+    assert len(json['results']) == 1
+    assert json['results'][0]['id'] == event1.id
+
+
