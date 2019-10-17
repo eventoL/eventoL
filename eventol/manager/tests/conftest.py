@@ -3,7 +3,7 @@
 
 from datetime import datetime
 from django.test import Client
-from rest_framework.test import RequestsClient, APIRequestFactory
+from rest_framework.test import APIClient, APIRequestFactory
 
 import autofixture
 import pytest
@@ -329,7 +329,7 @@ def event_data2(
 # Client fixtures
 @pytest.fixture
 def api_client():
-    yield RequestsClient()
+    yield APIClient()
 
 
 @pytest.fixture

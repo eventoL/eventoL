@@ -19,7 +19,6 @@ def test_get_event(api_request_factory, api_client, event1):
     request = api_request_factory.get('/api/events/', format='json')
     url = request.get_raw_uri()
     response = api_client.get(url)
-    assert response.ok
     assert response.status_code == 200
 
     json = response.json()
@@ -37,7 +36,6 @@ def test_index_query(api_reverse_name, query_params, api_request_factory, api_cl
     request = api_request_factory.get(url, format='json')
     url = request.get_raw_uri()
     response = api_client.get(url)
-    assert response.ok
     assert response.status_code == 200
 
 @pytest.mark.parametrize('api_reverse_name, fields, model', [
@@ -59,10 +57,13 @@ def test_api_filter_fields(api_reverse_name, fields, api_request_factory, api_cl
     request = api_request_factory.get(url, format='json')
     url = request.get_raw_uri()
     response = api_client.get(url)
-    assert response.ok
     assert response.status_code == 200
 
     json = response.json()
     assert json['count'] == 1
     assert json['next'] is None
     assert json['previous'] is None
+    if fields:
+        assert set(json['results'][0].keys()) == set(fields)
+
+
