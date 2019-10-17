@@ -1419,7 +1419,7 @@ def draw(request, event_slug):
 def activity_dummy(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
     event_user = get_object_or_404(EventUser, user=request.user, event=event)
-    activity_type, created = ActivityType.objects.get_or_create(name=_('Dummy'))
+    activity_type, __ = ActivityType.objects.get_or_create(name=_('Dummy'))
 
     activity = Activity(
         event=event, status='2', owner=event_user,
