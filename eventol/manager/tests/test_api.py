@@ -67,3 +67,21 @@ def test_api_filter_fields(api_reverse_name, fields, api_request_factory, api_cl
         assert set(json['results'][0].keys()) == set(fields)
 
 
+@pytest.mark.django_db(transaction=True)
+def test_event_api_my_events(api_request_factory, api_client, event1, event2, organizer1):
+    endpoint = reverse('event-list')
+    url = '{}?my_events=true'.format(endpoint)
+    request = api_request_factory.get(url, format='json')
+    url = request.get_raw_uri()
+    api_client.force_authenticate(user=organizer1.event_user.user)
+    response = api_client.get(url)
+
+    assert response.status_code == 200
+
+    json = response.json()
+    assert len(json['results']) == 1
+    assert json['results'][0]['id'] == event1.id
+
+    api_client.logout()
+
+
