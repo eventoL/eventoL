@@ -34,7 +34,7 @@ export default class SliderItems extends React.PureComponent {
   getItem = itemData => {
     const {sliderId} = this.props;
     return (
-      <div key={itemData.key}>
+      <div key={itemData.key || itemData.id}>
         <Item data={itemData} sliderId={sliderId} />
       </div>
     );

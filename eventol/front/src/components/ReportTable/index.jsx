@@ -21,7 +21,7 @@ const ReportTable = props => {
     totals,
   } = props;
   const columns = getColumns(table, eventsPrivateData, count, totals);
-  exportButton.updateCsv(columns);
+  if (exportButton) exportButton.updateCsv(columns);
   return (
     <ReactTable
       className="-striped -highlight"
@@ -46,7 +46,7 @@ ReportTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape()),
   defaultRows: PropTypes.number,
   eventsPrivateData: PropTypes.arrayOf(PropTypes.shape()),
-  exportButton: PropTypes.instanceOf(ExportButton).isRequired,
+  exportButton: PropTypes.instanceOf(ExportButton),
   fetchData: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   pages: PropTypes.number,
@@ -59,6 +59,7 @@ ReportTable.defaultProps = {
   data: [],
   defaultRows: 0,
   eventsPrivateData: [],
+  exportButton: null,
   isLoading: true,
   pages: 0,
   table: '',

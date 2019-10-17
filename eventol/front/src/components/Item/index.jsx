@@ -25,7 +25,8 @@ export default class Item extends React.PureComponent {
       title: PropTypes.string.isRequired,
       url: PropTypes.string,
     }),
-    sliderId: PropTypes.string.isRequired,
+    sliderId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
   };
 
   static defaultProps = {
@@ -37,31 +38,37 @@ export default class Item extends React.PureComponent {
     },
   };
 
-  getTagLink = ({name, slug}) => (
-    <a key={name.toLocaleLowerCase()} href={`${getTagUrl(slug)}`}>
-      {name}
-    </a>
-  );
-
-  handleOnClick = event => {
+  getHandleOnClick = url => event => {
     event.preventDefault();
     event.stopPropagation();
-    const {
-      data: {url},
-    } = this.props;
     if (url) {
       goToUrl(url);
     }
   };
 
+  getTagLink = ({name, slug}) => {
+    const url = getTagUrl(slug);
+    return (
+      <div
+        key={name.toLocaleLowerCase()}
+        onClick={this.getHandleOnClick(url)}
+        onKeyPress={this.getHandleOnClick(url)}
+        role="button"
+        tabIndex="0"
+      >
+        {name}
+      </div>
+    );
+  };
+
   getItem = () => {
     const {
-      data: {title, attendees, overview, tags, empty},
+      data: {title, attendees, overview, tags, empty, url},
     } = this.props;
     return (
       <div
-        onClick={this.handleOnClick}
-        onKeyPress={this.handleOnClick}
+        onClick={this.getHandleOnClick(url)}
+        onKeyPress={this.getHandleOnClick(url)}
         role="button"
         tabIndex="0"
       >

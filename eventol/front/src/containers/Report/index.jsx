@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import Toggle from 'react-input-toggle';
 
@@ -15,36 +15,40 @@ import {parseTotals, parseEvent} from '../../utils/report';
 import './react-input-toggle.css';
 import 'react-table/react-table.css';
 
-export default class Report extends React.PureComponent {
-  static propTypes = {
-    communicator: PropTypes.shape({
-      addOnMessage: PropTypes.func.isRequired,
-    }).isRequired,
-    eventsPrivateData: PropTypes.arrayOf(PropTypes.shape()),
-  };
+const Report = props => {
+  const exportButtonRef = useRef(null);
 
-  static defaultProps = {
-    eventsPrivateData: [],
-  };
+  const [table, setTable] = useState('confirmed');
+  const [autoupdate, setAutoupdate] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  state = {
-    table: 'confirmed',
-    count: 0,
-    autoupdate: false,
+  const [apiData, setApiData] = useState({
     data: [],
+    count: 0,
     totals: {},
     pages: null,
-    loading: true,
-  };
+  });
+  const {communicator, eventsPrivateData} = props;
 
-  componentDidMount() {
-    const {communicator} = this.props;
-    communicator.addOnMessage(this.updateTable);
-    this.loadToggleAutoupdate();
-  }
+  const updateTable = useCallback(() => {
+    if (autoupdate) window.location.reload();
+  }, [autoupdate]);
 
-  fetchData = ({pageSize, page, sorted, filtered}) => {
-    const {eventsPrivateData} = this.props;
+  const loadToggleAutoupdate = useCallback(() => {
+    let autoupdateState = localStorage.getItem('autoupdate');
+    if (_.isNull(autoupdateState)) autoupdateState = false;
+    else autoupdateState = JSON.parse(autoupdateState);
+    if (autoupdate !== autoupdateState) {
+      setAutoupdate(autoupdateState);
+    }
+  }, [autoupdate]);
+
+  useEffect(() => {
+    communicator.addOnMessage(updateTable);
+    loadToggleAutoupdate();
+  }, [communicator, loadToggleAutoupdate, updateTable]);
+
+  const fetchData = ({pageSize, page, sorted, filtered}) => {
     loadReports(pageSize, page, sorted, filtered)
       .then(({count, results}) => {
         const quotient = Math.floor(count / pageSize);
@@ -52,10 +56,12 @@ export default class Report extends React.PureComponent {
         const pages = remainder > 0 ? quotient + 1 : quotient;
         const data = results.map(event => parseEvent(event, eventsPrivateData));
         const totals = parseTotals(results);
-        this.setState({
-          count,
+
+        setLoading(false);
+
+        setApiData({
           data,
-          loading: false,
+          count,
           pages,
           totals,
         });
@@ -63,87 +69,81 @@ export default class Report extends React.PureComponent {
       .catch(err => Logger.error(gettext('There has been an error'), err));
   };
 
-  onClick = table => this.setState({table});
-
-  loadToggleAutoupdate = () => {
-    let autoupdate = localStorage.getItem('autoupdate');
-    if (_.isNull(autoupdate)) autoupdate = false;
-    else autoupdate = JSON.parse(autoupdate);
-    this.setState({autoupdate});
-  };
-
-  handleToggleAutoupdate = () => {
-    const {autoupdate} = this.state;
+  const handleToggleAutoupdate = () => {
     localStorage.setItem('autoupdate', !autoupdate);
-    this.setState({autoupdate: !autoupdate});
+    setAutoupdate(!autoupdate);
   };
 
-  updateTable = () => {
-    const {autoupdate} = this.state;
-    if (autoupdate) window.location.reload();
-  };
+  const {data, count, totals, pages} = apiData;
 
-  render() {
-    const {data, pages, loading, count, table, totals, autoupdate} = this.state;
-    const {eventsPrivateData} = this.props;
-    return (
-      <div>
-        <Title label={gettext('National report')}>
-          <Toggle
-            checked={autoupdate}
-            effect="echo"
-            label={gettext('Autoupdate')}
-            labelPosition="left"
-            name={gettext('Autoupdate')}
-            onChange={this.handleToggleAutoupdate}
-          />
-          <Button
-            handleOnClick={this.onClick}
-            label={gettext('Assistance (confirmed)')}
-            name="confirmed"
-            type="success"
-          />
-          <Button
-            handleOnClick={this.onClick}
-            label={gettext('Assistance detail')}
-            name="assitance"
-            type="success"
-          />
-          <Button
-            handleOnClick={this.onClick}
-            label={gettext('Installations')}
-            name="installations"
-            type="success"
-          />
-          <Button
-            handleOnClick={this.onClick}
-            label={gettext('Activities')}
-            name="activities"
-            type="success"
-          />
-          <ExportButton
-            ref={exportButton => {
-              this.exportButton = exportButton;
-            }}
-            data={data}
-            filename={table}
-            label={gettext('Export')}
-            type="success"
-          />
-        </Title>
-        <ReportTable
-          count={count}
-          data={data}
-          defaultRows={15}
-          eventsPrivateData={eventsPrivateData}
-          exportButton={this.exportButton}
-          fetchData={this.fetchData}
-          isLoading={loading}
-          pages={pages}
-          table={table}
-          totals={totals}
+  return (
+    <div>
+      <Title label={gettext('National report')}>
+        <Toggle
+          checked={autoupdate}
+          effect="echo"
+          label={gettext('Autoupdate')}
+          labelPosition="left"
+          name={gettext('Autoupdate')}
+          onChange={handleToggleAutoupdate}
         />
-      </div>
-    );
-  }
-}
+        <Button
+          handleOnClick={setTable}
+          label={gettext('Assistance (confirmed)')}
+          name="confirmed"
+          type="success"
+        />
+        <Button
+          handleOnClick={setTable}
+          label={gettext('Assistance detail')}
+          name="assitance"
+          type="success"
+        />
+        <Button
+          handleOnClick={setTable}
+          label={gettext('Installations')}
+          name="installations"
+          type="success"
+        />
+        <Button
+          handleOnClick={setTable}
+          label={gettext('Activities')}
+          name="activities"
+          type="success"
+        />
+        <ExportButton
+          ref={exportButtonRef}
+          data={data}
+          filename={table}
+          label={gettext('Export')}
+          type="success"
+        />
+      </Title>
+      <ReportTable
+        count={count}
+        data={data}
+        defaultRows={15}
+        eventsPrivateData={eventsPrivateData}
+        exportButton={exportButtonRef.current}
+        fetchData={fetchData}
+        isLoading={loading}
+        pages={pages}
+        table={table}
+        totals={totals}
+      />
+    </div>
+  );
+};
+
+Report.propTypes = {
+  communicator: PropTypes.shape({
+    addOnMessage: PropTypes.func.isRequired,
+  }).isRequired,
+  eventsPrivateData: PropTypes.arrayOf(PropTypes.shape()),
+};
+
+Report.defaultProps = {
+  eventsPrivateData: [],
+};
+
+export default Report;

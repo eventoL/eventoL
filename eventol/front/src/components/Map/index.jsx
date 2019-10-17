@@ -1,53 +1,36 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import Logger from '../../utils/logger';
-import {MAP_SETTINGS, MAP_LAYER} from '../../utils/constants';
+import {getMapId, loadMap} from '../../utils/map';
 
 import './index.scss';
 
-export default class Map extends React.PureComponent {
-  static propTypes = {
-    children: PropTypes.element.isRequired,
-    eventSlug: PropTypes.string.isRequired,
-    place: PropTypes.string.isRequired,
-    sliderId: PropTypes.string.isRequired,
-  };
+const Map = props => {
+  const {children, place, eventSlug, sliderId} = props;
+  const mapId = getMapId(eventSlug, sliderId);
 
-  componentDidMount() {
-    const eventSlug = this.getMapId();
+  useEffect(() => {
     try {
-      this.loadMap();
+      loadMap(place, mapId);
     } catch (e) {
       Logger.error(e);
     }
-    document.getElementById(eventSlug).classList.remove('max-size');
-  }
+    document.getElementById(mapId).classList.remove('max-size');
+  }, [mapId, place]);
 
-  getMapId() {
-    const {eventSlug, sliderId} = this.props;
-    return `${sliderId}${eventSlug}`;
-  }
+  return (
+    <div className="item max-size" id={mapId}>
+      {children}
+    </div>
+  );
+};
 
-  loadMap() {
-    const {place} = this.props;
-    const {geometry} = JSON.parse(place);
-    const eventLat = geometry.location.lat;
-    const eventLon = geometry.location.lng;
-    const mapId = this.getMapId();
-    const map = L.map(mapId, MAP_SETTINGS).setView([eventLat, eventLon], 5);
-    L.tileLayer(MAP_LAYER, {attribution: ''}).addTo(map);
-    map.attributionControl.setPrefix('');
-    L.marker([eventLat, eventLon]).addTo(map);
-  }
+Map.propTypes = {
+  children: PropTypes.node.isRequired,
+  eventSlug: PropTypes.string.isRequired,
+  place: PropTypes.string.isRequired,
+  sliderId: PropTypes.string.isRequired,
+};
 
-  render() {
-    const {children} = this.props;
-    const mapId = this.getMapId();
-    return (
-      <div className="item max-size" id={mapId}>
-        {children}
-      </div>
-    );
-  }
-}
+export default Map;

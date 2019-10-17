@@ -53,8 +53,9 @@
       transition: opacity .25s ease .125s;
 
       &.tags {
-        a {
+        div {
           border-radius: 5px;
+          display: inline;
           padding: 2px;
 
           &:hover {
