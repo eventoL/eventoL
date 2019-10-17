@@ -102,3 +102,40 @@ def test_event_api_tags(api_request_factory, api_client, event1, event2, event_t
     assert json['results'][0]['id'] == event1.id
 
 
+# Test event api ordering
+@pytest.mark.django_db(transaction=True)
+def test_event_api_ordering_ascending(api_request_factory, api_client, event1, event2):
+    endpoint = reverse('event-list')
+    url = '{}?ordering=created_at'.format(endpoint)
+    request = api_request_factory.get(url, format='json')
+    url = request.get_raw_uri()
+    response = api_client.get(url)
+    assert response.status_code == 200
+
+    json = response.json()
+    assert json['count'] == 2
+    assert json['next'] is None
+    assert json['previous'] is None
+    assert len(json['results']) == 2
+    assert json['results'][0]['id'] == event1.id
+    assert json['results'][1]['id'] == event2.id
+
+
+@pytest.mark.django_db(transaction=True)
+def test_event_api_ordering_descending(api_request_factory, api_client, event1, event2):
+    endpoint = reverse('event-list')
+    url = '{}?ordering=-created_at'.format(endpoint)
+    request = api_request_factory.get(url, format='json')
+    url = request.get_raw_uri()
+    response = api_client.get(url)
+    assert response.status_code == 200
+
+    json = response.json()
+    assert json['count'] == 2
+    assert json['next'] is None
+    assert json['previous'] is None
+    assert len(json['results']) == 2
+    assert json['results'][0]['id'] == event2.id
+    assert json['results'][1]['id'] == event1.id
+
+
