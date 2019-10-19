@@ -23,7 +23,6 @@
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
         {% render_bundle 'base' %}
 
-        <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
@@ -332,9 +331,6 @@
 </footer>
 
 {% block script %}
-    <script src="{% static "manager/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
-    <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/ripples.min.js" %}"></script>
-    <script src="{% static "manager/bower_components/bootstrap-material-design/dist/js/material.min.js" %}"></script>
     {% block material %}
         <script>
             $(document).ready(function () {
