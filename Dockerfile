@@ -19,10 +19,6 @@ USER node
 COPY --chown=node:node ./eventol/front/package.json ./eventol/front/yarn.lock ./
 RUN yarn install
 
-# Install bower dependencies
-COPY --chown=node:node ./eventol/front/bower.json ./eventol/front/.bowerrc ./
-RUN bower install
-
 # Build less files
 COPY --chown=node:node ./eventol/front/eventol/static/manager/less/ ./eventol/static/manager/less/
 RUN mkdir -p ./eventol/static/manager/css/
