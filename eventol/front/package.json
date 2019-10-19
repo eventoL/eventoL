@@ -116,6 +116,7 @@
     "react-test-renderer": "^16.8.6",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "roboto-fontface": "^0.10.0",
     "sass-lint": "^1.13.1",
     "sass-lint-auto-fix": "^0.17.0",
     "sass-loader": "^7.1.0",
