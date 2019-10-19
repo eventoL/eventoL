@@ -10,6 +10,7 @@ module.exports = {
     Home: './src/views/Home',
     EventHome: './src/views/EventHome',
     Report: './src/views/Report',
+    schedule: './src/libs/schedule',
     slick: './src/libs/slick',
     form: './src/libs/form',
     base: './src/libs/base',

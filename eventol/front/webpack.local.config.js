@@ -31,6 +31,7 @@ config.entry = {
   Home: addDevVendors('./src/views/Home'),
   EventHome: addDevVendors('./src/views/EventHome'),
   Report: addDevVendors('./src/views/Report'),
+  schedule: addDevVendors('./src/libs/schedule'),
   slick: addDevVendors('./src/libs/slick'),
   form: addDevVendors('./src/libs/form'),
   base: addDevVendors('./src/libs/base'),
