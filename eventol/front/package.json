@@ -79,6 +79,7 @@
     "babel-loader": "^8.0.6",
     "bootstrap": "^3.3.7",
     "bootstrap-material-design": "0.5.10",
+    "bootstrap-sass": "^3.3.7",
     "classnames": "^2.2.6",
     "css-loader": "^3.0.0",
     "eslint": "^5.0.0",
