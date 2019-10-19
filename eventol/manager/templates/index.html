@@ -10,7 +10,6 @@
     <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
     <meta name="description" content="Event Management Software">
     <title>EventoL</title>
-    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
   </head>
   <body>
@@ -18,8 +17,8 @@
 
     {% render_bundle 'vendors' %}
     {% render_bundle 'slick' %}
+    {% render_bundle 'map' %}
     {% render_bundle 'Home' %}
-    <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
     <script>
       window.render_components({
         {% if EVENTOL_SETTINGS.message and EVENTOL_SETTINGS.message.strip %}
