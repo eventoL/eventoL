@@ -19,12 +19,6 @@ USER node
 COPY --chown=node:node ./eventol/front/package.json ./eventol/front/yarn.lock ./
 RUN yarn install
 
-# Build less files
-COPY --chown=node:node ./eventol/front/eventol/static/manager/less/ ./eventol/static/manager/less/
-RUN mkdir -p ./eventol/static/manager/css/
-RUN lessc ./eventol/static/manager/less/eventol.less > ./eventol/static/manager/css/eventol.css
-RUN lessc ./eventol/static/manager/less/eventol-bootstrap.less > ./eventol/static/manager/css/eventol-bootstrap.css
-
 # Copy code
 COPY --chown=node:node ./eventol/front/ .
 
@@ -77,9 +71,6 @@ COPY --chown=app:app ./Makefile ${APP_ROOT}/Makefile
 COPY --chown=app:app ./eventol ${APP_ROOT}/eventol
 RUN mkdir -p ${APP_ROOT}/eventol/manager/static
 RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
-
-# Copy css
-COPY --chown=app:app --from=frontend /app/eventol/static/manager/css/ ${APP_ROOT}/eventol/manager/static/manager/css/
 
 # Copy frontend files
 COPY --chown=app:app --from=frontend /app/webpack-stats-prod.json ${APP_ROOT}/eventol/front/webpack-stats-prod.json
