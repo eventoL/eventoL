@@ -1,3 +1,4 @@
+{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load filters %}
 {% load i18n %}
@@ -20,13 +21,13 @@
         {% endif %}
 
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
-        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/eventol-bootstrap.css" %}"/>
-        <link rel="stylesheet" type="text/css" media="all" href="{% static "manager/css/eventol.css" %}"/>
+        {% render_bundle 'base' %}
 
         <script src="{% static "manager/bower_components/jquery/dist/jquery.min.js" %}"></script>
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
 
         {% block other-head %}{% endblock %}
     {% endblock %}
