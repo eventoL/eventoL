@@ -32,6 +32,7 @@ config.entry = {
   EventHome: addDevVendors('./src/views/EventHome'),
   Report: addDevVendors('./src/views/Report'),
   base: addDevVendors('./src/libs/base'),
+  slick: addDevVendors('./src/libs/slick'),
   vendors: ['react', '@babel/polyfill'],
 };
 

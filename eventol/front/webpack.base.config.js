@@ -11,6 +11,7 @@ module.exports = {
     EventHome: './src/views/EventHome',
     Report: './src/views/Report',
     base: './src/libs/base',
+    slick: './src/libs/slick',
     vendors: ['react', 'react-dom', 'redux', '@babel/polyfill'],
   },
 
