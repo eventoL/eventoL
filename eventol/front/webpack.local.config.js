@@ -31,6 +31,7 @@ config.entry = {
   Home: addDevVendors('./src/views/Home'),
   EventHome: addDevVendors('./src/views/EventHome'),
   Report: addDevVendors('./src/views/Report'),
+  base: addDevVendors('./src/libs/base'),
   vendors: ['react', '@babel/polyfill'],
 };
 

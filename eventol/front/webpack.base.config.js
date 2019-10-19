@@ -10,6 +10,7 @@ module.exports = {
     Home: './src/views/Home',
     EventHome: './src/views/EventHome',
     Report: './src/views/Report',
+    base: './src/libs/base',
     vendors: ['react', 'react-dom', 'redux', '@babel/polyfill'],
   },
 
