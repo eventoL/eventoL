@@ -8,9 +8,6 @@ RUN apk --update add --no-cache \
     git gcc make autoconf automake musl-dev \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install bower and less
-RUN npm install -g bower less
-
 # Set working directory
 WORKDIR /app
 RUN chown -R node:node /app
