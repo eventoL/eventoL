@@ -12,6 +12,7 @@ module.exports = {
     Report: './src/views/Report',
     base: './src/libs/base',
     slick: './src/libs/slick',
+    map: './src/libs/map',
     vendors: ['react', 'react-dom', 'redux', '@babel/polyfill'],
   },
 
@@ -64,8 +65,9 @@ module.exports = {
           },
         ],
       },
+      {test: /\.(png)$/, loader: 'file-loader?name=images/[name].[ext]'},
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.(gif|jpe?g|svg)$/i,
         use: [
           'file-loader',
           {

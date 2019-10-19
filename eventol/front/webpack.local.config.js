@@ -33,6 +33,7 @@ config.entry = {
   Report: addDevVendors('./src/views/Report'),
   base: addDevVendors('./src/libs/base'),
   slick: addDevVendors('./src/libs/slick'),
+  map: addDevVendors('./src/libs/map'),
   vendors: ['react', '@babel/polyfill'],
 };
 
