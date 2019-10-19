@@ -1,9 +1,9 @@
 import './base.scss';
 
-import $ from 'jquery';
-
 window.jQuery = $;
 window.$ = $;
+global.$ = $;
+global.jQuery = $;
 
 require('bootstrap/dist/js/bootstrap');
 require('bootstrap-material-design/dist/js/ripples');

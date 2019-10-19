@@ -10,9 +10,9 @@ module.exports = {
     Home: './src/views/Home',
     EventHome: './src/views/EventHome',
     Report: './src/views/Report',
-    base: './src/libs/base',
     slick: './src/libs/slick',
     form: './src/libs/form',
+    base: './src/libs/base',
     map: './src/libs/map',
     vendors: ['react', 'react-dom', 'redux', '@babel/polyfill'],
   },
@@ -24,7 +24,12 @@ module.exports = {
 
   externals: [], // add all vendor libs
 
-  plugins: [],
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
+  ],
 
   performance: {
     hints: process.env.NODE_ENV === 'production' ? 'warning' : false,
