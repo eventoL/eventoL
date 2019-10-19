@@ -1,6 +1,5 @@
 import 'leaflet/dist/leaflet.css';
 
-import $ from 'jquery';
 import 'leaflet';
 
 import icon from 'leaflet/dist/images/marker-icon.png';

@@ -1,7 +1,5 @@
 import './slick.scss';
 
-import $ from 'jquery';
-
 import 'slick';
 import 'slick-carousel/slick/slick';
 
