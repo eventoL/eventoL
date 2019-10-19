@@ -34,6 +34,7 @@ config.entry = {
   clipboard: addDevVendors('./src/libs/clipboard'),
   datetime: addDevVendors('./src/libs/datetime'),
   schedule: addDevVendors('./src/libs/schedule'),
+  reports: addDevVendors('./src/libs/reports'),
   slick: addDevVendors('./src/libs/slick'),
   form: addDevVendors('./src/libs/form'),
   base: addDevVendors('./src/libs/base'),

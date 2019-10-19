@@ -13,6 +13,7 @@ module.exports = {
     clipboard: './src/libs/clipboard',
     datetime: './src/libs/datetime',
     schedule: './src/libs/schedule',
+    reports: './src/libs/reports',
     slick: './src/libs/slick',
     form: './src/libs/form',
     base: './src/libs/base',
