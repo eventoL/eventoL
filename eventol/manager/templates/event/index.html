@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 {% load l10n %}
@@ -9,25 +10,17 @@
     {% if event is not None and event.css_custom %}
         <link rel="stylesheet" type="text/css" media="all" href="{{ event.css_custom.url }}"/>
     {% endif %}
-    
-    <link rel="stylesheet"
-          type="text/css" href="{% static "manager/bower_components/slick-carousel/slick/slick.css" %}"/>
-    <link rel="stylesheet"
-          type="text/css" href="{% static "manager/bower_components/slick-carousel/slick/slick-theme.css" %}"/>
-
     <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
     <!--[if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.7/leaflet.ie.css" /><![endif]-->
 
     <style>
-        .slick-prev:before, .slick-next:before {
-            color: black;
-        }
-
         .map {
             height: 300px;
             width: 100%;
         }
     </style>
+
+    {% render_bundle 'slick' %}
 {% endblock %}
 {% block content %}
     <div class="well">
@@ -268,32 +261,11 @@
 {% endblock %}
 
 {% block other-script %}
-    <script src="{% static "manager/bower_components/slick-carousel/slick/slick.min.js" %}"></script>
     <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
 
     <script>
         $(document).ready(function () {
-            $('#slick_charlas').slick({
-                'autoplay': true,
-                'dots': true
-            });
-
-            (function () {
-                var isPlaying = true;
-                $('#slick_charlas').click(function () {
-                    if (isPlaying) {
-                        $('#slick_charlas')
-                            .slick('slickSetOption', 'autoplay', false)
-                            .slick('slickPause');
-                        isPlaying = false;
-                    } else {
-                        $('#slick_charlas')
-                            .slick('slickSetOption', 'autoplay', true)
-                            .slick('slickPlay');
-                        isPlaying = true;
-                    }
-                });
-            })()
+            window.libs.slick('slick_charlas');
         });
     </script>
 
