@@ -1,12 +1,11 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load static %}
 {% load i18n %}
 {% load filters %}
 {% load cropping %}
 {% block other-head %}
-    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
-    <link rel="stylesheet" href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
+    {% render_bundle 'datetime' %}
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -154,30 +153,18 @@
 {% endblock %}
 {% block other-script %}
     <script>
+        function becomeTalk() {
+            $('#activity-detail').attr("style", "visibility: hidden; position: absolute");
+            $('#become-talk').removeClass('collapse');
+        }
 
-    function becomeTalk() {
-        $('#activity-detail').attr("style", "visibility: hidden; position: absolute");
-        $('#become-talk').removeClass('collapse');
-    }
-
-    function rejectActivity() {
-        $('#activity-detail').attr("style", "visibility: hidden; position: absolute");
-        $('#reject-activity').removeClass('collapse');
-    }
+        function rejectActivity() {
+            $('#activity-detail').attr("style", "visibility: hidden; position: absolute");
+            $('#reject-activity').removeClass('collapse');
+        }
 
         $(document).ready(function() {
-
-            $('.timepicker').datetimepicker({
-                format: 'HH:mm',
-                icons   : {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up  : "fa fa-arrow-up",
-                    down: "fa fa-arrow-down"
-                },
-                stepping: 5
-            });
-
+            window.libs.datetime.start();
         });
     </script>
 {% endblock %}
