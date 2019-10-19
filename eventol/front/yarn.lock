@@ -2461,6 +2461,13 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
+bootstrap-datepicker@~1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.6.4.tgz#889ebeced8eaa2ff15ec1f273e4b07531cc43da0"
+  integrity sha1-iJ6+ztjqov8V7B8nPksHUxzEPaA=
+  dependencies:
+    jquery ">=1.7.1"
+
 bootstrap-material-design@0.5.10:
   version "0.5.10"
   resolved "https://registry.yarnpkg.com/bootstrap-material-design/-/bootstrap-material-design-0.5.10.tgz#b36b0035b528a821c1758695b25d25e25e121372"
@@ -3044,6 +3051,11 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
+
+"commander@>= 0.5.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-3.0.2.tgz#6837c3fb677ad9933d1cfba42dd14d5117d6b39e"
+  integrity sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow==
 
 commander@^2.11.0, commander@^2.15.1, commander@^2.20.0, commander@^2.8.1, commander@~2.20.0:
   version "2.20.1"
@@ -3821,6 +3833,17 @@ dns-txt@^2.0.2:
   integrity sha1-uR2Ab10nGI5Ks+fRB9iBocxGQrY=
   dependencies:
     buffer-indexof "^1.0.0"
+
+docco@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/docco/-/docco-0.6.3.tgz#c47b5823d79563d6fc3abd49f3de48986e5522ee"
+  integrity sha1-xHtYI9eVY9b8Or1J895ImG5VIu4=
+  dependencies:
+    commander ">= 0.5.2"
+    fs-extra ">= 0.6.0"
+    highlight.js ">= 8.0.x"
+    marked ">= 0.2.7"
+    underscore ">= 1.0.0"
 
 doctrine@1.5.0, doctrine@^1.2.2:
   version "1.5.0"
@@ -5032,6 +5055,15 @@ fs-constants@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs-constants/-/fs-constants-1.0.0.tgz#6be0de9be998ce16af8afc24497b9ee9b7ccd9ad"
   integrity sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==
 
+"fs-extra@>= 0.6.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-8.1.0.tgz#49d43c45a88cd9677668cb7be1b46efdb8d2e1c0"
+  integrity sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^4.0.0"
+    universalify "^0.1.0"
+
 fs-extra@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-3.0.1.tgz#3794f378c58b342ea7dbbb23095109c4b3b62291"
@@ -5125,6 +5157,14 @@ generate-object-property@^1.1.0:
   integrity sha1-nA4cQDCM6AT0eDYYuTf6iPmdUNA=
   dependencies:
     is-property "^1.0.0"
+
+geocomplete@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/geocomplete/-/geocomplete-1.7.0.tgz#c244765c853575261b5ee016f75b77cd382e4a1e"
+  integrity sha1-wkR2XIU1dSYbXuAW91t3zTguSh4=
+  dependencies:
+    docco "^0.6.3"
+    uglifyjs "^2.3.6"
 
 get-caller-file@^1.0.1:
   version "1.0.3"
@@ -5358,7 +5398,7 @@ got@^8.3.1:
     url-parse-lax "^3.0.0"
     url-to-options "^1.0.1"
 
-graceful-fs@^4.1.10, graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+graceful-fs@^4.1.10, graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.2.tgz#6f0952605d0140c1cfdb138ed005775b92d67b02"
   integrity sha512-IItsdsea19BoLC7ELy13q1iJFNmd7ofZH5+X/pJr90/nRoPEX0DJo1dHDbgtYWOhJhcCgMDTOw84RZ72q6lB+Q==
@@ -5512,6 +5552,11 @@ hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
+
+"highlight.js@>= 8.0.x":
+  version "9.15.10"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.15.10.tgz#7b18ed75c90348c045eef9ed08ca1319a2219ad2"
+  integrity sha512-RoV7OkQm0T3os3Dd2VHLNMoaoDVx77Wygln3n9l5YV172XonWG6rgQD3XnF/BuFFZw9A0TJgmMSO8FEWQgvcXw==
 
 hmac-drbg@^1.0.0:
   version "1.0.1"
@@ -6770,7 +6815,7 @@ jest@^24.8.0:
     import-local "^2.0.0"
     jest-cli "^24.9.0"
 
-jquery@>=1.7.2, jquery@>=1.9.1:
+jquery@>=1.7.1, jquery@>=1.7.2, jquery@>=1.9.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
@@ -6922,6 +6967,13 @@ jsonfile@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-3.0.1.tgz#a5ecc6f65f53f662c4415c7675a0331d0992ec66"
   integrity sha1-pezG9l9T9mLEQVx2daAzHQmS7GY=
+  optionalDependencies:
+    graceful-fs "^4.1.6"
+
+jsonfile@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-4.0.0.tgz#8771aae0799b64076b76640fca058f9c10e33ecb"
+  integrity sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
   optionalDependencies:
     graceful-fs "^4.1.6"
 
@@ -7285,6 +7337,11 @@ map-visit@^1.0.0:
   integrity sha1-7Nyo8TFE5mDxtb1B8S80edmN+48=
   dependencies:
     object-visit "^1.0.0"
+
+"marked@>= 0.2.7":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.7.0.tgz#b64201f051d271b1edc10a04d1ae9b74bb8e5c0e"
+  integrity sha512-c+yYdCZJQrsRjTPhUx7VKkApw9bwDkNbHUKo1ovgcfDjb2kc8rLuRbIFyXL5WOEUwzSSKo3IXpph2K6DqB/KZg==
 
 md5.js@^1.3.4:
   version "1.3.5"
@@ -10890,6 +10947,11 @@ uglifyjs-webpack-plugin@^2.1.3:
     webpack-sources "^1.4.0"
     worker-farm "^1.7.0"
 
+uglifyjs@^2.3.6:
+  version "2.4.11"
+  resolved "https://registry.yarnpkg.com/uglifyjs/-/uglifyjs-2.4.11.tgz#3440d64e045759589524418eb641c68bb90d113e"
+  integrity sha1-NEDWTgRXWViVJEGOtkHGi7kNET4=
+
 unbzip2-stream@^1.0.9:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/unbzip2-stream/-/unbzip2-stream-1.3.3.tgz#d156d205e670d8d8c393e1c02ebd506422873f6a"
@@ -10897,6 +10959,11 @@ unbzip2-stream@^1.0.9:
   dependencies:
     buffer "^5.2.1"
     through "^2.3.8"
+
+"underscore@>= 1.0.0":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
+  integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"

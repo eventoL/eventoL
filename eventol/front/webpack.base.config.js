@@ -12,6 +12,7 @@ module.exports = {
     Report: './src/views/Report',
     base: './src/libs/base',
     slick: './src/libs/slick',
+    form: './src/libs/form',
     map: './src/libs/map',
     vendors: ['react', 'react-dom', 'redux', '@babel/polyfill'],
   },
