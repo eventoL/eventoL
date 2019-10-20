@@ -14,6 +14,7 @@ module.exports = {
     datetime: './src/libs/datetime',
     schedule: './src/libs/schedule',
     reports: './src/libs/reports',
+    qrcode: './src/libs/qrcode',
     slick: './src/libs/slick',
     form: './src/libs/form',
     base: './src/libs/base',

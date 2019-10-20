@@ -35,6 +35,7 @@ config.entry = {
   datetime: addDevVendors('./src/libs/datetime'),
   schedule: addDevVendors('./src/libs/schedule'),
   reports: addDevVendors('./src/libs/reports'),
+  qrcode: addDevVendors('./src/libs/qrcode'),
   slick: addDevVendors('./src/libs/slick'),
   form: addDevVendors('./src/libs/form'),
   base: addDevVendors('./src/libs/base'),
