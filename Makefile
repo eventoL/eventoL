@@ -108,11 +108,6 @@ frontend-sasslint-fix: ## Run sass linter and autofix errors
 frontend-sasslint-with-report: ## Run sass linter and generate report
 	cd eventol/front && yarn sasslint:report
 
-update-css-files: ## Compile css files
-	cd eventol/front && mkdir -p ./eventol/static/manager/css/
-	cd eventol/front && lessc ./eventol/static/manager/less/eventol.less > ./eventol/static/manager/css/eventol.css
-	cd eventol/front && lessc ./eventol/static/manager/less/eventol-bootstrap.less > ./eventol/static/manager/css/eventol-bootstrap.css
-
 ## Travis CI
 travis-install-dependencies: ## Install coverage and coveralls dependencies
 	pip install coverage coveralls
@@ -294,18 +289,13 @@ docker-frontend-sasslint-fix: ## Run sass linter and autofix errors in docker-co
 docker-frontend-sasslint-with-report: ## Run sass linter and generate report in docker-compose
 	$(DOCKER_COMPOSE) exec reactjs yarn sasslint:report
 
-docker-update-css-files: ## Compile css files in docker-compose
-	$(DOCKER_COMPOSE) exec reactjs mkdir -p ./eventol/static/manager/css/
-	$(DOCKER_COMPOSE) exec reactjs sh -c "lessc ./eventol/static/manager/less/eventol.less > ./eventol/static/manager/css/eventol.css"
-	$(DOCKER_COMPOSE) exec reactjs sh -c "lessc ./eventol/static/manager/less/eventol-bootstrap.less > ./eventol/static/manager/css/eventol-bootstrap.css"
-
 ## Alias
 collectstatic: docker-backend-collectstatic ## Alias to docker-backend-collectstatic
 createsuperuser: docker-backend-createsuperuser ## Alias to docker-backend-createsuperuser
 makemigrations: docker-backend-makemigrations ## Alias to docker-backend-makemigrations
 migrate: docker-backend-migrate ## Alias to docker-backend-migrate
 runserver: docker-backend-runserver ## Alias to docker-backend-runserver
-setup-frontend: docker-update-css-files docker-frontend-install-dependencies ## Setup front end (compile css and install yarn dependencies) in docker-compose
+setup-frontend: docker-frontend-install-dependencies ## Setup front end in docker-compose
 start-frontend: docker-frontend-start-dev ## Alias to docker-frontend-start-dev
 make-translations: docker-backend-make-translations ## Alias to docker-backend-make-translations
 compile-translations: docker-backend-compile-translations ## Alias to docker-backend-compile-translations
