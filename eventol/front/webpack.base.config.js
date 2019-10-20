@@ -10,6 +10,15 @@ module.exports = {
     Home: './src/views/Home',
     EventHome: './src/views/EventHome',
     Report: './src/views/Report',
+    clipboard: './src/libs/clipboard',
+    datetime: './src/libs/datetime',
+    schedule: './src/libs/schedule',
+    reports: './src/libs/reports',
+    qrcode: './src/libs/qrcode',
+    slick: './src/libs/slick',
+    form: './src/libs/form',
+    base: './src/libs/base',
+    map: './src/libs/map',
     vendors: ['react', 'react-dom', 'redux', '@babel/polyfill'],
   },
 
@@ -20,7 +29,12 @@ module.exports = {
 
   externals: [], // add all vendor libs
 
-  plugins: [],
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+    }),
+  ],
 
   performance: {
     hints: process.env.NODE_ENV === 'production' ? 'warning' : false,
@@ -50,10 +64,21 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          'resolve-url-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: ['node_modules/bootstrap-sass/assets/stylesheets/'],
+            },
+          },
+        ],
       },
+      {test: /\.(png)$/, loader: 'file-loader?name=images/[name].[ext]'},
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.(gif|jpe?g|svg)$/i,
         use: [
           'file-loader',
           {
@@ -96,7 +121,7 @@ module.exports = {
   },
 
   resolve: {
-    modules: ['node_modules', 'bower_components'],
+    modules: ['node_modules'],
     extensions: ['.js', '.jsx'],
   },
 };

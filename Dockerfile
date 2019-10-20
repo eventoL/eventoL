@@ -8,9 +8,6 @@ RUN apk --update add --no-cache \
     git gcc make autoconf automake musl-dev \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install bower and less
-RUN npm install -g bower less
-
 # Set working directory
 WORKDIR /app
 RUN chown -R node:node /app
@@ -21,16 +18,6 @@ USER node
 # Install yarn dependencies
 COPY --chown=node:node ./eventol/front/package.json ./eventol/front/yarn.lock ./
 RUN yarn install
-
-# Install bower dependencies
-COPY --chown=node:node ./eventol/front/bower.json ./eventol/front/.bowerrc ./
-RUN bower install
-
-# Build less files
-COPY --chown=node:node ./eventol/front/eventol/static/manager/less/ ./eventol/static/manager/less/
-RUN mkdir -p ./eventol/static/manager/css/
-RUN lessc ./eventol/static/manager/less/eventol.less > ./eventol/static/manager/css/eventol.css
-RUN lessc ./eventol/static/manager/less/eventol-bootstrap.less > ./eventol/static/manager/css/eventol-bootstrap.css
 
 # Copy code
 COPY --chown=node:node ./eventol/front/ .
@@ -45,7 +32,7 @@ CMD ["tail", "-f", "/dev/null"]
 #########################################
 # build image
 #########################################
-FROM python:3.8.0-alpine as development
+FROM python:3.7.4-alpine as development
 
 # Set environment variables
 ENV APP_ROOT /usr/src/app/
@@ -84,9 +71,6 @@ COPY --chown=app:app ./Makefile ${APP_ROOT}/Makefile
 COPY --chown=app:app ./eventol ${APP_ROOT}/eventol
 RUN mkdir -p ${APP_ROOT}/eventol/manager/static
 RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
-
-# Copy css
-COPY --chown=app:app --from=frontend /app/eventol/static/manager/css/ ${APP_ROOT}/eventol/manager/static/manager/css/
 
 # Copy frontend files
 COPY --chown=app:app --from=frontend /app/webpack-stats-prod.json ${APP_ROOT}/eventol/front/webpack-stats-prod.json

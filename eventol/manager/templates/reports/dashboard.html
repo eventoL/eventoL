@@ -1,13 +1,12 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load static %}
 {% load i18n %}
 {% load filters %}
 {% load cropping %}
 
 {% block other-head %}
-    <link rel="stylesheet" type="text/css" href="{% static "manager/bower_components/morrisjs/morris.css" %}">
-    <script src="{% static "manager/bower_components/raphael/raphael.min.js" %}"></script>
-    <script src="{% static "manager/bower_components/morrisjs/morris.min.js" %}"></script>
+    {% render_bundle 'reports' %}
 {% endblock %}
 
 {% block page-header %}
@@ -318,9 +317,6 @@
 {% endblock %}
 
 {% block other-script %}
-
-    <script src="{% static "manager/bower_components/q/q.js" %}"></script>
-
     <script type="text/javascript">
 
         $(document).ready(function() {

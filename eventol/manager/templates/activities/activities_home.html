@@ -1,13 +1,12 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load static %}
 {% load i18n %}
 {% load filters %}
 {% load cropping thumbnail %}
 {% block other-head %}
-    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
-    <link rel="stylesheet" href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
+    {% render_bundle 'datetime' %}
+    {% render_bundle 'clipboard' %}
     <style>
         .dropdown-menu li a {
             padding: 13px 16px;
@@ -438,7 +437,8 @@
         }
 
         $(document).ready(function() {
-            new ClipboardJS('.dropdown-item');
+            window.libs.datetime.start();
+            window.libs.clipboard.start();
 
             function toggleChevron(e) {
                 $(e.target)
@@ -446,17 +446,6 @@
                         .find("i.indicator")
                         .toggleClass('fa-chevron-down fa-chevron-up');
             }
-
-            $('.timepicker').datetimepicker({
-                format: 'HH:mm',
-                icons   : {
-                    time: "fa fa-clock-o",
-                    date: "fa fa-calendar",
-                    up  : "fa fa-arrow-up",
-                    down: "fa fa-arrow-down"
-                },
-                stepping: 5
-            });
 
             $('#accordion')
                     .on('hidden.bs.collapse', toggleChevron)

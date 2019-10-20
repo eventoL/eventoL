@@ -31,6 +31,15 @@ config.entry = {
   Home: addDevVendors('./src/views/Home'),
   EventHome: addDevVendors('./src/views/EventHome'),
   Report: addDevVendors('./src/views/Report'),
+  clipboard: addDevVendors('./src/libs/clipboard'),
+  datetime: addDevVendors('./src/libs/datetime'),
+  schedule: addDevVendors('./src/libs/schedule'),
+  reports: addDevVendors('./src/libs/reports'),
+  qrcode: addDevVendors('./src/libs/qrcode'),
+  slick: addDevVendors('./src/libs/slick'),
+  form: addDevVendors('./src/libs/form'),
+  base: addDevVendors('./src/libs/base'),
+  map: addDevVendors('./src/libs/map'),
   vendors: ['react', '@babel/polyfill'],
 };
 

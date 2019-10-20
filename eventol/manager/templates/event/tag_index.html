@@ -10,16 +10,15 @@
     <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
     <meta name="description" content="Event Management Software">
     <title>EventoL</title>
-    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
-    <link rel="stylesheet" href="{% static "manager/bower_components/slick-carousel/slick/slick-theme.css" %}"/>
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
   </head>
   <body>
     <div id="root"></div>
 
     {% render_bundle 'vendors' %}
+    {% render_bundle 'slick' %}
+    {% render_bundle 'map' %}
     {% render_bundle 'EventHome' %}
-    <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
     <script>
       window.render_components({
           tag_slug: '{{ tag.slug }}',

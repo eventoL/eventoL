@@ -44,7 +44,6 @@ eventol/conf/locale/**/*.mo
 #My files
 my_settings.py
 deploy.txt
-eventol/manager/static/manager/bower_components/
 eventol/manager/static/manager/css/eventol-bootstrap.css
 eventol/manager/static/manager/css/eventol.css
 eventol/static/
@@ -66,7 +65,6 @@ node_modules
 db.sqlite3
 *.mo
 webpack-stats-local.json
-eventol/front/eventol/static/bower_components
 eventol/front/eventol/static/manager/*
 !eventol/front/eventol/static/manager/less
 eventol/front/eventol/static/bundles/

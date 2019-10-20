@@ -24,6 +24,7 @@
     "process": true,
     "__dirname": true,
     "global": true,
+    "qrcode": true,
     "window": true,
     "document": true,
     "console": true

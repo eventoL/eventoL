@@ -1,16 +1,48 @@
-@import "../bower_components/bootstrap-material-design/less/bootstrap-material-design";
-@import "../bower_components/bootstrap-material-design/less/ripples";
-@import "../bower_components/roboto-fontface/css/roboto/less/roboto-fontface";
-@import "../bower_components/font-awesome/less/font-awesome";
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import '~bootstrap-sass';
 
-@fa-font-path: "../bower_components/font-awesome/fonts";
-@roboto-font-path: '../bower_components/roboto-fontface/fonts';
+$brand-primary: #214760;
+$brand-success: #449d44;
+$brand-danger: #f44336;
 
-@brand-primary: #214760;
-@brand-success: #449d44;
-@brand-danger: #f44336;
-@brand-warning: @deep-orange;
-@brand-info: @light-blue;
+$grid-float-breakpoint: $screen-md;
+@import '~bootstrap-material-design/sass/bootstrap-material-design';
+$brand-warning: $deep-orange;
+$brand-info: $light-blue;
+
+$roboto-font-path: '~roboto-fontface/fonts';
+@import '~roboto-fontface/css/roboto/sass/roboto-fontface';
+
+$fa-font-path: '~font-awesome/fonts';
+@import '~font-awesome/scss/font-awesome';
+
+.letra-chiquita {
+  font-size: 1.2em !important;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 30px;
+}
+
+body > .container,
+body > .container-fluid {
+  margin-top: 70px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 30px;
+  line-height: 30px; /* Vertically center the text there */
+}
 
 /* Global overrides */
 
@@ -55,7 +87,6 @@ a.accordion-toggle {
   font-weight: 400;
   font-size: 1.8em;
 }
-
 
 .form-group label.control-label {
   color: #009688 !important;
@@ -150,35 +181,35 @@ a.accordion-toggle {
 .facebook-icon {
   color: #3b5998 !important;
   &:before {
-    content: @fa-var-facebook-f;
+    content: $fa-var-facebook-f;
   }
 }
 
 .twitter-icon {
   color: #55ACEE !important;
   &:before {
-    content: @fa-var-twitter;
+    content: $fa-var-twitter;
   }
 }
 
 .google-icon {
   color: #dd4b39 !important;
   &:before {
-    content: @fa-var-google;
+    content: $fa-var-google;
   }
 }
 
 .github-icon {
   color: #333333 !important;
   &:before {
-    content: @fa-var-github;
+    content: $fa-var-github;
   }
 }
 
 .live-icon {
   color: #333333 !important;
   &:before {
-    content: @fa-var-windows;
+    content: $fa-var-windows;
   }
 }
 

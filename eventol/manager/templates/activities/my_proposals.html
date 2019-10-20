@@ -1,12 +1,11 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load static %}
 {% load i18n %}
 {% load filters %}
 {% load cropping thumbnail %}
 {% block other-head %}
-    <script type="text/javascript" src="{% static "manager/bower_components/moment/min/moment.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" %}"></script>
-    <link rel="stylesheet" href="{% static "manager/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" %}"/>
+    {% render_bundle 'datetime' %}
 {% endblock %}
 {% block page-header %}
     <div class="row">

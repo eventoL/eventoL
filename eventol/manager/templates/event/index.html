@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 {% load l10n %}
@@ -9,25 +10,16 @@
     {% if event is not None and event.css_custom %}
         <link rel="stylesheet" type="text/css" media="all" href="{{ event.css_custom.url }}"/>
     {% endif %}
-    
-    <link rel="stylesheet"
-          type="text/css" href="{% static "manager/bower_components/slick-carousel/slick/slick.css" %}"/>
-    <link rel="stylesheet"
-          type="text/css" href="{% static "manager/bower_components/slick-carousel/slick/slick-theme.css" %}"/>
-
-    <link rel="stylesheet" href="{% static "manager/bower_components/leaflet/dist/leaflet.css" %}"/>
-    <!--[if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.7/leaflet.ie.css" /><![endif]-->
 
     <style>
-        .slick-prev:before, .slick-next:before {
-            color: black;
-        }
-
         .map {
             height: 300px;
             width: 100%;
         }
     </style>
+
+    {% render_bundle 'slick' %}
+    {% render_bundle 'map' %}
 {% endblock %}
 {% block content %}
     <div class="well">
@@ -268,72 +260,10 @@
 {% endblock %}
 
 {% block other-script %}
-    <script src="{% static "manager/bower_components/slick-carousel/slick/slick.min.js" %}"></script>
-    <script src="{% static "manager/bower_components/leaflet/dist/leaflet.js" %}"></script>
-
     <script>
         $(document).ready(function () {
-            $('#slick_charlas').slick({
-                'autoplay': true,
-                'dots': true
-            });
-
-            (function () {
-                var isPlaying = true;
-                $('#slick_charlas').click(function () {
-                    if (isPlaying) {
-                        $('#slick_charlas')
-                            .slick('slickSetOption', 'autoplay', false)
-                            .slick('slickPause');
-                        isPlaying = false;
-                    } else {
-                        $('#slick_charlas')
-                            .slick('slickSetOption', 'autoplay', true)
-                            .slick('slickPlay');
-                        isPlaying = true;
-                    }
-                });
-            })()
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            function map(event_lat, event_lon) {
-                var map = L.map('map', {
-                    scrollWheelZoom: false,
-                    touchZoom: false
-                }).setView([event_lat, event_lon], 14);
-
-                L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
-                }).addTo(map);
-                map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
-
-                L.marker([event_lat, event_lon]).addTo(map);
-            }
-
-            var event_place = {{ event.place|safe }};
-            map(event_place.geometry.location.lat, event_place.geometry.location.lng);
-
-            $('#place_name').text(event_place.name);
-            $('#address1').html(event_place.adr_address);
-
-            $('#directions-car').attr('href',
-                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                event_place.geometry.location.lng + '&dirflg=d');
-
-            $('#directions-walk').attr('href',
-                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                event_place.geometry.location.lng + '&dirflg=w');
-
-            $('#directions-bus').attr('href',
-                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                event_place.geometry.location.lng + '&dirflg=r');
-
-            $('#directions-bike').attr('href',
-                'https://maps.google.com/?saddr=Current+Location&daddr=' + event_place.geometry.location.lat + ',' +
-                event_place.geometry.location.lng + '&dirflg=b');
+            window.libs.slick('slick_charlas');
+            window.libs.map({{ event.place|safe }});
         });
     </script>
 {% endblock %}
