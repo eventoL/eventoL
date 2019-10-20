@@ -65,8 +65,8 @@ backend-lint-with-report: ## Run backend linter and generate report
 	pylint --output-format=colorized --reports yes eventol/eventol eventol/manager
 
 backend-make-translations: ## Update translations files (update .po files)
-	cd eventol && python manage.py makemessages -a -d djangojs --no-location -i node_modules -i venv -i bower_components -i coverage -e js,jsx
-	cd eventol && python manage.py makemessages -a -d django --no-location -i node_modules -i venv -i bower_components -i coverage
+	cd eventol && python manage.py makemessages -a -d djangojs --no-location -i node_modules -i venv -i coverage -e js,jsx
+	cd eventol && python manage.py makemessages -a -d django --no-location -i node_modules -i venv -i coverage
 
 backend-compile-translations: ## Compile translations files (update .mo files)
 	cd eventol && python manage.py compilemessages
@@ -107,9 +107,6 @@ frontend-sasslint-fix: ## Run sass linter and autofix errors
 
 frontend-sasslint-with-report: ## Run sass linter and generate report
 	cd eventol/front && yarn sasslint:report
-
-install-bower-dependencies: ## Install bower dependencies
-	cd eventol/front && bower install --verbose --force
 
 update-css-files: ## Compile css files
 	cd eventol/front && mkdir -p ./eventol/static/manager/css/
@@ -297,9 +294,6 @@ docker-frontend-sasslint-fix: ## Run sass linter and autofix errors in docker-co
 docker-frontend-sasslint-with-report: ## Run sass linter and generate report in docker-compose
 	$(DOCKER_COMPOSE) exec reactjs yarn sasslint:report
 
-docker-install-bower-dependencies: ## Install bower dependencies in docker-compose
-	$(DOCKER_COMPOSE) exec reactjs bower install --allow-root --verbose --force
-
 docker-update-css-files: ## Compile css files in docker-compose
 	$(DOCKER_COMPOSE) exec reactjs mkdir -p ./eventol/static/manager/css/
 	$(DOCKER_COMPOSE) exec reactjs sh -c "lessc ./eventol/static/manager/less/eventol.less > ./eventol/static/manager/css/eventol.css"
@@ -311,7 +305,7 @@ createsuperuser: docker-backend-createsuperuser ## Alias to docker-backend-creat
 makemigrations: docker-backend-makemigrations ## Alias to docker-backend-makemigrations
 migrate: docker-backend-migrate ## Alias to docker-backend-migrate
 runserver: docker-backend-runserver ## Alias to docker-backend-runserver
-setup-frontend: docker-install-bower-dependencies docker-update-css-files docker-frontend-install-dependencies ## Setup front end (install bower depencies, compile css and install yarn dependencies) in docker-compose
+setup-frontend: docker-update-css-files docker-frontend-install-dependencies ## Setup front end (compile css and install yarn dependencies) in docker-compose
 start-frontend: docker-frontend-start-dev ## Alias to docker-frontend-start-dev
 make-translations: docker-backend-make-translations ## Alias to docker-backend-make-translations
 compile-translations: docker-backend-compile-translations ## Alias to docker-backend-compile-translations
