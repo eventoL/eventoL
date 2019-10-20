@@ -100,6 +100,7 @@
     "fullcalendar": "^3.2.0",
     "fullcalendar-scheduler": "^1.5.1",
     "geocomplete": "^1.7.0",
+    "html5-qrcode": "git+https://github.com/dwa012/html5-qrcode.git",
     "image-webpack-loader": "^5.0.0",
     "jest": "^24.8.0",
     "jest-fetch-mock": "^2.1.2",
