@@ -76,11 +76,30 @@ module.exports = {
           },
         ],
       },
-      {test: /\.(png)$/, loader: 'file-loader?name=images/[name].[ext]'},
+      {
+        test: /\.(png)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'imgs/',
+              publicPath: '/static/bundles/prod/imgs/',
+            },
+          },
+        ],
+      },
       {
         test: /\.(gif|jpe?g|svg)$/i,
         use: [
-          'file-loader',
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'imgs/',
+              publicPath: '/static/bundles/prod/imgs/',
+            },
+          },
           {
             loader: 'image-webpack-loader',
             options: {
@@ -110,7 +129,16 @@ module.exports = {
       },
       {
         test: /\.(eot|woff2|woff|ttf)$/,
-        use: 'file-loader',
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/',
+              publicPath: '/static/bundles/prod/fonts/',
+            },
+          },
+        ],
       },
       {test: /\.jsx?$/, exclude: /node_modules/, loaders: ['babel-loader']},
       {
