@@ -78,4 +78,11 @@
 
 a {
   color: $a-color;
+  text-decoration: none;
+
+  &:focus,
+  &:hover {
+    color: $a-color;
+    text-decoration: none;
+  }
 }
