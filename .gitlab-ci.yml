@@ -51,6 +51,9 @@ docker image:
     - docker:dind
   script:
     - docker build .
+  except:
+    - develop
+    - master
 
 python-testing:
   services:
