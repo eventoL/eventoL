@@ -3,6 +3,19 @@ const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const isProductionEnvironment = process.env.NODE_ENV === 'production';
+
+const fileLoaderOptions = staticPath => {
+  const options = {
+    name: '[name].[ext]',
+  };
+  if (isProductionEnvironment) {
+    options.outputPath = `${staticPath}/`;
+    options.publicPath = `/static/bundles/prod/${staticPath}/`;
+  }
+  return options;
+};
+
 module.exports = {
   context: __dirname,
 
@@ -81,11 +94,7 @@ module.exports = {
         use: [
           {
             loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'imgs/',
-              publicPath: '/static/bundles/prod/imgs/',
-            },
+            options: fileLoaderOptions('imgs'),
           },
         ],
       },
@@ -94,11 +103,7 @@ module.exports = {
         use: [
           {
             loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'imgs/',
-              publicPath: '/static/bundles/prod/imgs/',
-            },
+            options: fileLoaderOptions('imgs'),
           },
           {
             loader: 'image-webpack-loader',
@@ -132,11 +137,7 @@ module.exports = {
         use: [
           {
             loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/',
-              publicPath: '/static/bundles/prod/fonts/',
-            },
+            options: fileLoaderOptions('fonts'),
           },
         ],
       },

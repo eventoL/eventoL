@@ -4,9 +4,9 @@
   "version": "2.0.0",
   "license": "SEE LICENSE IN ../../LICENSE",
   "scripts": {
-    "start": "node server.js",
-    "build": "webpack --config webpack.prod.config.js",
-    "build:dev": "webpack --config webpack.local.config.js",
+    "start": "NODE_ENV=development node server.js",
+    "build": "NODE_ENV=production webpack --config webpack.prod.config.js",
+    "build:dev": "NODE_ENV=development webpack --config webpack.local.config.js",
     "test": "jest --forceExit --ci --coverage --detectOpenHandles",
     "test:watch": "jest --watchAll --detectOpenHandles",
     "eslint": "eslint --ext .jsx --ext .js src",
