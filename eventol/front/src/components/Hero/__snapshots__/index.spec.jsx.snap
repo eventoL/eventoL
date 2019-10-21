@@ -151,3 +151,39 @@ exports[`Hero With slug 1`] = `
   />
 </div>
 `;
+
+exports[`Hero With user (isLogged is true) 1`] = `
+<div
+  className="hero"
+  id="hero"
+  style={
+    Object {
+      "backgroundImage": "url(BACKGROUND_DEFAULT)",
+    }
+  }
+>
+  <div
+    className="content"
+  >
+    <p>
+      <img
+        alt="logo"
+        className="logo"
+        src="LOGO_LANDING_DEFAULT"
+      />
+    </p>
+    <a
+      className="btn btn-raised btn-warning btn-create-event"
+      href="CREATE_EVENT"
+    >
+      Create event
+    </a>
+    <h2>
+      Search your event
+    </h2>
+  </div>
+  <div
+    className="overlay"
+  />
+</div>
+`;
