@@ -42,6 +42,16 @@ docker dev image:
   only:
     - develop
 
+docker image:
+  stage: build
+  image: docker:git
+  tags:
+    - docker
+  services:
+    - docker:dind
+  script:
+    - docker build .
+
 python-testing:
   services:
     - postgres:9.6
