@@ -9,6 +9,7 @@ exports[`Home Search Should not show a new TitleList for search with value is ""
   />
   <Hero
     background="/static/manager/img/background.png"
+    isLogged={false}
     logoLanding="/static/manager/img/logo.png"
     message={null}
   >
@@ -58,6 +59,7 @@ exports[`Home Search Should not show a new TitleList for search with value is ""
   />
   <Hero
     background="/static/manager/img/background.png"
+    isLogged={false}
     logoLanding="/static/manager/img/logo.png"
     message={null}
   >
@@ -107,6 +109,7 @@ exports[`Home Search Should show a new TitleList for search 1`] = `
   />
   <Hero
     background="/static/manager/img/background.png"
+    isLogged={false}
     logoLanding="/static/manager/img/logo.png"
     message={null}
   >
@@ -156,6 +159,7 @@ exports[`Home Search Should show a new TitleList for search 2`] = `
   />
   <Hero
     background="/static/manager/img/background.png"
+    isLogged={false}
     logoLanding="/static/manager/img/logo.png"
     message={null}
   >
@@ -216,6 +220,7 @@ exports[`Home With user Desktop Default Snapshot 1`] = `
   />
   <Hero
     background="/static/manager/img/background.png"
+    isLogged={true}
     logoLanding="/static/manager/img/logo.png"
     message={null}
   >
@@ -270,6 +275,7 @@ exports[`Home With user Desktop With custom data Snapshot 1`] = `
   />
   <Hero
     background="background"
+    isLogged={true}
     logoLanding="logoLanding"
     message="eventolMessage"
   >
@@ -324,6 +330,7 @@ exports[`Home With user Mobile Default Snapshot 1`] = `
   />
   <Hero
     background="/static/manager/img/background.png"
+    isLogged={true}
     logoLanding="/static/manager/img/logo.png"
     message={null}
   >
@@ -378,6 +385,7 @@ exports[`Home With user Mobile With custom data Snapshot 1`] = `
   />
   <Hero
     background="background"
+    isLogged={true}
     logoLanding="logoLanding"
     message="eventolMessage"
   >
@@ -427,6 +435,7 @@ exports[`Home Without user Desktop Default Snapshot 1`] = `
   />
   <Hero
     background="/static/manager/img/background.png"
+    isLogged={false}
     logoLanding="/static/manager/img/logo.png"
     message={null}
   >
@@ -476,6 +485,7 @@ exports[`Home Without user Desktop With custom data Snapshot 1`] = `
   />
   <Hero
     background="background"
+    isLogged={false}
     logoLanding="logoLanding"
     message="eventolMessage"
   >
@@ -525,6 +535,7 @@ exports[`Home Without user Mobile Default Snapshot 1`] = `
   />
   <Hero
     background="/static/manager/img/background.png"
+    isLogged={false}
     logoLanding="/static/manager/img/logo.png"
     message={null}
   >
@@ -574,6 +585,7 @@ exports[`Home Without user Mobile With custom data Snapshot 1`] = `
   />
   <Hero
     background="background"
+    isLogged={false}
     logoLanding="logoLanding"
     message="eventolMessage"
   >

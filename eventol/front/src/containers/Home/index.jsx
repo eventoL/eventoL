@@ -72,6 +72,7 @@ class Home extends React.PureComponent {
         <Header isMobile={isMobile} logoHeader={logoHeader} user={user} />
         <Hero
           background={background}
+          isLogged={user !== null}
           logoLanding={logoLanding}
           message={eventolMessage}
         >
