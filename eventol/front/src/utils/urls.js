@@ -18,6 +18,8 @@ export const EVENTS_API_URL = `${API_URL}events/`;
 export const WS_URL = `ws://${host}/`;
 export const EVENTS_WS_URL = `${WS_URL}updates/events/`;
 
+export const CREATE_EVENT = '/create-event/';
+
 export const getTagUrl = slug => `/tags/${slug}`;
 export const getEventUrl = slug => `/events/${slug}/`;
 export const getApiFullUrl = url => `/api/events/${url}`;
