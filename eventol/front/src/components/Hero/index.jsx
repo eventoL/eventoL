@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import {CREATE_EVENT} from '../../utils/urls';
 import {getSlugParsed} from '../../utils/events';
 import {BACKGROUND_DEFAULT, LOGO_LANDING_DEFAULT} from '../../utils/constants';
 
@@ -13,6 +14,7 @@ export default class Hero extends React.PureComponent {
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
     ]),
+    isLogged: PropTypes.bool,
     logoLanding: PropTypes.string,
     message: PropTypes.string,
     slug: PropTypes.string,
@@ -21,6 +23,7 @@ export default class Hero extends React.PureComponent {
   static defaultProps = {
     background: BACKGROUND_DEFAULT,
     children: null,
+    isLogged: false,
     logoLanding: LOGO_LANDING_DEFAULT,
     message: null,
     slug: null,
@@ -47,7 +50,7 @@ export default class Hero extends React.PureComponent {
   }
 
   render() {
-    const {children, background, logoLanding} = this.props;
+    const {children, background, logoLanding, isLogged} = this.props;
     const backgroundImage = `url(${background})`;
     return (
       <div className="hero" id="hero" style={{backgroundImage}}>
@@ -55,6 +58,14 @@ export default class Hero extends React.PureComponent {
           <p>
             <img alt="logo" className="logo" src={logoLanding} />
           </p>
+          {isLogged && (
+            <a
+              className="btn btn-raised btn-warning btn-create-event"
+              href={CREATE_EVENT}
+            >
+              {gettext('Create event')}
+            </a>
+          )}
           {this.getMessage()}
           {children}
         </div>
