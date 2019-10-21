@@ -13,11 +13,7 @@ const Slider = ({children: items}) => {
     prevArrow: <Arrow type="prev" />,
     nextArrow: <Arrow type="next" />,
   };
-  return (
-    <ReactSlickSlider className="container" {...settings}>
-      {items}
-    </ReactSlickSlider>
-  );
+  return <ReactSlickSlider {...settings}>{items}</ReactSlickSlider>;
 };
 
 Slider.propTypes = {

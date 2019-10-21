@@ -2,7 +2,6 @@
 
 exports[`Slider Default Snapshot 1`] = `
 <ReactSlickSlider
-  className="container"
   dots={true}
   nextArrow={
     <Arrow
