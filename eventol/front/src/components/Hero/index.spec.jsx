@@ -10,6 +10,10 @@ jest.mock('../../utils/constants', () => ({
   LOGO_LANDING_DEFAULT: 'LOGO_LANDING_DEFAULT',
 }));
 
+jest.mock('../../utils/urls', () => ({
+  CREATE_EVENT: 'CREATE_EVENT',
+}));
+
 import {getSlugParsed} from '../../utils/events';
 
 import Hero from '.';
@@ -21,11 +25,13 @@ describe('Hero', () => {
   let logoLanding;
   let message;
   let slug;
+  let isLogged;
 
   const renderHero = () => {
     component = renderer.create(
       <Hero
         background={background}
+        isLogged={isLogged}
         logoLanding={logoLanding}
         message={message}
         slug={slug}
@@ -39,6 +45,7 @@ describe('Hero', () => {
     logoLanding = undefined;
     message = undefined;
     slug = undefined;
+    isLogged = undefined;
   });
 
   test('Default render', () => {
@@ -72,4 +79,11 @@ describe('Hero', () => {
     renderHero();
     expect(tree).toMatchSnapshot();
   });
+
+  test('With user (isLogged is true)', () => {
+    isLogged = true;
+    renderHero();
+    expect(tree).toMatchSnapshot();
+  });
+  
 });
