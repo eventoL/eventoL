@@ -133,3 +133,13 @@ deploy:
     - apk update && apk add sshpass
     - export SSHPASS=$SSH_PASS
     - sshpass -e ssh -p$SSH_PORT -o stricthostkeychecking=no -x $SSH_USER@$SSH_HOST $SSH_SCRIPT
+
+deploy-sandbox:
+  stage: deploy
+  only:
+   - develop
+  image: docker:git
+  script:
+    - apk update && apk add sshpass
+    - export SSHPASS=$SANDBOX_PASS
+    - sshpass -e ssh -p$SANDBOX_PORT -o stricthostkeychecking=no -x $SANDBOX_USER@$SANDBOX_HOST $SANDBOX_SCRIPT
