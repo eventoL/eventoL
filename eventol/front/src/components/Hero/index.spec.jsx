@@ -85,5 +85,4 @@ describe('Hero', () => {
     renderHero();
     expect(tree).toMatchSnapshot();
   });
-  
 });
