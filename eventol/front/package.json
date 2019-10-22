@@ -77,7 +77,7 @@
     "@babel/runtime": "^7.4.5",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.1.2",
     "bootstrap-datepicker": "~1.6.4",
     "bootstrap-material-design": "0.5.10",
     "bootstrap-sass": "^3.3.7",
