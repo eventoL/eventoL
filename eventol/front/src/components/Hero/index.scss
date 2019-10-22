@@ -22,10 +22,12 @@
     position: relative;
     text-align: center;
     top: 20vh;
-    z-index: 4;
+    z-index: 5;
 
     .logo {
+      z-index: 4;
       max-width: 250px;
+      max-height: 50vh;
     }
 
     h2 {

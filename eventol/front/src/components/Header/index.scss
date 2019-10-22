@@ -18,7 +18,7 @@
   position: fixed;
   top: 0;
   width: 100vw;
-  z-index: 5;
+  z-index: 6;
 }
 
 .nav-wide {
@@ -37,6 +37,12 @@
   }
 }
 
+@media (max-width: 950px) {
+  .logo-component {
+    position: absolute;
+  }
+}
+
 .nav-narrow {
   @extend %flex-element;
   box-sizing: border-box;
@@ -47,6 +53,7 @@
   width: 100vw;
 
   .nav-right {
+    z-index: 7;
     margin-left: auto;
 
     button {
