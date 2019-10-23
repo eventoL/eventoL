@@ -12,12 +12,12 @@
         <p><i class="fa fa-info-circle fa-5x"></i>{% blocktrans %}People who can review and vote on activities{% endblocktrans %} </p>
     </div>
     <div class="row">
-        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+        <div class="col-sm-10 offset-sm-1 col-xs-12">
             <h3>{% trans "Current review staff:" %}</h3>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+        <div class="col-sm-8 offset-sm-2 col-xs-12">
             <div class="list-group">
                 {% for review_person in review_people %}
                     {% user_display review_person.event_user.user as user_display %}
@@ -43,7 +43,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+        <div class="col-sm-10 offset-sm-1 col-xs-12">
             <h3>{% trans "Add a new review person:" %}</h3>
             <hr>
         </div>

@@ -3,14 +3,14 @@
 {% load filters %}
 <div class="row">
     <div id="event-date-formset" data-formset-prefix="{{ event_date_formset.prefix }}"
-         class="col-sm-10 col-sm-offset-1 col-xs-12">
+         class="col-sm-10 offset-sm-1 col-xs-12">
         {{ event_date_formset.management_form }}
         <div data-formset-body>
             {% for event_date_form in event_date_formset %}
                 <div data-formset-form>
                     <div class="row" style="position: relative;">
                         {{ event_date_form.id }}
-                        <div class="col-sm-5 col-sm-offset-3">
+                        <div class="col-sm-5 offset-sm-3">
                             <div class="form-group {% if event_date_form.date.errors|length > 0 %}has-error{% endif %}">
                                 <label class="control-label"
                                        for="{{ event_date_form.date.id_for_label }}">
@@ -66,7 +66,7 @@
                 <div data-formset-form>
                     <div class="row" style="position: relative;">
                         {{ event_date_formset.empty_form.id }}
-                        <div class="col-sm-5 col-sm-offset-3">
+                        <div class="col-sm-5 offset-sm-3">
                             <div class="form-group {% if event_date_formset.empty_form.date.errors|length > 0 %}has-error{% endif %}">
                                 <label class="control-label"
                                        for="{{ event_date_formset.empty_form.date.id_for_label }}">

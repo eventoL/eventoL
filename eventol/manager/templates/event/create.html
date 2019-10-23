@@ -36,11 +36,11 @@
                     </div>
                 {% endif %}
 
-                <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                <div class="col-sm-10 offset-sm-1 col-xs-12">
                     <br>
                     <div class="row">
                       <h4>{% trans "What's the name of your event?" %}</h4>
-                        <div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                        <div class="col-sm-6 offset-sm-3 col-xs-10 offset-xs-1">
                             <div class="form-group label-floating {% if form.name.errors|length > 0 %}has-error{% endif %}">
                                 <label class="control-label" for="{{ form.name.id_for_label }}">
                                     {% trans form.name.label %}{% if form.name.field.required %} *{% endif %}
@@ -107,7 +107,7 @@
                     <h4>{% trans 'When will your event be?' %}</h4>
 
                     <div class="row">
-                        <div class="col-xs-10 col-xs-offset-1">
+                        <div class="col-xs-10 offset-xs-1">
                             {% trans "If the event is taking place in more than one day, you can add all of them here." %}
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                     <br>
 
                     <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                        <div class="col-sm-6 offset-sm-3 col-xs-10 offset-xs-1">
                             <div class="form-group label-floating {% if form.email.errors|length > 0 %}has-error{% endif %}">
                                 <label class="control-label" for="{{ form.email.id_for_label }}">
                                     {% trans form.email.label %}{% if form.email.field.required %} *{% endif %}
@@ -172,7 +172,7 @@
                               style="color: #f44336">{{ form.place.errors.as_text }}</span>
                     {% endif %}
                     <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1">
+                        <div class="col-sm-10 offset-sm-1">
                             <div class="form-group">
                                 <label class="col-sm-4 col-xs-4 control-label" for="address">
                                     {% trans "Search for a place or address" %}
@@ -192,7 +192,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                        <div class="col-sm-10 offset-sm-1 col-xs-12">
                             <div class="map_canvas"></div>
                         </div>
                     </div>
@@ -209,7 +209,7 @@
                                 style="color: #f44336">{{ form.limit_proposal_date.errors.as_text }}</span>
                         {% endif %}
                         <div class="row">
-                            <div class="col-sm-4 col-sm-offset-4 col-xs-12">
+                            <div class="col-sm-4 offset-sm-4 col-xs-12">
                                 <div class="limit-proposal-picker" data-date="{% now "f" %}"></div>
                             </div>
                         </div>
@@ -225,7 +225,7 @@
                     <br>
                     <br>
                     <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                        <div class="col-sm-6 offset-sm-3 col-xs-10 offset-xs-1">
                             <div class="form-group label-floating {% if form.external_url.errors|length > 0 %}has-error{% endif %}">
                                 <label class="control-label" for="{{ form.external_url.id_for_label }}">
                                     {% trans form.external_url.label %}{% if form.external_url.field.required %}
@@ -271,7 +271,7 @@
 {% block material %}
     <script>
         $(document).ready(function () {
-            $.material.init();
+            $('body').bootstrapMaterialDesign();
 
             var fieldsDependencies = {{ fields_dependencies | safe }};
             
