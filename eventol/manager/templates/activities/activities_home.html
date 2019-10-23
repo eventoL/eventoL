@@ -145,7 +145,7 @@
                                         <i class="indicator fa fa-chevron-down pull-right"></i>
                                     </a>
                                     {% if user.is_authenticated %}
-                                        <span class="label label-success pull-right"
+                                        <span class="badge badge-success pull-right"
                                               style="border-radius: 2px; padding-top: 0.3em">
                                             {% trans "Confirmed" %}
                                         </span>
@@ -169,7 +169,7 @@
                                                 {% if talk.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ talk.speaker_bio }}</p>{% endif %}
                                                 {% if talk.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                   {% for label in talk.labels %}
-                                                      <span class="label">{{ label|lower }}</span>
+                                                      <span class="badge">{{ label|lower }}</span>
                                                   {% endfor %}
                                                 </p>{% endif %}
                                                 {% if talk.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.activity_type.name }}</p>{% endif %}
@@ -249,7 +249,7 @@
                                             <i class="indicator fa fa-chevron-down pull-right"></i>
                                         </a>
                                         {% if user.is_authenticated %}
-                                            <span class="label label-danger pull-right" style="padding-top: 0.3em">
+                                            <span class="badge badge-danger pull-right" style="padding-top: 0.3em">
                                                 {% trans "Not Confirmed" %}
                                             </span>
                                         {% endif %}
@@ -257,15 +257,15 @@
                                           <div class="pull-right">
                                             <span style="margin-right: 5px;">{% trans "Votes" %}: </span>
                                             {% if user|exists_vote:proposal %}
-                                              <a href="{% url "activity_vote_cancel" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}" class="label {% if proposal.vote_score >= 0 %}label-success{% else %}label-danger{% endif %} pull-right status" style="width: 30px; margin-right: 5px;">
+                                              <a href="{% url "activity_vote_cancel" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}" class="badge {% if proposal.vote_score >= 0 %}badge-success{% else %}badge-danger{% endif %} pull-right status" style="width: 30px; margin-right: 5px;">
                                                   <span class="vote-status">{{ proposal.vote_score }}</span>
                                                   <span class="vote-cancel">x</span>
                                               </a>
                                             {% else %}
-                                              <a class="label label-danger pull-right" href="{% url "activity_vote_down" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
+                                              <a class="badge badge-danger pull-right" href="{% url "activity_vote_down" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
                                                 <i class="fa fa-thumbs-down"></i>
                                               </a>
-                                              <a class="label label-success pull-right" href="{% url "activity_vote_up" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}">
+                                              <a class="badge badge-success pull-right" href="{% url "activity_vote_up" event_slug proposal.id %}?next={{ request.get_full_path|urlencode }}">
                                                   <i class="fa fa-thumbs-up"></i>
                                               </a>
                                             {% endif %}
@@ -290,7 +290,7 @@
                                                     {% if proposal.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ proposal.speaker_bio }}</p>{% endif %}
                                                     {% if proposal.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                       {% for label in proposal.labels %}
-                                                          <span class="label">{{ label|lower }}</span>
+                                                          <span class="badge">{{ label|lower }}</span>
                                                       {% endfor %}
                                                     </p>{% endif %}
                                                     {% if proposal.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ proposal.activity_type.name }}</p>{% endif %}
@@ -361,7 +361,7 @@
                                             <i class="indicator fa fa-chevron-down pull-right"></i>
                                         </a>
                                         {% if user.is_authenticated %}
-                                            <span class="label label-danger pull-right"
+                                            <span class="badge badge-danger pull-right"
                                                   style="border-radius: 2px; padding-top: 0.3em">
                                                 {% trans "Rejected" %}
                                             </span>
@@ -385,7 +385,7 @@
                                               {% if activity.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ activity.speaker_bio }}</p>{% endif %}
                                               {% if activity.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                 {% for label in activity.labels %}
-                                                    <span class="label">{{ label|lower }}</span>
+                                                    <span class="badge">{{ label|lower }}</span>
                                                 {% endfor %}
                                               </p>{% endif %}
                                               {% if activity.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ activity.activity_type.name }}</p>{% endif %}

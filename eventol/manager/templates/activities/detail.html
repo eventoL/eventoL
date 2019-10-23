@@ -20,11 +20,11 @@
                   </div>
                   <div class="col-sm-1 pull-right">
                     {% if activity.status == '1' %}
-                      <span class="label label-info">{% trans "Proposal" %}</span>
+                      <span class="badge badge-info">{% trans "Proposal" %}</span>
                     {% elif activity.status == '3' %}
-                      <span class="label label-danger">{% trans "Rejected" %}</span>
+                      <span class="badge badge-danger">{% trans "Rejected" %}</span>
                     {% elif activity.status == '2' %}
-                      <span class="label label-success" style="background-color: #5cb85c">{% trans "Accepted" %}</span>
+                      <span class="badge badge-success" style="background-color: #5cb85c">{% trans "Accepted" %}</span>
                     {% endif %}
                   </div>
                 </div>
@@ -55,15 +55,15 @@
                                     <p>
                                       <span style="margin-right: 5px;"><strong>{% trans "Votes" %}: </strong></span>
                                       {% if user|exists_vote:activity %}
-                                        <a href="{% url "activity_vote_cancel" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}" class="label {% if proposal.vote_score >= 0 %}label-success{% else %}label-danger{% endif %} status" style="width: 30px; margin-right: 5px;">
+                                        <a href="{% url "activity_vote_cancel" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}" class="badge {% if proposal.vote_score >= 0 %}badge-success{% else %}badge-danger{% endif %} status" style="width: 30px; margin-right: 5px;">
                                             <span class="vote-status">{{ activity.vote_score }}</span>
                                             <span class="vote-cancel">x</span>
                                         </a>
                                       {% else %}
-                                        <a class="label label-success" href="{% url "activity_vote_up" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
+                                        <a class="badge badge-success" href="{% url "activity_vote_up" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}">
                                             <i class="fa fa-thumbs-up"></i>
                                         </a>
-                                        <a class="label label-danger" href="{% url "activity_vote_down" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
+                                        <a class="badge badge-danger" href="{% url "activity_vote_down" event_slug activity.id %}?next={{ request.get_full_path|urlencode }}" style="margin-right: 5px">
                                           <i class="fa fa-thumbs-down"></i>
                                         </a>
                                       {% endif %}
@@ -94,7 +94,7 @@
                                   {% endif %}
                                   {% if activity.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                     {% for label in activity.labels %}
-                                        <span class="label">{{ label|lower }}</span>
+                                        <span class="badge">{{ label|lower }}</span>
                                     {% endfor %}
                                   </p>{% endif %}
                                   {% if user.is_authenticated and user|is_organizer:event_slug %}
