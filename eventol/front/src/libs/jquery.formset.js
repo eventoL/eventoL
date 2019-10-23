@@ -1,6 +1,9 @@
+/* eslint-disable */
+
 /**
 * Django formset helper
 */
+
 (function($) {
     "use strict";
 
