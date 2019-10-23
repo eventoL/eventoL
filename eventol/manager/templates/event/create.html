@@ -20,7 +20,7 @@
     {% trans 'Create an event' %}
 {% endblock %}
 {% block content %}
-    <div class="well">
+    <div class="card">
         <div class="row">
             <form class="form-horizontal" id="create_event" method="post" action="{{ request.path }}">
                 {% csrf_token %}

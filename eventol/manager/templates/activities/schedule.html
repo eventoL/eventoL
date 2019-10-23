@@ -15,7 +15,7 @@
 {% block content %}
     <h1>{% trans "Activities Schedule" %}</h1>
     {% for date in dates %}
-        <div class="well">
+        <div class="card">
             <h2>
               {% with data=activities|get_schedule_date:date %}
                   {% blocktrans with day=forloop.counter %}
