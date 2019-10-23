@@ -29,17 +29,17 @@
                 {# show informative tags regarding user inscription to the event #}
                 {% if user.is_authenticated and user|is_registered:event_slug %}
                 <p>
-                    <span class="label label-default">{% trans 'I am' %}</span>
-                    {% if user|is_organizer:event_slug %}<span class="label label-warning">{% trans 'Organizer' %}</span>{% endif %}
-                    {% if user|is_attendee:event_slug %}<span class="label label-info">{% trans 'Attendee' %}</span>{% endif %}
-                    {% if event.use_collaborators and user|is_collaborator:event_slug %}<span class="label label-primary">{% trans 'Collaborator' %}</span>{% endif %}
-                    {% if event.use_installers and user|is_installer:event_slug %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
+                    <span class="badge badge-secondary">{% trans 'I am' %}</span>
+                    {% if user|is_organizer:event_slug %}<span class="badge badge-warning">{% trans 'Organizer' %}</span>{% endif %}
+                    {% if user|is_attendee:event_slug %}<span class="badge badge-info">{% trans 'Attendee' %}</span>{% endif %}
+                    {% if event.use_collaborators and user|is_collaborator:event_slug %}<span class="badge badge-info">{% trans 'Collaborator' %}</span>{% endif %}
+                    {% if event.use_installers and user|is_installer:event_slug %}<span class="badge badge-success">{% trans 'Installer' %}</span>{% endif %}
                 </p>
                 {% endif %}
                 <p>
                 {% for tag in tags %}
                   <a href="{% url "tag_index" tag.slug %}" style='text-decoration: none;'>
-                    <span class="label label-info">{{ tag.name }}</span>
+                    <span class="badge badge-info">{{ tag.name }}</span>
                   </a>
                 {% endfor %}
                 </p>
@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div class="row" style="margin-bottom: 20px;">
-                <div class="col-md-6 col-md-offset-3 event-directions">
+                <div class="col-md-6 offset-md-3 event-directions">
                     <a id="directions-car" target="_blank" href="#"><i class="material-icons">directions_car</i></a>
 
                     <a id="directions-walk" target="_blank" href="#"><i
@@ -144,8 +144,8 @@
     </div>
 
 
-        <div class="row" style="text-align: center;">
     <div class="card">
+        <div class="row" style="justify-content: center;">
             <h2>{% trans 'About the event' %}</h2>
         </div>
         <div class="row">
@@ -156,8 +156,8 @@
     </div>
 
     {% if event.use_talks %}
-            <div class="row" style="text-align: center;">
         <div class="card">
+            <div class="row" style="justify-content: center;">
                 <h2>{% trans 'Talks and Workshops' %}</h2>
             </div>
             <div id="slick_charlas">
@@ -221,8 +221,8 @@
     {% endif %}
 
     {% if event.use_installations %}
-          <div class="row" style="text-align: center;">
       <div class="card">
+          <div class="row" style="justify-content: center;">
               <h2>{% trans 'Installations' %}</h2>
           </div>
           <div class="row">
