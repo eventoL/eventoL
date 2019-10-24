@@ -1,24 +1,12 @@
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 
-$colors: (
-  "blue": #337ab7,
-  "primary": #337ab7,
-  "success": #449d44,
-  "danger": #f44336,
-) !default;
-
 $theme-colors: (
   "blue": #337ab7,
-  "primary": #337ab7,
+  "primary": #214760,
   "success": #449d44,
   "danger": #f44336,
 );
-
 @import '~bootstrap/scss/bootstrap';
-
-$brand-primary: #214760;
-$brand-success: #449d44;
-$brand-danger: #f44336;
 
 @import '~bootstrap-material-design/scss/bootstrap-material-design';
 $brand-warning: $deep-orange;
@@ -349,4 +337,24 @@ a:hover span.vote-cancel{
 
 .leaflet-container {
   z-index: 0;
+}
+
+.row.slick-slide.slick-current.slick-active {
+  display: flex;
+}
+
+.float-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 12vw;
+}
+
+a.bmd-btn-fab {
+  align-content: center;
+  display: grid;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+  opacity: unset;
+  transform: unset;
 }
