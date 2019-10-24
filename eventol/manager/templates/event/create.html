@@ -36,7 +36,7 @@
                     </div>
                 {% endif %}
 
-                <div class="col-sm-10 offset-sm-1 col-xs-12">
+                <div class="col-sm-10 offset-sm-1 col-12">
                     <br>
                     <div class="row">
                       <h4>{% trans "What's the name of your event?" %}</h4>
@@ -107,7 +107,7 @@
                     <h4>{% trans 'When will your event be?' %}</h4>
 
                     <div class="row">
-                        <div class="col-xs-10 offset-xs-1">
+                        <div class="col-10 offset-1">
                             {% trans "If the event is taking place in more than one day, you can add all of them here." %}
                         </div>
                     </div>
@@ -123,12 +123,11 @@
                               style="color: #f44336">{{ form.event_slug.errors.as_text }}</span>
                     {% endif %}
                     <div class="form-group {% if form.event_slug.errors|length > 0 %}has-error{% endif %}">
-                        <label class="col-sm-4 col-xs-7 control-label" for="{{ form.event_slug.id_for_label }}"
-                               style="font-size: 14px">
+                        <label class="col-sm-4 col-7" for="{{ form.event_slug.id_for_label }}" style="font-size: 14px">
                             {{ protocol }}://{{ domain }}/event/
                         </label>
 
-                        <div class="col-sm-8 col-xs-5">
+                        <div class="col-sm-8 col-5">
                             {{ form.event_slug | addcss:'form-control' }}
                             {% if form.event_slug.help_text %}<p class="help-block">{{ form.event_slug.help_text }}</p>{% endif %}
                         </div>
@@ -140,9 +139,9 @@
                     <br>
 
                     <div class="row">
-                        <div class="col-sm-6 offset-sm-3 col-xs-10 offset-xs-1">
                             <div class="form-group label-floating {% if form.email.errors|length > 0 %}has-error{% endif %}">
                                 <label class="control-label" for="{{ form.email.id_for_label }}">
+                        <div class="col-sm-6 offset-sm-3 col-10 offset-1">
                                     {% trans form.email.label %}{% if form.email.field.required %} *{% endif %}
                                     {% if form.email.errors|length > 0 %} <i class="fa fa-arrow-right"> </i>
                                         {{ form.email.errors.as_text }}{% endif %}
@@ -174,11 +173,11 @@
                     <div class="row">
                         <div class="col-sm-10 offset-sm-1">
                             <div class="form-group">
-                                <label class="col-sm-4 col-xs-4 control-label" for="address">
+                                <label class="col-sm-4 col-4" for="address">
                                     {% trans "Search for a place or address" %}
                                 </label>
 
-                                <div class="col-sm-8 col-xs-8">
+                                <div class="col-sm-8 col-8">
                                     <div class="input-group">
                                         <input id="geocomplete" class="form-control" type="text">
                                         <span class="input-group-btn">
@@ -192,7 +191,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-10 offset-sm-1 col-xs-12">
+                        <div class="col-sm-10 offset-sm-1 col-12">
                             <div class="map_canvas"></div>
                         </div>
                     </div>
@@ -209,7 +208,7 @@
                                 style="color: #f44336">{{ form.limit_proposal_date.errors.as_text }}</span>
                         {% endif %}
                         <div class="row">
-                            <div class="col-sm-4 offset-sm-4 col-xs-12">
+                            <div class="col-sm-4 offset-sm-4 col-12">
                                 <div class="limit-proposal-picker" data-date="{% now "f" %}"></div>
                             </div>
                         </div>
@@ -225,9 +224,9 @@
                     <br>
                     <br>
                     <div class="row">
-                        <div class="col-sm-6 offset-sm-3 col-xs-10 offset-xs-1">
                             <div class="form-group label-floating {% if form.external_url.errors|length > 0 %}has-error{% endif %}">
                                 <label class="control-label" for="{{ form.external_url.id_for_label }}">
+                        <div class="col-sm-6 offset-sm-3 col-10 offset-1">
                                     {% trans form.external_url.label %}{% if form.external_url.field.required %}
                                         *{% endif %}
                                     {% if form.external_url.errors|length > 0 %} <i class="fa fa-arrow-right"> </i>

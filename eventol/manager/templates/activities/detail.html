@@ -133,11 +133,11 @@
                                       <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                   {% endif %}
                               </div>
-                            <div class="col-xs-12">
+                            <div class="col-12">
                                 <h2>{% trans "Description" %}</h2>
                                 <p style="text-align: justify">{{ activity.long_description }}</p>
                             </div>
-                            <div class="col-xs-12">
+                            <div class="col-12">
                                 {% if activity.presentation %}
                                     <a href="{{ activity.presentation.url }}" class="btn btn-raised btn-warning pull-right">
                                         <i class="fa fa-download"></i> {% trans "Download presentation" %}

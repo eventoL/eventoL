@@ -3,7 +3,7 @@
 {% load filters %}
 <div class="row">
     <div id="contacts-formset" data-formset-prefix="{{ contacts_formset.prefix }}"
-         class="col-sm-10 offset-sm-1 col-xs-10 offset-xs-1">
+         class="col-sm-10 offset-sm-1 col-10 offset-1">
         {{ contacts_formset.management_form }}
         <div data-formset-body>
             {% for contact_form in contacts_formset %}

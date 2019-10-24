@@ -9,7 +9,7 @@
                           {% block form-id %}{% endblock %} {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
                   method="post" action={% block form-action %}{% endblock %}>
             <div class="row">
-            <div class="col-sm-10 offset-sm-1 col-xs-12">
+            <div class="col-sm-10 offset-sm-1 col-12">
             {% csrf_token %}
 
             {% if form.errors.keys|length > 0 %}
@@ -41,7 +41,7 @@
         </div>
         </div>
         <div class="row">
-            <div class="col-sm-10 offset-sm-1 col-xs-12">
+            <div class="col-sm-10 offset-sm-1 col-12">
                 {% block buttons %}
                     <div class="form-group">
                         <button type="submit"
