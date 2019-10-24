@@ -21,12 +21,9 @@
 {% endblock %}
 {% block page-header %}
     <div class="row">
-        <h1>
-          {% trans "Activities" %}
-          <div id="buttons" class="pull-right">
-              {% if user.is_authenticated and user|is_organizer:event_slug %}
-                  <button class="btn btn-raised dropdown" style="padding: 0px;margin: 0px;">
-                    <a class="btn btn-raised btn-success dropdown-toggle" style="margin: 0px;" type="button" id="speakersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div class="row justify-content-between">
+        <h1>{% trans "Activities" %}</h1>
+        <div id="buttons" class="float-right">
                         {% trans 'Speakers' %}
                         <span class="caret"></span>
                     </a>
