@@ -2,7 +2,7 @@
 {% load i18n %}
 <div class="form-group {{ field.html_name }} {% if not field|is_checkbox and not field|is_fileinput and not field|is_select and not field|is_datetime %}label-floating{% endif %} {% if field.errors %}has-error{% endif %}">
     {% if not field|is_fileinput and not field|is_checkbox %}
-        <label class="control-label" for="{{ field.id_for_label }}">
+        <label for="{{ field.id_for_label }}">
             {% trans field.label %}{% if field.field.required %} *{% endif %}
             {% if field.errors|length > 0 %} <i class="fa fa-arrow-right"> </i>
                 {{ field.errors.as_text }}{% endif %}
@@ -23,7 +23,7 @@
             {% endif %}
         </div>
     {% elif field|is_fileinput %}
-        <label class="control-label" for="{{ field.id_for_label }}">
+        <label for="{{ field.id_for_label }}">
             {{ field }}
             {% trans field.label %}{% if field.field.required %} *{% endif %}
         </label>
@@ -31,7 +31,7 @@
             <input type="text" readonly="" class="form-control"
                    placeholder="{% trans 'Browse...' %} {% if field.errors|length > 0 %} <i class='fa fa-arrow-right'> </i>{{ field.errors.as_text }}{% endif %}">
             <span class="input-group-btn input-group-sm">
-                <button type="button" class="btn btn-fab btn-fab-mini">
+                <button type="button" class="btn bmd-btn-fab bmd-btn-fab-sm">
                     <i class="fa fa-upload"></i>
                 </button>
             </span>
@@ -42,5 +42,9 @@
     {% else %}
         {{ field | addcss:"form-control" }}
     {% endif %}
-    {% if field.help_text %}<p class="help-block">{{ field.help_text }}</p>{% endif %}
+    {% if field.help_text %}
+        <small class="form-text text-muted">
+            {{ field.help_text }}
+        </small>
+    {% endif %}
 </div>

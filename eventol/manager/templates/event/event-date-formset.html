@@ -12,29 +12,29 @@
                         {{ event_date_form.id }}
                         <div class="col-sm-5 offset-sm-3">
                             <div class="form-group {% if event_date_form.date.errors|length > 0 %}has-error{% endif %}">
-                                <label class="control-label"
-                                       for="{{ event_date_form.date.id_for_label }}">
+                                <label for="{{ event_date_form.date.id_for_label }}">
                                     {% trans event_date_form.date.label %}
                                     {% if event_date_form.date.field.required %}*{% endif %}
                                 </label>
 
                                 <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-date-start-date="{% now "Y-m-d" %}">
                                     {{ event_date_form.date }}
-                                    <div class="input-group-addon">
-                                        <span class="fa fa-calendar"></span>
-                                    </div>
                                 </div>
+
                                 {% if event_date_form.date.errors|length > 0 %}
-                                    <p class="help-block"><span
-                                            class="fa fa-exclamation-triangle"></span>{{ event_date_form.date.errors.as_text }}
-                                    </p>
+                                    <small class="form-text text-muted">
+                                        <span class="fa fa-exclamation-triangle"></span>
+                                        {{ event_date_form.date.errors.as_text }}
+                                    </small>
                                 {% endif %}
                                 {% if event_date_form.date.help_text %}
-                                    <p class="help-block">{{ event_date_form.date.help_text }}</p>
+                                    <small class="form-text text-muted">
+                                        {{ event_date_form.date.help_text }}
+                                    </small>
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="col-sm-1" style="position:absolute; bottom:10px; right:0">
+                        <div class="col-sm-1" style="align-self: center;">
                             {% if event_date_form.DELETE %}
                                 <div style="display:none">{{ event_date_form.DELETE }}</div>
                                 <button type="button" class="btn btn-danger"
@@ -47,18 +47,20 @@
                 </div>
             {% endfor %}
             {% if event_date_formset.non_form_errors %}
-                <p class="help-block"><span class="fa fa-exclamation-triangle"></span>
-                <ul>
-                    {% for error in event_date_formset.non_form_errors %}
-                        <li>{{ error|escape }}</li>
-                    {% endfor %}
-                </ul>
-                </p>
+                <small class="form-text text-muted">
+                    <span class="fa fa-exclamation-triangle"></span>
+                    <ul>
+                        {% for error in event_date_formset.non_form_errors %}
+                            <li>{{ error|escape }}</li>
+                        {% endfor %}
+                    </ul>
+                </small>
             {% endif %}
         </div>
-        <div class="pull-right">
-            <a href="javascript:void(0)" class="btn btn-success btn-fab" id="event-date-formset-add" data-formset-add><i
-                    class="material-icons">add</i></a>
+        <div class="float-right">
+            <a href="javascript:void(0)" class="btn btn-success bmd-btn-fab" id="event-date-formset-add" data-formset-add>
+                <i class="material-icons">add</i>
+            </a>
         </div>
 
         <script type="form-template" id="event-date-formset-empty-form" data-formset-empty-form>
@@ -67,30 +69,29 @@
                     <div class="row" style="position: relative;">
                         {{ event_date_formset.empty_form.id }}
                         <div class="col-sm-5 offset-sm-3">
-                            <div class="form-group {% if event_date_formset.empty_form.date.errors|length > 0 %}has-error{% endif %}">
-                                <label class="control-label"
-                                       for="{{ event_date_formset.empty_form.date.id_for_label }}">
+                            <div class="form-group bmd-form-group is-filled {% if event_date_formset.empty_form.date.errors|length > 0 %}has-error{% endif %}">
+                                <label class="bmd-label-static" for="{{ event_date_formset.empty_form.date.id_for_label }}">
                                     {% trans event_date_formset.empty_form.date.label %}
                                     {% if event_date_formset.empty_form.date.field.required %}*{% endif %}
                                 </label>
 
-                                <div class="input-group date" data-provide="datepicker" data-date-format="yyyy-mm-dd" data-date-autoclose="true" data-date-start-date="{% now "Y-m-d" %}">
+                                <div class="input-group date">
                                     {{ event_date_formset.empty_form.date }}
-                                    <div class="input-group-addon">
-                                        <span class="fa fa-calendar"></span>
-                                    </div>
                                 </div>
                                 {% if event_date_formset.empty_form.date.errors|length > 0 %}
-                                    <p class="help-block"><span
-                                            class="fa fa-exclamation-triangle"></span>{{ event_date_formset.empty_form.date.errors.as_text }}
-                                    </p>
+                                    <small class="form-text text-muted">
+                                        <span class="fa fa-exclamation-triangle"></span>
+                                        {{ event_date_formset.empty_form.date.errors.as_text }}
+                                    </small>
                                 {% endif %}
                                 {% if event_date_formset.empty_form.date.help_text %}
-                                    <p class="help-block">{{ event_date_formset.empty_form.date.help_text }}</p>
+                                    <small class="form-text text-muted">
+                                        {{ event_date_formset.empty_form.date.help_text }}
+                                    </small>
                                 {% endif %}
                             </div>
                         </div>
-                        <div class="col-sm-1" style="position:absolute; bottom:10px; right:0">
+                        <div class="col-sm-1" style="align-self: center;">
                             {% if event_date_formset.empty_form.DELETE %}
                                 <div style="display:none">{{ event_date_formset.empty_form.DELETE }}</div>
                                 <button type="button" class="btn btn-danger"

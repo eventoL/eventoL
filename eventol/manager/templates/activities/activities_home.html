@@ -20,57 +20,54 @@
     </style>
 {% endblock %}
 {% block page-header %}
-    <div class="row">
     <div class="row justify-content-between">
         <h1>{% trans "Activities" %}</h1>
         <div id="buttons" class="float-right">
+            {% if user.is_authenticated and user|is_organizer:event_slug %}
+                <div class="btn btn-raised dropdown" style="padding: 0px;">
+                    <button class="btn btn-raised btn-success dropdown-toggle" style="margin: 0px;" id="speakersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% trans 'Speakers' %}
                         <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="speakersDropdown">
-                        <li><a class="dropdown-item btn" href="mailto:{{ emails }}">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="speakersDropdown">
+                        <a class="dropdown-item btn" href="mailto:{{ emails }}">
                             {% trans 'Send mail to speakers' %}
-                        </a></li>
-                        <li><a class="dropdown-item btn" data-clipboard-text="{{ emails }}">
+                        </a>
+                        <a class="dropdown-item btn" data-clipboard-text="{{ emails }}">
                             {% trans 'Copy speakers emails' %}
-                        </a></li>
-                        <li><a class="dropdown-item btn" href="{% url "activities_csv"  event_slug %}">
+                        </a>
+                        <a class="dropdown-item btn" href="{% url "activities_csv"  event_slug %}">
                             {% trans 'Export to csv' %}
-                        </a></li>
-                    </ul>
-                  </button>
-                  <button class="btn btn-raised dropdown" style="padding: 0px;margin: 0px;">
-                    <a class="btn btn-raised btn-success dropdown-toggle" style="margin: 0px;" type="button" id="activityDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </a>
+                    </div>
+                </div>
+                <div class="btn btn-raised dropdown" style="padding: 0px;">
+                    <button class="btn btn-raised btn-success dropdown-toggle" style="margin: 0px;" id="activityDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {% trans 'Submit an activity' %}
                         <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="activityDropdown">
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="activityDropdown">
                         {% if event.use_talks or event.use_proposals %}
-                            <li>
-                                <a href="{% url "activity_proposal"  event_slug %}" class="dropdown-item btn">
-                                    {% trans 'Proposal' %}
-                                </a>
-                            </li>
-                        {% endif %}
-                        <li>
-                            <a href="{% url "activity_dummy"  event_slug %}" class="dropdown-item btn">
-                                {% trans 'Dummy activity' %}
+                            <a href="{% url "activity_proposal"  event_slug %}" class="dropdown-item btn">
+                                {% trans 'Proposal' %}
                             </a>
-                        </li>
-                    </ul>
-                  </button>
-                  <a href="{% url "rooms_list"  event_slug %}" class="btn btn-raised btn-success">
-                      {% trans "Manage Rooms" %}
-                  </a>
-              {% endif %}
-              {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_slug %}
-                   <a type="button" class="btn btn-raised btn-success"
-                      href="{% url "confirm_schedule"  event_slug %}">
-                      <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
-                   </a>
-              {% endif %}
-          </div>
-        </h1>
+                        {% endif %}
+                        <a href="{% url "activity_dummy"  event_slug %}" class="dropdown-item btn">
+                            {% trans 'Dummy activity' %}
+                        </a>
+                    </div>
+                </div>
+                <a href="{% url "rooms_list"  event_slug %}" class="btn btn-raised btn-success">
+                    {% trans "Manage Rooms" %}
+                </a>
+            {% endif %}
+            {% if not event.schedule_confirm and user.is_authenticated and user|is_organizer:event_slug %}
+                <a class="btn btn-raised btn-success"
+                    href="{% url "confirm_schedule"  event_slug %}">
+                    <span aria-hidden="true">{% trans 'Confirm Schedule' %}</span>
+                </a>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 {% block content %}
