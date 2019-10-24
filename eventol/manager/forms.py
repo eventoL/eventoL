@@ -25,6 +25,7 @@ from django.forms.models import BaseModelFormSet, ModelForm
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from image_cropping import ImageCropWidget
 from tempus_dominus.widgets import DatePicker
 
 from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
@@ -338,12 +339,18 @@ class ImageCroppingForm(ModelForm):
     class Meta:
         model = Activity
         fields = ('image', 'cropping')
+        widgets = {
+            'image': ImageCropWidget,
+        }
 
 
 class EventImageCroppingForm(ModelForm):
     class Meta:
         model = Event
         fields = ('image', 'cropping')
+        widgets = {
+            'image': ImageCropWidget,
+        }
 
 
 class ContactForm(ModelForm):

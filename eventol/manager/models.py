@@ -842,7 +842,7 @@ class Activity(VoteModel, models.Model):
     image = ImageCropField(upload_to='images_thumbnails',
                            verbose_name=_('Image'), blank=True, null=True)
     cropping = ImageRatioField('image', '700x450', size_warning=True,
-                               verbose_name=_('Cropping'),
+                               verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
 
     is_dummy = models.BooleanField(_('Is a dummy Activity?'), default=False,
