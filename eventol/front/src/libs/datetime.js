@@ -1,8 +1,3 @@
-import 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css';
-
-import 'moment';
-import 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min';
-
 const start = () => {
   $('.timepicker').datetimepicker({
     format: 'HH:mm',

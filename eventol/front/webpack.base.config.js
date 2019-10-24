@@ -46,6 +46,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
+      moment: 'moment',
       Popper: 'popper.js/dist/umd/popper',
     }),
   ],

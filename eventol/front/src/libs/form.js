@@ -1,11 +1,7 @@
-import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
-
-require('bootstrap-datepicker/js/bootstrap-datepicker');
-require('bootstrap-datepicker/js/locales/bootstrap-datepicker.es');
 require('geocomplete/jquery.geocomplete.min');
 require('./jquery.formset');
 
-const loadForm = (placeLabel, limitProposalLabel) => {
+const loadForm = placeLabel => {
   $('#geocomplete').geocomplete({
     map: '.map_canvas',
     types: ['geocode', 'establishment'],
@@ -20,21 +16,6 @@ const loadForm = (placeLabel, limitProposalLabel) => {
   if (place !== '') {
     place = JSON.parse(place);
     $('#geocomplete').geocomplete('find', place.formatted_address);
-  }
-
-  $('.limit-proposal-picker')
-    .datepicker({
-      format: 'yyyy-mm-dd',
-    })
-    .on('changeDate', () => {
-      $(`#${limitProposalLabel}`).val(
-        $('.limit-proposal-picker').datepicker('getFormattedDate')
-      );
-    });
-
-  const limitProposalDate = $(`#${limitProposalLabel}`).val();
-  if (limitProposalDate !== '') {
-    $('.limit-proposal-picker').datepicker('setDate', limitProposalDate);
   }
 
   $('#event-date-formset').formset({

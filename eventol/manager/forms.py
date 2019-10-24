@@ -25,6 +25,7 @@ from django.forms.models import BaseModelFormSet, ModelForm
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from tempus_dominus.widgets import DatePicker
 
 from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Collaborator, Contact, ContactMessage, Event,
@@ -384,6 +385,13 @@ class EventDateForm(ModelForm):
     class Meta:
         model = EventDate
         fields = ('date',)
+        widgets = {
+            'date': DatePicker(
+                options={
+                    'minDate': str(datetime.date.today()),
+                }
+            )
+        }
 
 
 class EventDateModelFormset(BaseModelFormSet):
@@ -419,8 +427,10 @@ class EventForm(ModelForm):
                   'use_installations', 'use_installers', 'is_flisol', 'use_talks',
                   'use_collaborators', 'use_proposals', 'use_schedule',
                   'activities_proposal_form_text', 'tags')
-        widgets = {'place': forms.HiddenInput(),
-                   'limit_proposal_date': forms.HiddenInput()}
+        widgets = {
+            'place': forms.HiddenInput(),
+            'limit_proposal_date': DatePicker()
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
