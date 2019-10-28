@@ -26,9 +26,8 @@
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
-
-
         {% block other-head %}{% endblock %}
+        {% block other-head-extra %}{% endblock %}
     {% endblock %}
 </head>
 <body>
@@ -164,10 +163,10 @@
                                             </a>
                                         </li>
                                         -->
-                                        <a class="dropdown-item" ="{% url "add_organizer" event_slug %}">
+                                        <a class="dropdown-item" href="{% url "add_organizer" event_slug %}">
                                             <i class="fa fa-check-square-o"></i> {% trans "Manage Organizers" %}
                                         </a>
-                                        <a class="dropdown-item" ="{% url "add_registration_people" event_slug %}">
+                                        <a class="dropdown-item" href="{% url "add_registration_people" event_slug %}">
                                             <i class="fa fa-pencil-square-o"></i> {% trans "Manage Registration People" %}
                                         </a>
                                         {% if event.use_talks or event.use_proposals %}
@@ -301,6 +300,7 @@
         </script>
     {% endblock %}
     {% block other-script %}{% endblock %}
+    {% block other-script-extra %}{% endblock %}
 {% endblock %}
 {% block more-script %}{% endblock %}
 </body>
