@@ -18,7 +18,7 @@
 {% block form-action %}"."{% endblock %}
 
 {% block more-button %}
-  <a type="cancel" class="btn btn-primary btn-raised pull-right" href='{% url "index" event.event_slug %}'>
+  <a type="cancel" class="btn btn-primary btn-raised float-right" href='{% url "index" event.event_slug %}' style="margin-right: 10px">
     {% trans "Skip" %}
   </a>
 {% endblock %}
