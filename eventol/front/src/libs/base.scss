@@ -255,6 +255,7 @@ a.accordion-toggle {
     .dropdown-menu {
       .dropdown-item {
         white-space: nowrap;
+        max-width: unset;
 
         i.fa {
           margin-right: 5px;
@@ -357,4 +358,46 @@ a.bmd-btn-fab {
 .bootstrap-datetimepicker-widget.dropdown-menu {
   opacity: unset;
   transform: unset;
+}
+
+.btn.bmd-btn-fab.social-login-btn {
+  display: inline-grid;
+}
+
+.file-upload {
+  .clearable-file-input {
+    display: block;
+  }
+}
+
+#accordion {
+  margin-bottom: 30px;
+
+  div {
+    .card-header {
+      border-radius: 0px 0px 0px 0px;
+      margin: 0px;
+      border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+    .card {
+      border-radius: 0px 0px 0px 0px;
+      padding: 19px;
+      margin-bottom: 0px;
+      box-shadow: unset;
+      border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+    &:first-child {
+      .card-header {
+        border-radius: 4px 4px 0px 0px;
+      }
+    }
+
+    &:last-child {
+      .card {
+        border-radius: 0px 0px 4px 4px;
+      }
+    }
+  }
 }

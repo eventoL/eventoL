@@ -75,22 +75,22 @@
         <br>
 
         <div class="row">
-            <div class="panel-group" id="accordion">
+            <div class="col-12" id="accordion">
                 {% for dummy_activity in dummy_activities %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
+                    <div >
+                        <div class="card-header">
+                            <h5 class="card-title" style="display: contents;">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                    href="#dummy-activity-{{ forloop.counter }}">
                                     {{ dummy_activity.title }} - {{ dummy_activity.schedule }}
                                     <i class="indicator fa fa-chevron-down pull-right"></i>
                                 </a>
-                            </h4>
+                            </h5>
                         </div>
-                        <div id="dummy-activity-{{ forloop.counter }}" class="panel-collapse collapse">
-                            <div class="panel-body">
+                        <div id="dummy-activity-{{ forloop.counter }}" class="collapse">
+                            <div class="card card-body">
                                 <div class="row">
-                                    <div class="col-sm-8" style="padding-top: 10px">
+                                    <div class="col-8" style="padding-top: 10px">
                                         <div id='dummy-activity-info-{{ forloop.counter }}'>
                                             {% if dummy_activity.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ dummy_activity.abstract }}</p>{% endif %}
                                             {% if dummy_activity.room %}<p><strong>{% trans "Room" %}:</strong> {{ dummy_activity.room }}</p>{% endif %}
@@ -106,7 +106,7 @@
                                             {% endif %}
                                           </div>
                                           {% if user.is_authenticated and user|is_organizer:event_slug %}
-                                              <div id="edit_dummy-activity-{{ forloop.counter }}" class="panel-collapse collapse">
+                                              <div id="edit_dummy-activity-{{ forloop.counter }}" class="collapse">
                                                   <div class="container col-sm-12">
                                                       {% include 'activities/to_talk_form.html' with form=dummy_activity.form errors=dummy_activity.errors form_id=dummy_activity.pk %}
                                                   </div>
@@ -126,12 +126,12 @@
         <br>
 
         <div class="row">
-            <div class="panel-group" id="accordion">
+            <div class="col-12" id="accordion">
                 {% if accepted_activities %}
                     {% for talk in accepted_activities %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
+                        <div >
+                            <div class="card-header">
+                                <h5 class="card-title" style="display: contents;">
                                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                        href="#talk-{{ forloop.counter }}">
                                         {{ talk.title }} - {{ talk.schedule }}
@@ -143,10 +143,10 @@
                                             {% trans "Confirmed" %}
                                         </span>
                                     {% endif %}
-                                </h4>
+                                </h5>
                             </div>
-                            <div id="talk-{{ forloop.counter }}" class="panel-collapse collapse">
-                                <div class="panel-body">
+                            <div id="talk-{{ forloop.counter }}" class="collapse">
+                                <div class="card card-body">
                                     <div class="row">
                                         <div class="col-sm-4">
                                             {% if talk.image %}
@@ -155,7 +155,7 @@
                                                 <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                             {% endif %}
                                         </div>
-                                        <div class="col-sm-8" style="padding-top: 10px">
+                                        <div class="col-8" style="padding-top: 10px">
                                             <div id='talk-info-{{ forloop.counter }}'>
                                                 {% if talk.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ talk.abstract }}</p>{% endif %}
                                                 {% if talk.speakers_names %}<p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>{% endif %}
@@ -195,12 +195,12 @@
                                                 {% endif %}
                                               </div>
                                               {% if user.is_authenticated and user|is_organizer:event_slug %}
-                                                  <div id="edit_talk-{{ forloop.counter }}" class="panel-collapse collapse">
+                                                  <div id="edit_talk-{{ forloop.counter }}" class="collapse">
                                                       <div class="container col-sm-12">
                                                           {% include 'activities/to_talk_form.html' with form=talk.form errors=talk.errors form_id=talk.pk %}
                                                       </div>
                                                   </div>
-                                                  <div id="reject_talk-{{ forloop.counter }}" class="panel-collapse collapse">
+                                                  <div id="reject_talk-{{ forloop.counter }}" class="collapse">
                                                       <div class="container col-sm-12">
                                                           {% include 'activities/reject_form.html' with form=talk.reject_form form_id=talk.pk %}
                                                       </div>
@@ -213,13 +213,13 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
+                    <div >
+                        <div class="card-header">
+                            <h5 class="card-title" style="display: contents;">
                                 <div class="accordion-toggle">
                                     {% trans "There isn't any proposed activity yet." %}
                                 </div>
-                            </h4>
+                            </h5>
                         </div>
                     </div>
                 {% endif %}
@@ -230,12 +230,12 @@
             <br>
 
             <div class="row">
-                <div class="panel-group" id="accordion">
+                <div class="col-12" id="accordion">
                     {% if proposed_activities %}
                         {% for proposal in proposed_activities %}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
+                            <div >
+                                <div class="card-header">
+                                    <h5 class="card-title" style="display: contents;">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                            href="#proposal-{{ forloop.counter }}">
                                             {{ proposal.title }}
@@ -264,10 +264,10 @@
                                             {% endif %}
                                           </div>
                                         {% endif %}
-                                    </h4>
+                                    </h5>
                                 </div>
-                                <div id="proposal-{{ forloop.counter }}" class="panel-collapse collapse">
-                                    <div class="panel-body">
+                                <div id="proposal-{{ forloop.counter }}" class="collapse">
+                                    <div class="card card-body">
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 {% if proposal.image %}
@@ -307,12 +307,12 @@
                                                         {% trans "Reject Talk" %}
                                                     </a></p>
                                                     <div id="to_talk-{{ forloop.counter }}"
-                                                         class="panel-collapse collapse">
+                                                         class="collapse">
                                                         <div class="container col-sm-12">
                                                             {% include 'activities/to_talk_form.html' with form=proposal.form errors=proposal.errors form_id=proposal.pk %}
                                                         </div>
                                                     </div>
-                                                    <div id="to_reject_talk-{{ forloop.counter }}" class="panel-collapse collapse">
+                                                    <div id="to_reject_talk-{{ forloop.counter }}" class="collapse">
                                                         <div class="container col-sm-12">
                                                             {% include 'activities/reject_form.html' with form=proposal.reject_form form_id=proposal.pk %}
                                                         </div>
@@ -325,13 +325,13 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
+                        <div >
+                            <div class="card-header">
+                                <h5 class="card-title" style="display: contents;">
                                     <div class="accordion-toggle">
                                         {% trans "There isn't any proposed activity yet." %}
                                     </div>
-                                </h4>
+                                </h5>
                             </div>
                         </div>
                     {% endif %}
@@ -342,27 +342,26 @@
             <br>
 
             <div class="row">
-                <div class="panel-group" id="accordion">
+                <div class="col-12" id="accordion">
                     {% if rejected_activities %}
                         {% for activity in rejected_activities %}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
+                            <div >
+                                <div class="card-header">
+                                    <h5 class="card-title" style="display: contents;">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                            href="#activity-{{ forloop.counter }}">
                                             {{ activity.title }}
                                             <i class="indicator fa fa-chevron-down pull-right"></i>
                                         </a>
                                         {% if user.is_authenticated %}
-                                            <span class="badge badge-danger pull-right"
-                                                  style="border-radius: 2px; padding-top: 0.3em">
+                                            <span class="badge badge-danger pull-right" style="border-radius: 2px; padding-top: 0.3em">
                                                 {% trans "Rejected" %}
                                             </span>
                                         {% endif %}
-                                    </h4>
+                                    </h5>
                                 </div>
-                                <div id="activity-{{ forloop.counter }}" class="panel-collapse collapse">
-                                    <div class="panel-body">
+                                <div id="activity-{{ forloop.counter }}" class="collapse">
+                                    <div class="card card-body">
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 {% if proposal.image %}
@@ -371,7 +370,7 @@
                                                     <img src="{% static "manager/img/no-image.png" %}" width="100%">
                                                 {% endif %}
                                             </div>
-                                            <div class="col-sm-8" style="padding-top: 10px">
+                                            <div class="col-8" style="padding-top: 10px">
                                               {% if activity.justification %}<p><strong>{% trans "Justification" %}:</strong> {{ activity.justification }}</p>{% endif %}
                                               {% if activity.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ activity.abstract }}</p>{% endif %}
                                               {% if activity.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names|title }}</p>{% endif %}
@@ -399,13 +398,13 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
+                        <div >
+                            <div class="card-header">
+                                <h5 class="card-title" style="display: contents;">
                                     <div class="accordion-toggle">
                                         {% trans "There isn't any rejected activity yet." %}
                                     </div>
-                                </h4>
+                                </h5>
                             </div>
                         </div>
                     {% endif %}
@@ -422,8 +421,10 @@
 
 {% endblock %}
 {% block other-script %}
-    <script>
 
+    {{ form.media }}
+
+    <script>
         function becomeTalk(source, target) {
             $('#' + source).attr("style", "visibility: hidden; position: absolute");
             $('#' + target).removeClass('collapse');
@@ -435,7 +436,7 @@
 
             function toggleChevron(e) {
                 $(e.target)
-                        .prev('.panel-heading')
+                        .prev('.card-header')
                         .find("i.indicator")
                         .toggleClass('fa-chevron-down fa-chevron-up');
             }

@@ -9,48 +9,50 @@
 {% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-md-8 offset-md-2 col-sm-12">
-            <div class="row panel panel-primary">
-                <div class="col-sm-12 panel-heading">
-                  <div class="col-sm-11">
+        <div class="col-12">
+            <div class="row card">
+                <div class="border-0 col-12 card-header d-flex justify-content-center align-items-center">
+                  <div class="col-11">
                     <h1>{{ activity.title }}</h1>
                     {% if activity.justification and activity.status == '3' %}
                       <p><strong>{% trans "Justification" %}:</strong> {{ activity.justification }}</p>
                     {% endif %}
                   </div>
-                  <div class="col-sm-1 pull-right">
-                    {% if activity.status == '1' %}
-                      <span class="badge badge-info">{% trans "Proposal" %}</span>
-                    {% elif activity.status == '3' %}
-                      <span class="badge badge-danger">{% trans "Rejected" %}</span>
-                    {% elif activity.status == '2' %}
-                      <span class="badge badge-success" style="background-color: #5cb85c">{% trans "Accepted" %}</span>
-                    {% endif %}
+                  <div class="col-1 float-right" style="display: contents">
+                    <h5>
+                        {% if activity.status == '1' %}
+                        <span class="badge badge-info">{% trans "Proposal" %}</span>
+                        {% elif activity.status == '3' %}
+                        <span class="badge badge-danger">{% trans "Rejected" %}</span>
+                        {% elif activity.status == '2' %}
+                        <span class="badge badge-success" style="background-color: #5cb85c">{% trans "Accepted" %}</span>
+                        {% endif %}
+                    </h5>
                   </div>
                 </div>
-                <div class="col-sm-12 panel-body">
+                <div class="col-12 card-body">
                     <p style="font-weight: 500">{{ activity.abstract }}</p>
                     <hr/>
                     <div class="row">
                          {% if user.is_authenticated and user|is_organizer:event_slug %}
-                             <div id="become-talk" class="{% if not errors %}panel-collapse collapse{% endif %}">
-                                 <div class="container col-sm-12">
+                             <div id="become-talk" class="{% if not errors %}collapse{% endif %}">
+                                 <div class="container col-12">
                                      {% include 'activities/to_talk_form.html' with form=form errors=errors form_id=activity.pk %}
                                  </div>
                              </div>
-                             <div id="reject-activity" class="panel-collapse collapse">
-                                 <div class="container col-sm-12">
+                             <div id="reject-activity" class="collapse">
+                                 <div class="container col-12">
                                      {% include 'activities/reject_form.html' with form=reject_form form_id=activity.pk %}
                                  </div>
                              </div>
-                             <div id="edit-activity-{{ forloop.counter }}" class="panel-collapse collapse">
-                                 <div class="container col-sm-12">
+                             <div id="edit-activity-{{ forloop.counter }}" class="collapse">
+                                 <div class="container col-12">
                                      {% include 'activities/to_talk_form.html' with form=activity.form errors=activity.errors form_id=activity.pk %}
                                  </div>
                              </div>
                           {% endif %}
-                          <div class='col-sm-12' id='activity-detail'>
-                              <div class="col-md-6 col-sm-12">
+                          <div class='row col-12' id='activity-detail'>
+                              <div class="col-md-6 col-12">
                                   {% if user.is_authenticated and user|is_organizer:event_uid %}
                                     <p>
                                       <span style="margin-right: 5px;"><strong>{% trans "Votes" %}: </strong></span>
@@ -126,7 +128,7 @@
                                       {% endif %}
                                   {% endif %}
                               </div>
-                              <div class="col-md-6 col-sm-12">
+                              <div class="col-md-6 col-12">
                                   {% if activity.image %}
                                       <img src="{% cropped_thumbnail activity "cropping" %}" width="100%">
                                   {% else %}

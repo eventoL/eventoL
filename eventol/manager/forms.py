@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+import uuid
 from collections import OrderedDict
 
 from allauth.account.forms import \
@@ -26,7 +27,7 @@ from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 from image_cropping import ImageCropWidget
-from tempus_dominus.widgets import DatePicker
+from tempus_dominus.widgets import DatePicker, TimePicker
 
 from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Collaborator, Contact, ContactMessage, Event,
@@ -240,7 +241,9 @@ class ActivityForm(ModelForm):
         model = Activity
         fields = ['start_date', 'end_date', 'room', 'event']
         widgets = {
-            'event': forms.HiddenInput()
+            'event': forms.HiddenInput(),
+            'start_date': TimePicker(options={'format': 'HH:mm'}),
+            'end_date': TimePicker(options={'format': 'HH:mm'}),
         }
 
     def __init__(self, event_slug, *args, **kwargs):
@@ -254,6 +257,9 @@ class ActivityForm(ModelForm):
                 choices.append((event_date.id, date_value,))
             self.fields['room'].queryset = Room.objects.filter(event__event_slug=event_slug)
             self.fields['date'] = forms.ChoiceField(choices=choices)
+
+            self.fields['start_date'].widget.attrs.update({'id': uuid.uuid4().hex.lower()})
+            self.fields['end_date'].widget.attrs.update({'id': uuid.uuid4().hex.lower()})
 
 
 class CollaboratorRegistrationForm(ModelForm):
@@ -393,11 +399,7 @@ class EventDateForm(ModelForm):
         model = EventDate
         fields = ('date',)
         widgets = {
-            'date': DatePicker(
-                options={
-                    'minDate': str(datetime.date.today()),
-                }
-            )
+            'date': DatePicker()
         }
 
 
