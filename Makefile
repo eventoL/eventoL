@@ -175,10 +175,10 @@ build-local: ## Build eventol latest image locally
 	docker build --force-rm --tag=eventol/eventol:latest .
 
 build: ## Build docker images for production environment
-	$(DOCKER_COMPOSE_PROD) build --force-rm --parallel
+	$(DOCKER_COMPOSE_PROD) build --force-rm
 
 build-dev: ## Build docker images for development environment
-	$(DOCKER_COMPOSE) build --force-rm --parallel
+	$(DOCKER_COMPOSE) build --force-rm
 
 deploy: pull build ## Deploy eventol with production environment
 	$(DOCKER_COMPOSE_PROD) up -d --remove-orphans
