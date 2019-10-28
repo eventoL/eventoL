@@ -32,7 +32,6 @@ config.entry = {
   EventHome: addDevVendors('./src/views/EventHome'),
   Report: addDevVendors('./src/views/Report'),
   clipboard: addDevVendors('./src/libs/clipboard'),
-  datetime: addDevVendors('./src/libs/datetime'),
   schedule: addDevVendors('./src/libs/schedule'),
   reports: addDevVendors('./src/libs/reports'),
   qrcode: addDevVendors('./src/libs/qrcode'),

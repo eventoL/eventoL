@@ -24,7 +24,6 @@ module.exports = {
     EventHome: './src/views/EventHome',
     Report: './src/views/Report',
     clipboard: './src/libs/clipboard',
-    datetime: './src/libs/datetime',
     schedule: './src/libs/schedule',
     reports: './src/libs/reports',
     qrcode: './src/libs/qrcode',
