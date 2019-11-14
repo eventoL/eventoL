@@ -166,7 +166,8 @@ class Base(Configuration):
 
     CKEDITOR_CONFIGS = {
         'default': {
-            'toolbar': 'full'
+            'toolbar': 'full',
+            'width': 'unset',
         },
     }
 
