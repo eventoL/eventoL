@@ -23,6 +23,7 @@ from django.db.models.query_utils import Q
 from django.db.utils import OperationalError
 from django.forms import Form
 from django.forms.models import BaseModelFormSet, ModelForm
+from django.forms.formsets import DELETION_FIELD_NAME
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
@@ -423,7 +424,8 @@ class EventDateModelFormset(BaseModelFormSet):
         for form in self.forms:
             if form.cleaned_data:
                 date = form.cleaned_data['date']
-                if date:
+                delete = form.cleaned_data[DELETION_FIELD_NAME]
+                if date and not delete:
                     self.validate_date(date, dates)
                     dates.append(date)
 
