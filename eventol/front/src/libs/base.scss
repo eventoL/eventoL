@@ -401,3 +401,34 @@ a.bmd-btn-fab {
     }
   }
 }
+
+
+.show {
+  .dropdown-toggle {
+    &.btn-secondary {
+      background-color: theme-color('secondary');
+    }
+
+    &.btn-success {
+      background-color: theme-color('success');
+    }
+
+    &.btn-info {
+      background-color: theme-color('info');
+    }
+
+    &.btn-warning {
+      background-color: theme-color('warning');
+    }
+
+    &.btn-danger {
+      background-color: theme-color('danger');
+    }
+  }
+}
+
+.dropdown {
+  &.show {
+    z-index: 5;
+  }
+}
