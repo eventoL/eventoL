@@ -22,7 +22,7 @@ docker master image:
     - docker pull $CONTAINER_RELEASE_IMAGE || true
     - docker build --cache-from $CONTAINER_RELEASE_IMAGE -t $CONTAINER_RELEASE_IMAGE .
     - docker tag $CONTAINER_RELEASE_IMAGE $CI_REGISTRY_IMAGE:$VERSION
-    - docker push $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE 
     - docker push $CI_REGISTRY_IMAGE:$VERSION
   only:
     - master
@@ -42,6 +42,19 @@ docker dev image:
   only:
     - develop
 
+docker image:
+  stage: build
+  image: docker:git
+  tags:
+    - docker
+  services:
+    - docker:dind
+  script:
+    - docker build .
+  except:
+    - develop
+    - master
+
 python-testing:
   services:
     - postgres:9.6
@@ -52,70 +65,63 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
-  image: python:3.6
+  image: python:3.7
   stage: testing
   script:
-    - curl -sL https://deb.nodesource.com/setup_8.x | bash -
-    - apt install -y nodejs
-    - npm install -g yarn yarnpkg
-    - cd eventol/front
-    - yarn install
-    - yarn build
-    - cd -
-    - ./test.sh -i backend
+    - make gitlab-python-testing
   artifacts:
     paths:
       - eventol/htmlcov
 
 react-testing:
-  image: node:8
+  image: node:10
   stage: testing
   script:
-    - ./test.sh -i frontend
+    - make gitlab-react-testing
   artifacts:
     paths:
       - eventol/front/coverage
 
 python-lint:
-  image: python:3.5
+  image: python:3.7
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i pythonlint
+    - make gitlab-python-lint
 
 react-lint-report:
-  image: node:8
+  image: node:10
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i lint-report
+    - make gitlab-react-lint-with-report
   artifacts:
     paths:
       - eventol/front/report.html
 
 react-lint:
-  image: node:8
+  image: node:10
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i lint
+    - make gitlab-react-lint
 
 sass-lint-report:
-  image: node:8
+  image: node:10
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i sass-lint-report
+    - make gitlab-react-sasslint-with-report
   artifacts:
     paths:
       - eventol/front/scss-lint-report.html
 
 sass-lint:
-  image: node:8
+  image: node:10
   stage: styling
   allow_failure: true
   script:
-    - ./test.sh -i sass-lint
+    - make gitlab-react-sasslint
 
 deploy:
   stage: deploy
@@ -127,3 +133,13 @@ deploy:
     - apk update && apk add sshpass
     - export SSHPASS=$SSH_PASS
     - sshpass -e ssh -p$SSH_PORT -o stricthostkeychecking=no -x $SSH_USER@$SSH_HOST $SSH_SCRIPT
+
+deploy-sandbox:
+  stage: deploy
+  only:
+   - develop
+  image: docker:git
+  script:
+    - apk update && apk add sshpass
+    - export SSHPASS=$SANDBOX_PASS
+    - sshpass -e ssh -p$SANDBOX_PORT -o stricthostkeychecking=no -x $SANDBOX_USER@$SANDBOX_HOST $SANDBOX_SCRIPT

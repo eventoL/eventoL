@@ -7,18 +7,13 @@ import {SLIDER_BASE_SETTINGS} from '../../utils/constants';
 
 import './index.css';
 
-
 const Slider = ({children: items}) => {
   const settings = {
     ...SLIDER_BASE_SETTINGS,
-    prevArrow: <Arrow type='prev' />,
-    nextArrow: <Arrow type='next' />,
+    prevArrow: <Arrow type="prev" />,
+    nextArrow: <Arrow type="next" />,
   };
-  return (
-    <ReactSlickSlider className='container' {...settings}>
-      {items}
-    </ReactSlickSlider>
-  );
+  return <ReactSlickSlider {...settings}>{items}</ReactSlickSlider>;
 };
 
 Slider.propTypes = {

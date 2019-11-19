@@ -42,7 +42,6 @@ nosetests.xml
 #My files
 my_settings.py
 deploy.txt
-eventol/manager/static/manager/bower_components/
 eventol/manager/static/manager/css/eventol-bootstrap.css
 eventol/manager/static/manager/css/eventol.css
 eventol/static/
@@ -61,7 +60,6 @@ eventol/manager/static/rest_framework/
 eventol/manager/static/import_export/
 eventol/manager/static/debug_toolbar/
 node_modules/
-bower_components/
 .github/
 docs/
 db.sqlite3
@@ -80,5 +78,5 @@ deploy/*
 !deploy/docker/scripts/
 docs/
 eventol/front/node_modules/
-eventol/front/eventol/static/manager/bower_components/
 .vscode/
+deploy/docker/db/postgres/

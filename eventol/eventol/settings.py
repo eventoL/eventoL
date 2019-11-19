@@ -63,6 +63,7 @@ class Base(Configuration):
         'channels',
         'django_extensions',
         'vote',
+        'tempus_dominus',
         'forms_builder.forms',
     )
 
@@ -165,7 +166,8 @@ class Base(Configuration):
 
     CKEDITOR_CONFIGS = {
         'default': {
-            'toolbar': 'full'
+            'toolbar': 'full',
+            'width': 'unset',
         },
     }
 
@@ -258,7 +260,7 @@ class Base(Configuration):
         },
     }
 
-    IS_ALPINE = os.getenv('IS_ALPINE', False)
+    IS_ALPINE = os.getenv('IS_ALPINE', "not found") != "not found"
     if IS_ALPINE:
         CHANNEL_LAYERS['default'] = {
             'BACKEND': 'asgi_redis.RedisChannelLayer',
@@ -284,6 +286,8 @@ class Base(Configuration):
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
     PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
+    TEMPUS_DOMINUS_LOCALIZE = True
+    TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 
 
 class Staging(Base):
@@ -350,7 +354,10 @@ class Staging(Base):
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.handlers.RotatingFileHandler',
-                'filename': os.getenv('LOG_FILE', '/var/log/eventol.log'),
+                'filename': os.getenv(
+                    'LOG_FILE',
+                    '/var/log/eventol/eventol.log'
+                ),
                 'maxBytes': 1024*1024*10,
                 'backupCount': 10,
                 'formatter': 'logservices'

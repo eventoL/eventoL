@@ -1,5 +1,5 @@
 asgi-redis==1.4.3
-Django==1.11.20
+Django==1.11.23
 django-configurations==2.0
 easy-thumbnails==2.5
 django-autocomplete-light==3.2.10
@@ -9,7 +9,8 @@ django-import-export==0.6.0
 django-formset-js==0.5.0
 django-allauth==0.34.0
 django-simple-captcha==0.5.6
-psycopg2-binary==2.7.5
+django-queryset-csv==1.0.2
+psycopg2-binary==2.7.6.1
 django-webpack-loader==0.5.0
 django-filter==1.1.0
 djangorestframework==3.7.3
@@ -17,10 +18,12 @@ djangorestframework-filters==0.10.2
 djangorestframework-queryfields==1.0.0
 django-vote==2.1.7
 channels==1.1.8
-django-extensions==2.0.7
+django-extensions==2.1.4
 django-forms-builder==0.14.0
 asgi-ipc==1.4.2
 PyQRCode==1.2.1
 svglue==0.3.0
 CairoSVG==2.1.1
 pypng==0.0.18
+django-tempus-dominus==5.1.2.8
+

@@ -1,25 +1,53 @@
 {% load i18n %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Page not found</title>
+    <title>{% trans "Internal server error" %}</title>
     <style>
+        .message {
+            text-align: center;
+            font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            font-weight: 300;
+            font-size: 32px;
+            color: #333;
+        }
         .centered {
-            position: fixed;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            width: 100%;
+            display: inline-block;
+        }
+        .error-image {
+            margin-top: 2vh;
+        }
+        img {
+            max-width: 40vw;
+            max-height: 50vh;
+            width: 100%;
+            height: 100%;
+            left: auto;
+            right: auto;
+            object-fit: contain;
+            min-width: 300px;
+            min-height: 350px;
+        }
+        .img-responsive.eventol-logo {
+            max-height: 10vh;
+            min-height: unset;
+            margin-bottom: 5vh;
         }
     </style>
 </head>
-<body style="background-color: black;">
-<div class="centered">
-    <img src="https://http.cat/500" alt="Not Found"/>
-</div>
-<div style="text-align: center; color: white; padding-top: 15px">
-    {% blocktrans %}Something, somewhere went terribly wrong. Please,
-        <a href="https://github.com/GNUtn/eventoL/issues" target="_blank">let us know!</a>{% endblocktrans %}
-</div>
+<body style="background-color: #EEEEEE;">
+    <div class="message">
+        <div class="centered">
+            <img class="img-responsive eventol-logo" src="{% static "manager/img/eventol-blue.png" %}" alt="EventoL Logo">
+        </div>
+        {% blocktrans %}Something, somewhere went terribly wrong.<br>Please,
+            <a href="https://github.com/GNUtn/eventoL/issues" target="_blank">let us know!</a>{% endblocktrans %}
+        <div class="centered error-image">
+            <img src="{% static "manager/img/500.png" %}" alt="Internal server error"/>
+        </div>
+    </div>
 </body>
 </html>

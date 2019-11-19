@@ -1,7 +1,12 @@
 {% load filters %}
 {% load i18n %}
-<form id="{{ form_id }}" {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
-      method="post" action="{% url "talk_registration"  event_slug form_id %}?next={{ request.get_full_path|urlencode }}">
+<form
+    class="form-row"
+    id="{{ form_id }}"
+    {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+    method="post"
+    action="{% url "talk_registration"  event_slug form_id %}?next={{ request.get_full_path|urlencode }}"
+>
     {% csrf_token %}
 
     {% if form.non_field_errors|length > 0 %}
@@ -35,9 +40,8 @@
     {% block extra-fields %}{% endblock %}
 
     {% block buttons %}
-        <div class="form-group">
-            <button type="submit"
-                    class="btn btn-primary btn-raised pull-right">{% trans "Submit" %}</button>
+        <div class="form-group col-12">
+            <button type="submit" class="btn btn-primary btn-raised float-right">{% trans "Submit" %}</button>
         </div>
     {% endblock %}
 </form>

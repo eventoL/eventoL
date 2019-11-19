@@ -1,4 +1,5 @@
 {% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 {% block other-head %}{% if user.is_authenticated %}
@@ -13,7 +14,7 @@
     {% if user.is_authenticated %}
     <div class="alert alert-info alert-dismissable">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
+            <div class="col-md-10 offset-md-1" style="font-weight: 500;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h1><i class="fa fa-info-warning"></i> {% trans "You are logged in!" %}</h1>
                 <p>{% blocktrans %}Please close your session, do not leave it open!. This page can remain open without anybody being logged in. You will be logged out in 30 seconds.{% endblocktrans %}
@@ -24,7 +25,7 @@
     {% endif %}
     <div class="alert alert-info alert-dismissable">
       <div class="row">
-          <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
+          <div class="col-md-10 offset-md-1" style="font-weight: 500;">
               <h1><i class="fa fa-info-circle"></i> {% trans "Registration Instructions" %}</h1>
               <p>
                   {% trans "Please scan your ticket using the webcam" %}<br />
@@ -43,7 +44,7 @@
 
 {% block buttons %}
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-10 offset-md-1">
             <div id="qr_reader" class="qrcode" style="width:100%;height:50vh; margin: 0 auto; display: flex; justify-content: center;"></div>
             <span id="error" class="center"></span>
         </div>
@@ -51,24 +52,13 @@
 {% endblock %}
 
 {% block other-script %}
-    <script src="{% static "manager/bower_components/html5-qrcode/lib/jsqrcode-combined.min.js" %}"></script>
-    <script src="{% static "manager/bower_components/html5-qrcode/lib/html5-qrcode.min.js" %}"></script>
+    {% render_bundle 'qrcode' %}
     <script>
         $(document).ready(function () {
-            $('#qr_reader').empty();//Prevents stacking
-            $('#qr_reader').html5_qrcode(function (data) {
-              var url = '{% url "attendance_by_autoreadqr"  event_slug %}';
-              $(location).attr(
-                "href",
-                url + '/?event_registration_code={{ event_registration_code }}&ticket=' + data
-                );
-              },
-              function (readError) {},
-              function (videoError) {
-                $('#error').html(
-                  '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
-              }
-            );
+            var url = '{% url "attendance_by_autoreadqr"  event_slug %}';
+            var eventRegistrationCode = '{{ event_registration_code }}';
+            var errorMessage = '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}';
+            window.libs.qrcode.startAutoQr('qr_reader',  url, eventRegistrationCode, errorMessage);
         });
     </script>
 {% endblock %}
