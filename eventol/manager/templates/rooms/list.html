@@ -3,17 +3,15 @@
 {% load i18n %}
 {% load filters %}
 {% block page-header %}
-    <div class="row">
-        <h1>
-          {% trans "Rooms" %}
-          <div id="buttons" class="pull-right">
-              {% if user.is_authenticated and user|is_organizer:event_slug %}
-                  <a href="{% url "add_room"  event_slug %}" class="btn btn-raised btn-success">
-                      {% trans 'Add Room' %}
-                  </a>
-              {% endif %}
-          </div>
-        </h1>
+    <div class="row justify-content-between">
+        <h1>{% trans "Rooms" %}</h1>
+        <div id="buttons" class="float-right">
+            {% if user.is_authenticated and user|is_organizer:event_slug %}
+                <a href="{% url "add_room"  event_slug %}" class="btn btn-raised btn-success">
+                    {% trans 'Add Room' %}
+                </a>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 {% block content %}
@@ -44,7 +42,7 @@
         </tbody>
       </table>
     {% else %}
-        <div class="well">
+        <div class="card">
             <p>
                 {% trans "There isn't any room yet." %} <a href="{% url "add_room"  event_slug %}">{% trans "Submit yours!" %}</a>
             </p>

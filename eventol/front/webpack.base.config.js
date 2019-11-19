@@ -24,7 +24,6 @@ module.exports = {
     EventHome: './src/views/EventHome',
     Report: './src/views/Report',
     clipboard: './src/libs/clipboard',
-    datetime: './src/libs/datetime',
     schedule: './src/libs/schedule',
     reports: './src/libs/reports',
     qrcode: './src/libs/qrcode',
@@ -46,6 +45,8 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
+      moment: 'moment',
+      Popper: 'popper.js/dist/umd/popper',
     }),
   ],
 

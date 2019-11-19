@@ -10,7 +10,7 @@
 {% block pre-form %}
     <div class="alert alert-info alert-dismissable">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
+            <div class="col-md-10 offset-md-1" style="font-weight: 500;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h1><i class="fa fa-info-circle"></i> {% trans "Registration Instructions" %}</h1>
                 <ol>
@@ -37,9 +37,7 @@
 
 {% block buttons %}
     <div class="form-group">
-        <label class="col-md-4 control-label" for="button1id"></label>
-
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-12 text-center">
             <button id="button1id" name="button1id" class="btn btn-raised btn-success">
                 {% trans "Mark as present" %}
             </button>

@@ -106,7 +106,7 @@ class EventTagInline(admin.TabularInline):
     model = Event.tags.through
 
 
-class EventAdmin(EventoLAdmin):
+class EventAdmin(ImageCroppingMixin, EventoLAdmin):
     inlines = [EventDateAdminInline, EventTagInline]
     exclude = ['tags']
 

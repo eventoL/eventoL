@@ -63,6 +63,7 @@ class Base(Configuration):
         'channels',
         'django_extensions',
         'vote',
+        'tempus_dominus',
         'forms_builder.forms',
     )
 
@@ -165,7 +166,8 @@ class Base(Configuration):
 
     CKEDITOR_CONFIGS = {
         'default': {
-            'toolbar': 'full'
+            'toolbar': 'full',
+            'width': 'unset',
         },
     }
 
@@ -284,6 +286,8 @@ class Base(Configuration):
     ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
     WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
     PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
+    TEMPUS_DOMINUS_LOCALIZE = True
+    TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 
 
 class Staging(Base):

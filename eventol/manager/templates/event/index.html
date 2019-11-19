@@ -22,30 +22,30 @@
     {% render_bundle 'map' %}
 {% endblock %}
 {% block content %}
-    <div class="well">
-        <div class="row" style="text-align: center">
+    <div class="card">
+        <div class="row" style="justify-content: center;text-align: center;">
             <div class="col-sm-12">
                 <h1>{{ event.name }}</h1>
                 {# show informative tags regarding user inscription to the event #}
                 {% if user.is_authenticated and user|is_registered:event_slug %}
                 <p>
-                    <span class="label label-default">{% trans 'I am' %}</span>
-                    {% if user|is_organizer:event_slug %}<span class="label label-warning">{% trans 'Organizer' %}</span>{% endif %}
-                    {% if user|is_attendee:event_slug %}<span class="label label-info">{% trans 'Attendee' %}</span>{% endif %}
-                    {% if event.use_collaborators and user|is_collaborator:event_slug %}<span class="label label-primary">{% trans 'Collaborator' %}</span>{% endif %}
-                    {% if event.use_installers and user|is_installer:event_slug %}<span class="label label-success">{% trans 'Installer' %}</span>{% endif %}
+                    <span class="badge badge-secondary">{% trans 'I am' %}</span>
+                    {% if user|is_organizer:event_slug %}<span class="badge badge-warning">{% trans 'Organizer' %}</span>{% endif %}
+                    {% if user|is_attendee:event_slug %}<span class="badge badge-info">{% trans 'Attendee' %}</span>{% endif %}
+                    {% if event.use_collaborators and user|is_collaborator:event_slug %}<span class="badge badge-info">{% trans 'Collaborator' %}</span>{% endif %}
+                    {% if event.use_installers and user|is_installer:event_slug %}<span class="badge badge-success">{% trans 'Installer' %}</span>{% endif %}
                 </p>
                 {% endif %}
                 <p>
                 {% for tag in tags %}
                   <a href="{% url "tag_index" tag.slug %}" style='text-decoration: none;'>
-                    <span class="label label-info">{{ tag.name }}</span>
+                    <span class="badge badge-info">{{ tag.name }}</span>
                   </a>
                 {% endfor %}
                 </p>
             </div>
         </div>
-        <div class="row" style="text-align: center">
+        <div class="row" style="justify-content: center;text-align: center;">
             <div class="col-sm-12">
                 {% regroup dates by date|date:"F"|localize as dates_by_month %}
                 {% if event.registration_is_open %}
@@ -117,18 +117,18 @@
         {% endif %}
     </div>
 
-    <div class="well">
+    <div class="card">
         <div id="map" class="map"></div>
         <div style="text-align:center">
             <h3 id="place_name"></h3>
             <div id="address1" class="event-location-address"></div>
             <div class="row">
-                <div class="col-md-6 col-md-offset-3 col-xs-10 col-xs-offset-1">
+                <div class="col-md-6 offset-md-3 col-10 offset-1">
                     <hr>
                 </div>
             </div>
             <div class="row" style="margin-bottom: 20px;">
-                <div class="col-md-6 col-md-offset-3 event-directions">
+                <div class="col-md-6 offset-md-3 event-directions">
                     <a id="directions-car" target="_blank" href="#"><i class="material-icons">directions_car</i></a>
 
                     <a id="directions-walk" target="_blank" href="#"><i
@@ -144,41 +144,41 @@
     </div>
 
 
-    <div class="well">
-        <div class="row" style="text-align: center;">
+    <div class="card">
+        <div class="row" style="justify-content: center;">
             <h2>{% trans 'About the event' %}</h2>
         </div>
         <div class="row">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+            <div class="col-sm-10 offset-sm-1 col-12">
                 {{ event.event_information | safe }}
             </div>
         </div>
     </div>
 
     {% if event.use_talks %}
-        <div class="well">
-            <div class="row" style="text-align: center;">
+        <div class="card">
+            <div class="row" style="justify-content: center;">
                 <h2>{% trans 'Talks and Workshops' %}</h2>
             </div>
             <div id="slick_charlas">
                 {% if activities %}
                     {% for activity in activities %}
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-6" style="padding-top: 30px;">
                             <a href='{% url "activity_detail" event.event_slug activity.id %}'>
-                                <img src="{% cropped_thumbnail activity "cropping" %}"
-                                    alt="{{ activity.title }}" width="100%" heigth="100%">
+                                {% if activity.image and activity.cropping %}
+                                    <img src="{% cropped_thumbnail activity "cropping" %}" alt="{{ activity.title }}" width="100%" heigth="100%">
+                                {% else %}
+                                    <img src="{% static "manager/img/no-image.png" %}" width="100%" heigth="100%">
+                                {% endif %}
                             </a>
                             </div>
                             <div class="col-sm-6">
                                 <a style='text-decoration: none;' href='{% url "activity_detail" event.event_slug activity.id %}'>
-                                <h2>{{ activity.title }}</h2>
+                                    <h2>{{ activity.title }}</h2>
                                 </a>
-
                                 <p><strong>{{ activity.abstract }}</strong></p>
-
                                 <p>{{ activity.long_description }}</p>
-
                                 <p><strong>{% trans 'Speakers' %}:</strong> {{ activity.speakers_names|title }}</p>
                             </div>
                         </div>
@@ -188,31 +188,31 @@
                         <div class="col-sm-6 col-md-6 col-lg-6" style="padding-top: 30px;">
                             <img src="{% static "manager/img/charlas.png" %}" width="100%" alt="Charlas y Talleres">
                         </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6">
-                    {% if event.is_flisol %}
-                            <h2>Charlas y Talleres</h2>
+                        <div class="col-sm-6 col-md-6 col-lg-6" style="padding-top: 30px;">
+                            {% if event.is_flisol %}
+                                    <h2>Charlas y Talleres</h2>
 
-                            <p><strong>Durante todo el día, para que puedas aprender y descubrir más sobre el Software
-                                Libre</strong></p>
+                                    <p><strong>Durante todo el día, para que puedas aprender y descubrir más sobre el Software
+                                        Libre</strong></p>
 
-                            <p>A lo largo de la jornada, se llevarán a cabo diversas charlas y talleres para todo tipo
-                                de público. No es necesario que sepas algo de informática para asistir al FLISoL. Hay
-                                charlas tanto para principiantes como para entusiastas y expertos.</p>
+                                    <p>A lo largo de la jornada, se llevarán a cabo diversas charlas y talleres para todo tipo
+                                        de público. No es necesario que sepas algo de informática para asistir al FLISoL. Hay
+                                        charlas tanto para principiantes como para entusiastas y expertos.</p>
 
-                            <p>Algunos de los temas propuestos son: Introducción a GNU/Linux, Filosofía del Software
-                                Libre, Recomendaciones para Migrar, Comunidades, Presentación y utilización de algunas
-                                de las principales aplicaciones (paquete de ofimática, navegador web, editor de
-                                imágenes, etc.), Experiencias con Software Libre en Educación, Conocimiento Libre,
-                                Licencias, Construcción Colaborativa de Conocimiento, Software Libre y Trabajo, Hardware
-                                Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
+                                    <p>Algunos de los temas propuestos son: Introducción a GNU/Linux, Filosofía del Software
+                                        Libre, Recomendaciones para Migrar, Comunidades, Presentación y utilización de algunas
+                                        de las principales aplicaciones (paquete de ofimática, navegador web, editor de
+                                        imágenes, etc.), Experiencias con Software Libre en Educación, Conocimiento Libre,
+                                        Licencias, Construcción Colaborativa de Conocimiento, Software Libre y Trabajo, Hardware
+                                        Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
 
-                            <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte.
-                                <a href="{% url "activity_proposal" event_slug %}">Envianos tu propuesta!</a></p>
-                    {% else %}
-                            <p> {% trans "We haven't published the activites" %}</p>
-                            <p> {% trans "It means you can still send yours" %}</p>
-                            <a href="{% url "activity_proposal" event_slug %}">{% trans 'Send your proposal!' %}</a></p>
-                    {% endif %}
+                                    <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte.
+                                        <a href="{% url "activity_proposal" event_slug %}">Envianos tu propuesta!</a></p>
+                            {% else %}
+                                    <p>{% trans "We haven't published the activites" %}</p>
+                                    <p>{% trans "It means you can still send yours" %}</p>
+                                    <a href="{% url "activity_proposal" event_slug %}">{% trans 'Send your proposal!' %}</a></p>
+                            {% endif %}
                         </div>
                     </div>
                 {% endif %}
@@ -221,8 +221,8 @@
     {% endif %}
 
     {% if event.use_installations %}
-      <div class="well">
-          <div class="row" style="text-align: center;">
+      <div class="card">
+          <div class="row" style="justify-content: center;">
               <h2>{% trans 'Installations' %}</h2>
           </div>
           <div class="row">
@@ -242,11 +242,11 @@
     {% endif %}
 
     {% if event.contacts.all|length > 0 %}
-        <div class="well">
+        <div class="card">
             <h3 style="text-align: center">{% trans 'Follow' %} {{ event.name }}!</h3>
             <div class="event-contacts">
                 <div class="row" style="padding-top:20px;">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-10 offset-md-1">
                         {% for contact in event.contacts.all %}
                             <a class="contact-link" href="{{ contact|get_contact_url }}">
                                 <i class="fa fa-3x {{ contact.type.icon_class }}"></i>

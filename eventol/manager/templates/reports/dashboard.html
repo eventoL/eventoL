@@ -17,22 +17,20 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading text-center">
+        <div class="col-xl-4 col-md-6 col-12">
+            <div class="card card-primary">
+                <div class="card-header text-center">
                     <strong>{% trans "Attendees" %}</strong>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     {% if confirmed_attendees_count > 0 or not_confirmed_attendees_count > 0 %}
                         <div id="attendee"></div>
-                        <div class="col-md-12">
+                        <div class="row">
                             <table class="table table-striped table-condensed">
                                 <thead>
                                 <tr>
-                                    <th>{% trans "Attended" %} <i class="fa fa-users"
-                                                                  style="color: #0b62a4"></i></th>
-                                    <th>{% trans "Didn't Attend" %} <i class="fa fa-users"
-                                                                     style="color: #FA5858"></i></th>
+                                    <th>{% trans "Attended" %} <i class="fa fa-users" style="color: #0b62a4"></i></th>
+                                    <th>{% trans "Didn't Attend" %} <i class="fa fa-users" style="color: #FA5858"></i></th>
                                     <th>{% trans "Enrolled" %}</th>
                                 </tr>
                                 </thead>
@@ -52,21 +50,20 @@
             </div>
         </div>
 
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading text-center">
+        <div class="col-xl-4 col-md-6 col-12">
+            <div class="card">
+                <div class="card-header text-center">
                     <strong>{% trans "Organizers and Speakers" %}</strong>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     {% if speakers_count > 0 or organizers_count > 0 %}
                         <div id="staff"></div>
-                        <div class="col-md-12">
+                        <div class="row">
                             <table class="table table-striped table-condensed">
                                 <thead>
                                 <tr>
                                     <th>{% trans "Organizers" %} <i class="fa fa-users" style="color: #0b62a4"></i></th>
-                                    <th>{% trans "Speakers" %} <i class="fa fa-users"
-                                                                  style="color: #FA5858"></i></th>
+                                    <th>{% trans "Speakers" %} <i class="fa fa-users" style="color: #FA5858"></i></th>
                                     <th>{% trans "Total" %}</th>
                                 </tr>
                                 </thead>
@@ -87,22 +84,20 @@
         </div>
 
         {% if event.use_installers %}
-            <div class="col-md-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading text-center">
+            <div class="col-xl-4 col-md-6 col-12">
+                <div class="card">
+                    <div class="card-header text-center">
                         <strong>{% trans "Installers" %}</strong>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         {% if confirmed_installers_count > 0 or not_confirmed_installers_count > 0 %}
                             <div id="installers_assistance"></div>
-                            <div class="col-md-12">
+                            <div class="row">
                                 <table class="table table-striped table-condensed">
                                     <thead>
                                     <tr>
-                                        <th>{% trans "Attended" %} <i class="fa fa-users"
-                                                                    style="color: #0b62a4"></i></th>
-                                        <th>{% trans "Didn't Attend" %} <i class="fa fa-users"
-                                                                        style="color: #FA5858"></i></th>
+                                        <th>{% trans "Attended" %} <i class="fa fa-users" style="color: #0b62a4"></i></th>
+                                        <th>{% trans "Didn't Attend" %} <i class="fa fa-users" style="color: #FA5858"></i></th>
                                         <th>{% trans "Enrolled" %}</th>
                                     </tr>
                                     </thead>
@@ -121,27 +116,23 @@
                     </div>
                 </div>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
 
-    <div class="row">
         {% if event.use_collaborators %}
-            <div class="col-md-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading text-center">
+            <div class="col-xl-4 col-md-6 col-12">
+                <div class="card">
+                    <div class="card-header text-center">
                         <strong>{% trans "Collaborators" %}</strong>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         {% if confirmed_collaborators_count > 0 or not_confirmed_collaborators_count > 0 %}
                             <div id="collaborators"></div>
-                            <div class="col-md-12">
+                            <div class="row">
                                 <table class="table table-striped table-condensed">
                                     <thead>
                                     <tr>
-                                        <th>{% trans "Attended" %} <i class="fa fa-users"
-                                                                    style="color: #0b62a4"></i></th>
-                                        <th>{% trans "Didn't Attend" %} <i class="fa fa-users"
-                                                                        style="color: #FA5858"></i></th>
+                                        <th>{% trans "Attended" %} <i class="fa fa-users" style="color: #0b62a4"></i></th>
+                                        <th>{% trans "Didn't Attend" %} <i class="fa fa-users" style="color: #FA5858"></i></th>
                                         <th>{% trans "Enrolled" %}</th>
                                     </tr>
                                     </thead>
@@ -161,9 +152,10 @@
                 </div>
             </div>
         {% endif %}
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading text-center">
+
+        <div class="col-xl-4 col-md-6 col-12">
+            <div class="card">
+                <div class="card-header text-center">
                     <strong>
                         {% if event.use_installations %}
                             {% trans "Activities and Installations" %}
@@ -172,10 +164,10 @@
                         {% endif %}
                     </strong>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     {% if activities_count > 0 or event.use_installations and installations_count > 0 %}
                         <div id="counts"></div>
-                        <div class="col-md-12">
+                        <div class="row">
                             <table class="table table-striped table-condensed">
                                 <thead>
                                 <tr>
@@ -209,15 +201,15 @@
         </div>
 
         {% if event.use_installers and event.use_installations %}
-            <div class="col-md-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading text-center">
+            <div class="col-xl-4 col-md-6 col-12">
+                <div class="card">
+                    <div class="card-header text-center">
                         <strong>{% trans "Installers Per Level" %}</strong>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         {% if installers_for_level %}
                             <div id="installers"></div>
-                            <div class="col-md-12">
+                            <div class="row">
                                 <table class="table table-striped table-condensed">
                                     <thead>
                                     <tr>
@@ -243,20 +235,20 @@
                     </div>
                 </div>
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 
     {% if event.use_installations %}
         <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-primary">
-                    <div class="panel-heading text-center">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header text-center">
                         <strong>{% trans "Installations" %}</strong>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                         {% if installation_for_software %}
                             <div id="installations"></div>
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 <table class="table table-striped table-condensed">
                                     <thead>
                                     <tr>
@@ -284,12 +276,12 @@
     {% endif %}
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading text-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header text-center">
                     <strong>{% trans "Registered attendees in time" %}</strong>
                 </div>
-                <div class="panel-body">
+                <div class="card-body">
                     {% if registered_in_time %}
                         <div id="users_time"></div>
                     {% else %}
@@ -298,21 +290,28 @@
                 </div>
             </div>
         </div>
-      </div>
-      {% for date in event_dates %}
-      <div class="row">
-          <div class="col-md-12">
-              <div class="panel panel-primary">
-                  <div class="panel-heading text-center">
-                      <strong>{% trans "Attendees attendance by hour" %} - {{ date }}</strong>
-                  </div>
-                  <div class="panel-body">
-                    <div id="attendees_hour-{{date}}"></div>
-                  </div>
-              </div>
-          </div>
+    </div>
+
+    {% for date in event_dates %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <strong>{% trans "Attendees attendance by hour" %} - {{ date }}</strong>
+                    </div>
+                    <div class="card-body">
+                        {% with attendance_by_hour=attendance_by_date|keyvalue:date %}
+                            {% if attendance_by_hour %}
+                                <div id="attendees_hour-{{date}}"></div>
+                            {% else %}
+                                <strong>{% trans "There aren't any attendees registered for this date" %}</strong>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
         </div>
-        {% endfor %}
+    {% endfor %}
 
 {% endblock %}
 
@@ -324,16 +323,16 @@
             {% if confirmed_attendees_count > 0 or not_confirmed_attendees_count > 0 %}
                 Morris.Donut({
                     element: 'attendee',
-                    data   : [
+                    data: [
                         {
-                            label: "{% trans "Attended" %}",
+                            label: '{% trans "Attended" %}',
                             value: {{confirmed_attendees_count}},
-                            color: "#0b62a4"
+                            color: '#0b62a4'
                         },
                         {
                             label: "{% trans "Didn't Attend" %}",
                             value: {{not_confirmed_attendees_count}},
-                            color: "#FA5858"
+                            color: '#FA5858'
                         }
                     ]
                 });
@@ -343,16 +342,16 @@
                 {% if confirmed_collaborators_count > 0 or not_confirmed_collaborators_count > 0 %}
                     Morris.Donut({
                         element: 'collaborators',
-                        data   : [
+                        data: [
                             {
-                                label: "{% trans "Attended" %}",
+                                label: '{% trans "Attended" %}',
                                 value: {{confirmed_collaborators_count}},
-                                color: "#0b62a4"
+                                color: '#0b62a4'
                             },
                             {
                                 label: "{% trans "Didn't Attend" %}",
                                 value: {{not_confirmed_collaborators_count}},
-                                color: "#FA5858"
+                                color: '#FA5858'
                             }
                         ]
                     });
@@ -363,16 +362,16 @@
                 {% if confirmed_installers_count > 0 or not_confirmed_installers_count > 0 %}
                     Morris.Donut({
                         element: 'installers_assistance',
-                        data   : [
+                        data: [
                             {
-                                label: "{% trans "Attended" %}",
+                                label: '{% trans "Attended" %}',
                                 value: {{confirmed_installers_count}},
-                                color: "#0b62a4"
+                                color: '#0b62a4'
                             },
                             {
                                 label: "{% trans "Didn't Attend" %}",
                                 value: {{not_confirmed_installers_count}},
-                                color: "#FA5858"
+                                color: '#FA5858'
                             }
                         ]
                     });
@@ -382,16 +381,16 @@
             {% if speakers_count > 0 or organizers_count > 0 %}
                 Morris.Donut({
                     element: 'staff',
-                    data   : [
+                    data: [
                         {
-                            label: "{% trans "Speakers" %}",
+                            label: '{% trans "Speakers" %}',
                             value: {{speakers_count}},
-                            color: "#0b62a4"
+                            color: '#0b62a4'
                         },
                         {
-                            label: "{% trans "Organizers" %}",
+                            label: '{% trans "Organizers" %}',
                             value: {{organizers_count}},
-                            color: "#ffbb13"
+                            color: '#ffbb13'
                         }
                     ]
                 });
@@ -407,36 +406,40 @@
 
                 Morris.Bar({
                     element: 'installers',
-                    data   : [{% for item, value in installers_for_level.items%}
-                        {y: installer_levels[{{item}}], a: {{value}}},
-                    {% endfor %}],
-                    xkey   : 'y',
-                    ykeys  : ['a'],
-                    labels : ['{% trans "Total" %}']
+                    data: [
+                        {% for item, value in installers_for_level.items%}
+                            {y: installer_levels[{{item}}], a: {{value}}},
+                        {% endfor %}
+                    ],
+                    xkey: 'y',
+                    ykeys: ['a'],
+                    labels: ['{% trans "Total" %}']
                 });
             {% endif %}
 
             {% if activities_count > 0 or event.use_installations and installations_count > 0 %}
                 Morris.Bar({
                     element: 'counts',
-                    data   : [
+                    data: [
                         {y: '{% trans "Talks" %}', a: {{activities_count}}},
                         {% if event.use_installations %}
                             {y: '{% trans "Installations" %}', a: {{installations_count}}}
                         {% endif %}
                     ],
-                    xkey   : 'y',
-                    ykeys  : ['a'],
-                    labels : ['{% trans "Total" %}']
+                    xkey: 'y',
+                    ykeys: ['a'],
+                    labels: ['{% trans "Total" %}']
                 });
             {% endif %}
 
             {% if event.use_installations and installation_for_software %}
                 Morris.Bar({
                     element: 'installations',
-                    data   : [{% for item, value in installation_for_software.items%}
-                        {y: '{{item}}', a: {{value}}},
-                    {% endfor %}],
+                    data   : [
+                        {% for item, value in installation_for_software.items%}
+                            {y: '{{item}}', a: {{value}}},
+                        {% endfor %}
+                    ],
                     xkey   : 'y',
                     ykeys  : ['a'],
                     labels : ['{% trans "Total" %}']
@@ -447,9 +450,11 @@
               Morris.Line({
                 element: 'users_time',
                 xLabels : "day",
-                data: [{% for item, value in registered_in_time.items%}
-                    {y: '{{item|date:"Y-m-d"}}', a: {{value}}},
-                {% endfor %}],
+                data: [
+                    {% for item, value in registered_in_time.items%}
+                        {y: '{{item}}', a: {{value}}},
+                    {% endfor %}
+                ],
                 xkey: 'y',
                 ykeys: ['a'],
                 labels: ['{% trans "Attendees" %}']
@@ -459,10 +464,14 @@
             {% for date in event_dates %}
               Morris.Line({
                 element: 'attendees_hour-{{date}}',
-                xLabels : "hour",
-                data: [{% with attendance_by_hour=attendance_by_date|keyvalue:date %}{% for item, value in attendance_by_hour.items%}
-                    {y: '{{date}} {{item}}:00', a: {{value}}},
-                {% endfor %}{% endwith %}],
+                xLabels: 'hour',
+                data: [
+                    {% with attendance_by_hour=attendance_by_date|keyvalue:date %}
+                        {% for item, value in attendance_by_hour.items%}
+                            {y: '{{date}} {{item}}:00', a: {{value}}},
+                        {% endfor %}
+                    {% endwith %}
+                ],
                 xkey: 'y',
                 ykeys: ['a'],
                 labels: ['{% trans "Attendees" %}']

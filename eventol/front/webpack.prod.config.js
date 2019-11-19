@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const webpack = require('webpack');
 const BundleTracker = require('webpack-bundle-tracker');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const safePostCssParser = require('postcss-safe-parser');
@@ -12,7 +11,6 @@ config.output.path = require('path').resolve('./eventol/static/bundles/prod/');
 config.optimization.minimize = true;
 config.optimization.nodeEnv = 'production';
 config.optimization.minimizer = [
-  new UglifyJsPlugin(),
   new TerserPlugin({
     terserOptions: {
       parse: {

@@ -11,36 +11,41 @@
 {% block pre-form %}
     <div class="alert alert-warning alert-dismissable">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <span class="fa fa-info-circle fa-5x"></span>
-        <p>{% blocktrans %} Organizers can edit the event information, view attendant's list, manage activities, manage
-            attendance and also add other organizers. Please choose carefully! {% endblocktrans %} </p>
+        <div class="row">
+            <div class="col-12" style="display: contents;">
+                <span class="fa fa-info-circle fa-5x mr-3"></span>
+                <span class="h-100 justify-content-center align-self-center w-75">
+                    {% blocktrans %} Organizers can edit the event information, view attendant's list, manage activities, manage
+                    attendance and also add other organizers. Please choose carefully! {% endblocktrans %}
+                </span>
+            </div>
+        </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+        <div class="col-sm-10 offset-sm-1 col-12">
             <h3>{% trans "Current organizers:" %}</h3>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+        <div class="col-sm-8 offset-sm-2 col-12">
             <div class="list-group">
                 {% for organizer in organizers %}
                     {% user_display organizer.event_user.user as user_display %}
                     {% get_social_accounts organizer.event_user.user as accounts %}
                     <div class="list-group-item">
-                        <div class="row-picture">
+                        <div class="row-picture m-0">
                             {% if organizer.event_user.user.socialaccount_set.all|length > 0 %}
-                                <img class="circle"
-                                     src="{{ organizer.event_user.user.socialaccount_set.all.0.get_avatar_url }}"/>
+                                <img class="circle" src="{{ organizer.event_user.user.socialaccount_set.all.0.get_avatar_url }}"/>
                             {% else %}
-                                <img class="circle" src="https://www.lessonpaths.com/avatars/no_avatar_large.jpg"/>
-
+                                <img class="rounded-circle mx-auto d-block" height='80px' src="{% static "manager/img/no-image.png" %}">
                             {% endif %}
                         </div>
                         <div class="row-content">
                             <h4 class="list-group-item-heading">{{ user_display }}</h4>
-
-                            <p class="list-group-item-text">{{ organizer.event_user.user.first_name }} {{ organizer.event_user.user.last_name }}</p>
+                            <p class="list-group-item-text">
+                                {{ organizer.event_user.user.first_name }} {{ organizer.event_user.user.last_name }}
+                            </p>
                         </div>
                     </div>
                     <div class="list-group-separator"></div>
@@ -50,7 +55,7 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+        <div class="col-sm-10 offset-sm-1 col-12">
             <h3>{% trans "Add a new Organizer:" %}</h3>
             <hr>
         </div>

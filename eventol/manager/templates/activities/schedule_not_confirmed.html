@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-    <div class="well">
+    <div class="card">
         <h1>{% trans "The schedule is not confirmed yet" %}</h1>
         <hr/>
 
         <div class="row">
-            <div class="col-xs-8 col-xs-offset-2">
+            <div class="col-8 offset-2">
                 <p style="text-align: center; font-weight: 500">{% blocktrans %}
                     We're working very hard to get the schedule done for the event. Please come back tomorrow to check
                     if we
@@ -15,13 +15,13 @@
             </div>
         </div>
 
-        <div class="row">
-            <img src="https://media.giphy.com/media/atHI7U3aP3kl2/giphy.gif" class="img-responsive center-block"/>
+        <div class="text-center">
+            <img src="https://media.giphy.com/media/atHI7U3aP3kl2/giphy.gif" class="img-responsive img-thumbnail"/>
         </div>
 
         <div class="row">
-            <div class="col-xs-12">
-                <a href="{% url "index"  event_slug %}" class="btn btn-raised btn-primary pull-right">
+            <div class="col-12">
+                <a href="{% url "index"  event_slug %}" class="btn btn-raised btn-primary float-right">
                     <i class="fa fa-arrow-left"></i> {% trans "Return to the event" %}
                 </a>
             </div>

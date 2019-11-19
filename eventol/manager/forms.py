@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+import uuid
 from collections import OrderedDict
 
 from allauth.account.forms import \
@@ -22,9 +23,12 @@ from django.db.models.query_utils import Q
 from django.db.utils import OperationalError
 from django.forms import Form
 from django.forms.models import BaseModelFormSet, ModelForm
+from django.forms.formsets import DELETION_FIELD_NAME
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from image_cropping import ImageCropWidget
+from tempus_dominus.widgets import DatePicker, TimePicker
 
 from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Collaborator, Contact, ContactMessage, Event,
@@ -238,7 +242,9 @@ class ActivityForm(ModelForm):
         model = Activity
         fields = ['start_date', 'end_date', 'room', 'event']
         widgets = {
-            'event': forms.HiddenInput()
+            'event': forms.HiddenInput(),
+            'start_date': TimePicker(options={'format': 'HH:mm'}),
+            'end_date': TimePicker(options={'format': 'HH:mm'}),
         }
 
     def __init__(self, event_slug, *args, **kwargs):
@@ -252,6 +258,9 @@ class ActivityForm(ModelForm):
                 choices.append((event_date.id, date_value,))
             self.fields['room'].queryset = Room.objects.filter(event__event_slug=event_slug)
             self.fields['date'] = forms.ChoiceField(choices=choices)
+
+            self.fields['start_date'].widget.attrs.update({'id': uuid.uuid4().hex.lower()})
+            self.fields['end_date'].widget.attrs.update({'id': uuid.uuid4().hex.lower()})
 
 
 class CollaboratorRegistrationForm(ModelForm):
@@ -337,12 +346,18 @@ class ImageCroppingForm(ModelForm):
     class Meta:
         model = Activity
         fields = ('image', 'cropping')
+        widgets = {
+            'image': ImageCropWidget,
+        }
 
 
 class EventImageCroppingForm(ModelForm):
     class Meta:
         model = Event
         fields = ('image', 'cropping')
+        widgets = {
+            'image': ImageCropWidget,
+        }
 
 
 class ContactForm(ModelForm):
@@ -384,6 +399,9 @@ class EventDateForm(ModelForm):
     class Meta:
         model = EventDate
         fields = ('date',)
+        widgets = {
+            'date': DatePicker()
+        }
 
 
 class EventDateModelFormset(BaseModelFormSet):
@@ -406,7 +424,8 @@ class EventDateModelFormset(BaseModelFormSet):
         for form in self.forms:
             if form.cleaned_data:
                 date = form.cleaned_data['date']
-                if date:
+                delete = form.cleaned_data[DELETION_FIELD_NAME]
+                if date and not delete:
                     self.validate_date(date, dates)
                     dates.append(date)
 
@@ -419,8 +438,10 @@ class EventForm(ModelForm):
                   'use_installations', 'use_installers', 'is_flisol', 'use_talks',
                   'use_collaborators', 'use_proposals', 'use_schedule',
                   'activities_proposal_form_text', 'tags')
-        widgets = {'place': forms.HiddenInput(),
-                   'limit_proposal_date': forms.HiddenInput()}
+        widgets = {
+            'place': forms.HiddenInput(),
+            'limit_proposal_date': DatePicker()
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

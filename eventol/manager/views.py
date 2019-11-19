@@ -1514,7 +1514,8 @@ def edit_activity_proposal(request, event_slug, activity_id):
     if event.schedule_confirmed:
         messages.error(request,
                        _(
-                           "The activity proposal edition is already closed or the event \
+                           "The activity proposal edition is already closed, \
+                           the schedule is confirmed or the event \
                            is not accepting proposals through this page. Please \
                            contact the Event Organization Team to submit it."))
         return redirect(reverse('index', args=[event_slug]))
@@ -1669,6 +1670,7 @@ def activities(request, event_slug):
             event_slug,
             {
                 'emails': emails,
+                'form': ActivityForm(event_slug),
                 'dummy_activities': dummy_activities,
                 'proposed_activities': proposed_activities,
                 'accepted_activities': accepted_activities,

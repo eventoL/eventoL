@@ -7,9 +7,9 @@
 {% get_social_accounts user as accounts %}
 
 {% block content %}
-    <div class="well">
+    <div class="card">
         <div class="row">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+            <div class="col-sm-10 offset-sm-1 col-10 offset-1">
                 <h1>{% blocktrans %}Welcome, {{ user_display }}!{% endblocktrans %}</h1>
                 {% if user.socialaccount_set.all|length > 0 %}
                     <p><img width="50" height="50" src="{{ user.socialaccount_set.all.0.get_avatar_url }}"/></p>
@@ -22,9 +22,9 @@
         </div>
     </div>
 
-    <div class="well">
+    <div class="card">
         <div class="row">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+            <div class="col-sm-10 offset-sm-1 col-10 offset-1">
                 <h1>{% trans "Account Connections" %}</h1>
 
 
@@ -32,10 +32,10 @@
                     <p>{% blocktrans %}You can sign in to your account using any of the following third party
                         accounts:{% endblocktrans %}</p>
                     <div class="row" style="margin-top: 40px;">
-                        <div class="col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+                        <div class="col-sm-10 offset-sm-1 col-10 offset-1">
                             {% for base_account in user.socialaccount_set.all %}
                                 {% with base_account.get_provider_account as account %}
-                                    <div class="col-sm-4 col-xs-6">
+                                    <div class="col-sm-4 col-6">
                                         <i class="fa fa-2x {{ account.get_brand.name|lower }}-icon"></i> {{ account }}
                                     </div>
                                 {% endwith %}
@@ -50,9 +50,9 @@
         </div>
     </div>
 
-    <div class="well">
+    <div class="card">
         <div class="row">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+            <div class="col-sm-10 offset-sm-1 col-10 offset-1">
                 <h2>{% trans 'Add a 3rd Party Account' %}</h2>
                 {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
             </div>

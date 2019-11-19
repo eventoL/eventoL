@@ -2,57 +2,65 @@
 {% load filters %}
 {% load i18n %}
 {% block content %}
-    <div class="well">
+    <div class="card">
         {% block pre-form %}{% endblock %}
         {% if form %}
-            <form id=
-                          {% block form-id %}{% endblock %} {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
-                  method="post" action={% block form-action %}{% endblock %}>
-            <div class="row">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
-            {% csrf_token %}
+            <form
+                id="{% block form-id %}{% endblock %}"
+                {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+                method="post"
+                action={% block form-action %}{% endblock %}
+            >
+                <div class="row">
+                    <div class="form-group row col-sm-10 offset-sm-1 col-12">
+                        {% csrf_token %}
 
-            {% if form.errors.keys|length > 0 %}
-                <div class="alert alert-dismissable alert-danger">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    {% for field, errors in form.errors.items %}
-                        {% if field.label %}
-                            <strong>{% trans field.label %}</strong>
+                        {% if form.errors.keys|length > 0 %}
+                            <div class="col-12 alert alert-dismissable alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                {% for field, errors in form.errors.items %}
+                                    {% if field.label %}
+                                        <strong>{% trans field.label %}</strong>
+                                    {% elif field == '__all__' %}
+                                        <strong>{% trans "Errors" %}</strong>
+                                    {% else %}
+                                        <strong>{% trans field %}</strong>
+                                    {% endif %}
+                                    <ul>
+                                        {% for error in errors %}
+                                            <li>{% trans error %}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endfor %}
+                            </div>
                         {% endif %}
-                        <ul>
-                            {% for error in errors %}
-                                <li>{% trans error %}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            {% for field in form.visible_fields %}
-                <div class="col-lg-6 col-md-6">
-                    {% include "form_field.html" with field=field only %}
-                </div>
-            {% endfor %}
-            {% for field in form.hidden_fields %}
-                {{ field }}
-            {% endfor %}
+                        {% for field in form.visible_fields %}
+                            <div class="col-lg-6 col-md-6">
+                                {% include "form_field.html" with field=field only %}
+                            </div>
+                        {% endfor %}
+                        {% for field in form.hidden_fields %}
+                            {{ field }}
+                        {% endfor %}
 
-            {% block extra-fields %}{% endblock %}
-        {% endif %}
-        </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
-                {% block buttons %}
-                    <div class="form-group">
-                        <button type="submit"
-                                class="btn btn-primary btn-raised pull-right">
-                            {% block submit-button %}{% trans "Submit" %}{% endblock %}</button>
-                        {% block more-button %}{% endblock %}
+                        {% block extra-fields %}{% endblock %}
                     </div>
-                {% endblock %}
-            </div>
-        </div>
-        </form>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-10 offset-sm-1 col-12">
+                        {% block buttons %}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-raised float-right">
+                                    {% block submit-button %}{% trans "Submit" %}{% endblock %}
+                                </button>
+                                {% block more-button %}{% endblock %}
+                            </div>
+                        {% endblock %}
+                    </div>
+                </div>
+            </form>
+        {% endif %}
         {% block post-form %}{% endblock %}
     </div>
 {% endblock %}
