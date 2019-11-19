@@ -29,8 +29,6 @@ nosetests.xml
 
 # Translations
 *.mo
-eventol/conf/locale/en/
-eventol/conf/locale/**/*.mo
 
 # Mr Developer
 .mr.developer.cfg
@@ -44,6 +42,7 @@ eventol/conf/locale/**/*.mo
 #My files
 my_settings.py
 deploy.txt
+eventol/manager/static/manager/bower_components/
 eventol/manager/static/manager/css/eventol-bootstrap.css
 eventol/manager/static/manager/css/eventol.css
 eventol/static/
@@ -65,20 +64,17 @@ node_modules
 db.sqlite3
 *.mo
 webpack-stats-local.json
+eventol/front/eventol/static/bower_components
 eventol/front/eventol/static/manager/*
 !eventol/front/eventol/static/manager/less
-eventol/front/eventol/static/bundles/
 eventol/front/report.html
 .coverage
-.coverage.*
 .cache
 htmlcov/
 coverage/
 jest_*
 venv/
 .vscode/
-*.orig
-
 
 .config/
 deploy/docker/.env
@@ -91,8 +87,3 @@ deploy/docker/db/
 .ipython/
 .python_history
 .yarnrc
-	
-eventol/front/webpack-stats-prod.json
-.yarn/
-.pytest_cache/
-.local/

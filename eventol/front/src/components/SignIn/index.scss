@@ -1,17 +1,18 @@
-@import '../../styles/index';
+@import '../../styles/variables';
+@import '../../styles/commons';
 
 @media (min-width: 950px) {
   .sign-in {
     display: block;
     position: absolute;
     right: 20px;
-
+  
     ul {
       @include flex-element;
       @include center-element;
       height: 37px;
       padding: 0 10px;
-
+  
       li {
         -webkit-transition: background .125s ease;
         border-radius: 3px;
@@ -20,12 +21,12 @@
         margin-right: 20px;
         padding: 7px 10px;
         transition: background .125s ease;
-
+  
         a {
           text-decoration: none;
         }
       }
-
+  
       li:hover {
         background: $eventol-color;
         cursor: pointer;
@@ -37,15 +38,13 @@
 @media (max-width: 950px) {
   .sign-in {
     ul {
-      background: $gray;
+      background: #666a73;
       margin-right: 8vw;
       opacity: .8;
       z-index: 0;
 
       a {
-        // sass-lint:disable no-important
         float: unset !important;
-        // sass-lint:enable no-important
         text-decoration: none;
 
         li:hover {

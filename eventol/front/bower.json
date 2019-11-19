@@ -1,0 +1,38 @@
+{
+  "name": "eventoL",
+  "version": "0.0.0",
+  "homepage": "https://github.com/reyiyo/eventoL",
+  "authors": [
+    "Sergio Orbe <reyiyo@gmail.com>",
+    "Federico Gonzalez <federicogonzalez761@gmail.com>",
+    "Agustín Ignacio Guido Croce Villanustre (sí, todo eso) <>"
+  ],
+  "license": "GPL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "~1.6.4",
+    "roboto-fontface": "~0.7.0",
+    "leaflet": "~1.0.3",
+    "slick-carousel": "1.6.0",
+    "morrisjs": "~0.5.1",
+    "q": "~1.4.1",
+    "geocomplete": "^1.7.0",
+    "bootstrap-material-design": "v0.5.10",
+    "font-awesome": "^4.7.0",
+    "jquery-slotmachine": "~3.0.1",
+    "html5-qrcode": "https://github.com/dwa012/html5-qrcode.git",
+    "fullcalendar": "^3.2.0",
+    "fullcalendar-scheduler": "^1.5.1",
+    "slick": "*",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47"
+  }
+}

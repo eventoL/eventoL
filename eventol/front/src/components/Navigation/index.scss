@@ -1,21 +1,5 @@
-@import '../../styles/index';
-
-.navigation {
-  nav {
-    ul {
-      button {
-        background-color: transparent;
-        border: 0;
-        color: $white;
-        display: contents;
-        font-size: 100%;
-        margin: 0;
-        padding: 0;
-        vertical-align: baseline;
-      }
-    }
-  }
-}
+@import '../../styles/variables';
+@import '../../styles/commons';
 
 @media (min-width: 950px) {
   .navigation {
@@ -27,7 +11,7 @@
       align-items: center;
       height: 37px;
       padding: 0 10px;
-
+  
       li {
         -webkit-transition: background .125s ease;
         border-radius: 3px;
@@ -35,61 +19,51 @@
         font-weight: 400;
         padding: 7px 10px;
         transition: background .125s ease;
-
+  
         a {
           text-decoration: none;
         }
       }
-
+  
       a {
         text-decoration: none;
       }
-
+  
       li:hover {
         background: $eventol-color;
         cursor: pointer;
       }
     }
-  }
+  }  
 }
 
 @media (max-width: 950px) {
-  @mixin li-element {
-    -webkit-transition: background .125s ease;
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: 400;
-    padding: 7px 10px;
-    text-align: left;
-    transition: background .125s ease;
-
-    &:hover {
-      background: $eventol-color;
-      cursor: pointer;
-    }
-  }
-
   .navigation {
     ul {
-      background: $gray;
-      margin-right: 8vw;
-      opacity: .8;
+      opacity: 0.8;
       z-index: 0;
-
-      a {
-        // sass-lint:disable no-important
-        float: unset !important;
-        // sass-lint:enable no-important
-        text-decoration: none;
-
-        li {
-          @include li-element;
-        }
-      }
-
-      li {
-        @include li-element;
-      }
+      margin-right: 8vw;
+      background: #666a73;
+    }
+  
+    ul a {
+      float: unset !important;
+      text-decoration: none;
+    }
+  
+    ul li, ul a li {
+      font-weight: 400;
+      padding: 7px 10px;
+      font-size: 14px;
+      -webkit-transition: background .125s ease;
+      transition: background .125s ease;
+      border-radius: 3px;
+      text-align: left;
+    }
+  
+    ul li:hover, ul a li:hover {
+      background: $eventol-color;
+      cursor: pointer;
     }
   }
 }

@@ -7,24 +7,24 @@ import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
 import {
-  getSearchUrl,
-  getMyEventsUrl,
-  getUpcomingEventsUrl,
+  getSearchUrl, getMyEventsUrl,
+  getUpcommingEventsUrl,
   getFinishedEventsUrl,
 } from '../../utils/urls';
 import {
+  MOBILE_WIDTH,
   BACKGROUND_DEFAULT,
   LOGO_HEADER_DEFAULT,
   LOGO_LANDING_DEFAULT,
 } from '../../utils/constants';
 
 import './index.scss';
-import {mapSizesToProps} from '../../utils/dom';
 
-class EventHome extends React.PureComponent {
+
+class EventHome extends React.Component {
   static propTypes = {
-    background: PropTypes.string,
     isMobile: PropTypes.bool.isRequired,
+    background: PropTypes.string,
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
     tagMessage: PropTypes.string,
@@ -33,7 +33,7 @@ class EventHome extends React.PureComponent {
       first_name: PropTypes.string,
       last_name: PropTypes.string,
     }),
-  };
+  }
 
   static defaultProps = {
     background: BACKGROUND_DEFAULT,
@@ -42,63 +42,51 @@ class EventHome extends React.PureComponent {
     tagMessage: null,
     tagSlug: null,
     user: null,
-  };
+  }
 
   state = {
+    searchTerm: '',
     searchUrl: '',
     searched: false,
-  };
+  }
 
-  handleOnEnter = searchTerm => {
+  handleOnEnter = () => {
     const {tagSlug} = this.props;
-    if (searchTerm !== '') {
+    const {searchTerm} = this.state;
+    if (searchTerm !== ''){
       const searchUrl = getSearchUrl(searchTerm, tagSlug);
       this.setState({searchUrl, searched: true});
     }
-  };
+  }
 
-  render() {
+  handleOnChange = searchTerm => this.setState({searchTerm})
+
+  render(){
     const {searched, searchUrl} = this.state;
     const {
-      user,
-      tagSlug,
-      background,
-      logoHeader,
-      logoLanding,
-      tagMessage,
-      isMobile,
+      user, tagSlug, background,
+      logoHeader, logoLanding,
+      tagMessage, isMobile,
     } = this.props;
     return (
       <div>
-        <Header isMobile={isMobile} logoHeader={logoHeader} user={user} />
-        <Hero
-          background={background}
-          logoLanding={logoLanding}
-          message={tagMessage}
-          slug={tagSlug}
-        >
-          <Search onEnter={this.handleOnEnter} />
+        <Header logoHeader={logoHeader} user={user} isMobile={isMobile} />
+        <Hero background={background} logoLanding={logoLanding} message={tagMessage} slug={tagSlug}>
+          <Search onChange={this.handleOnChange} onEnter={this.handleOnEnter} />
         </Hero>
-        {searched && (
-          <TitleList
-            id="search_results"
-            showEmpty
-            title={gettext('Search results')}
-            url={searchUrl}
-          />
-        )}
+        {searched && <TitleList showEmpty id='search_results' title={gettext('Search results')} url={searchUrl} />}
         <TitleList
-          id="my_events"
+          id='my_events'
           title={gettext('My Events')}
           url={getMyEventsUrl(tagSlug)}
         />
         <TitleList
-          id="next"
+          id='next'
           title={gettext('Upcoming Events')}
-          url={getUpcomingEventsUrl(tagSlug)}
+          url={getUpcommingEventsUrl(tagSlug)}
         />
         <TitleList
-          id="finished"
+          id='finished'
           title={gettext('Finished Events')}
           url={getFinishedEventsUrl(tagSlug)}
         />
@@ -106,5 +94,9 @@ class EventHome extends React.PureComponent {
     );
   }
 }
+
+const mapSizesToProps = ({width}) => ({
+  isMobile: width < MOBILE_WIDTH,
+});
 
 export default withSizes(mapSizesToProps)(EventHome);

@@ -1,53 +1,37 @@
-version: '3.4'
-
+version: "2"
 services:
   worker:
-    build:
-      context: ../../.
-      target: development
+    build: ../../.
     volumes:
-      - type: bind
-        source: ../../
-        target: /usr/src/app
+      - ../../:/usr/src/app
     environment:
       - DJANGO_CONFIGURATION=Dev
       - PSQL_HOST=postgres
     ports:
-      - '8000:8000'
+      - "8000:8000"
     depends_on:
       - redis
       - postgres
-
   reactjs:
-    build:
-      context: ../../.
-      target: frontend
+    build: ../../.
     volumes:
-      - type: bind
-        source: ../../eventol/front/src
-        target: /app/src
-      - type: bind
-        source: ../../eventol/front/eventol
-        target: /app/eventol
-      - type: bind
-        source: ../../eventol/front/webpack-stats-local.json
-        target: /app/webpack-stats-local.json
+      - ../../:/usr/src/app
+    working_dir: /usr/src/app/eventol/front
     ports:
-      - '3000:3000'
-
+      - "3000:3000"
   redis:
     image: redis:4.0.2
-
+    expose:
+      - "6379"
   postgres:
     image: postgres:9.6
     environment:
       - POSTGRES_PASSWORD=secret
       - POSTGRES_USER=eventol
       - POSTGRES_DB=eventol
+    expose:
+      - "5432"
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
-      - type: bind
-        source: ./db/postgres
-        target: /var/lib/postgresql/data
-
+      - ./db/postgres:/var/lib/postgresql/data

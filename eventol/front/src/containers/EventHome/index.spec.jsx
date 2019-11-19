@@ -1,34 +1,23 @@
-import wait from 'waait';
-import React from 'react';
-import renderer from 'react-test-renderer';
+jest.mock('react-sizes', () => () => Component => props => <Component {...props} />);
 
 jest.mock('../../components/Hero', () => 'Hero');
 jest.mock('../../components/Header', () => 'Header');
 jest.mock('../../components/Search', () => 'Search');
 jest.mock('../../components/TitleList', () => 'TitleList');
 
-import Search from '../../components/Search';
-import TitleList from '../../components/TitleList';
+import React from 'react';
+import renderer from 'react-test-renderer';
 
 import EventHome from '.';
 
+
 describe('EventHome', () => {
-  let user;
-  let tree;
-  let props;
-  let element;
-  let tagSlug;
-  let instance;
-  let component;
-  let tagMessage;
-  let background;
-  let logoHeader;
-  let logoLanding;
+  let component, tree, background,
+    logoHeader, logoLanding, tagSlug,
+    tagMessage, user, props;
 
   const getComponent = allProps => {
-    element = <EventHome {...allProps} />;
-    component = renderer.create(element);
-    instance = component.root;
+    component = renderer.create(<EventHome {...allProps} />);
     return component;
   };
 
@@ -50,43 +39,6 @@ describe('EventHome', () => {
       logoLanding,
       tagMessage,
     };
-  });
-
-  describe('Search', () => {
-    beforeEach(() => {
-      component = getComponent({isMobile: false});
-      tree = component.toJSON();
-    });
-
-    test('Should show a new TitleList for search', async () => {
-      expect(tree).toMatchSnapshot();
-
-      const value = 'searchTerm';
-      instance.findByType(Search).props.onEnter(value);
-      component.update(element);
-      await wait(0);
-
-      tree = component.toJSON();
-      expect(tree).toMatchSnapshot();
-
-      const titleLists = instance.findAllByType(TitleList);
-      expect(titleLists[0].props.id).toEqual('search_results');
-    });
-
-    test('Should not show a new TitleList for search with value is ""', async () => {
-      expect(tree).toMatchSnapshot();
-
-      const value = '';
-      instance.findByType(Search).props.onEnter(value);
-      component.update(element);
-      await wait(0);
-
-      tree = component.toJSON();
-      expect(tree).toMatchSnapshot();
-
-      const titleLists = instance.findAllByType(TitleList);
-      expect(titleLists[0].props.id).not.toEqual('search_results');
-    });
   });
 
   describe('With user', () => {

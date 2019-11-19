@@ -10,8 +10,7 @@ from rest_framework import routers
 from .api import (EventViewSet, EventUserViewSet, InstallerViewSet,
                   CollaboratorViewSet, OrganizerViewSet, ActivityViewSet,
                   AttendeeViewSet, InstallationViewSet, RoomViewSet,
-                  SoftwareViewSet, HardwareViewSet, EventTagSet,
-                  ActivityTypeViewSet)
+                  SoftwareViewSet, HardwareViewSet, EventTagSet)
 
 import forms_builder.forms.urls
 
@@ -26,7 +25,6 @@ router.register(r'collaborators', CollaboratorViewSet)
 router.register(r'organizers', OrganizerViewSet)
 router.register(r'rooms', RoomViewSet)
 router.register(r'activities', ActivityViewSet)
-router.register(r'activityTypes', ActivityTypeViewSet)
 router.register(r'attendees', AttendeeViewSet)
 router.register(r'softwares', SoftwareViewSet)
 router.register(r'hardwares', HardwareViewSet)

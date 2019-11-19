@@ -1,4 +1,5 @@
-@import '../../styles/index';
+@import '../../styles/commons';
+@import '../../styles/variables';
 
 .header {
   @extend %flex-element;
@@ -18,7 +19,7 @@
   position: fixed;
   top: 0;
   width: 100vw;
-  z-index: 6;
+  z-index: 5;
 }
 
 .nav-wide {
@@ -37,12 +38,6 @@
   }
 }
 
-@media (max-width: 950px) {
-  .logo-component {
-    position: absolute;
-  }
-}
-
 .nav-narrow {
   @extend %flex-element;
   box-sizing: border-box;
@@ -53,19 +48,7 @@
   width: 100vw;
 
   .nav-right {
-    z-index: 7;
     margin-left: auto;
-
-    button {
-      background-color: transparent;
-      border: 0;
-      color: $white;
-      display: contents;
-      font-size: 100%;
-      margin: 0;
-      padding: 0;
-      vertical-align: baseline;
-    }
 
     i {
       float: right;
@@ -78,6 +61,7 @@
       a {
         clear: right;
         display: inline;
+        float: right;
       }
     }
   }
@@ -85,11 +69,4 @@
 
 a {
   color: $a-color;
-  text-decoration: none;
-
-  &:focus,
-  &:hover {
-    color: $a-color;
-    text-decoration: none;
-  }
 }

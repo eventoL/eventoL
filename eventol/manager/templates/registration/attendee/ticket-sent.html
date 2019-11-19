@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block page-header %}{{ title }}{% endblock %}
 {% block content %}
-    <div class="card">
+    <div class="well">
         <h4>{{ message }}</h4>
         <a href="{% url "index"  event_slug %}" class="btn btn-raised btn-primary">
             <i class="fa fa-arrow-left"></i> {% trans "Return to the event" %}

@@ -45,7 +45,7 @@ class EventoLAdmin(admin.ModelAdmin):
                 .formfield_for_foreignkey(db_field, request, **kwargs)
         organizers = Organizer.objects.filter(event_user__user=request.user)
         events = [organizer.event_user.event for organizer in list(organizers)]
-        queryset = self.model.objects.none()
+        queryset = None
         if db_field.name == 'room':
             queryset = Room.objects.filter(event__in=events).distinct()
         if db_field.name == 'event':
@@ -74,7 +74,7 @@ class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
 
 
 class OrganizerResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Organizer
         fields = ('event_user__user__first_name',
                   'event_user__user__last_name', 'event_user__user__username',
@@ -87,7 +87,7 @@ class OrganizerAdmin(EventoLEventUserAdmin):
 
 
 class EventUserResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = EventUser
         fields = ('user__first_name', 'user__last_name', 'user__username',
                   'user__email', 'user__date_joined')
@@ -106,7 +106,7 @@ class EventTagInline(admin.TabularInline):
     model = Event.tags.through
 
 
-class EventAdmin(ImageCroppingMixin, EventoLAdmin):
+class EventAdmin(EventoLAdmin):
     inlines = [EventDateAdminInline, EventTagInline]
     exclude = ['tags']
 
@@ -115,7 +115,7 @@ class EventAdmin(ImageCroppingMixin, EventoLAdmin):
 
 
 class InstallerResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Installer
         fields = ('event_user__user__first_name',
                   'event_user__user__last_name', 'event_user__user__username',
@@ -129,7 +129,7 @@ class InstallerAdmin(EventoLEventUserAdmin):
 
 
 class InstallationResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Installation
         fields = ('hardware__type', 'hardware__manufacturer',
                   'hardware__model', 'software__type', 'software__name',
@@ -145,7 +145,7 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
 
 
 class TicketResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Ticket
         fields = ('sent',)
         export_order = fields
@@ -156,7 +156,7 @@ class TicketAdmin(EventoLAdmin):
 
 
 class AttendeeResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Attendee
         fields = ('first_name', 'last_name', 'nickname', 'email',
                   'email_confirmed', 'is_installing',
@@ -169,7 +169,7 @@ class AttendeeAdmin(ExportMixin, EventoLAdmin):
 
 
 class ActivityResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Activity
 
 
@@ -178,7 +178,7 @@ class ActivityAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
 
 
 class CollaboratorResource(resources.ModelResource):
-    class Meta:
+    class Meta(object):
         model = Collaborator
         fields = ('event_user__user__first_name',
                   'event_user__user__last_name', 'event_user__user__username',

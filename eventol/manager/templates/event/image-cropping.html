@@ -3,7 +3,9 @@
 {% load cropping thumbnail %}
 {% load i18n %}
 {% block other-head %}
+    <script> var jqMin = jQuery.noConflict(); </script>
     {{ form.media }}
+    <script> jQuery = $ = jqMin;</script>
 {% endblock %}
 
 {% block page-header %}{% trans "Event" %}
@@ -18,7 +20,7 @@
 {% block form-action %}"."{% endblock %}
 
 {% block more-button %}
-  <a type="cancel" class="btn btn-primary btn-raised float-right" href='{% url "index" event.event_slug %}' style="margin-right: 10px">
+  <a type="cancel" class="btn btn-primary btn-raised pull-right" href='{% url "index" event.event_slug %}'>
     {% trans "Skip" %}
   </a>
 {% endblock %}

@@ -20,9 +20,9 @@ rules:
   no-attribute-selectors: 0
   no-color-hex: 0
   no-color-keywords: 1
-  no-color-literals: 1
+  no-color-literals: 0
   no-combinators: 0
-  no-css-comments: 0
+  no-css-comments: 1
   no-debug: 1
   no-disallowed-properties: 0
   no-duplicate-properties:
@@ -73,9 +73,7 @@ rules:
   empty-args: 1
   hex-length: 1
   hex-notation: 1
-  indentation: 
-    - 1
-    - size: 2
+  indentation: 1
   leading-zero: 1
   max-line-length: 0
   max-file-line-count: 0
@@ -103,4 +101,3 @@ rules:
   # Final Items
   trailing-semicolon: 1
   final-newline: 1
-
