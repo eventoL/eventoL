@@ -57,7 +57,7 @@ def create_organizers_group():
     if not organizers:
         perms = [
             'change_activity', 'delete_activity', 'add_activitytype',
-            'change_activitytype', 'delete_activitytype', 'can_take_attendance',
+            'change_activitytype','delete_activitytype', 'can_take_attendance',
             'change_attendee', 'delete_attendee', 'delete_collaborator',
             'add_contact', 'change_contact', 'delete_contact', 'add_contactmessage',
             'change_contactmessage', 'delete_contactmessage', 'add_contacttype',
@@ -148,10 +148,12 @@ def are_activities_public(user, event_slug=None):
     If activities are private only will return true for collaborator users"""
     if not settings.PRIVATE_ACTIVITIES:
         return True
-    if user.is_authenticated():
-        return is_reviewer(user, event_slug=event_slug)
-    raise PermissionDenied(
-        "Only organizers and collaborators are authorized to access the activities list.")
+    else:
+        if user.is_authenticated():
+            return is_reviewer(user, event_slug=event_slug)
+        else:
+            raise PermissionDenied(
+                "Only organizers and collaborators are authorized to access the activities list.")
 
 
 def is_activity_public():
@@ -173,10 +175,9 @@ def is_activity_public():
                     user.is_authenticated() and is_reviewer(user, event_slug=event_slug)
             ]):
                 return view_func(request, *args, **kwargs)
-            raise PermissionDenied(
-                "Only organizers and collaborators are authorized "
-                "to access the activities list."
-            )
+            else:
+                raise PermissionDenied("Only organizers and collaborators are authorized "
+                                       "to access the activities list.")
         return _wrapped_view
 
     return decorator

@@ -3,44 +3,40 @@ import PropTypes from 'prop-types';
 
 import './index.scss';
 
-export default class Search extends React.PureComponent {
-  static propTypes = {
-    onChange: PropTypes.func,
-    onEnter: PropTypes.func.isRequired,
-  };
 
-  static defaultProps = {
-    onChange: () => {},
+export default class Search extends React.Component {
+  static propTypes = {
+    onChange: PropTypes.func.isRequired,
+    onEnter: PropTypes.func.isRequired,
   };
 
   state = {
     searchTerm: '',
-  };
+  }
 
   handleKeyUp = ({key}) => {
-    if (key === 'Enter') {
+    if (key === 'Enter'){
       const {onEnter} = this.props;
-      const {searchTerm} = this.state;
-      onEnter(searchTerm);
+      if (onEnter) onEnter();
     }
-  };
+  }
 
   handleChange = ({target: {value: searchTerm}}) => {
     this.setState({searchTerm});
     const {onChange} = this.props;
-    onChange(searchTerm);
-  };
+    if (onChange) onChange(searchTerm);
+  }
 
-  render() {
+  render(){
     const {searchTerm} = this.state;
     return (
-      <div className="search" id="search">
+      <div className='search' id='search'>
         <input
-          id="search-input"
+          id='search-input'
           onChange={this.handleChange}
           onKeyUp={this.handleKeyUp}
           placeholder={gettext('Search by title...')}
-          type="search"
+          type='search'
           value={searchTerm}
         />
       </div>

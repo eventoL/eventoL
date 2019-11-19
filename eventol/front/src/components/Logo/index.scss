@@ -1,4 +1,5 @@
-@import '../../styles/index';
+@import '../../styles/variables';
+@import '../../styles/commons';
 
 .logo-component {
   -webkit-transition: margin .125s ease;
@@ -31,9 +32,7 @@
 
   svg {
     path {
-      // sass-lint:disable no-important
       fill: $black !important;
-      // sass-lint:enable no-important
     }
   }
 }

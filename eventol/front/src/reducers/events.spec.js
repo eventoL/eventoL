@@ -1,9 +1,7 @@
 import eventsReducer from './events';
 import {
-  SET_EVENTS,
-  UPDATE_EVENT,
-  CREATE_EVENT,
-  DELETE_EVENT,
+  SET_EVENTS, UPDATE_EVENT,
+  CREATE_EVENT, DELETE_EVENT,
 } from '../actions/events';
 
 const initState = {
@@ -11,9 +9,7 @@ const initState = {
 };
 
 describe('events Reducer', () => {
-  let event;
-  let events;
-  let event2;
+  let event, events, event2;
 
   beforeEach(() => {
     event = {

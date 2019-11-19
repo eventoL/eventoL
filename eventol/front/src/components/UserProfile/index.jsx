@@ -5,13 +5,14 @@ import {PROFILE_URL} from '../../utils/urls';
 
 import './index.scss';
 
-const UserProfile = ({user: {first_name: firstName, last_name: lastName}}) => (
-  <div className="user-profile">
+
+const UserProfile = ({user: {first_name, last_name}}) => (
+  <div className='user-profile'>
     <a href={PROFILE_URL}>
-      <div className="user">
-        <div className="name">{`${firstName} ${lastName}`}</div>
-        <div className="image">
-          <div className="fa fa-user fa-2x" />
+      <div className='user'>
+        <div className='name'>{`${first_name} ${last_name}`}</div>
+        <div className='image'>
+          <div className='fa fa-user fa-2x' />
         </div>
       </div>
     </a>

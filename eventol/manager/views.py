@@ -1,5 +1,3 @@
-# pylint: disable=broad-except
-# pylint: disable=too-many-lines
 import datetime
 import io
 import itertools
@@ -24,7 +22,7 @@ from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.core.validators import validate_email
-from django.forms import HiddenInput, modelformset_factory
+from django.forms import modelformset_factory
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -33,7 +31,6 @@ from django.utils.formats import date_format, localize
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
 from django.utils.translation import ugettext
-from djqscsv import render_to_csv_response
 from lxml import etree
 
 from manager.forms import (ActivityForm, ActivityProposalForm,
@@ -46,14 +43,12 @@ from manager.forms import (ActivityForm, ActivityProposalForm,
                            EventImageCroppingForm, EventUserRegistrationForm,
                            EventUserSearchForm, HardwareForm,
                            ImageCroppingForm, InstallationForm,
-                           InstallerRegistrationForm, RejectForm, RoomForm,
-                           ActivityDummyForm)
+                           InstallerRegistrationForm, RejectForm, RoomForm)
 from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Collaborator, Contact, ContactMessage, Event,
                             EventDate, EventUser, EventUserAttendanceDate,
                             Hardware, Installation, InstallationMessage,
-                            Installer, Organizer, Room, Reviewer, EventTag,
-                            ActivityType)
+                            Installer, Organizer, Room, Reviewer, EventTag)
 from manager.security import (are_activities_public, add_attendance_permission,
                               add_organizer_permissions, is_activity_public, is_collaborator,
                               is_collaborator_or_installer, is_installer,
@@ -689,9 +684,7 @@ def attendee_registration_print_code(request, event_slug):
 
 def attendee_registration_by_self(request, event_slug, event_registration_code):
     event_index_url = reverse('index', args=[event_slug])
-    event = Event.objects.filter(
-        event_slug=event_slug, registration_code=event_registration_code
-    ).first()
+    event = Event.objects.filter(event_slug=event_slug, registration_code=event_registration_code).first()
     if not event:
         messages.error(
             request, _('The registration code does not seems to be valid for this event'))
@@ -730,27 +723,28 @@ def attendee_registration_by_self(request, event_slug, event_registration_code):
             if attendee.attended_today():
                 messages.info(request, 'You are already registered and present! Go have fun')
                 return redirect(event_index_url)
-            try:
-                attendance_date = AttendeeAttendanceDate()
-                attendance_date.mode = mode
-                attendance_date.attendee = attendee
-                attendance_date.save()
-                messages.success(
-                    request,
-                    _(
-                        'You are now marked as present in the event, have fun!'
-                    )
-                )
-                return redirect(event_index_url)
-            except Exception as error_message:
-                logger.error(error_message)
+            else:
                 try:
-                    if attendee is not None:
-                        Attendee.objects.delete(attendee)
-                    if attendance_date is not None:
-                        AttendeeAttendanceDate.objects.delete(attendance_date)
-                except Exception:
-                    pass
+                    attendance_date = AttendeeAttendanceDate()
+                    attendance_date.mode = mode
+                    attendance_date.attendee = attendee
+                    attendance_date.save()
+                    messages.success(
+                        request,
+                        _(
+                            'You are now marked as present in the event, have fun!'
+                        )
+                    )
+                    return redirect(event_index_url)
+                except Exception as error_message:
+                    logger.error(error_message)
+                    try:
+                        if attendee is not None:
+                            Attendee.objects.delete(attendee)
+                        if attendance_date is not None:
+                            AttendeeAttendanceDate.objects.delete(attendance_date)
+                    except Exception:
+                        pass
         messages.error(
             request,
             _(
@@ -896,7 +890,7 @@ def contact(request, event_slug):
         )
     )
 
-# pylint: disable=too-many-locals
+
 def reports(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
     event_dates = EventDate.objects.filter(event=event)
@@ -964,10 +958,7 @@ def reports(request, event_slug):
             render_dict=template_dict
         )
     )
-# pylint: enable=too-many-locals
 
-
-# pylint: disable=too-many-arguments
 @login_required
 def generic_registration(request, event_slug,
                          registration_model, new_role_form,
@@ -1028,7 +1019,7 @@ def generic_registration(request, event_slug,
             {'forms': forms, 'errors': errors, 'multipart': False}
         )
     )
-# pylint: enable=too-many-arguments
+
 
 def get_email_confirmation_url(request, event_slug, attendee_id, token):
     url = reverse(
@@ -1073,9 +1064,6 @@ def attendee_registration(request, event_slug):
     else:
         attendee_form = AttendeeRegistrationForm(request.POST or None,
                                                  initial={'event': event})
-
-    if not event.use_installations:
-        attendee_form.fields['is_installing'].widget = HiddenInput()
 
     if request.POST:
         if attendee_form.is_valid():
@@ -1243,27 +1231,20 @@ def collaborator_registration(request, event_slug):
         template
     )
 
-# pylint: disable=too-many-branches
+
 @login_required
 def create_event(request):
     event_form = EventForm(request.POST or None, prefix='event')
     contacts_formset = modelformset_factory(Contact, form=ContactForm, can_delete=True)
 
-    # pylint: disable=unexpected-keyword-arg
     contacts_formset = contacts_formset(
         request.POST or None, prefix='contacts-form', queryset=Contact.objects.none())
-    # pylint: enable=unexpected-keyword-arg
 
     event_date_formset = modelformset_factory(
         EventDate, form=EventDateForm, formset=EventDateModelFormset, can_delete=True)
-
-    # pylint: disable=unexpected-keyword-arg
     event_date_formset = event_date_formset(
-        request.POST or None,
-        prefix='event-date-form',
-        queryset=EventDate.objects.none()
-    )
-    # pylint: enable=unexpected-keyword-arg
+        request.POST or None, prefix='event-date-form',
+        queryset=EventDate.objects.none())
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
@@ -1314,9 +1295,7 @@ def create_event(request):
                   'event/create.html',
                   {'form': event_form, 'domain': request.get_host(),
                    'protocol': request.scheme, 'contacts_formset': contacts_formset,
-                   'fields_dependencies': Event.get_fields_dependencies(),
                    'event_date_formset': event_date_formset})
-# pylint: enable=too-many-branches
 
 
 @login_required
@@ -1326,21 +1305,16 @@ def edit_event(request, event_slug):
     event_form = EventForm(request.POST or None, prefix='event', instance=event)
 
     contacts_formset = modelformset_factory(Contact, form=ContactForm, can_delete=True)
-    # pylint: disable=unexpected-keyword-arg
     contacts_formset = contacts_formset(
         request.POST or None, prefix='contacts-form',
         queryset=event.contacts.all())
-    # pylint: enable=unexpected-keyword-arg
 
     event_date_formset = modelformset_factory(
         EventDate, form=EventDateForm,
         formset=EventDateModelFormset, can_delete=True)
-
-    # pylint: disable=unexpected-keyword-arg
     event_date_formset = event_date_formset(
         request.POST or None, prefix='event-date-form',
         queryset=EventDate.objects.filter(event=event))
-    # pylint: enable=unexpected-keyword-arg
 
     if request.POST:
         if event_form.is_valid() and contacts_formset.is_valid() and event_date_formset.is_valid():
@@ -1374,8 +1348,7 @@ def edit_event(request, event_slug):
                 'domain': request.get_host(),
                 'protocol': request.scheme,
                 'contacts_formset': contacts_formset,
-                'event_date_formset': event_date_formset,
-                'fields_dependencies': Event.get_fields_dependencies()
+                'event_date_formset': event_date_formset
             }
         )
     )
@@ -1410,45 +1383,6 @@ def draw(request, event_slug):
         update_event_info(
             event_slug,
             {'eventusers': users, 'eventusersjson': json.dumps(users)}
-        )
-    )
-
-
-@login_required
-@user_passes_test(is_reviewer, 'index')
-def activity_dummy(request, event_slug):
-    event = get_object_or_404(Event, event_slug=event_slug)
-    event_user = get_object_or_404(EventUser, user=request.user, event=event)
-    activity_type, __ = ActivityType.objects.get_or_create(name=_('Dummy'))
-
-    activity = Activity(
-        event=event, status='2', owner=event_user,
-        is_dummy=True, activity_type=activity_type
-    )
-    activity_form = ActivityDummyForm(request.POST or None, instance=activity)
-    if request.POST:
-        if activity_form.is_valid():
-            try:
-                activity = activity_form.save()
-                return redirect(
-                    reverse(
-                        'activities',
-                        args=[event_slug]
-                    )
-                )
-            except Exception as error_message:
-                logger.error(error_message)
-
-        messages.error(request, _("There was a problem submitting the proposal. \
-                                  Please check the form for errors."))
-
-    return render(
-        request,
-        'activities/proposal.html',
-        update_event_info(
-            event_slug,
-            {'form': activity_form, 'errors': [], 'multipart': True},
-            event=event
         )
     )
 
@@ -1514,8 +1448,7 @@ def edit_activity_proposal(request, event_slug, activity_id):
     if event.schedule_confirmed:
         messages.error(request,
                        _(
-                           "The activity proposal edition is already closed, \
-                           the schedule is confirmed or the event \
+                           "The activity proposal edition is already closed or the event \
                            is not accepting proposals through this page. Please \
                            contact the Event Organization Team to submit it."))
         return redirect(reverse('index', args=[event_slug]))
@@ -1647,11 +1580,7 @@ def resend_proposal(request, event_slug, activity_id):
 def activities(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
     proposed_activities, accepted_activities, rejected_activities = [], [], []
-    activities_instances = Activity.objects.filter(event=event, is_dummy=False)
-    dummy_activities = Activity.objects.filter(event=event, is_dummy=True)
-    speakers = {activity.owner for activity in activities_instances}
-    emails = ','.join([speaker.user.email for speaker in speakers])
-
+    activities_instances = Activity.objects.filter(event=event)
     for activity in list(activities_instances):
         activity.labels = activity.labels.split(',')
         if activity.status == '1':
@@ -1660,7 +1589,6 @@ def activities(request, event_slug):
             accepted_activities.append(activity)
         else:
             rejected_activities.append(activity)
-    for activity in list(dummy_activities) + list(activities_instances):
         setattr(activity, 'form', ActivityForm(event_slug, instance=activity))
         setattr(activity, 'reject_form', RejectForm())
         setattr(activity, 'errors', [])
@@ -1669,37 +1597,12 @@ def activities(request, event_slug):
         update_event_info(
             event_slug,
             {
-                'emails': emails,
-                'form': ActivityForm(event_slug),
-                'dummy_activities': dummy_activities,
                 'proposed_activities': proposed_activities,
                 'accepted_activities': accepted_activities,
                 'rejected_activities': rejected_activities
             }
         )
     )
-
-@login_required
-@user_passes_test(is_organizer, 'index')
-def activities_csv(request, event_slug):
-    event = get_object_or_404(Event, event_slug=event_slug)
-    activities_instances = Activity.objects.get_activities_report(event)
-    header = {
-        'title': _('Title'),
-        'abstract': _('Abstract'),
-        'long_description': _('Description'),
-        'activity_type': _('Type'),
-        'labels': _('Labels'),
-        'level': _('Level'),
-        'additional_info': _('Additional info'),
-        'speakers_names': _('Speakers names'),
-        'owner__user__username': _('Speaker username'),
-        'owner__user__first_name': _('Speaker first name'),
-        'owner__user__last_name': _('Speaker last name'),
-        'owner__user__email': _('Speaker email'),
-        'speaker_bio': _('Speaker bio')
-    }
-    return render_to_csv_response(activities_instances, field_header_map=header)
 
 
 @login_required
@@ -1728,7 +1631,7 @@ def my_proposals(request, event_slug):
         )
     )
 
-# pylint: disable=too-many-locals
+
 @login_required
 @user_passes_test(is_organizer, 'index')
 def talk_registration(request, event_slug, proposal_id):
@@ -1797,7 +1700,6 @@ def talk_registration(request, event_slug, proposal_id):
     return render(request,
                   'activities/detail.html',
                   update_event_info(event_slug, render_dict))
-# pylint: enable=too-many-locals
 
 
 @login_required

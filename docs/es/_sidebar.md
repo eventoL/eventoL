@@ -3,7 +3,7 @@
 - [Login](/es/login.md)
 - [Overview](/es/overview.md)
 - [Instalación](/es/installation.md)
-- [Comandos](/es/script.md)
+- [Script para testing](/es/test_script.md)
 - [Guía de contribución](/es/CONTRIBUTING.md)
 - [Puesta en marcha](/es/deploy.md)
 - [Administración personas de asistencia](/es/administracion_personas_de_asistencia.md)

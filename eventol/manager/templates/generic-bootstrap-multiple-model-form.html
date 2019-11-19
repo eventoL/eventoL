@@ -4,16 +4,13 @@
 {% load i18n %}
 {% block content %}
     {% block pre-form %}{% endblock %}
-    <div class="card">
+    <div class="well">
         <div class="row">
-            <div class="col-sm-10 offset-sm-1 col-12">
-                <form
-                    class="form-group row"
-                    id="{% block form-id %}{% endblock %}"
-                    {% if multipart %}enctype="multipart/form-data"{% endif %}
-                    method="post"
-                    action={% block form-action %}{% endblock %}
-                >
+            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                <form id=
+                              {% block form-id %}{% endblock %} {% if multipart %}
+                    enctype="multipart/form-data"{% endif %}
+                      method="post" action={% block form-action %}{% endblock %}>
                     {% csrf_token %}
 
                     {% if errors|length > 0 %}
@@ -39,22 +36,22 @@
                     {% endfor %}
 
                     {% block extra-fields %}{% endblock %}
-                    <div class="col-12">
-                        <div class="col-sm-10 offset-sm-1 col-12">
-                            {% block buttons %}
-                                <div class="form-group">
-                                    <button type="submit"
-                                            class="btn btn-primary btn-raised float-right">
-                                        {% block submit-button %}{% trans "Submit" %}{% endblock %}</button>
-                                    {% block more-button %}{% endblock %}
-                                </div>
-                            {% endblock %}
-                        </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                        {% block buttons %}
+                            <div class="form-group">
+                                <button type="submit"
+                                        class="btn btn-primary btn-raised pull-right">
+                                    {% block submit-button %}{% trans "Submit" %}{% endblock %}</button>
+                                {% block more-button %}{% endblock %}
+                            </div>
+                        {% endblock %}
                     </div>
-                </form>
-            </div>
-        </div>
-        {% block post-form %}{% endblock %}
+                </div>
+          </form>
+          {% block post-form %}{% endblock %}
     </div>
 {% endblock %}
 

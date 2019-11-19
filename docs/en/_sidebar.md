@@ -1,7 +1,7 @@
 <!-- docs/_sidebar.md -->
 
 - [Installation](/en/installation.md)
-- [Commands](/en/script.md)
+- [Test Script](/en/test_script.md)
 - [Contribution guide](/en/CONTRIBUTING.md)
 - [Deploy](/en/deploy.md)
 - [Administración personas de asistencia](/en/administracion_personas_de_asistencia.md)

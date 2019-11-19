@@ -2,7 +2,7 @@
 
 const Logger = {
   error: console.error,
-  warning: console.warn,
+  warning: console.warning,
   log: console.log,
 };
 

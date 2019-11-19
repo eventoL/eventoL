@@ -1,5 +1,4 @@
 {% extends "generic-bootstrap-multiple-model-form.html" %}
-{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 
@@ -10,7 +9,7 @@
 {% block pre-form %}
     <div class="alert alert-info alert-dismissable">
         <div class="row">
-            <div class="col-md-10 offset-md-1" style="font-weight: 500;">
+            <div class="col-md-10 col-md-offset-1" style="font-weight: 500;">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                 <h1><i class="fa fa-info-circle"></i> {% trans "Registration Instructions" %}</h1>
                 <ol>
@@ -37,7 +36,9 @@
 
 {% block buttons %}
     <div class="form-group">
-        <div class="col-12 text-center">
+        <label class="col-md-4 control-label" for="button1id"></label>
+
+        <div class="col-md-10 col-md-offset-1">
             <button id="button1id" name="button1id" class="btn btn-raised btn-success">
                 {% trans "Mark as present" %}
             </button>
@@ -71,17 +72,28 @@
 {% endblock %}
 
 {% block other-script %}
-    {% render_bundle 'qrcode' %}
+    <script src="{% static "manager/bower_components/html5-qrcode/lib/jsqrcode-combined.min.js" %}"></script>
+    <script src="{% static "manager/bower_components/html5-qrcode/lib/html5-qrcode.min.js" %}"></script>
     <script>
         $(document).ready(function () {
-            var errorMessage = '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}';
-
-            $('#QRModal').on('show.bs.modal', () => {
-                window.libs.qrcode.registrationQr('QRModal', 'qr_reader', errorMessage);
+            $('#QRModal').on('show.bs.modal', function (e) {
+                $('#qr_reader').empty();//Prevents stacking
+                $('#qr_reader').html5_qrcode(function (data) {
+                        var url = $(location).attr('href');
+                        $(location).attr("href", url + '/' + data);
+                    },
+                    function (readError) {
+                        // From module docs:
+                        // The readError wil be called quite often, it is really only useful for debugging.
+                        // console.log(readError);
+                    }, function (videoError) {
+                        $('#error').html(
+                            '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
+                    }
+                );
             });
-
-            $('#QRModal').on('hidden.bs.modal', () => {
-                window.libs.qrcode.stop('qr_reader');
+            $('#QRModal').on('hidden.bs.modal', function (e) {
+                $('#qr_reader').html5_qrcode_stop()
             });
         });
     </script>
