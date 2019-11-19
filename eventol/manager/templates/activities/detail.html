@@ -18,11 +18,11 @@
                   <div class="col-1 float-right" style="display: contents">
                     <h5>
                         {% if activity.status == '1' %}
-                        <span class="badge badge-info">{% trans "Proposal" %}</span>
+                            <span class="badge badge-info">{% trans "Proposal" %}</span>
                         {% elif activity.status == '3' %}
-                        <span class="badge badge-danger">{% trans "Rejected" %}</span>
+                            <span class="badge badge-danger">{% trans "Rejected" %}</span>
                         {% elif activity.status == '2' %}
-                        <span class="badge badge-success" style="background-color: #5cb85c">{% trans "Accepted" %}</span>
+                            <span class="badge badge-success" style="background-color: #5cb85c">{% trans "Accepted" %}</span>
                         {% endif %}
                     </h5>
                   </div>

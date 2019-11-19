@@ -77,8 +77,8 @@
         <div class="row">
             <div class="col-12" id="accordion">
                 {% for dummy_activity in dummy_activities %}
-                    <div >
-                        <div class="card-header">
+                    <div>
+                        <div class="card-header d-inline-block  w-100">
                             <h5 class="card-title" style="display: contents;">
                                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                    href="#dummy-activity-{{ forloop.counter }}">
@@ -129,8 +129,8 @@
             <div class="col-12" id="accordion">
                 {% if accepted_activities %}
                     {% for talk in accepted_activities %}
-                        <div >
-                            <div class="card-header">
+                        <div>
+                            <div class="card-header d-inline-block  w-100">
                                 <h5 class="card-title" style="display: contents;">
                                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                        href="#talk-{{ forloop.counter }}">
@@ -213,8 +213,8 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <div >
-                        <div class="card-header">
+                    <div>
+                        <div class="card-header d-inline-block  w-100">
                             <h5 class="card-title" style="display: contents;">
                                 <div class="accordion-toggle">
                                     {% trans "There isn't any proposed activity yet." %}
@@ -233,8 +233,8 @@
                 <div class="col-12" id="accordion">
                     {% if proposed_activities %}
                         {% for proposal in proposed_activities %}
-                            <div >
-                                <div class="card-header">
+                            <div>
+                                <div class="card-header d-inline-block  w-100">
                                     <h5 class="card-title" style="display: contents;">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                            href="#proposal-{{ forloop.counter }}">
@@ -325,8 +325,8 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <div >
-                            <div class="card-header">
+                        <div>
+                            <div class="card-header d-inline-block  w-100">
                                 <h5 class="card-title" style="display: contents;">
                                     <div class="accordion-toggle">
                                         {% trans "There isn't any proposed activity yet." %}
@@ -345,8 +345,8 @@
                 <div class="col-12" id="accordion">
                     {% if rejected_activities %}
                         {% for activity in rejected_activities %}
-                            <div >
-                                <div class="card-header">
+                            <div>
+                                <div class="card-header d-inline-block  w-100">
                                     <h5 class="card-title" style="display: contents;">
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                            href="#activity-{{ forloop.counter }}">
@@ -398,8 +398,8 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <div >
-                            <div class="card-header">
+                        <div>
+                            <div class="card-header d-inline-block  w-100">
                                 <h5 class="card-title" style="display: contents;">
                                     <div class="accordion-toggle">
                                         {% trans "There isn't any rejected activity yet." %}
