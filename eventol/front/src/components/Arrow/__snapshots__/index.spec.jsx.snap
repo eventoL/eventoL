@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Arrow Snapshots Default 1`] = `
+<div
+  className="arrow arrow-prev fa fa-chevron-left"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  style={
+    Object {
+      "color": "black",
+      "display": "block",
+    }
+  }
+  tabIndex="0"
+/>
+`;
+
+exports[`Arrow Snapshots next 1`] = `
+<div
+  className="arrow arrow-next fa fa-chevron-right"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  style={
+    Object {
+      "color": "black",
+      "display": "block",
+    }
+  }
+  tabIndex="0"
+/>
+`;
+
+exports[`Arrow Snapshots prev 1`] = `
+<div
+  className="arrow arrow-prev fa fa-chevron-left"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  style={
+    Object {
+      "color": "black",
+      "display": "block",
+    }
+  }
+  tabIndex="0"
+/>
+`;
+
+exports[`Arrow Snapshots with custom style 1`] = `
+<div
+  className="arrow arrow-prev fa fa-chevron-left"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  style={
+    Object {
+      "color": "black",
+      "display": "block",
+      "padding": "10px",
+    }
+  }
+  tabIndex="0"
+/>
+`;

@@ -1,0 +1,95 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier", "plugin:react/all"],
+  "plugins": ["prettier", "react", "react-hooks"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "globals": {
+    "gettext": true,
+    "$": true,
+    "L": true,
+    "module": true,
+    "process": true,
+    "__dirname": true,
+    "global": true,
+    "qrcode": true,
+    "window": true,
+    "document": true,
+    "console": true
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "bracketSpacing": false,
+      "trailingComma": "es5"
+    }],
+    "arrow-parens": ["error", "as-needed"],
+    "object-curly-spacing": ["error", "never"],
+    "quotes": ["error", "single", {"avoidEscape": true}],
+    "no-prototype-builtins": "off",
+    "no-underscore-dangle": ["error", {"allow": ["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"]}],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-no-literals": "off",
+    "react/jsx-max-depth": ["error", {"max": 5}],
+    "react/state-in-constructor": ["error", "never"],
+    "react/no-set-state": "off",
+    "react/boolean-prop-naming": ["error", { "rule": "^(is|has|show|use|focus|reconnect)([A-Z]?)([A-Za-z0-9]?)+"}],
+    "react/jsx-props-no-spreading": ["error", {
+      "exceptions": ["WrappedComponent", "ReactSlickSlider"]
+    }],
+    "import/no-extraneous-dependencies": "off"
+  },
+  "overrides": [{
+    "files": [
+      "src/**/*.{spec,test}.{js,jsx}",
+      "src/**/__mocks__/*.{js,jsx}",
+      "config/jest/setupTests.jsx",
+      "src/setupTests.js"
+    ],
+    "globals": {
+      "document": true,
+      "jest": true
+    },
+    "env": {
+      "jest": true,
+      "browser": true
+    },
+    "plugins": ["jest"],
+    "rules": {
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/prefer-to-have-length": "warn",
+      "jest/valid-expect": "error",
+      "react/jsx-props-no-spreading": "off",
+      "no-underscore-dangle": "off",
+      "react/display-name": "off",
+      "import/first": "off"
+    }
+  }, {
+    "files": [
+      "src/**/*.stories.{js,jsx}",
+      "src/utils/stories.{js,jsx}"
+    ],
+    "rules": {
+      "import/first": "off"
+    }
+  }]
+}

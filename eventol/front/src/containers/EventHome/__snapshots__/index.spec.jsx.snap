@@ -1,5 +1,151 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`EventHome Search Should not show a new TitleList for search with value is "" 1`] = `
+<div>
+  <Header
+    isMobile={false}
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={null}
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+    slug={null}
+  >
+    <Search
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome Search Should not show a new TitleList for search with value is "" 2`] = `
+<div>
+  <Header
+    isMobile={false}
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={null}
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+    slug={null}
+  >
+    <Search
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome Search Should show a new TitleList for search 1`] = `
+<div>
+  <Header
+    isMobile={false}
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={null}
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+    slug={null}
+  >
+    <Search
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
+exports[`EventHome Search Should show a new TitleList for search 2`] = `
+<div>
+  <Header
+    isMobile={false}
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={null}
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+    slug={null}
+  >
+    <Search
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="search_results"
+    showEmpty={true}
+    title="Search results"
+    url="?search=searchTerm&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
 exports[`EventHome With user Desktop Default Snapshot 1`] = `
 <div>
   <Header
@@ -19,7 +165,6 @@ exports[`EventHome With user Desktop Default Snapshot 1`] = `
     slug="tagSlug"
   >
     <Search
-      onChange={[Function]}
       onEnter={[Function]}
     />
   </Hero>
@@ -60,7 +205,6 @@ exports[`EventHome With user Desktop With custom data Snapshot 1`] = `
     slug="tagSlug"
   >
     <Search
-      onChange={[Function]}
       onEnter={[Function]}
     />
   </Hero>
@@ -101,7 +245,6 @@ exports[`EventHome With user Mobile Default Snapshot 1`] = `
     slug="tagSlug"
   >
     <Search
-      onChange={[Function]}
       onEnter={[Function]}
     />
   </Hero>
@@ -142,7 +285,6 @@ exports[`EventHome With user Mobile With custom data Snapshot 1`] = `
     slug="tagSlug"
   >
     <Search
-      onChange={[Function]}
       onEnter={[Function]}
     />
   </Hero>
@@ -178,7 +320,6 @@ exports[`EventHome Without user Desktop Default Snapshot 1`] = `
     slug="tagSlug"
   >
     <Search
-      onChange={[Function]}
       onEnter={[Function]}
     />
   </Hero>
@@ -214,7 +355,6 @@ exports[`EventHome Without user Desktop With custom data Snapshot 1`] = `
     slug="tagSlug"
   >
     <Search
-      onChange={[Function]}
       onEnter={[Function]}
     />
   </Hero>
@@ -250,7 +390,6 @@ exports[`EventHome Without user Mobile Default Snapshot 1`] = `
     slug="tagSlug"
   >
     <Search
-      onChange={[Function]}
       onEnter={[Function]}
     />
   </Hero>
@@ -286,7 +425,6 @@ exports[`EventHome Without user Mobile With custom data Snapshot 1`] = `
     slug="tagSlug"
   >
     <Search
-      onChange={[Function]}
       onEnter={[Function]}
     />
   </Hero>

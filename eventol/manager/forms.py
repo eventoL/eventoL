@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+import uuid
 from collections import OrderedDict
 
 from allauth.account.forms import \
@@ -22,9 +23,12 @@ from django.db.models.query_utils import Q
 from django.db.utils import OperationalError
 from django.forms import Form
 from django.forms.models import BaseModelFormSet, ModelForm
+from django.forms.formsets import DELETION_FIELD_NAME
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+from image_cropping import ImageCropWidget
+from tempus_dominus.widgets import DatePicker, TimePicker
 
 from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
                             Collaborator, Contact, ContactMessage, Event,
@@ -196,7 +200,7 @@ class EventUserSearchForm(forms.Form):
 
 
 class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email',
                   'additional_info', 'is_installing',
@@ -217,7 +221,7 @@ class InstallationForm(forms.ModelForm):
 
     event_slug = forms.CharField()
 
-    class Meta(object):
+    class Meta:
         model = Installation
         fields = ('attendee', 'notes', 'software')
         widgets = {'notes': forms.Textarea(attrs={'rows': 3}),
@@ -228,17 +232,19 @@ class InstallationForm(forms.ModelForm):
 
 
 class HardwareForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Hardware
         fields = ('type', 'manufacturer', 'model')
 
 
 class ActivityForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Activity
         fields = ['start_date', 'end_date', 'room', 'event']
         widgets = {
-            'event': forms.HiddenInput()
+            'event': forms.HiddenInput(),
+            'start_date': TimePicker(options={'format': 'HH:mm'}),
+            'end_date': TimePicker(options={'format': 'HH:mm'}),
         }
 
     def __init__(self, event_slug, *args, **kwargs):
@@ -253,19 +259,22 @@ class ActivityForm(ModelForm):
             self.fields['room'].queryset = Room.objects.filter(event__event_slug=event_slug)
             self.fields['date'] = forms.ChoiceField(choices=choices)
 
+            self.fields['start_date'].widget.attrs.update({'id': uuid.uuid4().hex.lower()})
+            self.fields['end_date'].widget.attrs.update({'id': uuid.uuid4().hex.lower()})
+
 
 class CollaboratorRegistrationForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Collaborator
         widgets = {'event_user': forms.HiddenInput()}
-        exclude = ()
+        fields = "__all__"
 
 
 class AttendeeRegistrationFromUserForm(ModelForm):
     field_order = ['first_name', 'last_name', 'nickname', 'additional_info',
                    'is_installing', 'email', 'event', 'event_user', 'registration_date']
 
-    class Meta(object):
+    class Meta:
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email',
                   'additional_info', 'is_installing',
@@ -281,9 +290,9 @@ class AttendeeRegistrationFromUserForm(ModelForm):
 
 
 class EventUserRegistrationForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = EventUser
-        exclude = ['user', 'ticket']
+        fields = ['event']
         widgets = {'event': forms.HiddenInput()}
 
 
@@ -295,7 +304,7 @@ class AttendeeRegistrationForm(ModelForm):
                    'is_installing', 'email', 'repeat_email', 'captcha',
                    'event', 'registration_date']
 
-    class Meta(object):
+    class Meta:
         model = Attendee
         fields = ['first_name', 'last_name', 'nickname', 'email',
                   'additional_info', 'is_installing',
@@ -320,35 +329,41 @@ class AttendeeRegistrationForm(ModelForm):
 
 class InstallerRegistrationForm(ModelForm):
     protocol = 'https://'
-    url = 'wiki.cafelug.org.ar/index.php?title=Flisol/Guía_del_buen_instalador'
+    url = 'wiki.antifa-glug.org/books/flisol-caba/page/guía-del-buen-instalador'
     target = '_blank'
     link_text = 'Sagrada Guía del Buen Instalador'
     text = 'Afirmo que he leido la "<a href="{0}{1}" target="{2}">{3}</a>"' \
         .format(protocol, url, target, link_text)
     read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 
-    class Meta(object):
+    class Meta:
         model = Installer
         widgets = {'event_user': forms.HiddenInput()}
-        exclude = ()
+        fields = "__all__"
 
 
 class ImageCroppingForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Activity
         fields = ('image', 'cropping')
+        widgets = {
+            'image': ImageCropWidget,
+        }
 
 
 class EventImageCroppingForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Event
         fields = ('image', 'cropping')
+        widgets = {
+            'image': ImageCropWidget,
+        }
 
 
 class ContactForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Contact
-        exclude = ['event']
+        fields = ['type', 'url', 'text']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -374,16 +389,19 @@ class ContactForm(ModelForm):
 
 
 class ContactMessageForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = ContactMessage
         fields = ('name', 'email', 'message',)
         widgets = {'message': forms.Textarea(attrs={'rows': 5})}
 
 
 class EventDateForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = EventDate
         fields = ('date',)
+        widgets = {
+            'date': DatePicker()
+        }
 
 
 class EventDateModelFormset(BaseModelFormSet):
@@ -406,21 +424,40 @@ class EventDateModelFormset(BaseModelFormSet):
         for form in self.forms:
             if form.cleaned_data:
                 date = form.cleaned_data['date']
-                if date:
+                delete = form.cleaned_data[DELETION_FIELD_NAME]
+                if date and not delete:
                     self.validate_date(date, dates)
                     dates.append(date)
 
 
 class EventForm(ModelForm):
-    class Meta(object):
+    class Meta:
         model = Event
         fields = ('name', 'event_slug', 'limit_proposal_date', 'registration_closed', 'email',
                   'place', 'external_url', 'abstract', 'event_information',
-                  'use_installations', 'use_installers', 'is_flisol',
+                  'use_installations', 'use_installers', 'is_flisol', 'use_talks',
                   'use_collaborators', 'use_proposals', 'use_schedule',
                   'activities_proposal_form_text', 'tags')
-        widgets = {'place': forms.HiddenInput(),
-                   'limit_proposal_date': forms.HiddenInput()}
+        widgets = {
+            'place': forms.HiddenInput(),
+            'limit_proposal_date': DatePicker()
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['limit_proposal_date'].required = False
+
+    def clean(self):
+        cleaned_data = super().clean()
+        use_proposals = cleaned_data.get("use_proposals")
+        limit_proposal_date = cleaned_data.get("limit_proposal_date")
+
+        if use_proposals and not limit_proposal_date:
+            self.add_error(
+                'limit_proposal_date', 'When the event uses proposals, this field is required')
+        elif not use_proposals:
+            cleaned_data['limit_proposal_date'] = datetime.date.today()
+        return cleaned_data
 
 
 class LoginForm(AllAuthLoginForm):
@@ -531,7 +568,7 @@ class ActivityProposalForm(ModelForm):
                    'long_description', 'labels', 'level', 'activity_type',
                    'presentation', 'additional_info', 'captcha', 'status']
 
-    class Meta(object):
+    class Meta:
         model = Activity
         fields = ['event', 'title', 'speakers_names', 'speaker_bio', 'abstract',
                   'long_description', 'labels', 'presentation', 'level',
@@ -546,12 +583,24 @@ class ActivityProposalForm(ModelForm):
         }
 
 
+class ActivityDummyForm(ModelForm):
+    field_order = ['event', 'title', 'abstract', 'status']
+
+    class Meta:
+        model = Activity
+        fields = ['event', 'title', 'abstract', 'status']
+        widgets = {
+            'event': forms.HiddenInput(),
+            'status': forms.HiddenInput(),
+        }
+
+
 class RejectForm(Form):
     justification = forms.CharField(required=False, label=_('Why do you reject this proposal?'))
 
 
 class RoomForm(forms.ModelForm):
-    class Meta(object):
+    class Meta:
         model = Room
         fields = ['name', 'event']
         widgets = {'event': forms.HiddenInput()}

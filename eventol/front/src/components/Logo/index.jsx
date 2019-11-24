@@ -6,11 +6,10 @@ import {LOGO_HEADER_DEFAULT} from '../../utils/constants';
 
 import './index.scss';
 
-
 const Logo = ({logoHeader}) => (
-  <div className='logo-component' id='logo'>
+  <div className="logo-component" id="logo">
     <a href={INDEX_URL}>
-      <img alt='header logo' src={logoHeader} />
+      <img alt="header logo" src={logoHeader} />
     </a>
   </div>
 );

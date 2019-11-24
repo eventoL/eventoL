@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console,import/no-extraneous-dependencies */
 
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
@@ -9,6 +9,7 @@ const port = 3000;
 
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
+  public: config.devServer.public,
   hot: true,
   inline: true,
   historyApiFallback: true,

@@ -4,14 +4,16 @@ For a better and faster production implementation, **EventoL** is configurable t
 
 ## **EventoL** environment variables
 
-### Docker and Django:
+### Docker y Django
+
 - HOST (Default: **localhost**)
 - EXTERNAL_PORT (Default: 80)
 - DOCKER_IMAGE_NAME (Default: **eventol/eventol**)
 - DOCKER_IMAGE_VERSION (Default: **latest**)
 - APP_DNS (Default: **localhost**)
 
-### Django:
+### Django
+
 - DEBUG (Default: **False**)
 - TEMPLATE_DEBUG (Default: **False**)
 - EMAIL_BACKEND (Default: **django.core.mail.backends.console.EmailBackend**)
@@ -29,9 +31,13 @@ For a better and faster production implementation, **EventoL** is configurable t
 - REDIS_PORT (Default: **6379**)
 - EMAIL_USE_TLS (Default: **True**)
 - ADMIN_TITLE (Default: **EventoL**)
-- PRIVATE_ACTIVITIES (Default: **False** )
+- PRIVATE_ACTIVITIES (Default: **False**)
+- LOG_FILE (Default: **/var/log/eventol/eventol.log**)
+- LOAD_INITIAL_DATA (Default: **true**)
+- WS_PROTOCOL (Default: **ws**)
 
-### Postgres:
+### Postgres
+
 - PSQL_DBNAME (Default: **eventol**)
 - PSQL_USER (Default: **eventol**)
 - PSQL_PASSWORD (Default: **secret**)
@@ -40,49 +46,74 @@ For a better and faster production implementation, **EventoL** is configurable t
 
 ## Deploy with Docker-Compose
 
-### All commands are executed in to **deploy/docker** folder
+### Update environment variables
 
-### Update environment variebles
 ```bash
-cp .env.dist .env
+cp deploy/docker/.env.dist deploy/docker/.env
+
 # Change your variables in .env file
 source .env
 ```
 
 ### Build nginx image with configuration
+
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+make build
 ```
 
 ### Build EventoL image
+
 Only run this step when you want run local code in production mode
+
 ```bash
-docker build --tag=eventol/eventol:latest .
+make build-local
 ```
 
-### Deploy
+### Deploy (pull, build and up)
+
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+make deploy
 ```
 
 ### Create admin user
+
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec worker python manage.py createsuperuser
+make createsuperuser
 ```
 
 ## Result
 
-### Containers running
-```bash
-$ docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+### 6 containers
 
-Name                     Command               State            Ports
-------------------------------------------------------------------------------------
-docker_daphne_1     bash -c cd eventol; daphne ...   Up      8000/tcp
-docker_nginx_1      /usr/sbin/nginx                  Up      0.0.0.0:80->80/tcp
-docker_postgres_1   docker-entrypoint.sh postgres    Up      0.0.0.0:32790->5432/tcp
-docker_redis_1      docker-entrypoint.sh redis ...   Up      0.0.0.0:32791->6379/tcp
-docker_worker_1     /root/wait-for-it.sh -p 54 ...   Up      8000/tcp
+```bash
+$ make status
+
+        Name                      Command               State         Ports
+----------------------------------------------------------------------------------
+docker_daphne_1        bash -c cd eventol; daphne ...   Up      8000/tcp
+docker_nginx-proxy_1   /app/docker-entrypoint.sh  ...   Up      0.0.0.0:80->80/tcp
+docker_nginx_1         /usr/sbin/nginx                  Up      80/tcp
+docker_postgres_1      docker-entrypoint.sh postgres    Up      5432/tcp
+docker_redis_1         docker-entrypoint.sh redis ...   Up      6379/tcp
+docker_worker_1        ./wait-for-it.sh -p 5432 - ...   Up      8000/tcp
 ```
 
 ### Server run in: **http://localhost/** (if you didn't change the HOST variable in your environment)
+
+### Stop containers
+
+```bash
+make stop
+```
+
+### Stop and remove containers (not remove data)
+
+```bash
+make undeploy
+```
+
+### Stop, remove contaienrs and REMOVE DATA
+
+```bash
+make undeploy-full
+```

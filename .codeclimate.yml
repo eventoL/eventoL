@@ -22,17 +22,13 @@ plugins:
     enabled: true
   nodesecurity:
     enabled: true
-  pep8:
+  pylint:
     enabled: true
   radon: 
     enabled: true
     config: 
       python_version: 3
   sass-lint:
-    enabled: true
-    config:
-      file: eventol/front/.sass-lint.yml
-  scss-lint:
     enabled: true
     config:
       file: eventol/front/.sass-lint.yml

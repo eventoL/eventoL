@@ -36,14 +36,15 @@ exports[`Header With user Mobile version Snapshot 1`] = `
     <div
       className="nav-right"
     >
-      <a
-        href="#"
+      <button
         onClick={[Function]}
+        onKeyPress={[Function]}
+        type="button"
       >
         <i
           className="fa fa-bars fa-2x"
         />
-      </a>
+      </button>
       <div
         className="narrow-links"
       >
@@ -91,14 +92,15 @@ exports[`Header Without user and without logo Mobile version Snapshot 1`] = `
     <div
       className="nav-right"
     >
-      <a
-        href="#"
+      <button
         onClick={[Function]}
+        onKeyPress={[Function]}
+        type="button"
       >
         <i
           className="fa fa-bars fa-2x"
         />
-      </a>
+      </button>
       <div
         className="narrow-links"
       >

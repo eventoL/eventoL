@@ -3,15 +3,16 @@
 """
 # pylint: disable=too-many-ancestors
 # pylint: disable=missing-docstring
+# pylint: disable=no-member
 
 from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
-from rest_framework_filters import BooleanFilter, FilterSet
+from rest_framework_filters import BooleanFilter, FilterSet, IsoDateTimeFilter
 
 from manager.models import (Activity, Attendee, Collaborator, Event, EventUser,
                             Hardware, Installation, Installer, Organizer, Room,
-                            Software, EventTag)
+                            Software, EventTag, ActivityType)
 
 
 # Serializers define the API representation.
@@ -77,9 +78,15 @@ class OrganizerSerializer(EventolSerializer):
 class ActivitySerializer(EventolSerializer):
     class Meta:
         model = Activity
-        fields = ('url', 'created_at', 'updated_at', 'event', 'title', 'room',
-                  'start_date', 'end_date', 'type', 'labels', 'level', 'status',
-                  'is_dummy', 'long_description', 'abstract')
+        fields = ('url', 'id', 'created_at', 'updated_at', 'event', 'title', 'room',
+                  'start_date', 'end_date', 'activity_type', 'labels', 'level',
+                  'status', 'is_dummy', 'long_description', 'abstract')
+
+
+class ActivityTypeSerializer(EventolSerializer):
+    class Meta:
+        model = ActivityType
+        fields = ('url', 'id', 'name')
 
 
 class AttendeeSerializer(EventolSerializer):
@@ -99,7 +106,7 @@ class InstallationSerializer(EventolSerializer):
 class RoomSerializer(EventolSerializer):
     class Meta:
         model = Room
-        fields = ('url', 'name', 'event')
+        fields = ('url', 'id', 'name', 'event')
 
 
 class HardwareSerializer(EventolSerializer):
@@ -124,6 +131,21 @@ class EventFilter(FilterSet):
         fields = ('name', 'event_slug', 'schedule_confirmed', 'tags__slug',
                   'tags__name', 'activity_proposal_is_open',
                   'registration_is_open')
+
+
+class ActivityFilter(FilterSet):
+    start_date_gte = IsoDateTimeFilter(field_name="start_date", lookup_expr='gte')
+    start_date_lte = IsoDateTimeFilter(field_name="start_date", lookup_expr='lte')
+    end_date_gte = IsoDateTimeFilter(field_name="end_date", lookup_expr='gte')
+    end_date_lte = IsoDateTimeFilter(field_name="end_date", lookup_expr='lte')
+
+    class Meta:
+        model = Activity
+        fields = ['id', 'event__event_slug', 'room',
+                  'activity_type', 'status', 'title',
+                  'start_date_gte', 'start_date_lte',
+                  'end_date_gte', 'end_date_lte',
+                  'level', 'is_dummy']
 
 
 # ViewSets define the view behavior.
@@ -218,13 +240,19 @@ class ActivityViewSet(EventUserModelViewSet):
     serializer_class = ActivitySerializer
     search_fields = ('title', 'labels', 'additional_info',
                      'speakers_names', 'long_description')
-    filter_fields = ('event__event_slug', 'room', 'title', 'type',
-                     'status', 'level', 'is_dummy')
+    filter_class = ActivityFilter
     ordering_fields = ('created_at', 'updated_at', 'start_date', 'end_date')
 
     def get_counts(self):
         queryset = self.filter_queryset(self.get_queryset())
         return Activity.objects.get_counts(queryset)
+
+class ActivityTypeViewSet(viewsets.ModelViewSet):
+    queryset = ActivityType.objects.all()
+    serializer_class = ActivityTypeSerializer
+    filter_fields = ('name',)
+    search_fields = ('name',)
+    ordering_fields = None
 
 
 class SoftwareViewSet(viewsets.ModelViewSet):
