@@ -1,5 +1,5 @@
 asgi-redis==1.4.3
-Django==1.11.23
+Django==1.11.26
 django-configurations==2.0
 easy-thumbnails==2.5
 django-autocomplete-light==3.2.10
@@ -26,4 +26,3 @@ svglue==0.3.0
 CairoSVG==2.1.1
 pypng==0.0.18
 django-tempus-dominus==5.1.2.8
-
