@@ -1,5 +1,5 @@
 asgi-redis==1.4.3
-Django==1.11.23
+Django==1.11.26
 django-configurations==2.0
 easy-thumbnails==2.5
 django-autocomplete-light==3.2.10
@@ -13,8 +13,8 @@ django-queryset-csv==1.0.2
 psycopg2-binary==2.7.6.1
 django-webpack-loader==0.5.0
 django-filter==1.1.0
-djangorestframework==3.7.3
-djangorestframework-filters==0.10.2
+djangorestframework==3.10.3
+djangorestframework-filters==0.11.1
 djangorestframework-queryfields==1.0.0
 django-vote==2.1.7
 channels==1.1.8
@@ -26,4 +26,3 @@ svglue==0.3.0
 CairoSVG==2.1.1
 pypng==0.0.18
 django-tempus-dominus==5.1.2.8
-

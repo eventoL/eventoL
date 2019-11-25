@@ -8,10 +8,10 @@
   width: 100%;
 
   .btn-create-event {
-    line-height: 1.4;
-    font-weight: bold;
-    padding: 10px 15px;
     border-radius: 15px;
+    font-weight: bold;
+    line-height: 1.4;
+    padding: 10px 15px;
   }
 
   .content {
@@ -25,9 +25,9 @@
     z-index: 5;
 
     .logo {
-      z-index: 4;
-      max-width: 250px;
       max-height: 50vh;
+      max-width: 250px;
+      z-index: 4;
     }
 
     h2 {

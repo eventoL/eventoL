@@ -1,31 +1,41 @@
+// sass-lint:disable no-important
+
+@import '../styles/variables';
+
 /* Styling for each event from Schedule */
-.fc-time-grid-event.fc-v-event.fc-event {
-  border-color: #01579b !important;
-  padding: 5px;
-  opacity: .65;
-  left: 5% !important;
-  right: 5% !important;
+.fc-time-grid-event {
+  &.fc-v-event {
+    &.fc-event {
+      border-color: $event-border-color !important;
+      left: 5% !important;
+      opacity: .65;
+      padding: 5px;
+      right: 5% !important;
+    }
+  }
 }
 
 /* Bolds the name of the event and inherits the font size */
 .fc-event {
   font-size: inherit !important;
   font-weight: 500 !important;
-}
 
-/* Inherits background for each event from Schedule. */
-.fc-event .fc-bg {
-  z-index: 1 !important;
-  background: inherit !important;
-  opacity: .25 !important;
+  /* Inherits background for each event from Schedule. */
+  .fc-bg {
+    background: inherit !important;
+    opacity: .25 !important;
+    z-index: 1 !important;
+  }
 }
 
 .fc-time {
   font-weight: 500 !important;
 }
 
-.fc-unthemed td {
-  background-color: unset !important;
+.fc-unthemed {
+  td {
+    background-color: unset !important;
+  }
 }
 
 .well {

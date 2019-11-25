@@ -22,12 +22,12 @@
     font-size: 14px;
     font-weight: 300;
     height: 37px;
+    min-width: 150px;
     outline: none;
     padding: 0 10px;
     pointer-events: all;
     transition: border .25s ease, width .125s ease .125s;
     width: 35vw;
-    min-width: 150px;
   }
 
   input:focus {

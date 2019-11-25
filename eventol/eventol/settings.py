@@ -3,6 +3,7 @@
 # pylint: disable=C0103
 
 import os
+import socket
 
 from configurations import Configuration
 from django.utils.translation import ugettext_lazy as _
@@ -67,7 +68,7 @@ class Base(Configuration):
         'forms_builder.forms',
     )
 
-    MIDDLEWARE_CLASSES = (
+    MIDDLEWARE = (
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.locale.LocaleMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -291,7 +292,6 @@ class Base(Configuration):
 
 
 class Staging(Base):
-    import socket
     DEBUG = str_to_bool(os.getenv('DEBUG', 'True'))
     SECRET_KEY = os.getenv(
         'SECRET_KEY',
