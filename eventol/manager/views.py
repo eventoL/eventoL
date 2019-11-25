@@ -81,8 +81,7 @@ def update_event_info(event_slug, render_dict=None, event=None):
 
 def get_forms_errors(forms):
     field_errors = [form.non_field_errors() for form in forms]
-    errors = [error for error in field_errors]
-    return list(itertools.chain.from_iterable(errors))
+    return list(itertools.chain.from_iterable(field_errors))
 
 
 def generate_ticket(user):
