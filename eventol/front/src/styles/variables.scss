@@ -20,6 +20,8 @@ $user-profile: $gray;
 $body-background: $light-gray;
 $body-color: $white;
 
+$event-home-body-color: #212529;
+
 // Bootstrap colors
 $bootstrap-blue: #337ab7;
 $bootstrap-primary: #214760;
@@ -60,3 +62,6 @@ $navbar-background-color: #214760;
 // Alert
 $alert-info-color: #31708f;
 $alert-info-background-color: #d9edf7;
+
+// Dropdown
+$dropdown-item-color: rgba(0, 0, 0, .87);

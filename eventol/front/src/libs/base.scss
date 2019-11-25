@@ -28,8 +28,9 @@ html {
 }
 
 body {
+  color: $event-home-body-color;
   /* Margin bottom by footer height */
-  font-family: Roboto;
+  font-family: Roboto !important;
   margin-bottom: 30px;
 }
 
@@ -343,6 +344,12 @@ a {
   }
 }
 
+.dropdown-menu {
+  .dropdown-item {
+    color: $dropdown-item-color !important;
+  }
+}
+
 .navbar .dropdown-menu div > a,
 .navbar.navbar-light .dropdown-menu div > a,
 .navbar .dropdown-menu li > a,
@@ -473,4 +480,8 @@ a:hover span.vote-cancel {
   &.show {
     z-index: 5;
   }
+}
+
+.table {
+  color: $event-home-body-color;
 }
