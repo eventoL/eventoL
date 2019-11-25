@@ -3,7 +3,7 @@ Django==1.11.23
 django-configurations==2.0
 easy-thumbnails==2.5
 django-autocomplete-light==3.2.10
-django-ckeditor==5.3.1
+django-ckeditor==5.8.0
 django-image-cropping==1.1.0
 django-import-export==0.6.0
 django-formset-js==0.5.0
