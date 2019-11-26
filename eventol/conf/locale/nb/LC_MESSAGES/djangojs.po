@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 04:58+0000\n"
+"POT-Creation-Date: 2019-11-26 02:23+0000\n"
 "PO-Revision-Date: 2019-01-15 09:20+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
@@ -19,8 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.4-dev\n"
 
-msgid "Please, select one to continue"
-msgstr "Velg én for å fortsette"
+msgid "Event not found"
+msgstr "Hendelse ikke funnet"
+
+#, fuzzy
+msgid "No Event found in your search"
+msgstr "Ingen hendelse funnet i ditt søk"
 
 #, fuzzy
 msgid "Attendees"
@@ -28,6 +32,26 @@ msgstr "Oppmøtte"
 
 msgid "Tags"
 msgstr "Etiketter"
+
+msgid "You are seeing all of"
+msgstr ""
+
+#, fuzzy
+#| msgid "Events"
+msgid "events"
+msgstr "Hendelser"
+
+msgid "Please, select one to continue"
+msgstr "Velg én for å fortsette"
+
+#, fuzzy
+#| msgid "Search results"
+msgid "Search your event"
+msgstr "Søkeresultater"
+
+#, fuzzy
+msgid "Search by title..."
+msgstr "Søk etter tittel…"
 
 msgid "Search"
 msgstr "Søk"
@@ -43,6 +67,39 @@ msgstr "Nylig"
 
 msgid "Generic report"
 msgstr "Generisk rapport"
+
+msgid "Sign In"
+msgstr "Logg inn"
+
+msgid "Sign Up"
+msgstr "Registrer deg"
+
+msgid "Search results"
+msgstr "Søkeresultater"
+
+msgid "My Events"
+msgstr "Mine hendelser"
+
+msgid "Upcoming Events"
+msgstr "Kommende hendelser"
+
+msgid "Finished Events"
+msgstr "Fullførte hendelser"
+
+#, fuzzy
+#| msgid "Featured Events"
+msgid "Create event"
+msgstr "Framhevede hendelser"
+
+msgid "Recent Events"
+msgstr "Nylige hendelser"
+
+msgid "Featured Events"
+msgstr "Framhevede hendelser"
+
+#, fuzzy
+msgid "Events with Confirmed Schedule"
+msgstr "Hendelser med bekreftet tidspunkt"
 
 msgid "Event"
 msgstr "Hendelse"
@@ -141,38 +198,6 @@ msgstr "Avansert"
 msgid "There isn't any event yet."
 msgstr "Det finnes ingen hendelse enda."
 
-#, fuzzy
-msgid "Search by title..."
-msgstr "Søk etter tittel…"
-
-msgid "Sign In"
-msgstr "Logg inn"
-
-msgid "Sign Up"
-msgstr "Registrer deg"
-
-msgid "Search results"
-msgstr "Søkeresultater"
-
-msgid "My Events"
-msgstr "Mine hendelser"
-
-msgid "Upcoming Events"
-msgstr "Kommende hendelser"
-
-msgid "Finished Events"
-msgstr "Fullførte hendelser"
-
-msgid "Recent Events"
-msgstr "Nylige hendelser"
-
-msgid "Featured Events"
-msgstr "Framhevede hendelser"
-
-#, fuzzy
-msgid "Events with Confirmed Schedule"
-msgstr "Hendelser med bekreftet tidspunkt"
-
 msgid "There has been an error"
 msgstr "En feil har oppstått"
 
@@ -197,9 +222,8 @@ msgstr "Kobler til nettsokkel igjen, forsøk"
 msgid "websocket not supported by your browser"
 msgstr "Nettsokkel ikke støttet av din nettleser"
 
-msgid "Event not found"
-msgstr "Hendelse ikke funnet"
+msgid "Wrong offset!"
+msgstr ""
 
-#, fuzzy
-msgid "No Event found in your search"
-msgstr "Ingen hendelse funnet i ditt søk"
+msgid "Wrong length!"
+msgstr ""

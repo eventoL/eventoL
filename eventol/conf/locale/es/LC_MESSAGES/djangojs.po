@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-06-18 19:03+0000\n"
+"POT-Creation-Date: 2019-11-26 02:23+0000\n"
+"PO-Revision-Date: 2019-11-26 00:15-0300\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/djangojs/"
 "es/>\n"
@@ -17,16 +17,34 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.7\n"
+"X-Generator: Poedit 2.2.4\n"
 
-msgid "Please, select one to continue"
-msgstr "Por favor, seleccioná una opción para continuar"
+msgid "Event not found"
+msgstr "Evento no encontrado"
+
+msgid "No Event found in your search"
+msgstr "Ningún Evento encontrado en tu búsqueda"
 
 msgid "Attendees"
 msgstr "Asistentes"
 
 msgid "Tags"
 msgstr "Etiquetas"
+
+msgid "You are seeing all of"
+msgstr "Estás viendo todo lo de"
+
+msgid "events"
+msgstr "eventos"
+
+msgid "Please, select one to continue"
+msgstr "Por favor, seleccioná una opción para continuar"
+
+msgid "Search your event"
+msgstr "Busca tu evento"
+
+msgid "Search by title..."
+msgstr "Buscar por título..."
 
 msgid "Search"
 msgstr "Buscar"
@@ -42,6 +60,36 @@ msgstr "Recientes"
 
 msgid "Generic report"
 msgstr "Reporte general"
+
+msgid "Sign In"
+msgstr "Iniciar sesión"
+
+msgid "Sign Up"
+msgstr "Registrarse"
+
+msgid "Search results"
+msgstr "Resultados de la busqueda"
+
+msgid "My Events"
+msgstr "Mis Eventos"
+
+msgid "Upcoming Events"
+msgstr "Próximos Eventos"
+
+msgid "Finished Events"
+msgstr "Eventos Finalizados"
+
+msgid "Create event"
+msgstr "Crear Evento"
+
+msgid "Recent Events"
+msgstr "Eventos Recientes"
+
+msgid "Featured Events"
+msgstr "Eventos Destacados"
+
+msgid "Events with Confirmed Schedule"
+msgstr "Eventos con Cronograma Confirmado"
 
 msgid "Event"
 msgstr "Evento"
@@ -136,36 +184,6 @@ msgstr "Avanzado"
 msgid "There isn't any event yet."
 msgstr "No hay ningún evento todavía."
 
-msgid "Search by title..."
-msgstr "Buscar por título..."
-
-msgid "Sign In"
-msgstr "Iniciar sesión"
-
-msgid "Sign Up"
-msgstr "Registrarse"
-
-msgid "Search results"
-msgstr "Resultados de la busqueda"
-
-msgid "My Events"
-msgstr "Mis Eventos"
-
-msgid "Upcoming Events"
-msgstr "Próximos Eventos"
-
-msgid "Finished Events"
-msgstr "Eventos Finalizados"
-
-msgid "Recent Events"
-msgstr "Eventos Recientes"
-
-msgid "Featured Events"
-msgstr "Eventos Destacados"
-
-msgid "Events with Confirmed Schedule"
-msgstr "Eventos con Cronograma Confirmado"
-
 msgid "There has been an error"
 msgstr "Ha habido un error"
 
@@ -187,23 +205,11 @@ msgstr "Reconectando websocket, intentos"
 msgid "websocket not supported by your browser"
 msgstr "Tu navegador no soporta websocket"
 
-msgid "Event not found"
-msgstr "Evento no encontrado"
+msgid "Wrong offset!"
+msgstr "¡Desplazamiento equivocado!"
 
-msgid "No Event found in your search"
-msgstr "Ningún Evento encontrado en tu búsqueda"
+msgid "Wrong length!"
+msgstr "¡Longitud equivocada!"
 
-#~ msgid "You are seeing all of"
-#~ msgstr "Estás viendo todo lo de"
-
-#~ msgid "events"
-#~ msgstr "eventos"
-
-#~ msgid "Search your event"
-#~ msgstr "Busca tu evento"
-
-#~ msgid "Super Hacker"
-#~ msgstr "Super Hacker"
-
-#~ msgid "Event Management Software"
-#~ msgstr "Software de Gestión de Eventos"
+msgid "Event Management Software"
+msgstr "Software de Gestión de Eventos"
