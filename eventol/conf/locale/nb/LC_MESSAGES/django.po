@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-11 21:00+0000\n"
+"POT-Creation-Date: 2019-11-26 02:23+0000\n"
 "PO-Revision-Date: 2019-04-19 12:33+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.6-dev\n"
+
+#, python-format
+msgid "The width is: %(width)s"
+msgstr ""
+
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
 
 msgid "Danish"
 msgstr "Dansk"
@@ -178,6 +186,9 @@ msgid "Use Collaborators"
 msgstr ""
 
 msgid "Use Proposals"
+msgstr ""
+
+msgid "Use Talks"
 msgstr ""
 
 msgid "Is FLISoL"
@@ -497,6 +508,11 @@ msgstr "Starttid"
 msgid "End Time"
 msgstr "Sluttid"
 
+#, fuzzy
+#| msgid "Activity"
+msgid "Activity Type"
+msgstr "Aktivitet"
+
 msgid "Speakers Names"
 msgstr ""
 
@@ -619,14 +635,21 @@ msgid ""
 "you have any question."
 msgstr ""
 
-msgid ""
-"The page you're looking for is not here. Please try <a href=\"/\">here</a>."
+msgid "Page not found"
 msgstr ""
 
 msgid ""
-"Something, somewhere went terribly wrong. Please,\n"
-"        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
-"\">let us know!</a>"
+"The page you're looking for is not here.<br>Please try <a href=\"/\">here</"
+"a>."
+msgstr ""
+
+msgid "Internal server error"
+msgstr ""
+
+msgid ""
+"Something, somewhere went terribly wrong.<br>Please,\n"
+"            <a href=\"https://github.com/GNUtn/eventoL/issues\" target="
+"\"_blank\">let us know!</a>"
 msgstr ""
 
 msgid "FAQ"
@@ -873,8 +896,25 @@ msgid ""
 "                    <a href=\"%(email_url)s\">change your e-mail address</a>."
 msgstr ""
 
+msgid "Speakers"
+msgstr "Talere"
+
+msgid "Send mail to speakers"
+msgstr ""
+
+msgid "Copy speakers emails"
+msgstr ""
+
+msgid "Export to csv"
+msgstr ""
+
 msgid "Submit an activity"
 msgstr ""
+
+#, fuzzy
+#| msgid "Activity"
+msgid "Dummy activity"
+msgstr "Aktivitet"
 
 msgid "Manage Rooms"
 msgstr ""
@@ -882,20 +922,27 @@ msgstr ""
 msgid "Confirm Schedule"
 msgstr ""
 
-msgid "Confirmed"
-msgstr "Bekreftet"
-
-msgid "Speakers"
-msgstr "Talere"
-
-msgid "Speakers Bio"
-msgstr ""
+#, fuzzy
+#| msgid "Activities"
+msgid "Dummy activities"
+msgstr "Aktiviteter"
 
 msgid "Start"
 msgstr "Start"
 
 msgid "End"
 msgstr "Slutt"
+
+#, fuzzy
+#| msgid "Kind of activity"
+msgid "Edit dummy activity"
+msgstr "Aktivitetstype"
+
+msgid "Confirmed"
+msgstr "Bekreftet"
+
+msgid "Speakers Bio"
+msgstr ""
 
 msgid "Description"
 msgstr "Beskrivelse"
@@ -944,6 +991,11 @@ msgstr ""
 
 msgid "Time"
 msgstr ""
+
+#, fuzzy
+#| msgid "Kind of activity"
+msgid "Edit activity"
+msgstr "Aktivitetstype"
 
 msgid "Download presentation"
 msgstr ""
@@ -1092,6 +1144,9 @@ msgstr ""
 msgid "Select features for your event"
 msgstr ""
 
+msgid "Activity proposal form text"
+msgstr ""
+
 msgid ""
 "If the event is taking place in more than one day, you can add all of them "
 "here."
@@ -1196,7 +1251,7 @@ msgstr ""
 msgid ""
 " Organizers can edit the event information, view attendant's list, manage "
 "activities, manage\n"
-"            attendance and also add other organizers. Please choose "
+"                    attendance and also add other organizers. Please choose "
 "carefully! "
 msgstr ""
 
@@ -1213,8 +1268,7 @@ msgid "Add registration staff"
 msgstr ""
 
 msgid ""
-" People who can manage attendance can register a\n"
-"            person the day of the event."
+" People who can manage attendance can register a person the day of the event."
 msgstr ""
 
 msgid "Current registration staff:"
@@ -1238,7 +1292,7 @@ msgstr ""
 msgid "Add a new review person:"
 msgstr ""
 
-msgid "Browse..."
+msgid "Errors"
 msgstr ""
 
 msgid "Submit an Installation"
@@ -1366,6 +1420,9 @@ msgstr ""
 msgid "There aren't any activities or installations submitted"
 msgstr ""
 
+msgid "There aren't any activities submitted"
+msgstr ""
+
 msgid "Installers Per Level"
 msgstr ""
 
@@ -1379,6 +1436,9 @@ msgid "There aren't any attendees registered yet"
 msgstr ""
 
 msgid "Attendees attendance by hour"
+msgstr ""
+
+msgid "There aren't any attendees registered for this date"
 msgstr ""
 
 msgid "Talks"
@@ -1640,11 +1700,7 @@ msgstr ""
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
 
-msgid ""
-"The activity proposal is already closed or the "
-"event                            is not accepting proposals through this "
-"page. Please                            contact the Event Organization Team "
-"to submit it."
+msgid "Dummy"
 msgstr ""
 
 msgid ""
@@ -1653,10 +1709,17 @@ msgid ""
 msgstr ""
 
 msgid ""
-"The activity proposal edition is already closed or the "
+"The activity proposal is already closed or the "
 "event                            is not accepting proposals through this "
 "page. Please                            contact the Event Organization Team "
 "to submit it."
+msgstr ""
+
+msgid ""
+"The activity proposal edition is already closed,                            "
+"the schedule is confirmed or the event                            is not "
+"accepting proposals through this page. Please                            "
+"contact the Event Organization Team to submit it."
 msgstr ""
 
 msgid "Please crop or upload a new image."
@@ -1675,6 +1738,41 @@ msgid ""
 "The email couldn't sent successfully,                                   "
 "please retry later or contact a organizer"
 msgstr ""
+
+#, fuzzy
+#| msgid "Additional Info"
+msgid "Additional info"
+msgstr "Ytterligere info"
+
+#, fuzzy
+#| msgid "Speakers"
+msgid "Speakers names"
+msgstr "Talere"
+
+#, fuzzy
+#| msgid "Speakers"
+msgid "Speaker username"
+msgstr "Talere"
+
+#, fuzzy
+#| msgid "Speakers"
+msgid "Speaker first name"
+msgstr "Talere"
+
+#, fuzzy
+#| msgid "Speakers"
+msgid "Speaker last name"
+msgstr "Talere"
+
+#, fuzzy
+#| msgid "Speakers"
+msgid "Speaker email"
+msgstr "Talere"
+
+#, fuzzy
+#| msgid "Speakers"
+msgid "Speaker bio"
+msgstr "Talere"
 
 msgid "The talk was registered successfully!"
 msgstr ""
