@@ -3,7 +3,9 @@
 exports[`EventHome Search Should not show a new TitleList for search with value is "" 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={false}
+    languages={Array []}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -38,7 +40,9 @@ exports[`EventHome Search Should not show a new TitleList for search with value 
 exports[`EventHome Search Should not show a new TitleList for search with value is "" 2`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={false}
+    languages={Array []}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -73,7 +77,9 @@ exports[`EventHome Search Should not show a new TitleList for search with value 
 exports[`EventHome Search Should show a new TitleList for search 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={false}
+    languages={Array []}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -108,7 +114,9 @@ exports[`EventHome Search Should show a new TitleList for search 1`] = `
 exports[`EventHome Search Should show a new TitleList for search 2`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={false}
+    languages={Array []}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -149,7 +157,9 @@ exports[`EventHome Search Should show a new TitleList for search 2`] = `
 exports[`EventHome With user Desktop Default Snapshot 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={false}
+    languages={Array []}
     logoHeader="/static/manager/img/eventol-white.png"
     user={
       Object {
@@ -189,7 +199,9 @@ exports[`EventHome With user Desktop Default Snapshot 1`] = `
 exports[`EventHome With user Desktop With custom data Snapshot 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={false}
+    languages={Array []}
     logoHeader="logoHeader"
     user={
       Object {
@@ -229,7 +241,9 @@ exports[`EventHome With user Desktop With custom data Snapshot 1`] = `
 exports[`EventHome With user Mobile Default Snapshot 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={true}
+    languages={Array []}
     logoHeader="/static/manager/img/eventol-white.png"
     user={
       Object {
@@ -269,7 +283,9 @@ exports[`EventHome With user Mobile Default Snapshot 1`] = `
 exports[`EventHome With user Mobile With custom data Snapshot 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={true}
+    languages={Array []}
     logoHeader="logoHeader"
     user={
       Object {
@@ -309,7 +325,9 @@ exports[`EventHome With user Mobile With custom data Snapshot 1`] = `
 exports[`EventHome Without user Desktop Default Snapshot 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={false}
+    languages={Array []}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -344,7 +362,9 @@ exports[`EventHome Without user Desktop Default Snapshot 1`] = `
 exports[`EventHome Without user Desktop With custom data Snapshot 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={false}
+    languages={Array []}
     logoHeader="logoHeader"
     user={null}
   />
@@ -379,7 +399,9 @@ exports[`EventHome Without user Desktop With custom data Snapshot 1`] = `
 exports[`EventHome Without user Mobile Default Snapshot 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={true}
+    languages={Array []}
     logoHeader="/static/manager/img/eventol-white.png"
     user={null}
   />
@@ -414,7 +436,9 @@ exports[`EventHome Without user Mobile Default Snapshot 1`] = `
 exports[`EventHome Without user Mobile With custom data Snapshot 1`] = `
 <div>
   <Header
+    handlerOnChangeLanguage={[Function]}
     isMobile={true}
+    languages={Array []}
     logoHeader="logoHeader"
     user={null}
   />

@@ -10,7 +10,9 @@ exports[`Header With user Desktop version Snapshot 1`] = `
     <Logo
       logoHeader="eventol.png"
     />
-    <Navigation />
+    <Navigation
+      languages={Array []}
+    />
     <UserProfile
       user={
         Object {
@@ -48,7 +50,9 @@ exports[`Header With user Mobile version Snapshot 1`] = `
       <div
         className="narrow-links"
       >
-        <Navigation />
+        <Navigation
+          languages={Array []}
+        />
         <UserProfile
           user={
             Object {
@@ -73,7 +77,9 @@ exports[`Header Without user and without logo Desktop version Snapshot 1`] = `
     <Logo
       logoHeader="/static/manager/img/eventol-white.png"
     />
-    <Navigation />
+    <Navigation
+      languages={Array []}
+    />
     <SignIn />
   </div>
 </header>
@@ -104,7 +110,9 @@ exports[`Header Without user and without logo Mobile version Snapshot 1`] = `
       <div
         className="narrow-links"
       >
-        <Navigation />
+        <Navigation
+          languages={Array []}
+        />
         <SignIn />
       </div>
     </div>
