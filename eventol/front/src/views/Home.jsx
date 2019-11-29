@@ -16,6 +16,8 @@ window.render_components = properties => {
       <Home
         background={properties.background}
         eventolMessage={properties.message}
+        handleOnChangeLanguage={properties.onChangeLanguage}
+        languages={properties.languages}
         logoHeader={properties.logo_header}
         logoLanding={properties.logo_landing}
         user={properties.user}
