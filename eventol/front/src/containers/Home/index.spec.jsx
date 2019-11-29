@@ -52,7 +52,7 @@ describe('Home', () => {
     };
   });
 
-  describe('Search', () => {
+  describe('handleOnEnter', () => {
     beforeEach(() => {
       component = getComponent({isMobile: false});
       tree = component.toJSON();
@@ -62,7 +62,11 @@ describe('Home', () => {
       expect(tree).toMatchSnapshot();
 
       const value = 'searchTerm';
-      instance.findByType(Search).props.onEnter(value);
+      const SearchInstance = instance.findByType(Search);
+      const handleOnEnter = SearchInstance.props.onEnter;
+
+      handleOnEnter(value);
+
       component.update(element);
       await wait(0);
 
@@ -77,7 +81,11 @@ describe('Home', () => {
       expect(tree).toMatchSnapshot();
 
       const value = '';
-      instance.findByType(Search).props.onEnter(value);
+      const SearchInstance = instance.findByType(Search);
+      const handleOnEnter = SearchInstance.props.onEnter;
+
+      handleOnEnter(value);
+
       component.update(element);
       await wait(0);
 
