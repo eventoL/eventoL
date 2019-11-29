@@ -28,7 +28,14 @@ class Home extends React.PureComponent {
   static propTypes = {
     background: PropTypes.string,
     eventolMessage: PropTypes.string,
+    handleOnChangeLanguage: PropTypes.func,
     isMobile: PropTypes.bool.isRequired,
+    languages: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        name: PropTypes.string,
+      })
+    ),
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
     user: PropTypes.shape({
@@ -40,6 +47,8 @@ class Home extends React.PureComponent {
   static defaultProps = {
     background: BACKGROUND_DEFAULT,
     eventolMessage: null,
+    handleOnChangeLanguage: null,
+    languages: [],
     logoHeader: LOGO_HEADER_DEFAULT,
     logoLanding: LOGO_LANDING_DEFAULT,
     user: null,
@@ -57,6 +66,13 @@ class Home extends React.PureComponent {
     }
   };
 
+  handlerOnChangeLanguage = languageCode => {
+    const {handleOnChangeLanguage} = this.props;
+    if (handleOnChangeLanguage) {
+      handleOnChangeLanguage(languageCode);
+    }
+  };
+
   render() {
     const {searched, searchUrl} = this.state;
     const {
@@ -66,10 +82,17 @@ class Home extends React.PureComponent {
       logoHeader,
       logoLanding,
       isMobile,
+      languages,
     } = this.props;
     return (
       <div>
-        <Header isMobile={isMobile} logoHeader={logoHeader} user={user} />
+        <Header
+          handlerOnChangeLanguage={this.handlerOnChangeLanguage}
+          isMobile={isMobile}
+          languages={languages}
+          logoHeader={logoHeader}
+          user={user}
+        />
         <Hero
           background={background}
           isLogged={user !== null}
