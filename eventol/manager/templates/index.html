@@ -21,6 +21,15 @@
     {% render_bundle 'map' %}
     {% render_bundle 'Home' %}
     <script>
+      {% get_available_languages as languages %}
+      {% if languages %}
+        var languages = [
+          {% for lang_code, lang in languages %}
+            {code: '{{ lang_code }}', name: '{{ lang }}'},
+          {% endfor %}
+        ];
+      {% endif %}
+      
       window.render_components({
         {% if EVENTOL_SETTINGS.message and EVENTOL_SETTINGS.message.strip %}
           message: '{{ EVENTOL_SETTINGS.message }}',
@@ -43,7 +52,20 @@
             username: '{{ user.username | safe }}',
             first_name: '{{ user.first_name | safe }}',
             last_name: '{{ user.last_name | safe }}'
-          }
+          },
+        {% endif %}
+
+        {% if languages %}
+          languages: languages,
+          onChangeLanguage: function change_lang(language_code) {
+            $.post(
+              "{% url 'set_language' %}",
+              {language: language_code, csrfmiddlewaretoken: "{{ csrf_token }}"},
+              function(data, status, xhr) {
+                location.reload();
+              }
+            );
+          },
         {% endif %}
       });
     </script>
