@@ -131,7 +131,7 @@
     "resolve-url-loader": "^3.1.0",
     "roboto-fontface": "^0.10.0",
     "sass-lint": "^1.13.1",
-    "sass-lint-auto-fix": "^0.17.0",
+    "sass-lint-auto-fix": "^0.20.0",
     "sass-loader": "^7.1.0",
     "scss-lint-html-reporter": "^0.4.1",
     "slick": "^1.12.2",
