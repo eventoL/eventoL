@@ -1,5 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Home With languages Snapshot 1`] = `
+<div>
+  <Header
+    handlerOnChangeLanguage={[Function]}
+    isMobile={false}
+    languages={
+      Array [
+        Object {
+          "code": "es",
+          "name": "Spanish",
+        },
+        Object {
+          "code": "en",
+          "name": "English",
+        },
+      ]
+    }
+    logoHeader="/static/manager/img/eventol-white.png"
+    user={null}
+  />
+  <Hero
+    background="/static/manager/img/background.png"
+    isLogged={false}
+    logoLanding="/static/manager/img/logo.png"
+    message={null}
+  >
+    <Search
+      onEnter={[Function]}
+    />
+  </Hero>
+  <TitleList
+    id="my_events"
+    title="My Events"
+    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="recent"
+    title="Recent Events"
+    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="featured"
+    title="Featured Events"
+    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="next"
+    title="Upcoming Events"
+    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="schedule_confirmed"
+    title="Events with Confirmed Schedule"
+    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+  <TitleList
+    id="finished"
+    title="Finished Events"
+    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
+  />
+</div>
+`;
+
 exports[`Home With user Desktop Default Snapshot 1`] = `
 <div>
   <Header
