@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
-import Logger from '../../utils/logger';
 import {getMapId, loadMap} from '../../utils/map';
 
 import './index.scss';
@@ -11,11 +10,7 @@ const Map = props => {
   const mapId = getMapId(eventSlug, sliderId);
 
   useEffect(() => {
-    try {
-      loadMap(place, mapId);
-    } catch (e) {
-      Logger.error(e);
-    }
+    loadMap(place, mapId);
     document.getElementById(mapId).classList.remove('max-size');
   }, [mapId, place]);
 
