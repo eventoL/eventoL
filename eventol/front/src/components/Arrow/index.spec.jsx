@@ -38,6 +38,12 @@ describe('Arrow', () => {
       expect(tree).toMatchSnapshot();
     });
 
+    test('another type', () => {
+      component = renderer.create(<Arrow type="another" />);
+      tree = component.toJSON();
+      expect(tree).toMatchSnapshot();
+    });
+
     test('with custom style', () => {
       component = renderer.create(
         <Arrow style={{padding: '10px'}} type="prev" />
