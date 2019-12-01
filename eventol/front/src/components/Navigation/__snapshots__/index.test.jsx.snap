@@ -50,3 +50,85 @@ exports[`Navigation Default Snapshot 1`] = `
   </nav>
 </div>
 `;
+
+exports[`Navigation with languages Snapshot 1`] = `
+<div
+  className="navigation"
+  id="navigation"
+>
+  <nav>
+    <ul>
+      <button
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="link"
+        tabIndex="0"
+        type="button"
+      >
+        <li>
+          Search
+        </li>
+      </button>
+      <a
+        href="EVENTOL_DOCUMENTATION"
+      >
+        <li>
+          Documentation
+        </li>
+      </a>
+      <a
+        href="#featured"
+      >
+        <li>
+          Featured
+        </li>
+      </a>
+      <a
+        href="#recent"
+      >
+        <li>
+          Recent
+        </li>
+      </a>
+      <a
+        href="REPORT_URL"
+      >
+        <li>
+          Generic report
+        </li>
+      </a>
+      <div
+        className="languages-dropdown"
+      >
+        <button
+          className="dropbtn"
+          type="button"
+        >
+          Languages
+          <i
+            className="fa fa-caret-down"
+          />
+        </button>
+        <div
+          className="dropdown-content"
+        >
+          <a
+            href="#lang"
+            id="es"
+            onClick={[Function]}
+          >
+            Spanish
+          </a>
+          <a
+            href="#lang"
+            id="en"
+            onClick={[Function]}
+          >
+            English
+          </a>
+        </div>
+      </div>
+    </ul>
+  </nav>
+</div>
+`;

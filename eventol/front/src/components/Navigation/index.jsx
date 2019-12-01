@@ -55,7 +55,7 @@ export default class Navigation extends React.PureComponent {
               <li>{gettext('Generic report')}</li>
             </a>
             {languages.length > 0 && (
-              <div className="dropdown">
+              <div className="languages-dropdown">
                 <button className="dropbtn" type="button">
                   {gettext('Languages')}
                   <i className="fa fa-caret-down" />
@@ -65,6 +65,7 @@ export default class Navigation extends React.PureComponent {
                     <a
                       key={code}
                       href="#lang"
+                      id={code}
                       onClick={() => handlerOnChangeLanguage(code)}
                     >
                       {name}

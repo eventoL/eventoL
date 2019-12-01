@@ -16,7 +16,7 @@
     }
   }
 
-  .dropdown {
+  .languages-dropdown {
     background-color: transparent;
     color: $white;
     display: list-item;
@@ -69,7 +69,7 @@
 
 @media (min-width: 950px) {
   .navigation {
-    .dropdown {
+    .languages-dropdown {
       &:hover .dropdown-content {
         display: block;
         position: fixed;
