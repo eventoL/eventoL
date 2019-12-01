@@ -24,12 +24,33 @@ describe('Event utils', () => {
   describe('parseEventToItem', () => {
     test('should return event information', () => {
       const event = {...event1, ...event1Data};
+
       expect(parseEventToItem(event)).toEqual({
         eventSlug: event.event_slug,
         title: event.name,
         attendees: event.attendees_count,
         overview: event.abstract,
         backdrop: event.image,
+        place: event.place,
+        tags: event.tags,
+        key: event.event_slug,
+        url: getEventUrl(event.event_slug),
+      });
+    });
+
+    test('should return event information with image', () => {
+      const event = {
+        ...event1,
+        ...event1Data,
+        image: 'http://localhost/state/image.jpg',
+      };
+
+      expect(parseEventToItem(event)).toEqual({
+        eventSlug: event.event_slug,
+        title: event.name,
+        attendees: event.attendees_count,
+        overview: event.abstract,
+        backdrop: '/state/image.jpg',
         place: event.place,
         tags: event.tags,
         key: event.event_slug,
