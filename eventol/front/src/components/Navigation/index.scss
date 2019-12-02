@@ -18,13 +18,13 @@
 
   .languages-dropdown {
     background-color: transparent;
+    border-radius: 3px;
     color: $white;
     display: list-item;
-    vertical-align: baseline;
-    border-radius: 3px;
     font-size: 14px;
     font-weight: 400;
     padding: 7px 10px;
+    vertical-align: baseline;
 
     .dropbtn {
       i {
@@ -33,36 +33,30 @@
     }
 
     .dropdown-content {
+      background-color: $dropdown-background-color;
+      box-shadow: 0 8px 16px 0 $dropdown-box-shadow-color;
+      display: grid;
       margin-top: 5px;
-      display: none;
-      position: absolute;
-      background-color: #666a73;
       min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      position: relative;
       z-index: 1;
 
       a {
-        float: none;
-        text-decoration: none;
-        display: block;
-        text-align: left;
         border-radius: 3px;
+        display: block;
+        float: none;
         font-size: 14px;
         font-weight: 400;
         padding: 7px 10px;
         text-align: left;
+        text-decoration: none;
         transition: background .125s ease;
 
         &:hover {
-          background: #1f6879;
+          background: $dropdown-background-hover-color;
           cursor: pointer;
         }
       }
-    }
-
-    .dropdown-content {
-      display: grid;
-      position: relative;
     }
   }
 }
@@ -70,9 +64,11 @@
 @media (min-width: 950px) {
   .navigation {
     .languages-dropdown {
-      &:hover .dropdown-content {
-        display: block;
-        position: fixed;
+      &:hover {
+        .dropdown-content {
+          display: block;
+          position: fixed;
+        }
       }
 
       .dropdown-content {
