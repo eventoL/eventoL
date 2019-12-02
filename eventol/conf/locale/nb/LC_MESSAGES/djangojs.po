@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-11-26 02:23+0000\n"
-"PO-Revision-Date: 2019-01-15 09:20+0000\n"
+"PO-Revision-Date: 2019-12-03 01:05+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
 "djangojs/nb_NO/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.10-dev\n"
 
 msgid "Event not found"
 msgstr "Hendelse ikke funnet"
@@ -33,8 +33,9 @@ msgstr "Oppmøtte"
 msgid "Tags"
 msgstr "Etiketter"
 
+#, fuzzy
 msgid "You are seeing all of"
-msgstr ""
+msgstr "Du ser hele"
 
 #, fuzzy
 #| msgid "Events"
@@ -223,7 +224,7 @@ msgid "websocket not supported by your browser"
 msgstr "Nettsokkel ikke støttet av din nettleser"
 
 msgid "Wrong offset!"
-msgstr ""
+msgstr "Feil forskyvning!"
 
 msgid "Wrong length!"
-msgstr ""
+msgstr "Feil lengde!"
