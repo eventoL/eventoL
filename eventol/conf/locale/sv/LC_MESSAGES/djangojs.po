@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-26 02:23+0000\n"
+"POT-Creation-Date: 2019-12-13 18:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-msgid "Event not found"
-msgstr ""
-
-msgid "No Event found in your search"
-msgstr ""
-
-msgid "Attendees"
-msgstr ""
-
-msgid "Tags"
-msgstr ""
 
 msgid "You are seeing all of"
 msgstr ""
@@ -66,6 +54,18 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
+msgid "Event not found"
+msgstr ""
+
+msgid "No Event found in your search"
+msgstr ""
+
+msgid "Attendees"
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
 msgid "Search results"
 msgstr ""
 
@@ -78,9 +78,6 @@ msgstr ""
 msgid "Finished Events"
 msgstr ""
 
-msgid "Create event"
-msgstr ""
-
 msgid "Recent Events"
 msgstr ""
 
@@ -90,6 +87,18 @@ msgstr ""
 msgid "Events with Confirmed Schedule"
 msgstr ""
 
+msgid "Confirmed"
+msgstr ""
+
+msgid "Total"
+msgstr ""
+
+msgid "Not Confirmed"
+msgstr ""
+
+msgid "Don't configured"
+msgstr ""
+
 msgid "Event"
 msgstr ""
 
@@ -97,12 +106,6 @@ msgid "Name"
 msgstr ""
 
 msgid "Events"
-msgstr ""
-
-msgid "Organizers"
-msgstr ""
-
-msgid "Email"
 msgstr ""
 
 msgid "Location"
@@ -120,7 +123,7 @@ msgstr ""
 msgid "Assistance (confirmed)"
 msgstr ""
 
-msgid "Total"
+msgid "Organizers"
 msgstr ""
 
 msgid "Collaborators"
@@ -138,16 +141,7 @@ msgstr ""
 msgid "Installations"
 msgstr ""
 
-msgid "Confirmed"
-msgstr ""
-
-msgid "Not Confirmed"
-msgstr ""
-
 msgid "Quantity"
-msgstr ""
-
-msgid "Don't configured"
 msgstr ""
 
 msgid "Proposal"
@@ -180,10 +174,10 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-msgid "There isn't any event yet."
+msgid "Email"
 msgstr ""
 
-msgid "There has been an error"
+msgid "There isn't any event yet."
 msgstr ""
 
 msgid "National report"
@@ -198,14 +192,29 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
+msgid "There has been an error"
+msgstr ""
+
 msgid "Reconecting websocket, attemps"
 msgstr ""
 
 msgid "websocket not supported by your browser"
 msgstr ""
 
+msgid "<script>"
+msgstr ""
+
+msgid "<div>"
+msgstr ""
+
 msgid "Wrong offset!"
 msgstr ""
 
 msgid "Wrong length!"
+msgstr ""
+
+msgid "Create event"
+msgstr ""
+
+msgid "Languages"
 msgstr ""

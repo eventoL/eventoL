@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-26 02:23+0000\n"
+"POT-Creation-Date: 2019-12-13 18:23+0000\n"
 "PO-Revision-Date: 2019-11-26 00:15-0300\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/djangojs/"
@@ -18,18 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 2.2.4\n"
-
-msgid "Event not found"
-msgstr "Evento no encontrado"
-
-msgid "No Event found in your search"
-msgstr "Ningún Evento encontrado en tu búsqueda"
-
-msgid "Attendees"
-msgstr "Asistentes"
-
-msgid "Tags"
-msgstr "Etiquetas"
 
 msgid "You are seeing all of"
 msgstr "Estás viendo todo lo de"
@@ -67,6 +55,18 @@ msgstr "Iniciar sesión"
 msgid "Sign Up"
 msgstr "Registrarse"
 
+msgid "Event not found"
+msgstr "Evento no encontrado"
+
+msgid "No Event found in your search"
+msgstr "Ningún Evento encontrado en tu búsqueda"
+
+msgid "Attendees"
+msgstr "Asistentes"
+
+msgid "Tags"
+msgstr "Etiquetas"
+
 msgid "Search results"
 msgstr "Resultados de la busqueda"
 
@@ -79,9 +79,6 @@ msgstr "Próximos Eventos"
 msgid "Finished Events"
 msgstr "Eventos Finalizados"
 
-msgid "Create event"
-msgstr "Crear Evento"
-
 msgid "Recent Events"
 msgstr "Eventos Recientes"
 
@@ -91,6 +88,18 @@ msgstr "Eventos Destacados"
 msgid "Events with Confirmed Schedule"
 msgstr "Eventos con Cronograma Confirmado"
 
+msgid "Confirmed"
+msgstr "Confirmado"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Not Confirmed"
+msgstr "No confirmado"
+
+msgid "Don't configured"
+msgstr "No configurado"
+
 msgid "Event"
 msgstr "Evento"
 
@@ -99,12 +108,6 @@ msgstr "Nombre"
 
 msgid "Events"
 msgstr "Eventos"
-
-msgid "Organizers"
-msgstr "Organizadores"
-
-msgid "Email"
-msgstr "Mail"
 
 msgid "Location"
 msgstr "Ubicación"
@@ -121,8 +124,8 @@ msgstr "Provincia"
 msgid "Assistance (confirmed)"
 msgstr "Asistencia (confirmadas)"
 
-msgid "Total"
-msgstr "Total"
+msgid "Organizers"
+msgstr "Organizadores"
 
 msgid "Collaborators"
 msgstr "Colaboradores"
@@ -139,17 +142,8 @@ msgstr "Actividades"
 msgid "Installations"
 msgstr "Instalaciones"
 
-msgid "Confirmed"
-msgstr "Confirmado"
-
-msgid "Not Confirmed"
-msgstr "No confirmado"
-
 msgid "Quantity"
 msgstr "Cantidad"
-
-msgid "Don't configured"
-msgstr "No configurado"
 
 msgid "Proposal"
 msgstr "Propuesta"
@@ -181,11 +175,11 @@ msgstr "Medio"
 msgid "Advanced"
 msgstr "Avanzado"
 
+msgid "Email"
+msgstr "Mail"
+
 msgid "There isn't any event yet."
 msgstr "No hay ningún evento todavía."
-
-msgid "There has been an error"
-msgstr "Ha habido un error"
 
 msgid "National report"
 msgstr "Reporte nacional"
@@ -199,11 +193,20 @@ msgstr "Detalles de asistencia"
 msgid "Export"
 msgstr "Exportar"
 
+msgid "There has been an error"
+msgstr "Ha habido un error"
+
 msgid "Reconecting websocket, attemps"
 msgstr "Reconectando websocket, intentos"
 
 msgid "websocket not supported by your browser"
 msgstr "Tu navegador no soporta websocket"
+
+msgid "<script>"
+msgstr ""
+
+msgid "<div>"
+msgstr ""
 
 msgid "Wrong offset!"
 msgstr "¡Desplazamiento equivocado!"
@@ -211,5 +214,11 @@ msgstr "¡Desplazamiento equivocado!"
 msgid "Wrong length!"
 msgstr "¡Longitud equivocada!"
 
-msgid "Event Management Software"
-msgstr "Software de Gestión de Eventos"
+msgid "Create event"
+msgstr "Crear Evento"
+
+msgid "Languages"
+msgstr ""
+
+#~ msgid "Event Management Software"
+#~ msgstr "Software de Gestión de Eventos"
