@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attendeeattendancedate',
             name='mode',
-            field=models.CharField(blank=True, choices=[('1', 'Qr autoregistration'), ('2', 'Qr ticket'), ('3', 'Previous registration'), ('4', 'unregistred')], help_text='Attendance mode', max_length=200, null=True, verbose_name='Mode'),
+            field=models.CharField(blank=True, choices=[('1', 'QR autoregistration'), ('2', 'QR ticket'), ('3', 'Previous registration'), ('4', 'unregistred')], help_text='Attendance mode', max_length=200, null=True, verbose_name='Mode'),
         ),
         migrations.AddField(
             model_name='eventuserattendancedate',
             name='mode',
-            field=models.CharField(blank=True, choices=[('1', 'Qr autoregistration'), ('2', 'Qr ticket'), ('3', 'Previous registration'), ('4', 'unregistred')], help_text='Attendance mode', max_length=200, null=True, verbose_name='Mode'),
+            field=models.CharField(blank=True, choices=[('1', 'QR autoregistration'), ('2', 'QR ticket'), ('3', 'Previous registration'), ('4', 'unregistred')], help_text='Attendance mode', max_length=200, null=True, verbose_name='Mode'),
         ),
     ]
