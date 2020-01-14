@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-26 02:23+0000\n"
-"PO-Revision-Date: 2019-04-19 12:33+0000\n"
+"POT-Creation-Date: 2019-12-13 18:23+0000\n"
+"PO-Revision-Date: 2019-12-03 01:05+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
 "django/nb_NO/>\n"
@@ -16,15 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6-dev\n"
+"X-Generator: Weblate 3.10-dev\n"
 
 #, python-format
 msgid "The width is: %(width)s"
-msgstr ""
-
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
+msgstr "Bredden er: %(width)s"
 
 msgid "Danish"
 msgstr "Dansk"
@@ -87,22 +83,22 @@ msgid "This name will be used as a slug"
 msgstr ""
 
 msgid "Created At"
-msgstr ""
+msgstr "Opprettet"
 
 msgid "Updated At"
-msgstr ""
+msgstr "Oppdatert"
 
 msgid "A image to show in the background of"
-msgstr ""
+msgstr "Et bilde å vise i bakgrunnen av"
 
 msgid "This logo will be shown in the right corner of the page"
-msgstr ""
+msgstr "Logen vises i høyre hjørne av siden"
 
 msgid "Logo to show in the center of the page"
-msgstr ""
+msgstr "Logo vist i midten av siden"
 
 msgid "A message to show in the center of the page"
-msgstr ""
+msgstr "En melding som vises i midten av siden"
 
 msgid "URL"
 msgstr "Nettadresse"
@@ -111,10 +107,10 @@ msgid "For example: flisol-caba"
 msgstr "For eksempel: flison-caba"
 
 msgid "Custom Form"
-msgstr ""
+msgstr "Egendefinert skjema"
 
 msgid "Custom Forms"
-msgstr ""
+msgstr "Egendefinerte skjema"
 
 msgid "Order"
 msgstr "Rekkefølge"
@@ -149,10 +145,10 @@ msgid "Select tags to show this event in the EventTag landing"
 msgstr ""
 
 msgid "CNAME"
-msgstr ""
+msgstr "CNAME"
 
 msgid "code"
-msgstr ""
+msgstr "kode"
 
 msgid "Code validator for in-place event self-registration"
 msgstr ""
@@ -168,7 +164,7 @@ msgid "Email"
 msgstr "E-post"
 
 msgid "Event Info"
-msgstr ""
+msgstr "Arrangementsinfo"
 
 msgid "Event Info HTML"
 msgstr ""

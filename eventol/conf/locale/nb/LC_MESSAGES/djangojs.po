@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-26 02:23+0000\n"
-"PO-Revision-Date: 2019-01-15 09:20+0000\n"
+"POT-Creation-Date: 2019-12-13 18:23+0000\n"
+"PO-Revision-Date: 2019-12-03 01:05+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
 "djangojs/nb_NO/>\n"
@@ -17,24 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
-
-msgid "Event not found"
-msgstr "Hendelse ikke funnet"
+"X-Generator: Weblate 3.10-dev\n"
 
 #, fuzzy
-msgid "No Event found in your search"
-msgstr "Ingen hendelse funnet i ditt søk"
-
-#, fuzzy
-msgid "Attendees"
-msgstr "Oppmøtte"
-
-msgid "Tags"
-msgstr "Etiketter"
-
 msgid "You are seeing all of"
-msgstr ""
+msgstr "Du ser hele"
 
 #, fuzzy
 #| msgid "Events"
@@ -74,6 +61,20 @@ msgstr "Logg inn"
 msgid "Sign Up"
 msgstr "Registrer deg"
 
+msgid "Event not found"
+msgstr "Hendelse ikke funnet"
+
+#, fuzzy
+msgid "No Event found in your search"
+msgstr "Ingen hendelse funnet i ditt søk"
+
+#, fuzzy
+msgid "Attendees"
+msgstr "Oppmøtte"
+
+msgid "Tags"
+msgstr "Etiketter"
+
 msgid "Search results"
 msgstr "Søkeresultater"
 
@@ -86,11 +87,6 @@ msgstr "Kommende hendelser"
 msgid "Finished Events"
 msgstr "Fullførte hendelser"
 
-#, fuzzy
-#| msgid "Featured Events"
-msgid "Create event"
-msgstr "Framhevede hendelser"
-
 msgid "Recent Events"
 msgstr "Nylige hendelser"
 
@@ -101,6 +97,18 @@ msgstr "Framhevede hendelser"
 msgid "Events with Confirmed Schedule"
 msgstr "Hendelser med bekreftet tidspunkt"
 
+msgid "Confirmed"
+msgstr "Bekreftet"
+
+msgid "Total"
+msgstr "Totalt"
+
+msgid "Not Confirmed"
+msgstr "Ikke bekreftet"
+
+msgid "Don't configured"
+msgstr "Ikke oppsatt"
+
 msgid "Event"
 msgstr "Hendelse"
 
@@ -109,13 +117,6 @@ msgstr "Navn"
 
 msgid "Events"
 msgstr "Hendelser"
-
-msgid "Organizers"
-msgstr "Organisatorer"
-
-#, fuzzy
-msgid "Email"
-msgstr "E-post"
 
 msgid "Location"
 msgstr "Plassering"
@@ -134,8 +135,8 @@ msgstr "Provins"
 msgid "Assistance (confirmed)"
 msgstr "Assistanse (bekreftet)"
 
-msgid "Total"
-msgstr "Totalt"
+msgid "Organizers"
+msgstr "Organisatorer"
 
 msgid "Collaborators"
 msgstr "Hjelpere"
@@ -152,17 +153,8 @@ msgstr "Aktiviteter"
 msgid "Installations"
 msgstr "Installasjoner"
 
-msgid "Confirmed"
-msgstr "Bekreftet"
-
-msgid "Not Confirmed"
-msgstr "Ikke bekreftet"
-
 msgid "Quantity"
 msgstr "Mengde"
-
-msgid "Don't configured"
-msgstr "Ikke oppsatt"
 
 msgid "Proposal"
 msgstr "Forslag"
@@ -195,11 +187,12 @@ msgstr "Middels"
 msgid "Advanced"
 msgstr "Avansert"
 
+#, fuzzy
+msgid "Email"
+msgstr "E-post"
+
 msgid "There isn't any event yet."
 msgstr "Det finnes ingen hendelse enda."
-
-msgid "There has been an error"
-msgstr "En feil har oppstått"
 
 msgid "National report"
 msgstr "Nasjonal rapport"
@@ -214,6 +207,9 @@ msgstr "Assistansedetalj"
 msgid "Export"
 msgstr "Eksporter"
 
+msgid "There has been an error"
+msgstr "En feil har oppstått"
+
 #, fuzzy
 msgid "Reconecting websocket, attemps"
 msgstr "Kobler til nettsokkel igjen, forsøk"
@@ -222,8 +218,22 @@ msgstr "Kobler til nettsokkel igjen, forsøk"
 msgid "websocket not supported by your browser"
 msgstr "Nettsokkel ikke støttet av din nettleser"
 
-msgid "Wrong offset!"
+msgid "<script>"
 msgstr ""
 
+msgid "<div>"
+msgstr ""
+
+msgid "Wrong offset!"
+msgstr "Feil forskyvning!"
+
 msgid "Wrong length!"
+msgstr "Feil lengde!"
+
+#, fuzzy
+#| msgid "Featured Events"
+msgid "Create event"
+msgstr "Framhevede hendelser"
+
+msgid "Languages"
 msgstr ""
