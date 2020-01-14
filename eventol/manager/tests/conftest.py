@@ -2,6 +2,7 @@
 # pylint: disable=too-many-arguments
 
 from datetime import datetime
+from django.db import connection
 from django.test import Client
 from rest_framework.test import APIClient, APIRequestFactory
 
@@ -248,7 +249,7 @@ def installation2(attendee_from_event_user2, installer2):
 @pytest.mark.django_db
 def get_event_date(datestring):
     date = datetime.strptime(datestring, "%d/%m/%Y")
-    return autofixture.create_one('manager.EventDate', {'date': date.date()})
+    yield autofixture.create_one('manager.EventDate', {'date': date.date()})
 
 
 @pytest.fixture
@@ -273,6 +274,24 @@ def event_date_26_01_2019():
 @pytest.mark.django_db
 def event_date_27_01_2019():
     yield get_event_date('27/01/2019')
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def software1():
+    yield autofixture.create_one('manager.Software', {'name': 'software1', 'type': 'OS'})
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def software2():
+    yield autofixture.create_one('manager.Software', {'name': 'software2', 'type': 'OS'})
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def softwares():
+    yield autofixture.create('manager.Software', 10)
 
 
 # Groups
