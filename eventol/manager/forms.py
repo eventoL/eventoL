@@ -38,34 +38,17 @@ from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
 logger = logging.getLogger('eventol')
 
 
-class GenericAutocomplete(autocomplete.Select2QuerySetView):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.use_unaccent = True
-
-    def get(self, request, *args, **kwargs):
-        try:
-            return super().get(request, *args, **kwargs)
-        except OperationalError as error:
-            logger.error(error)
-            self.use_unaccent = False
-            return super().get(request, *args, **kwargs)
-
-
-class SoftwareAutocomplete(GenericAutocomplete):
+class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             return Software.objects.none()
         softwares = Software.objects.all()
         if self.q:
-            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
-                softwares = softwares.filter(name__unaccent__icontains=self.q)
-            else:
-                softwares = softwares.filter(name__icontains=self.q)
+            softwares = softwares.filter(name__unaccent__icontains=self.q)
         return softwares[:5]
 
 
-class AttendeeAutocomplete(GenericAutocomplete):
+class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             return Attendee.objects.none()
@@ -82,25 +65,16 @@ class AttendeeAutocomplete(GenericAutocomplete):
             .filter(event__event_slug=event_slug).exclude(pk__in=attended)
 
         if event_user and self.q:
-            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
-                attendees = attendees.filter(
-                    Q(first_name__unaccent__icontains=self.q) |
-                    Q(last_name__unaccent__icontains=self.q) |
-                    Q(nickname__unaccent__icontains=self.q) |
-                    Q(email__icontains=self.q)
-                )
-            else:
-                attendees = attendees.filter(
-                    Q(first_name__icontains=self.q) |
-                    Q(last_name__icontains=self.q) |
-                    Q(nickname__icontains=self.q) |
-                    Q(email__icontains=self.q)
-                )
-
+            attendees = attendees.filter(
+                Q(first_name__unaccent__icontains=self.q) |
+                Q(last_name__unaccent__icontains=self.q) |
+                Q(nickname__unaccent__icontains=self.q) |
+                Q(email__icontains=self.q)
+            )
         return attendees[:5]
 
 
-class AllAttendeeAutocomplete(GenericAutocomplete):
+class AllAttendeeAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             return Attendee.objects.none()
@@ -109,24 +83,16 @@ class AllAttendeeAutocomplete(GenericAutocomplete):
             user=self.request.user, event__event_slug=event_slug).first()
         attendees = Attendee.objects.filter(event__event_slug=event_slug)
         if event_user and self.q:
-            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
-                attendees = attendees.filter(
-                    Q(first_name__unaccent__icontains=self.q) |
-                    Q(last_name__unaccent__icontains=self.q) |
-                    Q(nickname__unaccent__icontains=self.q) |
-                    Q(email__icontains=self.q)
-                )
-            else:
-                attendees = attendees.filter(
-                    Q(first_name__icontains=self.q) |
-                    Q(last_name__icontains=self.q) |
-                    Q(nickname__icontains=self.q) |
-                    Q(email__icontains=self.q)
-                )
+            attendees = attendees.filter(
+                Q(first_name__unaccent__icontains=self.q) |
+                Q(last_name__unaccent__icontains=self.q) |
+                Q(nickname__unaccent__icontains=self.q) |
+                Q(email__icontains=self.q)
+            )
         return attendees[:5]
 
 
-class EventUserAutocomplete(GenericAutocomplete):
+class EventUserAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         if not self.request.user.is_authenticated():
             return EventUser.objects.none()
@@ -144,21 +110,12 @@ class EventUserAutocomplete(GenericAutocomplete):
             .filter(event=event_user.event).exclude(pk__in=attended)
 
         if event_user and self.q:
-            if not hasattr(self, 'use_unaccent') or self.use_unaccent:
-                event_users = event_users.filter(
-                    Q(user__first_name__unaccent__icontains=self.q) |
-                    Q(user__last_name__unaccent__icontains=self.q) |
-                    Q(user__username__unaccent__icontains=self.q) |
-                    Q(user__email__icontains=self.q)
-                )
-            else:
-                event_users = event_users.filter(
-                    Q(user__first_name__icontains=self.q) |
-                    Q(user__last_name__icontains=self.q) |
-                    Q(user__username__icontains=self.q) |
-                    Q(user__email__icontains=self.q)
-                )
-
+            event_users = event_users.filter(
+                Q(user__first_name__unaccent__icontains=self.q) |
+                Q(user__last_name__unaccent__icontains=self.q) |
+                Q(user__username__unaccent__icontains=self.q) |
+                Q(user__email__icontains=self.q)
+            )
         return event_users[:5]
 
 
