@@ -1,351 +1,361 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Nathan <bonnemainsnathan@gmail.com>, 2020.
+# Federico Gonzalez <federicogonzalez761@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 21:22+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"PO-Revision-Date: 2020-01-15 21:24+0000\n"
+"Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/eventol/django/fr/"
+">\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 #, python-format
 msgid "The width is: %(width)s"
-msgstr ""
+msgstr "La largeur est : %(width)s"
 
 #, python-format
 msgid "Index of %(directory)s"
-msgstr ""
+msgstr "Index de %(directory)s"
 
 msgid "Danish"
-msgstr ""
+msgstr "Danois"
 
 msgid "English"
-msgstr ""
+msgstr "Anglais"
 
 msgid "Spanish"
-msgstr ""
+msgstr "Espagnol"
 
 msgid "French"
-msgstr ""
+msgstr "Français"
 
 msgid "Norwegian Bokmal"
-msgstr ""
+msgstr "Norvégien"
 
 msgid "Dutch"
-msgstr ""
+msgstr "Néerlandais"
 
 msgid "Swedish"
-msgstr ""
+msgstr "Suédois"
 
 msgid "Chinese"
-msgstr ""
+msgstr "Chinois"
 
 msgid "Attendee"
-msgstr ""
+msgstr "Participant"
 
 msgid "Collaborator/Installer"
-msgstr ""
+msgstr "Collaborateur/Organisateur"
 
 msgid "Repeat Email"
-msgstr ""
+msgstr "Répéter l'adresse e-mail"
 
 msgid "Emails do not match."
-msgstr ""
+msgstr "Les adresses e-mail ne correspondent pas."
 
 msgid "This field is required"
-msgstr ""
+msgstr "Ce champ est requis"
 
 msgid "One or more dates of the event are the same date"
-msgstr ""
+msgstr "Une ou plusieurs dates de l'évènement sont identiques"
 
 msgid "First Name"
-msgstr ""
+msgstr "Prénom"
 
 msgid "Last Name"
-msgstr ""
+msgstr "Nom"
 
 msgid "Are you a human?"
-msgstr ""
+msgstr "Êtes-vous un être humain ?"
 
 msgid "Why do you reject this proposal?"
-msgstr ""
+msgstr "Pourquoi refusez-vous cette proposition ?"
 
 msgid "URL can only contain letters or numbers"
-msgstr ""
+msgstr "Une URL ne peut contenir que des lettres ou des chiffres"
 
 msgid "EventTag Name"
-msgstr ""
+msgstr "Nom de l'étiquette d’évènement"
 
 msgid "This name will be used as a slug"
-msgstr ""
+msgstr "Ce nom sera utilisé comme identifiant"
 
 msgid "Created At"
-msgstr ""
+msgstr "Créé à"
 
 msgid "Updated At"
-msgstr ""
+msgstr "Mis à jour à"
 
 msgid "A image to show in the background of"
-msgstr ""
+msgstr "Une image à afficher en arrière-plan de"
 
 msgid "This logo will be shown in the right corner of the page"
-msgstr ""
+msgstr "Ce logo sera affiché dans le coin droit de la page"
 
 msgid "Logo to show in the center of the page"
-msgstr ""
+msgstr "Logo à afficher au centre de la page"
 
 msgid "A message to show in the center of the page"
-msgstr ""
+msgstr "Un message à afficher au centre de la page"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "For example: flisol-caba"
-msgstr ""
+msgstr "Par exemple : flisol-caba"
 
 msgid "Custom Form"
-msgstr ""
+msgstr "Formulaire personnalisé"
 
 msgid "Custom Forms"
-msgstr ""
+msgstr "Formulaires personnalisés"
 
 msgid "Order"
-msgstr ""
+msgstr "Ordre"
 
 msgid "Custom Field"
-msgstr ""
+msgstr "Champ personnalisé"
 
 msgid "Custom Fields"
-msgstr ""
+msgstr "Champs personnalisés"
 
 msgid "Event Name"
-msgstr ""
+msgstr "Nom de l'évènement"
 
 msgid "Abstract"
-msgstr ""
+msgstr "Résumé"
 
 msgid ""
 "Idea of the event                                             (one or two "
 "sentences)"
 msgstr ""
+"Concept de l'évènement                                             (une ou "
+"deux phrases)"
 
 msgid "Limit Proposals Date"
-msgstr ""
+msgstr "Date limite de proposition"
 
 msgid "Limit date to submit talk proposals"
-msgstr ""
+msgstr "Date limite pour envoyer des propositions de conférence"
 
 msgid "set it to True to force the registration to be closed"
-msgstr ""
+msgstr "mettez le à vrai pour forcer la fermeture des inscriptions"
 
 msgid "Select tags to show this event in the EventTag landing"
 msgstr ""
+"Sélectionnez les étiquettes à afficher sur la page de présentation de cet "
+"évènement"
 
 msgid "CNAME"
-msgstr ""
+msgstr "CNAME"
 
 msgid "code"
-msgstr ""
+msgstr "code"
 
 msgid "Code validator for in-place event self-registration"
-msgstr ""
+msgstr "Validateur de code pour l'auto-enregistrement à l'événement sur place"
 
 msgid "External URL"
-msgstr ""
+msgstr "URL externe"
 
 msgid "http://www.my-awesome-event.com"
-msgstr ""
+msgstr "http://www.mon-super-evenement.fr"
 
 msgid "Email"
-msgstr ""
+msgstr "Adresse e-mail"
 
 msgid "Event Info"
-msgstr ""
+msgstr "Informations de l'évènement"
 
 msgid "Event Info HTML"
-msgstr ""
+msgstr "Informations de l'évènement (HTML)"
 
 msgid "Schedule Confirmed"
-msgstr ""
+msgstr "Programme confirmé"
 
 msgid "Use Installations"
-msgstr ""
+msgstr "Utiliser les installations"
 
 msgid "Use Installers"
-msgstr ""
+msgstr "Utiliser les installateurs"
 
 msgid "Use Collaborators"
-msgstr ""
+msgstr "Utiliser les collaborateurs"
 
 msgid "Use Proposals"
-msgstr ""
+msgstr "Utiliser les propositions"
 
 msgid "Use Talks"
-msgstr ""
+msgstr "Utiliser les conférences"
 
 msgid "Is FLISoL"
 msgstr ""
 
 msgid "Use Schedule"
-msgstr ""
+msgstr "Utiliser le programme"
 
 msgid "Place"
-msgstr ""
+msgstr "Lieu"
 
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 msgid "Cropping"
-msgstr ""
+msgstr "Rogner"
 
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr ""
+"L'image doit avoir une taille de 700 x 450 px. Vous pouvez la rogner ici."
 
 msgid "A message to show in the activities proposal form"
-msgstr ""
+msgstr "Un message à afficher dans le formulaire de proposition d'activités"
 
 msgid "Template"
-msgstr ""
+msgstr "Modèle"
 
 msgid "Custom template HTML for event index page"
-msgstr ""
+msgstr "Modèle HTML personnalisé pour la page de l'évènement"
 
 msgid "Custom CSS"
-msgstr ""
+msgstr "CSS personnalisé"
 
 msgid "Custom CSS file for event page"
-msgstr ""
+msgstr "Fichier CSS personnalisé pour la page de l'évènement"
 
 msgid "Event"
-msgstr ""
+msgstr "Évènement"
 
 msgid "Events"
-msgstr ""
+msgstr "Évènements"
 
 msgid "Date"
-msgstr ""
+msgstr "Date"
 
 msgid "When will your event be?"
-msgstr ""
+msgstr "Quand aura lieu votre événement ?"
 
 msgid "Event Date"
-msgstr ""
+msgstr "Date de l'évènement"
 
 msgid "Event Dates"
-msgstr ""
+msgstr "Dates de l'évènement"
 
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 msgid "Message"
-msgstr ""
+msgstr "Message"
 
 msgid "Contact Message"
-msgstr ""
+msgstr "Message de contact"
 
 msgid "Contact Messages"
-msgstr ""
+msgstr "Messages de contact"
 
 msgid "Validate URL"
-msgstr ""
+msgstr "Valider l'URL"
 
 msgid "Validate Email"
-msgstr ""
+msgstr "Valider l'adresse e-mail"
 
 msgid "Don't validate"
-msgstr ""
+msgstr "Ne pas valider"
 
 msgid "Icon Class"
 msgstr ""
 
 msgid "Level"
-msgstr ""
+msgstr "Niveau"
 
 msgid "Type of field validation"
-msgstr ""
+msgstr "Type de validation des champs"
 
 msgid "Contact Type"
-msgstr ""
+msgstr "Type de contact"
 
 msgid "Contact Types"
-msgstr ""
+msgstr "Types de contact"
 
 msgid "i.e. https://twitter.com/flisol"
-msgstr ""
+msgstr "Par ex : https://twitter.com/flisol"
 
 msgid "Text"
-msgstr ""
+msgstr "Texte"
 
 msgid "i.e. @Flisol"
-msgstr ""
+msgstr "Par ex : @Flisol"
 
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 msgid "Contacts"
-msgstr ""
+msgstr "Contacts"
 
 msgid "Sent"
-msgstr ""
+msgstr "Envoyer"
 
 msgid "number"
-msgstr ""
+msgstr "numéro"
 
 msgid "Unique identifier for the ticket"
-msgstr ""
+msgstr "Identifiant unique pour le billet"
 
 msgid "User"
-msgstr ""
+msgstr "Utilisateur"
 
 msgid "Ticket"
-msgstr ""
+msgstr "Billet"
 
 msgid "Event User"
-msgstr ""
+msgstr "Utilisateur de l'évènement"
 
 msgid "Event Users"
-msgstr ""
+msgstr "Utilisateurs de l'évènement"
 
 msgid "The date of the attendance"
-msgstr ""
+msgstr "La date de la présence"
 
 msgid "Qr autoregistration"
-msgstr ""
+msgstr "Enregistrement automatique via code QR"
 
 msgid "Qr ticket"
-msgstr ""
+msgstr "Billet avec code QR"
 
 msgid "Previous registration"
-msgstr ""
+msgstr "Inscription précédente"
 
 msgid "unregistred"
-msgstr ""
+msgstr "non inscrit"
 
 msgid "Mode"
-msgstr ""
+msgstr "Mode"
 
 msgid "Attendance mode"
-msgstr ""
+msgstr "Mode de présence"
 
 msgid "Assignation"
-msgstr ""
+msgstr "Affectation"
 
 msgid ""
 "Anything you can help with                                                (i."
 "e. Talks, Coffee…)"
 msgstr ""
+"Tout ce que vous pouvez faire pour "
+"aider                                                (par ex : conférences, "
+"café…)"
 
 msgid "Time Availability"
-msgstr ""
+msgstr "Disponibilités"
 
 msgid ""
 "Time period in which you "
@@ -354,33 +364,38 @@ msgid ""
 "event\", \"Morning\",                                                      "
 "\"Afternoon\", …"
 msgstr ""
+"Période pendant laquelle vous "
+"pouvez                                                       aider pendant "
+"l'événement. par ex :                                                      « "
+"Tout l'évènement », « Matin »"
+",                                                      « Après-midi », …"
 
 msgid "Phone"
-msgstr ""
+msgstr "Téléphone"
 
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "Informations supplémentaires"
 
 msgid "Additional info you consider relevant"
-msgstr ""
+msgstr "Informations supplémentaires que vous jugez pertinentes"
 
 msgid "Collaborator"
-msgstr ""
+msgstr "Collaborateur"
 
 msgid "Collaborators"
-msgstr ""
+msgstr "Collaborateurs"
 
 msgid "Organizer"
-msgstr ""
+msgstr "Organisateur"
 
 msgid "Organizers"
-msgstr ""
+msgstr "Organisateurs"
 
 msgid "Nickname"
-msgstr ""
+msgstr "Surnom"
 
 msgid "Is going to install?"
 msgstr ""
@@ -390,27 +405,30 @@ msgid ""
 "consider                                                    relevant to the "
 "organizers"
 msgstr ""
+"Informations supplémentaires que vous "
+"jugez                                                    pertinentes pour "
+"les organisateurs"
 
 msgid "Email confirmed?"
-msgstr ""
+msgstr "Adresse e-mail confirmée ?"
 
 msgid "Confirmation Token"
-msgstr ""
+msgstr "Jeton de confirmation"
 
 msgid "Registration Date"
-msgstr ""
+msgstr "Date d'inscription"
 
 msgid "Attendees"
-msgstr ""
+msgstr "Participants"
 
 msgid "Message Body"
-msgstr ""
+msgstr "Corps du message"
 
 msgid "Email message HTML Body"
-msgstr ""
+msgstr "Corps du message de l'e-mail (HTML)"
 
 msgid "Contact Email"
-msgstr ""
+msgstr "Adresse e-mail de contact"
 
 msgid "Post-install Email"
 msgstr ""
@@ -419,25 +437,25 @@ msgid "Post-install Emails"
 msgstr ""
 
 msgid "Beginner"
-msgstr ""
+msgstr "Débutant"
 
 msgid "Medium"
-msgstr ""
+msgstr "Moyen"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avancé"
 
 msgid "Super Hacker"
-msgstr ""
+msgstr "Super hackeur"
 
 msgid "Knowledge level for an installation"
-msgstr ""
+msgstr "Niveau de compétences pour l'installation"
 
 msgid "Installer"
-msgstr ""
+msgstr "Installateur"
 
 msgid "Installers"
-msgstr ""
+msgstr "Installateurs"
 
 msgid "Operative System"
 msgstr ""
@@ -449,99 +467,106 @@ msgid "Support and Problem Fixing"
 msgstr ""
 
 msgid "Other"
-msgstr ""
+msgstr "Autre"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "Mobile"
-msgstr ""
+msgstr "Mobile"
 
 msgid "Notebook"
-msgstr ""
+msgstr "Notebook"
 
 msgid "Netbook"
-msgstr ""
+msgstr "Netbook"
 
 msgid "Tablet"
-msgstr ""
+msgstr "Tablette"
 
 msgid "Desktop"
-msgstr ""
+msgstr "Ordinateur de bureau"
 
 msgid "Manufacturer"
-msgstr ""
+msgstr "Fabricant"
 
 msgid "Model"
-msgstr ""
+msgstr "Modèle"
 
 msgid "i.e. Classroom 256"
-msgstr ""
+msgstr "par ex : Salle de classe N°256"
 
 msgid "Room"
-msgstr ""
+msgstr "Salle"
 
 msgid "Rooms"
-msgstr ""
+msgstr "Salles"
 
 msgid "Kind of activity"
-msgstr ""
+msgstr "Type d'activité"
 
 msgid "Speaker or the person in charge of the activity"
-msgstr ""
+msgstr "Intervenant ou personne en charge de l'activité"
 
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
 msgid "Long Description"
-msgstr ""
+msgstr "Description longue"
 
 msgid "Short idea of the talk (Two or three sentences)"
-msgstr ""
+msgstr "Concept rapide de la conférence (deux ou trois phrases)"
 
 msgid "Justification"
-msgstr ""
+msgstr "Justification"
 
 msgid "Start Time"
-msgstr ""
+msgstr "Heure de début"
 
 msgid "End Time"
-msgstr ""
+msgstr "Heure de fin"
 
 msgid "Activity Type"
-msgstr ""
+msgstr "Type d'activité"
 
 msgid "Speakers Names"
-msgstr ""
+msgstr "Nom des intervenants"
 
 msgid "Comma separated speaker names"
-msgstr ""
+msgstr "Nom des intervenants séparés par des virgules"
 
 msgid "Speaker Bio"
-msgstr ""
+msgstr "Bio de l'intervenant"
 
-msgid "Tell us about you (we will use it as your \"bio\" in our website)"
+msgid "Tell us about you (we will user it as your \"bio\" in our website"
 msgstr ""
+"Dites-en plus à propos de vous (nous allons utiliser ceci comme « bio » sur "
+"notre site)"
 
 msgid "Labels"
-msgstr ""
+msgstr "Étiquettes"
 
 msgid ""
 "Comma separated tags. i.e. Linux,                                           "
 "Free Software, Devuan"
 msgstr ""
+"Étiquettes séparées par des virgules. Par ex : "
+"Linux,                                           Logiciels libres, Devuan"
 
 msgid "Presentation"
-msgstr ""
+msgstr "Présentation"
 
 msgid ""
 "Material you are going to "
 "use                                                 for the talk (optional, "
 "but recommended)"
 msgstr ""
+"Matériel que vous allez "
+"utiliser                                                 pour la conférence ("
+"facultatif, mais recommandé)"
 
 msgid "Talk's Technical level"
-msgstr ""
+msgstr "Niveau technique de la conférence"
 
 msgid ""
 "Info you consider "
@@ -549,24 +574,28 @@ msgid ""
 "organizer, special                                                    "
 "activity requirements, etc."
 msgstr ""
+"Informations que vous jugez "
+"pertinentes                                                    pour "
+"l'organisateur, prérequis                                                    "
+"particuliers pour une activité, etc."
 
 msgid "Proposal"
-msgstr ""
+msgstr "Proposition"
 
 msgid "Accepted"
-msgstr ""
+msgstr "Accepté"
 
 msgid "Rejected"
-msgstr ""
+msgstr "Refusé"
 
 msgid "Status"
-msgstr ""
+msgstr "État"
 
 msgid "Activity proposal status"
-msgstr ""
+msgstr "État de la proposition d'activité"
 
 msgid "Is a dummy Activity?"
-msgstr ""
+msgstr "C'est une activité factice ?"
 
 msgid ""
 "A dummy activity is used for example for "
@@ -574,93 +603,113 @@ msgid ""
 "exclude it from the index                                                "
 "page and other places"
 msgstr ""
+"Une activité factice est utilisée par exemple pour les "
+"pauses                                                café. Nous l'utilisons "
+"pour l'exclure de la page                                                "
+"d'index et d'autres endroits"
 
 msgid "Schedule not confirmed yet"
-msgstr ""
+msgstr "Programme non confirmé pour l'instant"
 
 msgid ""
 "The talk couldn't be registered because the schedule is "
 "not                         available (starts and ends at the same time)"
 msgstr ""
+"La conférence n'a pas pu être enregistrée car le programme n'est "
+"pas                          disponible (commence et se termine en même "
+"temps)"
 
 msgid ""
 "The talk couldn't be registered because the schedule is "
 "not                         available (starts after it finishes)"
 msgstr ""
+"La conférence n'a pas pu être enregistrée car le programme n'est "
+"pas                         disponible (commence après la fin)"
 
 msgid ""
 "The talk couldn't be registered because the                             room "
 "or the schedule is not available"
 msgstr ""
+"La conférence n'a pas pu être enregistrée car la                             "
+"salle ou le programme n'est pas disponible"
 
 msgid "Activity"
-msgstr ""
+msgstr "Activité"
 
 msgid "Activities"
-msgstr ""
+msgstr "Activités"
 
 msgid "Hardware"
-msgstr ""
+msgstr "Matériel"
 
 msgid "Software"
-msgstr ""
+msgstr "Logiciels"
 
 msgid "The owner of the installed hardware"
-msgstr ""
+msgstr "Le propriétaire du matériel installé"
 
 msgid "Notes"
-msgstr ""
+msgstr "Remarques"
 
 msgid ""
 "Info or trouble you                                          consider "
 "relevant to document"
 msgstr ""
+"Informations ou problèmes que                                          vous "
+"jugez pertinents pour le document"
 
 msgid "Installation"
-msgstr ""
+msgstr "Installation"
 
 msgid "Installations"
-msgstr ""
+msgstr "Installations"
 
 msgid "eventoL setting"
-msgstr ""
+msgstr "Paramètre d'eventoL"
 
 msgid "eventoL settings"
-msgstr ""
+msgstr "Paramètres d'eventoL"
 
 msgid ""
 "You are not allowed to access the current page. Contact an administrator if "
 "you have any question."
 msgstr ""
+"Vous n'êtes pas autorisé à consulter cette page. Contactez un administrateur "
+"si vous avez des questions."
 
 msgid "Page not found"
-msgstr ""
+msgstr "Pas introuvable"
 
 msgid ""
 "The page you're looking for is not here.<br>Please try <a href=\"/\">here</"
 "a>."
 msgstr ""
+"La page que vous cherchez ne se trouve pas ici.<br>Veuillez essayer <a href="
+"\"/\">ici</a>."
 
 msgid "Internal server error"
-msgstr ""
+msgstr "Erreur interne du serveur"
 
 msgid ""
 "Something, somewhere went terribly wrong.<br>Please,\n"
 "            <a href=\"https://github.com/GNUtn/eventoL/issues\" target="
 "\"_blank\">let us know!</a>"
 msgstr ""
+"Quelque chose, quelque part, s'est mal passé.<br>Veuillez\n"
+"            <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\""
+"_blank\">nous le faire savoir !</a>"
 
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Questions fréquentes"
 
 msgid "Account Inactive"
-msgstr ""
+msgstr "Compte inactif"
 
 msgid "This account is inactive."
-msgstr ""
+msgstr "Ce compte est inactif."
 
 #, python-format
 msgid ""
@@ -672,15 +721,23 @@ msgid ""
 "\n"
 "To confirm this is correct, go to %(activate_url)s\n"
 msgstr ""
+"Bonjour de %(site_name)s !\n"
+"\n"
+"Vous recevez cet e-mail car l'utilisateur %(user_display)s de %(site_domain)"
+"s a indiqué votre adresse e-mail pour confirmer son compte.\n"
+"\n"
+"Pour pouvoir le confirmer, allez à %(activate_url)s\n"
 
 #, python-format
 msgid ""
 "Thank you from %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
+"Merci de la part de %(site_name)s !\n"
+"%(site_domain)s"
 
 msgid "Please Confirm Your E-mail Address"
-msgstr ""
+msgstr "Veuillez confirmer votre adresse e-mail"
 
 #, python-format
 msgid ""
@@ -691,22 +748,30 @@ msgid ""
 "It can be safely ignored if you did not request a password reset. Click the "
 "link below to reset your password."
 msgstr ""
+"Bonjour de %(site_name)s !\n"
+"\n"
+"Vous recevez cet e-mail car vous ou quelqu'un d'autre a demandé la "
+"réinitialisation du mot de passe pour votre compte sur %(site_domain)s.\n"
+"Si vous n'avez pas fait cette demande, veuillez ignorer ce message. Cliquez "
+"sur le lien ci-dessous pour réinitialiser votre mot de passe."
 
 #, python-format
 msgid "In case you forgot, your username is %(username)s."
-msgstr ""
+msgstr "Si vous l'aviez oublié, votre nom d'utilisateur est %(username)s."
 
 #, python-format
 msgid ""
 "Thank you for using %(site_name)s!\n"
 "%(site_domain)s"
 msgstr ""
+"Merci d'utiliser %(site_name)s !\n"
+"%(site_domain)s"
 
 msgid "Password Reset E-mail"
-msgstr ""
+msgstr "Adresse e-mail de réinitialisation du mot de passe"
 
 msgid "Confirm E-mail Address"
-msgstr ""
+msgstr "Confirmer l'adresse e-mail"
 
 #, python-format
 msgid ""
@@ -715,9 +780,13 @@ msgid ""
 "mail address for user %(user_display)s\n"
 "                        ."
 msgstr ""
+"Veuillez confirmer que\n"
+"                        <a href=\"mailto:%(email)s\">%(email)s</a> est une "
+"adresse e-mail pour l'utilisateur %(user_display)s\n"
+"                        ."
 
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmer"
 
 #, python-format
 msgid ""
@@ -725,9 +794,12 @@ msgid ""
 "                        <a href=\"%(email_url)s\">issue a new e-mail "
 "confirmation request</a>."
 msgstr ""
+"Ce lien de confirmation est expiré ou invalide. Veuillez\n"
+"                        <a href=\"%(email_url)s\">effectuer une nouvelle "
+"demande de confirmation</a>."
 
 msgid "Login"
-msgstr ""
+msgstr "Se connecter"
 
 #, python-format
 msgid ""
@@ -737,65 +809,81 @@ msgid ""
 "\">sign up</a>\n"
 "        for a %(site_name)s account and sign in below:"
 msgstr ""
+"Veuillez vous connecter avec l'un\n"
+"        de vos comptes tiers existants. Ou bien\n"
+"        <a href=\"%(signup_url)s\" style=\"font-size :18px ;font-weight :500 "
+";\">inscrivez-vous</a>\n"
+"        sur %(site_name)s et connectez-vous ci-dessous :"
 
 msgid "or"
-msgstr ""
+msgstr "ou"
 
 #, python-format
 msgid ""
 "If you have not created an account yet, then please\n"
 "            <a href=\"%(signup_url)s\">sign up</a> first."
 msgstr ""
+"Si vous n'avez pas encore de compte, veuillez d'abord\n"
+"            <a href=\"%(signup_url)s\">vous inscrire</a>."
 
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Mot de passe oublié ?"
 
 msgid "Logout"
-msgstr ""
+msgstr "Se déconnecter"
 
 msgid "Are you sure you want to sign out?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
 
 msgid "Change Password"
-msgstr ""
+msgstr "Modifier le mot de passe"
 
 msgid "Password requirements:"
-msgstr ""
+msgstr "Exigences de mot de passe :"
 
 msgid "Must contain at least 8 characters."
-msgstr ""
+msgstr "Il doit contenir au moins 8 caractères."
 
 msgid "Can't be too similar to your other personal information."
 msgstr ""
+"Il ne doit pas être trop similaires aux autres informations de votre compte."
 
 msgid "Can't be a commonly used password."
-msgstr ""
+msgstr "Il ne doit pas être un mot de passe trop courant."
 
 msgid "Can't be entirely numeric."
-msgstr ""
+msgstr "Il ne peut pas être composé uniquement de chiffres."
 
 msgid "Password Reset"
-msgstr ""
+msgstr "Réinitialisation du mot de passe"
 
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
 msgstr ""
+"Vous avez oublié votre mot de passe ? Entrez votre adresse e-mail ci-"
+"dessous, et nous vous enverrons un e-mail pour que vous puissiez le "
+"réinitialiser."
 
 msgid "Reset My Password"
-msgstr ""
+msgstr "Réinitialiser mon mot de passe"
 
 msgid "Please contact us if you have any trouble resetting your password."
 msgstr ""
+"Veuillez nous contacter si vous rencontrez des problèmes lors de la "
+"réinitialisation de votre mot de passe."
 
 msgid ""
 "We have sent you an e-mail. Please contact us if you do not receive it "
 "within a few\n"
 "                    minutes."
 msgstr ""
+"Nous vous avons envoyé un e-mail. Veuillez nous contacter si vous ne le "
+"recevez pas d'ici quelques\n"
+"                    minutes."
 
 msgid "Bad Token"
-msgstr ""
+msgstr "Jeton invalide"
 
 #, python-format
 msgid ""
@@ -804,67 +892,81 @@ msgid ""
 "            request a\n"
 "            <a href=\"%(passwd_reset_url)s\">new password reset</a>."
 msgstr ""
+"Le lien de réinitialisation du mot de passe est invalide, il a peut être "
+"déjà été utilisé.  Veuillez\n"
+"            effectuer une\n"
+"            <a href=\"%(passwd_reset_url)s\">nouvelle demande de "
+"réinitialisation de mot de passe</a>."
 
 msgid "Your password is now changed."
-msgstr ""
+msgstr "Votre mot de passe a bien été modifié."
 
 msgid "change password"
-msgstr ""
+msgstr "modifier le mot de passe"
 
 msgid "Set Password"
-msgstr ""
+msgstr "Définir le mot de passe"
 
 #, python-format
 msgid "Welcome, %(user_display)s!"
-msgstr ""
+msgstr "Bienvenue, %(user_display)s !"
 
 msgid "Username:"
-msgstr ""
+msgstr "Nom d'utilisateur :"
 
 msgid "First Name:"
-msgstr ""
+msgstr "Prénom :"
 
 msgid "Last Name:"
-msgstr ""
+msgstr "Nom :"
 
 msgid "Email:"
-msgstr ""
+msgstr "Adresse e-mail :"
 
 msgid "Account Connections"
-msgstr ""
+msgstr "Connexion aux comptes"
 
 msgid ""
 "You can sign in to your account using any of the following third party\n"
 "                        accounts:"
 msgstr ""
+"Vous pouvez vous connecter à votre compte en utilisant l'un des comptes\n"
+"                        suivants :"
 
 msgid ""
 "You don't have any social account connected. You can connect one\n"
 "                        below"
 msgstr ""
+"Si vous n'avez connecté aucun d'entre eux, vous pouvez vous connectez avec "
+"l'un d'eux\n"
+"                        ci-dessous"
 
 msgid "Add a 3rd Party Account"
-msgstr ""
+msgstr "Ajouter un compte"
 
 msgid "Sign Up"
-msgstr ""
+msgstr "S'inscrire"
 
 #, python-format
 msgid ""
 "Already have an account? Then please <a href=\"%(login_url)s\">login</a>."
 msgstr ""
+"Vous avez déjà un compte ? Veuillez <a href=\"%(login_url)s\">vous "
+"connecter</a>."
 
 msgid "Note"
-msgstr ""
+msgstr "Remarque"
 
 #, python-format
 msgid ""
 "you are already logged in as %(user_display)s\n"
 "    ."
 msgstr ""
+"vous êtes déjà connecté en tant que %(user_display)s\n"
+"    ."
 
 msgid "Verify Your E-mail Address"
-msgstr ""
+msgstr "Vérifiez votre adresse e-mail"
 
 msgid ""
 "We have sent an e-mail to you for verification. Follow the link provided to "
@@ -873,6 +975,11 @@ msgid ""
 "receive it within a few\n"
 "                    minutes."
 msgstr ""
+"Nous vous avons envoyé un e-mail de vérification. Suivez le lien que vous "
+"avez reçu pour finaliser\n"
+"                    le processus d'inscription. Veuillez nous contacter si "
+"vous ne le recevez pas d'ici quelques\n"
+"                    minutes."
 
 msgid ""
 "This part of the site requires us to verify that\n"
@@ -880,6 +987,9 @@ msgid ""
 "require that you\n"
 "                    verify ownership of your e-mail address. "
 msgstr ""
+"Pour accéder à cette partie du site vous devez\n"
+"                    vérifier votre identité. Pour cela, vos devez\n"
+"                    confirmer votre adresse e-mail. "
 
 msgid ""
 "We have sent an e-mail to you for\n"
@@ -887,126 +997,134 @@ msgid ""
 "mail. Please\n"
 "                    contact us if you do not receive it within a few minutes."
 msgstr ""
+"Nous vous avons envoyé un e-mail de\n"
+"                    vérification. Veuillez cliquer sur lien que vous avez "
+"reçu. Veuillez\n"
+"                    nous contacter si vous ne le recevez pas d'ici quelques "
+"minutes."
 
 #, python-format
 msgid ""
 "<strong>Note:</strong> you can still\n"
 "                    <a href=\"%(email_url)s\">change your e-mail address</a>."
 msgstr ""
+"<strong>Remarque :</strong> vous pouvez toujours\n"
+"                    <a href=\"%(email_url)s\">modifier votre adresse "
+"e-mail</a>."
 
 msgid "Speakers"
-msgstr ""
+msgstr "Intervenants"
 
 msgid "Send mail to speakers"
-msgstr ""
+msgstr "Envoyer un e-mail aux intervenants"
 
 msgid "Copy speakers emails"
-msgstr ""
+msgstr "Copier les adresses e-mail des intervenants"
 
 msgid "Export to CSV"
-msgstr ""
+msgstr "Exporter au format CSV"
 
 msgid "Submit an activity"
-msgstr ""
+msgstr "Proposer une activité"
 
 msgid "Dummy activity"
-msgstr ""
+msgstr "Activité factice"
 
 msgid "Manage Rooms"
-msgstr ""
+msgstr "Gérer les salles"
 
 msgid "Confirm Schedule"
-msgstr ""
+msgstr "Confirmer le programme"
 
 msgid "Dummy activities"
-msgstr ""
+msgstr "Activités factices"
 
 msgid "Edit dummy activity"
-msgstr ""
+msgstr "Modifier l'activité factice"
 
 msgid "Confirmed"
-msgstr ""
+msgstr "Confirmé"
 
 msgid "Speakers Bio"
-msgstr ""
+msgstr "Bio des intervenants"
 
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 msgid "Additional Information"
-msgstr ""
+msgstr "Informations supplémentaires"
 
 msgid "View Talk"
-msgstr ""
+msgstr "Voir la conférence"
 
 msgid "Reject Talk"
-msgstr ""
+msgstr "Refuser la conférence"
 
 msgid "Resend Proposal"
-msgstr ""
+msgstr "Renvoyer une proposition"
 
 msgid "Edit Talk"
-msgstr ""
+msgstr "Modifier la conférence"
 
 msgid "There isn't any proposed activity yet."
-msgstr ""
+msgstr "Il n'y a aucune activité proposée pour l'instant."
 
 msgid "Proposed"
-msgstr ""
+msgstr "Proposé"
 
 msgid "Not Confirmed"
-msgstr ""
+msgstr "Non confirmé"
 
 msgid "Votes"
-msgstr ""
+msgstr "Votes"
 
 msgid "Become Talk"
 msgstr ""
 
 msgid "View Proposal"
-msgstr ""
+msgstr "Voir la proposition"
 
 msgid "There isn't any rejected activity yet."
-msgstr ""
+msgstr "Il n'y a aucune activité refusée pour l'instant."
 
 msgid "There isn't any talk proposal yet."
-msgstr ""
+msgstr "Il n'y a aucune proposition de conférence pour l'instant."
 
 msgid "Submit yours!"
-msgstr ""
+msgstr "Proposez la vôtre !"
 
 msgid "Time"
-msgstr ""
+msgstr "Heure"
 
 msgid "Edit activity"
-msgstr ""
+msgstr "Modifier l'activité"
 
 msgid "Download presentation"
-msgstr ""
+msgstr "Télécharger la présentation"
 
 msgid "Activity Proposal"
-msgstr ""
+msgstr "Proposition d'activité"
 
 msgid "Please select the visible area for your image"
-msgstr ""
+msgstr "Veuillez sélectionner la zone visible pour votre image"
 
 msgid "Upload"
-msgstr ""
+msgstr "Envoyer"
 
 msgid "My Proposals"
-msgstr ""
+msgstr "Mes propositions"
 
 msgid "Edit Proposal"
-msgstr ""
+msgstr "Modifier la proposition"
 
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 msgid "Submit"
-msgstr ""
+msgstr "Envoyer"
 
 msgid "Activities Schedule"
-msgstr ""
+msgstr "Programme des activités"
 
 #, python-format
 msgid ""
@@ -1014,9 +1132,12 @@ msgid ""
 "                        Day %(day)s - %(data)s\n"
 "                  "
 msgstr ""
+"\n"
+"                        Jour %(day)s - %(data)s\n"
+"                  "
 
 msgid "The schedule is not confirmed yet"
-msgstr ""
+msgstr "Le programme n'est pas encore confirmé"
 
 msgid ""
 "\n"
@@ -1027,155 +1148,165 @@ msgid ""
 "up to date with the latest news of the event.\n"
 "                "
 msgstr ""
+"\n"
+"                    Nous travaillons d'arrache-pied pour terminer la "
+"programmation de cet évènement. Veuillez revenir demain pour vérifier\n"
+"                    si nous\n"
+"                    l'avons publié ou suivez-nous sur les réseaux sociaux "
+"pour être à jour avec les dernières actualités de l'évènement.\n"
+"                "
 
 msgid "Return to the event"
-msgstr ""
+msgstr "Revenir à l'évènement"
 
 msgid "Create event"
-msgstr ""
+msgstr "Créer un évènement"
 
 msgid "Manage event"
-msgstr ""
+msgstr "Gérer l'évènement"
 
 msgid "Edit event"
-msgstr ""
+msgstr "Modifier l'évènement"
 
 msgid "Edit image"
-msgstr ""
+msgstr "Modifier l'image"
 
 msgid "Check in"
 msgstr ""
 
 msgid "Submit your talk"
-msgstr ""
+msgstr "Envoyez votre conférence"
 
 msgid "View my Ticket"
-msgstr ""
+msgstr "Voir mon billet"
 
 msgctxt "navbar"
 msgid "Event"
-msgstr ""
+msgstr "Évènement"
 
 msgid "Schedule"
-msgstr ""
+msgstr "Programme"
 
 msgid "View Activities"
-msgstr ""
+msgstr "Voir les activités"
 
 msgid "View Reports"
-msgstr ""
+msgstr "Voir les rapports"
 
 msgid "Register as a Collaborator"
-msgstr ""
+msgstr "S'inscrire comme nouveau collaborateur"
 
 msgid "Register as an Installer"
-msgstr ""
+msgstr "S'inscrire comme installateur"
 
 msgid "Manage Attendance"
-msgstr ""
+msgstr "Gérer les participations"
 
 msgid "Print self-registration code"
-msgstr ""
+msgstr "Imprimer le code d'auto-enregistrement"
 
 msgid "Open auto-read QR code page"
-msgstr ""
+msgstr "Ouvrir la page de lecture automatique de code QR"
 
 msgid "Submit an installation"
-msgstr ""
+msgstr "Proposer une installation"
 
 msgid "Draw"
-msgstr ""
+msgstr "Égalité"
 
 msgid "Manage Organizers"
-msgstr ""
+msgstr "Gérer les organisateurs"
 
 msgid "Manage Registration People"
-msgstr ""
+msgstr "Gérer les responsables de l'enregistrement"
 
 msgid "Manage Rewievers"
-msgstr ""
+msgstr "Gérer les responsables de l'analyse"
 
 msgid "Follow Us!"
-msgstr ""
+msgstr "Suivez-nous !"
 
 msgid "Contact Us!"
-msgstr ""
+msgstr "Contactez-nous !"
 
 msgid "Languages"
-msgstr ""
+msgstr "Langues"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 msgid "You have the power!"
-msgstr ""
+msgstr "Vous avez le pouvoir !"
 
 msgid "ContactMessage"
-msgstr ""
+msgstr "Message de contact"
 
 msgid "Create an event"
-msgstr ""
+msgstr "Créer un évènement"
 
 msgid "What's the name of your event?"
-msgstr ""
+msgstr "Quel est le nom de votre évènement ?"
 
 msgid "Select tags for your event"
-msgstr ""
+msgstr "Sélectionnez des étiquettes pour votre évènement"
 
 msgid "Select features for your event"
-msgstr ""
+msgstr "Sélectionnez des fonctionnalités pour votre évènement"
 
 msgid "Activity proposal form text"
-msgstr ""
+msgstr "Formulaire de proposition d'activité"
 
 msgid ""
 "If the event is taking place in more than one day, you can add all of them "
 "here."
-msgstr ""
+msgstr "Si l'évènement dure plusieurs jours, vous pouvez tous les ajouter ici."
 
 msgid "Choose an URL"
-msgstr ""
+msgstr "Choisissez une URL"
 
 msgid "Where can people contact you?"
-msgstr ""
+msgstr "Où les utilisateurs peuvent-ils vous contacter ?"
 
 msgid "Where can people follow you?"
-msgstr ""
+msgstr "Où les utilisateurs peuvent-ils vous suivre ?"
 
 msgid "Where will your event be?"
-msgstr ""
+msgstr "Où aura lieu votre évènement ?"
 
 msgid "Search for a place or address"
-msgstr ""
+msgstr "Rechercher un lieu ou une adresse"
 
 msgid "When is the last day to submit talk proposals?"
-msgstr ""
+msgstr "Quel est la date limite pour proposer des conférences ?"
 
 msgid "Do you want to use your own homepage?"
-msgstr ""
+msgstr "Voulez-vous utiliser votre propre page d'accueil ?"
 
 msgid ""
 "You probably don't want to. But if you want, we can link to your page in our "
 "index. Provide the full URL here:"
 msgstr ""
+"Probablement que non, mais si vous le souhaitez, nous pouvons rediriger vers "
+"votre page dans notre index. Veuillez indiquer l'URL complète ici :"
 
 msgid "Please provide an abstract about your event"
-msgstr ""
+msgstr "Veuillez fournir un résumé de votre événement"
 
 msgid "Please provide as much information you can about your event"
 msgstr ""
+"Veuillez fournir le plus d'informations possibles à propos de votre évènement"
 
 msgid "Winners"
-msgstr ""
+msgstr "Gagnants"
 
 msgid "Draw!"
-msgstr ""
+msgstr "Égalité !"
 
 msgid "There aren't any more participants"
-msgstr ""
+msgstr "Il n'y a pas d'autres participants"
 
 msgid "Skip"
-msgstr ""
+msgstr "Passer"
 
 msgid "I am"
 msgstr ""
@@ -1186,6 +1317,9 @@ msgid ""
 "                                %(the_month)s %(days)s\n"
 "                            "
 msgstr ""
+"\n"
+"                                %(the_month)s %(days)s\n"
+"                            "
 
 #, python-format
 msgid ""
@@ -1193,6 +1327,9 @@ msgid ""
 "                            - %(year)s\n"
 "                        "
 msgstr ""
+"\n"
+"                            - %(year)s\n"
+"                        "
 
 #, python-format
 msgid ""
@@ -1200,6 +1337,9 @@ msgid ""
 "                            In %(until)s\n"
 "                        "
 msgstr ""
+"\n"
+"                            Dans %(until)s\n"
+"                        "
 
 #, python-format
 msgid ""
@@ -1207,27 +1347,30 @@ msgid ""
 "                            This event was %(since)s ago.\n"
 "                        "
 msgstr ""
+"\n"
+"                            Cette évènement a eu lieu il y a %(since)s.\n"
+"                        "
 
 msgid "About the event"
-msgstr ""
+msgstr "À propos de l'évènement"
 
 msgid "Talks and Workshops"
-msgstr ""
+msgstr "Conférences et ateliers"
 
 msgid "We haven't published the activites"
-msgstr ""
+msgstr "Nous n'avons pas publié les activités"
 
 msgid "It means you can still send yours"
-msgstr ""
+msgstr "Cela signifie que vous pouvez toujours envoyer les vôtres"
 
 msgid "Send your proposal!"
-msgstr ""
+msgstr "Envoyez votre proposition !"
 
 msgid "Follow"
-msgstr ""
+msgstr "Suivre"
 
 msgid "Add Organizers"
-msgstr ""
+msgstr "Ajouter des organisateurs"
 
 msgid ""
 " Organizers can edit the event information, view attendant's list, manage "
@@ -1235,86 +1378,97 @@ msgid ""
 "                    attendance and also add other organizers. Please choose "
 "carefully! "
 msgstr ""
+" Les organisateurs peuvent modifier les informations de l'évènement, voir la "
+"liste des participants, gérer les activités, gérer\n"
+"                    les participants et ajouter d'autres organisateurs. "
+"Soyez prudent ! "
 
 msgid "Current organizers:"
-msgstr ""
+msgstr "Organisateurs actuels :"
 
 msgid "Add a new Organizer:"
-msgstr ""
+msgstr "Ajouter un nouvel organisateur :"
 
 msgid "Add Organizer"
-msgstr ""
+msgstr "Ajouter un organisateur"
 
 msgid "Add registration staff"
-msgstr ""
+msgstr "Ajouter du personnel d'inscription"
 
 msgid ""
 " People who can manage attendance can register a person the day of the event."
 msgstr ""
+" Personne qui peut gérer les participants et inscrire une personne le jour "
+"de l'évènement."
 
 msgid "Current registration staff:"
-msgstr ""
+msgstr "Personnel d'inscription actuel :"
 
 msgid "Add a new registration person:"
-msgstr ""
+msgstr "Ajouter une nouvelle personne pour gérer les inscriptions :"
 
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 msgid "Add review staff"
-msgstr ""
+msgstr "Ajouter du personnel d'analyse"
 
 msgid "People who can review and vote on activities"
-msgstr ""
+msgstr "Personne qui peut analyser les activités et voter"
 
 msgid "Current review staff:"
-msgstr ""
+msgstr "Personnel d'analyse actuel :"
 
 msgid "Add a new review person:"
-msgstr ""
+msgstr "Ajouter une nouvelle personne pour l'analyse :"
 
 msgid "Errors"
-msgstr ""
+msgstr "Erreurs"
 
 msgid "Submit an Installation"
-msgstr ""
+msgstr "Proposer une installation"
 
 msgid "Register an Attendee"
-msgstr ""
+msgstr "Inscrire un participant"
 
 msgid "Attendee Registration"
-msgstr ""
+msgstr "Inscription d'un participant"
 
 msgid "Register as a attendee"
-msgstr ""
+msgstr "Inscrire comme participant"
 
 msgid "You are logged in!"
-msgstr ""
+msgstr "Vous êtes connecté !"
 
 msgid ""
 "Please close your session, do not leave it open!. This page can remain open "
 "without anybody being logged in. You will be logged out in 30 seconds."
 msgstr ""
+"Veuillez fermer votre session, ne la laissez pas ouverte ! Cette page peut "
+"rester ouverte sans que personne ne soit connecté. Vous serez déconnecté "
+"dans 30 secondes."
 
 msgid "Registration Instructions"
-msgstr ""
+msgstr "Instructions d'inscription"
 
 msgid "Please scan your ticket using the webcam"
-msgstr ""
+msgstr "Veuillez scanner votre billet en utilisant la webcam"
 
 msgid "Center the QR Code in the camera display below"
-msgstr ""
+msgstr "Centrez le code QR sur la caméra affichée ci-dessous"
 
 msgid ""
 "There is a problem with the camera. Please, enable access or try manual "
 "entry."
 msgstr ""
+"Il y a un problème avec la caméra. Veuillez autoriser l'accès ou essayer la "
+"saisie manuelle."
 
 msgid "Attendee Self Registration"
-msgstr ""
+msgstr "Inscription automatique du participant"
 
 msgid "Please confirm your email"
-msgstr ""
+msgstr "Veuillez confirmer votre adresse e-mail"
 
 msgid ""
 "We've sent you an email to the address you provided. Please\n"
@@ -1322,6 +1476,12 @@ msgid ""
 "send you your ticket for the event.\n"
 "        "
 msgstr ""
+"Nous vous avons envoyé un e-mail a l'adresse que vous avez indiquée. "
+"Veuillez\n"
+"            confirmer votre adresse e-mail en suivant les instructions que "
+"vous avez reçu afin que nous puissions vous envoyer votre billet pour "
+"l'évènement.\n"
+"        "
 
 msgid ""
 "If you don't receive the email within a few minutes, please check your spam "
@@ -1330,24 +1490,29 @@ msgid ""
 "can help you.\n"
 "        "
 msgstr ""
+"Si vous ne recevez pas l'e-mail d'ici quelques minutes, veuillez vérifier "
+"dans vos spams. S'il n'y\n"
+"            est pas, vous pouvez nous contacter à eventol@flisol.org.ar afin "
+"que nous puissions vous aider.\n"
+"        "
 
 msgid "Back to installation"
-msgstr ""
+msgstr "Revenir à l'installation"
 
 msgid "Mark as present"
-msgstr ""
+msgstr "Marquer comme présent"
 
 msgid "Register new attendee"
-msgstr ""
+msgstr "Inscrire un nouveau participant"
 
 msgid "Scan QR"
-msgstr ""
+msgstr "Scanner le code QR"
 
 msgid "Center the QR Code in the camera display below "
-msgstr ""
+msgstr "Centrez le code QR sur la caméra affichée ci-dessous "
 
 msgid "Registration Closed"
-msgstr ""
+msgstr "Inscription fermée"
 
 msgid ""
 "Registration for this event is already\n"
@@ -1355,115 +1520,119 @@ msgid ""
 "page. You can find more\n"
 "            info"
 msgstr ""
+"L'inscription a cet évènement est déjà\n"
+"            terminée ou alors l'évènement n'accepte pas d'inscriptions "
+"depuis cette page. Vous pouvez trouver plus\n"
+"            d'informations"
 
 msgid "here"
-msgstr ""
+msgstr "ici"
 
 msgid "Collaborator Registration"
-msgstr ""
+msgstr "Inscription de collaborateur"
 
 msgid "Installer Registration"
-msgstr ""
+msgstr "Inscription d'installateur"
 
 msgid "Reports"
-msgstr ""
+msgstr "Rapports"
 
 msgid "Attended"
-msgstr ""
+msgstr "A particpé"
 
 msgid "Didn't Attend"
-msgstr ""
+msgstr "N'a pas participé"
 
 msgid "Enrolled"
-msgstr ""
+msgstr "Inscrit"
 
 msgid "There aren't any enrolled attendees"
-msgstr ""
+msgstr "Il n'y a pas de participants inscrits"
 
 msgid "Organizers and Speakers"
-msgstr ""
+msgstr "Organisateurs et intervenants"
 
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 msgid "There aren't any enrolled staff"
-msgstr ""
+msgstr "Il n'y a pas de personnel inscrit"
 
 msgid "There aren't any enrolled installers"
-msgstr ""
+msgstr "Il n'y a pas d'installateurs inscrits"
 
 msgid "There aren't any enrolled collaborators"
-msgstr ""
+msgstr "Il n'y a pas de collaborateurs inscrits"
 
 msgid "Activities and Installations"
-msgstr ""
+msgstr "Activités et installations"
 
 msgid "There aren't any activities or installations submitted"
-msgstr ""
+msgstr "Aucune activité ou installation n'a été envoyée"
 
 msgid "There aren't any activities submitted"
-msgstr ""
+msgstr "Aucune activité n'a été envoyée"
 
 msgid "Installers Per Level"
-msgstr ""
+msgstr "Installateurs par niveau"
 
 msgid "There aren't any registered installations"
-msgstr ""
+msgstr "Aucune installation n'a été enregistrée"
 
 msgid "Registered attendees in time"
-msgstr ""
+msgstr "Participants inscrits à temps"
 
 msgid "There aren't any attendees registered yet"
-msgstr ""
+msgstr "Il n'y a pas de participants inscrits pour l'instant"
 
 msgid "Attendees attendance by hour"
-msgstr ""
+msgstr "Participation des participants par heure"
 
 msgid "There aren't any attendees registered for this date"
-msgstr ""
+msgstr "Il n'y a pas de participant inscrit pour cette date"
 
 msgid "Talks"
-msgstr ""
+msgstr "Conférences"
 
 msgid "Edit a Room"
-msgstr ""
+msgstr "Modifier une salle"
 
 msgid "Submit a Room"
-msgstr ""
+msgstr "Envoyer une salle"
 
 msgid "Edit Room"
-msgstr ""
+msgstr "Modifier la salle"
 
 msgid "Create Room"
-msgstr ""
+msgstr "Créer une salle"
 
 msgid "Add Room"
-msgstr ""
+msgstr "Ajouter une salle"
 
 msgid "Number"
-msgstr ""
+msgstr "Numéro"
 
 msgid "Actions"
-msgstr ""
+msgstr "Actions"
 
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 msgid "There isn't any room yet."
-msgstr ""
+msgstr "Il n'y a aucune salle pour l'instant."
 
 msgid "Social Network Login Failure"
-msgstr ""
+msgstr "Échec de la connexion au réseau social"
 
 msgid ""
 "An error occurred while attempting to login via your social network account."
-msgstr ""
+msgstr "Une erreur s'est produite lors de la connexion via votre réseau social."
 
 msgid "Login Cancelled"
-msgstr ""
+msgstr "Connexion annulée"
 
 #, python-format
 msgid ""
@@ -1472,6 +1641,10 @@ msgid ""
 "                    this was a mistake, please proceed to <a href="
 "\"%(login_url)s\">sign in</a>."
 msgstr ""
+"Vous avez décidé d'annuler la connexion à notre site via un de vos comptes "
+"existants. Si\n"
+"                    il s'agit d'une erreur, veuillez <a href=\"%(login_url)"
+"s\">vous connecter</a>."
 
 #, python-format
 msgid ""
@@ -1479,21 +1652,28 @@ msgid ""
 "        %(provider_name)s account to login to\n"
 "        %(site_name)s. As a final step, please complete the following form:"
 msgstr ""
+"Vous êtes sur le point d'utiliser votre compte\n"
+"        %(provider_name)s pour vous connecter à\n"
+"        %(site_name)s. Pour terminer, veuillez compléter le formulaire "
+"suivant :"
 
 msgid ""
 "You can sign in to your account using any of the following third party\n"
 "    accounts:"
 msgstr ""
+"Vous pouvez vous connecter à votre compte en utilisant les comptes tiers\n"
+"    suivants :"
 
 msgid "N/A"
-msgstr ""
+msgstr "N/A"
 
 #, python-brace-format
 msgid "New information about your talk in the {event_name} event"
 msgstr ""
+"Nouvelles informations sur votre conférence dans l'événement {event_name}"
 
 msgid "Justification: {}\n"
-msgstr ""
+msgstr "Justification : {}\n"
 
 #, python-brace-format
 msgid ""
@@ -1503,9 +1683,14 @@ msgid ""
 "{justification}Regards,\n"
 "{event_name} and eventoL team"
 msgstr ""
+"Bonjour,\n"
+"Votre conférence « {activity_title} » a été mise jour vers l'état « "
+"{activity_status} ».\n"
+"{justification} Cordialement,\n"
+"{event_name} et l'équipe eventoL"
 
 msgid "<p>Justification: {}</p>\n"
-msgstr ""
+msgstr "<p>Justification : {}</p>\n"
 
 #, python-brace-format
 msgid ""
@@ -1516,10 +1701,16 @@ msgid ""
 "{justification}<p>Regards,</p>\n"
 "{event_name} and <em>eventoL</em> team</p>\n"
 msgstr ""
+"<p>Bonjour,</p>\n"
+"<p>Votre conférence « {activity_title} » a été mise jour vers l'état « "
+"{activity_status} ».\n"
+"</p>\n"
+"{justification}<p>Cordialement,</p>\n"
+"{event_name} et l'équipe <em>eventoL</em></p>\n"
 
 #, python-brace-format
 msgid "Ticket for {event_name} event"
-msgstr ""
+msgstr "Billet pour l'évènement {event_name}"
 
 #, python-brace-format
 msgid ""
@@ -1529,6 +1720,12 @@ msgid ""
 "Regards,\n"
 "{event_name} and eventoL team"
 msgstr ""
+"Bonjour {first_name} {last_name},\n"
+"Voici votre billet pour l'évènement {event_name}.\n"
+"Veuillez penser à l'imprimer et à l'apporter avec vous le(s) jour(s) de "
+"l'évènement.\n"
+"Cordialement,\n"
+"{event_name} et l'équipe eventoL"
 
 #, python-brace-format
 msgid ""
@@ -1539,155 +1736,191 @@ msgid ""
 "<p>Regards,\n"
 "{event_name} and <em>eventoL</em> team</p>"
 msgstr ""
+"<p>Bonjour {first_name} {last_name},<br />\n"
+"Voici votre billet pour l'évènement {event_name}.</p>\n"
+"<p>Veuillez penser à <em>l'imprimer et à l'apporter avec vous</em> le(s) "
+"jour(s) de l'évènement.</p>\n"
+"<p>Cordialement,\n"
+"{event_name} et l'équipe <em>eventoL</em></p>"
 
 #, python-brace-format
 msgid "{first_name} {last_name}, thank you for participating {event_name}"
-msgstr ""
+msgstr "{first_name} {last_name}, merci pour votre participation à {event_name}"
 
 msgid "General Ticket"
-msgstr ""
+msgstr "Billet général"
 
 msgid ""
 "The email couldn't sent "
 "successfully,                                                   please retry "
 "later or contact a organizer"
 msgstr ""
+"Cet e-mail n'a pas pu être "
+"envoyé,                                                   veuillez réessayer "
+"plus tard ou contacter un organisateur"
 
 msgid "The installation has been registered successfully. Happy Hacking!"
-msgstr ""
+msgstr "L'installation à bien été enregistrée. Bon hacking !"
 
 msgid "The installation couldn't be registered (check form errors)"
 msgstr ""
+"L'installation n'a pas pu être enregistrée (vérifiez les erreurs du "
+"formulaire)"
 
 msgid "The attendee has already been registered correctly."
-msgstr ""
+msgstr "Le participant a déjà été inscrit correctement."
 
 msgid "The attendee has been successfully registered. Happy Hacking!"
-msgstr ""
+msgstr "Le participant a bien été inscrit. Bon hacking !"
 
 msgid "The collaborator has already been registered correctly."
-msgstr ""
+msgstr "Le collaborateur a déjà été inscrit correctement."
 
 msgid "The collaborator has been successfully registered. Happy Hacking!"
-msgstr ""
+msgstr "Le collaborateur a bien été inscrit. Bon hacking !"
 
 msgid "There was a problem registering the attendee. Please try again."
 msgstr ""
+"Il y a eu un problème lors de l'inscription du participant. Veuillez "
+"réessayer."
 
 msgid "The user isn't registered for this event."
-msgstr ""
+msgstr "L'utilisateur n'est pas inscrit à cet évènement."
 
 #, python-format
 msgid "%s has been successfully added as an Organizer."
-msgstr ""
+msgstr "%s a bien été ajouté comme organisateur."
 
 msgid "Something went wrong (please check form errors)"
-msgstr ""
+msgstr "Une erreur s'est produite (veuillez vérifier les erreurs du formulaire)"
 
 #, python-format
 msgid "%s has been successfully added to manage attendance."
-msgstr ""
+msgstr "%s a bien été ajouté au personnel de gestion des participants."
 
 msgid "{} has been successfully added as reviewer."
-msgstr ""
+msgstr "{} a bien été ajouté au personnel d'analyse."
 
 msgid "The attendee is already registered for this event, use correct form"
 msgstr ""
+"Le participant est déjà inscrit pour cet évènement, veuillez utiliser le bon "
+"formulaire"
 
 msgid "The attendee was successfully registered. Happy Hacking!"
-msgstr ""
+msgstr "La participant a bien été inscrit. Bon hacking !"
 
 msgid "The attendee couldn't be registered (check form errors)"
 msgstr ""
+"Le participant n'a pas pu être inscrit (vérifiez les erreurs du formulaire)"
 
 msgid ""
 "You can only register an attendance                                   at the "
 "day of the event or after"
 msgstr ""
+"Vous ne pouvez enregistrer une présence                                  que "
+"le jour de l'évènement ou après"
 
 msgid "Self-registration"
-msgstr ""
+msgstr "Auto-enregistrement"
 
 msgid "Scan this QR code to register yourself"
-msgstr ""
+msgstr "Scannez le code QR pour vous enregistrer vous-même"
 
 msgid "The registration code does not seems to be valid for this event"
-msgstr ""
+msgstr "Le code d'inscription ne semble pas être valide pour cet évènement"
 
 msgid "You can only register by yourself on the event date"
-msgstr ""
+msgstr "Vous ne pouvez vous inscrire par vous-même que le jour de l'évènement"
 
 msgid "You are already registered!"
-msgstr ""
+msgstr "Vous êtes déjà inscrit !"
 
 msgid "You are now marked as present in the event, have fun!"
 msgstr ""
+"Vous êtes désormais marqué comme présent à l'évènement, amusez-vous bien !"
 
 msgid "You couldn't be registered (check form errors)"
-msgstr ""
+msgstr "Vous n'avez pas pu être enregistré (vérifiez les erreurs du formulaire)"
 
 msgid ""
 "The registration code does                                   not seems to be "
 "valid for this event"
 msgstr ""
+"Le code d'enregistrement ne                                   semble pas "
+"être valide pour cet évènement"
 
 msgid "Auto-reading QR codes is only available at the event date"
 msgstr ""
+"La lecture automatique des codes QR n'est disponible qu'à la date de "
+"l'évènement"
 
 msgid "You are already registered and present! Go have fun"
-msgstr ""
+msgstr "Vous avez été déjà enregistré comme présent ! Amusez-vous bien"
 
 msgid "The ticket code is not valid for this event"
-msgstr ""
+msgstr "Le code du billet n'est pas valide pour cet évènement"
 
 msgid "The message has been sent. You will receive a reply by email"
-msgstr ""
+msgstr "Le message a été envoyé. Vous recevrez une réponse par e-mail"
 
 msgid ""
 "There was a problem sending your message. Please try again in a few minutes."
 msgstr ""
+"Il y a eu un problème lors de l'envoi de votre message. Veuillez réessayer "
+"dans quelques minutes."
 
 msgid "You are already registered for this event"
-msgstr ""
+msgstr "Vous êtes déjà enregistré pour cet évènement"
 
 msgid "[eventoL] Please confirm your email"
-msgstr ""
+msgstr "[eventoL] Veuillez confirmer votre adresse e-mail"
 
 msgid "There is a problem with the registration (check form errors)"
 msgstr ""
+"Il y a un problème avec l'enregistrement (vérifiez les erreurs du formulaire)"
 
 msgid "Email verification"
-msgstr ""
+msgstr "Vérification de l'adresse e-mail"
 
 msgid ""
 "We've sent you your ticket to your email! In case it doesn't arrive,         "
 "don't worry! You're already registered and we'll ask for your email address."
 msgstr ""
+"Nous vous avons envoyé votre billet par e-mail ! Si jamais vous ne le "
+"recevez pas,         ne vous inquiétez pas !  Vous êtes déjà enregistré et "
+"nous vous demanderons votre adresse e-mail."
 
 msgid ""
 "The email couldn't sent successfully,                       please retry "
 "later or contact a organizer"
 msgstr ""
+"L'e-mail n'a pas pu être envoyé,                       veuillez réessayer "
+"plus tard ou contacter un organisateur"
 
 msgid "The verification URL is invalid. Try again."
-msgstr ""
+msgstr "L'URL de vérification est invalide. Veuillez réessayer."
 
 msgid "You have successfully registered as an installer"
-msgstr ""
+msgstr "Vous êtes bien inscrit en tant qu'installateur"
 
 msgid "You have successfully registered as a collaborator"
-msgstr ""
+msgstr "Vous êtes bien inscrit en tant que collaborateur"
 
 msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
+"Il y a un problème avec votre évènement. Veuillez vérifier les erreurs du "
+"formulaire."
 
 msgid "Dummy"
-msgstr ""
+msgstr "Factice"
 
 msgid ""
 "There was a problem submitting the "
 "proposal.                                   Please check the form for errors."
 msgstr ""
+"Il y a eu un problème lors de l'envoi de votre "
+"proposition.                                   Veuillez vérifier les erreurs "
+"du formulaire."
 
 msgid ""
 "The activity proposal is already closed or the "
@@ -1695,6 +1928,10 @@ msgid ""
 "page. Please                            contact the Event Organization Team "
 "to submit it."
 msgstr ""
+"La proposition d'activités est déjà terminée ou alors "
+"l'évènement                           n'accepte pas de propositions depuis "
+"cette page. Veuillez                            contacter l'équipe "
+"d'organisation de l'évènement pour l'envoyer."
 
 msgid ""
 "The activity proposal edition is already closed,                            "
@@ -1702,81 +1939,101 @@ msgid ""
 "accepting proposals through this page. Please                            "
 "contact the Event Organization Team to submit it."
 msgstr ""
+"La modification des propositions d'activité est déjà "
+"terminée,                            le programme est terminé ou alors "
+"l'évènement                            n'accepte pas de propositions depuis "
+"cette page. Veuillez                            contacter l'équipe "
+"d'organisation de l'évènement pour l'envoyer."
 
 msgid "Please crop or upload a new image."
-msgstr ""
+msgstr "Veuillez rogner l'image ou en charger une nouvelle."
 
 msgid ""
 "The proposal has been registered successfully! We'll contact                 "
 "you at the provided email"
 msgstr ""
+"La proposition a bien été enregistrée ! Nous vous "
+"contacterons                 à l'adresse e-mail que vous avez indiquée"
 
 msgid ""
 "The proposal couldn't be registered. Please         check the form for errors"
 msgstr ""
+"La proposition n'a pas pu être enregistrée. Veuillez         vérifier les "
+"erreurs du formulaire"
 
 msgid ""
 "The email couldn't sent successfully,                                   "
 "please retry later or contact a organizer"
 msgstr ""
+"L'e-mail n'a pas pu être envoyé,                                   veuillez "
+"réessayer plus tard ou contacter un organisateur"
 
 msgid "Additional info"
-msgstr ""
+msgstr "Informations supplémentaires"
 
 msgid "Speakers names"
-msgstr ""
+msgstr "Nom des intervenants"
 
 msgid "Speaker username"
-msgstr ""
+msgstr "Nom d'utilisateur de l'intervenant"
 
 msgid "Speaker first name"
-msgstr ""
+msgstr "Prénom de l'intervenant"
 
 msgid "Speaker last name"
-msgstr ""
+msgstr "Nom de l'intervenant"
 
 msgid "Speaker email"
-msgstr ""
+msgstr "Adresse e-mail de l'intervenant"
 
 msgid "Speaker bio"
-msgstr ""
+msgstr "Bio de l'intervenant"
 
 msgid "The talk was registered successfully!"
-msgstr ""
+msgstr "La conférence a bien été enregistrée !"
 
 msgid ""
 "The talk couldn't be "
 "registered,                                                   please retry "
 "confirm the talk"
 msgstr ""
+"La conférence n'a pas pu être "
+"enregistrée,                                                   veuillez "
+"réessayer de confirmer la conférence"
 
 msgid "The talk couldn't be registered (check form errors)"
 msgstr ""
+"La conférence n'a pas pu être enregistrée (vérifiez les erreurs du "
+"formulaire)"
 
 msgid ""
 "The event has been updated successfully! We'll contact you at the provided "
 "email"
 msgstr ""
+"L'évènement a bien été mis à jour ! Nous vous contacterons à l'adresse e-"
+"mail que vous avez indiquée"
 
 msgid ""
 "The event couldn't be updated.                                   Please "
 "check the form for errors"
 msgstr ""
+"L'évènement n'a pas pu être mis à jour.                                   "
+"Veuillez vérifier les erreurs du formulaire"
 
 msgid "The Room has been edited successfully."
-msgstr ""
+msgstr "La salle a bien été modifiée."
 
 msgid "The Room has been added successfully."
-msgstr ""
+msgstr "La salle a bien été ajoutée."
 
 msgid "The room couldn't be edited (check form errors)"
-msgstr ""
+msgstr "La salle n'a pas pu être modifiée (vérifiez les erreurs du formulaire)"
 
 msgid "The room couldn't be added (check form errors)"
-msgstr ""
+msgstr "La salle n'a pas pu être ajoutée (vérifiez les erreurs du formulaire)"
 
 msgid "The room has assigned activities."
-msgstr ""
+msgstr "La salle est associée à des activités."
 
 msgid "The Room has been removed successfully."
-msgstr ""
+msgstr "La salle a bien été supprimée."

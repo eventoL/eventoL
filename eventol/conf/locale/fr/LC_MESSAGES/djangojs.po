@@ -3,211 +3,213 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-15 00:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2020-01-15 21:24+0000\n"
+"Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/eventol/djangojs/"
+"fr/>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 msgid "Event not found"
-msgstr ""
+msgstr "Évènement introuvable"
 
 msgid "No Event found in your search"
-msgstr ""
+msgstr "Aucun évènement trouvé avec votre recherche"
 
 msgid "Attendees"
-msgstr ""
+msgstr "Participants"
 
 msgid "Tags"
-msgstr ""
+msgstr "Étiquettes"
 
 msgid "You are seeing all of"
 msgstr ""
 
 msgid "events"
-msgstr ""
+msgstr "évènements"
 
 msgid "Please, select one to continue"
-msgstr ""
+msgstr "Veuillez en sélectionner un pour continuer"
 
 msgid "Search your event"
-msgstr ""
+msgstr "Recherchez votre évènement"
 
 msgid "Search by title..."
-msgstr ""
+msgstr "Rechercher par titre…"
 
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 msgid "Documentation"
-msgstr ""
+msgstr "Documentation"
 
 msgid "Featured"
-msgstr ""
+msgstr "Tendances"
 
 msgid "Recent"
-msgstr ""
+msgstr "Récent"
 
 msgid "Generic report"
-msgstr ""
+msgstr "Rapport générique"
 
 msgid "Sign In"
-msgstr ""
+msgstr "Se connecter"
 
 msgid "Sign Up"
-msgstr ""
+msgstr "S'inscrire"
 
 msgid "Search results"
-msgstr ""
+msgstr "Résultats de recherche"
 
 msgid "My Events"
-msgstr ""
+msgstr "Mes évènements"
 
 msgid "Upcoming Events"
-msgstr ""
+msgstr "Évènements à venir"
 
 msgid "Finished Events"
-msgstr ""
+msgstr "Évènements terminés"
 
 msgid "Create event"
-msgstr ""
+msgstr "Créer un évènement"
 
 msgid "Recent Events"
-msgstr ""
+msgstr "Évènements récents"
 
 msgid "Featured Events"
-msgstr ""
+msgstr "Évènements mis en avant"
 
 msgid "Events with Confirmed Schedule"
-msgstr ""
+msgstr "Évènements avec programme confirmé"
 
 msgid "Event"
-msgstr ""
+msgstr "Évènement"
 
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 msgid "Events"
-msgstr ""
+msgstr "Évènements"
 
 msgid "Organizers"
-msgstr ""
+msgstr "Organisateurs"
 
 msgid "Email"
-msgstr ""
+msgstr "Adresse e-mail"
 
 msgid "Location"
-msgstr ""
+msgstr "Emplacement"
 
 msgid "Address detail"
-msgstr ""
+msgstr "Informations sur l'adresse"
 
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 msgid "Province"
-msgstr ""
+msgstr "Région"
 
 msgid "Assistance (confirmed)"
-msgstr ""
+msgstr "Assistance (confirmée)"
 
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 msgid "Collaborators"
-msgstr ""
+msgstr "Collaborateurs"
 
 msgid "Installers"
-msgstr ""
+msgstr "Installateurs"
 
 msgid "Speakers"
-msgstr ""
+msgstr "Intervenants"
 
 msgid "Activities"
-msgstr ""
+msgstr "Activités"
 
 msgid "Installations"
-msgstr ""
+msgstr "Installations"
 
 msgid "Confirmed"
-msgstr ""
+msgstr "Confirmé"
 
 msgid "Not Confirmed"
-msgstr ""
+msgstr "Non confirmé"
 
 msgid "Quantity"
-msgstr ""
+msgstr "Quantité"
 
 msgid "Don't configured"
 msgstr ""
 
 msgid "Proposal"
-msgstr ""
+msgstr "Proposition"
 
 msgid "Accepted"
-msgstr ""
+msgstr "Accepté"
 
 msgid "Rejected"
-msgstr ""
+msgstr "Refusé"
 
 msgid "Talk"
-msgstr ""
+msgstr "Conférence"
 
 msgid "Workshop"
-msgstr ""
+msgstr "Atelier"
 
 msgid "Lightning talk"
-msgstr ""
+msgstr "Conférence éclair"
 
 msgid "Other"
-msgstr ""
+msgstr "Autre"
 
 msgid "Beginner"
-msgstr ""
+msgstr "Débutant"
 
 msgid "Medium"
-msgstr ""
+msgstr "Moyen"
 
 msgid "Advanced"
-msgstr ""
+msgstr "Avancé"
 
 msgid "There isn't any event yet."
-msgstr ""
+msgstr "Il n'y a aucun évènement pour l'instant."
 
 msgid "There has been an error"
-msgstr ""
+msgstr "Une erreur s'est produite"
 
 msgid "National report"
-msgstr ""
+msgstr "Rapport national"
 
 msgid "Autoupdate"
-msgstr ""
+msgstr "Mise à jour automatique"
 
 msgid "Assistance detail"
-msgstr ""
+msgstr "Informations d'assistance"
 
 msgid "Export"
-msgstr ""
+msgstr "Exporter"
 
 msgid "Reconecting websocket, attemps"
 msgstr ""
 
 msgid "websocket not supported by your browser"
-msgstr ""
+msgstr "Websocket non supportée par votre navigateur"
 
 msgid "Wrong offset!"
-msgstr ""
+msgstr "Décalage invalide !"
 
 msgid "Wrong length!"
-msgstr ""
+msgstr "Longueur invalide !"
 
 msgid "Languages"
-msgstr ""
+msgstr "Langues"
