@@ -7,7 +7,7 @@ Status
 ------
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
 [![Build Status](https://travis-ci.org/eventoL/eventoL.svg?branch=master)](https://travis-ci.org/eventoL/eventoL)
@@ -53,6 +53,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/reyiyo"><img src="https://avatars3.githubusercontent.com/u/761204?v=4" width="100px;" alt=""/><br /><sub><b>Sergio Orbe</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=reyiyo" title="Code">💻</a> <a href="#design-reyiyo" title="Design">🎨</a> <a href="#ideas-reyiyo" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/ChmlGr"><img src="https://avatars2.githubusercontent.com/u/5685527?v=4" width="100px;" alt=""/><br /><sub><b>Ximena Garcia</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=ChmlGr" title="Code">💻</a> <a href="#design-ChmlGr" title="Design">🎨</a> <a href="#ideas-ChmlGr" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://hackan.net"><img src="https://avatars2.githubusercontent.com/u/7178420?v=4" width="100px;" alt=""/><br /><sub><b>HacKan</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=HacKanCuBa" title="Code">💻</a> <a href="#design-HacKanCuBa" title="Design">🎨</a> <a href="#ideas-HacKanCuBa" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/eventoL/eventoL/commits?author=HacKanCuBa" title="Tests">⚠️</a></td>
+    <td align="center"><a href="http://gilgamezh.me"><img src="https://avatars3.githubusercontent.com/u/1496486?v=4" width="100px;" alt=""/><br /><sub><b>Nicolás Demarchi</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=gilgamezh" title="Code">💻</a> <a href="#ideas-gilgamezh" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 

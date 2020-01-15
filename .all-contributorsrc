@@ -64,6 +64,16 @@
         "ideas",
         "test"
       ]
+    },
+    {
+      "login": "gilgamezh",
+      "name": "Nicolás Demarchi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1496486?v=4",
+      "profile": "http://gilgamezh.me",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7
