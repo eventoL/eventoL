@@ -249,7 +249,7 @@ def installation2(attendee_from_event_user2, installer2):
 @pytest.mark.django_db
 def get_event_date(datestring):
     date = datetime.strptime(datestring, "%d/%m/%Y")
-    yield autofixture.create_one('manager.EventDate', {'date': date.date()})
+    return autofixture.create_one('manager.EventDate', {'date': date.date()})
 
 
 @pytest.fixture
