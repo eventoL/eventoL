@@ -221,7 +221,7 @@ msgstr ""
 msgid "Custom template HTML for event index page"
 msgstr ""
 
-msgid "Custom css"
+msgid "Custom CSS"
 msgstr ""
 
 msgid "Custom CSS file for event page"

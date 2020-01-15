@@ -209,7 +209,7 @@ class Event(models.Model):
     template = models.FileField(_('Template'),
                                 upload_to='templates', blank=True, null=True,
                                 help_text=_('Custom template HTML for event index page'))
-    css_custom = models.FileField(_('Custom css'),
+    css_custom = models.FileField(_('Custom CSS'),
                                   upload_to='custom_css', blank=True, null=True,
                                   help_text=_('Custom CSS file for event page'))
 

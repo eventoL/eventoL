@@ -219,7 +219,7 @@ msgstr "Plantilla"
 msgid "Custom template HTML for event index page"
 msgstr "Plantilla personalizada para la página principal de este evento"
 
-msgid "Custom css"
+msgid "Custom CSS"
 msgstr "Css alternativo"
 
 msgid "Custom CSS file for event page"

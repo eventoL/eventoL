@@ -223,7 +223,7 @@ msgstr "Sjabloon"
 msgid "Custom template HTML for event index page"
 msgstr "Aangepast HTML-sjabloon voor de overzichtspagina van het evenement"
 
-msgid "Custom css"
+msgid "Custom CSS"
 msgstr "Aangepaste CSS"
 
 msgid "Custom CSS file for event page"
