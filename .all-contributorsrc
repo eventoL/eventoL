@@ -9,6 +9,28 @@
   "imageSize": 100,
   "commit": true,
   "commitConvention": "eslint",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "FedeG",
+      "name": "Federico Gonzalez",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4097554?v=4",
+      "profile": "https://github.com/FedeG",
+      "contributions": [
+        "a11y",
+        "bug",
+        "blog",
+        "code",
+        "design",
+        "doc",
+        "ideas",
+        "maintenance",
+        "projectManagement",
+        "review",
+        "security",
+        "translation",
+        "test"
+      ]
+    }
+  ],
   "contributorsPerLine": 7
 }

@@ -7,7 +7,7 @@ Status
 ------
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
 [![Build Status](https://travis-ci.org/eventoL/eventoL.svg?branch=master)](https://travis-ci.org/eventoL/eventoL)
@@ -47,6 +47,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/FedeG"><img src="https://avatars3.githubusercontent.com/u/4097554?v=4" width="100px;" alt=""/><br /><sub><b>Federico Gonzalez</b></sub></a><br /><a href="#a11y-FedeG" title="Accessibility">️️️️♿️</a> <a href="https://github.com/eventoL/eventoL/issues?q=author%3AFedeG" title="Bug reports">🐛</a> <a href="#blog-FedeG" title="Blogposts">📝</a> <a href="https://github.com/eventoL/eventoL/commits?author=FedeG" title="Code">💻</a> <a href="#design-FedeG" title="Design">🎨</a> <a href="https://github.com/eventoL/eventoL/commits?author=FedeG" title="Documentation">📖</a> <a href="#ideas-FedeG" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-FedeG" title="Maintenance">🚧</a> <a href="#projectManagement-FedeG" title="Project Management">📆</a> <a href="https://github.com/eventoL/eventoL/pulls?q=is%3Apr+reviewed-by%3AFedeG" title="Reviewed Pull Requests">👀</a> <a href="#security-FedeG" title="Security">🛡️</a> <a href="#translation-FedeG" title="Translation">🌍</a> <a href="https://github.com/eventoL/eventoL/commits?author=FedeG" title="Tests">⚠️</a></td>
+  </tr>
+</table>
+
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
