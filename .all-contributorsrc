@@ -52,6 +52,18 @@
         "design",
         "ideas"
       ]
+    },
+    {
+      "login": "HacKanCuBa",
+      "name": "HacKan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7178420?v=4",
+      "profile": "https://hackan.net",
+      "contributions": [
+        "code",
+        "design",
+        "ideas",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
