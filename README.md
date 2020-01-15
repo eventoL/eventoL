@@ -1,14 +1,14 @@
 EventoL
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-=======
+-------
 
 EventoL is a event management software initially developed to manage [FLISoL](http://flisol.info/) conference.
 
 Status
 ------
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
 [![Build Status](https://travis-ci.org/eventoL/eventoL.svg?branch=master)](https://travis-ci.org/eventoL/eventoL)
 [![pipeline status](https://gitlab.com/eventol/eventoL/badges/master/pipeline.svg)](https://gitlab.com/eventol/eventoL/commits/master)
