@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"POT-Creation-Date: 2020-01-15 21:22+0000\n"
 "PO-Revision-Date: 2019-12-11 16:44+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/"
@@ -1029,12 +1029,6 @@ msgstr "Programma bevestigen"
 msgid "Dummy activities"
 msgstr "Schijnactiviteiten"
 
-msgid "Start"
-msgstr "Start om"
-
-msgid "End"
-msgstr "Eindigt om"
-
 msgid "Edit dummy activity"
 msgstr "Schijnactiviteit aanpassen"
 
@@ -1227,9 +1221,6 @@ msgstr "Neem contact met ons op!"
 
 msgid "Languages"
 msgstr "Talen"
-
-msgid "Organizers"
-msgstr "Organisatoren"
 
 msgid "Profile"
 msgstr "Profiel"
@@ -2034,6 +2025,12 @@ msgstr "De kamer heeft toegewezen activiteiten."
 
 msgid "The Room has been removed successfully."
 msgstr "De kamer is verwijderd."
+
+#~ msgid "Start"
+#~ msgstr "Start om"
+
+#~ msgid "End"
+#~ msgstr "Eindigt om"
 
 #~ msgid "Browse..."
 #~ msgstr "Bladeren..."

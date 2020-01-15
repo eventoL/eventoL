@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"POT-Creation-Date: 2020-01-15 21:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -922,12 +922,6 @@ msgstr ""
 msgid "Dummy activities"
 msgstr ""
 
-msgid "Start"
-msgstr ""
-
-msgid "End"
-msgstr ""
-
 msgid "Edit dummy activity"
 msgstr ""
 
@@ -1109,9 +1103,6 @@ msgid "Contact Us!"
 msgstr ""
 
 msgid "Languages"
-msgstr ""
-
-msgid "Organizers"
 msgstr ""
 
 msgid "Profile"

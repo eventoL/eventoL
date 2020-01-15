@@ -57,8 +57,8 @@
                                                 </p>{% endif %}
                                                 {% if talk.type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.get_type_display }}</p>{% endif %}
                                                 {% if talk.room %}<p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>{% endif %}
-                                                {% if talk.start_date %}<p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>{% endif %}
-                                                {% if talk.end_date %}<p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>{% endif %}
+                                                {% if talk.start_date %}<p><strong>{% trans "Start Time" %}:</strong> {{ talk.start_date }}</p>{% endif %}
+                                                {% if talk.end_date %}<p><strong>{% trans "End Time" %}:</strong> {{ talk.end_date }}</p>{% endif %}
                                                 {% if talk.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ talk.long_description }}</p>{% endif %}
                                                 <p><a href="{% url "activity_detail" event.event_slug talk.id %}">
                                                     {% trans "View Talk" %}

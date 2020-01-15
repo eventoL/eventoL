@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"POT-Creation-Date: 2020-01-15 21:22+0000\n"
 "PO-Revision-Date: 2020-01-15 00:44+0000\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -1009,12 +1009,6 @@ msgstr "Confirmar Cronograma"
 msgid "Dummy activities"
 msgstr "Actividades ficticias"
 
-msgid "Start"
-msgstr "Inicio"
-
-msgid "End"
-msgstr "Fin"
-
 msgid "Edit dummy activity"
 msgstr "Editar actividad ficticia"
 
@@ -1207,9 +1201,6 @@ msgstr "Contactanos!"
 
 msgid "Languages"
 msgstr "Idiomas"
-
-msgstr "Organizadores"
-msgid "Organizers"
 
 msgid "Profile"
 msgstr "Perfil"
@@ -1998,6 +1989,12 @@ msgstr "La sala tiene actividades asignadas."
 
 msgid "The Room has been removed successfully."
 msgstr "¡La sala fue borrada satisfactoriamente!"
+
+#~ msgid "Start"
+#~ msgstr "Inicio"
+
+#~ msgid "End"
+#~ msgstr "Fin"
 
 #~ msgid "Browse..."
 #~ msgstr "Buscar archivo..."

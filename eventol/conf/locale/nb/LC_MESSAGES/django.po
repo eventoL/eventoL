@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"POT-Creation-Date: 2020-01-15 21:22+0000\n"
 "PO-Revision-Date: 2019-12-03 01:05+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
@@ -930,12 +930,6 @@ msgstr ""
 msgid "Dummy activities"
 msgstr "Aktiviteter"
 
-msgid "Start"
-msgstr "Start"
-
-msgid "End"
-msgstr "Slutt"
-
 #, fuzzy
 #| msgid "Kind of activity"
 msgid "Edit dummy activity"
@@ -1121,9 +1115,6 @@ msgid "Contact Us!"
 msgstr ""
 
 msgid "Languages"
-msgstr ""
-
-msgid "Organizers"
 msgstr ""
 
 msgid "Profile"
@@ -1816,3 +1807,9 @@ msgstr ""
 
 msgid "The Room has been removed successfully."
 msgstr ""
+
+#~ msgid "Start"
+#~ msgstr "Start"
+
+#~ msgid "End"
+#~ msgstr "Slutt"
