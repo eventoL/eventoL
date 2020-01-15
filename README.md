@@ -40,7 +40,8 @@ Configure Own server
 - See [Installation Instructions](http://eventol.github.io/eventoL/#/en/installation)
 - See [Deploy Instructions](http://eventol.github.io/eventoL/#/en/deploy)
 
-## Contributors ✨
+Contributors ✨
+---------------
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 

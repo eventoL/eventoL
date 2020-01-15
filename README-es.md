@@ -40,7 +40,8 @@ Configuración de server propio
 - Ver [Instrucciones de Instalación](http://eventol.github.io/eventoL/#/es/installation)
 - Ver [Instrucciones de puesta en marcha](http://eventol.github.io/eventoL/#/es/deploy)
 
-## Contribuyentes ✨
+Contribuyentes ✨
+-----------------
 
 Gracias a estas personas maravillosas ([emojis](https://allcontributors.org/docs/en/emoji-key)):
 
