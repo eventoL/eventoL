@@ -1406,7 +1406,7 @@ msgstr "Errores"
 msgid "Submit an Installation"
 msgstr "Cargar una instalación"
 
-msgid "Register a Attendee"
+msgid "Register an Attendee"
 msgstr "Registrar un Asistente"
 
 msgid "Attendee Registration"

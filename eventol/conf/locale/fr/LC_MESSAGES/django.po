@@ -1288,7 +1288,7 @@ msgstr ""
 msgid "Submit an Installation"
 msgstr ""
 
-msgid "Register a Attendee"
+msgid "Register an Attendee"
 msgstr ""
 
 msgid "Attendee Registration"

@@ -1428,7 +1428,7 @@ msgstr "Fouten"
 msgid "Submit an Installation"
 msgstr "Installatie indienen"
 
-msgid "Register a Attendee"
+msgid "Register an Attendee"
 msgstr "Deelnemer registreren"
 
 msgid "Attendee Registration"
