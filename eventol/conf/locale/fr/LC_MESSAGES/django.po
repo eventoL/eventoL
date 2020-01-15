@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Nathan <bonnemainsnathan@gmail.com>, 2020.
+# Federico Gonzalez <federicogonzalez761@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-15 00:00+0000\n"
 "PO-Revision-Date: 2020-01-15 21:24+0000\n"
-"Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
+"Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/eventol/django/fr/"
 ">\n"
 "Language: fr\n"
@@ -156,7 +157,7 @@ msgstr ""
 "évènement"
 
 msgid "CNAME"
-msgstr ""
+msgstr "CNAME"
 
 msgid "code"
 msgstr "code"
