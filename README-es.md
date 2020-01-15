@@ -7,7 +7,7 @@ Estado
 ------
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
 [![Build Status](https://travis-ci.org/eventoL/eventoL.svg?branch=master)](https://travis-ci.org/eventoL/eventoL)
@@ -56,6 +56,9 @@ Gracias a estas personas maravillosas ([emojis](https://allcontributors.org/docs
     <td align="center"><a href="http://gilgamezh.me"><img src="https://avatars3.githubusercontent.com/u/1496486?v=4" width="100px;" alt=""/><br /><sub><b>Nicolás Demarchi</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=gilgamezh" title="Code">💻</a> <a href="#ideas-gilgamezh" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-gilgamezh" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     <td align="center"><a href="http://portfolio.anotheragency.no"><img src="https://avatars1.githubusercontent.com/u/13802408?v=4" width="100px;" alt=""/><br /><sub><b>Allan Nordhøy</b></sub></a><br /><a href="#translation-comradekingu" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/Vistaus"><img src="https://avatars1.githubusercontent.com/u/1716229?v=4" width="100px;" alt=""/><br /><sub><b>Heimen Stoffels</b></sub></a><br /><a href="#translation-Vistaus" title="Translation">🌍</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/lizzyd710"><img src="https://avatars2.githubusercontent.com/u/12602768?v=4" width="100px;" alt=""/><br /><sub><b>Elizabeth Sherrock</b></sub></a><br /><a href="#translation-lizzyd710" title="Translation">🌍</a></td>
   </tr>
 </table>
 
