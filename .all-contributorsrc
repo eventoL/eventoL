@@ -74,6 +74,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "comradekingu",
+      "name": "Allan Nordhøy",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/13802408?v=4",
+      "profile": "http://portfolio.anotheragency.no",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7
