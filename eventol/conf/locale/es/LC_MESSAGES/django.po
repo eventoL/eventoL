@@ -991,7 +991,7 @@ msgstr "Enviar un correo a los disertantes"
 msgid "Copy speakers emails"
 msgstr "Copiar los correos de los disertantes"
 
-msgid "Export to csv"
+msgid "Export to CSV"
 msgstr "Exportart a csv"
 
 msgid "Submit an activity"

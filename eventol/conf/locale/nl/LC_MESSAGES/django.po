@@ -1011,7 +1011,7 @@ msgstr "E-mail versturen aan sprekers"
 msgid "Copy speakers emails"
 msgstr "E-mailadressen van sprekers kopiëren"
 
-msgid "Export to csv"
+msgid "Export to CSV"
 msgstr "Exporteren naar csv"
 
 msgid "Submit an activity"

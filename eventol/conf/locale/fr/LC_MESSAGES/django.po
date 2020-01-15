@@ -903,7 +903,7 @@ msgstr ""
 msgid "Copy speakers emails"
 msgstr ""
 
-msgid "Export to csv"
+msgid "Export to CSV"
 msgstr ""
 
 msgid "Submit an activity"
