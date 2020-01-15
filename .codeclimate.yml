@@ -22,8 +22,9 @@ plugins:
     enabled: true
     checks:
       MD013:
-        code_blocks: false
-        tables: false
+        enabled: false
+      MD033:
+        enabled: false
   nodesecurity:
     enabled: true
   pylint:
