@@ -4,7 +4,8 @@
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
-    "README.md"
+    "README.md",
+    "README-es.md"
   ],
   "imageSize": 100,
   "commit": true,
@@ -82,6 +83,15 @@
       "name": "Allan Nordhøy",
       "avatar_url": "https://avatars1.githubusercontent.com/u/13802408?v=4",
       "profile": "http://portfolio.anotheragency.no",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "Vistaus",
+      "name": "Heimen Stoffels",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1716229?v=4",
+      "profile": "https://github.com/Vistaus",
       "contributions": [
         "translation"
       ]
