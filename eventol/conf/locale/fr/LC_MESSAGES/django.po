@@ -1177,7 +1177,7 @@ msgstr ""
 msgid "Winners"
 msgstr ""
 
-msgid "Draw!!"
+msgid "Draw!"
 msgstr ""
 
 msgid "There aren't any more participants"

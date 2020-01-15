@@ -1300,8 +1300,8 @@ msgstr "Geef zoveel mogelijk informatie over je evenement"
 msgid "Winners"
 msgstr "Winnaars"
 
-msgid "Draw!!"
-msgstr "Gelijkspel!!"
+msgid "Draw!"
+msgstr "Gelijkspel!"
 
 msgid "There aren't any more participants"
 msgstr "Er zijn verder geen deelnemers"

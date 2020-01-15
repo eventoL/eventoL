@@ -1277,8 +1277,8 @@ msgstr "Ingresa todos los detalles que puedas acerca de tu evento"
 msgid "Winners"
 msgstr "Ganadores"
 
-msgid "Draw!!"
-msgstr "Sortear!!"
+msgid "Draw!"
+msgstr "Sortear!"
 
 msgid "There aren't any more participants"
 msgstr "No hay más participantes"
