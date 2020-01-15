@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-13 18:23+0000\n"
+"POT-Creation-Date: 2020-01-15 00:00+0000\n"
 "PO-Revision-Date: 2019-11-26 00:03-0300\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -15,6 +15,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.7\n"
 
+#, python-format
+msgid "The width is: %(width)s"
+msgstr "El ancho is: %(width)s"
+
+#, python-format
+msgid "Index of %(directory)s"
+msgstr "Indice de %(directory)s"
+
 msgid "Danish"
 msgstr "Danés"
 
@@ -23,6 +31,9 @@ msgstr "Ingles"
 
 msgid "Spanish"
 msgstr "Español"
+
+msgid "French"
+msgstr ""
 
 msgid "Norwegian Bokmal"
 msgstr "Noruego bokmal"
@@ -1987,12 +1998,6 @@ msgstr "La sala tiene actividades asignadas."
 
 msgid "The Room has been removed successfully."
 msgstr "¡La sala fue borrada satisfactoriamente!"
-
-#~ msgid "The width is: %(width)s"
-#~ msgstr "El ancho is: %(width)s"
-
-#~ msgid "Index of %(directory)s"
-#~ msgstr "Indice de %(directory)s"
 
 #~ msgid "Browse..."
 #~ msgstr "Buscar archivo..."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-13 18:23+0000\n"
+"POT-Creation-Date: 2020-01-15 00:00+0000\n"
 "PO-Revision-Date: 2019-11-26 00:15-0300\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/djangojs/"
@@ -18,6 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 2.2.4\n"
+
+msgid "Event not found"
+msgstr "Evento no encontrado"
+
+msgid "No Event found in your search"
+msgstr "Ningún Evento encontrado en tu búsqueda"
+
+msgid "Attendees"
+msgstr "Asistentes"
+
+msgid "Tags"
+msgstr "Etiquetas"
 
 msgid "You are seeing all of"
 msgstr "Estás viendo todo lo de"
@@ -55,18 +67,6 @@ msgstr "Iniciar sesión"
 msgid "Sign Up"
 msgstr "Registrarse"
 
-msgid "Event not found"
-msgstr "Evento no encontrado"
-
-msgid "No Event found in your search"
-msgstr "Ningún Evento encontrado en tu búsqueda"
-
-msgid "Attendees"
-msgstr "Asistentes"
-
-msgid "Tags"
-msgstr "Etiquetas"
-
 msgid "Search results"
 msgstr "Resultados de la busqueda"
 
@@ -79,6 +79,246 @@ msgstr "Próximos Eventos"
 msgid "Finished Events"
 msgstr "Eventos Finalizados"
 
+msgid "Create event"
+msgstr "Crear Evento"
+
+msgid "227"
+msgstr ""
+
+msgid "198"
+msgstr ""
+
+msgid "96"
+msgstr ""
+
+msgid "97"
+msgstr ""
+
+msgid "99"
+msgstr ""
+
+msgid "98"
+msgstr ""
+
+msgid "100"
+msgstr ""
+
+msgid "30"
+msgstr ""
+
+msgid "101"
+msgstr ""
+
+msgid "102"
+msgstr ""
+
+msgid "231"
+msgstr ""
+
+msgid "95"
+msgstr ""
+
+msgid "33"
+msgstr ""
+
+msgid "279"
+msgstr ""
+
+msgid "280"
+msgstr ""
+
+msgid "188"
+msgstr ""
+
+msgid "189"
+msgstr ""
+
+msgid "190"
+msgstr ""
+
+msgid "91"
+msgstr ""
+
+msgid "92"
+msgstr ""
+
+msgid "93"
+msgstr ""
+
+msgid "137"
+msgstr ""
+
+msgid "60"
+msgstr ""
+
+msgid "61"
+msgstr ""
+
+msgid "62"
+msgstr ""
+
+msgid "168"
+msgstr ""
+
+msgid "108"
+msgstr ""
+
+msgid "169"
+msgstr ""
+
+msgid "130"
+msgstr ""
+
+msgid "309"
+msgstr ""
+
+msgid "147"
+msgstr ""
+
+msgid "284"
+msgstr ""
+
+msgid "290"
+msgstr ""
+
+msgid "31"
+msgstr ""
+
+msgid "150"
+msgstr ""
+
+msgid "151"
+msgstr ""
+
+msgid "152"
+msgstr ""
+
+msgid "174"
+msgstr ""
+
+msgid "321"
+msgstr ""
+
+msgid "300"
+msgstr ""
+
+msgid "310"
+msgstr ""
+
+msgid "311"
+msgstr ""
+
+msgid "301"
+msgstr ""
+
+msgid "153"
+msgstr ""
+
+msgid "306"
+msgstr ""
+
+msgid "282"
+msgstr ""
+
+msgid "156"
+msgstr ""
+
+msgid "308"
+msgstr ""
+
+msgid "191"
+msgstr ""
+
+msgid "160"
+msgstr ""
+
+msgid "161"
+msgstr ""
+
+msgid "162"
+msgstr ""
+
+msgid "163"
+msgstr ""
+
+msgid "285"
+msgstr ""
+
+msgid "177"
+msgstr ""
+
+msgid "261"
+msgstr ""
+
+msgid "178"
+msgstr ""
+
+msgid "166"
+msgstr ""
+
+msgid "243"
+msgstr ""
+
+msgid "271"
+msgstr ""
+
+msgid "281"
+msgstr ""
+
+msgid "313"
+msgstr ""
+
+msgid "185"
+msgstr ""
+
+msgid "244"
+msgstr ""
+
+msgid "253"
+msgstr ""
+
+msgid "245"
+msgstr ""
+
+msgid "246"
+msgstr ""
+
+msgid "170"
+msgstr ""
+
+msgid "171"
+msgstr ""
+
+msgid "90"
+msgstr ""
+
+msgid "250"
+msgstr ""
+
+msgid "251"
+msgstr ""
+
+msgid "200"
+msgstr ""
+
+msgid "268"
+msgstr ""
+
+msgid "38"
+msgstr ""
+
+msgid "40"
+msgstr ""
+
+msgid "187"
+msgstr ""
+
+msgid "299"
+msgstr ""
+
+msgid "object"
+msgstr ""
+
 msgid "Recent Events"
 msgstr "Eventos Recientes"
 
@@ -88,18 +328,6 @@ msgstr "Eventos Destacados"
 msgid "Events with Confirmed Schedule"
 msgstr "Eventos con Cronograma Confirmado"
 
-msgid "Confirmed"
-msgstr "Confirmado"
-
-msgid "Total"
-msgstr "Total"
-
-msgid "Not Confirmed"
-msgstr "No confirmado"
-
-msgid "Don't configured"
-msgstr "No configurado"
-
 msgid "Event"
 msgstr "Evento"
 
@@ -108,6 +336,12 @@ msgstr "Nombre"
 
 msgid "Events"
 msgstr "Eventos"
+
+msgid "Organizers"
+msgstr "Organizadores"
+
+msgid "Email"
+msgstr "Mail"
 
 msgid "Location"
 msgstr "Ubicación"
@@ -124,8 +358,8 @@ msgstr "Provincia"
 msgid "Assistance (confirmed)"
 msgstr "Asistencia (confirmadas)"
 
-msgid "Organizers"
-msgstr "Organizadores"
+msgid "Total"
+msgstr "Total"
 
 msgid "Collaborators"
 msgstr "Colaboradores"
@@ -142,8 +376,17 @@ msgstr "Actividades"
 msgid "Installations"
 msgstr "Instalaciones"
 
+msgid "Confirmed"
+msgstr "Confirmado"
+
+msgid "Not Confirmed"
+msgstr "No confirmado"
+
 msgid "Quantity"
 msgstr "Cantidad"
+
+msgid "Don't configured"
+msgstr "No configurado"
 
 msgid "Proposal"
 msgstr "Propuesta"
@@ -175,11 +418,11 @@ msgstr "Medio"
 msgid "Advanced"
 msgstr "Avanzado"
 
-msgid "Email"
-msgstr "Mail"
-
 msgid "There isn't any event yet."
 msgstr "No hay ningún evento todavía."
+
+msgid "There has been an error"
+msgstr "Ha habido un error"
 
 msgid "National report"
 msgstr "Reporte nacional"
@@ -193,9 +436,6 @@ msgstr "Detalles de asistencia"
 msgid "Export"
 msgstr "Exportar"
 
-msgid "There has been an error"
-msgstr "Ha habido un error"
-
 msgid "Reconecting websocket, attemps"
 msgstr "Reconectando websocket, intentos"
 
@@ -208,14 +448,35 @@ msgstr ""
 msgid "<div>"
 msgstr ""
 
+msgid "fill"
+msgstr ""
+
+msgid "stroke"
+msgstr ""
+
+msgid "shape"
+msgstr ""
+
+msgid "skew"
+msgstr ""
+
+msgid "path"
+msgstr ""
+
+msgid "textpath"
+msgstr ""
+
 msgid "Wrong offset!"
 msgstr "¡Desplazamiento equivocado!"
 
 msgid "Wrong length!"
 msgstr "¡Longitud equivocada!"
 
-msgid "Create event"
-msgstr "Crear Evento"
+msgid "^"
+msgstr ""
+
+msgid "|"
+msgstr ""
 
 msgid "Languages"
 msgstr ""

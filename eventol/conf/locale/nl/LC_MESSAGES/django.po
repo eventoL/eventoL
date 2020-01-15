@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-13 18:23+0000\n"
+"POT-Creation-Date: 2020-01-15 00:00+0000\n"
 "PO-Revision-Date: 2019-12-11 16:44+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/"
@@ -18,6 +18,14 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.10-dev\n"
 
+#, python-format
+msgid "The width is: %(width)s"
+msgstr "De breedte is: %(width)s"
+
+#, python-format
+msgid "Index of %(directory)s"
+msgstr "Index van %(directory)s"
+
 msgid "Danish"
 msgstr "Deens"
 
@@ -26,6 +34,9 @@ msgstr "Engels"
 
 msgid "Spanish"
 msgstr "Spaans"
+
+msgid "French"
+msgstr ""
 
 msgid "Norwegian Bokmal"
 msgstr "Noors (Bokmål)"
@@ -2023,12 +2034,6 @@ msgstr "De kamer heeft toegewezen activiteiten."
 
 msgid "The Room has been removed successfully."
 msgstr "De kamer is verwijderd."
-
-#~ msgid "The width is: %(width)s"
-#~ msgstr "De breedte is: %(width)s"
-
-#~ msgid "Index of %(directory)s"
-#~ msgstr "Index van %(directory)s"
 
 #~ msgid "Browse..."
 #~ msgstr "Bladeren..."

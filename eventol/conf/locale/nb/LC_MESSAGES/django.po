@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-13 18:23+0000\n"
+"POT-Creation-Date: 2020-01-15 00:00+0000\n"
 "PO-Revision-Date: 2019-12-03 01:05+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
@@ -22,6 +22,10 @@ msgstr ""
 msgid "The width is: %(width)s"
 msgstr "Bredden er: %(width)s"
 
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
 msgid "Danish"
 msgstr "Dansk"
 
@@ -30,6 +34,9 @@ msgstr "Engelsk"
 
 msgid "Spanish"
 msgstr "Spansk"
+
+msgid "French"
+msgstr ""
 
 msgid "Norwegian Bokmal"
 msgstr "Norsk bokmål"
