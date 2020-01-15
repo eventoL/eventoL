@@ -809,7 +809,7 @@ class Activity(VoteModel, models.Model):
                                       help_text=_("Comma separated speaker names"))
     speaker_bio = models.TextField(
         _('Speaker Bio'), null=True,
-        help_text=_('Tell us about you (we will user it as your "bio" in our website'))
+        help_text=_('Tell us about you (we will use it as your "bio" in our website)'))
     labels = models.CharField(_('Labels'), max_length=200,
                               help_text=_('Comma separated tags. i.e. Linux, \
                                           Free Software, Devuan'))

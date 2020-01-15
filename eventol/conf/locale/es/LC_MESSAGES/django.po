@@ -522,10 +522,10 @@ msgstr "Nombre de los disertantes (Separados por coma)"
 msgid "Speaker Bio"
 msgstr "Biografía del disertantes"
 
-msgid "Tell us about you (we will user it as your \"bio\" in our website"
+msgid "Tell us about you (we will use it as your \"bio\" in our website)"
 msgstr ""
 "Cuéntanos acerca de ti (lo usaremos como tu \"biografía\" en nuestro sitio "
-"web"
+"web)"
 
 msgid "Labels"
 msgstr "Etiquetas/Tags"

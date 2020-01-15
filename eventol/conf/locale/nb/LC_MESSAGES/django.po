@@ -525,7 +525,7 @@ msgstr ""
 msgid "Speaker Bio"
 msgstr ""
 
-msgid "Tell us about you (we will user it as your \"bio\" in our website"
+msgid "Tell us about you (we will use it as your \"bio\" in our website)"
 msgstr ""
 
 msgid "Labels"
