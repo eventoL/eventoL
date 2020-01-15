@@ -1228,7 +1228,7 @@ msgstr "Neem contact met ons op!"
 msgid "Languages"
 msgstr "Talen"
 
-msgid "Organizadores"
+msgid "Organizers"
 msgstr "Organisatoren"
 
 msgid "Profile"

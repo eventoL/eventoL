@@ -1208,8 +1208,8 @@ msgstr "Contactanos!"
 msgid "Languages"
 msgstr "Idiomas"
 
-msgid "Organizadores"
 msgstr "Organizadores"
+msgid "Organizers"
 
 msgid "Profile"
 msgstr "Perfil"

@@ -1111,7 +1111,7 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-msgid "Organizadores"
+msgid "Organizers"
 msgstr ""
 
 msgid "Profile"
