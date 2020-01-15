@@ -30,6 +30,17 @@
         "translation",
         "test"
       ]
+    },
+    {
+      "login": "reyiyo",
+      "name": "Sergio Orbe",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/761204?v=4",
+      "profile": "https://github.com/reyiyo",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7
