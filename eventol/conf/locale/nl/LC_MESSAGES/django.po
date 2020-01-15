@@ -1291,7 +1291,7 @@ msgstr ""
 "Dit wil je waarschijnlijk niet. Maar als je het écht wilt, dan kunnen jouw "
 "pagina linken aan onze overzichtspagina. Geef de volledige URL op:"
 
-msgid "Please provide a abstract about your event"
+msgid "Please provide an abstract about your event"
 msgstr "Dien een uittreksel van je evenement in"
 
 msgid "Please provide as much information you can about your event"

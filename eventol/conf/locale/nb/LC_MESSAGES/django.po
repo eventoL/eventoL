@@ -1181,7 +1181,7 @@ msgid ""
 "index. Provide the full URL here:"
 msgstr ""
 
-msgid "Please provide a abstract about your event"
+msgid "Please provide an abstract about your event"
 msgstr ""
 
 msgid "Please provide as much information you can about your event"

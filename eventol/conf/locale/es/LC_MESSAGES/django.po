@@ -1268,7 +1268,7 @@ msgstr ""
 "Probablemente no. Pero si ya tienes una página, podemos enlazarla en nuestro "
 "índice. Ingresa la URL completa aquí:"
 
-msgid "Please provide a abstract about your event"
+msgid "Please provide an abstract about your event"
 msgstr "Ingresa una resumen acerca de tu evento"
 
 msgid "Please provide as much information you can about your event"
