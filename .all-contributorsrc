@@ -28,7 +28,8 @@
         "review",
         "security",
         "translation",
-        "test"
+        "test",
+        "infra"
       ]
     },
     {
