@@ -216,7 +216,7 @@ msgid "Export"
 msgstr "Eksporter"
 
 #, fuzzy
-msgid "Reconecting websocket, attemps"
+msgid "Reconnecting websocket, attempt"
 msgstr "Kobler til nettsokkel igjen, forsøk"
 
 #, fuzzy

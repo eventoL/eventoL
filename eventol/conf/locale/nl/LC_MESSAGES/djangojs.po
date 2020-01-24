@@ -199,7 +199,7 @@ msgstr "Assistentie-informatie"
 msgid "Export"
 msgstr "Exporteren"
 
-msgid "Reconecting websocket, attemps"
+msgid "Reconnecting websocket, attempt"
 msgstr "Bezig met herverbinden; poging"
 
 msgid "websocket not supported by your browser"

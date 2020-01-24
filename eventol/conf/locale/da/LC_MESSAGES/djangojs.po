@@ -198,7 +198,7 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-msgid "Reconecting websocket, attemps"
+msgid "Reconnecting websocket, attempt"
 msgstr ""
 
 msgid "websocket not supported by your browser"

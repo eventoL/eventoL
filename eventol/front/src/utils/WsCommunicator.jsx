@@ -39,7 +39,7 @@ export default class WsCommunicator {
       this.attempts += 1;
       setTimeout(() => {
         Logger.warning(
-          `${gettext('Reconecting websocket, attemps')}: ${this.attempts}`
+          `${gettext('Reconnecting websocket, attempt')}: ${this.attempts}`
         );
         this.websocket = this.createWebSocket(this.wsUrl);
       }, time);
