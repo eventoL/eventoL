@@ -43,8 +43,8 @@ msgstr "Kies er één om verder te gaan"
 msgid "Search your event"
 msgstr "Evenement zoeken"
 
-msgid "Search by title..."
-msgstr "Zoeken op naam..."
+msgid "Search by title…"
+msgstr "Zoeken op naam…"
 
 msgid "Search"
 msgstr "Zoeken"

@@ -43,8 +43,8 @@ msgstr "Por favor, seleccioná una opción para continuar"
 msgid "Search your event"
 msgstr "Busca tu evento"
 
-msgid "Search by title..."
-msgstr "Buscar por título..."
+msgid "Search by title…"
+msgstr "Buscar por título…"
 
 msgid "Search"
 msgstr "Buscar"

@@ -43,7 +43,7 @@ msgstr "Veuillez en sélectionner un pour continuer"
 msgid "Search your event"
 msgstr "Recherchez votre évènement"
 
-msgid "Search by title..."
+msgid "Search by title…"
 msgstr "Rechercher par titre…"
 
 msgid "Search"

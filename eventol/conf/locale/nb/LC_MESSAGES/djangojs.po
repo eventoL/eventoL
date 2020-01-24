@@ -51,7 +51,7 @@ msgid "Search your event"
 msgstr "Søkeresultater"
 
 #, fuzzy
-msgid "Search by title..."
+msgid "Search by title…"
 msgstr "Søk etter tittel…"
 
 msgid "Search"

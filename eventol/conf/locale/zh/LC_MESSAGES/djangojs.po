@@ -41,7 +41,7 @@ msgstr ""
 msgid "Search your event"
 msgstr ""
 
-msgid "Search by title..."
+msgid "Search by title…"
 msgstr ""
 
 msgid "Search"
