@@ -162,7 +162,7 @@ msgstr "Ikke bekreftet"
 msgid "Quantity"
 msgstr "Mengde"
 
-msgid "Don't configured"
+msgid "Not configured"
 msgstr "Ikke oppsatt"
 
 msgid "Proposal"

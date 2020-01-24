@@ -148,7 +148,7 @@ msgstr "Niet-bevestigd"
 msgid "Quantity"
 msgstr "Aantal"
 
-msgid "Don't configured"
+msgid "Not configured"
 msgstr "Niet ingesteld"
 
 msgid "Proposal"

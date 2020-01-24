@@ -147,7 +147,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-msgid "Don't configured"
+msgid "Not configured"
 msgstr ""
 
 msgid "Proposal"
