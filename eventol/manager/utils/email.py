@@ -30,7 +30,7 @@ def get_activity_body(event_name, activity_title, activity_status, justification
         '<p>Your talk "{activity_title}" was updated to the "{activity_status}" status.\n</p>\n'
         '{justification}'
         '<p>Regards,</p>\n'
-        '{event_name} and <em>eventoL</em> team</p>\n'
+        '<p>{event_name} and <em>eventoL</em> team</p>\n'
     ).format(
         activity_status=activity_status,
         activity_title=activity_title,
@@ -57,11 +57,11 @@ def get_ticket_body(first_name, last_name, event_name):
         event_name=event_name
     )
     body_html = _(
-        '<p>Hello {first_name} {last_name},<br />\n'
-        'Here is your ticket for {event_name} event.</p>\n'
+        '<p>Hello {first_name} {last_name},</p><br />\n'
+        '<p>Here is your ticket for {event_name} event.</p>\n'
         '<p>Please remember to <em>print it and bring it with you</em> the day(s) of the event.</p>\n'
-        '<p>Regards,\n'
-        '{event_name} and <em>eventoL</em> team</p>'
+        '<p>Regards,</p>\n'
+        '<p>{event_name} and <em>eventoL</em> team</p>'
     ).format(
         first_name=first_name,
         last_name=last_name,

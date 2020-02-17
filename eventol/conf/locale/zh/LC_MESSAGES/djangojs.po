@@ -41,7 +41,7 @@ msgstr ""
 msgid "Search your event"
 msgstr ""
 
-msgid "Search by title..."
+msgid "Search by title…"
 msgstr ""
 
 msgid "Search"
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-msgid "Don't configured"
+msgid "Not configured"
 msgstr ""
 
 msgid "Proposal"
@@ -197,7 +197,7 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-msgid "Reconecting websocket, attemps"
+msgid "Reconnecting websocket, attempt"
 msgstr ""
 
 msgid "websocket not supported by your browser"

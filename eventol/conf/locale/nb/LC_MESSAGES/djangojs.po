@@ -51,7 +51,7 @@ msgid "Search your event"
 msgstr "Søkeresultater"
 
 #, fuzzy
-msgid "Search by title..."
+msgid "Search by title…"
 msgstr "Søk etter tittel…"
 
 msgid "Search"
@@ -162,7 +162,7 @@ msgstr "Ikke bekreftet"
 msgid "Quantity"
 msgstr "Mengde"
 
-msgid "Don't configured"
+msgid "Not configured"
 msgstr "Ikke oppsatt"
 
 msgid "Proposal"
@@ -216,7 +216,7 @@ msgid "Export"
 msgstr "Eksporter"
 
 #, fuzzy
-msgid "Reconecting websocket, attemps"
+msgid "Reconnecting websocket, attempt"
 msgstr "Kobler til nettsokkel igjen, forsøk"
 
 #, fuzzy

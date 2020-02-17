@@ -1516,7 +1516,7 @@ msgid ""
 "status.\n"
 "</p>\n"
 "{justification}<p>Regards,</p>\n"
-"{event_name} and <em>eventoL</em> team</p>\n"
+"<p>{event_name} and <em>eventoL</em> team</p>\n"
 msgstr ""
 
 #, python-brace-format
@@ -1534,12 +1534,12 @@ msgstr ""
 
 #, python-brace-format
 msgid ""
-"<p>Hello {first_name} {last_name},<br />\n"
-"Here is your ticket for {event_name} event.</p>\n"
+"<p>Hello {first_name} {last_name},</p><br />\n"
+"<p>Here is your ticket for {event_name} event.</p>\n"
 "<p>Please remember to <em>print it and bring it with you</em> the day(s) of "
 "the event.</p>\n"
-"<p>Regards,\n"
-"{event_name} and <em>eventoL</em> team</p>"
+"<p>Regards,</p>\n"
+"<p>{event_name} and <em>eventoL</em> team</p>"
 msgstr ""
 
 #, python-brace-format

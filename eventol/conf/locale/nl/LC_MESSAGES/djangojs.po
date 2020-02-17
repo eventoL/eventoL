@@ -43,8 +43,8 @@ msgstr "Kies er één om verder te gaan"
 msgid "Search your event"
 msgstr "Evenement zoeken"
 
-msgid "Search by title..."
-msgstr "Zoeken op naam..."
+msgid "Search by title…"
+msgstr "Zoeken op naam…"
 
 msgid "Search"
 msgstr "Zoeken"
@@ -148,7 +148,7 @@ msgstr "Niet-bevestigd"
 msgid "Quantity"
 msgstr "Aantal"
 
-msgid "Don't configured"
+msgid "Not configured"
 msgstr "Niet ingesteld"
 
 msgid "Proposal"
@@ -199,7 +199,7 @@ msgstr "Assistentie-informatie"
 msgid "Export"
 msgstr "Exporteren"
 
-msgid "Reconecting websocket, attemps"
+msgid "Reconnecting websocket, attempt"
 msgstr "Bezig met herverbinden; poging"
 
 msgid "websocket not supported by your browser"

@@ -43,7 +43,7 @@ msgstr "Veuillez en sélectionner un pour continuer"
 msgid "Search your event"
 msgstr "Recherchez votre évènement"
 
-msgid "Search by title..."
+msgid "Search by title…"
 msgstr "Rechercher par titre…"
 
 msgid "Search"
@@ -148,7 +148,7 @@ msgstr "Non confirmé"
 msgid "Quantity"
 msgstr "Quantité"
 
-msgid "Don't configured"
+msgid "Not configured"
 msgstr "Non configuré"
 
 msgid "Proposal"
@@ -199,7 +199,7 @@ msgstr "Informations d'assistance"
 msgid "Export"
 msgstr "Exporter"
 
-msgid "Reconecting websocket, attemps"
+msgid "Reconnecting websocket, attempt"
 msgstr "Reconnexion à la websocket, essai"
 
 msgid "websocket not supported by your browser"
