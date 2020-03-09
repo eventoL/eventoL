@@ -20,7 +20,6 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator, validate_email
 from django.db.models.query_utils import Q
-from django.db.utils import OperationalError
 from django.forms import Form
 from django.forms.models import BaseModelFormSet, ModelForm
 from django.forms.formsets import DELETION_FIELD_NAME
