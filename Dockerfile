@@ -5,7 +5,7 @@ FROM node:12.12.0-alpine as frontend
 
 ## Install system dependencies
 RUN apk --update add --no-cache \
-    git gcc make autoconf automake musl-dev \
+    git gcc make autoconf automake musl-dev zlib zlib-dev\
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set working directory
