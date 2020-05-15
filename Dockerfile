@@ -32,7 +32,7 @@ CMD ["tail", "-f", "/dev/null"]
 #########################################
 # build image
 #########################################
-FROM python:3.7.4-alpine as development
+FROM python:3.8.3-alpine as development
 
 # Set environment variables
 ENV APP_ROOT /usr/src/app/
