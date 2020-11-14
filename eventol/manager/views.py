@@ -1098,7 +1098,7 @@ def attendee_registration(request, event_slug):
                     'Hi! You are receiving this message because you have'
                     'registered to attend to '
                     '{event_name}, being held on {event_dates}.\n\n'
-                    'Please follow this link to confirm your email address'
+                    'Please follow this link to confirm your email address '
                     'and we will send you your '
                     'ticket:\n'
                     '{confirm_url}\n\n'
