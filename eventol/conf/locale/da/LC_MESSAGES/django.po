@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 21:22+0000\n"
+"POT-Creation-Date: 2021-03-22 04:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,14 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#, python-format
-msgid "The width is: %(width)s"
-msgstr ""
-
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
 
 msgid "Danish"
 msgstr ""
@@ -209,6 +201,9 @@ msgid "Cropping"
 msgstr ""
 
 msgid "The image must be 700x450 px. You can crop it here."
+msgstr ""
+
+msgid "Activity proposal form text"
 msgstr ""
 
 msgid "A message to show in the activities proposal form"
@@ -1124,9 +1119,6 @@ msgid "Select tags for your event"
 msgstr ""
 
 msgid "Select features for your event"
-msgstr ""
-
-msgid "Activity proposal form text"
 msgstr ""
 
 msgid ""

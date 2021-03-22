@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"POT-Creation-Date: 2021-03-22 04:37+0000\n"
 "PO-Revision-Date: 2020-09-30 14:40+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
@@ -51,7 +51,7 @@ msgid "Search your event"
 msgstr "Søkeresultater"
 
 #, fuzzy
-msgid "Search by title…"
+msgid "Search by title..."
 msgstr "Søk etter tittel…"
 
 msgid "Search"
@@ -162,7 +162,9 @@ msgstr "Ikke bekreftet"
 msgid "Quantity"
 msgstr "Mengde"
 
-msgid "Not configured"
+#, fuzzy
+#| msgid "Not configured"
+msgid "Don't configured"
 msgstr "Ikke oppsatt"
 
 msgid "Proposal"
@@ -216,7 +218,7 @@ msgid "Export"
 msgstr "Eksporter"
 
 #, fuzzy
-msgid "Reconnecting websocket, attempt"
+msgid "Reconecting websocket, attemps"
 msgstr "Kobler til nettsokkel igjen, forsøk"
 
 #, fuzzy
@@ -231,3 +233,11 @@ msgstr "Feil lengde!"
 
 msgid "Languages"
 msgstr "Språk"
+
+#, fuzzy
+msgid "Search by title…"
+msgstr "Søk etter tittel…"
+
+#, fuzzy
+msgid "Reconnecting websocket, attempt"
+msgstr "Kobler til nettsokkel igjen, forsøk"

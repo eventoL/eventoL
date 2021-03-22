@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"POT-Creation-Date: 2021-03-22 04:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,7 +41,7 @@ msgstr ""
 msgid "Search your event"
 msgstr ""
 
-msgid "Search by title…"
+msgid "Search by title..."
 msgstr ""
 
 msgid "Search"
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Quantity"
 msgstr ""
 
-msgid "Not configured"
+msgid "Don't configured"
 msgstr ""
 
 msgid "Proposal"
@@ -197,7 +197,7 @@ msgstr ""
 msgid "Export"
 msgstr ""
 
-msgid "Reconnecting websocket, attempt"
+msgid "Reconecting websocket, attemps"
 msgstr ""
 
 msgid "websocket not supported by your browser"
@@ -210,4 +210,10 @@ msgid "Wrong length!"
 msgstr ""
 
 msgid "Languages"
+msgstr ""
+
+msgid "Search by title…"
+msgstr ""
+
+msgid "Reconnecting websocket, attempt"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"POT-Creation-Date: 2021-03-22 04:37+0000\n"
 "PO-Revision-Date: 2020-01-15 00:44+0000\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/djangojs/"
@@ -43,7 +43,9 @@ msgstr "Por favor, seleccioná una opción para continuar"
 msgid "Search your event"
 msgstr "Busca tu evento"
 
-msgid "Search by title…"
+#, fuzzy
+#| msgid "Search by title…"
+msgid "Search by title..."
 msgstr "Buscar por título…"
 
 msgid "Search"
@@ -148,7 +150,9 @@ msgstr "No confirmado"
 msgid "Quantity"
 msgstr "Cantidad"
 
-msgid "Not configured"
+#, fuzzy
+#| msgid "Not configured"
+msgid "Don't configured"
 msgstr "No configurado"
 
 msgid "Proposal"
@@ -199,7 +203,9 @@ msgstr "Detalles de asistencia"
 msgid "Export"
 msgstr "Exportar"
 
-msgid "Reconnecting websocket, attempt"
+#, fuzzy
+#| msgid "Reconnecting websocket, attempt"
+msgid "Reconecting websocket, attemps"
 msgstr "Reconectando websocket, intento"
 
 msgid "websocket not supported by your browser"
@@ -213,3 +219,9 @@ msgstr "¡Longitud equivocada!"
 
 msgid "Languages"
 msgstr "Idiomas"
+
+msgid "Search by title…"
+msgstr "Buscar por título…"
+
+msgid "Reconnecting websocket, attempt"
+msgstr "Reconectando websocket, intento"

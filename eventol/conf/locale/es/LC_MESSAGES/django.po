@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 00:00+0000\n"
+"POT-Creation-Date: 2021-03-22 04:38+0000\n"
 "PO-Revision-Date: 2020-08-30 19:37+0000\n"
 "Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -16,14 +16,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.2.1-dev\n"
-
-#, python-format
-msgid "The width is: %(width)s"
-msgstr "El ancho is: %(width)s"
-
-#, python-format
-msgid "Index of %(directory)s"
-msgstr "Indice de %(directory)s"
 
 msgid "Danish"
 msgstr "Danés"
@@ -212,6 +204,9 @@ msgstr "Recorte"
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr "La imagen debe ser de 700x450px. La puedes recortar aquí."
 
+msgid "Activity proposal form text"
+msgstr "Texto para el formulario de propuestas"
+
 msgid "A message to show in the activities proposal form"
 msgstr "Este mensaje se muestra en el formulario de propuesta de actividades"
 
@@ -358,9 +353,9 @@ msgid ""
 msgstr ""
 "Periodo de tiempo en el que "
 "puede                                                      durante el "
-"evento. Es decir,                                                      \"Todo"
-" el evento\", \"Mañana\""
-",                                                      \"Tarde\", …"
+"evento. Es decir,                                                      "
+"\"Todo el evento\", \"Mañana"
+"\",                                                      \"Tarde\", …"
 
 msgid "Phone"
 msgstr "Teléfono"
@@ -1230,9 +1225,6 @@ msgstr "Seleccione las etiquetas de su evento"
 msgid "Select features for your event"
 msgstr "Seleccione las características de su evento"
 
-msgid "Activity proposal form text"
-msgstr "Texto para el formulario de propuestas"
-
 msgid ""
 "If the event is taking place in more than one day, you can add all of them "
 "here."
@@ -1994,6 +1986,14 @@ msgstr "La sala tiene actividades asignadas."
 
 msgid "The Room has been removed successfully."
 msgstr "La Sala ha sido retirada con éxito."
+
+#, python-format
+#~ msgid "The width is: %(width)s"
+#~ msgstr "El ancho is: %(width)s"
+
+#, python-format
+#~ msgid "Index of %(directory)s"
+#~ msgstr "Indice de %(directory)s"
 
 #~ msgid "Start"
 #~ msgstr "Inicio"
