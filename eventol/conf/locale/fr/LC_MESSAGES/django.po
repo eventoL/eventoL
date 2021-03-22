@@ -692,11 +692,11 @@ msgstr "Erreur interne du serveur"
 
 msgid ""
 "Something, somewhere went terribly wrong.<br>Please,\n"
-"            <a href=\"https://github.com/GNUtn/eventoL/issues\" target="
+"            <a href=\"https://github.com/eventoL/eventoL/issues\" target="
 "\"_blank\">let us know!</a>"
 msgstr ""
 "Quelque chose, quelque part, s'est mal passé.<br>Veuillez\n"
-"            <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\""
+"            <a href=\"https://github.com/eventoL/eventoL/issues\" target=\""
 "_blank\">nous le faire savoir !</a>"
 
 msgid "FAQ"

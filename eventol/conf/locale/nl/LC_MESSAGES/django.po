@@ -687,11 +687,11 @@ msgstr "Interne serverfout"
 
 msgid ""
 "Something, somewhere went terribly wrong.<br>Please,\n"
-"            <a href=\"https://github.com/GNUtn/eventoL/issues\" target="
+"            <a href=\"https://github.com/eventoL/eventoL/issues\" target="
 "\"_blank\">let us know!</a>"
 msgstr ""
 "Er is ergens iets vreselijk misgegaan.<br>\n"
-"        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
+"        <a href=\"https://github.com/eventoL/eventoL/issues\" target=\"_blank"
 "\">Laat het ons weten!</a>"
 
 msgid "FAQ"
