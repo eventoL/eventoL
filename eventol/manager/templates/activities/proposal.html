@@ -15,7 +15,7 @@
 {% block pre-form %}
     {% if event.activities_proposal_form_text and event.activities_proposal_form_text.strip %}
         <div class="col-12 alert alert-primary" role="alert">
-            <p class="text-justify"> {{event.activities_proposal_form_text}} </p>
+            <p class="text-justify"> {{event.activities_proposal_form_text | safe}} </p>
         </div>
     {% endif %}
 {% endblock %}
