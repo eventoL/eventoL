@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-22 04:37+0000\n"
-"PO-Revision-Date: 2020-01-12 11:21+0000\n"
+"PO-Revision-Date: 2021-03-23 11:29+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/djangojs/"
 "nl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.1\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 
 msgid "Event not found"
 msgstr "Evenment niet gevonden"
@@ -43,8 +43,6 @@ msgstr "Kies er één om verder te gaan"
 msgid "Search your event"
 msgstr "Evenement zoeken"
 
-#, fuzzy
-#| msgid "Search by title…"
 msgid "Search by title..."
 msgstr "Zoeken op naam…"
 
@@ -150,8 +148,6 @@ msgstr "Niet-bevestigd"
 msgid "Quantity"
 msgstr "Aantal"
 
-#, fuzzy
-#| msgid "Not configured"
 msgid "Don't configured"
 msgstr "Niet ingesteld"
 
@@ -203,8 +199,6 @@ msgstr "Assistentie-informatie"
 msgid "Export"
 msgstr "Exporteren"
 
-#, fuzzy
-#| msgid "Reconnecting websocket, attempt"
 msgid "Reconecting websocket, attemps"
 msgstr "Bezig met herverbinden; poging"
 
