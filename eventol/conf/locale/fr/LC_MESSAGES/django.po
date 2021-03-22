@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Nathan <bonnemainsnathan@gmail.com>, 2020.
+# Nathan <bonnemainsnathan@gmail.com>, 2020, 2021.
 # Federico Gonzalez <federicogonzalez761@gmail.com>, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-22 04:38+0000\n"
-"PO-Revision-Date: 2020-01-18 18:21+0000\n"
+"PO-Revision-Date: 2021-03-23 11:29+0000\n"
 "Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/eventol/django/fr/"
 ">\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10.2\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 
 msgid "Danish"
 msgstr "Danois"
@@ -533,8 +533,6 @@ msgstr "Nom des intervenants séparés par des virgules"
 msgid "Speaker Bio"
 msgstr "Bio de l'intervenant"
 
-#, fuzzy
-#| msgid "Tell us about you (we will user it as your \"bio\" in our website"
 msgid "Tell us about you (we will use it as your \"bio\" in our website)"
 msgstr ""
 "Dites-en plus à propos de vous (nous allons utiliser ceci comme « bio » sur "
