@@ -20,6 +20,11 @@ plugins:
     enabled: true
   markdownlint:
     enabled: true
+    checks:
+      MD013:
+        enabled: false
+      MD033:
+        enabled: false
   nodesecurity:
     enabled: true
   pylint:

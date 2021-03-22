@@ -36,7 +36,7 @@
                             {% trans 'Copy speakers emails' %}
                         </a>
                         <a class="dropdown-item btn" href="{% url "activities_csv"  event_slug %}">
-                            {% trans 'Export to csv' %}
+                            {% trans 'Export to CSV' %}
                         </a>
                     </div>
                 </div>
@@ -94,8 +94,8 @@
                                         <div id='dummy-activity-info-{{ forloop.counter }}'>
                                             {% if dummy_activity.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ dummy_activity.abstract }}</p>{% endif %}
                                             {% if dummy_activity.room %}<p><strong>{% trans "Room" %}:</strong> {{ dummy_activity.room }}</p>{% endif %}
-                                            {% if dummy_activity.start_date %}<p><strong>{% trans "Start" %}:</strong> {{ dummy_activity.start_date }}</p>{% endif %}
-                                            {% if dummy_activity.end_date %}<p><strong>{% trans "End" %}:</strong> {{ dummy_activity.end_date }}</p>{% endif %}
+                                            {% if dummy_activity.start_date %}<p><strong>{% trans "Start Time" %}:</strong> {{ dummy_activity.start_date }}</p>{% endif %}
+                                            {% if dummy_activity.end_date %}<p><strong>{% trans "End Time" %}:</strong> {{ dummy_activity.end_date }}</p>{% endif %}
                                             {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                 <p><a id='edit-{{ forloop.counter }}'
                                                       href='#'
@@ -167,8 +167,8 @@
                                                 </p>{% endif %}
                                                 {% if talk.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.activity_type.name }}</p>{% endif %}
                                                 {% if talk.room %}<p><strong>{% trans "Room" %}:</strong> {{ talk.room }}</p>{% endif %}
-                                                {% if talk.start_date %}<p><strong>{% trans "Start" %}:</strong> {{ talk.start_date }}</p>{% endif %}
-                                                {% if talk.end_date %}<p><strong>{% trans "End" %}:</strong> {{ talk.end_date }}</p>{% endif %}
+                                                {% if talk.start_date %}<p><strong>{% trans "Start Time" %}:</strong> {{ talk.start_date }}</p>{% endif %}
+                                                {% if talk.end_date %}<p><strong>{% trans "End Time" %}:</strong> {{ talk.end_date }}</p>{% endif %}
                                                 {% if talk.long_description %}<p><strong>{% trans "Description" %}:</strong> {{ talk.long_description }}</p>{% endif %}
                                                 {% if user.is_authenticated and user|is_organizer:event_slug %}
                                                     {% if talk.additional_info %}<p><strong>{% trans "Additional Information" %}:</strong> {{ talk.additional_info }}</p>{% endif %}

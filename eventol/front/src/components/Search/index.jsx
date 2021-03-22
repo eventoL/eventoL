@@ -39,7 +39,7 @@ export default class Search extends React.PureComponent {
           id="search-input"
           onChange={this.handleChange}
           onKeyUp={this.handleKeyUp}
-          placeholder={gettext('Search by title...')}
+          placeholder={gettext('Search by title…')}
           type="search"
           value={searchTerm}
         />

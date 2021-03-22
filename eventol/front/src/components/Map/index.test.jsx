@@ -1,7 +1,12 @@
+import wait from 'waait';
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-jest.mock('../../utils/logger', () => ({error: jest.fn()}));
+jest.mock('../../utils/map', () => ({
+  getMapId: jest.fn().mockReturnValue('mapId'),
+  loadMap: jest.fn(),
+}));
+import {getMapId, loadMap} from '../../utils/map';
 
 import Map from '.';
 
@@ -27,15 +32,37 @@ describe('Map', () => {
 
   beforeEach(() => {
     sliderId = event1.id.toString();
-    const id = `${sliderId}${event1.eventSlug}`;
-    document.body.innerHTML = `<div><div id="${id}">Map</div></div>`;
+    document.body.innerHTML = '<div id="mapId" class="max-size"></div>';
     component = getComponent();
     tree = component.toJSON();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('Default', () => {
     test('Snapshot', () => {
       expect(tree).toMatchSnapshot();
+    });
+  });
+
+  describe('useEffect', () => {
+    test('should calls getMapId with correct params', async () => {
+      await wait(0);
+      expect(getMapId).toBeCalled();
+      expect(getMapId).toBeCalledWith(event1.eventSlug, sliderId);
+    });
+
+    test('should calls loadMap with correct params', async () => {
+      await wait(0);
+      expect(loadMap).toBeCalled();
+      expect(loadMap).toBeCalledWith(event1.place, 'mapId');
+    });
+
+    test('should removes max-size class', async () => {
+      await wait(0);
+      expect(document.getElementById('mapId').classList).toHaveLength(0);
     });
   });
 });

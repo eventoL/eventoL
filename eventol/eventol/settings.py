@@ -111,6 +111,7 @@ class Base(Configuration):
         ('da', _('Danish')),
         ('en', _('English')),
         ('es', _('Spanish')),
+        ('fr', _('French')),
         ('nb', _('Norwegian Bokmal')),
         ('nl', _('Dutch')),
         ('sv', _('Swedish')),

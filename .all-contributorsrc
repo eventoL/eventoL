@@ -1,0 +1,110 @@
+{
+  "projectName": "eventoL",
+  "projectOwner": "eventoL",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md",
+    "README-es.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "eslint",
+  "contributors": [
+    {
+      "login": "FedeG",
+      "name": "Federico Gonzalez",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4097554?v=4",
+      "profile": "https://github.com/FedeG",
+      "contributions": [
+        "a11y",
+        "bug",
+        "blog",
+        "code",
+        "design",
+        "doc",
+        "ideas",
+        "maintenance",
+        "projectManagement",
+        "review",
+        "security",
+        "translation",
+        "test",
+        "infra"
+      ]
+    },
+    {
+      "login": "reyiyo",
+      "name": "Sergio Orbe",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/761204?v=4",
+      "profile": "https://github.com/reyiyo",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "ChmlGr",
+      "name": "Ximena Garcia",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5685527?v=4",
+      "profile": "https://github.com/ChmlGr",
+      "contributions": [
+        "code",
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "HacKanCuBa",
+      "name": "HacKan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7178420?v=4",
+      "profile": "https://hackan.net",
+      "contributions": [
+        "code",
+        "design",
+        "ideas",
+        "test"
+      ]
+    },
+    {
+      "login": "gilgamezh",
+      "name": "Nicolás Demarchi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1496486?v=4",
+      "profile": "http://gilgamezh.me",
+      "contributions": [
+        "code",
+        "ideas",
+        "infra"
+      ]
+    },
+    {
+      "login": "comradekingu",
+      "name": "Allan Nordhøy",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/13802408?v=4",
+      "profile": "http://portfolio.anotheragency.no",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "Vistaus",
+      "name": "Heimen Stoffels",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1716229?v=4",
+      "profile": "https://github.com/Vistaus",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "lizzyd710",
+      "name": "Elizabeth Sherrock",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/12602768?v=4",
+      "profile": "https://github.com/lizzyd710",
+      "contributions": [
+        "translation"
+      ]
+    }
+  ],
+  "contributorsPerLine": 5
+}

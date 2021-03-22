@@ -1094,6 +1094,7 @@ def attendee_registration(request, event_slug):
 
                 if request.user.is_authenticated():
                     return redirect(confirm_url)
+
                 body_text = _noop(
                     'Hi! You are receiving this message because you have'
                     'registered to attend to '

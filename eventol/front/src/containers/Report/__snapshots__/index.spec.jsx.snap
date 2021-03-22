@@ -44,7 +44,7 @@ exports[`Report Snapshots Default 1`] = `
       type="success"
     />
   </Title>
-  <TableReport
+  <ReportTable
     count={0}
     data={Array []}
     defaultRows={15}
@@ -116,7 +116,7 @@ exports[`Report Snapshots Default 2`] = `
       type="success"
     />
   </Title>
-  <TableReport
+  <ReportTable
     count={0}
     data={Array []}
     defaultRows={15}
@@ -144,7 +144,7 @@ exports[`Report Snapshots Default 2`] = `
 </div>
 `;
 
-exports[`Report Snapshots fetch data 1`] = `
+exports[`Report Snapshots fetchData 1`] = `
 <div>
   <Title
     label="National report"
@@ -188,7 +188,7 @@ exports[`Report Snapshots fetch data 1`] = `
       type="success"
     />
   </Title>
-  <TableReport
+  <ReportTable
     count={0}
     data={Array []}
     defaultRows={15}
@@ -216,7 +216,89 @@ exports[`Report Snapshots fetch data 1`] = `
 </div>
 `;
 
-exports[`Report Snapshots fetch data 2`] = `
+exports[`Report Snapshots fetchData 2`] = `
+<div>
+  <Title
+    label="National report"
+  >
+    <Toggle
+      checked={false}
+      effect="echo"
+      label="Autoupdate"
+      labelPosition="left"
+      name="Autoupdate"
+      onChange={[Function]}
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Assistance (confirmed)"
+      name="confirmed"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Assistance detail"
+      name="assitance"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Installations"
+      name="installations"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Activities"
+      name="activities"
+      type="success"
+    />
+    <ExportButton
+      data={
+        Array [
+          "parseEventObject",
+          "parseEventObject",
+        ]
+      }
+      filename="confirmed"
+      label="Export"
+      type="success"
+    />
+  </Title>
+  <ReportTable
+    count={2}
+    data={
+      Array [
+        "parseEventObject",
+        "parseEventObject",
+      ]
+    }
+    defaultRows={15}
+    eventsPrivateData={
+      Array [
+        Object {
+          "email": "organizer1@mailinator.com",
+          "id": 1,
+          "organizers": "FirstName1 LastName1 Username1",
+        },
+        Object {
+          "email": "organizer2@mailinator.com",
+          "id": 2,
+          "organizers": "FirstName2 LastName2 Username2",
+        },
+      ]
+    }
+    exportButton={null}
+    fetchData={[Function]}
+    isLoading={false}
+    pages={1}
+    table="confirmed"
+    totals="parseTotalsObject"
+  />
+</div>
+`;
+
+exports[`Report Snapshots loadReports 1`] = `
 <div>
   <Title
     label="National report"
@@ -260,7 +342,79 @@ exports[`Report Snapshots fetch data 2`] = `
       type="success"
     />
   </Title>
-  <TableReport
+  <ReportTable
+    count={0}
+    data={Array []}
+    defaultRows={15}
+    eventsPrivateData={
+      Array [
+        Object {
+          "email": "organizer1@mailinator.com",
+          "id": 1,
+          "organizers": "FirstName1 LastName1 Username1",
+        },
+        Object {
+          "email": "organizer2@mailinator.com",
+          "id": 2,
+          "organizers": "FirstName2 LastName2 Username2",
+        },
+      ]
+    }
+    exportButton={null}
+    fetchData={[Function]}
+    isLoading={true}
+    pages={null}
+    table="confirmed"
+    totals={Object {}}
+  />
+</div>
+`;
+
+exports[`Report Snapshots loadReports 2`] = `
+<div>
+  <Title
+    label="National report"
+  >
+    <Toggle
+      checked={false}
+      effect="echo"
+      label="Autoupdate"
+      labelPosition="left"
+      name="Autoupdate"
+      onChange={[Function]}
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Assistance (confirmed)"
+      name="confirmed"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Assistance detail"
+      name="assitance"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Installations"
+      name="installations"
+      type="success"
+    />
+    <Button
+      handleOnClick={[Function]}
+      label="Activities"
+      name="activities"
+      type="success"
+    />
+    <ExportButton
+      data={Array []}
+      filename="confirmed"
+      label="Export"
+      type="success"
+    />
+  </Title>
+  <ReportTable
     count={0}
     data={Array []}
     defaultRows={15}
@@ -332,7 +486,7 @@ exports[`Report Toggle update autoupdate on onChange event toggle autoupdate val
       type="success"
     />
   </Title>
-  <TableReport
+  <ReportTable
     count={0}
     data={Array []}
     defaultRows={15}
@@ -404,7 +558,7 @@ exports[`Report Toggle update autoupdate on onChange event toggle autoupdate val
       type="success"
     />
   </Title>
-  <TableReport
+  <ReportTable
     count={0}
     data={Array []}
     defaultRows={15}
@@ -476,7 +630,7 @@ exports[`Report Toggle update autoupdate on onChange event toggle autoupdate val
       type="success"
     />
   </Title>
-  <TableReport
+  <ReportTable
     count={0}
     data={Array []}
     defaultRows={15}

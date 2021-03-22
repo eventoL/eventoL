@@ -32,7 +32,7 @@ CMD ["tail", "-f", "/dev/null"]
 #########################################
 # build image
 #########################################
-FROM python:3.7.4-alpine as development
+FROM python:3.9.2-alpine as development
 
 # Set environment variables
 ENV APP_ROOT /usr/src/app/
@@ -41,11 +41,12 @@ ENV DJANGO_CONFIGURATION=Prod
 
 # Install system dependencies
 RUN apk --update add --no-cache \
-  bash git gcc cairo-dev postgresql-dev libxslt-dev \
-  gettext musl-dev py3-setuptools jpeg-dev make \
+  bash git gcc cairo-dev postgresql-dev libxslt-dev postgresql-dev gcc cargo \
+  gettext musl-dev py3-setuptools jpeg-dev make python3-dev libffi-dev openssl-dev \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Install python dependencies
+RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir cffi cairocffi psycopg2
 RUN apk --update add --no-cache cairo-dev \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*

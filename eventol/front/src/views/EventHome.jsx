@@ -15,6 +15,8 @@ window.render_components = properties => {
     <Provider store={store}>
       <EventHome
         background={properties.background}
+        handleOnChangeLanguage={properties.onChangeLanguage}
+        languages={properties.languages}
         logoHeader={properties.logo_header}
         logoLanding={properties.logo_landing}
         tagMessage={properties.message}

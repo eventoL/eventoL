@@ -1,22 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Heimen Stoffels <vistausss@outlook.com>, 2019.
+# Heimen Stoffels <vistausss@outlook.com>, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-11 21:00+0000\n"
-"PO-Revision-Date: 2019-06-18 19:03+0000\n"
+"POT-Creation-Date: 2021-03-22 04:38+0000\n"
+"PO-Revision-Date: 2020-01-15 21:24+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/>"
-"\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/"
+">\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.7\n"
+"X-Generator: Weblate 3.11-dev\n"
 
 msgid "Danish"
 msgstr "Deens"
@@ -26,6 +26,9 @@ msgstr "Engels"
 
 msgid "Spanish"
 msgstr "Spaans"
+
+msgid "French"
+msgstr "Frans"
 
 msgid "Norwegian Bokmal"
 msgstr "Noors (Bokmål)"
@@ -181,6 +184,9 @@ msgstr "Medewerkers gebruiken"
 msgid "Use Proposals"
 msgstr "Voorstellen gebruiken"
 
+msgid "Use Talks"
+msgstr "Lezingen toestaan"
+
 msgid "Is FLISoL"
 msgstr "Is FLISoL"
 
@@ -199,6 +205,9 @@ msgstr "Bijsnijden"
 msgid "The image must be 700x450 px. You can crop it here."
 msgstr "De afbeelding moet 700x450px zijn; je kunt hem hier bijsnijden."
 
+msgid "Activity proposal form text"
+msgstr "Activiteitvoorstel - formulierinhoud"
+
 msgid "A message to show in the activities proposal form"
 msgstr ""
 "Een bericht dat moet worden getoond op het activiteitenvoorstelformulier"
@@ -209,7 +218,7 @@ msgstr "Sjabloon"
 msgid "Custom template HTML for event index page"
 msgstr "Aangepast HTML-sjabloon voor de overzichtspagina van het evenement"
 
-msgid "Custom css"
+msgid "Custom CSS"
 msgstr "Aangepaste CSS"
 
 msgid "Custom CSS file for event page"
@@ -508,6 +517,9 @@ msgstr "Begintijd"
 msgid "End Time"
 msgstr "Eindtijd"
 
+msgid "Activity Type"
+msgstr "Soort activiteit"
+
 msgid "Speakers Names"
 msgstr "Namen van sprekers"
 
@@ -517,7 +529,7 @@ msgstr "Kommagescheiden lijst met namen van sprekers"
 msgid "Speaker Bio"
 msgstr "Biografie"
 
-msgid "Tell us about you (we will user it as your \"bio\" in our website"
+msgid "Tell us about you (we will use it as your \"bio\" in our website)"
 msgstr ""
 "Vertel ons iets over jezelf (we gebruiken dit als \"bio\" op onze website)"
 
@@ -655,19 +667,26 @@ msgstr ""
 "Je bent niet gemachtigd om de huidige pagina te openen. Neem, bij vragen, "
 "contact op met een administrator."
 
-msgid ""
-"The page you're looking for is not here. Please try <a href=\"/\">here</a>."
-msgstr ""
-"De pagina zie je zoekt bevindt zich niet hier. Probeer het <a href=\"/"
-"\">hier</a>."
+msgid "Page not found"
+msgstr "Pagina niet gevonden"
 
 msgid ""
-"Something, somewhere went terribly wrong. Please,\n"
-"        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
-"\">let us know!</a>"
+"The page you're looking for is not here.<br>Please try <a href=\"/\">here</"
+"a>."
 msgstr ""
-"Er is ergens iet vreselijk misgegaan.\n"
-"        <a href=\"https://github.com/GNUtn/eventoL/issues\" target=\"_blank"
+"De opgevraagde pagina bevindt zich niet hier.<br>Probeer het <a href=\"/"
+"\">hier</a>."
+
+msgid "Internal server error"
+msgstr "Interne serverfout"
+
+msgid ""
+"Something, somewhere went terribly wrong.<br>Please,\n"
+"            <a href=\"https://github.com/eventoL/eventoL/issues\" target="
+"\"_blank\">let us know!</a>"
+msgstr ""
+"Er is ergens iets vreselijk misgegaan.<br>\n"
+"        <a href=\"https://github.com/eventoL/eventoL/issues\" target=\"_blank"
 "\">Laat het ons weten!</a>"
 
 msgid "FAQ"
@@ -978,8 +997,23 @@ msgstr ""
 "                    <a href=\"%(email_url)s\">e-mailadres nog steeds "
 "wijzigen</a>."
 
+msgid "Speakers"
+msgstr "Sprekers"
+
+msgid "Send mail to speakers"
+msgstr "E-mail versturen aan sprekers"
+
+msgid "Copy speakers emails"
+msgstr "E-mailadressen van sprekers kopiëren"
+
+msgid "Export to CSV"
+msgstr "Exporteren naar csv"
+
 msgid "Submit an activity"
 msgstr "Activiteit indienen"
+
+msgid "Dummy activity"
+msgstr "Schijnactiviteit"
 
 msgid "Manage Rooms"
 msgstr "Kamers beheren"
@@ -987,20 +1021,17 @@ msgstr "Kamers beheren"
 msgid "Confirm Schedule"
 msgstr "Programma bevestigen"
 
+msgid "Dummy activities"
+msgstr "Schijnactiviteiten"
+
+msgid "Edit dummy activity"
+msgstr "Schijnactiviteit aanpassen"
+
 msgid "Confirmed"
 msgstr "Bevestigd"
 
-msgid "Speakers"
-msgstr "Sprekers"
-
 msgid "Speakers Bio"
 msgstr "Spreker - Biografie"
-
-msgid "Start"
-msgstr "Start om"
-
-msgid "End"
-msgstr "Eindigt om"
 
 msgid "Description"
 msgstr "Omschrijving"
@@ -1049,6 +1080,9 @@ msgstr "Dien jouw voorstel in!"
 
 msgid "Time"
 msgstr "Tijd"
+
+msgid "Edit activity"
+msgstr "Activiteit aanpassen"
 
 msgid "Download presentation"
 msgstr "Presentatie downloaden"
@@ -1111,7 +1145,7 @@ msgid "Return to the event"
 msgstr "Terug naar evenement"
 
 msgid "Create event"
-msgstr "Evenement creëren"
+msgstr "Evenement organiseren"
 
 msgid "Manage event"
 msgstr "Evenement beheren"
@@ -1183,9 +1217,6 @@ msgstr "Neem contact met ons op!"
 msgid "Languages"
 msgstr "Talen"
 
-msgid "Organizadores"
-msgstr "Organisatoren"
-
 msgid "Profile"
 msgstr "Profiel"
 
@@ -1243,7 +1274,7 @@ msgstr ""
 "Dit wil je waarschijnlijk niet. Maar als je het écht wilt, dan kunnen jouw "
 "pagina linken aan onze overzichtspagina. Geef de volledige URL op:"
 
-msgid "Please provide a abstract about your event"
+msgid "Please provide an abstract about your event"
 msgstr "Dien een uittreksel van je evenement in"
 
 msgid "Please provide as much information you can about your event"
@@ -1252,8 +1283,8 @@ msgstr "Geef zoveel mogelijk informatie over je evenement"
 msgid "Winners"
 msgstr "Winnaars"
 
-msgid "Draw!!"
-msgstr "Gelijkspel!!"
+msgid "Draw!"
+msgstr "Gelijkspel!"
 
 msgid "There aren't any more participants"
 msgstr "Er zijn verder geen deelnemers"
@@ -1328,10 +1359,10 @@ msgstr "Organisatoren toevoegen"
 msgid ""
 " Organizers can edit the event information, view attendant's list, manage "
 "activities, manage\n"
-"            attendance and also add other organizers. Please choose "
+"                    attendance and also add other organizers. Please choose "
 "carefully! "
 msgstr ""
-" Organisators kunnen de evenementinformatie aanpassen, de deelnamelijst "
+" Organisatoren kunnen de evenementinformatie aanpassen, deelnamelijst "
 "bekijken, activiteiten beheren,\n"
 "            deelnames beheren en andere organisatoren toevoegen. Kies wijs! "
 
@@ -1348,11 +1379,10 @@ msgid "Add registration staff"
 msgstr "Registratiestaf toevoegen"
 
 msgid ""
-" People who can manage attendance can register a\n"
-"            person the day of the event."
+" People who can manage attendance can register a person the day of the event."
 msgstr ""
-" Personen die de deelname kunnen beheren kunnen een persoon\n"
-"            registreren op de dag van het evenement."
+" Personen die de deelname kunnen beheren kunnen een persoon registreren op "
+"de dag van het evenement."
 
 msgid "Current registration staff:"
 msgstr "Huidige registratiestaf:"
@@ -1375,13 +1405,13 @@ msgstr "Huidige reviewstaf:"
 msgid "Add a new review person:"
 msgstr "Nieuwe reviewpersoon toevoegen:"
 
-msgid "Browse..."
-msgstr "Bladeren..."
+msgid "Errors"
+msgstr "Fouten"
 
 msgid "Submit an Installation"
 msgstr "Installatie indienen"
 
-msgid "Register a Attendee"
+msgid "Register an Attendee"
 msgstr "Deelnemer registreren"
 
 msgid "Attendee Registration"
@@ -1521,6 +1551,9 @@ msgstr "Activiteiten en installaties"
 msgid "There aren't any activities or installations submitted"
 msgstr "Er zijn geen activiteiten of installaties ingediend"
 
+msgid "There aren't any activities submitted"
+msgstr "Er zijn geen activiteiten ingediend"
+
 msgid "Installers Per Level"
 msgstr "Installaties per niveau"
 
@@ -1535,6 +1568,9 @@ msgstr "Er zijn nog geen ingeschreven deelnemers"
 
 msgid "Attendees attendance by hour"
 msgstr "Deelname-opkomst per uur"
+
+msgid "There aren't any attendees registered for this date"
+msgstr "Er zijn nog geen ingeschreven deelnemers op deze dag"
 
 msgid "Talks"
 msgstr "Lezingen"
@@ -1644,14 +1680,14 @@ msgid ""
 "status.\n"
 "</p>\n"
 "{justification}<p>Regards,</p>\n"
-"{event_name} and <em>eventoL</em> team</p>\n"
+"<p>{event_name} and <em>eventoL</em> team</p>\n"
 msgstr ""
 "<p>Hallo,</p>\n"
 "<p>Je lezing, \"{activity_title}\", heeft de volgende status verkregen: "
 "\"{activity_status}\".\n"
 "</p>\n"
 "{justification}<p>Met vriendelijke groet,</p>\n"
-"{event_name} en het <em>eventoL</em>-team</p>\n"
+"<p>{event_name} en het <em>eventoL</em>-team</p>\n"
 
 #, python-brace-format
 msgid "Ticket for {event_name} event"
@@ -1674,19 +1710,19 @@ msgstr ""
 
 #, python-brace-format
 msgid ""
-"<p>Hello {first_name} {last_name},<br />\n"
-"Here is your ticket for {event_name} event.</p>\n"
+"<p>Hello {first_name} {last_name},</p><br />\n"
+"<p>Here is your ticket for {event_name} event.</p>\n"
 "<p>Please remember to <em>print it and bring it with you</em> the day(s) of "
 "the event.</p>\n"
-"<p>Regards,\n"
-"{event_name} and <em>eventoL</em> team</p>"
+"<p>Regards,</p>\n"
+"<p>{event_name} and <em>eventoL</em> team</p>"
 msgstr ""
-"<p>Hallo {first_name} {last_name},<br />\n"
-"Hier is je ticket voor het evenement \"{event_name}\".</p>\n"
+"<p>Hallo {first_name} {last_name},</p><br />\n"
+"<p>Hier is je ticket voor het evenement \"{event_name}\".</p>\n"
 "<p>Vergeet niet om je ticket <em>uit te printen en mee te nemen</em> op de "
 "dag(en) van het evenement.</p>\n"
-"<p>Met vriendelijke groet,,\n"
-"{event_name} en het <em>eventoL</em>-team</p>"
+"<p>Met vriendelijke groet,</p>\n"
+"<p>{event_name} en het <em>eventoL</em>-team</p>"
 
 #, python-brace-format
 msgid "{first_name} {last_name}, thank you for participating {event_name}"
@@ -1855,6 +1891,17 @@ msgid "There is a problem with your event. Please check the form for errors."
 msgstr ""
 "Er is een probleem met je evenement. Controleer het formulier op fouten."
 
+msgid "Dummy"
+msgstr "Schijn"
+
+msgid ""
+"There was a problem submitting the "
+"proposal.                                   Please check the form for errors."
+msgstr ""
+"Er is een fout opgetreden tijdens het "
+"indienen.                                   Controleer het formulier op "
+"fouten."
+
 msgid ""
 "The activity proposal is already closed or the "
 "event                            is not accepting proposals through this "
@@ -1867,23 +1914,15 @@ msgstr ""
 "evenementorganisatie om je voorstel in te dienen."
 
 msgid ""
-"There was a problem submitting the "
-"proposal.                                   Please check the form for errors."
+"The activity proposal edition is already closed,                            "
+"the schedule is confirmed or the event                            is not "
+"accepting proposals through this page. Please                            "
+"contact the Event Organization Team to submit it."
 msgstr ""
-"Er is een fout opgetreden tijdens het "
-"indienen.                                   Controleer het formulier op "
-"fouten."
-
-msgid ""
-"The activity proposal edition is already closed or the "
-"event                            is not accepting proposals through this "
-"page. Please                            contact the Event Organization Team "
-"to submit it."
-msgstr ""
-"De activiteitsvoorstelperiode is al verlopen of het "
-"evenement                            accepteert geen voorstellen via deze "
-"pagina. Neem                            contact op met het team van de "
-"evenementorganisatie om je voorstel in te dienen."
+"De activiteitsvoorstelperiode is al verlopen,                            het "
+"programma is reeds bevestigd of het evenement accepteert geen voorstellen "
+"via deze pagina. Neem                            contact op met het team van "
+"de evenementorganisatie om je voorstel in te dienen."
 
 msgid "Please crop or upload a new image."
 msgstr "Snijd je afbeelding bij of upload een nieuwe."
@@ -1908,6 +1947,27 @@ msgid ""
 msgstr ""
 "De e-mail kan niet worden verstuurd.                                   "
 "Probeer het later opnieuw of neem contact op met een organisator"
+
+msgid "Additional info"
+msgstr "Aanvullende informatie"
+
+msgid "Speakers names"
+msgstr "Namen van sprekers"
+
+msgid "Speaker username"
+msgstr "Gebruikersnaam van spreker"
+
+msgid "Speaker first name"
+msgstr "Voornaam van spreker"
+
+msgid "Speaker last name"
+msgstr "Achternaam van spreker"
+
+msgid "Speaker email"
+msgstr "E-mailadres van spreker"
+
+msgid "Speaker bio"
+msgstr "Biografie van spreker"
 
 msgid "The talk was registered successfully!"
 msgstr "De lezing is geregistreerd!"
@@ -1957,6 +2017,23 @@ msgstr "De kamer heeft toegewezen activiteiten."
 
 msgid "The Room has been removed successfully."
 msgstr "De kamer is verwijderd."
+
+#, python-format
+#~ msgid "The width is: %(width)s"
+#~ msgstr "De breedte is: %(width)s"
+
+#, python-format
+#~ msgid "Index of %(directory)s"
+#~ msgstr "Index van %(directory)s"
+
+#~ msgid "Start"
+#~ msgstr "Start om"
+
+#~ msgid "End"
+#~ msgstr "Eindigt om"
+
+#~ msgid "Browse..."
+#~ msgstr "Bladeren..."
 
 #~ msgid "Registration"
 #~ msgstr "Registratie"

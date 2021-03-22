@@ -98,7 +98,15 @@ docker_redis_1         docker-entrypoint.sh redis ...   Up      6379/tcp
 docker_worker_1        ./wait-for-it.sh -p 5432 - ...   Up      8000/tcp
 ```
 
-### Server run in: **http://localhost/** (if you didn't change the HOST variable in your environment)
+#### Server run in: **http://localhost/** (if you didn't change the HOST variable in your environment)
+
+## Update server
+
+```bash
+make update
+```
+
+## Undeploy
 
 ### Stop containers
 

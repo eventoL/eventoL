@@ -11,7 +11,14 @@ import {LOGO_HEADER_DEFAULT} from '../../utils/constants';
 
 export default class Header extends React.PureComponent {
   static propTypes = {
+    handlerOnChangeLanguage: PropTypes.func.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    languages: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        name: PropTypes.string,
+      })
+    ),
     logoHeader: PropTypes.string,
     user: PropTypes.shape({
       first_name: PropTypes.string,
@@ -20,6 +27,7 @@ export default class Header extends React.PureComponent {
   };
 
   static defaultProps = {
+    languages: [],
     logoHeader: LOGO_HEADER_DEFAULT,
     user: null,
   };
@@ -41,12 +49,15 @@ export default class Header extends React.PureComponent {
   };
 
   wideRender = () => {
-    const {logoHeader} = this.props;
+    const {logoHeader, languages, handlerOnChangeLanguage} = this.props;
     return (
       <header className="header">
         <div className="nav-wide">
           <Logo logoHeader={logoHeader} />
-          <Navigation />
+          <Navigation
+            handlerOnChangeLanguage={handlerOnChangeLanguage}
+            languages={languages}
+          />
           {this.showUserIndicator()}
         </div>
       </header>
@@ -54,7 +65,12 @@ export default class Header extends React.PureComponent {
   };
 
   render() {
-    const {isMobile, logoHeader} = this.props;
+    const {
+      isMobile,
+      logoHeader,
+      languages,
+      handlerOnChangeLanguage,
+    } = this.props;
     if (!isMobile) return this.wideRender();
     return (
       <header className="header">
@@ -69,7 +85,10 @@ export default class Header extends React.PureComponent {
               <i className="fa fa-bars fa-2x" />
             </button>
             <div className="narrow-links">
-              <Navigation />
+              <Navigation
+                handlerOnChangeLanguage={handlerOnChangeLanguage}
+                languages={languages}
+              />
               {this.showUserIndicator()}
             </div>
           </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 04:58+0000\n"
+"POT-Creation-Date: 2021-03-22 04:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,13 +17,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Please, select one to continue"
+msgid "Event not found"
+msgstr ""
+
+msgid "No Event found in your search"
 msgstr ""
 
 msgid "Attendees"
 msgstr ""
 
 msgid "Tags"
+msgstr ""
+
+msgid "You are seeing all of"
+msgstr ""
+
+msgid "events"
+msgstr ""
+
+msgid "Please, select one to continue"
+msgstr ""
+
+msgid "Search your event"
+msgstr ""
+
+msgid "Search by title..."
 msgstr ""
 
 msgid "Search"
@@ -39,6 +57,36 @@ msgid "Recent"
 msgstr ""
 
 msgid "Generic report"
+msgstr ""
+
+msgid "Sign In"
+msgstr ""
+
+msgid "Sign Up"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "My Events"
+msgstr ""
+
+msgid "Upcoming Events"
+msgstr ""
+
+msgid "Finished Events"
+msgstr ""
+
+msgid "Create event"
+msgstr ""
+
+msgid "Recent Events"
+msgstr ""
+
+msgid "Featured Events"
+msgstr ""
+
+msgid "Events with Confirmed Schedule"
 msgstr ""
 
 msgid "Event"
@@ -134,36 +182,6 @@ msgstr ""
 msgid "There isn't any event yet."
 msgstr ""
 
-msgid "Search by title..."
-msgstr ""
-
-msgid "Sign In"
-msgstr ""
-
-msgid "Sign Up"
-msgstr ""
-
-msgid "Search results"
-msgstr ""
-
-msgid "My Events"
-msgstr ""
-
-msgid "Upcoming Events"
-msgstr ""
-
-msgid "Finished Events"
-msgstr ""
-
-msgid "Recent Events"
-msgstr ""
-
-msgid "Featured Events"
-msgstr ""
-
-msgid "Events with Confirmed Schedule"
-msgstr ""
-
 msgid "There has been an error"
 msgstr ""
 
@@ -185,8 +203,17 @@ msgstr ""
 msgid "websocket not supported by your browser"
 msgstr ""
 
-msgid "Event not found"
+msgid "Wrong offset!"
 msgstr ""
 
-msgid "No Event found in your search"
+msgid "Wrong length!"
+msgstr ""
+
+msgid "Languages"
+msgstr ""
+
+msgid "Search by title…"
+msgstr ""
+
+msgid "Reconnecting websocket, attempt"
 msgstr ""

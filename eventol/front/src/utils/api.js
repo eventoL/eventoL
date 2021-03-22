@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import Logger from './logger';
 import {getReportUrl} from './urls';
 
-const getCsrf = () => Cookies.get('csrftoken');
+export const getCsrf = () => Cookies.get('csrftoken');
 
 export const addQueryString = (url, query) => {
   const queryKeys = query ? Object.keys(query) : [];

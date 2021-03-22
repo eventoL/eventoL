@@ -204,12 +204,15 @@ class Event(models.Model):
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
-    activities_proposal_form_text = models.TextField(
-        blank=True, null=True, help_text=_("A message to show in the activities proposal form"))
+    activities_proposal_form_text = RichTextField(
+        verbose_name=_('Activity proposal form text'),
+        help_text=_("A message to show in the activities proposal form"),
+        blank=True, null=True
+    )
     template = models.FileField(_('Template'),
                                 upload_to='templates', blank=True, null=True,
                                 help_text=_('Custom template HTML for event index page'))
-    css_custom = models.FileField(_('Custom css'),
+    css_custom = models.FileField(_('Custom CSS'),
                                   upload_to='custom_css', blank=True, null=True,
                                   help_text=_('Custom CSS file for event page'))
 
@@ -809,7 +812,7 @@ class Activity(VoteModel, models.Model):
                                       help_text=_("Comma separated speaker names"))
     speaker_bio = models.TextField(
         _('Speaker Bio'), null=True,
-        help_text=_('Tell us about you (we will user it as your "bio" in our website'))
+        help_text=_('Tell us about you (we will use it as your "bio" in our website)'))
     labels = models.CharField(_('Labels'), max_length=200,
                               help_text=_('Comma separated tags. i.e. Linux, \
                                           Free Software, Devuan'))

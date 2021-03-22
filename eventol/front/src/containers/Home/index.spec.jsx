@@ -7,6 +7,7 @@ jest.mock('../../components/Header', () => 'Header');
 jest.mock('../../components/Search', () => 'Search');
 jest.mock('../../components/TitleList', () => 'TitleList');
 
+import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
 
@@ -20,10 +21,12 @@ describe('Home', () => {
   let instance;
   let isMobile;
   let component;
+  let languages;
   let background;
   let logoHeader;
   let logoLanding;
   let eventolMessage;
+  const handleOnChangeLanguage = jest.fn();
 
   const getComponent = allProps => {
     element = <Home {...allProps} />;
@@ -42,6 +45,10 @@ describe('Home', () => {
       first_name: 'first_name',
       last_name: 'last_name',
     };
+    languages = [
+      {code: 'es', name: 'Spanish'},
+      {code: 'en', name: 'English'},
+    ];
     props = {
       user,
       isMobile,
@@ -49,10 +56,15 @@ describe('Home', () => {
       logoHeader,
       logoLanding,
       eventolMessage,
+      handleOnChangeLanguage,
     };
   });
 
-  describe('Search', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('handleOnEnter', () => {
     beforeEach(() => {
       component = getComponent({isMobile: false});
       tree = component.toJSON();
@@ -62,7 +74,11 @@ describe('Home', () => {
       expect(tree).toMatchSnapshot();
 
       const value = 'searchTerm';
-      instance.findByType(Search).props.onEnter(value);
+      const SearchInstance = instance.findByType(Search);
+      const handleOnEnter = SearchInstance.props.onEnter;
+
+      handleOnEnter(value);
+
       component.update(element);
       await wait(0);
 
@@ -77,7 +93,11 @@ describe('Home', () => {
       expect(tree).toMatchSnapshot();
 
       const value = '';
-      instance.findByType(Search).props.onEnter(value);
+      const SearchInstance = instance.findByType(Search);
+      const handleOnEnter = SearchInstance.props.onEnter;
+
+      handleOnEnter(value);
+
       component.update(element);
       await wait(0);
 
@@ -86,6 +106,48 @@ describe('Home', () => {
 
       const titleLists = instance.findAllByType(TitleList);
       expect(titleLists[0].props.id).not.toEqual('search_results');
+    });
+  });
+
+  describe('handlerOnChangeLanguage', () => {
+    beforeEach(() => {
+      component = getComponent({
+        isMobile: false,
+        languages,
+        handleOnChangeLanguage,
+      });
+      tree = component.toJSON();
+    });
+
+    test('should calls handleOnChangeLanguage with language code when this function exists', async () => {
+      const HeaderInstance = instance.findByType(Header);
+      HeaderInstance.props.handlerOnChangeLanguage('es');
+
+      expect(handleOnChangeLanguage).toBeCalled();
+      expect(handleOnChangeLanguage).toBeCalledWith('es');
+    });
+
+    test('should not calls handleOnChangeLanguage when this function not exists', async () => {
+      component = getComponent({
+        isMobile: false,
+        languages,
+      });
+
+      const HeaderInstance = instance.findByType(Header);
+      HeaderInstance.props.handlerOnChangeLanguage('es');
+
+      expect(handleOnChangeLanguage).not.toBeCalled();
+    });
+  });
+
+  describe('With languages', () => {
+    test('Snapshot', () => {
+      component = getComponent({
+        isMobile: false,
+        languages,
+      });
+      tree = component.toJSON();
+      expect(tree).toMatchSnapshot();
     });
   });
 

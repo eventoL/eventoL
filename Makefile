@@ -65,8 +65,8 @@ backend-lint-with-report: ## Run backend linter and generate report
 	pylint --output-format=colorized --reports yes eventol/eventol eventol/manager
 
 backend-make-translations: ## Update translations files (update .po files)
-	cd eventol && python manage.py makemessages -a -d djangojs --no-location -i node_modules -i venv -i coverage -e js,jsx
-	cd eventol && python manage.py makemessages -a -d django --no-location -i node_modules -i venv -i coverage
+	cd eventol && python manage.py makemessages -a -d djangojs --no-location -i *.spec.jsx -i *.spec.js -i *.config.js -i bower_components -i node_modules -i venv -i coverage -e js,jsx
+	cd eventol && python manage.py makemessages -a -d django --no-location -i bower_components -i node_modules -i venv -i coverage
 
 backend-compile-translations: ## Compile translations files (update .mo files)
 	cd eventol && python manage.py compilemessages

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-14 04:58+0000\n"
-"PO-Revision-Date: 2019-02-01 17:09+0000\n"
+"POT-Creation-Date: 2021-03-22 04:37+0000\n"
+"PO-Revision-Date: 2020-01-12 11:21+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/djangojs/"
 "nl/>\n"
@@ -17,31 +17,81 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.5-dev\n"
+"X-Generator: Weblate 3.10.1\n"
 
-msgid "Please, select one to continue"
-msgstr ""
+msgid "Event not found"
+msgstr "Evenment niet gevonden"
+
+msgid "No Event found in your search"
+msgstr "Geen overeenkomend evenement"
 
 msgid "Attendees"
 msgstr "Deelnemers"
 
 msgid "Tags"
-msgstr ""
+msgstr "Labels"
+
+msgid "You are seeing all of"
+msgstr "Je bekijkt alle"
+
+msgid "events"
+msgstr "evenementen"
+
+msgid "Please, select one to continue"
+msgstr "Kies er één om verder te gaan"
+
+msgid "Search your event"
+msgstr "Evenement zoeken"
+
+#, fuzzy
+#| msgid "Search by title…"
+msgid "Search by title..."
+msgstr "Zoeken op naam…"
 
 msgid "Search"
-msgstr ""
+msgstr "Zoeken"
 
 msgid "Documentation"
-msgstr ""
+msgstr "Documentatie"
 
 msgid "Featured"
-msgstr ""
+msgstr "Uitgelicht"
 
 msgid "Recent"
-msgstr ""
+msgstr "Recent"
 
 msgid "Generic report"
-msgstr ""
+msgstr "Algemene rapportage"
+
+msgid "Sign In"
+msgstr "Inloggen"
+
+msgid "Sign Up"
+msgstr "Registreren"
+
+msgid "Search results"
+msgstr "Zoekresultaten"
+
+msgid "My Events"
+msgstr "Mijn evenementen"
+
+msgid "Upcoming Events"
+msgstr "Aankomende evenementen"
+
+msgid "Finished Events"
+msgstr "Afgelopen evenementen"
+
+msgid "Create event"
+msgstr "Evenement organiseren"
+
+msgid "Recent Events"
+msgstr "Recente evenementen"
+
+msgid "Featured Events"
+msgstr "Uitgelichte evenementen"
+
+msgid "Events with Confirmed Schedule"
+msgstr "Evenementen met bevestigd programma"
 
 msgid "Event"
 msgstr "Evenement"
@@ -59,19 +109,19 @@ msgid "Email"
 msgstr "E-mailadres"
 
 msgid "Location"
-msgstr ""
+msgstr "Locatie"
 
 msgid "Address detail"
-msgstr ""
+msgstr "Adresgegevens"
 
 msgid "Address"
 msgstr "Adres"
 
 msgid "Province"
-msgstr ""
+msgstr "Provincie"
 
 msgid "Assistance (confirmed)"
-msgstr ""
+msgstr "Assistentie (bevestigd)"
 
 msgid "Total"
 msgstr "Totaal"
@@ -98,10 +148,12 @@ msgid "Not Confirmed"
 msgstr "Niet-bevestigd"
 
 msgid "Quantity"
-msgstr ""
+msgstr "Aantal"
 
+#, fuzzy
+#| msgid "Not configured"
 msgid "Don't configured"
-msgstr ""
+msgstr "Niet ingesteld"
 
 msgid "Proposal"
 msgstr "Voorstel"
@@ -113,13 +165,13 @@ msgid "Rejected"
 msgstr "Afgewezen"
 
 msgid "Talk"
-msgstr ""
+msgstr "Lezing"
 
 msgid "Workshop"
-msgstr ""
+msgstr "Workshop"
 
 msgid "Lightning talk"
-msgstr ""
+msgstr "Korte lezing"
 
 msgid "Other"
 msgstr "Overig"
@@ -134,61 +186,42 @@ msgid "Advanced"
 msgstr "Ervaren"
 
 msgid "There isn't any event yet."
-msgstr ""
-
-msgid "Search by title..."
-msgstr ""
-
-msgid "Sign In"
-msgstr ""
-
-msgid "Sign Up"
-msgstr "Registreren"
-
-msgid "Search results"
-msgstr ""
-
-msgid "My Events"
-msgstr ""
-
-msgid "Upcoming Events"
-msgstr ""
-
-msgid "Finished Events"
-msgstr ""
-
-msgid "Recent Events"
-msgstr ""
-
-msgid "Featured Events"
-msgstr ""
-
-msgid "Events with Confirmed Schedule"
-msgstr ""
+msgstr "Er is nog geen evenement."
 
 msgid "There has been an error"
-msgstr ""
+msgstr "Er is een fout opgetreden"
 
 msgid "National report"
-msgstr ""
+msgstr "Nationale rapportage"
 
 msgid "Autoupdate"
-msgstr ""
+msgstr "Automatisch bijwerken"
 
 msgid "Assistance detail"
-msgstr ""
+msgstr "Assistentie-informatie"
 
 msgid "Export"
-msgstr ""
+msgstr "Exporteren"
 
+#, fuzzy
+#| msgid "Reconnecting websocket, attempt"
 msgid "Reconecting websocket, attemps"
-msgstr ""
+msgstr "Bezig met herverbinden; poging"
 
 msgid "websocket not supported by your browser"
-msgstr ""
+msgstr "je browser ondersteunt geen websockets"
 
-msgid "Event not found"
-msgstr ""
+msgid "Wrong offset!"
+msgstr "Onjuiste uitlijning!"
 
-msgid "No Event found in your search"
-msgstr ""
+msgid "Wrong length!"
+msgstr "Onjuiste duur!"
+
+msgid "Languages"
+msgstr "Talen"
+
+msgid "Search by title…"
+msgstr "Zoeken op naam…"
+
+msgid "Reconnecting websocket, attempt"
+msgstr "Bezig met herverbinden; poging"

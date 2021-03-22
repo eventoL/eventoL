@@ -1,0 +1,227 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-22 04:37+0000\n"
+"PO-Revision-Date: 2020-01-18 18:21+0000\n"
+"Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/eventol/djangojs/"
+"fr/>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.10.2\n"
+
+msgid "Event not found"
+msgstr "Évènement introuvable"
+
+msgid "No Event found in your search"
+msgstr "Aucun évènement trouvé avec votre recherche"
+
+msgid "Attendees"
+msgstr "Participants"
+
+msgid "Tags"
+msgstr "Étiquettes"
+
+msgid "You are seeing all of"
+msgstr "Vous visualisez tous les"
+
+msgid "events"
+msgstr "évènements"
+
+msgid "Please, select one to continue"
+msgstr "Veuillez en sélectionner un pour continuer"
+
+msgid "Search your event"
+msgstr "Recherchez votre évènement"
+
+#, fuzzy
+#| msgid "Search by title…"
+msgid "Search by title..."
+msgstr "Rechercher par titre…"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "Documentation"
+msgstr "Documentation"
+
+msgid "Featured"
+msgstr "Tendances"
+
+msgid "Recent"
+msgstr "Récent"
+
+msgid "Generic report"
+msgstr "Rapport générique"
+
+msgid "Sign In"
+msgstr "Se connecter"
+
+msgid "Sign Up"
+msgstr "S'inscrire"
+
+msgid "Search results"
+msgstr "Résultats de recherche"
+
+msgid "My Events"
+msgstr "Mes évènements"
+
+msgid "Upcoming Events"
+msgstr "Évènements à venir"
+
+msgid "Finished Events"
+msgstr "Évènements terminés"
+
+msgid "Create event"
+msgstr "Créer un évènement"
+
+msgid "Recent Events"
+msgstr "Évènements récents"
+
+msgid "Featured Events"
+msgstr "Évènements mis en avant"
+
+msgid "Events with Confirmed Schedule"
+msgstr "Évènements avec programme confirmé"
+
+msgid "Event"
+msgstr "Évènement"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Events"
+msgstr "Évènements"
+
+msgid "Organizers"
+msgstr "Organisateurs"
+
+msgid "Email"
+msgstr "Adresse e-mail"
+
+msgid "Location"
+msgstr "Emplacement"
+
+msgid "Address detail"
+msgstr "Informations sur l'adresse"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Province"
+msgstr "Région"
+
+msgid "Assistance (confirmed)"
+msgstr "Assistance (confirmée)"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Collaborators"
+msgstr "Collaborateurs"
+
+msgid "Installers"
+msgstr "Installateurs"
+
+msgid "Speakers"
+msgstr "Intervenants"
+
+msgid "Activities"
+msgstr "Activités"
+
+msgid "Installations"
+msgstr "Installations"
+
+msgid "Confirmed"
+msgstr "Confirmé"
+
+msgid "Not Confirmed"
+msgstr "Non confirmé"
+
+msgid "Quantity"
+msgstr "Quantité"
+
+#, fuzzy
+#| msgid "Not configured"
+msgid "Don't configured"
+msgstr "Non configuré"
+
+msgid "Proposal"
+msgstr "Proposition"
+
+msgid "Accepted"
+msgstr "Accepté"
+
+msgid "Rejected"
+msgstr "Refusé"
+
+msgid "Talk"
+msgstr "Conférence"
+
+msgid "Workshop"
+msgstr "Atelier"
+
+msgid "Lightning talk"
+msgstr "Conférence éclair"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Beginner"
+msgstr "Débutant"
+
+msgid "Medium"
+msgstr "Moyen"
+
+msgid "Advanced"
+msgstr "Avancé"
+
+msgid "There isn't any event yet."
+msgstr "Il n'y a aucun évènement pour l'instant."
+
+msgid "There has been an error"
+msgstr "Une erreur s'est produite"
+
+msgid "National report"
+msgstr "Rapport national"
+
+msgid "Autoupdate"
+msgstr "Mise à jour automatique"
+
+msgid "Assistance detail"
+msgstr "Informations d'assistance"
+
+msgid "Export"
+msgstr "Exporter"
+
+#, fuzzy
+#| msgid "Reconnecting websocket, attempt"
+msgid "Reconecting websocket, attemps"
+msgstr "Reconnexion à la websocket, essai"
+
+msgid "websocket not supported by your browser"
+msgstr "Websocket non supportée par votre navigateur"
+
+msgid "Wrong offset!"
+msgstr "Décalage invalide !"
+
+msgid "Wrong length!"
+msgstr "Longueur invalide !"
+
+msgid "Languages"
+msgstr "Langues"
+
+msgid "Search by title…"
+msgstr "Rechercher par titre…"
+
+msgid "Reconnecting websocket, attempt"
+msgstr "Reconnexion à la websocket, essai"

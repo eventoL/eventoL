@@ -39,7 +39,7 @@ export default class WsCommunicator {
       this.attempts += 1;
       setTimeout(() => {
         Logger.warning(
-          `${gettext('Reconecting websocket, attemps')}: ${this.attempts}`
+          `${gettext('Reconnecting websocket, attempt')}: ${this.attempts}`
         );
         this.websocket = this.createWebSocket(this.wsUrl);
       }, time);
@@ -56,11 +56,15 @@ export default class WsCommunicator {
   };
 
   createWebSocket = url => {
-    const websocket = new WebSocket(url);
-    websocket.onopen = this.onOpen;
-    websocket.onmessage = this.onMessage;
-    websocket.onclose = this.onClose;
-    return websocket;
+    try {
+      const websocket = new WebSocket(url);
+      websocket.onopen = this.onOpen;
+      websocket.onmessage = this.onMessage;
+      websocket.onclose = this.onClose;
+      return websocket;
+    } catch {
+      return null;
+    }
   };
 
   addOnMessage = onMessageFunction => {

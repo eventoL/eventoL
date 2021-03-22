@@ -315,7 +315,7 @@ export const getActivitiesFieldsColumns = (
   if (!totals.hasOwnProperty('activities')) return [];
   return Object.keys(totals.activities.details[pluralCategory]).map(element => {
     const Header =
-      element !== 'None' ? names[element - 1] : gettext("Don't configured");
+      element !== 'None' ? names[element - 1] : gettext('Not configured');
     return {
       Header,
       id: `activity_${category}_${element}`,

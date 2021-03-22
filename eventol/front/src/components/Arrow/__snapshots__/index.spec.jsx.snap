@@ -16,6 +16,22 @@ exports[`Arrow Snapshots Default 1`] = `
 />
 `;
 
+exports[`Arrow Snapshots another type 1`] = `
+<div
+  className="arrow "
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  style={
+    Object {
+      "color": "black",
+      "display": "block",
+    }
+  }
+  tabIndex="0"
+/>
+`;
+
 exports[`Arrow Snapshots next 1`] = `
 <div
   className="arrow arrow-next fa fa-chevron-right"
