@@ -1,0 +1,26 @@
+version: 2
+updates:
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "00:00"
+    timezone: America/Buenos_Aires
+  open-pull-requests-limit: 99
+  target-branch: develop
+  ignore:
+  - dependency-name: node
+    versions:
+    - 15.10.0.pre.alpine
+    - 15.11.0.pre.alpine
+    - 15.12.0.pre.alpine
+    - 15.13.0.pre.alpine
+    - 15.14.0.pre.alpine
+    - 15.7.0.pre.alpine
+    - 15.8.0.pre.alpine
+    - 15.9.0.pre.alpine
+  - dependency-name: python
+    versions:
+    - 3.9.1.pre.alpine
+    - 3.9.2.pre.alpine
+    - 3.9.3.pre.alpine
