@@ -1,11 +1,11 @@
 #########################################
 # frontend image
 #########################################
-FROM node:12.12.0-alpine as frontend
+FROM node:16.5.0-alpine as frontend
 
 ## Install system dependencies
 RUN apk --update add --no-cache \
-    git gcc make autoconf automake musl-dev zlib zlib-dev\
+    git gcc make autoconf automake musl-dev zlib zlib-dev python2 g++ \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set working directory
@@ -32,7 +32,7 @@ CMD ["tail", "-f", "/dev/null"]
 #########################################
 # build image
 #########################################
-FROM python:3.9.2-alpine as development
+FROM python:3.9.6-alpine as development
 
 # Set environment variables
 ENV APP_ROOT /usr/src/app/
