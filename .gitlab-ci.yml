@@ -65,7 +65,7 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
-  image: python:3.7
+  image: python:3.9
   stage: testing
   script:
     - make gitlab-python-testing
@@ -74,7 +74,7 @@ python-testing:
       - eventol/htmlcov
 
 react-testing:
-  image: node:10
+  image: node:16
   stage: testing
   script:
     - make gitlab-react-testing
@@ -83,14 +83,14 @@ react-testing:
       - eventol/front/coverage
 
 python-lint:
-  image: python:3.7
+  image: python:3.9
   stage: styling
   allow_failure: true
   script:
     - make gitlab-python-lint
 
 react-lint-report:
-  image: node:10
+  image: node:16
   stage: styling
   allow_failure: true
   script:
@@ -100,14 +100,14 @@ react-lint-report:
       - eventol/front/report.html
 
 react-lint:
-  image: node:10
+  image: node:16
   stage: styling
   allow_failure: true
   script:
     - make gitlab-react-lint
 
 sass-lint-report:
-  image: node:10
+  image: node:16
   stage: styling
   allow_failure: true
   script:
@@ -117,7 +117,7 @@ sass-lint-report:
       - eventol/front/scss-lint-report.html
 
 sass-lint:
-  image: node:10
+  image: node:16
   stage: styling
   allow_failure: true
   script:

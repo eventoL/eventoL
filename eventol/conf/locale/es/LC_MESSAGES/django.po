@@ -1,13 +1,14 @@
 # Federico Gonzalez <federicogonzalez761@gmail.com>, 2019, 2020.
 # Allan Nordhøy <epost@anotheragency.no>, 2020.
 # Scoopity Whoop <Scoo0p@yandex.com>, 2020.
+# J. Lavoie <j.lavoie@net-c.ca>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-22 04:38+0000\n"
-"PO-Revision-Date: 2020-08-30 19:37+0000\n"
-"Last-Translator: Federico Gonzalez <federicogonzalez761@gmail.com>\n"
+"PO-Revision-Date: 2021-05-02 00:41+0000\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
 "es/>\n"
 "Language: es\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.2.1-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 msgid "Danish"
 msgstr "Danés"
@@ -48,10 +49,10 @@ msgid "Collaborator/Installer"
 msgstr "Colaborador/Instalador"
 
 msgid "Repeat Email"
-msgstr "Repetir Email"
+msgstr "Repetir correo electrónico"
 
 msgid "Emails do not match."
-msgstr "Las direcciones de email no coinciden."
+msgstr "Las direcciones de correo no coinciden."
 
 msgid "This field is required"
 msgstr "Este campo es obligatorio"
@@ -160,7 +161,7 @@ msgid "http://www.my-awesome-event.com"
 msgstr "http://www.mi-super-evento.com"
 
 msgid "Email"
-msgstr "Mail"
+msgstr "Correo electrónico"
 
 msgid "Event Info"
 msgstr "Información del evento"
@@ -394,7 +395,7 @@ msgid ""
 msgstr "Cualquier información que consideres relevante para la organización"
 
 msgid "Email confirmed?"
-msgstr "Email Confirmado?"
+msgstr "¿Correo electrónico confirmado?"
 
 msgid "Confirmation Token"
 msgstr "Token de confirmación"
@@ -412,13 +413,13 @@ msgid "Email message HTML Body"
 msgstr "Cuerpo del mensaje en HTML"
 
 msgid "Contact Email"
-msgstr "Email de Contacto"
+msgstr "Correo electrónico de contacto"
 
 msgid "Post-install Email"
-msgstr "Email post-instalación"
+msgstr "Correo electrónico post-instalación"
 
 msgid "Post-install Emails"
-msgstr "Emails post-instalación"
+msgstr "Correos electrónicos post-instalación"
 
 msgid "Beginner"
 msgstr "Principiante"
