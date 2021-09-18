@@ -30,6 +30,7 @@ config.devtool = '#eval-source-map';
 config.entry = {
   Home: addDevVendors('./src/views/Home'),
   EventHome: addDevVendors('./src/views/EventHome'),
+  InstanceDetails: addDevVendors('./src/views/InstanceDetails'),
   Report: addDevVendors('./src/views/Report'),
   clipboard: addDevVendors('./src/libs/clipboard'),
   schedule: addDevVendors('./src/libs/schedule'),
