@@ -269,7 +269,7 @@ class Event(models.Model):
     def get_absolute_url(self):
         if self.external_url:
             return self.external_url
-        return reverse('event', kwargs={'event_slug': self.event_slug})
+        return reverse('index', kwargs={'event_slug': self.event_slug})
 
     def __str__(self):
         return self.name
