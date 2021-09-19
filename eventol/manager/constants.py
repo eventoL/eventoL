@@ -34,7 +34,7 @@ ORGANIZER_PERMISSION_CODE_NAMES = [
     'change_event', 'delete_event',
 
     # Event Date
-    'add_eventdate','change_eventdate', 'delete_eventdate',
+    'add_eventdate', 'change_eventdate', 'delete_eventdate',
 
     # Event Tag
     'add_eventtag', 'change_eventtag', 'delete_eventtag',

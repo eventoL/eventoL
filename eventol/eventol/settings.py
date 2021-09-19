@@ -1,6 +1,7 @@
 # pylint: disable=missing-docstring
 # pylint: disable=W0232
 # pylint: disable=C0103
+# pylint: disable=W0611
 
 import os
 import socket
@@ -393,7 +394,7 @@ class Staging(Base):
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = '/media/'
 
-    INSTALLED_APPS =  Base.INSTALLED_APPS + (
+    INSTALLED_APPS = Base.INSTALLED_APPS + (
         'raven.contrib.django.raven_compat',
     )
 

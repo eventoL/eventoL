@@ -16,8 +16,8 @@ def filter_model_queryset_by_user(user, model):
         return model.objects.filter(id__in=events_ids).distinct()
 
     if model_name in [
-        'activity', 'attendee', 'contact', 'contactmessage', 'event_date', 'eventdate',
-        'event_user', 'eventuser', 'installationmessage', 'room',
+            'activity', 'attendee', 'contact', 'contactmessage', 'event_date', 'eventdate',
+            'event_user', 'eventuser', 'installationmessage', 'room',
     ]:
         return model.objects.filter(event__in=events).distinct()
 
@@ -31,8 +31,8 @@ def filter_model_queryset_by_user(user, model):
         return model.objects.filter(installer__event__in=events).distinct()
 
     if model_name in [
-        'activity_type', 'activitytype', 'contacttype', 'customform', 'hardware',
-        'software', 'ticket', 'type'
+            'activity_type', 'activitytype', 'contacttype', 'customform', 'hardware',
+            'software', 'ticket', 'type'
     ]:
         return model.objects.all().distinct()
 

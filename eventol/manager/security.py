@@ -89,7 +89,7 @@ def user_has_role(user, role, event_slug=None, check_is_organizer=True):
         return False
 
     if role.objects.filter(
-        event_user__user=user, event_user__event__event_slug=event_slug
+            event_user__user=user, event_user__event__event_slug=event_slug
     ).exists():
         return True
 
