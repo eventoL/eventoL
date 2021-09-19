@@ -54,12 +54,12 @@ class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
 
     def get_user(self, obj):
         return obj.event_user.user
-    get_user.short_description = _('user')
+    get_user.short_description = _('User')
     get_user.admin_order_field = 'event_user__user__username'
 
     def get_event(self, obj):
         return obj.event_user.event
-    get_event.short_description = _('event')
+    get_event.short_description = _('Event')
     get_event.admin_order_field = 'event_user__event__name'
 
     def filter_event(self, events, queryset):

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 04:38+0000\n"
+"POT-Creation-Date: 2021-09-19 21:39+0000\n"
 "PO-Revision-Date: 2020-09-30 14:40+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
@@ -42,7 +42,43 @@ msgstr "Svensk"
 msgid "Chinese"
 msgstr ""
 
+msgid "Owner"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "User"
+msgstr "Bruker"
+
+msgid "Email"
+msgstr "E-post"
+
+msgid "Event"
+msgstr "Hendelse"
+
+msgid "Installer"
+msgstr ""
+
+msgid "Room"
+msgstr "Rom"
+
+msgid "Hardware"
+msgstr "Maskinvare"
+
+msgid "Software"
+msgstr "Programvare"
+
 msgid "Attendee"
+msgstr ""
+
+msgid "Has background"
+msgstr ""
+
+msgid "Has logo header"
+msgstr ""
+
+msgid "Has logo landing"
 msgstr ""
 
 msgid "Collaborator/Installer"
@@ -158,10 +194,6 @@ msgstr "Ekstern nettadresse"
 msgid "http://www.my-awesome-event.com"
 msgstr ""
 
-#, fuzzy
-msgid "Email"
-msgstr "E-post"
-
 msgid "Event Info"
 msgstr "Arrangementsinfo"
 
@@ -221,9 +253,6 @@ msgstr "Egendefinert CSS"
 
 msgid "Custom CSS file for event page"
 msgstr ""
-
-msgid "Event"
-msgstr "Hendelse"
 
 msgid "Events"
 msgstr "Hendelser"
@@ -299,9 +328,6 @@ msgstr "nummer"
 
 msgid "Unique identifier for the ticket"
 msgstr ""
-
-msgid "User"
-msgstr "Bruker"
 
 msgid "Ticket"
 msgstr "Billett"
@@ -431,9 +457,6 @@ msgstr "Superhacker"
 msgid "Knowledge level for an installation"
 msgstr ""
 
-msgid "Installer"
-msgstr ""
-
 msgid "Installers"
 msgstr "Installatører"
 
@@ -475,9 +498,6 @@ msgstr "Modell"
 
 msgid "i.e. Classroom 256"
 msgstr ""
-
-msgid "Room"
-msgstr "Rom"
 
 msgid "Rooms"
 msgstr "Rom"
@@ -598,12 +618,6 @@ msgstr "Aktivitet"
 
 msgid "Activities"
 msgstr "Aktiviteter"
-
-msgid "Hardware"
-msgstr "Maskinvare"
-
-msgid "Software"
-msgstr "Programvare"
 
 msgid "The owner of the installed hardware"
 msgstr ""
@@ -1285,6 +1299,9 @@ msgid "Submit an Installation"
 msgstr ""
 
 msgid "Register an Attendee"
+msgstr ""
+
+msgid "Instance Details"
 msgstr ""
 
 msgid "Attendee Registration"

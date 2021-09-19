@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 04:38+0000\n"
+"POT-Creation-Date: 2021-09-19 21:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,43 @@ msgstr ""
 msgid "Chinese"
 msgstr ""
 
+msgid "Owner"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Event"
+msgstr ""
+
+msgid "Installer"
+msgstr ""
+
+msgid "Room"
+msgstr ""
+
+msgid "Hardware"
+msgstr ""
+
+msgid "Software"
+msgstr ""
+
 msgid "Attendee"
+msgstr ""
+
+msgid "Has background"
+msgstr ""
+
+msgid "Has logo header"
+msgstr ""
+
+msgid "Has logo landing"
 msgstr ""
 
 msgid "Collaborator/Installer"
@@ -158,9 +194,6 @@ msgstr ""
 msgid "http://www.my-awesome-event.com"
 msgstr ""
 
-msgid "Email"
-msgstr ""
-
 msgid "Event Info"
 msgstr ""
 
@@ -219,9 +252,6 @@ msgid "Custom CSS"
 msgstr ""
 
 msgid "Custom CSS file for event page"
-msgstr ""
-
-msgid "Event"
 msgstr ""
 
 msgid "Events"
@@ -297,9 +327,6 @@ msgid "number"
 msgstr ""
 
 msgid "Unique identifier for the ticket"
-msgstr ""
-
-msgid "User"
 msgstr ""
 
 msgid "Ticket"
@@ -429,9 +456,6 @@ msgstr ""
 msgid "Knowledge level for an installation"
 msgstr ""
 
-msgid "Installer"
-msgstr ""
-
 msgid "Installers"
 msgstr ""
 
@@ -472,9 +496,6 @@ msgid "Model"
 msgstr ""
 
 msgid "i.e. Classroom 256"
-msgstr ""
-
-msgid "Room"
 msgstr ""
 
 msgid "Rooms"
@@ -593,12 +614,6 @@ msgid "Activity"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
-
-msgid "Hardware"
-msgstr ""
-
-msgid "Software"
 msgstr ""
 
 msgid "The owner of the installed hardware"
@@ -1273,6 +1288,9 @@ msgid "Submit an Installation"
 msgstr ""
 
 msgid "Register an Attendee"
+msgstr ""
+
+msgid "Instance Details"
 msgstr ""
 
 msgid "Attendee Registration"

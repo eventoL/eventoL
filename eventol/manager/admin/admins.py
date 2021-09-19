@@ -214,12 +214,12 @@ class InstallationAdmin(ExportMixin, EventoLAdmin):
 
     def get_event(self, obj):
         return obj.installer.event
-    get_event.short_description = _('event')
+    get_event.short_description = _('Event')
     get_event.admin_order_field = 'installer__event__name'
 
     def get_installer(self, obj):
         return obj.installer.user
-    get_installer.short_description = _('installer')
+    get_installer.short_description = _('Installer')
     get_installer.admin_order_field = 'installer__user__username'
 
     def filter_event(self, events, queryset):
@@ -273,7 +273,7 @@ class TicketAdmin(EventoLAdmin):
         if user is None:
             return None
         return user.user
-    get_user.short_description = _('user')
+    get_user.short_description = _('User')
     get_user.admin_order_field = 'eventuser__user__username'
 
     def get_event(self, obj):
@@ -281,5 +281,5 @@ class TicketAdmin(EventoLAdmin):
         if user is None:
             return None
         return user.event
-    get_event.short_description = _('event')
+    get_event.short_description = _('Event')
     get_event.admin_order_field = 'eventuser__event__name'
