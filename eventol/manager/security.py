@@ -8,90 +8,66 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import available_attrs
-from manager.models import Attendee, Collaborator, Installer, Organizer, Activity, Reviewer
+
+from manager.constants import (
+    ADD_ATTENDEE_PERMISSION_CODE_NAME, ADD_ATTENDEE_PERMISSION_NAME,
+    CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME, CAN_TAKE_ATTENDANCE_PERMISSION_NAME,
+    CHANGE_ATTENDEE_PERMISSION_CODE_NAME, CHANGE_ATTENDEE_PERMISSION_NAME,
+    ORGANIZER_GROUP_NAME, ORGANIZER_PERMISSION_CODE_NAMES, REPORTER_GROUP_NAME,
+    REPORTER_PERMISSION_CODE_NAMES
+)
+from manager.models import Activity, Attendee, Collaborator, Installer, Organizer, Reviewer
 
 
 def get_or_create_attendance_permission():
-    attendance_permission = None
     content_type = ContentType.objects.get_for_model(Attendee)
-    if Permission.objects.filter(codename='can_take_attendance',
-                                 content_type=content_type).exists():
-        attendance_permission = Permission.objects.get(
-            codename='can_take_attendance',
-            content_type=content_type)
-    else:
-        attendance_permission = Permission.objects.create(
-            codename='can_take_attendance', name='Can Take Attendance',
-            content_type=content_type)
+    attendance_permission, _ = Permission.objects.get_or_create(
+        codename=CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME, content_type=content_type,
+        defaults=dict(name=CAN_TAKE_ATTENDANCE_PERMISSION_NAME)
+    )
     return attendance_permission
 
 
 def add_attendance_permission(user):
     content_type = ContentType.objects.get_for_model(Attendee)
-    if Permission.objects.filter(content_type=content_type,
-                                 codename='add_attendee').exists():
-        add_attendee_permission = Permission.objects.get(
-            content_type=content_type, codename='add_attendee')
-    else:
-        add_attendee_permission = Permission.objects.create(
-            content_type=content_type, name='Add Attendee',
-            codename='add_attendee')
-    if Permission.objects.filter(content_type=content_type,
-                                 codename='change_attendee').exists():
-        change_attendee_permission = Permission.objects.get(
-            content_type=content_type,
-            codename='change_attendee')
-    else:
-        change_attendee_permission = Permission.objects.create(
-            content_type=content_type, name='Change Attendee',
-            codename='change_attendee')
+
+    add_attendee_permission, _ = Permission.objects.get_or_create(
+        codename=ADD_ATTENDEE_PERMISSION_CODE_NAME, content_type=content_type,
+        defaults=dict(name=ADD_ATTENDEE_PERMISSION_NAME)
+    )
+
+    change_attendee_permission, _ = Permission.objects.get_or_create(
+        codename=CHANGE_ATTENDEE_PERMISSION_CODE_NAME, content_type=content_type,
+        defaults=dict(name=CHANGE_ATTENDEE_PERMISSION_NAME)
+    )
+
     user.user_permissions.add(add_attendee_permission)
     user.user_permissions.add(change_attendee_permission)
     attendance_permission = get_or_create_attendance_permission()
     user.user_permissions.add(attendance_permission)
 
 
+def create_permission_group(name, code_names):
+    group = Group.objects.filter(name__iexact=name).first()
+    if group is None:
+        group = Group.objects.create(name=name)
+        for permission_codename in code_names:
+            permissions = Permission.objects.filter(
+                codename=permission_codename, content_type__app_label='manager'
+            )
+            for permission in permissions.iterator():
+                group.permissions.add(permission)
+        group.save()
+    return group
+
+
 def create_organizers_group():
-    organizers = Group.objects.filter(name__iexact='Organizers').first()
     get_or_create_attendance_permission()
-    if not organizers:
-        perms = [
-            'change_activity', 'delete_activity', 'add_activitytype',
-            'change_activitytype', 'delete_activitytype', 'can_take_attendance',
-            'change_attendee', 'delete_attendee', 'delete_collaborator',
-            'add_contact', 'change_contact', 'delete_contact', 'add_contactmessage',
-            'change_contactmessage', 'delete_contactmessage', 'add_contacttype',
-            'change_contacttype', 'delete_contacttype', 'change_event', 'delete_event',
-            'delete_eventuser', 'delete_eventuserattendancedate', 'add_hardware',
-            'change_hardware', 'delete_hardware', 'change_installation',
-            'delete_installation', 'add_installationmessage', 'change_installationmessage',
-            'delete_installationmessage', 'delete_installer', 'delete_organizer',
-            'add_software', 'change_software', 'delete_software']
-        organizers = Group.objects.create(name='Organizers')
-        for perm in perms:
-            organizers.permissions.add(Permission.objects.get(codename=perm))
-        organizers.save()
-    return organizers
+    return create_permission_group(ORGANIZER_GROUP_NAME, ORGANIZER_PERMISSION_CODE_NAMES)
 
 
 def create_reporters_group():
-    reporters = Group.objects.filter(name__iexact='Reporters').first()
-    if not reporters:
-        perms = ['add_contactmessage', 'change_contactmessage',
-                 'delete_contactmessage', 'add_attendee', 'change_eventuser',
-                 'change_attendee', 'delete_attendee', 'add_eventuser',
-                 'delete_eventuser', 'delete_collaborator', 'change_organizer',
-                 'add_collaborator', 'change_collaborator', 'add_organizer',
-                 'delete_organizer', 'add_installer', 'change_installer',
-                 'delete_installer', 'add_room', 'change_room',
-                 'delete_room', 'add_activity', 'change_activity',
-                 'delete_activity', 'add_installation',
-                 'change_installation', 'delete_installation']
-        reporters = Group.objects.create(name='Reporters')
-        for perm in perms:
-            reporters.permissions.add(Permission.objects.get(codename=perm))
-        reporters.save()
-    return reporters
+    return create_permission_group(REPORTER_GROUP_NAME, REPORTER_PERMISSION_CODE_NAMES)
 
 
 def add_organizer_permissions(user):
@@ -102,62 +78,70 @@ def add_organizer_permissions(user):
 
 
 def is_speaker(user, event_slug=None):
-    return event_slug and Activity.objects.filter(
-        owner__user=user,
-        event__event_slug=event_slug).exists()
+    if event_slug is None:
+        return False
+
+    return Activity.objects.filter(owner__user=user, event__event_slug=event_slug).exists()
+
+
+def user_has_role(user, role, event_slug=None, check_is_organizer=True):
+    if event_slug is None:
+        return False
+
+    if role.objects.filter(
+        event_user__user=user, event_user__event__event_slug=event_slug
+    ).exists():
+        return True
+
+    if check_is_organizer:
+        return user_has_role(user, Organizer, event_slug=event_slug, check_is_organizer=False)
+
+    return False
 
 
 def is_installer(user, event_slug=None):
-    return event_slug and (
-        Installer.objects.filter(
-            event_user__user=user,
-            event_user__event__event_slug=event_slug).exists() or
-        is_organizer(user, event_slug=event_slug))
+    return user_has_role(user, Installer, event_slug=event_slug)
 
 
 def is_organizer(user, event_slug=None):
-    return event_slug and Organizer.objects.filter(
-        event_user__user=user,
-        event_user__event__event_slug=event_slug).exists()
+    return user_has_role(user, Organizer, event_slug=event_slug, check_is_organizer=False)
 
 
 def is_collaborator(user, event_slug=None):
-    return event_slug and (
-        Collaborator.objects.filter(
-            event_user__user=user,
-            event_user__event__event_slug=event_slug).exists() or
-        is_organizer(user, event_slug=event_slug))
+    return user_has_role(user, Collaborator, event_slug=event_slug)
+
 
 def is_reviewer(user, event_slug=None):
-    return event_slug and (
-        Reviewer.objects.filter(
-            event_user__user=user,
-            event_user__event__event_slug=event_slug).exists() or
-        is_organizer(user, event_slug=event_slug))
-
+    return user_has_role(user, Reviewer, event_slug=event_slug)
 
 
 def is_collaborator_or_installer(user, event_slug=None):
-    return is_collaborator(user, event_slug=event_slug) or is_installer(user,
-                                                                        event_slug=event_slug)
+    return is_collaborator(user, event_slug=event_slug) or is_installer(user, event_slug=event_slug)
 
 
 def are_activities_public(user, event_slug=None):
-    """Return True if activities are public.
+    """
+    Return True if activities are public.
 
-    If activities are private only will return true for collaborator users"""
+    If activities are private only will return true for collaborator users
+    """
     if not settings.PRIVATE_ACTIVITIES:
         return True
+
     if user.is_authenticated():
         return is_reviewer(user, event_slug=event_slug)
+
     raise PermissionDenied(
-        "Only organizers and collaborators are authorized to access the activities list.")
+        "Only organizers and collaborators are authorized to access the activities list."
+    )
 
 
 def is_activity_public():
-    """Return True if activities are public.
+    """
+    Return True if activities are public.
 
-    If activities are private only will return true for collaborator users or activity owner"""
+    If activities are private only will return true for collaborator users or activity owner
+    """
     def decorator(view_func):
         @wraps(view_func, assigned=available_attrs(view_func))
         def _wrapped_view(request, *args, **kwargs):

@@ -276,7 +276,7 @@ def installation(request, event_slug):
 
 
 @login_required
-@permission_required('manager.can_take_attendance', raise_exception=True)
+@permission_required(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def manage_attendance(request, event_slug):
     attendee_form = AttendeeSearchForm(
@@ -370,7 +370,7 @@ def manage_attendance(request, event_slug):
 
 
 @login_required
-@permission_required('manager.can_take_attendance', raise_exception=True)
+@permission_required(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def attendance_by_ticket(request, event_slug, ticket_code):
     attendee = Attendee.objects.filter(ticket__code=ticket_code)
@@ -485,18 +485,16 @@ def add_registration_people(request, event_slug):
         )
 
     content_type = ContentType.objects.get_for_model(Attendee)
-    if Permission.objects.filter(
-            codename='can_take_attendance', content_type=content_type).exists():
-        permission = Permission.objects.get(
-            codename='can_take_attendance',
-            content_type=content_type
-        )
+    permission = Permission.objects.filter(
+        codename=CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME, content_type=content_type
+    ).first()
+    registration_people = []
+
+    if permission is not None:
         registration_people = Collaborator.objects.filter(
             event_user__user__user_permissions=permission,
             event_user__event__event_slug=event_slug
         )
-    else:
-        registration_people = []
 
     return render(
         request,
@@ -549,7 +547,7 @@ def registration_from_installation(request, event_slug):
 
 
 @login_required
-@permission_required('manager.can_take_attendance', raise_exception=True)
+@permission_required(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def registration_by_collaborator(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
@@ -629,7 +627,7 @@ def process_attendee_registration(request, event, return_url, render_template):
     )
 
 @login_required
-@permission_required('manager.can_take_attendance', raise_exception=True)
+@permission_required(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def attendee_registration_print_code(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
