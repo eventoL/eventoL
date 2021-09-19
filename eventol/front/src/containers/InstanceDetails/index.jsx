@@ -77,6 +77,7 @@ class InstanceDetails extends React.PureComponent {
           logoHeader={logoHeader}
           user={user}
         />
+
         <Hero
           background={background}
           isLogged={false}
@@ -85,13 +86,21 @@ class InstanceDetails extends React.PureComponent {
         >
           <h6>
             {`Users: ${users}`}
+
             <br />
+
             {`Events: ${events}`}
+
             <br />
+
             {`Django: ${versions.django}`}
+
             <br />
+
             {`Python: ${versions.python}`}
+
             <br />
+
             {`Commit: ${versions.commit}`}
           </h6>
         </Hero>

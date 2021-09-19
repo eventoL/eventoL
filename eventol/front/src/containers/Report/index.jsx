@@ -87,30 +87,35 @@ const Report = props => {
           name={gettext('Autoupdate')}
           onChange={handleToggleAutoupdate}
         />
+
         <Button
           handleOnClick={setTable}
           label={gettext('Assistance (confirmed)')}
           name="confirmed"
           type="success"
         />
+
         <Button
           handleOnClick={setTable}
           label={gettext('Assistance detail')}
           name="assitance"
           type="success"
         />
+
         <Button
           handleOnClick={setTable}
           label={gettext('Installations')}
           name="installations"
           type="success"
         />
+
         <Button
           handleOnClick={setTable}
           label={gettext('Activities')}
           name="activities"
           type="success"
         />
+
         <ExportButton
           ref={exportButtonRef}
           data={data}
@@ -119,6 +124,7 @@ const Report = props => {
           type="success"
         />
       </Title>
+
       <ReportTable
         count={count}
         data={data}

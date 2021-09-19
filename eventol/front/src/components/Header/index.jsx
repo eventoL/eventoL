@@ -54,10 +54,12 @@ export default class Header extends React.PureComponent {
       <header className="header">
         <div className="nav-wide">
           <Logo logoHeader={logoHeader} />
+
           <Navigation
             handlerOnChangeLanguage={handlerOnChangeLanguage}
             languages={languages}
           />
+
           {this.showUserIndicator()}
         </div>
       </header>
@@ -76,6 +78,7 @@ export default class Header extends React.PureComponent {
       <header className="header">
         <div className="nav-narrow">
           <Logo logoHeader={logoHeader} />
+
           <div className="nav-right">
             <button
               onClick={this.handleToggle}
@@ -84,11 +87,13 @@ export default class Header extends React.PureComponent {
             >
               <i className="fa fa-bars fa-2x" />
             </button>
+
             <div className="narrow-links">
               <Navigation
                 handlerOnChangeLanguage={handlerOnChangeLanguage}
                 languages={languages}
               />
+
               {this.showUserIndicator()}
             </div>
           </div>

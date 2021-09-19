@@ -42,24 +42,31 @@ export default class Navigation extends React.PureComponent {
             >
               <li>{gettext('Search')}</li>
             </button>
+
             <a href={EVENTOL_DOCUMENTATION}>
               <li>{gettext('Documentation')}</li>
             </a>
+
             <a href="#featured">
               <li>{gettext('Featured')}</li>
             </a>
+
             <a href="#recent">
               <li>{gettext('Recent')}</li>
             </a>
+
             <a href={REPORT_URL}>
               <li>{gettext('Generic report')}</li>
             </a>
+
             {languages.length > 0 && (
               <div className="languages-dropdown">
                 <button className="dropbtn" type="button">
                   {gettext('Languages')}
+
                   <i className="fa fa-caret-down" />
                 </button>
+
                 <div className="dropdown-content">
                   {languages.map(({code, name}) => (
                     <a
