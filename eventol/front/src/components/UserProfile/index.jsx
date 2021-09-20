@@ -10,6 +10,7 @@ const UserProfile = ({user: {first_name: firstName, last_name: lastName}}) => (
     <a href={PROFILE_URL}>
       <div className="user">
         <div className="name">{`${firstName} ${lastName}`}</div>
+
         <div className="image">
           <div className="fa fa-user fa-2x" />
         </div>

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 04:38+0000\n"
+"POT-Creation-Date: 2021-09-19 21:39+0000\n"
 "PO-Revision-Date: 2021-05-02 00:41+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
@@ -42,8 +42,44 @@ msgstr "Sueco"
 msgid "Chinese"
 msgstr "Chino"
 
+msgid "Owner"
+msgstr "Dueño"
+
+msgid "Anonymous"
+msgstr "Anónimo"
+
+msgid "User"
+msgstr "Usuario"
+
+msgid "Email"
+msgstr "Correo electrónico"
+
+msgid "Event"
+msgstr "Evento"
+
+msgid "Installer"
+msgstr "Instalador"
+
+msgid "Room"
+msgstr "Sala"
+
+msgid "Hardware"
+msgstr "Hardware"
+
+msgid "Software"
+msgstr "Software"
+
 msgid "Attendee"
 msgstr "Asistente"
+
+msgid "Has background"
+msgstr "Tiene fondo"
+
+msgid "Has logo header"
+msgstr "Tiene logo de encabezado"
+
+msgid "Has logo landing"
+msgstr "Tiene logo principal"
 
 msgid "Collaborator/Installer"
 msgstr "Colaborador/Instalador"
@@ -160,9 +196,6 @@ msgstr "URL externa"
 msgid "http://www.my-awesome-event.com"
 msgstr "http://www.mi-super-evento.com"
 
-msgid "Email"
-msgstr "Correo electrónico"
-
 msgid "Event Info"
 msgstr "Información del evento"
 
@@ -222,9 +255,6 @@ msgstr "Css alternativo"
 
 msgid "Custom CSS file for event page"
 msgstr "Archivo css alternativo para la pagina del evento"
-
-msgid "Event"
-msgstr "Evento"
 
 msgid "Events"
 msgstr "Eventos"
@@ -300,9 +330,6 @@ msgstr "número"
 
 msgid "Unique identifier for the ticket"
 msgstr "Identificador único para la entrada"
-
-msgid "User"
-msgstr "Usuario"
 
 msgid "Ticket"
 msgstr "Entrada"
@@ -436,9 +463,6 @@ msgstr "Super Hacker"
 msgid "Knowledge level for an installation"
 msgstr "Conocimiento que tiene para realizar una instalación"
 
-msgid "Installer"
-msgstr "Instalador"
-
 msgid "Installers"
 msgstr "Instaladores"
 
@@ -480,9 +504,6 @@ msgstr "Modelo"
 
 msgid "i.e. Classroom 256"
 msgstr "x.ej. Sala 256"
-
-msgid "Room"
-msgstr "Sala"
 
 msgid "Rooms"
 msgstr "Salas"
@@ -618,12 +639,6 @@ msgstr "Actividad"
 
 msgid "Activities"
 msgstr "Actividades"
-
-msgid "Hardware"
-msgstr "Hardware"
-
-msgid "Software"
-msgstr "Software"
 
 msgid "The owner of the installed hardware"
 msgstr "El dueño del dispositivo instalado"
@@ -1399,6 +1414,9 @@ msgstr "Cargar una instalación"
 
 msgid "Register an Attendee"
 msgstr "Registrar un Asistente"
+
+msgid "Instance Details"
+msgstr "Detalles de la instancia"
 
 msgid "Attendee Registration"
 msgstr "Registrar asistente"

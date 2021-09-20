@@ -4,14 +4,7 @@ import withSizes from 'react-sizes';
 
 import Hero from '../../components/Hero';
 import Header from '../../components/Header';
-import Search from '../../components/Search';
-import TitleList from '../../components/TitleList';
-import {
-  getSearchUrl,
-  getMyEventsUrl,
-  getUpcomingEventsUrl,
-  getFinishedEventsUrl,
-} from '../../utils/urls';
+import {mapSizesToProps} from '../../utils/dom';
 import {
   BACKGROUND_DEFAULT,
   LOGO_HEADER_DEFAULT,
@@ -19,11 +12,11 @@ import {
 } from '../../utils/constants';
 
 import './index.scss';
-import {mapSizesToProps} from '../../utils/dom';
 
-class EventHome extends React.PureComponent {
+class InstanceDetails extends React.PureComponent {
   static propTypes = {
     background: PropTypes.string,
+    events: PropTypes.number.isRequired,
     handleOnChangeLanguage: PropTypes.func,
     isMobile: PropTypes.bool.isRequired,
     languages: PropTypes.arrayOf(
@@ -34,12 +27,17 @@ class EventHome extends React.PureComponent {
     ),
     logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
-    tagMessage: PropTypes.string,
-    tagSlug: PropTypes.string,
     user: PropTypes.shape({
       first_name: PropTypes.string,
       last_name: PropTypes.string,
     }),
+    users: PropTypes.number.isRequired,
+    versions: PropTypes.shape({
+      commit: PropTypes.string.isRequired,
+      django: PropTypes.string.isRequired,
+      python: PropTypes.string.isRequired,
+      tag: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -48,22 +46,7 @@ class EventHome extends React.PureComponent {
     languages: [],
     logoHeader: LOGO_HEADER_DEFAULT,
     logoLanding: LOGO_LANDING_DEFAULT,
-    tagMessage: null,
-    tagSlug: null,
     user: null,
-  };
-
-  state = {
-    searchUrl: '',
-    searched: false,
-  };
-
-  handleOnEnter = searchTerm => {
-    const {tagSlug} = this.props;
-    if (searchTerm !== '') {
-      const searchUrl = getSearchUrl(searchTerm, tagSlug);
-      this.setState({searchUrl, searched: true});
-    }
   };
 
   handlerOnChangeLanguage = languageCode => {
@@ -74,16 +57,16 @@ class EventHome extends React.PureComponent {
   };
 
   render() {
-    const {searched, searchUrl} = this.state;
     const {
-      user,
-      tagSlug,
       background,
-      logoHeader,
-      logoLanding,
-      tagMessage,
       isMobile,
       languages,
+      logoHeader,
+      logoLanding,
+      user,
+      users,
+      events,
+      versions,
     } = this.props;
     return (
       <div>
@@ -97,42 +80,33 @@ class EventHome extends React.PureComponent {
 
         <Hero
           background={background}
+          isLogged={false}
           logoLanding={logoLanding}
-          message={tagMessage}
-          slug={tagSlug}
+          message={`EventoL ${versions.tag}`}
         >
-          <Search onEnter={this.handleOnEnter} />
+          <h6>
+            {`Users: ${users}`}
+
+            <br />
+
+            {`Events: ${events}`}
+
+            <br />
+
+            {`Django: ${versions.django}`}
+
+            <br />
+
+            {`Python: ${versions.python}`}
+
+            <br />
+
+            {`Commit: ${versions.commit}`}
+          </h6>
         </Hero>
-
-        {searched && (
-          <TitleList
-            id="search_results"
-            showEmpty
-            title={gettext('Search results')}
-            url={searchUrl}
-          />
-        )}
-
-        <TitleList
-          id="my_events"
-          title={gettext('My Events')}
-          url={getMyEventsUrl(tagSlug)}
-        />
-
-        <TitleList
-          id="next"
-          title={gettext('Upcoming Events')}
-          url={getUpcomingEventsUrl(tagSlug)}
-        />
-
-        <TitleList
-          id="finished"
-          title={gettext('Finished Events')}
-          url={getFinishedEventsUrl(tagSlug)}
-        />
       </div>
     );
   }
 }
 
-export default withSizes(mapSizesToProps)(EventHome);
+export default withSizes(mapSizesToProps)(InstanceDetails);

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 04:38+0000\n"
+"POT-Creation-Date: 2021-09-19 21:39+0000\n"
 "PO-Revision-Date: 2021-07-23 02:40+0000\n"
 "Last-Translator: Zhou Nan <zhounan@nfschina.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -44,7 +44,43 @@ msgstr "瑞典语"
 msgid "Chinese"
 msgstr "中文"
 
+msgid "Owner"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "User"
+msgstr "用户"
+
+msgid "Email"
+msgstr "电子邮件"
+
+msgid "Event"
+msgstr "活动"
+
+msgid "Installer"
+msgstr "安装者"
+
+msgid "Room"
+msgstr ""
+
+msgid "Hardware"
+msgstr ""
+
+msgid "Software"
+msgstr ""
+
 msgid "Attendee"
+msgstr ""
+
+msgid "Has background"
+msgstr ""
+
+msgid "Has logo header"
+msgstr ""
+
+msgid "Has logo landing"
 msgstr ""
 
 msgid "Collaborator/Installer"
@@ -146,7 +182,8 @@ msgid "Select tags to show this event in the EventTag landing"
 msgstr ""
 
 msgid "CNAME"
-msgstr "CNAME是一个技术词：规范名称记录 https://en.wikipedia.org/wiki/CNAME_record"
+msgstr ""
+"CNAME是一个技术词：规范名称记录 https://en.wikipedia.org/wiki/CNAME_record"
 
 msgid "code"
 msgstr "代码"
@@ -159,9 +196,6 @@ msgstr "外部 URL"
 
 msgid "http://www.my-awesome-event.com"
 msgstr "http://www.my-awesome-event.com"
-
-msgid "Email"
-msgstr "电子邮件"
 
 msgid "Event Info"
 msgstr "活动信息"
@@ -222,9 +256,6 @@ msgstr "自定义 CSS"
 
 msgid "Custom CSS file for event page"
 msgstr "活动页的自定义 CSS 文件"
-
-msgid "Event"
-msgstr "活动"
 
 msgid "Events"
 msgstr "活动（复数）"
@@ -301,9 +332,6 @@ msgstr "号码"
 
 msgid "Unique identifier for the ticket"
 msgstr ""
-
-msgid "User"
-msgstr "用户"
 
 msgid "Ticket"
 msgstr "标签"
@@ -432,9 +460,6 @@ msgstr ""
 msgid "Knowledge level for an installation"
 msgstr ""
 
-msgid "Installer"
-msgstr "安装者"
-
 msgid "Installers"
 msgstr ""
 
@@ -476,9 +501,6 @@ msgstr ""
 
 msgid "i.e. Classroom 256"
 msgstr "i.e. Classroom 256"
-
-msgid "Room"
-msgstr ""
 
 msgid "Rooms"
 msgstr ""
@@ -596,12 +618,6 @@ msgid "Activity"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
-
-msgid "Hardware"
-msgstr ""
-
-msgid "Software"
 msgstr ""
 
 msgid "The owner of the installed hardware"
@@ -1276,6 +1292,9 @@ msgid "Submit an Installation"
 msgstr ""
 
 msgid "Register an Attendee"
+msgstr ""
+
+msgid "Instance Details"
 msgstr ""
 
 msgid "Attendee Registration"

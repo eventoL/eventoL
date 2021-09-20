@@ -93,6 +93,7 @@ class Home extends React.PureComponent {
           logoHeader={logoHeader}
           user={user}
         />
+
         <Hero
           background={background}
           isLogged={user !== null}
@@ -101,6 +102,7 @@ class Home extends React.PureComponent {
         >
           <Search onEnter={this.handleOnEnter} />
         </Hero>
+
         {searched && (
           <TitleList
             id="search_results"
@@ -109,31 +111,37 @@ class Home extends React.PureComponent {
             url={searchUrl}
           />
         )}
+
         <TitleList
           id="my_events"
           title={gettext('My Events')}
           url={getMyEventsUrl()}
         />
+
         <TitleList
           id="recent"
           title={gettext('Recent Events')}
           url={getRecentEventsUrl()}
         />
+
         <TitleList
           id="featured"
           title={gettext('Featured Events')}
           url={getFeaturedEventsUrl()}
         />
+
         <TitleList
           id="next"
           title={gettext('Upcoming Events')}
           url={getUpcomingEventsUrl()}
         />
+
         <TitleList
           id="schedule_confirmed"
           title={gettext('Events with Confirmed Schedule')}
           url={getEventsWithConfirmedScheduleUrl()}
         />
+
         <TitleList
           id="finished"
           title={gettext('Finished Events')}

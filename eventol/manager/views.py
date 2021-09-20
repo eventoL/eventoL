@@ -1,5 +1,6 @@
 # pylint: disable=broad-except
 # pylint: disable=too-many-lines
+
 import datetime
 import io
 import itertools
@@ -9,6 +10,8 @@ import os
 import re
 import uuid
 from smtplib import SMTPException
+from subprocess import check_output
+from sys import version
 from urllib.parse import urlparse
 
 import pyqrcode
@@ -18,7 +21,7 @@ from cairosvg import svg2pdf  # pylint: disable=no-member,no-name-in-module
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
@@ -30,38 +33,35 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.dateparse import parse_time
 from django.utils.formats import date_format, localize
+from django.utils.translation import ugettext
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop as _noop
-from django.utils.translation import ugettext
+from django.utils.version import get_version
 from djqscsv import render_to_csv_response
 from lxml import etree
 
-from manager.forms import (ActivityForm, ActivityProposalForm,
-                           AttendeeRegistrationByCollaboratorForm,
-                           AttendeeRegistrationForm,
-                           AttendeeRegistrationFromUserForm,
-                           AttendeeSearchForm, CollaboratorRegistrationForm,
-                           ContactForm, ContactMessageForm, EventDateForm,
-                           EventDateModelFormset, EventForm,
-                           EventImageCroppingForm, EventUserRegistrationForm,
-                           EventUserSearchForm, HardwareForm,
-                           ImageCroppingForm, InstallationForm,
-                           InstallerRegistrationForm, RejectForm, RoomForm,
-                           ActivityDummyForm)
-from manager.models import (Activity, Attendee, AttendeeAttendanceDate,
-                            Collaborator, Contact, ContactMessage, Event,
-                            EventDate, EventUser, EventUserAttendanceDate,
-                            Hardware, Installation, InstallationMessage,
-                            Installer, Organizer, Room, Reviewer, EventTag,
-                            ActivityType)
-from manager.security import (are_activities_public, add_attendance_permission,
-                              add_organizer_permissions, is_activity_public, is_collaborator,
-                              is_collaborator_or_installer, is_installer,
-                              is_organizer, is_reviewer, user_passes_test, is_speaker)
+from manager.constants import CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME
+from manager.forms import (
+    ActivityForm, ActivityDummyForm, ActivityProposalForm, AttendeeRegistrationByCollaboratorForm,
+    AttendeeRegistrationForm, AttendeeRegistrationFromUserForm, AttendeeSearchForm,
+    CollaboratorRegistrationForm, ContactForm, ContactMessageForm, EventDateForm,
+    EventDateModelFormset, EventForm, EventImageCroppingForm, EventUserRegistrationForm,
+    EventUserSearchForm, HardwareForm, ImageCroppingForm, InstallationForm,
+    InstallerRegistrationForm, RejectForm, RoomForm,
+)
+from manager.models import (
+    Activity, ActivityType, Attendee, AttendeeAttendanceDate, Collaborator, Contact,
+    ContactMessage, Event, EventDate, EventTag, EventUser, EventUserAttendanceDate,
+    Hardware, Installation, InstallationMessage, Installer, Organizer, Room, Reviewer,
+)
+from manager.security import (
+    are_activities_public, add_attendance_permission, add_organizer_permissions,
+    is_activity_public, is_collaborator, is_collaborator_or_installer, is_installer,
+    is_organizer, is_reviewer, user_passes_test, is_speaker
+)
+from manager.utils import email as utils_email
 from manager.utils.report import count_by
-
-from .utils import email as utils_email
-from .utils.forms import get_custom_fields
+from manager.utils.forms import get_custom_fields
 
 logger = logging.getLogger('eventol')
 
@@ -71,11 +71,7 @@ def update_event_info(event_slug, render_dict=None, event=None):
     event = get_object_or_404(Event, event_slug=event_slug)
     contacts = Contact.objects.filter(event=event)
     render_dict = render_dict or {}
-    render_dict.update({
-        'event_slug': event_slug,
-        'event': event,
-        'contacts': contacts
-    })
+    render_dict.update({'event_slug': event_slug, 'event': event, 'contacts': contacts})
     return render_dict
 
 
@@ -280,7 +276,7 @@ def installation(request, event_slug):
 
 
 @login_required
-@permission_required('manager.can_take_attendance', raise_exception=True)
+@permission_required(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def manage_attendance(request, event_slug):
     attendee_form = AttendeeSearchForm(
@@ -374,7 +370,7 @@ def manage_attendance(request, event_slug):
 
 
 @login_required
-@permission_required('manager.can_take_attendance', raise_exception=True)
+@permission_required(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}', raise_exception=True)
 @user_passes_test(is_collaborator, 'collaborator_registration')
 def attendance_by_ticket(request, event_slug, ticket_code):
     attendee = Attendee.objects.filter(ticket__code=ticket_code)
@@ -489,18 +485,16 @@ def add_registration_people(request, event_slug):
         )
 
     content_type = ContentType.objects.get_for_model(Attendee)
-    if Permission.objects.filter(
-            codename='can_take_attendance', content_type=content_type).exists():
-        permission = Permission.objects.get(
-            codename='can_take_attendance',
-            content_type=content_type
-        )
+    permission = Permission.objects.filter(
+        codename=CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME, content_type=content_type
+    ).first()
+    registration_people = []
+
+    if permission is not None:
         registration_people = Collaborator.objects.filter(
             event_user__user__user_permissions=permission,
             event_user__event__event_slug=event_slug
         )
-    else:
-        registration_people = []
 
     return render(
         request,
@@ -553,7 +547,7 @@ def registration_from_installation(request, event_slug):
 
 
 @login_required
-@permission_required('manager.can_take_attendance', raise_exception=True)
+@permission_required(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def registration_by_collaborator(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
@@ -633,7 +627,7 @@ def process_attendee_registration(request, event, return_url, render_template):
     )
 
 @login_required
-@permission_required('manager.can_take_attendance', raise_exception=True)
+@permission_required(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}', raise_exception=True)
 @user_passes_test(is_collaborator_or_installer, 'collaborator_registration')
 def attendee_registration_print_code(request, event_slug):
     event = get_object_or_404(Event, event_slug=event_slug)
@@ -2071,3 +2065,21 @@ def activity_vote_down(request, event_slug, activity_id):
 @user_passes_test(is_reviewer, 'index')
 def activity_vote_cancel(request, event_slug, activity_id):
     return activity_vote(request, event_slug, activity_id, 'cancel')
+
+
+def instance_details(request):
+    last_tag_cmd = ["git", "describe", "--tags", "--always", "--abbrev=0"]
+    last_commit_cmd = ["git", "log", "-1", "--pretty=oneline"]
+    versions = {
+        'tag': check_output(last_tag_cmd).decode('utf-8').strip(),
+        'commit': check_output(last_commit_cmd).decode('utf-8').strip(),
+        'django': get_version(),
+        'python': version,
+    }
+    events = Event.objects.all().count()
+    users = User.objects.all().count()
+    return render(
+        request, 'instance_details.html', context=dict(
+            events=events, users=users, versions=versions
+        )
+    )

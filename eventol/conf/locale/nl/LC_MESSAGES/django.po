@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 04:38+0000\n"
+"POT-Creation-Date: 2021-09-19 21:39+0000\n"
 "PO-Revision-Date: 2020-01-15 21:24+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/"
@@ -42,8 +42,44 @@ msgstr "Zweeds"
 msgid "Chinese"
 msgstr "Chinees"
 
+msgid "Owner"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "User"
+msgstr "Gebruiker"
+
+msgid "Email"
+msgstr "E-mailadres"
+
+msgid "Event"
+msgstr "Evenement"
+
+msgid "Installer"
+msgstr "Opbouwer"
+
+msgid "Room"
+msgstr "Kamer"
+
+msgid "Hardware"
+msgstr "Hardware"
+
+msgid "Software"
+msgstr "Software"
+
 msgid "Attendee"
 msgstr "Deelnemer"
+
+msgid "Has background"
+msgstr ""
+
+msgid "Has logo header"
+msgstr ""
+
+msgid "Has logo landing"
+msgstr ""
 
 msgid "Collaborator/Installer"
 msgstr "Medewerker/Opbouwer"
@@ -160,9 +196,6 @@ msgstr "Externe url"
 msgid "http://www.my-awesome-event.com"
 msgstr "https://www.mijn-geweldige-evenement.com"
 
-msgid "Email"
-msgstr "E-mailadres"
-
 msgid "Event Info"
 msgstr "Evenementinformatie"
 
@@ -223,9 +256,6 @@ msgstr "Aangepaste CSS"
 
 msgid "Custom CSS file for event page"
 msgstr "Aangepast CSS-bestand voor de evenementpagina"
-
-msgid "Event"
-msgstr "Evenement"
 
 msgid "Events"
 msgstr "Evenementen"
@@ -301,9 +331,6 @@ msgstr "nummer"
 
 msgid "Unique identifier for the ticket"
 msgstr "Unieke identificatie voor het ticket"
-
-msgid "User"
-msgstr "Gebruiker"
 
 msgid "Ticket"
 msgstr "Ticket"
@@ -442,9 +469,6 @@ msgstr "Superhacker"
 msgid "Knowledge level for an installation"
 msgstr "Kennisniveau m.b.t. opbouwen"
 
-msgid "Installer"
-msgstr "Opbouwer"
-
 msgid "Installers"
 msgstr "Opbouwers"
 
@@ -486,9 +510,6 @@ msgstr "Model"
 
 msgid "i.e. Classroom 256"
 msgstr "bijv. Lokaal 256"
-
-msgid "Room"
-msgstr "Kamer"
 
 msgid "Rooms"
 msgstr "Kamers"
@@ -628,12 +649,6 @@ msgstr "Activiteit"
 
 msgid "Activities"
 msgstr "Activiteiten"
-
-msgid "Hardware"
-msgstr "Hardware"
-
-msgid "Software"
-msgstr "Software"
 
 msgid "The owner of the installed hardware"
 msgstr "De eigenaar van de geïnstalleerde hardware"
@@ -1413,6 +1428,9 @@ msgstr "Installatie indienen"
 
 msgid "Register an Attendee"
 msgstr "Deelnemer registreren"
+
+msgid "Instance Details"
+msgstr ""
 
 msgid "Attendee Registration"
 msgstr "Deelnameregistratie"
