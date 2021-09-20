@@ -1,4 +1,3 @@
-import wait from 'waait';
 import React from 'react';
 import renderer from 'react-test-renderer';
 
@@ -8,28 +7,29 @@ jest.mock('../../components/Search', () => 'Search');
 jest.mock('../../components/TitleList', () => 'TitleList');
 
 import Header from '../../components/Header';
-import Search from '../../components/Search';
-import TitleList from '../../components/TitleList';
 
-import Home from '.';
+import InstanceDetails from '.';
 
-describe('Home', () => {
-  let tree;
-  let user;
-  let props;
+describe('InstanceDetails', () => {
+  let background;
+  let component;
   let element;
+  let eventolMessage;
+  let events;
   let instance;
   let isMobile;
-  let component;
   let languages;
-  let background;
   let logoHeader;
   let logoLanding;
-  let eventolMessage;
+  let props;
+  let tree;
+  let user;
+  let users;
+  let versions;
   const handleOnChangeLanguage = jest.fn();
 
   const getComponent = allProps => {
-    element = <Home {...allProps} />;
+    element = <InstanceDetails {...allProps} />;
     component = renderer.create(element);
     instance = component.root;
     return component;
@@ -40,6 +40,7 @@ describe('Home', () => {
     background = 'background';
     logoHeader = 'logoHeader';
     logoLanding = 'logoLanding';
+    events = 500;
     eventolMessage = 'eventolMessage';
     user = {
       first_name: 'first_name',
@@ -49,14 +50,25 @@ describe('Home', () => {
       {code: 'es', name: 'Spanish'},
       {code: 'en', name: 'English'},
     ];
+    users = 4000;
+    versions = {
+      commit: '3af85e99036166d1267c3794e333a5b12c729561 Fix react lints',
+      django: '1.11.29',
+      python: '3.9.6 (default, Jun 29 2021, 19:45:46) [GCC 10.2.1 20201203]',
+      tag: 'v2.3.0',
+    };
+
     props = {
-      user,
-      isMobile,
       background,
+      eventolMessage,
+      events,
+      handleOnChangeLanguage,
+      isMobile,
       logoHeader,
       logoLanding,
-      eventolMessage,
-      handleOnChangeLanguage,
+      user,
+      users,
+      versions,
     };
   });
 
@@ -64,54 +76,10 @@ describe('Home', () => {
     jest.clearAllMocks();
   });
 
-  describe('handleOnEnter', () => {
-    beforeEach(() => {
-      component = getComponent({isMobile: false});
-      tree = component.toJSON();
-    });
-
-    test('Should show a new TitleList for search', async () => {
-      expect(tree).toMatchSnapshot();
-
-      const value = 'searchTerm';
-      const SearchInstance = instance.findByType(Search);
-      const handleOnEnter = SearchInstance.props.onEnter;
-
-      handleOnEnter(value);
-
-      component.update(element);
-      await wait(0);
-
-      tree = component.toJSON();
-      expect(tree).toMatchSnapshot();
-
-      const titleLists = instance.findAllByType(TitleList);
-      expect(titleLists[0].props.id).toEqual('search_results');
-    });
-
-    test('Should not show a new TitleList for search with value is ""', async () => {
-      expect(tree).toMatchSnapshot();
-
-      const value = '';
-      const SearchInstance = instance.findByType(Search);
-      const handleOnEnter = SearchInstance.props.onEnter;
-
-      handleOnEnter(value);
-
-      component.update(element);
-      await wait(0);
-
-      tree = component.toJSON();
-      expect(tree).toMatchSnapshot();
-
-      const titleLists = instance.findAllByType(TitleList);
-      expect(titleLists[0].props.id).not.toEqual('search_results');
-    });
-  });
-
   describe('handlerOnChangeLanguage', () => {
     beforeEach(() => {
       component = getComponent({
+        ...props,
         isMobile: false,
         languages,
         handleOnChangeLanguage,
@@ -129,6 +97,8 @@ describe('Home', () => {
 
     test('should not calls handleOnChangeLanguage when this function not exists', async () => {
       component = getComponent({
+        ...props,
+        handleOnChangeLanguage: null,
         isMobile: false,
         languages,
       });
@@ -143,6 +113,7 @@ describe('Home', () => {
   describe('With languages', () => {
     test('Snapshot', () => {
       component = getComponent({
+        ...props,
         isMobile: false,
         languages,
       });
@@ -153,112 +124,48 @@ describe('Home', () => {
 
   describe('With user', () => {
     describe('Desktop', () => {
-      describe('Default', () => {
-        beforeEach(() => {
-          component = getComponent({user, isMobile: false});
-          tree = component.toJSON();
-        });
-
-        test('Snapshot', () => {
-          expect(tree).toMatchSnapshot();
-        });
+      beforeEach(() => {
+        component = getComponent({...props, user, isMobile: false});
+        tree = component.toJSON();
       });
 
-      describe('With custom data', () => {
-        beforeEach(() => {
-          component = getComponent({...props, isMobile: false});
-          tree = component.toJSON();
-        });
-
-        test('Snapshot', () => {
-          expect(tree).toMatchSnapshot();
-        });
+      test('Snapshot', () => {
+        expect(tree).toMatchSnapshot();
       });
     });
 
     describe('Mobile', () => {
-      describe('Default', () => {
-        beforeEach(() => {
-          component = getComponent({user, isMobile: true});
-          tree = component.toJSON();
-        });
-
-        test('Snapshot', () => {
-          expect(tree).toMatchSnapshot();
-        });
+      beforeEach(() => {
+        component = getComponent({...props, user, isMobile: true});
+        tree = component.toJSON();
       });
 
-      describe('With custom data', () => {
-        beforeEach(() => {
-          component = getComponent({...props, isMobile: true});
-          tree = component.toJSON();
-        });
-
-        test('Snapshot', () => {
-          expect(tree).toMatchSnapshot();
-        });
+      test('Snapshot', () => {
+        expect(tree).toMatchSnapshot();
       });
     });
   });
 
   describe('Without user', () => {
     describe('Desktop', () => {
-      describe('Default', () => {
-        beforeEach(() => {
-          component = getComponent({isMobile: false});
-          tree = component.toJSON();
-        });
-
-        test('Snapshot', () => {
-          expect(tree).toMatchSnapshot();
-        });
+      beforeEach(() => {
+        component = getComponent({...props, isMobile: false});
+        tree = component.toJSON();
       });
 
-      describe('With custom data', () => {
-        beforeEach(() => {
-          props = {
-            eventolMessage,
-            background,
-            logoHeader,
-            logoLanding,
-          };
-          component = getComponent({...props, isMobile: false});
-          tree = component.toJSON();
-        });
-
-        test('Snapshot', () => {
-          expect(tree).toMatchSnapshot();
-        });
+      test('Snapshot', () => {
+        expect(tree).toMatchSnapshot();
       });
     });
 
     describe('Mobile', () => {
-      describe('Default', () => {
-        beforeEach(() => {
-          component = getComponent({isMobile: true});
-          tree = component.toJSON();
-        });
-
-        test('Snapshot', () => {
-          expect(tree).toMatchSnapshot();
-        });
+      beforeEach(() => {
+        component = getComponent({...props, isMobile: true});
+        tree = component.toJSON();
       });
 
-      describe('With custom data', () => {
-        beforeEach(() => {
-          props = {
-            eventolMessage,
-            background,
-            logoHeader,
-            logoLanding,
-          };
-          component = getComponent({...props, isMobile: true});
-          tree = component.toJSON();
-        });
-
-        test('Snapshot', () => {
-          expect(tree).toMatchSnapshot();
-        });
+      test('Snapshot', () => {
+        expect(tree).toMatchSnapshot();
       });
     });
   });

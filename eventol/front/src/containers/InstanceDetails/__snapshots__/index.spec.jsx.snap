@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Home With languages Snapshot 1`] = `
+exports[`InstanceDetails With languages Snapshot 1`] = `
 <div>
   <Header
     handlerOnChangeLanguage={[Function]}
@@ -17,59 +17,7 @@ exports[`Home With languages Snapshot 1`] = `
         },
       ]
     }
-    logoHeader="/static/manager/img/eventol-white.png"
-    user={null}
-  />
-  <Hero
-    background="/static/manager/img/background.png"
-    isLogged={false}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
-  >
-    <Search
-      onEnter={[Function]}
-    />
-  </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-</div>
-`;
-
-exports[`Home With user Desktop Default Snapshot 1`] = `
-<div>
-  <Header
-    handlerOnChangeLanguage={[Function]}
-    isMobile={false}
-    languages={Array []}
-    logoHeader="/static/manager/img/eventol-white.png"
+    logoHeader="logoHeader"
     user={
       Object {
         "first_name": "first_name",
@@ -78,49 +26,27 @@ exports[`Home With user Desktop Default Snapshot 1`] = `
     }
   />
   <Hero
-    background="/static/manager/img/background.png"
-    isLogged={true}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
+    background="background"
+    isLogged={false}
+    logoLanding="logoLanding"
+    message="EventoL v2.3.0"
   >
-    <Search
-      onEnter={[Function]}
-    />
+    <h6>
+      Users: 4000
+      <br />
+      Events: 500
+      <br />
+      Django: 1.11.29
+      <br />
+      Python: 3.9.6 (default, Jun 29 2021, 19:45:46) [GCC 10.2.1 20201203]
+      <br />
+      Commit: 3af85e99036166d1267c3794e333a5b12c729561 Fix react lints
+    </h6>
   </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
 </div>
 `;
 
-exports[`Home With user Desktop With custom data Snapshot 1`] = `
+exports[`InstanceDetails With user Desktop Snapshot 1`] = `
 <div>
   <Header
     handlerOnChangeLanguage={[Function]}
@@ -136,105 +62,26 @@ exports[`Home With user Desktop With custom data Snapshot 1`] = `
   />
   <Hero
     background="background"
-    isLogged={true}
+    isLogged={false}
     logoLanding="logoLanding"
-    message="eventolMessage"
+    message="EventoL v2.3.0"
   >
-    <Search
-      onEnter={[Function]}
-    />
+    <h6>
+      Users: 4000
+      <br />
+      Events: 500
+      <br />
+      Django: 1.11.29
+      <br />
+      Python: 3.9.6 (default, Jun 29 2021, 19:45:46) [GCC 10.2.1 20201203]
+      <br />
+      Commit: 3af85e99036166d1267c3794e333a5b12c729561 Fix react lints
+    </h6>
   </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
 </div>
 `;
 
-exports[`Home With user Mobile Default Snapshot 1`] = `
-<div>
-  <Header
-    handlerOnChangeLanguage={[Function]}
-    isMobile={true}
-    languages={Array []}
-    logoHeader="/static/manager/img/eventol-white.png"
-    user={
-      Object {
-        "first_name": "first_name",
-        "last_name": "last_name",
-      }
-    }
-  />
-  <Hero
-    background="/static/manager/img/background.png"
-    isLogged={true}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
-  >
-    <Search
-      onEnter={[Function]}
-    />
-  </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-</div>
-`;
-
-exports[`Home With user Mobile With custom data Snapshot 1`] = `
+exports[`InstanceDetails With user Mobile Snapshot 1`] = `
 <div>
   <Header
     handlerOnChangeLanguage={[Function]}
@@ -250,465 +97,91 @@ exports[`Home With user Mobile With custom data Snapshot 1`] = `
   />
   <Hero
     background="background"
-    isLogged={true}
-    logoLanding="logoLanding"
-    message="eventolMessage"
-  >
-    <Search
-      onEnter={[Function]}
-    />
-  </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-</div>
-`;
-
-exports[`Home Without user Desktop Default Snapshot 1`] = `
-<div>
-  <Header
-    handlerOnChangeLanguage={[Function]}
-    isMobile={false}
-    languages={Array []}
-    logoHeader="/static/manager/img/eventol-white.png"
-    user={null}
-  />
-  <Hero
-    background="/static/manager/img/background.png"
     isLogged={false}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
+    logoLanding="logoLanding"
+    message="EventoL v2.3.0"
   >
-    <Search
-      onEnter={[Function]}
-    />
+    <h6>
+      Users: 4000
+      <br />
+      Events: 500
+      <br />
+      Django: 1.11.29
+      <br />
+      Python: 3.9.6 (default, Jun 29 2021, 19:45:46) [GCC 10.2.1 20201203]
+      <br />
+      Commit: 3af85e99036166d1267c3794e333a5b12c729561 Fix react lints
+    </h6>
   </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
 </div>
 `;
 
-exports[`Home Without user Desktop With custom data Snapshot 1`] = `
+exports[`InstanceDetails Without user Desktop Snapshot 1`] = `
 <div>
   <Header
     handlerOnChangeLanguage={[Function]}
     isMobile={false}
     languages={Array []}
     logoHeader="logoHeader"
-    user={null}
+    user={
+      Object {
+        "first_name": "first_name",
+        "last_name": "last_name",
+      }
+    }
   />
   <Hero
     background="background"
     isLogged={false}
     logoLanding="logoLanding"
-    message="eventolMessage"
+    message="EventoL v2.3.0"
   >
-    <Search
-      onEnter={[Function]}
-    />
+    <h6>
+      Users: 4000
+      <br />
+      Events: 500
+      <br />
+      Django: 1.11.29
+      <br />
+      Python: 3.9.6 (default, Jun 29 2021, 19:45:46) [GCC 10.2.1 20201203]
+      <br />
+      Commit: 3af85e99036166d1267c3794e333a5b12c729561 Fix react lints
+    </h6>
   </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
 </div>
 `;
 
-exports[`Home Without user Mobile Default Snapshot 1`] = `
-<div>
-  <Header
-    handlerOnChangeLanguage={[Function]}
-    isMobile={true}
-    languages={Array []}
-    logoHeader="/static/manager/img/eventol-white.png"
-    user={null}
-  />
-  <Hero
-    background="/static/manager/img/background.png"
-    isLogged={false}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
-  >
-    <Search
-      onEnter={[Function]}
-    />
-  </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-</div>
-`;
-
-exports[`Home Without user Mobile With custom data Snapshot 1`] = `
+exports[`InstanceDetails Without user Mobile Snapshot 1`] = `
 <div>
   <Header
     handlerOnChangeLanguage={[Function]}
     isMobile={true}
     languages={Array []}
     logoHeader="logoHeader"
-    user={null}
+    user={
+      Object {
+        "first_name": "first_name",
+        "last_name": "last_name",
+      }
+    }
   />
   <Hero
     background="background"
     isLogged={false}
     logoLanding="logoLanding"
-    message="eventolMessage"
+    message="EventoL v2.3.0"
   >
-    <Search
-      onEnter={[Function]}
-    />
+    <h6>
+      Users: 4000
+      <br />
+      Events: 500
+      <br />
+      Django: 1.11.29
+      <br />
+      Python: 3.9.6 (default, Jun 29 2021, 19:45:46) [GCC 10.2.1 20201203]
+      <br />
+      Commit: 3af85e99036166d1267c3794e333a5b12c729561 Fix react lints
+    </h6>
   </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-</div>
-`;
-
-exports[`Home handleOnEnter Should not show a new TitleList for search with value is "" 1`] = `
-<div>
-  <Header
-    handlerOnChangeLanguage={[Function]}
-    isMobile={false}
-    languages={Array []}
-    logoHeader="/static/manager/img/eventol-white.png"
-    user={null}
-  />
-  <Hero
-    background="/static/manager/img/background.png"
-    isLogged={false}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
-  >
-    <Search
-      onEnter={[Function]}
-    />
-  </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-</div>
-`;
-
-exports[`Home handleOnEnter Should not show a new TitleList for search with value is "" 2`] = `
-<div>
-  <Header
-    handlerOnChangeLanguage={[Function]}
-    isMobile={false}
-    languages={Array []}
-    logoHeader="/static/manager/img/eventol-white.png"
-    user={null}
-  />
-  <Hero
-    background="/static/manager/img/background.png"
-    isLogged={false}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
-  >
-    <Search
-      onEnter={[Function]}
-    />
-  </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-</div>
-`;
-
-exports[`Home handleOnEnter Should show a new TitleList for search 1`] = `
-<div>
-  <Header
-    handlerOnChangeLanguage={[Function]}
-    isMobile={false}
-    languages={Array []}
-    logoHeader="/static/manager/img/eventol-white.png"
-    user={null}
-  />
-  <Hero
-    background="/static/manager/img/background.png"
-    isLogged={false}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
-  >
-    <Search
-      onEnter={[Function]}
-    />
-  </Hero>
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-</div>
-`;
-
-exports[`Home handleOnEnter Should show a new TitleList for search 2`] = `
-<div>
-  <Header
-    handlerOnChangeLanguage={[Function]}
-    isMobile={false}
-    languages={Array []}
-    logoHeader="/static/manager/img/eventol-white.png"
-    user={null}
-  />
-  <Hero
-    background="/static/manager/img/background.png"
-    isLogged={false}
-    logoLanding="/static/manager/img/logo.png"
-    message={null}
-  >
-    <Search
-      onEnter={[Function]}
-    />
-  </Hero>
-  <TitleList
-    id="search_results"
-    showEmpty={true}
-    title="Search results"
-    url="?search=searchTerm&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="my_events"
-    title="My Events"
-    url="?my_events=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="recent"
-    title="Recent Events"
-    url="?ordering=-created_at&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="featured"
-    title="Featured Events"
-    url="?ordering=-attendees_count&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="next"
-    title="Upcoming Events"
-    url="?registration_is_open=true&ordering=last_date&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="schedule_confirmed"
-    title="Events with Confirmed Schedule"
-    url="?schedule_confirmed=true&registration_is_open=true&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
-  <TitleList
-    id="finished"
-    title="Finished Events"
-    url="?registration_is_open=false&ordering=-attendees_count&fields=event_slug,place,image,name,attendees_count,abstract,tags"
-  />
 </div>
 `;

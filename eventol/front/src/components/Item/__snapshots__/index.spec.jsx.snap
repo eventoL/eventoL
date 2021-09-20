@@ -32,7 +32,7 @@ exports[`Item Default render 1`] = `
         className="rating tags"
       >
         Tags
-        : 
+        :
         <div
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -81,7 +81,7 @@ exports[`Item Render event 1 1`] = `
         className="rating tags"
       >
         Tags
-        : 
+        :
         <div
           onClick={[Function]}
           onKeyPress={[Function]}
@@ -130,7 +130,7 @@ exports[`Item should shows Map when data has not backdrop 1`] = `
         className="rating tags"
       >
         Tags
-        : 
+        :
         <div
           onClick={[Function]}
           onKeyPress={[Function]}
