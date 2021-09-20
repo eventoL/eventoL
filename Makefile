@@ -119,7 +119,7 @@ travis-before: ## Travis before commands
 	./cc-test-reporter before-build
 	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | sudo bash -
 	sudo apt install -y nodejs
-	nvm install 16
+	sudo nvm install 16
 	@$(MAKE) -f $(THIS_FILE) install-yarn-in-python-image
 
 travis-script: frontend-install-dependencies frontend-build ## Travis script for run tests (python and react)
