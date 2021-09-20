@@ -54,6 +54,7 @@
     "react/jsx-props-no-spreading": ["error", {
       "exceptions": ["WrappedComponent", "ReactSlickSlider"]
     }],
+    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
     "import/no-extraneous-dependencies": "off"
   },
   "overrides": [{

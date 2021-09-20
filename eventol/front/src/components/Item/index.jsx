@@ -83,8 +83,8 @@ export default class Item extends React.PureComponent {
 
           {!_.isEmpty(tags) && (
             <div className="rating tags">
-              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-              {gettext('Tags')}:{tags.map(this.getTagLink)}
+              {/* eslint-disable-next-line react/jsx-one-expression-per-line,react/jsx-newline */}
+              {gettext('Tags')}: {tags.map(this.getTagLink)}
             </div>
           )}
 
