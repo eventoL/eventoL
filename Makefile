@@ -117,8 +117,8 @@ travis-before: ## Travis before commands
 	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 	chmod +x ./cc-test-reporter
 	./cc-test-reporter before-build
-        curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -
-        apt install -y nodejs
+	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -
+	apt install -y nodejs
 	@$(MAKE) -f $(THIS_FILE) install-yarn-in-python-image
 
 travis-script: frontend-install-dependencies frontend-build ## Travis script for run tests (python and react)
