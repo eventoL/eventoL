@@ -1,6 +1,6 @@
 -r requirements.txt
 django-autofixture==0.12.1
-django-debug-toolbar==2.1
+django-debug-toolbar==2.2.1
 ipython
 pylint==2.4.4
 pylint-django==2.0.13
