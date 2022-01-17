@@ -191,6 +191,9 @@ deploy: pull build ## Deploy eventol with production environment
 	$(DOCKER_COMPOSE_PROD) up -d --remove-orphans
 
 deploy-dev: pull-dev build-dev ## Deploy eventol with development environment
+	mkdir -p eventol/front/eventol
+	mkdir -p deploy/docker/db/postgres
+	touch eventol/front/webpack-stats-local.json
 	$(DOCKER_COMPOSE) up -d --remove-orphans
 
 logs: ## Show docker-compose logs of production environment
