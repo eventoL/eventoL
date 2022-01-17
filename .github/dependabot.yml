@@ -1,0 +1,10 @@
+version: 2
+updates:
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "00:00"
+    timezone: America/Buenos_Aires
+  open-pull-requests-limit: 99
+  target-branch: develop

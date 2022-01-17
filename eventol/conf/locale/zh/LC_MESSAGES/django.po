@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Elizabeth Sherrock <lizzyd710@gmail.com>, 2019.
 # Allan Nordhøy <epost@anotheragency.no>, 2019.
+# Zhou Nan <zhounan@nfschina.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 04:38+0000\n"
-"PO-Revision-Date: 2019-07-15 05:40+0000\n"
-"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"POT-Creation-Date: 2021-09-19 21:39+0000\n"
+"PO-Revision-Date: 2021-07-23 02:40+0000\n"
+"Last-Translator: Zhou Nan <zhounan@nfschina.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "eventol/django/zh_Hans/>\n"
 "Language: zh\n"
@@ -17,10 +18,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.8-dev\n"
+"X-Generator: Weblate 4.7.2-dev\n"
 
 msgid "Danish"
-msgstr ""
+msgstr "丹麦语"
 
 msgid "English"
 msgstr "英文"
@@ -29,34 +30,70 @@ msgid "Spanish"
 msgstr "西班牙语"
 
 msgid "French"
-msgstr ""
+msgstr "法语"
 
 msgid "Norwegian Bokmal"
 msgstr ""
 
 msgid "Dutch"
-msgstr ""
+msgstr "荷兰语"
 
 msgid "Swedish"
-msgstr ""
+msgstr "瑞典语"
 
 msgid "Chinese"
 msgstr "中文"
 
+msgid "Owner"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "User"
+msgstr "用户"
+
+msgid "Email"
+msgstr "电子邮件"
+
+msgid "Event"
+msgstr "活动"
+
+msgid "Installer"
+msgstr "安装者"
+
+msgid "Room"
+msgstr ""
+
+msgid "Hardware"
+msgstr ""
+
+msgid "Software"
+msgstr ""
+
 msgid "Attendee"
 msgstr ""
 
-msgid "Collaborator/Installer"
+msgid "Has background"
 msgstr ""
+
+msgid "Has logo header"
+msgstr ""
+
+msgid "Has logo landing"
+msgstr ""
+
+msgid "Collaborator/Installer"
+msgstr "合作者/安装者"
 
 msgid "Repeat Email"
-msgstr ""
+msgstr "重复的邮件"
 
 msgid "Emails do not match."
-msgstr ""
+msgstr "电子邮件不匹配。"
 
 msgid "This field is required"
-msgstr ""
+msgstr "此字段必填"
 
 msgid "One or more dates of the event are the same date"
 msgstr ""
@@ -68,13 +105,13 @@ msgid "Last Name"
 msgstr "姓"
 
 msgid "Are you a human?"
-msgstr ""
+msgstr "你是人类吗?"
 
 msgid "Why do you reject this proposal?"
-msgstr ""
+msgstr "你为什么拒绝这个建议？"
 
 msgid "URL can only contain letters or numbers"
-msgstr ""
+msgstr "URL 只能包含字母或数字"
 
 msgid "EventTag Name"
 msgstr ""
@@ -83,46 +120,46 @@ msgid "This name will be used as a slug"
 msgstr ""
 
 msgid "Created At"
-msgstr ""
+msgstr "创建于"
 
 msgid "Updated At"
-msgstr ""
+msgstr "更新于"
 
 msgid "A image to show in the background of"
 msgstr ""
 
 msgid "This logo will be shown in the right corner of the page"
-msgstr ""
+msgstr "这个标志将显示在页面的右下角"
 
 msgid "Logo to show in the center of the page"
-msgstr ""
+msgstr "标志显示在页面的中心"
 
 msgid "A message to show in the center of the page"
-msgstr ""
+msgstr "显示在页面中心的消息"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "For example: flisol-caba"
-msgstr ""
+msgstr "例如：flisol-caba"
 
 msgid "Custom Form"
-msgstr ""
+msgstr "自定义表单"
 
 msgid "Custom Forms"
-msgstr ""
+msgstr "自定义窗体"
 
 msgid "Order"
-msgstr ""
+msgstr "排序"
 
 msgid "Custom Field"
-msgstr ""
+msgstr "自定义范围"
 
 msgid "Custom Fields"
-msgstr ""
+msgstr "自定义字段"
 
 msgid "Event Name"
-msgstr ""
+msgstr "活动名称"
 
 msgid "Abstract"
 msgstr ""
@@ -133,55 +170,53 @@ msgid ""
 msgstr ""
 
 msgid "Limit Proposals Date"
-msgstr ""
+msgstr "限制提案日期"
 
 msgid "Limit date to submit talk proposals"
-msgstr ""
+msgstr "限制提交演讲建议的日期"
 
 msgid "set it to True to force the registration to be closed"
-msgstr ""
+msgstr "设置为 Tru e则强制关闭注册"
 
 msgid "Select tags to show this event in the EventTag landing"
 msgstr ""
 
 msgid "CNAME"
 msgstr ""
+"CNAME是一个技术词：规范名称记录 https://en.wikipedia.org/wiki/CNAME_record"
 
 msgid "code"
-msgstr ""
+msgstr "代码"
 
 msgid "Code validator for in-place event self-registration"
-msgstr ""
+msgstr "用于当地活动自注册的代码验证器"
 
 msgid "External URL"
-msgstr ""
+msgstr "外部 URL"
 
 msgid "http://www.my-awesome-event.com"
-msgstr ""
-
-msgid "Email"
-msgstr ""
+msgstr "http://www.my-awesome-event.com"
 
 msgid "Event Info"
-msgstr ""
+msgstr "活动信息"
 
 msgid "Event Info HTML"
-msgstr ""
+msgstr "活动信息的 HTML"
 
 msgid "Schedule Confirmed"
-msgstr ""
+msgstr "安排确认"
 
 msgid "Use Installations"
-msgstr ""
+msgstr "使用安装"
 
 msgid "Use Installers"
-msgstr ""
+msgstr "使用安装程序"
 
 msgid "Use Collaborators"
-msgstr ""
+msgstr "使用的合作者"
 
 msgid "Use Proposals"
-msgstr ""
+msgstr "使用建议"
 
 msgid "Use Talks"
 msgstr ""
@@ -190,7 +225,7 @@ msgid "Is FLISoL"
 msgstr ""
 
 msgid "Use Schedule"
-msgstr ""
+msgstr "使用时间表"
 
 msgid "Place"
 msgstr "地点"
@@ -199,91 +234,89 @@ msgid "Image"
 msgstr "图片"
 
 msgid "Cropping"
-msgstr ""
+msgstr "截图"
 
 msgid "The image must be 700x450 px. You can crop it here."
-msgstr ""
+msgstr "图像必须是 700x450 像素。 你可以在这里裁剪。"
 
 msgid "Activity proposal form text"
-msgstr ""
+msgstr "活动提案表格文本"
 
 msgid "A message to show in the activities proposal form"
-msgstr ""
+msgstr "要显示在活动建议表单中的消息"
 
 msgid "Template"
-msgstr ""
+msgstr "模板"
 
 msgid "Custom template HTML for event index page"
-msgstr ""
+msgstr "活动索引页的自定义模板 HTML"
 
 msgid "Custom CSS"
-msgstr ""
+msgstr "自定义 CSS"
 
 msgid "Custom CSS file for event page"
-msgstr ""
-
-msgid "Event"
-msgstr ""
+msgstr "活动页的自定义 CSS 文件"
 
 msgid "Events"
-msgstr ""
+msgstr "活动（复数）"
 
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 msgid "When will your event be?"
-msgstr ""
+msgstr "你的活动是什么时候?"
 
 msgid "Event Date"
-msgstr ""
+msgstr "活动日期"
 
 msgid "Event Dates"
-msgstr ""
+msgstr "活动日期（复数）"
 
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 msgid "Message"
-msgstr ""
+msgstr "信息"
 
 msgid "Contact Message"
-msgstr ""
+msgstr "联系信息"
 
+#, fuzzy
 msgid "Contact Messages"
-msgstr ""
+msgstr "联系信息（复数）"
 
 msgid "Validate URL"
-msgstr ""
+msgstr "验证 URL"
 
 msgid "Validate Email"
-msgstr ""
+msgstr "验证电子邮件"
 
 msgid "Don't validate"
-msgstr ""
+msgstr "不验证"
 
 msgid "Icon Class"
 msgstr ""
 
 msgid "Level"
-msgstr ""
+msgstr "标准"
 
 msgid "Type of field validation"
-msgstr ""
+msgstr "现场验证类型"
 
 msgid "Contact Type"
-msgstr ""
+msgstr "接触式"
 
 msgid "Contact Types"
-msgstr ""
+msgstr "触点类型"
 
 msgid "i.e. https://twitter.com/flisol"
-msgstr ""
+msgstr "i.e. https://twitter.com/flisol"
 
 msgid "Text"
-msgstr ""
+msgstr "文本"
 
 msgid "i.e. @Flisol"
-msgstr ""
+msgstr "i.e. @Flisol"
 
 msgid "Contact"
 msgstr ""
@@ -292,7 +325,7 @@ msgid "Contacts"
 msgstr ""
 
 msgid "Sent"
-msgstr ""
+msgstr "发送"
 
 msgid "number"
 msgstr "号码"
@@ -300,23 +333,20 @@ msgstr "号码"
 msgid "Unique identifier for the ticket"
 msgstr ""
 
-msgid "User"
-msgstr ""
-
 msgid "Ticket"
-msgstr ""
+msgstr "标签"
 
 msgid "Event User"
-msgstr ""
+msgstr "活动用户"
 
 msgid "Event Users"
-msgstr ""
+msgstr "活动用户"
 
 msgid "The date of the attendance"
-msgstr ""
+msgstr "出席日期"
 
 msgid "Qr autoregistration"
-msgstr ""
+msgstr "Qr 自对准"
 
 msgid "Qr ticket"
 msgstr ""
@@ -328,10 +358,10 @@ msgid "unregistred"
 msgstr ""
 
 msgid "Mode"
-msgstr ""
+msgstr "模式"
 
 msgid "Attendance mode"
-msgstr ""
+msgstr "出席模式"
 
 msgid "Assignation"
 msgstr ""
@@ -356,13 +386,13 @@ msgid "Phone"
 msgstr "电话号"
 
 msgid "Address"
-msgstr ""
+msgstr "住址"
 
 msgid "Additional Info"
-msgstr ""
+msgstr "其他信息"
 
 msgid "Additional info you consider relevant"
-msgstr ""
+msgstr "你认为相关的其他信息"
 
 msgid "Collaborator"
 msgstr ""
@@ -371,13 +401,13 @@ msgid "Collaborators"
 msgstr ""
 
 msgid "Organizer"
-msgstr ""
+msgstr "组织者"
 
 msgid "Organizers"
-msgstr ""
+msgstr "主办单位"
 
 msgid "Nickname"
-msgstr ""
+msgstr "昵称"
 
 msgid "Is going to install?"
 msgstr ""
@@ -389,25 +419,25 @@ msgid ""
 msgstr ""
 
 msgid "Email confirmed?"
-msgstr ""
+msgstr "电子邮件确认?"
 
 msgid "Confirmation Token"
-msgstr ""
+msgstr "确认标记"
 
 msgid "Registration Date"
-msgstr ""
+msgstr "登记时间"
 
 msgid "Attendees"
-msgstr ""
+msgstr "出席者"
 
 msgid "Message Body"
-msgstr ""
+msgstr "消息正文"
 
 msgid "Email message HTML Body"
-msgstr ""
+msgstr "电子邮件信息 HTML 正文"
 
 msgid "Contact Email"
-msgstr ""
+msgstr "联系电子邮件"
 
 msgid "Post-install Email"
 msgstr ""
@@ -416,7 +446,7 @@ msgid "Post-install Emails"
 msgstr ""
 
 msgid "Beginner"
-msgstr ""
+msgstr "创始人"
 
 msgid "Medium"
 msgstr ""
@@ -428,9 +458,6 @@ msgid "Super Hacker"
 msgstr ""
 
 msgid "Knowledge level for an installation"
-msgstr ""
-
-msgid "Installer"
 msgstr ""
 
 msgid "Installers"
@@ -455,28 +482,25 @@ msgid "Mobile"
 msgstr ""
 
 msgid "Notebook"
-msgstr ""
+msgstr "笔记本"
 
 msgid "Netbook"
-msgstr ""
+msgstr "上网本"
 
 msgid "Tablet"
-msgstr ""
+msgstr "平板电脑"
 
 msgid "Desktop"
-msgstr ""
+msgstr "台式机"
 
 msgid "Manufacturer"
-msgstr ""
+msgstr "厂商"
 
 msgid "Model"
 msgstr ""
 
 msgid "i.e. Classroom 256"
-msgstr ""
-
-msgid "Room"
-msgstr ""
+msgstr "i.e. Classroom 256"
 
 msgid "Rooms"
 msgstr ""
@@ -488,10 +512,10 @@ msgid "Speaker or the person in charge of the activity"
 msgstr ""
 
 msgid "Title"
-msgstr ""
+msgstr "标题"
 
 msgid "Long Description"
-msgstr ""
+msgstr "长描述"
 
 msgid "Short idea of the talk (Two or three sentences)"
 msgstr ""
@@ -500,19 +524,19 @@ msgid "Justification"
 msgstr ""
 
 msgid "Start Time"
-msgstr ""
+msgstr "开始时间"
 
 msgid "End Time"
-msgstr ""
+msgstr "结束时间"
 
 msgid "Activity Type"
-msgstr ""
+msgstr "作业类型"
 
 msgid "Speakers Names"
-msgstr ""
+msgstr "演讲者"
 
 msgid "Comma separated speaker names"
-msgstr ""
+msgstr "以逗号分隔的演讲者名字"
 
 msgid "Speaker Bio"
 msgstr ""
@@ -521,7 +545,7 @@ msgid "Tell us about you (we will use it as your \"bio\" in our website)"
 msgstr ""
 
 msgid "Labels"
-msgstr ""
+msgstr "标签"
 
 msgid ""
 "Comma separated tags. i.e. Linux,                                           "
@@ -594,12 +618,6 @@ msgid "Activity"
 msgstr ""
 
 msgid "Activities"
-msgstr ""
-
-msgid "Hardware"
-msgstr ""
-
-msgid "Software"
 msgstr ""
 
 msgid "The owner of the installed hardware"
@@ -1274,6 +1292,9 @@ msgid "Submit an Installation"
 msgstr ""
 
 msgid "Register an Attendee"
+msgstr ""
+
+msgid "Instance Details"
 msgstr ""
 
 msgid "Attendee Registration"

@@ -1,10 +1,12 @@
 # pylint: disable=missing-docstring
 # pylint: disable=W0232
 # pylint: disable=C0103
+# pylint: disable=W0611
 
 import os
 import socket
 
+import raven
 from configurations import Configuration
 from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.conf import Settings as thumbnail_settings
@@ -391,6 +393,14 @@ class Staging(Base):
     STATIC_URL = '/static/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = '/media/'
+
+    INSTALLED_APPS = Base.INSTALLED_APPS + (
+        'raven.contrib.django.raven_compat',
+    )
+
+    RAVEN_CONFIG = {
+        'dsn': os.environ.get("SENTRY_DSN", "NOT_CONFIGURED")
+    }
 
 
 class Prod(Staging):

@@ -37,6 +37,7 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^$', views.home, name="home"),
     url(r'^api/', include(router.urls)),
+    url(r'^instance_details$', views.instance_details, name='instance_details'),
     url(r'^report$', views.generic_report, name='generic_report'),
     url(r'^create-event/$', views.create_event, name="create_event"),
     url(r'^events/', include('manager.urls.events'), name='events'),

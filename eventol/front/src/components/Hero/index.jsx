@@ -41,7 +41,9 @@ export default class Hero extends React.PureComponent {
           {`${gettext('You are seeing all of')} ${parsedSlug} ${gettext(
             'events'
           )}`}
+
           <br />
+
           {`${gettext('Please, select one to continue')}`}
         </h2>
       );
@@ -58,6 +60,7 @@ export default class Hero extends React.PureComponent {
           <p>
             <img alt="logo" className="logo" src={logoLanding} />
           </p>
+
           {isLogged && (
             <a
               className="btn btn-raised btn-warning btn-create-event"
@@ -66,9 +69,12 @@ export default class Hero extends React.PureComponent {
               {gettext('Create event')}
             </a>
           )}
+
           {this.getMessage()}
+
           {children}
         </div>
+
         <div className="overlay" />
       </div>
     );

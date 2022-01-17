@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 04:38+0000\n"
-"PO-Revision-Date: 2021-05-02 00:41+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"POT-Creation-Date: 2021-09-19 21:39+0000\n"
+"PO-Revision-Date: 2021-10-22 14:44+0000\n"
+"Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/eventol/django/fr/"
 ">\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 msgid "Danish"
 msgstr "Danois"
@@ -44,8 +44,44 @@ msgstr "Suédois"
 msgid "Chinese"
 msgstr "Chinois"
 
+msgid "Owner"
+msgstr "Propriétaire"
+
+msgid "Anonymous"
+msgstr "Anonyme"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "Email"
+msgstr "Courriel"
+
+msgid "Event"
+msgstr "Évènement"
+
+msgid "Installer"
+msgstr "Installateur"
+
+msgid "Room"
+msgstr "Salle"
+
+msgid "Hardware"
+msgstr "Matériel"
+
+msgid "Software"
+msgstr "Logiciels"
+
 msgid "Attendee"
 msgstr "Participant"
+
+msgid "Has background"
+msgstr "À un arrière-plan"
+
+msgid "Has logo header"
+msgstr "A un en-tête avec logo"
+
+msgid "Has logo landing"
+msgstr "À une page avec logo"
 
 msgid "Collaborator/Installer"
 msgstr "Collaborateur/Organisateur"
@@ -164,9 +200,6 @@ msgstr "URL externe"
 msgid "http://www.my-awesome-event.com"
 msgstr "http://www.mon-super-evenement.fr"
 
-msgid "Email"
-msgstr "Courriel"
-
 msgid "Event Info"
 msgstr "Informations de l'évènement"
 
@@ -227,9 +260,6 @@ msgstr "CSS personnalisé"
 
 msgid "Custom CSS file for event page"
 msgstr "Fichier CSS personnalisé pour la page de l'évènement"
-
-msgid "Event"
-msgstr "Évènement"
 
 msgid "Events"
 msgstr "Évènements"
@@ -306,9 +336,6 @@ msgstr "numéro"
 msgid "Unique identifier for the ticket"
 msgstr "Identifiant unique pour le billet"
 
-msgid "User"
-msgstr "Utilisateur"
-
 msgid "Ticket"
 msgstr "Billet"
 
@@ -363,8 +390,8 @@ msgstr ""
 "Période pendant laquelle vous "
 "pouvez                                                       aider pendant "
 "l'évènement. par ex :                                                      « "
-"Tout l'évènement », « Matin »"
-",                                                      « Après-midi », …"
+"Tout l'évènement », « Matin "
+"»,                                                      « Après-midi », …"
 
 msgid "Phone"
 msgstr "Téléphone"
@@ -447,9 +474,6 @@ msgstr "Super hackeur"
 msgid "Knowledge level for an installation"
 msgstr "Niveau de compétences pour l'installation"
 
-msgid "Installer"
-msgstr "Installateur"
-
 msgid "Installers"
 msgstr "Installateurs"
 
@@ -491,9 +515,6 @@ msgstr "Modèle"
 
 msgid "i.e. Classroom 256"
 msgstr "par ex : Salle de classe N°256"
-
-msgid "Room"
-msgstr "Salle"
 
 msgid "Rooms"
 msgstr "Salles"
@@ -635,12 +656,6 @@ msgstr "Activité"
 msgid "Activities"
 msgstr "Activités"
 
-msgid "Hardware"
-msgstr "Matériel"
-
-msgid "Software"
-msgstr "Logiciels"
-
 msgid "The owner of the installed hardware"
 msgstr "Le propriétaire du matériel installé"
 
@@ -719,8 +734,9 @@ msgid ""
 msgstr ""
 "Bonjour de %(site_name)s !\n"
 "\n"
-"Vous recevez ce courriel car l'utilisateur %(user_display)s de %(site_domain)"
-"s a indiqué votre adresse électronique pour confirmer son compte.\n"
+"Vous recevez ce courriel car l'utilisateur %(user_display)s de "
+"%(site_domain)s a indiqué votre adresse électronique pour confirmer son "
+"compte.\n"
 "\n"
 "Pour pouvoir le confirmer, allez à %(activate_url)s\n"
 
@@ -1410,7 +1426,7 @@ msgid "People who can review and vote on activities"
 msgstr "Personne qui peut analyser les activités et voter"
 
 msgid "Current review staff:"
-msgstr "Personnel d'analyse actuel :"
+msgstr "Personnel d'analyse actuel :"
 
 msgid "Add a new review person:"
 msgstr "Ajouter une nouvelle personne pour l'analyse :"
@@ -1423,6 +1439,9 @@ msgstr "Proposer une installation"
 
 msgid "Register an Attendee"
 msgstr "Inscrire un participant"
+
+msgid "Instance Details"
+msgstr "Détails de l'instance"
 
 msgid "Attendee Registration"
 msgstr "Inscription d'un participant"

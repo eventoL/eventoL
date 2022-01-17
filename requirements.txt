@@ -27,4 +27,4 @@ CairoSVG==2.1.1
 pypng==0.0.18
 django-tempus-dominus==5.1.2.8
 tablib==0.13.0
-
+raven==6.9.0

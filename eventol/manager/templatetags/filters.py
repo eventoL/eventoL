@@ -4,14 +4,11 @@ from django import forms, template
 from django.utils.translation import ugettext_lazy as _
 from vote.models import Vote
 
+from manager.constants import (
+    ADD_ATTENDEE_PERMISSION_CODE_NAME, CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME
+)
 from manager.models import (
-    Activity,
-    Attendee,
-    Collaborator,
-    EventUser,
-    Installer,
-    Organizer,
-    Reviewer
+    Activity, Attendee, Collaborator, EventUser, Installer, Organizer, Reviewer
 )
 
 register = template.Library()
@@ -133,10 +130,10 @@ def is_attendee(user, event_slug):
     return exists_attendee
 
 
-@register.filter(name='can_take_attendance')
+@register.filter(name=CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME)
 def can_take_attendance(user, _):
-    has_add = user.has_perm('manager.add_attendee')
-    has_take = user.has_perm('manager.can_take_attendance')
+    has_add = user.has_perm(f'manager.{ADD_ATTENDEE_PERMISSION_CODE_NAME}')
+    has_take = user.has_perm(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}')
     return has_add or has_take
 
 

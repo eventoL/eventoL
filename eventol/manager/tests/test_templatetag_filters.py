@@ -1,4 +1,5 @@
 # pylint: disable=invalid-name,line-too-long,too-many-public-methods,
+
 import json
 import autofixture
 import pytest
@@ -6,6 +7,10 @@ import pytest
 from django import forms
 from django.contrib.auth.models import AnonymousUser
 from django.utils.translation import ugettext_lazy as _
+
+from manager.constants import (
+    ADD_ATTENDEE_PERMISSION_CODE_NAME, CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME
+)
 from manager.templatetags import filters
 
 
@@ -353,14 +358,14 @@ def test_can_take_attendance_with_user_with_perms_should_return_true(mocker, use
 def test_can_take_attendance_should_call_user_has_perm_with_add_attendee(mocker, user1, event1):
     user1.has_perm = mocker.Mock(return_value=True)
     filters.can_take_attendance(user1, event1.event_slug)
-    user1.has_perm.assert_any_call('manager.add_attendee')
+    user1.has_perm.assert_any_call(f'manager.{ADD_ATTENDEE_PERMISSION_CODE_NAME}')
 
 
 @pytest.mark.django_db
 def test_can_take_attendance_should_call_user_has_perm_with_can_take_attendance(mocker, user1, event1):
     user1.has_perm = mocker.Mock(return_value=True)
     filters.can_take_attendance(user1, event1.event_slug)
-    user1.has_perm.assert_any_call('manager.can_take_attendance')
+    user1.has_perm.assert_any_call(f'manager.{CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME}')
 
 
 # add
