@@ -1,7 +1,7 @@
 #########################################
 # frontend image
 #########################################
-FROM node:16-alpine3.13 as frontend
+FROM node:17-alpine3.13 as frontend
 
 ## Install system dependencies
 RUN apk --update add --no-cache \
