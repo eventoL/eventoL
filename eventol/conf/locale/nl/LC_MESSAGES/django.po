@@ -2,21 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Heimen Stoffels <vistausss@outlook.com>, 2019, 2020.
+# Heimen Stoffels <vistausss@fastmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-19 21:39+0000\n"
-"PO-Revision-Date: 2020-01-15 21:24+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/"
-">\n"
+"PO-Revision-Date: 2021-09-20 09:39+0000\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/eventol/django/nl/>"
+"\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.11-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 msgid "Danish"
 msgstr "Deens"
@@ -43,10 +44,10 @@ msgid "Chinese"
 msgstr "Chinees"
 
 msgid "Owner"
-msgstr ""
+msgstr "Eigenaar"
 
 msgid "Anonymous"
-msgstr ""
+msgstr "Anoniem"
 
 msgid "User"
 msgstr "Gebruiker"
@@ -73,13 +74,13 @@ msgid "Attendee"
 msgstr "Deelnemer"
 
 msgid "Has background"
-msgstr ""
+msgstr "Bevat achtergrond"
 
 msgid "Has logo header"
-msgstr ""
+msgstr "Bevat logo"
 
 msgid "Has logo landing"
-msgstr ""
+msgstr "Bevat logo-intro"
 
 msgid "Collaborator/Installer"
 msgstr "Medewerker/Opbouwer"
@@ -1430,7 +1431,7 @@ msgid "Register an Attendee"
 msgstr "Deelnemer registreren"
 
 msgid "Instance Details"
-msgstr ""
+msgstr "Instantiedetails"
 
 msgid "Attendee Registration"
 msgstr "Deelnameregistratie"
