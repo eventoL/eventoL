@@ -53,6 +53,8 @@ backend-migrate: ## Run backend migrate database
 	cd eventol && python manage.py migrate
 
 backend-collectstatic: ## Run backend collect static files
+	mkdir -p eventol/static
+	mkdir -p eventol/front/eventol/static
 	cd eventol && python manage.py collectstatic --noinput
 
 backend-createsuperuser: ## Run backend create super user
@@ -124,6 +126,7 @@ travis-before: ## Travis before commands
 
 travis-script: frontend-install-dependencies frontend-build ## Travis script for run tests (python and react)
 	mkdir -p eventol/static
+	mkdir -p eventol/front/eventol/static
 	@$(MAKE) -f $(THIS_FILE) backend-makemigrations
 	@$(MAKE) -f $(THIS_FILE) backend-migrate
 	@$(MAKE) -f $(THIS_FILE) backend-collectstatic
@@ -239,6 +242,8 @@ docker-backend-migrate: ## Run backend migrate database in docker-compose
 	$(DOCKER_COMPOSE_PROD) exec -T worker make backend-migrate
 
 docker-backend-collectstatic: ## Run backend collect static files in docker-compose
+	mkdir -p eventol/static
+	mkdir -p eventol/front/eventol/static
 	$(DOCKER_COMPOSE_PROD) exec -T worker make backend-collectstatic
 
 docker-backend-createsuperuser: ## Run backend create super user in docker-compose
