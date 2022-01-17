@@ -12,6 +12,7 @@ PSQL_DBNAME = eventol
 PSQL_PASSWORD = secret
 PSQL_USER = eventol
 PSQL_VERSION = 9.6
+EXTERNAL_PORT = 80
 PATH = $(shell printenv PATH):~/.yarn/bin:$(HOME)/.yarn/bin:$(HOME)/.config/yarn/global/node_modules/.bin
 
 help:
@@ -53,6 +54,8 @@ backend-migrate: ## Run backend migrate database
 	cd eventol && python manage.py migrate
 
 backend-collectstatic: ## Run backend collect static files
+	mkdir -p eventol/static
+	mkdir -p eventol/front/eventol/static
 	cd eventol && python manage.py collectstatic --noinput
 
 backend-createsuperuser: ## Run backend create super user
@@ -124,6 +127,7 @@ travis-before: ## Travis before commands
 
 travis-script: frontend-install-dependencies frontend-build ## Travis script for run tests (python and react)
 	mkdir -p eventol/static
+	mkdir -p eventol/front/eventol/static
 	@$(MAKE) -f $(THIS_FILE) backend-makemigrations
 	@$(MAKE) -f $(THIS_FILE) backend-migrate
 	@$(MAKE) -f $(THIS_FILE) backend-collectstatic
@@ -133,7 +137,7 @@ travis-script: frontend-install-dependencies frontend-build ## Travis script for
 travis-after: ## Travis after script for success case
 	cd eventol && coverage report
 	cd eventol && coveralls
-	mv cc-test-reporter eventol/cc-test-reporter 
+	mv cc-test-reporter eventol/cc-test-reporter
 	cd eventol && ./cc-test-reporter format-coverage -d -t coverage.py -o coverage/python.json --add-prefix eventol
 	cd eventol && ./cc-test-reporter format-coverage ./front/coverage/lcov.info -d -t lcov -o ./coverage/javascript.json --add-prefix eventol
 	cd eventol && ./cc-test-reporter sum-coverage --output coverage/codeclimate.json -d -p 2 coverage/python.json coverage/javascript.json
@@ -187,6 +191,9 @@ deploy: pull build ## Deploy eventol with production environment
 	$(DOCKER_COMPOSE_PROD) up -d --remove-orphans
 
 deploy-dev: pull-dev build-dev ## Deploy eventol with development environment
+	mkdir -p eventol/front/eventol
+	mkdir -p deploy/docker/db/postgres
+	touch eventol/front/webpack-stats-local.json
 	$(DOCKER_COMPOSE) up -d --remove-orphans
 
 logs: ## Show docker-compose logs of production environment
@@ -239,6 +246,8 @@ docker-backend-migrate: ## Run backend migrate database in docker-compose
 	$(DOCKER_COMPOSE_PROD) exec -T worker make backend-migrate
 
 docker-backend-collectstatic: ## Run backend collect static files in docker-compose
+	mkdir -p eventol/static
+	mkdir -p eventol/front/eventol/static
 	$(DOCKER_COMPOSE_PROD) exec -T worker make backend-collectstatic
 
 docker-backend-createsuperuser: ## Run backend create super user in docker-compose
