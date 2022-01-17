@@ -12,6 +12,7 @@ PSQL_DBNAME = eventol
 PSQL_PASSWORD = secret
 PSQL_USER = eventol
 PSQL_VERSION = 9.6
+EXTERNAL_PORT = 80
 PATH = $(shell printenv PATH):~/.yarn/bin:$(HOME)/.yarn/bin:$(HOME)/.config/yarn/global/node_modules/.bin
 
 help:
@@ -136,7 +137,7 @@ travis-script: frontend-install-dependencies frontend-build ## Travis script for
 travis-after: ## Travis after script for success case
 	cd eventol && coverage report
 	cd eventol && coveralls
-	mv cc-test-reporter eventol/cc-test-reporter 
+	mv cc-test-reporter eventol/cc-test-reporter
 	cd eventol && ./cc-test-reporter format-coverage -d -t coverage.py -o coverage/python.json --add-prefix eventol
 	cd eventol && ./cc-test-reporter format-coverage ./front/coverage/lcov.info -d -t lcov -o ./coverage/javascript.json --add-prefix eventol
 	cd eventol && ./cc-test-reporter sum-coverage --output coverage/codeclimate.json -d -p 2 coverage/python.json coverage/javascript.json
