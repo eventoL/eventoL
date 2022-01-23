@@ -7,7 +7,6 @@ Status
 ------
 
 [![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
-[![Build Status](https://travis-ci.org/eventoL/eventoL.svg?branch=master)](https://travis-ci.org/eventoL/eventoL)
 [![pipeline status](https://gitlab.com/eventol/eventoL/badges/master/pipeline.svg)](https://gitlab.com/eventol/eventoL/commits/master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/7440c7557b352c1a5a03/maintainability)](https://codeclimate.com/github/eventoL/eventoL/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/7440c7557b352c1a5a03/test_coverage)](https://codeclimate.com/github/eventoL/eventoL/test_coverage)

@@ -72,7 +72,7 @@ git push - origin set-upstream 325-add-japanese-translations
 
 Finally, go to GitHub and [create a pull request](https://github.com/eventoL/eventoL/compare):
 
-Travis CI will execute our test suite.
+Gitlab CI will execute our test suite.
 Your PR will not be merged until all the tests pass.
 Gitlab will also run the linters (both python and reactive) and the python and react tests.
 
@@ -116,4 +116,3 @@ Administrators must do the following to launch a version:
 * **Gitlab pipelines**: https://gitlab.com/eventol/eventoL/pipelines
 * **Coveralls Report**: https://coveralls.io/github/eventoL/eventoL?branch=master
 * **Weblate translations**: https://hosted.weblate.org/projects/eventol/
-* **Travis builds**: https://travis-ci.org/eventoL/eventoL
