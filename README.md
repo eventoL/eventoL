@@ -18,12 +18,6 @@ Status
 [![Coverage Status](https://coveralls.io/repos/github/eventoL/eventoL/badge.svg?branch=master)](https://coveralls.io/github/eventoL/eventoL?branch=master)
 [![Requirements Status](https://requires.io/github/eventoL/eventoL/requirements.svg?branch=master)](https://requires.io/github/eventoL/eventoL/requirements/?branch=master)
 
-Docker status
--------------
-
-[![Docker tag](https://images.microbadger.com/badges/version/eventol/eventol.svg)](https://microbadger.com/images/eventol/eventol)
-[![Docker size and layers](https://images.microbadger.com/badges/image/eventol/eventol.svg)](https://microbadger.com/images/eventol/eventol)
-
 Documentation
 -------------
 
