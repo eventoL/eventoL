@@ -1,8 +1,7 @@
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
 SHELL := /bin/bash
 
-.PHONY: help backend-collectstatic backend-compile-translations backend-install-dev backend-install backend-lint backend-lint-with-report backend-makemigrations backend-make-translations backend-migrate backend-test frontend-build frontend-build-dev frontend-install-dependencies frontend-lint-fix frontend-lint frontend-lint-with-report frontend-sasslint-fix frontend-sasslint frontend-sasslint-with-report frontend-test install-node-in-python-image install-yarn-in-python-image travis-after travis-before travis-install-dependencies travis-script
-
+.PHONY: help backend-collectstatic backend-compile-translations backend-install-dev backend-install backend-lint backend-lint-with-report backend-makemigrations backend-make-translations backend-migrate backend-test frontend-build frontend-build-dev frontend-install-dependencies frontend-lint-fix frontend-lint frontend-lint-with-report frontend-sasslint-fix frontend-sasslint frontend-sasslint-with-report frontend-test install-node-in-python-image install-yarn-in-python-image
 .DEFAULT: help
 
 .EXPORT_ALL_VARIABLES:
@@ -110,38 +109,6 @@ frontend-sasslint-fix: ## Run sass linter and autofix errors
 
 frontend-sasslint-with-report: ## Run sass linter and generate report
 	cd eventol/front && yarn sasslint:report
-
-## Travis CI
-travis-install-dependencies: ## Install coverage and coveralls dependencies
-	pip install coverage coveralls
-
-travis-before: ## Travis before commands
-	docker run --name eventol-postgres -e POSTGRES_PASSWORD=$$PSQL_PASSWORD -e POSTGRES_USER=$$PSQL_USER -e POSTGRES_DB=$$PSQL_DBNAME -p $$PSQL_PORT:5432 -d postgres:$$PSQL_VERSION
-	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-	chmod +x ./cc-test-reporter
-	./cc-test-reporter before-build
-	sudo apt remove -y nodejs
-	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | sudo bash -
-	sudo apt install -y nodejs
-	@$(MAKE) -f $(THIS_FILE) install-yarn-in-python-image
-
-travis-script: frontend-install-dependencies frontend-build ## Travis script for run tests (python and react)
-	mkdir -p eventol/static
-	mkdir -p eventol/front/eventol/static
-	@$(MAKE) -f $(THIS_FILE) backend-makemigrations
-	@$(MAKE) -f $(THIS_FILE) backend-migrate
-	@$(MAKE) -f $(THIS_FILE) backend-collectstatic
-	@$(MAKE) -f $(THIS_FILE) backend-test
-	@$(MAKE) -f $(THIS_FILE) frontend-test
-
-travis-after: ## Travis after script for success case
-	cd eventol && coverage report
-	cd eventol && coveralls
-	mv cc-test-reporter eventol/cc-test-reporter
-	cd eventol && ./cc-test-reporter format-coverage -d -t coverage.py -o coverage/python.json --add-prefix eventol
-	cd eventol && ./cc-test-reporter format-coverage ./front/coverage/lcov.info -d -t lcov -o ./coverage/javascript.json --add-prefix eventol
-	cd eventol && ./cc-test-reporter sum-coverage --output coverage/codeclimate.json -d -p 2 coverage/python.json coverage/javascript.json
-	cd eventol && ./cc-test-reporter upload-coverage -d
 
 ## Gitlab
 gitlab-python-testing: install-yarn-in-python-image frontend-install-dependencies frontend-build backend-install-dev backend-test ## Gitlab command for python-testing job
