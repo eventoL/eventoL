@@ -12,8 +12,6 @@ Status
 [![Test Coverage](https://api.codeclimate.com/v1/badges/7440c7557b352c1a5a03/test_coverage)](https://codeclimate.com/github/eventoL/eventoL/test_coverage)
 [![coverage report](https://gitlab.com/eventol/eventoL/badges/master/coverage.svg)](https://gitlab.com/eventol/eventoL/commits/master)
 [![Coverage Status](https://coveralls.io/repos/github/eventoL/eventoL/badge.svg?branch=master)](https://coveralls.io/github/eventoL/eventoL?branch=master)
-[![Requirements Status](https://requires.io/github/eventoL/eventoL/requirements.svg?branch=master)](https://requires.io/github/eventoL/eventoL/requirements/?branch=master)
-[![Stories in Ready](https://badge.waffle.io/eventoL/eventoL.svg?label=ready&title=Ready)](http://waffle.io/eventoL/eventoL)
 
 Documentation:
 --------------

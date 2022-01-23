@@ -116,7 +116,6 @@ Los adminstradores deben hacer lo siguiente para lanzar una versión:
 * **Repositorio mirror de gitlab para pipelines**: https://gitlab.com/eventol/eventoL
 * **Pipelines de gitlab**: https://gitlab.com/eventol/eventoL/pipelines
 * **Reporte de Coveralls**: https://coveralls.io/github/eventoL/eventoL?branch=master
-* **Requires.io**: https://requires.io/github/eventoL/eventoL/requirements/?branch=master
 * **Issue dashboard**: https://waffle.io/eventoL/eventoL
 * **Traducciones en weblate**: https://hosted.weblate.org/projects/eventol/
 * **Build de travis**: https://travis-ci.org/eventoL/eventoL

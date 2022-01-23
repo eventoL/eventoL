@@ -115,6 +115,5 @@ Administrators must do the following to launch a version:
 * **Gitlab Repository (mirror for pipelines)**: https://gitlab.com/eventol/eventoL
 * **Gitlab pipelines**: https://gitlab.com/eventol/eventoL/pipelines
 * **Coveralls Report**: https://coveralls.io/github/eventoL/eventoL?branch=master
-* **Requires.io**: https://requires.io/github/eventoL/eventoL/requirements/?branch=master
 * **Weblate translations**: https://hosted.weblate.org/projects/eventol/
 * **Travis builds**: https://travis-ci.org/eventoL/eventoL
