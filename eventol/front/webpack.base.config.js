@@ -22,6 +22,7 @@ module.exports = {
   entry: {
     Home: './src/views/Home',
     EventHome: './src/views/EventHome',
+    InstanceDetails: './src/views/InstanceDetails',
     Report: './src/views/Report',
     clipboard: './src/libs/clipboard',
     schedule: './src/libs/schedule',
