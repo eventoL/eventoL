@@ -8,7 +8,6 @@ variables:
   LATEST_IMAGE_NAME: $CI_REGISTRY_IMAGE:latest
   LATEST_DEV_IMAGE_NAME: $CI_REGISTRY_IMAGE:latest-dev
   RELEASE_IMAGE_REGISTRY: $CI_REGISTRY_IMAGE/releases
-  IMAGE_NAME: eventol
 
 docker master image:
   stage: build
@@ -37,9 +36,9 @@ docker dev image:
     - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker pull LATEST_DEV_IMAGE_NAME || true
-    - docker build --cache-from LATEST_DEV_IMAGE_NAME -t LATEST_DEV_IMAGE_NAME .
-    - docker push LATEST_DEV_IMAGE_NAME
+    - docker pull $LATEST_DEV_IMAGE_NAME || true
+    - docker build --cache-from $LATEST_DEV_IMAGE_NAME -t $LATEST_DEV_IMAGE_NAME .
+    - docker push $LATEST_DEV_IMAGE_NAME
   only:
     - develop
 
