@@ -73,6 +73,9 @@ COPY --chown=app:app ./eventol ${APP_ROOT}/eventol
 RUN mkdir -p ${APP_ROOT}/eventol/manager/static
 RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
 
+# Copy git files
+COPY --chown=app:app ./.git ${APP_ROOT}/.git
+
 # Copy frontend files
 COPY --chown=app:app --from=frontend /app/webpack-stats-prod.json ${APP_ROOT}/eventol/front/webpack-stats-prod.json
 COPY --chown=app:app --from=frontend /app/eventol/static ${APP_ROOT}/eventol/front/eventol/static
