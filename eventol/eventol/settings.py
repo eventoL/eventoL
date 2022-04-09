@@ -176,7 +176,10 @@ class Base(Configuration):
     }
 
     CKEDITOR_UPLOAD_PATH = 'uploads/'
-    FILE_UPLOAD_PERMISSIONS = 0o644
+    if os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', False):
+        FILE_UPLOAD_PERMISSIONS = None
+    else:
+        FILE_UPLOAD_PERMISSIONS = 0o644
 
     AUTHENTICATION_BACKENDS = (
         # Needed to login by username in Django admin, regardless of `allauth`
