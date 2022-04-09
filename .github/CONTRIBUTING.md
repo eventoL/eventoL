@@ -6,7 +6,7 @@ like you, is that EventoL is a great tool.
 ### 1. Where do I go from here?
 
 If you've noticed an error or have a question, first look in
-[support group](https://t.me/eventol_soporte), [Stack Overflow](https://stackoverflow.com/) or [issues](https://github.com/eventoL/eventoL/ issues) to see if someone else in the community has already created an issue.
+[support group](https://t.me/eventol_soporte), [Stack Overflow](https://stackoverflow.com/) or [issues](https://github.com/eventoL/eventoL/issues) to see if someone else in the community has already created an issue.
 If not, go ahead and [create an issue](https://github.com/eventoL/eventoL/issues/new/choose)!
 
 ### 2. Fork and create a branch
