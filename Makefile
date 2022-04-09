@@ -1,8 +1,7 @@
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
 SHELL := /bin/bash
 
-.PHONY: help backend-collectstatic backend-compile-translations backend-install-dev backend-install backend-lint backend-lint-with-report backend-makemigrations backend-make-translations backend-migrate backend-test frontend-build frontend-build-dev frontend-install-dependencies frontend-lint-fix frontend-lint frontend-lint-with-report frontend-sasslint-fix frontend-sasslint frontend-sasslint-with-report frontend-test install-node-in-python-image install-yarn-in-python-image travis-after travis-before travis-install-dependencies travis-script
-
+.PHONY: help backend-collectstatic backend-compile-translations backend-install-dev backend-install backend-lint backend-lint-with-report backend-makemigrations backend-make-translations backend-migrate backend-test frontend-build frontend-build-dev frontend-install-dependencies frontend-lint-fix frontend-lint frontend-lint-with-report frontend-sasslint-fix frontend-sasslint frontend-sasslint-with-report frontend-test install-node-in-python-image install-yarn-in-python-image
 .DEFAULT: help
 
 .EXPORT_ALL_VARIABLES:
@@ -12,6 +11,7 @@ PSQL_DBNAME = eventol
 PSQL_PASSWORD = secret
 PSQL_USER = eventol
 PSQL_VERSION = 9.6
+EXTERNAL_PORT = 80
 PATH = $(shell printenv PATH):~/.yarn/bin:$(HOME)/.yarn/bin:$(HOME)/.config/yarn/global/node_modules/.bin
 
 help:
@@ -53,6 +53,8 @@ backend-migrate: ## Run backend migrate database
 	cd eventol && python manage.py migrate
 
 backend-collectstatic: ## Run backend collect static files
+	mkdir -p eventol/static
+	mkdir -p eventol/front/eventol/static
 	cd eventol && python manage.py collectstatic --noinput
 
 backend-createsuperuser: ## Run backend create super user
@@ -108,34 +110,6 @@ frontend-sasslint-fix: ## Run sass linter and autofix errors
 frontend-sasslint-with-report: ## Run sass linter and generate report
 	cd eventol/front && yarn sasslint:report
 
-## Travis CI
-travis-install-dependencies: ## Install coverage and coveralls dependencies
-	pip install coverage coveralls
-
-travis-before: ## Travis before commands
-	docker run --name eventol-postgres -e POSTGRES_PASSWORD=$$PSQL_PASSWORD -e POSTGRES_USER=$$PSQL_USER -e POSTGRES_DB=$$PSQL_DBNAME -p $$PSQL_PORT:5432 -d postgres:$$PSQL_VERSION
-	curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-	chmod +x ./cc-test-reporter
-	./cc-test-reporter before-build
-	@$(MAKE) -f $(THIS_FILE) install-yarn-in-python-image
-
-travis-script: frontend-install-dependencies frontend-build ## Travis script for run tests (python and react)
-	mkdir -p eventol/static
-	@$(MAKE) -f $(THIS_FILE) backend-makemigrations
-	@$(MAKE) -f $(THIS_FILE) backend-migrate
-	@$(MAKE) -f $(THIS_FILE) backend-collectstatic
-	@$(MAKE) -f $(THIS_FILE) backend-test
-	@$(MAKE) -f $(THIS_FILE) frontend-test
-
-travis-after: ## Travis after script for success case
-	cd eventol && coverage report
-	cd eventol && coveralls
-	mv cc-test-reporter eventol/cc-test-reporter 
-	cd eventol && ./cc-test-reporter format-coverage -d -t coverage.py -o coverage/python.json --add-prefix eventol
-	cd eventol && ./cc-test-reporter format-coverage ./front/coverage/lcov.info -d -t lcov -o ./coverage/javascript.json --add-prefix eventol
-	cd eventol && ./cc-test-reporter sum-coverage --output coverage/codeclimate.json -d -p 2 coverage/python.json coverage/javascript.json
-	cd eventol && ./cc-test-reporter upload-coverage -d
-
 ## Gitlab
 gitlab-python-testing: install-yarn-in-python-image frontend-install-dependencies frontend-build backend-install-dev backend-test ## Gitlab command for python-testing job
 gitlab-python-lint: backend-install-dev backend-lint-with-report ## Gitlab command for python-lint job
@@ -184,6 +158,9 @@ deploy: pull build ## Deploy eventol with production environment
 	$(DOCKER_COMPOSE_PROD) up -d --remove-orphans
 
 deploy-dev: pull-dev build-dev ## Deploy eventol with development environment
+	mkdir -p eventol/front/eventol
+	mkdir -p deploy/docker/db/postgres
+	touch eventol/front/webpack-stats-local.json
 	$(DOCKER_COMPOSE) up -d --remove-orphans
 
 logs: ## Show docker-compose logs of production environment
@@ -236,6 +213,8 @@ docker-backend-migrate: ## Run backend migrate database in docker-compose
 	$(DOCKER_COMPOSE_PROD) exec -T worker make backend-migrate
 
 docker-backend-collectstatic: ## Run backend collect static files in docker-compose
+	mkdir -p eventol/static
+	mkdir -p eventol/front/eventol/static
 	$(DOCKER_COMPOSE_PROD) exec -T worker make backend-collectstatic
 
 docker-backend-createsuperuser: ## Run backend create super user in docker-compose

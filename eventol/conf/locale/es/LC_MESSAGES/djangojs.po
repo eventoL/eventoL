@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-22 04:37+0000\n"
-"PO-Revision-Date: 2021-05-02 00:41+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2021-12-29 10:51+0000\n"
+"Last-Translator: badlop <badlop@process-one.net>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/djangojs/"
 "es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 msgid "Event not found"
 msgstr "Evento no encontrado"
@@ -43,10 +43,8 @@ msgstr "Por favor, seleccioná una opción para continuar"
 msgid "Search your event"
 msgstr "Busca tu evento"
 
-#, fuzzy
-#| msgid "Search by title…"
 msgid "Search by title..."
-msgstr "Buscar por título…"
+msgstr "Buscar por título..."
 
 msgid "Search"
 msgstr "Buscar"
@@ -150,8 +148,6 @@ msgstr "No confirmado"
 msgid "Quantity"
 msgstr "Cantidad"
 
-#, fuzzy
-#| msgid "Not configured"
 msgid "Don't configured"
 msgstr "No configurado"
 
@@ -203,8 +199,6 @@ msgstr "Detalles de asistencia"
 msgid "Export"
 msgstr "Exportar"
 
-#, fuzzy
-#| msgid "Reconnecting websocket, attempt"
 msgid "Reconecting websocket, attemps"
 msgstr "Reconectando websocket, intento"
 

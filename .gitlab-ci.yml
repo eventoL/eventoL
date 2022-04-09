@@ -5,9 +5,9 @@ stages:
   - deploy
 
 variables:
-  CONTAINER_DEPLOY_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
-  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
-  IMAGE_NAME: eventol
+  LATEST_IMAGE_NAME: $CI_REGISTRY_IMAGE:latest
+  LATEST_DEV_IMAGE_NAME: $CI_REGISTRY_IMAGE:latest-dev
+  RELEASE_IMAGE_REGISTRY: $CI_REGISTRY_IMAGE/releases
 
 docker master image:
   stage: build
@@ -17,13 +17,13 @@ docker master image:
   services:
     - docker:dind
   script:
-    - VERSION=$(date +"%y%m%d")
+    - TAG=$(git describe --tags --always --abbrev=0)
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker pull $CONTAINER_RELEASE_IMAGE || true
-    - docker build --cache-from $CONTAINER_RELEASE_IMAGE -t $CONTAINER_RELEASE_IMAGE .
-    - docker tag $CONTAINER_RELEASE_IMAGE $CI_REGISTRY_IMAGE:$VERSION
-    - docker push $CONTAINER_RELEASE_IMAGE 
-    - docker push $CI_REGISTRY_IMAGE:$VERSION
+    - docker pull $LATEST_IMAGE_NAME || true
+    - docker build --cache-from $LATEST_IMAGE_NAME -t $LATEST_IMAGE_NAME .
+    - docker tag $LATEST_IMAGE_NAME $RELEASE_IMAGE_REGISTRY:$TAG
+    - docker push $LATEST_IMAGE_NAME
+    - docker push $RELEASE_IMAGE_REGISTRY:$TAG
   only:
     - master
 
@@ -36,9 +36,9 @@ docker dev image:
     - docker:dind
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:latest-dev || true
-    - docker build --cache-from $CI_REGISTRY_IMAGE:latest-dev -t $CI_REGISTRY_IMAGE:latest-dev .
-    - docker push $CI_REGISTRY_IMAGE:latest-dev
+    - docker pull $LATEST_DEV_IMAGE_NAME || true
+    - docker build --cache-from $LATEST_DEV_IMAGE_NAME -t $LATEST_DEV_IMAGE_NAME .
+    - docker push $LATEST_DEV_IMAGE_NAME
   only:
     - develop
 
@@ -65,7 +65,7 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
-  image: python:3.9
+  image: python:3.9.6
   stage: testing
   script:
     - make gitlab-python-testing
@@ -83,7 +83,7 @@ react-testing:
       - eventol/front/coverage
 
 python-lint:
-  image: python:3.9
+  image: python:3.9.6
   stage: styling
   allow_failure: true
   script:

@@ -10,6 +10,7 @@ const SignIn = () => (
       <li>
         <a href={LOGIN_URL}>{gettext('Sign In')}</a>
       </li>
+
       <li>
         <a href={LOGOUT_URL}>{gettext('Sign Up')}</a>
       </li>

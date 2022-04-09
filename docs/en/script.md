@@ -100,15 +100,6 @@ make help
 - **gitlab-registry-login**: Gitlab login docker to registry
 - **gitlab-update-image**: Gitlab update docker image in gitlab registry
 
-### Travis ci
-
-- **install-node-in-python-image**: Install node in python image
-- **install-yarn-in-python-image**: Install yarn and node in python image if node is not installed
-- **travis-before**: Travis before commands
-- **travis-after**: Travis after script for success case
-- **travis-install-dependencies**: Install coverage and coveralls dependencies
-- **travis-script**: Travis script for run tests (python and react)
-
 ## Run one task
 
 ```bash

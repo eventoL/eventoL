@@ -74,17 +74,20 @@ export default class Item extends React.PureComponent {
       >
         <div className="overlay">
           <div className="title">{title}</div>
+
           {!empty && (
             <div className="rating">
               {`${gettext('Attendees')}: ${attendees || 0}`}
             </div>
           )}
+
           {!_.isEmpty(tags) && (
             <div className="rating tags">
-              {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+              {/* eslint-disable-next-line react/jsx-one-expression-per-line,react/jsx-newline */}
               {gettext('Tags')}: {tags.map(this.getTagLink)}
             </div>
           )}
+
           <div className="plot">{overview}</div>
         </div>
       </div>

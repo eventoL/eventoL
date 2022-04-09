@@ -23,6 +23,7 @@ export default class ListToggle extends React.PureComponent {
       >
         <div>
           <i className="fa fa-fw fa-plus" />
+
           <i className="fa fa-fw fa-check" />
         </div>
       </div>

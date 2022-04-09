@@ -1,15 +1,17 @@
 # pylint: disable=missing-docstring
 # pylint: disable=W0232
 # pylint: disable=C0103
+# pylint: disable=W0611
 
 import os
 import socket
 
+import raven
 from configurations import Configuration
 from django.utils.translation import ugettext_lazy as _
 from easy_thumbnails.conf import Settings as thumbnail_settings
 from easy_thumbnails.optimize.conf import OptimizeSettings
-import raven
+
 
 def str_to_bool(str_bool):
     return str_bool == 'True'
@@ -391,11 +393,14 @@ class Staging(Base):
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     STATIC_URL = '/static/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'    
-    INSTALLED_APPS += ('raven.contrib.django.raven_compat',) # NOQA
+    MEDIA_URL = '/media/'
+
+    INSTALLED_APPS = Base.INSTALLED_APPS + (
+        'raven.contrib.django.raven_compat',
+    )
+
     RAVEN_CONFIG = {
-        'dsn': os.environ.get("SENTRY_DSN", "NOT_CONFIGURED"),
-        'release': raven.fetch_git_sha(BASE_DIR),  # NOQA
+        'dsn': os.environ.get("SENTRY_DSN", "NOT_CONFIGURED")
     }
 
 

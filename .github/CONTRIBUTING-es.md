@@ -73,7 +73,7 @@ git push - origin set-upstream 325-add-japanese-translations
 
 Finalmente, ve a GitHub y [crea un pull request](https://github.com/eventoL/eventoL/compare):
 
-Travis CI ejecutará nuestro conjunto de pruebas.
+Gitlab CI ejecutará nuestro conjunto de pruebas.
 Su PR no se fusionará hasta que todas las pruebas pasen.
 También gitlab va a correr los linters (tanto de python como de react) y los tests de python y react.
 
@@ -116,7 +116,5 @@ Los adminstradores deben hacer lo siguiente para lanzar una versión:
 * **Repositorio mirror de gitlab para pipelines**: https://gitlab.com/eventol/eventoL
 * **Pipelines de gitlab**: https://gitlab.com/eventol/eventoL/pipelines
 * **Reporte de Coveralls**: https://coveralls.io/github/eventoL/eventoL?branch=master
-* **Requires.io**: https://requires.io/github/eventoL/eventoL/requirements/?branch=master
 * **Issue dashboard**: https://waffle.io/eventoL/eventoL
 * **Traducciones en weblate**: https://hosted.weblate.org/projects/eventol/
-* **Build de travis**: https://travis-ci.org/eventoL/eventoL

@@ -43,6 +43,7 @@ export const getEventColumns = count => ({
       Footer: (
         <span>
           <strong>{`${gettext('Events')}: `}</strong>
+
           {count}
         </span>
       ),
@@ -63,6 +64,7 @@ export const getAssitanceConfirmatedColumns = totals => {
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals.attendees.confirmed}
           </span>
         ),
@@ -75,6 +77,7 @@ export const getAssitanceConfirmatedColumns = totals => {
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals.organizers.confirmed}
           </span>
         ),
@@ -87,6 +90,7 @@ export const getAssitanceConfirmatedColumns = totals => {
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals.collaborators.confirmed}
           </span>
         ),
@@ -99,6 +103,7 @@ export const getAssitanceConfirmatedColumns = totals => {
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals.installers.confirmed}
           </span>
         ),
@@ -111,6 +116,7 @@ export const getAssitanceConfirmatedColumns = totals => {
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals.speakers}
           </span>
         ),
@@ -136,6 +142,7 @@ export const getActivitiesColumns = totals => {
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals.activities.confirmed}
           </span>
         ),
@@ -152,6 +159,7 @@ export const getActivitiesColumns = totals => {
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals.installations.total}
           </span>
         ),
@@ -179,6 +187,7 @@ export const getConfirmationColumnsBy = (
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals[totalCategory].confirmed}
           </span>
         ),
@@ -191,6 +200,7 @@ export const getConfirmationColumnsBy = (
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals[totalCategory].not_confirmed}
           </span>
         ),
@@ -203,6 +213,7 @@ export const getConfirmationColumnsBy = (
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals[totalCategory].total}
           </span>
         ),
@@ -250,6 +261,7 @@ export const getAssistancesFullColumns = totals => {
       Footer: (
         <span>
           <strong>{`${gettext('Total')}: `}</strong>
+
           {totals.speakers}
         </span>
       ),
@@ -272,6 +284,7 @@ export const getSoftwaresColumns = totals => {
       Footer: (
         <span>
           <strong>{`${gettext('Total')}: `}</strong>
+
           {totals.installations.softwares[software] || 0}
         </span>
       ),
@@ -297,6 +310,7 @@ export const getInstallationsColumns = totals => {
         Footer: (
           <span>
             <strong>{`${gettext('Total')}: `}</strong>
+
             {totals.installations.total}
           </span>
         ),
@@ -325,6 +339,7 @@ export const getActivitiesFieldsColumns = (
       Footer: (
         <span>
           <strong>{`${gettext('Total')}: `}</strong>
+
           {totals.activities.details[pluralCategory][element] || 0}
         </span>
       ),
