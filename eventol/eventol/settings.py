@@ -176,7 +176,9 @@ class Base(Configuration):
     }
 
     CKEDITOR_UPLOAD_PATH = 'uploads/'
-    DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False'))
+    DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(
+        os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False')
+    )
     FILE_UPLOAD_PERMISSIONS = None if DONT_SET_FILE_UPLOAD_PERMISSIONS else 0o644
 
     AUTHENTICATION_BACKENDS = (
