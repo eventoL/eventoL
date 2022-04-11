@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 21:39+0000\n"
+"POT-Creation-Date: 2022-04-11 14:47+0000\n"
 "PO-Revision-Date: 2021-07-23 02:40+0000\n"
 "Last-Translator: Zhou Nan <zhounan@nfschina.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1046,6 +1046,9 @@ msgstr ""
 msgid "Return to the event"
 msgstr ""
 
+msgid "Skip to content"
+msgstr ""
+
 msgid "Create event"
 msgstr ""
 
@@ -1126,6 +1129,9 @@ msgid "You have the power!"
 msgstr ""
 
 msgid "ContactMessage"
+msgstr ""
+
+msgid "Play CAPTCHA as audio file"
 msgstr ""
 
 msgid "Create an event"
