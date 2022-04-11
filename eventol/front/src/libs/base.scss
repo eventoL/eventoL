@@ -109,11 +109,56 @@ a {
   margin: 10px;
 }
 
+.screen-reader-skip-menu {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  top: -10000em;
+  width: 1px;
+  word-wrap: normal !important;
+
+  &:focus {
+    -webkit-clip-path: none;
+    background-color: $light-gray;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 2px $dark-gray;
+    clip: auto !important;
+    clip-path: none;
+    color: $eventol-color;
+    display: block;
+    font-size: .875rem;
+    font-weight: 700;
+    height: auto;
+    line-height: normal;
+    outline-color: $eventol-color !important;
+    outline-style: solid !important;
+    outline-width: 3px !important;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: auto;
+    width: auto;
+    z-index: 100000;
+  }
+}
+
 .form-group {
   label {
     &.control-label {
       color: $form-label-default-color !important;
     }
+  }
+
+  .checkbox label {
+    color: $form-bmd-label-default-color !important;
+  }
+
+  .bmd-label-static {
+    color: $form-bmd-label-default-color !important;
   }
 
   &.has-error {

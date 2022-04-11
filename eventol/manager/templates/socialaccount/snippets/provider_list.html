@@ -1,6 +1,7 @@
 {% load socialaccount %}
+{% load filters %}
 
-{% get_providers as socialaccount_providers %}
+{% get_active_providers as socialaccount_providers %}
 
 <div class="row">
     <div class="col-sm-10 offset-sm-1 col-10 offset-1 login-panel">
