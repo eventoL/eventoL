@@ -116,6 +116,14 @@ a {
     }
   }
 
+  .checkbox label {
+    color: $form-bmd-label-default-color !important;
+  }
+
+  .bmd-label-static {
+    color: $form-bmd-label-default-color !important;
+  }
+
   &.has-error {
     label {
       &.control-label {
