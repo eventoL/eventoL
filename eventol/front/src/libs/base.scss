@@ -110,25 +110,25 @@ a {
 }
 
 .screen-reader-skip-menu {
-  top: -10000em;
-  width: 1px;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   height: 1px;
   margin: -1px;
-  padding: 0;
   overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
-  clip-path: inset(50%);
+  padding: 0;
   position: absolute !important;
+  top: -10000em;
+  width: 1px;
   word-wrap: normal !important;
 
   &:focus {
     -webkit-clip-path: none;
     background-color: $light-gray;
     border-radius: 3px;
-    box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
-    clip-path: none;
+    box-shadow: 0 0 2px 2px $dark-gray;
     clip: auto !important;
+    clip-path: none;
     color: $eventol-color;
     display: block;
     font-size: .875rem;
