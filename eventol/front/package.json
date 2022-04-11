@@ -109,7 +109,7 @@
     "mock-socket": "^8.0.5",
     "moment": "^2.24.0",
     "morris.js": "git+https://github.com/morrisjs/morris.js.git#0.5.1",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "popper.js": "^1.16.0",
     "postcss-safe-parser": "^4.0.1",
