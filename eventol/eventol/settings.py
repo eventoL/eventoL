@@ -240,6 +240,8 @@ class Base(Configuration):
 
     CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.random_char_challenge'
     CAPTCHA_NOISE_FUNCTIONS = ('captcha.helpers.noise_null',)
+    CAPTCHA_FLITE_PATH = '/usr/bin/flite'
+    CAPTCHA_SOX_PATH = '/usr/bin/sox'
 
     STATICFILES_DIRS = [
         os.path.join(BASE_DIR, 'front/eventol/static'),
