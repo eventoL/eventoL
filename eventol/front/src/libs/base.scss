@@ -109,6 +109,43 @@ a {
   margin: 10px;
 }
 
+.screen-reader-skip-menu {
+  top: -10000em;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+  clip-path: inset(50%);
+  position: absolute !important;
+  word-wrap: normal !important;
+
+  &:focus {
+    -webkit-clip-path: none;
+    background-color: $light-gray;
+    border-radius: 3px;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+    clip-path: none;
+    clip: auto !important;
+    color: $eventol-color;
+    display: block;
+    font-size: .875rem;
+    font-weight: 700;
+    height: auto;
+    line-height: normal;
+    outline-color: $eventol-color !important;
+    outline-style: solid !important;
+    outline-width: 3px !important;
+    padding: 15px 23px 14px;
+    text-decoration: none;
+    top: auto;
+    width: auto;
+    z-index: 100000;
+  }
+}
+
 .form-group {
   label {
     &.control-label {

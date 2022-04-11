@@ -34,6 +34,7 @@
 {% block navbar %}
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-xl navbar-light">
+        <a class="screen-reader-skip-menu" href="#main-content" title="{% trans "Skip to content" %}" role="link">{% trans "Skip to content" %}</a>
         <a class="navbar-brand" href="/">
             {% if EVENTOL_SETTINGS.logo_header %}
                 <img class="img-responsive eventol-logo" src="{{ EVENTOL_SETTINGS.logo_header.url }}" alt="EventoL Logo">
@@ -259,7 +260,7 @@
     </nav>
 {% endblock %}
 
-<div class="container-fluid">
+<div class="container-fluid" id='main-content'>
     {% if messages %}
         {% for message in messages %}
             <div class="alert alert-{% ifequal message.tags 'error' %}danger{% else %}{{ message.tags }}{% endifequal %} alert-dismissible text-center"
