@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 21:39+0000\n"
+"POT-Creation-Date: 2022-04-11 14:47+0000\n"
 "PO-Revision-Date: 2020-09-30 14:40+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/eventol/"
@@ -1053,6 +1053,9 @@ msgstr ""
 msgid "Return to the event"
 msgstr ""
 
+msgid "Skip to content"
+msgstr ""
+
 msgid "Create event"
 msgstr ""
 
@@ -1133,6 +1136,9 @@ msgid "You have the power!"
 msgstr ""
 
 msgid "ContactMessage"
+msgstr ""
+
+msgid "Play CAPTCHA as audio file"
 msgstr ""
 
 msgid "Create an event"

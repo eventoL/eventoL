@@ -42,7 +42,7 @@ ENV DJANGO_CONFIGURATION=Prod
 # Install system dependencies
 RUN apk --update add --no-cache \
   bash git gcc cairo-dev postgresql-dev libxslt-dev postgresql-dev gcc cargo \
-  gettext musl-dev py3-setuptools jpeg-dev make python3-dev libffi-dev openssl-dev \
+  gettext musl-dev py3-setuptools jpeg-dev make python3-dev sox flite libffi-dev openssl-dev \
   && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ## Install python dependencies

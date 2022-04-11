@@ -6,7 +6,11 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 const icons = {
+  iconAnchor: [12, 25],
+  iconSize: [25, 41],
   iconUrl: icon,
+  shadowAnchor: [20, 41],
+  shadowSize: [41, 41],
   shadowUrl: iconShadow,
 };
 L.Marker.prototype.options.icon = L.icon(icons);
@@ -40,7 +44,38 @@ const loadMap = place => {
   ).addTo(map);
   map.attributionControl.setPrefix('');
 
-  L.marker([lat, lng]).addTo(map);
+  const marker = L.marker([lat, lng]).addTo(map);
+
+  const multiplyPointBy = (zoomLevel, point) => {
+    const width = point[0];
+    const height = point[1];
+    const factor = (18 - zoomLevel) / 30 + 1;
+    const newPoint = L.point(width / factor, height / factor);
+
+    return newPoint;
+  };
+
+  const scaleIcon = zoomLevel => {
+    const newIcon = L.icon({
+      ...icons,
+      iconAnchor: multiplyPointBy(zoomLevel, icons.iconAnchor),
+      iconSize: multiplyPointBy(zoomLevel, icons.iconSize),
+      shadowAnchor: multiplyPointBy(zoomLevel, icons.shadowAnchor),
+      shadowSize: multiplyPointBy(zoomLevel, icons.shadowSize),
+    });
+
+    return newIcon;
+  };
+
+  const resizeIcon = () => {
+    const zoomLevel = map.getZoom();
+    const markerIcon = scaleIcon(zoomLevel);
+    marker.setIcon(markerIcon);
+    marker.setLatLng([lat, lng]);
+  };
+
+  map.whenReady(resizeIcon);
+  map.on('zoomend', resizeIcon);
 
   $('#place_name').text(name);
   $('#address1').html(address);

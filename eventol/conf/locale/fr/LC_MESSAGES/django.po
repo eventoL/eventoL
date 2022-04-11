@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 21:39+0000\n"
+"POT-Creation-Date: 2022-04-11 14:47+0000\n"
 "PO-Revision-Date: 2021-10-22 14:44+0000\n"
 "Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/eventol/django/fr/"
@@ -1171,6 +1171,9 @@ msgstr ""
 msgid "Return to the event"
 msgstr "Revenir à l'évènement"
 
+msgid "Skip to content"
+msgstr ""
+
 msgid "Create event"
 msgstr "Créer un évènement"
 
@@ -1252,6 +1255,9 @@ msgstr "Vous avez le pouvoir !"
 
 msgid "ContactMessage"
 msgstr "Message de contact"
+
+msgid "Play CAPTCHA as audio file"
+msgstr ""
 
 msgid "Create an event"
 msgstr "Créer un évènement"

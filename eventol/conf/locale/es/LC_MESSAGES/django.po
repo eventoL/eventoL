@@ -4,10 +4,10 @@
 # J. Lavoie <j.lavoie@net-c.ca>, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-19 21:39+0000\n"
-"PO-Revision-Date: 2021-05-02 00:41+0000\n"
+"POT-Creation-Date: 2022-04-11 14:47+0000\n"
+"PO-Revision-Date: 2022-04-11 11:49-0300\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
 "es/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Poedit 3.0.1\n"
 
 msgid "Danish"
 msgstr "Danés"
@@ -1147,6 +1147,9 @@ msgstr ""
 msgid "Return to the event"
 msgstr "Regresar al evento"
 
+msgid "Skip to content"
+msgstr "Saltar al contenido"
+
 msgid "Create event"
 msgstr "Crear Evento"
 
@@ -1228,6 +1231,9 @@ msgstr "¡Tenes el poder!"
 
 msgid "ContactMessage"
 msgstr "Mensaje de contacto"
+
+msgid "Play CAPTCHA as audio file"
+msgstr "Reproducir CAPTCHA como archivo de audio"
 
 msgid "Create an event"
 msgstr "Crear un evento"
@@ -2006,11 +2012,9 @@ msgstr "La sala tiene actividades asignadas."
 msgid "The Room has been removed successfully."
 msgstr "La Sala ha sido retirada con éxito."
 
-#, python-format
 #~ msgid "The width is: %(width)s"
 #~ msgstr "El ancho is: %(width)s"
 
-#, python-format
 #~ msgid "Index of %(directory)s"
 #~ msgstr "Indice de %(directory)s"
 
