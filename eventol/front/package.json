@@ -107,7 +107,7 @@
     "js-cookie": "^2.2.0",
     "leaflet": "~1.0.3",
     "mock-socket": "^8.0.5",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "morris.js": "git+https://github.com/morrisjs/morris.js.git#0.5.1",
     "node-sass": "^6.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
