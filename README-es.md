@@ -3,6 +3,13 @@ EventoL
 
 EventoL es un software de administración de eventos, desarrollador inicialmente para administrar la conferecia [FLISoL](http://flisol.info/).
 
+Donar
+-----
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N7CX79R)
+
+[![Invitame un café en cafecito.app](https://cdn.cafecito.app/imgs/buttons/button_1.svg)](https://cafecito.app/eventol)
+
 Estado
 ------
 
