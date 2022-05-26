@@ -3,6 +3,18 @@ EventoL
 
 EventoL is a event management software initially developed to manage [FLISoL](http://flisol.info/) conference.
 
+
+Donate
+------
+
+U$S (U.S. dollar)
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N7CX79R)
+
+$ (Argentine peso)
+
+[![Support me on cafecito.app](https://cdn.cafecito.app/imgs/buttons/button_1.svg)](https://cafecito.app/eventol)
+
 Status
 ------
 
