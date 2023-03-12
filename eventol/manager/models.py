@@ -198,7 +198,7 @@ class Event(models.Model):
     use_talks = models.BooleanField(_('Use Talks'), default=True)
     is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
     use_schedule = models.BooleanField(_('Use Schedule'), default=True)
-    place = models.TextField(_('Place'))
+    place = models.TextField(_('Place'), null=True, blank=True)
     image = ImageCropField(upload_to='images_thumbnails',
                            verbose_name=_('Image'), blank=True, null=True)
     cropping = ImageRatioField('image', '700x450', size_warning=True,

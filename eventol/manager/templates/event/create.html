@@ -153,6 +153,7 @@
                             </ul>
                         </div>
                     {% endif %}
+                    {% comment %}
                     <div class="row">
                         <div class="col-md-10 offset-md-1 col-12">
                             <div class="form-group">
@@ -178,7 +179,7 @@
 
                     <br>
                     <br>
-
+                    {% endcomment %}
                     <div class='event-limit_proposal_date'>
                         <h4>{% trans 'When is the last day to submit talk proposals?' %}</h4>
                         {% if form.limit_proposal_date.errors|length > 0 %}
@@ -203,7 +204,7 @@
                         <br>
                         <br>
                     </div>
-                    
+
                     <h4>{% trans "Do you want to use your own homepage?" %}</h4>
                     <p>{% trans "You probably don't want to. But if you want, we can link to your page in our index. Provide the full URL here:" %}</p>
                     <br>
@@ -252,9 +253,9 @@
         $(document).ready(function () {
             $('body').bootstrapMaterialDesign();
             $('.dropdown-toggle').dropdown();
-            
+
             var fieldsDependencies = {{ fields_dependencies | safe }};
-            
+
             function is_checkbox(fieldName) {
                 return fieldName.indexOf('use_') !== -1;
             }
@@ -280,7 +281,7 @@
             function getFieldId(field) {
                 return '#id_event-' + field
             }
-            
+
             Object.keys(fieldsDependencies).forEach(function(field){
                 var fieldId = getFieldId(field);
                 updateForm(field, $(fieldId).is(":checked"));
@@ -294,7 +295,9 @@
 
 
 {% block other-script %}
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDqBK3undYHvG5pWYBkESlkkX_c2GSLOw&libraries=places"></script>
+    {% comment %}
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDqBK3undYHvG5pWYBkESlkkX_c2GSLOw&libraries=places"></script>
+    {% endcomment %}
 
     {{ form.media }}
 
