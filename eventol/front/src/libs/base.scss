@@ -449,9 +449,14 @@ a:hover span.vote-cancel {
 
 .bootstrap-datetimepicker-widget {
   &.dropdown-menu {
+    color: $dark-gray;
     opacity: unset;
     transform: unset;
   }
+}
+
+.dropdown-menu .dropdown-item {
+  max-width: none !important;
 }
 
 .btn.bmd-btn-fab.social-login-btn {
