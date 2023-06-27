@@ -240,6 +240,8 @@ class Event(models.Model):
             return components
         except json.JSONDecodeError as error:
             logger.error(error)
+        except:
+	    pass
         return []
 
     @property
