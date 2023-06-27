@@ -241,7 +241,7 @@ class Event(models.Model):
         except json.JSONDecodeError as error:
             logger.error(error)
         except:
-	    pass
+            pass
         return []
 
     @property
