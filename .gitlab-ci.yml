@@ -35,6 +35,7 @@ docker dev image:
   services:
     - docker:dind
   script:
+    - export
     - echo "$CI_BUILD_TOKEN" | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - docker pull $LATEST_DEV_IMAGE_NAME || true
     - docker build --cache-from $LATEST_DEV_IMAGE_NAME -t $LATEST_DEV_IMAGE_NAME .
