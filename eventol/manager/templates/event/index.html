@@ -117,32 +117,33 @@
         {% endif %}
     </div>
 
-    <div class="card">
-        <div id="map" class="map"></div>
-        <div style="text-align:center">
-            <h3 id="place_name"></h3>
-            <div id="address1" class="event-location-address"></div>
-            <div class="row">
-                <div class="col-md-6 offset-md-3 col-10 offset-1">
-                    <hr>
+    {% if event.place %}
+        <div class="card">
+            <div id="map" class="map"></div>
+            <div style="text-align:center">
+                <h3 id="place_name"></h3>
+                <div id="address1" class="event-location-address"></div>
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 col-10 offset-1">
+                        <hr>
+                    </div>
                 </div>
-            </div>
-            <div class="row" style="margin-bottom: 20px;">
-                <div class="col-md-6 offset-md-3 event-directions">
-                    <a id="directions-car" target="_blank" href="#"><i class="material-icons">directions_car</i></a>
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-md-6 offset-md-3 event-directions">
+                        <a id="directions-car" target="_blank" href="#"><i class="material-icons">directions_car</i></a>
 
-                    <a id="directions-walk" target="_blank" href="#"><i
-                            class="material-icons">directions_walk</i></a>
+                        <a id="directions-walk" target="_blank" href="#"><i
+                                class="material-icons">directions_walk</i></a>
 
-                    <a id="directions-bus" target="_blank" href="#"><i class="material-icons">directions_bus</i></a>
+                        <a id="directions-bus" target="_blank" href="#"><i class="material-icons">directions_bus</i></a>
 
-                    <a id="directions-bike" target="_blank" href="#"><i
-                            class="material-icons">directions_bike</i></a>
+                        <a id="directions-bike" target="_blank" href="#"><i
+                                class="material-icons">directions_bike</i></a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
+    {% endif %}
 
     <div class="card">
         <div class="row" style="justify-content: center;">
@@ -263,7 +264,10 @@
     <script>
         $(document).ready(function () {
             window.libs.slick('slick_charlas');
-            window.libs.map({{ event.place|safe }});
+
+            {% if event.place %}
+                window.libs.map({{ event.place|safe }});
+            {% endif %}
         });
     </script>
 {% endblock %}

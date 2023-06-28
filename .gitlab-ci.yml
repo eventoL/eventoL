@@ -18,7 +18,7 @@ docker master image:
     - docker:dind
   script:
     - TAG=$(git describe --tags --always --abbrev=0)
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull $LATEST_IMAGE_NAME || true
     - docker build --cache-from $LATEST_IMAGE_NAME -t $LATEST_IMAGE_NAME .
     - docker tag $LATEST_IMAGE_NAME $RELEASE_IMAGE_REGISTRY:$TAG
@@ -35,7 +35,7 @@ docker dev image:
   services:
     - docker:dind
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker pull $LATEST_DEV_IMAGE_NAME || true
     - docker build --cache-from $LATEST_DEV_IMAGE_NAME -t $LATEST_DEV_IMAGE_NAME .
     - docker push $LATEST_DEV_IMAGE_NAME

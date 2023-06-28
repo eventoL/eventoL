@@ -1,7 +1,9 @@
 require('geocomplete/jquery.geocomplete.min');
 require('./jquery.formset');
 
-const loadForm = placeLabel => {
+const loadForm = () => {
+  /* Comment for google maps error, removed placeLabel param
+  
   $('#geocomplete').geocomplete({
     map: '.map_canvas',
     types: ['geocode', 'establishment'],
@@ -10,13 +12,15 @@ const loadForm = placeLabel => {
   $('#geocomplete').bind('geocode:result', (_, result) => {
     $(`#${placeLabel}`).val(JSON.stringify(result));
   });
-
+    
   let place = $(`#${placeLabel}`).val();
-
+  
   if (place !== '') {
     place = JSON.parse(place);
     $('#geocomplete').geocomplete('find', place.formatted_address);
   }
+
+  */
 
   $('#event-date-formset').formset({
     animateForms: true,
