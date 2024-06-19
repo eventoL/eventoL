@@ -84,22 +84,6 @@ class Base(Configuration):
     ROOT_URLCONF = 'eventol.urls'
     WSGI_APPLICATION = 'eventol.wsgi.application'
 
-    # Database
-    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
-            'USER': os.getenv('PSQL_USER', 'eventol'),
-            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
-            'HOST': os.getenv('PSQL_HOST', 'localhost'),
-            'PORT': os.getenv('PSQL_PORT', '5432'),
-            'OPTIONS': {
-                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
-            },
-        }
-    }
-
     THUMBNAIL_PROCESSORS = (
         'image_cropping.thumbnail_processors.crop_corners',
     ) + thumbnail_settings.THUMBNAIL_PROCESSORS
@@ -315,6 +299,7 @@ class Staging(Base):
                 BASE_DIR, 'front', 'webpack-stats-prod.json'),
         }
     }
+
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
         'PAGE_SIZE': 20,
@@ -407,6 +392,22 @@ class Staging(Base):
         'dsn': os.environ.get("SENTRY_DSN", "NOT_CONFIGURED")
     }
 
+    # Database
+    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
+            'USER': os.getenv('PSQL_USER', 'eventol'),
+            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
+            'HOST': os.getenv('PSQL_HOST', 'localhost'),
+            'PORT': os.getenv('PSQL_PORT', '5432'),
+            'OPTIONS': {
+                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
+            },
+        }
+    }
+
 
 class Prod(Staging):
     DEBUG = False
@@ -417,14 +418,22 @@ class Dev(Base):
         'autofixture',
         'debug_toolbar',
     )
-    AUTH_PASSWORD_VALIDATORS = []
     WEBPACK_LOADER = {
         'DEFAULT': {
             'BUNDLE_DIR_NAME': 'bundles/local/',  # end with slash
             'STATS_FILE': os.path.join(
                 BASE_DIR, 'front', 'webpack-stats-local.json'),
+
+    # Database
+    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'eventol_dev_db',
         }
     }
+
+    AUTH_PASSWORD_VALIDATORS = []
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,

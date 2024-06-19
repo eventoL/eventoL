@@ -14,7 +14,6 @@ from string import digits, ascii_lowercase, ascii_uppercase
 from ckeditor.fields import RichTextField
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import JSONField
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -23,6 +22,7 @@ from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
 from forms_builder.forms.models import AbstractField, AbstractForm
 from image_cropping import ImageCropField, ImageRatioField
+from jsonfield import JSONField
 
 from vote.models import VoteModel
 from manager.utils.report import count_by

@@ -5,20 +5,23 @@ from __future__ import unicode_literals
 from django.db import migrations, connection
 from django.db.utils import ProgrammingError
 
+
 def forwards_func(apps, schema_editor):
-    cursor = connection.cursor()
-    try:
-        cursor.execute('CREATE EXTENSION unaccent;')
-    except ProgrammingError:
-        pass
+    if 'sqlite' not in connection.vendor:
+        cursor = connection.cursor()
+        try:
+            cursor.execute('CREATE EXTENSION unaccent;')
+        except ProgrammingError:
+            pass
 
 
 def reverse_func(apps, schema_editor):
-    cursor = connection.cursor()
-    try:
-        cursor.execute('DROP EXTENSION unaccent;')
-    except ProgrammingError:
-        pass
+    if 'sqlite' not in connection.vendor:
+        cursor = connection.cursor()
+        try:
+            cursor.execute('DROP EXTENSION unaccent;')
+        except ProgrammingError:
+            pass
 
 
 class Migration(migrations.Migration):
