@@ -49,6 +49,10 @@ eventol/manager/static/manager/css/eventol.css
 eventol/static/
 media/
 env/
+venv/
+.venv/
+.env/
+.env
 eventol/media/talks_thumbnails/
 eventol/manager/static/admin/
 eventol/manager/static/autocomplete_light/
