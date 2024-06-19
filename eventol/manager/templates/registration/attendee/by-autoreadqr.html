@@ -1,5 +1,4 @@
 {% extends "generic-bootstrap-multiple-model-form.html" %}
-{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 {% block other-head %}{% if user.is_authenticated %}
@@ -52,7 +51,7 @@
 {% endblock %}
 
 {% block other-script %}
-    {% render_bundle 'qrcode' %}
+    <script type="text/javascript" src="{% static "build/qrcode.js" %}" alt="qrcode"></script>
     <script>
         $(document).ready(function () {
             var url = '{% url "attendance_by_autoreadqr"  event_slug %}';

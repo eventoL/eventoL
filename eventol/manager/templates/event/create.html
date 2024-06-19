@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-{% load render_bundle from webpack_loader %}
 {% load static %}
 {% load i18n %}
 {% load filters %}
 {% block other-head %}
-    {% render_bundle 'form' %}
+    <script type="text/javascript" src="{% static "build/form.js" %}" alt="form"></script>
 
     <style type="text/css">
         .map_canvas {

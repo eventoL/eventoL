@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 {% load l10n %}
@@ -20,8 +19,8 @@
 {% endblock %}
 
 {% block other-script %}
-  {% render_bundle 'vendors' %}
-  {% render_bundle 'Report' %}
+  <script type="text/javascript" src="{% static "build/vendors.js" %}" alt="vendors"></script>
+  <script type="text/javascript" src="{% static "build/Report.js" %}" alt="Report"></script>
   <script>
     window.render_components({
         ws_protocol: '{{ ws_protocol }}',

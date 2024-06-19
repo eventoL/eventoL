@@ -1,5 +1,4 @@
 <!doctype html>
-{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 <html lang="en">
@@ -15,9 +14,9 @@
   <body>
     <div id="root"></div>
 
-    {% render_bundle 'vendors' %}
-    {% render_bundle 'base' %}
-    {% render_bundle 'InstanceDetails' %}
+    <script type="text/javascript" src="{% static "build/vendors.js" %}" alt="vendors"></script>
+    <script type="text/javascript" src="{% static "build/base.js" %}" alt="base"></script>
+    <script type="text/javascript" src="{% static "build/InstanceDetails.js" %}" alt="InstanceDetails"></script>
     
   <script>
       {% get_available_languages as languages %}

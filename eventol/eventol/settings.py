@@ -60,7 +60,6 @@ class Base(Configuration):
         'allauth.socialaccount.providers.github',
         'captcha',
         'django.contrib.postgres',
-        'webpack_loader',
         'django_filters',
         'rest_framework',
         'channels',
@@ -292,13 +291,6 @@ class Staging(Base):
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
-    WEBPACK_LOADER = {
-        'DEFAULT': {
-            'BUNDLE_DIR_NAME': 'bundles/prod/',  # end with slash
-            'STATS_FILE': os.path.join(
-                BASE_DIR, 'front', 'webpack-stats-prod.json'),
-        }
-    }
 
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -418,11 +410,6 @@ class Dev(Base):
         'autofixture',
         'debug_toolbar',
     )
-    WEBPACK_LOADER = {
-        'DEFAULT': {
-            'BUNDLE_DIR_NAME': 'bundles/local/',  # end with slash
-            'STATS_FILE': os.path.join(
-                BASE_DIR, 'front', 'webpack-stats-local.json'),
 
     # Database
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -468,5 +455,4 @@ class Dev(Base):
 
 
 class Test(Dev):
-    WEBPACK_LOADER = Prod.WEBPACK_LOADER
     REST_FRAMEWORK = Prod.REST_FRAMEWORK

@@ -1,11 +1,10 @@
 {% extends "base.html" %}
-{% load render_bundle from webpack_loader %}
 {% load static %}
 {% load i18n %}
 {% load filters %}
 {% load cropping thumbnail %}
 {% block other-head %}
-    {% render_bundle 'clipboard' %}
+    <script type="text/javascript" src="{% static "build/clipboard.js" %}" alt="clipboard"></script>
     <style>
         .dropdown-menu li a {
             padding: 13px 16px;

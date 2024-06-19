@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 {% load l10n %}
@@ -18,8 +17,8 @@
         }
     </style>
 
-    {% render_bundle 'slick' %}
-    {% render_bundle 'map' %}
+    <script type="text/javascript" src="{% static "build/slick.js" %}" alt="slick"></script>
+    <script type="text/javascript" src="{% static "build/map.js" %}" alt="map"></script>
 {% endblock %}
 {% block content %}
     <div class="card">
