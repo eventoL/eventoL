@@ -1,3 +1,6 @@
+# import _tkinter # If this fails your Python may not be configured for Tk	
+# sudo apt install python3-tk tk-dev
+
 pyenv install 3.9.6
 pyenv shell 3.9.6
 
