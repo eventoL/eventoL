@@ -44,6 +44,7 @@ eventol/conf/locale/**/*.mo
 #My files
 my_settings.py
 deploy.txt
+eventol_dev_db
 eventol/manager/static/manager/css/eventol-bootstrap.css
 eventol/manager/static/manager/css/eventol.css
 eventol/static/
