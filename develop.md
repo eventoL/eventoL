@@ -2,7 +2,10 @@
 
 ## Instalar pyenv
 
+- URL: (pyenv/pyenv)[https://github.com/pyenv/pyenv]
+
 ```bash
+curl https://pyenv.run | bash
 ```
 
 ## python 3.9.6
@@ -23,8 +26,8 @@ source .venv/bin/activate
 
 ```bash
 pip install --upgrade pip
-pip install "setuptools<58.0.0" wheel --no-cache-dir
-pip install -r requirements-dev.txt --no-cache-dir
+pip install "setuptools<58.0.0" wheel
+pip install -r requirements-pycamp.txt
 ```
 
 ### Errores posibles
