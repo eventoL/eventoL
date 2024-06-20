@@ -29,3 +29,5 @@ django-tempus-dominus==5.1.2.8
 tablib==0.13.0
 raven==6.9.0
 django-jsonfield==1.4.1
+pillow==9.0.1
+
