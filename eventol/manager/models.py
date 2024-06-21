@@ -62,7 +62,7 @@ class EventManager(models.Manager):
 
     @staticmethod
     def get_event_by_user(user, tag_slug=None):
-        if user.is_authenticated():
+        if user.is_authenticated:
             event_users = EventUser.objects.filter(user=user)
             event_ids = [event_user.event.pk for event_user in list(event_users)]
             queryset = Event.objects.filter(pk__in=event_ids)
@@ -173,7 +173,7 @@ class Event(models.Model):
     event_slug = models.SlugField(_('URL'), max_length=100,
                                   help_text=_('For example: flisol-caba'), unique=True)
     customForm = models.ForeignKey(CustomForm, verbose_name=_noop('Custom form'),
-                                   blank=True, null=True)
+                                   blank=True, null=True, on_delete=models.CASCADE)
     cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
                              help_text=_('For example: flisol-caba'),
                              validators=[validate_url])
@@ -294,7 +294,7 @@ class Event(models.Model):
 
 class EventDate(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'),
-                              blank=True, null=True)
+                              blank=True, null=True, on_delete=models.CASCADE)
     date = models.DateField(_('Date'), help_text=_('When will your event be?'))
 
     def __str__(self):
@@ -310,7 +310,7 @@ class ContactMessage(models.Model):
     email = models.EmailField(verbose_name=_('Email'))
     message = models.TextField(verbose_name=_('Message'))
     event = models.ForeignKey(Event, verbose_name=_noop('Event'),
-                              blank=True, null=True)
+                              blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return _noop(
@@ -354,14 +354,14 @@ class ContactType(models.Model):
 
 
 class Contact(models.Model):
-    type = models.ForeignKey(ContactType, verbose_name=_('Contact Type'))
+    type = models.ForeignKey(ContactType, verbose_name=_('Contact Type'),on_delete=models.CASCADE)
     url = models.CharField(_noop('Direccion'),
                            help_text=_('i.e. https://twitter.com/flisol'),
                            max_length=200)
     text = models.CharField(_('Text'), max_length=200,
                             help_text=_('i.e. @Flisol'))
     event = models.ForeignKey(Event, verbose_name=_noop('Event'),
-                              related_name='contacts', blank=True, null=False)
+                              related_name='contacts', blank=True, null=False,on_delete=models.CASCADE)
 
     def __str__(self):
         return '{} - {} - {}'.format(self.event, self.type, self.text)
@@ -427,10 +427,10 @@ class EventUser(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     user = models.ForeignKey(User, verbose_name=_('User'),
-                             blank=True, null=True)
-    event = models.ForeignKey(Event, verbose_name=_('Event'))
+                             blank=True, null=True,on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, verbose_name=_('Event'),on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'),
-                               blank=True, null=True)
+                               blank=True, null=True,on_delete=models.CASCADE)
 
     def __str__(self):
         if self.user:
@@ -467,7 +467,7 @@ class EventUserAttendanceDate(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_noop('Event User'),
-                                   blank=False, null=False)
+                                   blank=False, null=False,on_delete=models.CASCADE)
     date = models.DateTimeField(_('Date'),
                                 help_text=_('The date of the attendance'),
                                 auto_now_add=True)
@@ -490,7 +490,7 @@ class Collaborator(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
-                                   blank=True, null=True)
+                                   blank=True, null=True, on_delete=models.CASCADE)
     assignation = models.CharField(_('Assignation'), max_length=200,
                                    blank=True, null=True,
                                    help_text=_('Anything you can help with \
@@ -523,7 +523,7 @@ class Organizer(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
-                                   blank=True, null=True)
+                                   blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('Organizer')
@@ -539,7 +539,7 @@ class Reviewer(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
-                                   blank=True, null=True)
+                                   blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.event_user)
@@ -595,8 +595,8 @@ class Attendee(models.Model):
     last_name = models.CharField(_('Last Name'), max_length=200, blank=True, null=True)
     nickname = models.CharField(_('Nickname'), max_length=200, blank=True, null=True)
     email = models.EmailField(_('Email'))
-    event = models.ForeignKey(Event, verbose_name=_('Event'))
-    ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True)
+    event = models.ForeignKey(Event, verbose_name=_('Event'), on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'), blank=True, null=True, on_delete=models.CASCADE)
     is_installing = models.BooleanField(_('Is going to install?'), default=False)
     additional_info = models.CharField(_('Additional Info'), max_length=200, blank=True, null=True,
                                        help_text=_('Additional info you consider \
@@ -605,7 +605,7 @@ class Attendee(models.Model):
     email_token = models.CharField(_('Confirmation Token'), max_length=200, blank=True, null=True)
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
     event_user = models.ForeignKey(
-        EventUser, verbose_name=_noop('Event User'), blank=True, null=True)
+        EventUser, verbose_name=_noop('Event User'), blank=True, null=True, on_delete=models.CASCADE)
     customFields = JSONField(default=dict)
 
     class Meta:
@@ -643,7 +643,7 @@ class AttendeeAttendanceDate(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     attendee = models.ForeignKey(Attendee, verbose_name=_noop('Attendee'),
-                                 blank=False, null=False)
+                                 blank=False, null=False, on_delete=models.CASCADE)
     date = models.DateTimeField(_('Date'),
                                 help_text=_('The date of the attendance'),
                                 auto_now_add=True)
@@ -662,7 +662,7 @@ class AttendeeAttendanceDate(models.Model):
 
 
 class InstallationMessage(models.Model):
-    event = models.ForeignKey(Event, verbose_name=_noop('Event'))
+    event = models.ForeignKey(Event, verbose_name=_noop('Event'), on_delete=models.CASCADE)
     message = RichTextField(verbose_name=_('Message Body'), help_text=_(
         'Email message HTML Body'), blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('Contact Email'))
@@ -686,7 +686,7 @@ class Installer(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     event_user = models.ForeignKey(EventUser, verbose_name=_('Event User'),
-                                   blank=True, null=True)
+                                   blank=True, null=True, on_delete=models.CASCADE)
     level = models.CharField(_('Level'), choices=installer_choices,
                              max_length=200,
                              help_text=_('Knowledge level for an installation'))
@@ -735,7 +735,7 @@ class Hardware(models.Model):
 
 class Room(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'),
-                              blank=True, null=True)
+                              blank=True, null=True, on_delete=models.CASCADE)
     name = models.CharField(_('Name'), max_length=200,
                             help_text=_('i.e. Classroom 256'))
 
@@ -795,9 +795,9 @@ class Activity(VoteModel, models.Model):
     objects = ActivityManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
-    event = models.ForeignKey(Event, verbose_name=_('Event'))
+    event = models.ForeignKey(Event, verbose_name=_('Event'), on_delete=models.CASCADE)
     owner = models.ForeignKey(
-        EventUser, help_text=_("Speaker or the person in charge of the activity"))
+        EventUser, help_text=_("Speaker or the person in charge of the activity"), on_delete=models.CASCADE)
     title = models.CharField(_('Title'), max_length=100,
                              blank=False, null=False)
     long_description = models.TextField(_('Long Description'))
@@ -806,10 +806,10 @@ class Activity(VoteModel, models.Model):
     justification = models.TextField(_('Justification'), blank=True, null=True,
                                      help_text=_('Why do you reject this proposal?'))
     room = models.ForeignKey(Room, verbose_name=_('Room'),
-                             blank=True, null=True)
+                             blank=True, null=True, on_delete=models.CASCADE)
     start_date = models.DateTimeField(_('Start Time'), blank=True, null=True)
     end_date = models.DateTimeField(_('End Time'), blank=True, null=True)
-    activity_type = models.ForeignKey(ActivityType, verbose_name=_('Activity Type'))
+    activity_type = models.ForeignKey(ActivityType, verbose_name=_('Activity Type'), on_delete=models.CASCADE)
     speakers_names = models.CharField(_('Speakers Names'), max_length=600,
                                       help_text=_("Comma separated speaker names"))
     speaker_bio = models.TextField(
@@ -964,14 +964,14 @@ class Installation(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     hardware = models.ForeignKey(Hardware, verbose_name=_('Hardware'),
-                                 blank=True, null=True)
+                                 blank=True, null=True, on_delete=models.CASCADE)
     software = models.ForeignKey(Software, verbose_name=_('Software'),
-                                 blank=True, null=True)
+                                 blank=True, null=True, on_delete=models.CASCADE)
     attendee = models.ForeignKey(Attendee, verbose_name=_('Attendee'),
-                                 help_text=_('The owner of the installed hardware'))
+                                 help_text=_('The owner of the installed hardware'), on_delete=models.CASCADE)
     installer = models.ForeignKey(EventUser, verbose_name=_('Installer'),
                                   related_name='installed_by', blank=True,
-                                  null=True)
+                                  null=True, on_delete=models.CASCADE)
     notes = models.TextField(_('Notes'), blank=True, null=True,
                              help_text=_('Info or trouble you \
                                          consider relevant to document'))

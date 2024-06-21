@@ -39,7 +39,7 @@ logger = logging.getLogger('eventol')
 
 class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Software.objects.none()
         softwares = Software.objects.all()
         if self.q:
@@ -49,7 +49,7 @@ class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
 
 class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Attendee.objects.none()
         event_slug = self.forwarded.get('event_slug', None)
         event_user = EventUser.objects.filter(
@@ -75,7 +75,7 @@ class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
 
 class AllAttendeeAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return Attendee.objects.none()
         event_slug = self.forwarded.get('event_slug', None)
         event_user = EventUser.objects.filter(
@@ -93,7 +93,7 @@ class AllAttendeeAutocomplete(autocomplete.Select2QuerySetView):
 
 class EventUserAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return EventUser.objects.none()
 
         event_slug = self.forwarded.get('event_slug', None)
