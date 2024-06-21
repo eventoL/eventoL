@@ -4,7 +4,7 @@
 {% load i18n %}
 {% load account %}
 
-{% user_display user as user_display %{% load render_bundle from webpack_loader %}}
+{% user_display user as user_display %}
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
@@ -24,6 +24,7 @@
         {% render_bundle 'base' %}
 
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+        <script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
 
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
         {% block other-head %}{% endblock %}

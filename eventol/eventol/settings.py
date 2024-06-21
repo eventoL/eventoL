@@ -409,14 +409,6 @@ class Staging(Base):
         }
     }
 
-    WEBPACK_LOADER = {
-        'DEFAULT': {
-            'BUNDLE_DIR_NAME': 'bundles/local/',  # end with slash
-            'STATS_FILE': os.path.join(
-                BASE_DIR, 'front', 'webpack-stats-local.json'),
-        }
-    }
-
 
 class Prod(Staging):
     DEBUG = False
@@ -434,6 +426,14 @@ class Dev(Base):
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': 'eventol_dev_db',
+        }
+    }
+
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/local/',  # end with slash
+            'STATS_FILE': os.path.join(
+                BASE_DIR, 'front', 'webpack-stats-local.json'),
         }
     }
 
