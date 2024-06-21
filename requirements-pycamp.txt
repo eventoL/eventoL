@@ -32,7 +32,7 @@ django-configurations==2.1
 django-debug-toolbar==2.1
 django-email-extras==0.3.4
 django-extensions==2.1.4
-django-filter==1.1.0
+django-filter @ git+https://github.com/ngodoy/django-filter@72b85316e8f6909f2b84b48d698653f3dddbcdb3
 django-forms-builder @ git+https://github.com/eventoL/django-forms-builder@a11c067474cde5039dc9c021271db95067bd75fa
 django-formset-js==0.5.0
 django-image-cropping==1.1.0
