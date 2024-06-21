@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 import withSizes from 'react-sizes';
 
 import Hero from '../../components/Hero';
-import Header from '../../components/Header';
 import Search from '../../components/Search';
 import TitleList from '../../components/TitleList';
 import {mapSizesToProps} from '../../utils/dom';
-import {
-  BACKGROUND_DEFAULT,
-  LOGO_HEADER_DEFAULT,
-  LOGO_LANDING_DEFAULT,
-} from '../../utils/constants';
+import {BACKGROUND_DEFAULT, LOGO_LANDING_DEFAULT} from '../../utils/constants';
 import {
   getSearchUrl,
   getMyEventsUrl,
@@ -29,14 +24,6 @@ class Home extends React.PureComponent {
     background: PropTypes.string,
     eventolMessage: PropTypes.string,
     handleOnChangeLanguage: PropTypes.func,
-    isMobile: PropTypes.bool.isRequired,
-    languages: PropTypes.arrayOf(
-      PropTypes.shape({
-        code: PropTypes.string,
-        name: PropTypes.string,
-      })
-    ),
-    logoHeader: PropTypes.string,
     logoLanding: PropTypes.string,
     user: PropTypes.shape({
       first_name: PropTypes.string,
@@ -48,8 +35,6 @@ class Home extends React.PureComponent {
     background: BACKGROUND_DEFAULT,
     eventolMessage: null,
     handleOnChangeLanguage: null,
-    languages: [],
-    logoHeader: LOGO_HEADER_DEFAULT,
     logoLanding: LOGO_LANDING_DEFAULT,
     user: null,
   };
@@ -75,25 +60,9 @@ class Home extends React.PureComponent {
 
   render() {
     const {searched, searchUrl} = this.state;
-    const {
-      user,
-      eventolMessage,
-      background,
-      logoHeader,
-      logoLanding,
-      isMobile,
-      languages,
-    } = this.props;
+    const {user, eventolMessage, background, logoLanding} = this.props;
     return (
       <div>
-        <Header
-          handlerOnChangeLanguage={this.handlerOnChangeLanguage}
-          isMobile={isMobile}
-          languages={languages}
-          logoHeader={logoHeader}
-          user={user}
-        />
-
         <Hero
           background={background}
           isLogged={user !== null}

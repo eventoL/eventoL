@@ -12,7 +12,6 @@ import {LOGO_HEADER_DEFAULT} from '../../utils/constants';
 export default class Header extends React.PureComponent {
   static propTypes = {
     handlerOnChangeLanguage: PropTypes.func.isRequired,
-    isMobile: PropTypes.bool.isRequired,
     languages: PropTypes.arrayOf(
       PropTypes.shape({
         code: PropTypes.string,
@@ -67,13 +66,9 @@ export default class Header extends React.PureComponent {
   };
 
   render() {
-    const {
-      isMobile,
-      logoHeader,
-      languages,
-      handlerOnChangeLanguage,
-    } = this.props;
-    if (!isMobile) return this.wideRender();
+    const {logoHeader, languages, handlerOnChangeLanguage} = this.props;
+    const test = true;
+    if (test) return this.wideRender();
     return (
       <header className="header">
         <div className="nav-narrow">
