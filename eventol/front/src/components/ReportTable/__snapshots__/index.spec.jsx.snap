@@ -1,0 +1,413 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Report Snapshots Default 1`] = `
+<ReactTable
+  className="-striped -highlight"
+  columns="columns"
+  data={
+    Array [
+      Object {
+        "event_slug": "event_slug",
+        "id": 1,
+        "location": Array [
+          "Capital Federal",
+          "Pompeya",
+          "Buenos Aires",
+          "Argentina",
+        ],
+        "name": "event name",
+        "report": Object {
+          "activity": Object {
+            "confirmed": 1,
+            "level_count": Object {
+              "1": 3,
+              "2": 2,
+              "3": 1,
+            },
+            "not_confirmed": 2,
+            "status_count": Object {
+              "1": 2,
+              "2": 1,
+            },
+            "total": 3,
+            "type_count": Object {
+              "Talk": 4,
+              "Workshop": 2,
+            },
+          },
+          "attendee": Object {
+            "with_event_user": Object {
+              "confirmed": 1,
+              "not_confirmed": 2,
+              "total": 3,
+            },
+            "without_event_user": Object {
+              "confirmed": 2,
+              "not_confirmed": 3,
+              "total": 5,
+            },
+          },
+          "collaborator": Object {
+            "confirmed": 3,
+            "not_confirmed": 4,
+            "total": 7,
+          },
+          "event_user": Object {
+            "confirmed": 4,
+            "not_confirmed": 5,
+            "total": 9,
+          },
+          "installation": Object {
+            "hardware_count": Object {
+              "notebook": 1,
+              "phone": 2,
+            },
+            "installer_count": Object {
+              "1": 2,
+              "2": 1,
+            },
+            "software_count": Object {
+              "arch": 1,
+              "fedora": 2,
+              "ubuntu": 3,
+            },
+            "total": 2,
+          },
+          "installer": Object {
+            "confirmed": 6,
+            "not_confirmed": 7,
+            "total": 13,
+          },
+          "organizer": Object {
+            "confirmed": 7,
+            "not_confirmed": 8,
+            "total": 15,
+          },
+          "speakers": 9,
+        },
+        "tags": Object {
+          "name": "tag name",
+          "slug": "tag slug",
+        },
+      },
+      Object {
+        "event_slug": "event_2_slug",
+        "id": 2,
+        "location": Array [
+          "Capital Federal",
+          "Monserrat",
+          "Buenos Aires",
+          "Argentina",
+        ],
+        "name": "event 2 name",
+        "report": Object {
+          "activity": Object {
+            "confirmed": 1,
+            "level_count": Object {
+              "1": 3,
+              "2": 2,
+              "3": 1,
+            },
+            "not_confirmed": 2,
+            "status_count": Object {
+              "1": 2,
+              "2": 1,
+            },
+            "total": 3,
+            "type_count": Object {
+              "Talk": 4,
+              "Workshop": 2,
+            },
+          },
+          "attendee": Object {
+            "with_event_user": Object {
+              "confirmed": 1,
+              "not_confirmed": 2,
+              "total": 3,
+            },
+            "without_event_user": Object {
+              "confirmed": 2,
+              "not_confirmed": 3,
+              "total": 5,
+            },
+          },
+          "collaborator": Object {
+            "confirmed": 3,
+            "not_confirmed": 4,
+            "total": 7,
+          },
+          "event_user": Object {
+            "confirmed": 4,
+            "not_confirmed": 5,
+            "total": 9,
+          },
+          "installation": Object {
+            "hardware_count": Object {
+              "notebook": 1,
+              "phone": 2,
+            },
+            "installer_count": Object {
+              "1": 2,
+              "2": 1,
+            },
+            "software_count": Object {
+              "arch": 1,
+              "fedora": 2,
+              "ubuntu": 3,
+            },
+            "total": 2,
+          },
+          "installer": Object {
+            "confirmed": 6,
+            "not_confirmed": 7,
+            "total": 13,
+          },
+          "organizer": Object {
+            "confirmed": 7,
+            "not_confirmed": 8,
+            "total": 15,
+          },
+          "speakers": 9,
+        },
+        "tags": Object {
+          "name": "tag 2 name",
+          "slug": "tag 2 slug",
+        },
+      },
+    ]
+  }
+  defaultPageSize={15}
+  defaultSorted={
+    Array [
+      Object {
+        "desc": false,
+        "id": "name",
+      },
+    ]
+  }
+  loading={true}
+  manual={true}
+  multiSort={false}
+  noDataText="There isn't any event yet."
+  onFetchData={[MockFunction]}
+  pageSizeOptions={
+    Array [
+      5,
+      10,
+      15,
+      20,
+      25,
+      50,
+      100,
+    ]
+  }
+  pages={null}
+  sortable={false}
+/>
+`;
+
+exports[`Report Snapshots Default 2`] = `
+<ReactTable
+  className="-striped -highlight"
+  columns="columns"
+  data={
+    Array [
+      Object {
+        "event_slug": "event_slug",
+        "id": 1,
+        "location": Array [
+          "Capital Federal",
+          "Pompeya",
+          "Buenos Aires",
+          "Argentina",
+        ],
+        "name": "event name",
+        "report": Object {
+          "activity": Object {
+            "confirmed": 1,
+            "level_count": Object {
+              "1": 3,
+              "2": 2,
+              "3": 1,
+            },
+            "not_confirmed": 2,
+            "status_count": Object {
+              "1": 2,
+              "2": 1,
+            },
+            "total": 3,
+            "type_count": Object {
+              "Talk": 4,
+              "Workshop": 2,
+            },
+          },
+          "attendee": Object {
+            "with_event_user": Object {
+              "confirmed": 1,
+              "not_confirmed": 2,
+              "total": 3,
+            },
+            "without_event_user": Object {
+              "confirmed": 2,
+              "not_confirmed": 3,
+              "total": 5,
+            },
+          },
+          "collaborator": Object {
+            "confirmed": 3,
+            "not_confirmed": 4,
+            "total": 7,
+          },
+          "event_user": Object {
+            "confirmed": 4,
+            "not_confirmed": 5,
+            "total": 9,
+          },
+          "installation": Object {
+            "hardware_count": Object {
+              "notebook": 1,
+              "phone": 2,
+            },
+            "installer_count": Object {
+              "1": 2,
+              "2": 1,
+            },
+            "software_count": Object {
+              "arch": 1,
+              "fedora": 2,
+              "ubuntu": 3,
+            },
+            "total": 2,
+          },
+          "installer": Object {
+            "confirmed": 6,
+            "not_confirmed": 7,
+            "total": 13,
+          },
+          "organizer": Object {
+            "confirmed": 7,
+            "not_confirmed": 8,
+            "total": 15,
+          },
+          "speakers": 9,
+        },
+        "tags": Object {
+          "name": "tag name",
+          "slug": "tag slug",
+        },
+      },
+      Object {
+        "event_slug": "event_2_slug",
+        "id": 2,
+        "location": Array [
+          "Capital Federal",
+          "Monserrat",
+          "Buenos Aires",
+          "Argentina",
+        ],
+        "name": "event 2 name",
+        "report": Object {
+          "activity": Object {
+            "confirmed": 1,
+            "level_count": Object {
+              "1": 3,
+              "2": 2,
+              "3": 1,
+            },
+            "not_confirmed": 2,
+            "status_count": Object {
+              "1": 2,
+              "2": 1,
+            },
+            "total": 3,
+            "type_count": Object {
+              "Talk": 4,
+              "Workshop": 2,
+            },
+          },
+          "attendee": Object {
+            "with_event_user": Object {
+              "confirmed": 1,
+              "not_confirmed": 2,
+              "total": 3,
+            },
+            "without_event_user": Object {
+              "confirmed": 2,
+              "not_confirmed": 3,
+              "total": 5,
+            },
+          },
+          "collaborator": Object {
+            "confirmed": 3,
+            "not_confirmed": 4,
+            "total": 7,
+          },
+          "event_user": Object {
+            "confirmed": 4,
+            "not_confirmed": 5,
+            "total": 9,
+          },
+          "installation": Object {
+            "hardware_count": Object {
+              "notebook": 1,
+              "phone": 2,
+            },
+            "installer_count": Object {
+              "1": 2,
+              "2": 1,
+            },
+            "software_count": Object {
+              "arch": 1,
+              "fedora": 2,
+              "ubuntu": 3,
+            },
+            "total": 2,
+          },
+          "installer": Object {
+            "confirmed": 6,
+            "not_confirmed": 7,
+            "total": 13,
+          },
+          "organizer": Object {
+            "confirmed": 7,
+            "not_confirmed": 8,
+            "total": 15,
+          },
+          "speakers": 9,
+        },
+        "tags": Object {
+          "name": "tag 2 name",
+          "slug": "tag 2 slug",
+        },
+      },
+    ]
+  }
+  defaultPageSize={15}
+  defaultSorted={
+    Array [
+      Object {
+        "desc": false,
+        "id": "name",
+      },
+    ]
+  }
+  loading={true}
+  manual={true}
+  multiSort={false}
+  noDataText="There isn't any event yet."
+  onFetchData={[MockFunction]}
+  pageSizeOptions={
+    Array [
+      5,
+      10,
+      15,
+      20,
+      25,
+      50,
+      100,
+    ]
+  }
+  pages={null}
+  sortable={false}
+/>
+`;

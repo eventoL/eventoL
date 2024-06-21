@@ -1,0 +1,109 @@
+@import '../../styles/variables';
+
+.item {
+  -ms-flex: 1 0 auto;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 0 auto;
+  -webkit-transition: background 1s ease;
+  background-clip: content-box;
+  background-color: $white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-size: 100%;
+  cursor: pointer;
+  flex: 1 0 auto;
+  height: 200px;
+  margin-right: 30px;
+  overflow: hidden;
+  transition: background 1s ease;
+
+  a {
+    text-decoration: none;
+  }
+
+  .overlay {
+    -webkit-transition: opacity .125s ease;
+    // FF3.6-15
+    background: -webkit-linear-gradient(top, $gradient-color 0%, transparent 100%);
+    // Chrome10-25,Safari5.1-6
+    background: linear-gradient(to bottom, $gradient-color 0%, transparent 100%);
+    // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
+    color: $light-gray;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 );
+    height: 100%;
+    opacity: 0;
+    padding: 20px;
+    pointer-events: none;
+    position: relative;
+    transition: opacity .125s ease;
+
+    .title {
+      -webkit-transition: opacity .25s ease;
+      font-size: 22px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+
+    .rating {
+      -webkit-transition: opacity .25s ease .125s;
+      font-size: 14px;
+      opacity: 0;
+      transition: opacity .25s ease .125s;
+
+      &.tags {
+        div {
+          border-radius: 5px;
+          display: inline;
+          padding: 2px;
+
+          &:hover {
+            background-color: $eventol-color;
+          }
+        }
+      }
+    }
+
+    .plot {
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      -webkit-transition: margin .25s ease .125s, opacity .25s ease .25s;
+      display: -webkit-box;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-top: 100px;
+      opacity: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: margin .25s ease .125s, opacity .25s ease .25s;
+    }
+  }
+}
+
+.item:hover {
+  background-size: 150%;
+
+  .overlay {
+    opacity: 1;
+    pointer-events: all;
+
+    .plot {
+      margin-top: 10px;
+      opacity: 1;
+    }
+
+    .title {
+      opacity: 1;
+    }
+
+    .rating {
+      opacity: 1;
+    }
+
+    .list-toggle {
+      opacity: 1;
+    }
+  }
+}

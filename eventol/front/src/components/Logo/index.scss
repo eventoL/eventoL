@@ -1,0 +1,39 @@
+@import '../../styles/index';
+
+.logo-component {
+  -webkit-transition: margin .125s ease;
+  height: 41px;
+  margin-right: 10px;
+  transition: margin .125s ease;
+  width: 151px;
+
+  a {
+    text-decoration: none;
+  }
+
+  svg {
+    -webkit-transform: scale(.5);
+    -webkit-transform-origin: 0 0;
+    transform: scale(.5);
+    transform-origin: 0 0;
+
+    path {
+      -webkit-transition: fill .125s ease;
+      fill: $eventol-color;
+      transition: fill .125s ease;
+    }
+  }
+}
+
+.logo-component:hover {
+  cursor: pointer;
+  margin-top: 2px;
+
+  svg {
+    path {
+      // sass-lint:disable no-important
+      fill: $black !important;
+      // sass-lint:enable no-important
+    }
+  }
+}

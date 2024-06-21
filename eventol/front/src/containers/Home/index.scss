@@ -1,0 +1,61 @@
+@import '../../styles/index';
+
+html,
+body,
+div,
+span,
+p,
+a,
+ul,
+li,
+header,
+nav {
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+q,
+blockquote {
+  quotes: none;
+
+  &::before,
+  &::after {
+    content: '';
+  }
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  background: $body-background;
+  color: $body-color;
+  font-family: 'Lato', sans-serif;
+  line-height: 1;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: .5em;
+  margin-top: 5px;
+}
+
+p {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 1em;
+}

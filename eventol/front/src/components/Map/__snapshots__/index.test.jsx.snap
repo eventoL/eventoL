@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Map Default Snapshot 1`] = `
+<div
+  className="item max-size"
+  id="mapId"
+>
+  Children
+</div>
+`;
