@@ -8,263 +8,21 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="{% static "manager/css/index.css" %}"/>
     <meta name="description" content="Event Management Software">
     <title>EventoL</title>
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
   </head>
-  <style>
-    @import url("https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900");
-    @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css");
-    .logo-component {
-      -webkit-transition: margin 0.125s ease;
-      height: 41px;
-      margin-right: 10px;
-      transition: margin 0.125s ease;
-      width: 151px;
-    }
-    .logo-component a {
-      text-decoration: none;
-    }
-    .logo-component svg {
-      -webkit-transform: scale(0.5);
-      -webkit-transform-origin: 0 0;
-      transform: scale(0.5);
-      transform-origin: 0 0;
-    }
-    .logo-component svg path {
-      -webkit-transition: fill 0.125s ease;
-      fill: #1f6879;
-      transition: fill 0.125s ease;
-    }
-    
-    .logo-component:hover {
-      cursor: pointer;
-      margin-top: 2px;
-    }
-    .logo-component:hover svg path {
-      fill: #000 !important;
-    }
-    @import url("https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900");
-    @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css");
-    .navigation nav ul button {
-      background-color: transparent;
-      border: 0;
-      color: #fff;
-      display: contents;
-      font-size: 100%;
-      margin: 0;
-      padding: 0;
-      vertical-align: baseline;
-    }
-    .navigation .languages-dropdown {
-      background-color: transparent;
-      border-radius: 3px;
-      color: #fff;
-      display: list-item;
-      font-size: 14px;
-      font-weight: 400;
-      padding: 7px 10px;
-      vertical-align: baseline;
-    }
-    .navigation .languages-dropdown .dropbtn i {
-      margin-left: 5px;
-    }
-    .navigation .languages-dropdown .dropdown-content {
-      background-color: #666a73;
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-      display: grid;
-      margin-top: 5px;
-      min-width: 160px;
-      position: relative;
-      z-index: 1;
-    }
-    .navigation .languages-dropdown .dropdown-content a {
-      border-radius: 3px;
-      display: block;
-      float: none;
-      font-size: 14px;
-      font-weight: 400;
-      padding: 7px 10px;
-      text-align: left;
-      text-decoration: none;
-      transition: background 0.125s ease;
-    }
-    .navigation .languages-dropdown .dropdown-content a:hover {
-      background: #1f6879;
-      cursor: pointer;
-    }
-    
-    @media (min-width: 950px) {
-      .navigation .languages-dropdown:hover .dropdown-content {
-        display: block;
-        position: fixed;
-      }
-      .navigation .languages-dropdown .dropdown-content {
-        display: none;
-        position: unset;
-      }
-      .navigation ul {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        -webkit-box-align: center;
-        align-items: center;
-        height: 37px;
-        padding: 0 10px;
-      }
-      .navigation ul li {
-        -webkit-transition: background 0.125s ease;
-        border-radius: 3px;
-        font-size: 14px;
-        font-weight: 400;
-        padding: 7px 10px;
-        transition: background 0.125s ease;
-      }
-      .navigation ul li a {
-        text-decoration: none;
-      }
-      .navigation ul a {
-        text-decoration: none;
-      }
-      .navigation ul li:hover {
-        background: #1f6879;
-        cursor: pointer;
-      }
-    }
-    @media (max-width: 950px) {
-      .navigation ul {
-        background: #666a73;
-        margin-right: 8vw;
-        opacity: 0.8;
-        z-index: 0;
-      }
-      .navigation ul a {
-        float: unset !important;
-        text-decoration: none;
-      }
-      .navigation ul a li {
-        -webkit-transition: background 0.125s ease;
-        border-radius: 3px;
-        font-size: 14px;
-        font-weight: 400;
-        padding: 7px 10px;
-        text-align: left;
-        transition: background 0.125s ease;
-      }
-      .navigation ul a li:hover {
-        background: #1f6879;
-        cursor: pointer;
-      }
-      .navigation ul li {
-        -webkit-transition: background 0.125s ease;
-        border-radius: 3px;
-        font-size: 14px;
-        font-weight: 400;
-        padding: 7px 10px;
-        text-align: left;
-        transition: background 0.125s ease;
-      }
-      .navigation ul li:hover {
-        background: #1f6879;
-        cursor: pointer;
-      }
-    }
-    @import url("https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900");
-    @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css");
-    .nav-narrow, .header {
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-    }
-    
-    .header {
-      background: -webkit-linear-gradient(top, #000 0%, transparent 100%);
-      background: linear-gradient(to bottom, #000 0%, transparent 100%);
-      box-sizing: border-box;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#a6000000", endColorstr="#00000000", GradientType=0);
-      left: 0;
-      padding: 40px;
-      position: fixed;
-      top: 0;
-      width: 100vw;
-      z-index: 6;
-    }
-    
-    .nav-wide {
-      display: none;
-    }
-    
-    @media (min-width: 950px) {
-      .nav-wide {
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        box-sizing: border-box;
-        width: 100vw;
-      }
-      .nav-narrow {
-        display: none;
-      }
-    }
-    @media (max-width: 950px) {
-      .logo-component {
-        position: absolute;
-      }
-    }
-    .nav-narrow {
-      box-sizing: border-box;
-      left: 0;
-      padding: 40px;
-      position: fixed;
-      top: 0;
-      width: 100vw;
-    }
-    .nav-narrow .nav-right {
-      margin-left: auto;
-      z-index: 7;
-    }
-    .nav-narrow .nav-right button {
-      background-color: transparent;
-      border: 0;
-      color: #fff;
-      display: contents;
-      font-size: 100%;
-      margin: 0;
-      padding: 0;
-      vertical-align: baseline;
-    }
-    .nav-narrow .nav-right i {
-      float: right;
-      z-index: 5;
-    }
-    .nav-narrow .nav-right .narrow-links {
-      display: none;
-    }
-    .nav-narrow .nav-right .narrow-links a {
-      clear: right;
-      display: inline;
-    }
-    
-    a {
-      color: #fff;
-      text-decoration: none;
-    }
-    a:focus, a:hover {
-      color: #fff;
-      text-decoration: none;
-    }
-  </style>
   <body>
     {% get_available_languages as languages %}
     {% include "components/header.html" with languages=languages user=user settings=EVENTOL_SETTINGS %}
 
-    <div id="root" style="top: 120px"><div>
+    <div id="root"><div>
 
       {% render_bundle 'vendors' %}
       {% render_bundle 'base' %}
@@ -272,6 +30,7 @@
       {% render_bundle 'map' %}
       {% render_bundle 'Home' %}
 
+    <script type="text/javascript" src="{% static "manager/js/index.js" %}"></script>
     <script>
       {% if languages %}
         var languages = [
