@@ -1,9 +1,10 @@
+{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load filters %}
 {% load i18n %}
 {% load account %}
 
-{% user_display user as user_display %}
+{% user_display user as user_display %{% load render_bundle from webpack_loader %}}
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
@@ -20,7 +21,7 @@
         {% endif %}
 
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
-        <script type="text/javascript" src="{% static "build/base.js" %}" alt="base"></script>
+        {% render_bundle 'base' %}
 
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 

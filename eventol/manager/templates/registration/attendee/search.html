@@ -1,4 +1,5 @@
 {% extends "generic-bootstrap-multiple-model-form.html" %}
+{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 
@@ -70,7 +71,7 @@
 {% endblock %}
 
 {% block other-script %}
-    <script type="text/javascript" src="{% static "build/qrcode.js" %}" alt="qrcode"></script>
+    {% render_bundle 'qrcode' %}
     <script>
         $(document).ready(function () {
             var errorMessage = '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}';

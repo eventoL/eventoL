@@ -60,6 +60,7 @@ class Base(Configuration):
         'allauth.socialaccount.providers.github',
         'captcha',
         'django.contrib.postgres',
+        'webpack_loader',
         'django_filters',
         'rest_framework',
         'channels',
@@ -228,7 +229,17 @@ class Base(Configuration):
     CAPTCHA_FLITE_PATH = '/usr/bin/flite'
     CAPTCHA_SOX_PATH = '/usr/bin/sox'
 
-    STATICFILES_DIRS = []
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'front/eventol/static'),
+    ]
+
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/prod/',  # end with slash
+            'STATS_FILE': os.path.join(
+                BASE_DIR, 'front', 'webpack-stats-prod.json'),
+        }
+    }
 
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
@@ -398,6 +409,14 @@ class Staging(Base):
         }
     }
 
+    WEBPACK_LOADER = {
+        'DEFAULT': {
+            'BUNDLE_DIR_NAME': 'bundles/local/',  # end with slash
+            'STATS_FILE': os.path.join(
+                BASE_DIR, 'front', 'webpack-stats-local.json'),
+        }
+    }
+
 
 class Prod(Staging):
     DEBUG = False
@@ -454,3 +473,4 @@ class Dev(Base):
 
 class Test(Dev):
     REST_FRAMEWORK = Prod.REST_FRAMEWORK
+    WEBPACK_LOADER = Prod.WEBPACK_LOADER

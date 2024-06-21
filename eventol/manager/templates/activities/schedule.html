@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load i18n %}
 {% load filters %}
 {% load static %}
 {% block other-head %}
-    <script type="text/javascript" src="{% static "build/schedule.js" %}" alt="schedule"></script>
+    {% render_bundle 'schedule' %}
     <style media="screen">
         .fc.fc-unthemed.fc-ltr {
             min-width: {{ rooms|get_schedule_size }}px;

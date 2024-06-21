@@ -1,4 +1,5 @@
 <!doctype html>
+{% load render_bundle from webpack_loader %}
 {% load staticfiles %}
 {% load i18n %}
 <html lang="en">
@@ -14,11 +15,11 @@
   <body>
     <div id="root"><div>
 
-    <script type="text/javascript" src="{% static "build/vendors.js" %}" alt="vendors"></script>
-    <script type="text/javascript" src="{% static "build/base.js" %}" alt="base"></script>
-    <script type="text/javascript" src="{% static "build/slick.js" %}" alt="slick"></script>
-    <script type="text/javascript" src="{% static "build/map.js" %}" alt="map"></script>
-    <script type="text/javascript" src="{% static "build/Home.js" %}" alt="Home"></script>
+      {% render_bundle 'vendors' %}
+      {% render_bundle 'base' %}
+      {% render_bundle 'slick' %}
+      {% render_bundle 'map' %}
+      {% render_bundle 'Home' %}
 
     <script>
       {% get_available_languages as languages %}

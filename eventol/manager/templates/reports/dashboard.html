@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load static %}
 {% load i18n %}
 {% load filters %}
 {% load cropping %}
 
 {% block other-head %}
-    <script type="text/javascript" src="{% static "build/reports.js" %}" alt="reports"></script>
+    {% render_bundle 'reports' %}
 {% endblock %}
 
 {% block page-header %}
