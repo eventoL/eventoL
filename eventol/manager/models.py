@@ -21,7 +21,7 @@ from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import gettext as _, gettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
-from django_jsonfield_backport.models import JSONField
+from django.db.models import JSONField
 
 from vote.models import VoteModel
 from manager.utils.report import count_by
