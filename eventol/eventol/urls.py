@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.urls import include, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic.base import TemplateView
@@ -33,26 +33,26 @@ router.register(r'installations', InstallationViewSet)
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', views.home, name="home"),
-    url(r'^api/', include(router.urls)),
-    url(r'^instance_details$', views.instance_details, name='instance_details'),
-    url(r'^report$', views.generic_report, name='generic_report'),
-    url(r'^create-event/$', views.create_event, name="create_event"),
-    url(r'^events/', include('manager.urls.events'), name='events'),
-    url(r'^tags/', include('manager.urls.event_tags'), name='event_tags'),
-    url(r'^admin/', admin.site.urls, name='admin'),
-    url(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
-    url(r'^accounts/profile/',
+    re_path(r'^$', views.home, name="home"),
+    re_path(r'^api/', include(router.urls)),
+    re_path(r'^instance_details$', views.instance_details, name='instance_details'),
+    re_path(r'^report$', views.generic_report, name='generic_report'),
+    re_path(r'^create-event/$', views.create_event, name="create_event"),
+    re_path(r'^events/', include('manager.urls.events'), name='events'),
+    re_path(r'^tags/', include('manager.urls.event_tags'), name='event_tags'),
+    re_path(r'^admin/', admin.site.urls, name='admin'),
+    re_path(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
+    re_path(r'^accounts/profile/',
         TemplateView.as_view(template_name='account/profile.html'),
         name="user_profile"),
-    url(r'^accounts/', include('allauth.urls')),
-    url(r'^captcha/', include('captcha.urls')),
-    url(r'^jsi18n/$', JavaScriptCatalog.as_view(),
+    re_path(r'^accounts/', include('allauth.urls')),
+    re_path(r'^captcha/', include('captcha.urls')),
+    re_path(r'^jsi18n/$', JavaScriptCatalog.as_view(),
         {'domain': 'djangojs', 'packages': None}, name='javascript-catalog'),
-    url(r'^i18n/', include('django.conf.urls.i18n')),
+    re_path(r'^i18n/', include('django.conf.urls.i18n')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns += [url(r'^__debug__/', include(debug_toolbar.urls))]
+    urlpatterns += [re_path(r'^__debug__/', include(debug_toolbar.urls))]

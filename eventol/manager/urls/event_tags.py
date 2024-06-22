@@ -1,7 +1,7 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from manager import views
 
 urlpatterns = [
-    url(r'^(?P<tag>[\w-]+)$', views.event_tag_index, name='tag_index'),
+    re_path(r'^(?P<tag>[\w-]+)$', views.event_tag_index, name='tag_index'),
 ]

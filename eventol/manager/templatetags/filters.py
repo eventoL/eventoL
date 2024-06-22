@@ -3,7 +3,7 @@ import json
 from allauth.socialaccount import providers
 from allauth.socialaccount.models import SocialApp
 from django import forms, template
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 from vote.models import Vote
 
 from manager.constants import (

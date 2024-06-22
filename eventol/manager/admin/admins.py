@@ -4,7 +4,7 @@
 
 from django.contrib import admin
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 from image_cropping import ImageCroppingMixin
 from import_export.admin import ExportMixin
 
