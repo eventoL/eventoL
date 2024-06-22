@@ -65,6 +65,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Vistaus"><img src="https://avatars1.githubusercontent.com/u/1716229?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Heimen Stoffels</b></sub></a><br /><a href="#translation-Vistaus" title="Translation">🌍</a></td>
     <td align="center"><a href="https://github.com/lizzyd710"><img src="https://avatars2.githubusercontent.com/u/12602768?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Elizabeth Sherrock</b></sub></a><br /><a href="#translation-lizzyd710" title="Translation">🌍</a></td>
     <td align="center"><a href="https://nathanbonnemains.squill.fr"><img src="https://avatars.githubusercontent.com/u/45366162?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nathan Bonnemains</b></sub></a><br /><a href="#translation-NathanBnm" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/josx"><img src="https://avatars.githubusercontent.com/u/791137?v=4?s=100" width="100px;" alt=""/><br /><sub><b>José Luis Di Biase</b></sub></a><br /><a href="#translation-josx" title="Translation">🌍</a></td>
+    <td align="center"><a href=""><img src="https://avatars.githubusercontent.com/u/9253592?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tino Betancur</b></sub></a><br /><a href="#translation-tinolin" title="Translation-tinolin">🌍</a></td>
+    <td align="center"><a href="https://github.com/ngodoy"><img src="https://avatars.githubusercontent.com/u/2965269?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Nestor Luis Godoy Carmona </b></sub></a><br /><a href="#translation-ngodoy" title="Translation">🌍</a></td>
   </tr>
 </table>
 
