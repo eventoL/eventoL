@@ -22,7 +22,7 @@ Django==4.2
 django-allauth==0.63.3
 django-appconf==1.0.6
 django-autocomplete-light==3.11.0
-django-autofixture @ git+https://github.com/josx/django-autofixture@48c400e20fe54f7af5d254b57780244787a1953f
+django-autofixture @ git+https://github.com/josx/django-autofixture@dba7174ba68be6448eacb280cd66fa49fcce1092
 django-ckeditor==6.7.1
 django-configurations==2.5.1
 django-debug-toolbar==3.5.0
