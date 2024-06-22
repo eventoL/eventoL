@@ -5,7 +5,6 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from forms_builder.forms.models import FormEntry, FieldEntry
 from image_cropping import ImageCroppingMixin
 from import_export.admin import ExportMixin
 
@@ -16,7 +15,7 @@ from manager.admin.filters import (
     UserFromEventUserFilter, UserFromEventUserSetFilter
 )
 from manager.admin.generics import EventoLAdmin, EventoLEventUserAdmin, ThemeAdmin
-from manager.admin.inlines import EventDateAdminInline, EventTagInline, FieldAdminInline
+from manager.admin.inlines import EventDateAdminInline, EventTagInline
 from manager.admin.resources import (
     ActivityResource, AttendeeResource, CollaboratorResource, EventUserAttendanceDateResource,
     EventUserResource, InstallationResource, InstallerResource, OrganizerResource,
@@ -123,20 +122,6 @@ class ContactTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'icon_class', 'validate',)
     list_filter = ('icon_class', 'validate',)
     search_fields = ('name', 'icon_class', 'validate',)
-
-
-class CustomFormAdmin(admin.ModelAdmin):
-    formentry_model = FormEntry
-    fieldentry_model = FieldEntry
-
-    inlines = (FieldAdminInline,)
-    list_display = ("title", "status",)
-    list_display_links = ("title",)
-    list_editable = ("status",)
-    list_filter = ("status",)
-    search_fields = ("title",)
-    radio_fields = {"status": admin.HORIZONTAL}
-    fields = ('title',)
 
 
 class EventAdmin(ImageCroppingMixin, EventoLAdmin):
