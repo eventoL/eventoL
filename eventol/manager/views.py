@@ -33,9 +33,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.dateparse import parse_time
 from django.utils.formats import date_format, localize
-from django.utils.translation import ugettext
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext_noop as _noop
+from django.utils.translation import gettext
+from django.utils.translation import gettext as _
+from django.utils.translation import gettext_noop as _noop
 from django.utils.version import get_version
 from djqscsv import render_to_csv_response
 from lxml import etree
@@ -644,8 +644,8 @@ def attendee_registration_print_code(request, event_slug):
     data = {
         'event_name': event.name,
         'qr_code': code.getvalue(),
-        'self_registration_title': ugettext('Self-registration'),
-        'self_registration_text': ugettext('Scan this QR code to register yourself'),
+        'self_registration_title': gettext('Self-registration'),
+        'self_registration_text': gettext('Scan this QR code to register yourself'),
     }
     template = {
         'text': {

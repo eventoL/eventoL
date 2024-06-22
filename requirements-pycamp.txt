@@ -18,23 +18,23 @@ cssselect2==0.7.0
 decorator==5.1.1
 defusedxml==0.7.1
 diff-match-patch==20230430
-Django==3.2
+Django==4.2
 django-allauth==0.63.3
 django-appconf==1.0.6
 django-autocomplete-light==3.11.0
-django-autofixture @ git+https://github.com/aryabartar/django-autofixture-for-django-2.x@f5962a79565c9b4c16c919b69ba430c243d1758f
+django-autofixture @ git+https://github.com/josx/django-autofixture@48c400e20fe54f7af5d254b57780244787a1953f
 django-ckeditor==6.7.1
 django-configurations==2.5.1
 django-debug-toolbar==3.5.0
 django-email-extras==0.3.4
-django-extensions==2.1.4
+django-extensions==3.2.3
 django-filter==21.1
 django-formset-js==0.5.0
 django-image-cropping==1.7
 django-import-export==4.0.9
 django-jquery-js==3.1.1
 django-js-asset==2.2.0
-django-jsonfield==1.4.1
+django-jsonfield-backport==1.0.5
 django-queryset-csv==1.0.2
 django-ranged-response==0.2.0
 django-simple-captcha==0.5.20

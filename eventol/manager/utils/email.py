@@ -1,7 +1,7 @@
 import cairosvg
 
 from django.core.mail import EmailMultiAlternatives
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 
 
 def get_activity_subject(event_name):

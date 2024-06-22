@@ -6,7 +6,7 @@ import pytest
 
 from django import forms
 from django.contrib.auth.models import AnonymousUser
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext as _
 
 from manager.constants import (
     ADD_ATTENDEE_PERMISSION_CODE_NAME, CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME
