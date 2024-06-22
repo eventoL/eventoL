@@ -766,31 +766,28 @@ a:hover {
   padding: 0;
   border: none;
   outline: none;
-
-  &:hover,
-  &:focus {
-    outline: none;
-    background: transparent;
-    color: transparent;
-
-    &:before {
-      opacity: $slick-opacity-on-hover;
-    }
-  }
-
-  &.slick-disabled:before {
-    opacity: $slick-opacity-not-active;
-  }
-
-  &:before {
-    font-family: $slick-font-family;
-    font-size: 20px;
-    line-height: 1;
-    color: $slick-arrow-color;
-    opacity: $slick-opacity-default;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+}
+.arrow:hover,
+.arrow:focus {
+  outline: none;
+  background: transparent;
+  color: transparent;
+}
+.arrow:hover:before,
+.arrow:focus:before {
+  opacity: 1;
+}
+.arrow.slick-disabled:before {
+  opacity: 0.25;
+}
+.arrow:before {
+  font-family: 'slick';
+  font-size: 20px;
+  line-height: 1;
+  color: white;
+  opacity: 0.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .arrow-prev {
