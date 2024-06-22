@@ -1,37 +1,43 @@
+{% load staticfiles %}
+{% load i18n %}
+
 <header class="header">
   {% comment %} Mobile version {% endcomment %}
   <div class="nav-narrow">
     <div class="logo-component" id="logo">
-      <a href="/"
-        ><img alt="header logo" src="/static/manager/img/eventol-white.png"
-      /></a>
+      <a href="/">
+        {% if EVENTOL_SETTINGS.logo_header %}
+          <img alt="header logo" src="{{ EVENTOL_SETTINGS.logo_header.url }}" />
+        {% else %}
+          <img alt="header logo" src="{% static "manager/img/eventol-white.png" %}"/>
+        {% endif %}
+      </a>
     </div>
     <div class="nav-right">
-      <button type="button" hx-on:click="toggleNavbarMenu()"><i class="fa fa-bars fa-2x"></i></button>
+      <button type="button" hx-on:click="toggleNavbarMenu()">
+        <i class="fa fa-bars fa-2x"></i>
+      </button>
       <div class="narrow-links">
         <div class="navigation" id="navigation">
           <nav>
             <ul>
               <button role="link" tabindex="0" type="button">
-                <li>Search</li></button
-              ><a href="http://eventol.github.io/eventoL/#/"
-                ><li>Documentation</li></a
-              ><a href="#featured"><li>Featured</li></a
-              ><a href="#recent"><li>Recent</li></a
-              ><a href="/report"><li>Generic report</li></a>
+                <li>{% trans "Search" %}</li>
+              </button>
+              <a href="http://eventol.github.io/eventoL/#/"><li>{% trans "Documentation" %}</li></a>
+              <a href="#featured"><li>{% trans "Featured" %}</li></a>
+              <a href="#recent"><li>{% trans "Recent" %}</li></a>
+              <a href="/report"><li>{% trans "Generic report" %}</li></a>
               <div class="languages-dropdown">
                 <button class="dropbtn" type="button">
-                  Languages<i class="fa fa-caret-down"></i>
+                  {% trans "Languages" %}<i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                  <a href="#lang" id="da">Danish</a
-                  ><a href="#lang" id="en">English</a
-                  ><a href="#lang" id="es">Spanish</a
-                  ><a href="#lang" id="fr">French</a
-                  ><a href="#lang" id="nb">Norwegian Bokmal</a
-                  ><a href="#lang" id="nl">Dutch</a
-                  ><a href="#lang" id="sv">Swedish</a
-                  ><a href="#lang" id="zh">Chinese</a>
+                  {% if languages %}
+                    {% for lang_code, lang in languages %}
+                      <a hx-on:click="change_lang('{{ lang_code }}')" id="{{ lang_code }}">{{ lang }}</a>
+                    {% endfor %}
+                  {% endif %}
                 </div>
               </div>
             </ul>
@@ -39,8 +45,8 @@
         </div>
         <div class="sign-in">
           <ul>
-            <li><a href="/accounts/login/">Sign In</a></li>
-            <li><a href="/accounts/signup/">Sign Up</a></li>
+            <li><a href="/accounts/login/">{% trans "Sign In" %}</a></li>
+            <li><a href="/accounts/signup/">{% trans "Sign Up" %}</a></li>
           </ul>
         </div>
       </div>
@@ -50,14 +56,32 @@
   {% comment %} Full version {% endcomment %}
   <div class="nav-wide">
     <div class="logo-component" id="logo">
-      <a href="/"><img alt="header logo" src="/static/manager/img/eventol-white.png" /></a>
+      <a href="/">
+        {% if EVENTOL_SETTINGS.logo_header %}
+          <img alt="header logo" src="{{ EVENTOL_SETTINGS.logo_header.url }}" />
+        {% else %}
+          <img alt="header logo" src="{% static "manager/img/eventol-white.png" %}"/>
+        {% endif %}
+      </a>
     </div>
     <div class="navigation" id="navigation">
       <nav>
         <ul>
-          <button role="link" tabindex="0" type="button"><li>Search</li></button><a href="http://eventol.github.io/eventoL/#/"><li>Documentation</li></a><a href="#featured"><li>Featured</li></a><a href="#recent"><li>Recent</li></a><a href="/report"><li>Generic report</li></a><div class="languages-dropdown">
-            <button class="dropbtn" type="button">Languages<i class="fa fa-caret-down"></i></button><div class="dropdown-content">
-              <a href="#lang" id="da">Danish</a><a href="#lang" id="en">English</a><a href="#lang" id="es">Spanish</a><a href="#lang" id="fr">French</a><a href="#lang" id="nb">Norwegian Bokmal</a><a href="#lang" id="nl">Dutch</a><a href="#lang" id="sv">Swedish</a><a href="#lang" id="zh">Chinese</a>
+          <button role="link" tabindex="0" type="button">
+            <li>{% trans "Search" %}</li>
+          </button>
+          <a href="http://eventol.github.io/eventoL/#/"><li>{% trans "Documentation" %}</li></a>
+          <a href="#featured"><li>{% trans "Featured" %}</li></a>
+          <a href="#recent"><li>{% trans "Recent" %}</li></a>
+          <a href="/report"><li>{% trans "Generic report" %}</li></a>
+          <div class="languages-dropdown">
+            <button class="dropbtn" type="button">{% trans "Languages" %}<i class="fa fa-caret-down"></i></button>
+            <div class="dropdown-content">
+              {% if languages %}
+                {% for lang_code, lang in languages %}
+                  <a hx-on:click="change_lang('{{ lang_code }}')" id="{{ lang_code }}">{{ lang }}</a>
+                {% endfor %}
+              {% endif %}
             </div>
           </div>
         </ul>
@@ -65,12 +89,8 @@
     </div>
     <div class="sign-in">
       <ul>
-        <li>
-          <a href="/accounts/login/">Sign In</a>
-        </li>
-        <li>
-          <a href="/accounts/signup/">Sign Up</a>
-        </li>
+        <li><a href="/accounts/login/">{% trans "Sign In" %}</a></li>
+        <li><a href="/accounts/signup/">{% trans "Sign Up" %}</a></li>
       </ul>
     </div>
   </div>

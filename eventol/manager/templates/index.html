@@ -8,9 +8,9 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="{% static "manager/css/index.css" %}"/>
     <meta name="description" content="Event Management Software">
@@ -20,7 +20,7 @@
   </head>
   <body>
     {% get_available_languages as languages %}
-    {% include "components/header.html" with languages=languages user=user settings=EVENTOL_SETTINGS %}
+    {% include "components/header.html" %}
 
     <div id="root"><div>
 
@@ -32,14 +32,6 @@
 
     <script type="text/javascript" src="{% static "manager/js/index.js" %}"></script>
     <script>
-      {% if languages %}
-        var languages = [
-          {% for lang_code, lang in languages %}
-            {code: '{{ lang_code }}', name: '{{ lang }}'},
-          {% endfor %}
-        ];
-      {% endif %}
-      
       window.render_components({
         {% if EVENTOL_SETTINGS.message and EVENTOL_SETTINGS.message.strip %}
           message: '{{ EVENTOL_SETTINGS.message }}',
@@ -47,10 +39,6 @@
 
         {% if EVENTOL_SETTINGS.background %}
           background: '{{ EVENTOL_SETTINGS.background.url }}',
-        {% endif %}
-
-        {% if EVENTOL_SETTINGS.logo_header %}
-          logo_header: '{{ EVENTOL_SETTINGS.logo_header.url }}',
         {% endif %}
 
         {% if EVENTOL_SETTINGS.logo_landing %}
@@ -64,20 +52,26 @@
             last_name: '{{ user.last_name | safe }}'
           },
         {% endif %}
-
-        {% if languages %}
-          languages: languages,
-          onChangeLanguage: function change_lang(language_code) {
-            $.post(
-              "{% url 'set_language' %}",
-              {language: language_code, csrfmiddlewaretoken: "{{ csrf_token }}"},
-              function(data, status, xhr) {
-                location.reload();
-              }
-            );
-          },
-        {% endif %}
       });
+
+      function change_lang(language_code) {
+        const url = "{% url 'set_language' %}";
+        const csrfToken = "{{ csrf_token }}";
+        
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': csrfToken
+          },
+          body: new URLSearchParams({
+            'language': language_code,
+            'csrfmiddlewaretoken': csrfToken
+          })
+        })
+        .then(() => location.reload());
+      }
+      
     </script>
   </body>
 </html>
