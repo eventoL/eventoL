@@ -39,6 +39,7 @@ django-queryset-csv==1.0.2
 django-ranged-response==0.2.0
 django-simple-captcha==0.5.20
 django-tempus-dominus==5.1.2.8
+django-utils-six==2.0
 django-vote==2.1.7
 django-webpack-loader==0.5.0
 djangorestframework==3.15.1
@@ -56,6 +57,7 @@ incremental==22.10.0
 ipython==8.18.1
 isort==4.3.21
 jedi==0.19.1
+jwt==1.3.1
 lazy-object-proxy==1.4.3
 lxml==5.2.2
 matplotlib-inline==0.1.7
@@ -123,4 +125,3 @@ wrapt==1.11.2
 xlrd==2.0.1
 xlwt==1.3.0
 zope.interface==6.4.post2
-jwt==1.3.1
