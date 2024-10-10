@@ -2,13 +2,14 @@
 # Allan Nordhøy <epost@anotheragency.no>, 2020.
 # Scoopity Whoop <Scoo0p@yandex.com>, 2020.
 # J. Lavoie <j.lavoie@net-c.ca>, 2021.
+# gallegonovato <fran-carro@hotmail.es>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-11 14:47+0000\n"
-"PO-Revision-Date: 2022-04-11 11:49-0300\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2024-10-10 11:16+0000\n"
+"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/eventol/django/"
 "es/>\n"
 "Language: es\n"
@@ -16,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Weblate 5.8-dev\n"
 
 msgid "Danish"
 msgstr "Danés"
@@ -170,10 +171,10 @@ msgstr ""
 "oraciones)"
 
 msgid "Limit Proposals Date"
-msgstr "Fecha límite para enviar propuestas de actividades"
+msgstr "Fecha límite de propuestas"
 
 msgid "Limit date to submit talk proposals"
-msgstr "Fecha límite para enviar propuestas de actividades"
+msgstr "Fechas límite para enviar propuestas de conferencias"
 
 msgid "set it to True to force the registration to be closed"
 msgstr "configurar en True para cerrar la registración del evento"
@@ -542,7 +543,7 @@ msgid "Comma separated speaker names"
 msgstr "Nombre de los disertantes (Separados por coma)"
 
 msgid "Speaker Bio"
-msgstr "Biografía del disertantes"
+msgstr "Biografía del orador"
 
 msgid "Tell us about you (we will use it as your \"bio\" in our website)"
 msgstr ""
@@ -611,21 +612,21 @@ msgstr ""
 "lugares"
 
 msgid "Schedule not confirmed yet"
-msgstr "El cronograma de actividades no está confirmado aún"
+msgstr "Programa aún no confirmado"
 
 msgid ""
 "The talk couldn't be registered because the schedule is "
 "not                         available (starts and ends at the same time)"
 msgstr ""
-"La charla no pudo ser registrada porque el horario no está disponible (la "
-"hora de inicio es posterior a la de fin)"
+"La charla no se pudo registrar porque el horario no "
+"está                         disponible (comienza y termina al mismo tiempo)"
 
 msgid ""
 "The talk couldn't be registered because the schedule is "
 "not                         available (starts after it finishes)"
 msgstr ""
-"La charla no pudo ser registrada porque el horario no está disponible (la "
-"hora de inicio es posterior a la de fin)"
+"La charla no se pudo registrar porque el horario no "
+"está                         disponible (comienza después de que termina)"
 
 msgid ""
 "The talk couldn't be registered because the                             room "
@@ -1034,13 +1035,13 @@ msgid "Confirmed"
 msgstr "Confirmado"
 
 msgid "Speakers Bio"
-msgstr "Biografiá del Disertante"
+msgstr "Biografía de los oradores"
 
 msgid "Description"
 msgstr "Descripción completa"
 
 msgid "Additional Information"
-msgstr "Información Adicional"
+msgstr "Información adicional"
 
 msgid "View Talk"
 msgstr "Ver Charla"
@@ -1125,7 +1126,7 @@ msgstr ""
 "                  "
 
 msgid "The schedule is not confirmed yet"
-msgstr "El cronograma de actividades no está confirmado aún"
+msgstr "El programa aún no está confirmado"
 
 msgid ""
 "\n"
@@ -1813,7 +1814,7 @@ msgid "Scan this QR code to register yourself"
 msgstr "Escaneá este código QR para registrarte a vos mismo"
 
 msgid "The registration code does not seems to be valid for this event"
-msgstr "El código de registración no parece ser válido para este evento"
+msgstr "El código de registro no parece ser válido para este evento"
 
 msgid "You can only register by yourself on the event date"
 msgstr "Solo podés auto registrarte el día del evento"
@@ -1830,7 +1831,9 @@ msgstr "No pudiste ser registrado (verificá los errores del formulario)"
 msgid ""
 "The registration code does                                   not seems to be "
 "valid for this event"
-msgstr "El código de registración no parece ser válido para este evento"
+msgstr ""
+"El código de registro no                                   No parece ser "
+"válido para este evento"
 
 msgid "Auto-reading QR codes is only available at the event date"
 msgstr ""
@@ -1947,7 +1950,7 @@ msgstr ""
 "contactese con un organizador"
 
 msgid "Additional info"
-msgstr "Información Adicional"
+msgstr "Información adicional"
 
 msgid "Speakers names"
 msgstr "Nombres de los disertantes"
@@ -1965,7 +1968,7 @@ msgid "Speaker email"
 msgstr "Correo del disertantes"
 
 msgid "Speaker bio"
-msgstr "Biografía del disertantes"
+msgstr "Biografía del orador"
 
 msgid "The talk was registered successfully!"
 msgstr "¡La charla fue registrada satisfactoriamente!"
