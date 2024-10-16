@@ -479,14 +479,89 @@ body {
             </div>
         </div>
     {% endif %}
+
+    <div class="form-group">
+        <div class="col-12 text-center">
+            <button id="button1id" name="button1id" class="btn btn-raised btn-success">
+                {% trans "Mark as present" %}
+            </button>
+            <a href="{% url "attendee_registration_by_collaborator"  event_slug %}" class="btn btn-raised btn-primary">
+                {% trans "Register new attendee" %}
+            </a>
+            <button type="button" class="btn btn-raised btn-info" data-toggle="modal" data-target="#qrmodal">
+                {% trans "scan qr" %}
+            </button>
+        </div>
+    </div>
+
+  <!-- Modal -->
+    <div id="QRModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">{% trans "Center the QR Code in the camera display below " %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="qr_reader" class="qrcode" style="width:300px;height:300px; margin: 0 auto;"></div>
+                    <span id="error" class="center"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block other-script %}
+    <script type="text/javascript" src="/static/autocomplete_light/jquery.init.js"></script>
+    {% render_bundle 'qrcode' %}
+
+
+
     <script>
+(function() {
+    let originalHref = window.location.href;  // Guardar el valor original
+
+    // Definir una nueva propiedad que controle los cambios de window.location.href
+    Object.defineProperty(window.location, 'href', {
+        get: function() {
+            // Esto se ejecuta cuando se lee window.location.href
+            return originalHref;
+        },
+        set: function(newUrl) {
+            // Esto se ejecuta cuando se intenta cambiar window.location.href
+            console.log("Interceptando redirección a: " + newUrl);
+
+            // Aquí puedes decidir si permitir la redirección o no
+            if (confirm("¿Realmente quieres redirigir a " + newUrl + "?")) {
+                originalHref = newUrl;
+                window.location.assign(newUrl);  // Redirigir manualmente
+            } else {
+                console.log("Redirección cancelada.");
+            }
+        }
+    });
+})();
+
         $(document).ready(function () {
+
+
+
             {% if event.place %}
                 window.libs.map({{ event.place|safe }});
             {% endif %}
+            var errorMessage = '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}';
+
+            $('#QRModal').on('show.bs.modal', () => {
+                window.libs.qrcode.registrationQr('QRModal', 'qr_reader', errorMessage);
+            });
+
+            $('#QRModal').on('hidden.bs.modal', () => {
+                window.libs.qrcode.stop('qr_reader');
+            });
         });
     </script>
+
 {% endblock %}
