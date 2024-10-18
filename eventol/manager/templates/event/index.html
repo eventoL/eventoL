@@ -462,9 +462,29 @@ body {
         </div>
     </div>
 
+    <div class="card card-pyday-dark">
+        <h3 style="text-align: center">Organizan</h3>
+        <div class="event-contacts">
+            <div class="row pb-4">
+                <div class="col-md-4 mt-4 d-flex justify-content-center align-items-center">
+                    <a class="contact-link" href="https://ac.python.org.ar/">
+                        <img style="filter: invert(100%)"  src="https://raw.githubusercontent.com/PyAr/asoc/refs/heads/master/isologos/pyar/Blanco%20y%20negro%20horizontal.png"  alt="Pyar" width="75%" height="auto"/>
+                    </a>
+                </div>
+                <div class="col-md-4 mt-4 d-flex justify-content-center align-items-center">
+                       <i class="fa fa-3x fa-plus"></i>
+                </div>
+                <div class="col-md-4 mt-4 d-flex justify-content-center align-items-center">
+                    <a class="contact-link" href="https://unahur.edu.ar/">
+                        <img style="filter: grayscale(1) brightness(10);"  src="https://www.nodal.am/wp-content/uploads/2017/07/UNAHUR.png" width="100%" height="auto"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {% if event.contacts.all|length > 0 %}
-        <div class="card">
+        <div class="card card-pyday-dark">
             <h3 style="text-align: center">¡Seguinos en redes!</h3>
             <div class="event-contacts">
                 <div class="row" style="padding-top:20px;">
@@ -479,27 +499,6 @@ body {
             </div>
         </div>
     {% endif %}
-
- <div class="card card-pyday-dark">
-        <h3 style="text-align: center">Organizan</h3>
-        <div class="event-contacts">
-            <div class="row pb-4">
-                <div class="col-md-4 mt-4 d-flex justify-content-center align-items-center">
-                    <a class="contact-link" href="https://ac.python.org.ar/">
-                        <img style="filter: invert(100%)"  src="https://raw.githubusercontent.com/PyAr/asoc/refs/heads/master/isologos/pyar/Blanco%20y%20negro%20horizontal.png"  alt="Pyar" width="85%" height="auto"/>
-                    </a>
-                </div>
-                <div class="col-md-4 mt-4 d-flex justify-content-center align-items-center">
-                       <i class="fa fa-3x fa-plus"></i>
-                </div>
-                <div class="col-md-4 mt-4 d-flex justify-content-center align-items-center">
-                    <a class="contact-link" href="https://unahur.edu.ar/">
-                        <img style="filter: grayscale(1) brightness(10);"  src="https://www.nodal.am/wp-content/uploads/2017/07/UNAHUR.png" width="100%" height="auto"/>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 {% endblock %}
