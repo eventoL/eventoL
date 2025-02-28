@@ -1,6 +1,6 @@
 from django.contrib.admin.options import TabularInline
 
-from manager.models import CustomField, Event, EventDate
+from manager.models import Event, EventDate
 
 
 class EventDateAdminInline(TabularInline):
@@ -9,8 +9,3 @@ class EventDateAdminInline(TabularInline):
 
 class EventTagInline(TabularInline):
     model = Event.tags.through
-
-
-class FieldAdminInline(TabularInline):
-    model = CustomField
-    exclude = ('visible', 'placeholder_text',)

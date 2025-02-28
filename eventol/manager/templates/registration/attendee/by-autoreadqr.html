@@ -1,5 +1,5 @@
 {% extends "generic-bootstrap-multiple-model-form.html" %}
-{% load staticfiles %}
+{% load static %}
 {% load i18n %}
 {% block other-head %}{% if user.is_authenticated %}
 <meta http-equiv="refresh" content="30; url={% url 'account_logout' %}?next={{ request.get_full_path|urlencode }}" />

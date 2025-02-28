@@ -20,7 +20,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import ugettext_lazy as _, ugettext_noop as _noop
-from forms_builder.forms.models import AbstractField, AbstractForm
 from image_cropping import ImageCropField, ImageRatioField
 from jsonfield import JSONField
 
@@ -119,42 +118,6 @@ class EventTag(models.Model):
             self.slug = get_unique_slug(self, 'name', 'slug')
         super().save(*args, **kwargs)
 
-
-class CustomForm(AbstractForm):
-    def published(self, for_user=None):
-        return True
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['title']
-        verbose_name = _('Custom Form')
-        verbose_name_plural = _('Custom Forms')
-
-
-class CustomField(AbstractField):
-    form = models.ForeignKey(CustomForm, related_name='fields', on_delete=models.CASCADE)
-    order = models.IntegerField(_('Order'), null=False, blank=False)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        fields_after = self.form.fields.filter(order__gte=self.order)
-        fields_after.update(order=models.F("order") - 1)
-        super().delete(*args, **kwargs)
-
-    def __str__(self):
-        return '{0}: {1} ({2})'.format(self.form, self.label, self.slug)
-
-    class Meta:
-        ordering = ['form', 'order']
-        verbose_name = _('Custom Field')
-        verbose_name_plural = _('Custom Fields')
-        unique_together = ('form', 'slug',)
-
-
 class Event(models.Model):
     objects = EventManager()
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
@@ -172,8 +135,6 @@ class Event(models.Model):
         EventTag, blank=True, help_text=_("Select tags to show this event in the EventTag landing"))
     event_slug = models.SlugField(_('URL'), max_length=100,
                                   help_text=_('For example: flisol-caba'), unique=True)
-    customForm = models.ForeignKey(CustomForm, verbose_name=_noop('Custom form'),
-                                   blank=True, null=True, on_delete=models.CASCADE)
     cname = models.CharField(_('CNAME'), max_length=50, blank=True, null=True,
                              help_text=_('For example: flisol-caba'),
                              validators=[validate_url])
@@ -556,11 +517,11 @@ class AttendeeManager(EventUserManager):
             queryset.filter(event_user__isnull=False))
         confirmed_with_event_user = AttendeeAttendanceDate.objects \
             .filter(attendee__event_user__in=event_users) \
-            .order_by('event_user') \
+            .order_by('attendee__event_user') \
             .distinct() \
             .count()
         total_with_event_user = len(event_users)
-        attendees = self.get_attendees(queryset)
+        attendees = self.get_attendee(queryset)
         confirmed = AttendeeAttendanceDate.objects \
             .filter(
                 attendee__in=attendees, attendee__event_user__isnull=True) \

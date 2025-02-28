@@ -7,7 +7,6 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.utils.decorators import available_attrs
 
 from manager.constants import (
     ADD_ATTENDEE_PERMISSION_CODE_NAME, ADD_ATTENDEE_PERMISSION_NAME,
@@ -143,7 +142,8 @@ def is_activity_public():
     If activities are private only will return true for collaborator users or activity owner
     """
     def decorator(view_func):
-        @wraps(view_func, assigned=available_attrs(view_func))
+        @wraps(view_func)
+
         def _wrapped_view(request, *args, **kwargs):
             activity_id = kwargs['activity_id']
             user = request.user
@@ -174,7 +174,7 @@ def user_passes_test(test_func, name_redirect):
     """
 
     def decorator(view_func):
-        @wraps(view_func, assigned=available_attrs(view_func))
+        @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
             if 'event_slug' in kwargs.keys():
                 event_slug = kwargs['event_slug']
