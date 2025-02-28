@@ -17,24 +17,21 @@ def create_autocomplete_form(formclass, query, user):
     return autocomplete_form
 
 
-if connection.vendor != 'sqlite':
-    @pytest.mark.django_db
-    def test_software_autocomplete_form_with_anonymous_user(softwares):
-        software_autocomplete_form = create_autocomplete_form(
-            SoftwareAutocomplete, 'soft', AnonymousUser())
-        assert list(software_autocomplete_form.get_queryset()) == list(Software.objects.none())
+@pytest.mark.django_db
+def test_software_autocomplete_form_with_anonymous_user(softwares):
+    software_autocomplete_form = create_autocomplete_form(
+        SoftwareAutocomplete, 'soft', AnonymousUser())
+    assert list(software_autocomplete_form.get_queryset()) == list(Software.objects.none())
 
+@pytest.mark.django_db
+def test_software_autocomplete_form_with_authenticated_user_without_softwares(user1):
+    software_autocomplete_form = create_autocomplete_form(SoftwareAutocomplete, 'soft', user1)
+    assert list(software_autocomplete_form.get_queryset()) == []
 
-    @pytest.mark.django_db
-    def test_software_autocomplete_form_with_authenticated_user_without_softwares(user1):
-        software_autocomplete_form = create_autocomplete_form(SoftwareAutocomplete, 'soft', user1)
-        assert list(software_autocomplete_form.get_queryset()) == []
-
-
-    @pytest.mark.django_db
-    def test_software_autocomplete_form_with_authenticated_user_get_softwares(user1, software1, software2):
-        software_autocomplete_form = create_autocomplete_form(SoftwareAutocomplete, 'soft', user1)
-        assert list(software_autocomplete_form.get_queryset()) == [software1, software2]
+@pytest.mark.django_db
+def test_software_autocomplete_form_with_authenticated_user_get_softwares(user1, software1, software2):
+    software_autocomplete_form = create_autocomplete_form(SoftwareAutocomplete, 'soft', user1)
+    assert list(software_autocomplete_form.get_queryset()) == [software1, software2]
 
 
 @pytest.mark.django_db
