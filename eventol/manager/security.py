@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import available_attrs
@@ -128,7 +128,7 @@ def are_activities_public(user, event_slug=None):
     if not settings.PRIVATE_ACTIVITIES:
         return True
 
-    if user.is_authenticated():
+    if user.is_authenticated:
         return is_reviewer(user, event_slug=event_slug)
 
     raise PermissionDenied(
@@ -154,7 +154,7 @@ def is_activity_public():
                     activity.status == "2",  # Accepted
                     not settings.PRIVATE_ACTIVITIES,
                     activity.owner.user == user,
-                    user.is_authenticated() and is_reviewer(user, event_slug=event_slug)
+                    user.is_authenticated and is_reviewer(user, event_slug=event_slug)
             ]):
                 return view_func(request, *args, **kwargs)
             raise PermissionDenied(

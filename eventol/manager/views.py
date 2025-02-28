@@ -25,7 +25,7 @@ from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.validators import validate_email
 from django.forms import HiddenInput, modelformset_factory
 from django.http import Http404, HttpResponse
@@ -204,7 +204,7 @@ def event_view(request, event_slug, html='index.html'):
 
 
 def home(request):
-    if 'registration_event_slug' in request.session and request.user.is_authenticated():
+    if 'registration_event_slug' in request.session and request.user.is_authenticated:
         event_slug = request.session.pop('registration_event_slug')
         role = request.session.pop('registration_role')
         event_index = reverse(
@@ -776,7 +776,7 @@ def attendance_by_autoreadqr(request, event_slug):
     user = request.user
     # Show page w/ reg code for collaborators/organizers
     if not event_registration_code \
-            and user.is_authenticated() \
+            and user.is_authenticated \
             and (
                     is_collaborator(user, event_slug=event_slug)
                     or is_organizer(user, event_slug=event_slug)
@@ -1049,7 +1049,7 @@ def attendee_registration(request, event_slug):
             )
         )
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         event_user = EventUser.objects.filter(event=event, user=request.user).first()
         if not event_user:
             event_user = EventUser(event=event, user=request.user)
@@ -1089,7 +1089,7 @@ def attendee_registration(request, event_slug):
                     attendee.id,
                     attendee.email_token)
 
-                if request.user.is_authenticated():
+                if request.user.is_authenticated:
                     return redirect(confirm_url)
 
                 body_text = _noop(
@@ -1206,7 +1206,7 @@ def attendee_confirm_email(request, event_slug, attendee_id, token):
 
 
 def installer_registration(request, event_slug):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         request.session['registration_event_slug'] = event_slug
         request.session['registration_role'] = 'installer'
     msg_success = _("You have successfully registered as an installer")
@@ -1224,7 +1224,7 @@ def installer_registration(request, event_slug):
 
 
 def collaborator_registration(request, event_slug):
-    if not request.user.is_authenticated():
+    if not request.user.is_authenticated:
         request.session['registration_event_slug'] = event_slug
         request.session['registration_role'] = 'collaborator'
     msg_success = _("You have successfully registered as a collaborator")
@@ -2031,7 +2031,7 @@ def delete_room(request, event_slug, room_id):
 def generic_report(request):
     events_private_data = None
     user = request.user
-    if user.is_authenticated() and user.is_superuser:
+    if user.is_authenticated and user.is_superuser:
         events_private_data = Event.objects.get_event_private_data()
     return render(
         request, 'generic-report.html', {
