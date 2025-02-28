@@ -228,9 +228,7 @@ class Base(Configuration):
     CAPTCHA_FLITE_PATH = '/usr/bin/flite'
     CAPTCHA_SOX_PATH = '/usr/bin/sox'
 
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'front/eventol/static'),
-    ]
+    STATICFILES_DIRS = []
 
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',

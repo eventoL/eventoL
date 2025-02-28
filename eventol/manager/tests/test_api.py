@@ -1,7 +1,7 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 import pytest
-
+from pytest_lazyfixture import lazy_fixture
 from eventol.api import EventSerializer
 from .constants import ALL_API_URL_NAMES, ALL_API_URLS_REQUIRED_FROM_PAGE
 
@@ -39,15 +39,15 @@ def test_index_query(api_reverse_name, query_params, api_request_factory, api_cl
     assert response.status_code == 200
 
 @pytest.mark.parametrize('api_reverse_name, fields, model', [
-    ('event-list', [], pytest.lazy_fixture('event1')),
-    ('event-list', ['name'], pytest.lazy_fixture('event1')),
-    ('event-list', ['name', 'abstract', 'event_slug'], pytest.lazy_fixture('event1')),
-    ('activity-list', [], pytest.lazy_fixture('activity1')),
-    ('activity-list', ['title'], pytest.lazy_fixture('activity1')),
-    ('activity-list', ['title', 'abstract', 'start_date'], pytest.lazy_fixture('activity1')),
-    ('installation-list', [], pytest.lazy_fixture('installation1')),
-    ('installation-list', ['notes'], pytest.lazy_fixture('installation1')),
-    ('installation-list', ['software', 'installer'], pytest.lazy_fixture('installation1')),
+    ('event-list', [], lazy_fixture('event1')),
+    ('event-list', ['name'], lazy_fixture('event1')),
+    ('event-list', ['name', 'abstract', 'event_slug'], lazy_fixture('event1')),
+    ('activity-list', [], lazy_fixture('activity1')),
+    ('activity-list', ['title'], lazy_fixture('activity1')),
+    ('activity-list', ['title', 'abstract', 'start_date'], lazy_fixture('activity1')),
+    ('installation-list', [], lazy_fixture('installation1')),
+    ('installation-list', ['notes'], lazy_fixture('installation1')),
+    ('installation-list', ['software', 'installer'], lazy_fixture('installation1')),
 ])
 @pytest.mark.django_db(transaction=True)
 def test_api_filter_fields(api_reverse_name, fields, api_request_factory, api_client, model):
