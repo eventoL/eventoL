@@ -2,7 +2,6 @@ import pytest
 
 from django.test import RequestFactory
 from django.contrib.auth.models import AnonymousUser
-from django.db import connection
 
 from manager.models import Software
 from manager.forms import SoftwareAutocomplete
@@ -45,6 +44,7 @@ def test_software_autocomplete_form_with_authenticated_user_get_and_filter_softw
 def test_software_autocomplete_form_with_authenticated_user_get_softwares_with_unaccent(user1, software1, software2):
     software_autocomplete_form = create_autocomplete_form(SoftwareAutocomplete, 'SóFtwÅrÉ', user1)
     assert list(software_autocomplete_form.get_queryset()) == [software1, software2]
+
 
 @pytest.mark.django_db
 def test_software_autocomplete_form_with_authenticated_user_get_only_5_softwares(user1, softwares):
