@@ -8,7 +8,7 @@ import socket
 
 import raven
 from configurations import Configuration
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from easy_thumbnails.conf import Settings as thumbnail_settings
 from easy_thumbnails.optimize.conf import OptimizeSettings
 

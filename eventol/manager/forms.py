@@ -24,7 +24,7 @@ from django.forms.models import BaseModelFormSet, ModelForm
 from django.forms.formsets import DELETION_FIELD_NAME
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from image_cropping import ImageCropWidget
 from tempus_dominus.widgets import DatePicker, TimePicker
 
