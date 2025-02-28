@@ -5,6 +5,7 @@ from django.contrib.auth.models import AnonymousUser
 
 from manager.models import Software
 from manager.forms import SoftwareAutocomplete
+from manager.utils.forms import USE_POSTGRES
 
 
 def create_autocomplete_form(formclass, query, user):
@@ -41,6 +42,7 @@ def test_software_autocomplete_form_with_authenticated_user_get_and_filter_softw
 
 
 @pytest.mark.django_db
+@pytest.mark.skipif(not USE_POSTGRES, reason="Test only applicable for PostgreSQL")
 def test_software_autocomplete_form_with_authenticated_user_get_softwares_with_unaccent(user1, software1, software2):
     software_autocomplete_form = create_autocomplete_form(SoftwareAutocomplete, 'SóFtwÅrÉ', user1)
     assert list(software_autocomplete_form.get_queryset()) == [software1, software2]

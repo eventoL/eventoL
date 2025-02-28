@@ -1,3 +1,5 @@
+from django.db import connection
+
 
 def get_custom_fields(event, data):
     if not event.customForm:
@@ -7,3 +9,6 @@ def get_custom_fields(event, data):
     for slug in slugs:
         customFields[slug] = data[slug] or None
     return customFields
+
+
+USE_POSTGRES = connection.vendor == 'postgresql'
