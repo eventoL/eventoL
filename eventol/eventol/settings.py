@@ -399,6 +399,15 @@ class Staging(Base):
         }
     }
 
+    # CSRF
+    CSRF_TRUSTED_ORIGINS = [
+        f"http://{os.getenv('APP_DNS')}",
+        f"https://{os.getenv('APP_DNS')}"
+    ]
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 class Prod(Staging):
     DEBUG = False
