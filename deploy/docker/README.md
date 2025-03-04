@@ -11,9 +11,9 @@
 mkdir -p db/postgres
 cp .env.dist .env (Customize if necessary)
 
-docker-compose pull
-docker-compose build --force-rm
-docker-compose up -d --build
+docker compose pull
+docker compose build --force-rm
+docker compose up -d --build
 ```
 
 ## This creates 5 different containers
@@ -21,7 +21,6 @@ docker-compose up -d --build
 ```bash
       Name                    Command               State                Ports
 --------------------------------------------------------------------------------------------
-docker_elasticsearch_1   /usr/local/bin/docker-entr ...   Up      9200/tcp, 9300/tcp
 docker_postgres_1        docker-entrypoint.sh postgres    Up      5432/tcp
 docker_redis_1           docker-entrypoint.sh redis ...   Up      6379/tcp
 docker_worker_1          tail -f /dev/null                Up      0.0.0.0:8000->8000/tcp
@@ -30,14 +29,14 @@ docker_worker_1          tail -f /dev/null                Up      0.0.0.0:8000->
 ## Running the django server
 
 ```bash
-docker-compose exec worker ./deploy/scripts/install-container-dev.sh
-docker-compose exec worker python eventol/manage.py runserver 0.0.0.0:8000
+docker compose exec worker ./deploy/scripts/install-container-dev.sh
+docker compose exec worker python eventol/manage.py runserver 0.0.0.0:8000
 ```
 
 ## To see the logs of any of them:
 
 ```bash
-docker-compose logs -f [worker|redis]
+docker compose logs -f [worker|redis]
 ```
 
 The source code is available under the src directory
@@ -48,7 +47,7 @@ By default it uses an sqlite db, with data already on it
 *password*: passw0rda
 ```
 
-Note: Each time something is pushed to the repository, gitlab registry builds a new image and tags it. In order to use the containers in development mode, is always necessary to recreate them each time a library is added using docker-compose build
+Note: Each time something is pushed to the repository, gitlab registry builds a new image and tags it. In order to use the containers in development mode, is always necessary to recreate them each time a library is added using docker compose build
 
 ### master
 
@@ -68,14 +67,14 @@ generate the translation files
 ### Create .po files with  translation string
 
 ```bash
-(first time) docker-compose exec worker python manage.py makemessages -l es --no-location
-(later times) docker-compose exec worker python manage.py makemessages -a --no-location
+(first time) docker compose exec worker python manage.py makemessages -l es --no-location
+(later times) docker compose exec worker python manage.py makemessages -a --no-location
 ```
 
 ### Compile translation files
 
 ```bash
-docker-compose exec worker python manage.py compilemessages
+docker compose exec worker python manage.py compilemessages
 ```
 
 ## Setup production mode
@@ -98,18 +97,18 @@ cp .env.dist .env
 ## Start containers
 
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 ### Uploading default configuration
 
 ```bash
-docker-compose exec worker python manage.py loaddata fixtures/initial_users.json
-docker-compose exec worker python manage.py loaddata fixtures/initial_config.json
+docker compose exec worker python manage.py loaddata fixtures/initial_users.json
+docker compose exec worker python manage.py loaddata fixtures/initial_config.json
 ```
 
 #### Create a new user
 
 ```bash
-docker-compose exec worker python manage.py createsuperuser
+docker compose exec worker python manage.py createsuperuser
 ```

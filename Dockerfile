@@ -25,29 +25,23 @@ RUN mkdir -p ${APP_ROOT}
 RUN mkdir -p /var/log/eventol
 WORKDIR ${APP_ROOT}
 
-# Create user
-RUN adduser -D -h ${APP_ROOT} -s /bin/bash app
-RUN chown app:app /var/log/eventol
-
 # Install python requirements
-COPY --chown=app:app ./requirements.txt ./requirements-dev.txt ${APP_ROOT}
+COPY ./requirements.txt ./requirements-dev.txt ${APP_ROOT}
 RUN pip3 install --no-cache-dir -r requirements-dev.txt
-
-# Set user
-USER app
+RUN pip3 install psycopg2-binary gunicorn
 
 # Copy python code
-COPY --chown=app:app ./Makefile ${APP_ROOT}/Makefile
-COPY --chown=app:app ./eventol ${APP_ROOT}/eventol
+COPY ./Makefile ${APP_ROOT}/Makefile
+COPY ./eventol ${APP_ROOT}/eventol
 RUN mkdir -p ${APP_ROOT}/eventol/manager/static
 RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
 
 # Copy git files
-COPY --chown=app:app ./.git ${APP_ROOT}/.git
+COPY ./.git ${APP_ROOT}/.git
 
 # Copy script for docker-compose wait and start-eventol
-COPY --chown=app:app ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
-COPY --chown=app:app ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
+COPY ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
+COPY ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
 
 # Collect statics
 RUN mkdir -p ${APP_ROOT}/eventol/static

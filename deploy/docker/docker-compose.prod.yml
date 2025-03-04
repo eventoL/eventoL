@@ -1,23 +1,13 @@
 version: '3.4'
 
 services:
-  daphne:
-    restart: always
-    build:
-      context: ../../.
-    depends_on:
-      - worker
-      - redis
-    env_file:
-      - .env
-    environment:
-      - DJANGO_CONFIGURATION=Prod
-    command: bash -c 'cd eventol; daphne -b 0.0.0.0 -p 8000 eventol.asgi:channel_layer'
-  
   worker:
     restart: always
     build:
       context: ../../.
+    depends_on:
+      - postgres
+      - redis
     env_file:
       - .env
     volumes:
@@ -35,7 +25,6 @@ services:
     restart: always
     build: ./nginx/
     depends_on:
-      - daphne
       - worker
     volumes:
       - type: bind
@@ -48,19 +37,17 @@ services:
         read_only: true
     environment:
       - VIRTUAL_HOST=${HOST}
-  
+
   postgres:
     restart: always
-    image: postgres:9.6
-    environment:
-      - POSTGRES_PASSWORD=${PSQL_PASSWORD}
-      - POSTGRES_USER=${PSQL_USER}
-      - POSTGRES_DB=${PSQL_DBNAME}
+    image: postgres:13
+    env_file:
+      - .env
     volumes:
       - type: bind
         source: /srv/deploys/eventoldata/postgres
         target: /var/lib/postgresql/data
-  
+
   nginx-proxy:
     restart: always
     image: jwilder/nginx-proxy
@@ -77,7 +64,7 @@ services:
         source: ./nginx_proxy_settings.conf
         target: /etc/nginx/conf.d/eventol_settings.conf
         read_only: true
-  
+
   redis:
-    image: redis:4.0.2
+    image: redis:6
     restart: always
