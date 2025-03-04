@@ -1,38 +1,7 @@
 #########################################
-# frontend image
-#########################################
-FROM node:16-alpine3.13 as frontend
-
-## Install system dependencies
-RUN apk --update add --no-cache \
-    git gcc make autoconf automake musl-dev zlib zlib-dev python2 g++ \
-  && rm -rf /var/cache/apk/* /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Set working directory
-WORKDIR /app
-RUN chown -R node:node /app
-
-# Set user
-USER node
-
-# Install yarn dependencies
-COPY --chown=node:node ./eventol/front/package.json ./eventol/front/yarn.lock ./
-RUN yarn install
-
-# Copy code
-COPY --chown=node:node ./eventol/front/ .
-
-# Build
-RUN yarn build
-
-EXPOSE 3000
-
-CMD ["tail", "-f", "/dev/null"]
-
-#########################################
 # build image
 #########################################
-FROM python:3.9.6-alpine3.13 as development
+FROM python:3.9.6-alpine3.13
 
 # Set environment variables
 ENV APP_ROOT /usr/src/app/
@@ -75,10 +44,6 @@ RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
 
 # Copy git files
 COPY --chown=app:app ./.git ${APP_ROOT}/.git
-
-# Copy frontend files
-COPY --chown=app:app --from=frontend /app/webpack-stats-prod.json ${APP_ROOT}/eventol/front/webpack-stats-prod.json
-COPY --chown=app:app --from=frontend /app/eventol/static ${APP_ROOT}/eventol/front/eventol/static
 
 # Copy script for docker-compose wait and start-eventol
 COPY --chown=app:app ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh

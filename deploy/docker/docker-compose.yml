@@ -4,7 +4,6 @@ services:
   worker:
     build:
       context: ../../.
-      target: development
     volumes:
       - type: bind
         source: ../../
@@ -17,23 +16,6 @@ services:
     depends_on:
       - redis
       - postgres
-
-  reactjs:
-    build:
-      context: ../../.
-      target: frontend
-    volumes:
-      - type: bind
-        source: ../../eventol/front/src
-        target: /app/src
-      - type: bind
-        source: ../../eventol/front/eventol
-        target: /app/eventol
-      - type: bind
-        source: ../../eventol/front/webpack-stats-local.json
-        target: /app/webpack-stats-local.json
-    ports:
-      - '3000:3000'
 
   redis:
     image: redis:4.0.2
