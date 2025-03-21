@@ -31,14 +31,17 @@ pip install -r requirements-pycamp.txt
 ```
 
 ### Errores posibles
-
 - **import _tkinter # If this fails your Python may not be configured for Tk	**: solución `sudo apt install python3-tk tk-dev`
+
 
 ## Correr el proyecto
 
 ```bash
 cd eventol
 ./manage.py migrate
+
+### Errores posibles
+- **./manage.py migrate: Error al intentar correr las migraciones.**Solucion:Es necesario ejecutar: `sudo  apt-get install -y gdal-bin`
 
 mkdir -p ../eventol/static
 mkdir -p ../eventol/front/eventol/static
