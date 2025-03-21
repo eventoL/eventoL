@@ -1,6 +1,6 @@
 -r requirements.txt
 
-django-autofixture @ git+https://github.com/josx/django-autofixture@dba7174ba68be6448eacb280cd66fa49fcce1092
+django-autofixture @ git+https://github.com/josx/django-autofixture@2c431f3dd0ea35b040ff170b10ddc920f3b0378b
 django-debug-toolbar==3.5.0
 ipdb
 ipython
