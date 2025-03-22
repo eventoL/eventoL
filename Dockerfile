@@ -34,7 +34,6 @@ RUN pip3 install psycopg2-binary gunicorn
 COPY ./Makefile ${APP_ROOT}/Makefile
 COPY ./eventol ${APP_ROOT}/eventol
 RUN mkdir -p ${APP_ROOT}/eventol/manager/static
-RUN mkdir -p ${APP_ROOT}/eventol/front/eventol/static
 
 # Copy git files
 COPY ./.git ${APP_ROOT}/.git
