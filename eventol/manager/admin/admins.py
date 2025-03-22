@@ -2,6 +2,7 @@
 # pylint: disable=too-few-public-methods
 # pylint: disable=no-self-use
 
+from django.conf import settings
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -45,6 +46,7 @@ class ActivityAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
 
 
 class ActivityTypeAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('name',)
     search_fields = ('name',)
 
@@ -119,6 +121,7 @@ class ContactMessageAdmin(EventoLAdmin):
 
 
 class ContactTypeAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('name', 'icon_class', 'validate',)
     list_filter = ('icon_class', 'validate',)
     search_fields = ('name', 'icon_class', 'validate',)
@@ -184,6 +187,7 @@ class EventUserAttendanceDateAdmin(EventoLEventUserAdmin):
 
 
 class HardwareAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('model', 'type', 'manufacturer',)
     list_filter = ('type', 'manufacturer',)
     search_fields = ('model', 'type', 'manufacturer',)
@@ -238,6 +242,7 @@ class RoomAdmin(EventoLAdmin):
 
 
 class SoftwareAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('name', 'type',)
     list_filter = ('type',)
     search_fields = ('name', 'type',)

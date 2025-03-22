@@ -9,6 +9,7 @@ import socket
 import raven
 from configurations import Configuration
 from django.utils.translation import gettext_lazy as _
+from django.contrib.admin import ModelAdmin
 from easy_thumbnails.conf import Settings as thumbnail_settings
 from easy_thumbnails.optimize.conf import OptimizeSettings
 
@@ -367,6 +368,9 @@ class Base(Configuration):
     JAZZMIN_UI_TWEAKS = {
         'theme': 'flatly',
     }
+    LIST_PER_PAGE = int(os.getenv('LIST_PER_PAGE', 25))
+    ModelAdmin.list_per_page = LIST_PER_PAGE
+
 
 class Staging(Base):
     DEBUG = str_to_bool(os.getenv('DEBUG', 'True'))
