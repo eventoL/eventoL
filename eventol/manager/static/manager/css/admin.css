@@ -50,3 +50,7 @@ a.nav-link.active {
 .login-logo img {
     max-height: 250px;
 }
+
+.prose-editor .ProseMirror {
+    min-height: 30vh;
+}

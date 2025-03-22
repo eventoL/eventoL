@@ -38,8 +38,6 @@ class Base(Configuration):
     INSTALLED_APPS = (
         'dal',
         'dal_select2',
-        'ckeditor',
-        'ckeditor_uploader',
         'jazzmin',
         'django.contrib.admin',
         'django.contrib.auth',
@@ -47,6 +45,7 @@ class Base(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django_prose_editor',
         'easy_thumbnails',
         'easy_thumbnails.optimize',
         'image_cropping',
@@ -152,14 +151,6 @@ class Base(Configuration):
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     )
 
-    CKEDITOR_CONFIGS = {
-        'default': {
-            'toolbar': 'full',
-            'width': 'unset',
-        },
-    }
-
-    CKEDITOR_UPLOAD_PATH = 'uploads/'
     DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(
         os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False')
     )

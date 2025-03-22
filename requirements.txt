@@ -3,7 +3,6 @@ backports.csv==1.0.7
 CairoSVG==2.1.1
 django-allauth==0.63.3
 django-autocomplete-light==3.11.0
-django-ckeditor==6.7.1
 django-configurations==2.5.1
 django-email-extras==0.3.4
 django-extensions==3.2.3
@@ -13,6 +12,7 @@ django-image-cropping==1.7
 django-import-export==4.0.9
 django-jazzmin==3.0.1
 django-queryset-csv==1.0.2
+django-prose-editor=0.10.4
 django-simple-captcha==0.5.20
 django-tempus-dominus==5.1.2.17
 django-utils-six==2.0
@@ -27,6 +27,7 @@ future==0.15.0
 jwt==1.3.1
 more-itertools==10.3.0
 msgpack-python==0.5.6
+nh3==0.2.21
 odfpy==1.4.1
 openpyxl==3.1.4
 Pillow==9.0.1
