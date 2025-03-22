@@ -1,0 +1,52 @@
+.img-circle.brand-image {
+    box-shadow: unset !important;
+}
+
+.brand-text {
+    font-weight: 550 !important;
+}
+
+a.nav-link.active {
+    box-shadow: unset !important;
+}
+
+.sidebar-collapse.sidebar-mini .main-sidebar:not(:hover) .nav-sidebar .nav-link {
+    justify-content: center;
+    justify-items: center;
+    align-self: center;
+    display: flex;
+}
+
+.object-tools {
+    margin: 0px;
+}
+
+.object-tools>a:not(:last-child) {
+    margin-right: 8px;
+}
+
+.page-actions {
+    align-items: center;
+}
+
+.select2-selection__choice__display {
+    color: var(--gray-800);
+    padding-left: 8px !important;
+}
+
+.btn.btn-info.form-control {
+    text-overflow: ellipsis;
+}
+
+.select2-results__option,
+.select2-selection__rendered {
+    text-transform: capitalize;
+}
+
+.pagination .page-item .page-link {
+    color: white;
+}
+
+.login-logo img {
+    max-height: 250px;
+}

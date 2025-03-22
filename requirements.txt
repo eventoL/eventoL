@@ -11,6 +11,7 @@ django-filter==21.1
 django-formset-js==0.5.0
 django-image-cropping==1.7
 django-import-export==4.0.9
+django-jazzmin==3.0.1
 django-queryset-csv==1.0.2
 django-simple-captcha==0.5.20
 django-tempus-dominus==5.1.2.17
