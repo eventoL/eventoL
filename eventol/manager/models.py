@@ -410,10 +410,11 @@ class EventUser(models.Model):
                 'nickname': self.user.username,
                 'email': self.user.email, 'event': self.event,
                 'event_date': date, 'ticket': self.ticket}
-
+    @property
     def attended(self):
         return EventUserAttendanceDate.objects.filter(event_user=self).exists()
 
+    @property
     def attended_today(self):
         return EventUserAttendanceDate.objects.filter(
             event_user=self, date__date=timezone.localdate()).exists()
@@ -592,9 +593,15 @@ class Attendee(models.Model):
                 'nickname': self.nickname, 'email': self.email,
                 'event': self.event, 'event_date': date, 'ticket': self.ticket}
 
+    @property
+    def attendance_date(self):
+        return AttendeeAttendanceDate.objects.filter(attendee=self).first()
+
+    @property
     def attended(self):
         return AttendeeAttendanceDate.objects.filter(attendee=self).exists()
 
+    @property
     def attended_today(self):
         return AttendeeAttendanceDate.objects.filter(
             attendee=self, date__date=timezone.localdate()).exists()

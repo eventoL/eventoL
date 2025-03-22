@@ -2,10 +2,11 @@
 # pylint: disable=too-few-public-methods
 # pylint: disable=no-self-use
 
+from import_export.fields import Field
 from import_export.resources import ModelResource
 
 from manager.models import (
-    Activity, Attendee, Collaborator, EventUser, EventUserAttendanceDate, Installation,
+    Activity, Attendee, AttendeeAttendanceDate, Collaborator, EventUser, EventUserAttendanceDate, Installation,
     Installer, Organizer, Reviewer, Ticket
 )
 
@@ -16,14 +17,44 @@ class ActivityResource(ModelResource):
 
 
 class AttendeeResource(ModelResource):
+    mode = Field(column_name='mode', readonly=True)
+    date = Field(column_name='date', readonly=True)
+    attended = Field(column_name='attended', readonly=True)
+
+    def dehydrate_mode(self, instance):
+        attendance_date = instance.attendance_date
+        if attendance_date:
+            return attendance_date.get_mode_display()
+        return ''
+    
+    def dehydrate_date(self, instance):
+        attendance_date = instance.attendance_date
+        if attendance_date:
+            return attendance_date.date
+        return ''
+    
+    def dehydrate_attended(self, instance):
+        return instance.attended
+
     class Meta:
         model = Attendee
         fields = (
             'first_name', 'last_name', 'nickname', 'email', 'email_confirmed',
             'is_installing', 'additional_info', 'registration_date',
+            'mode', 'date', 'attended'
         )
         export_order = fields
 
+
+class AttendeeAttendanceDateResource(ModelResource):
+    class Meta:
+        model = AttendeeAttendanceDate
+        fields = (
+            'attendee__first_name', 'attendee__last_name', 'attendee__nickname', 'attendee__email', 'attendee__email_confirmed',
+            'attendee__is_installing', 'attendee__additional_info', 'attendee__registration_date', 'full_name',
+            'date', 'mode', 'updated_at'
+        )
+        export_order = fields
 
 class CollaboratorResource(ModelResource):
     class Meta:

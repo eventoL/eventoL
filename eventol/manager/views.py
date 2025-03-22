@@ -296,7 +296,7 @@ def manage_attendance(request, event_slug):
         if attendee_form.is_valid():
             attendee = attendee_form.cleaned_data['attendee']
             if attendee:
-                if attendee.attended_today():
+                if attendee.attended_today:
                     messages.success(
                         request,
                         _(
@@ -325,7 +325,7 @@ def manage_attendance(request, event_slug):
         if collaborator_form.is_valid():
             event_user = collaborator_form.cleaned_data['event_user']
             if event_user:
-                if event_user.attended_today():
+                if event_user.attended_today:
                     messages.success(
                         request,
                         _(
@@ -382,7 +382,7 @@ def attendance_by_ticket(request, event_slug, ticket_code):
 
     if attendee:
         attendee = attendee.get()
-        if attendee.attended_today():
+        if attendee.attended_today:
             messages.success(
                 request,
                 _('The attendee has already been registered correctly.'))
@@ -723,7 +723,7 @@ def attendee_registration_by_self(request, event_slug, event_registration_code):
             mode = '1'
             attendee = form.save()
         if attendee:
-            if attendee.attended_today():
+            if attendee.attended_today:
                 messages.info(request, 'You are already registered and present! Go have fun')
                 return redirect(event_index_url)
             try:
