@@ -9,6 +9,7 @@ from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 from django_filters import BooleanFilter, FilterSet, IsoDateTimeFilter
+from easy_thumbnails.files import get_thumbnailer
 
 from manager.models import (Activity, Attendee, Collaborator, Event, EventUser,
                             Hardware, Installation, Installer, Organizer, Room,
@@ -33,7 +34,22 @@ class EventSerializer(EventolSerializer):
     activity_proposal_is_open = serializers.BooleanField(read_only=True)
     registration_is_open = serializers.BooleanField(read_only=True)
     tags = EventTagFromEventSerializer(many=True, read_only=True)
+    image = serializers.SerializerMethodField('get_cropped_image')
 
+    def get_cropped_image(self, instance):
+        if instance.image and instance.cropping:
+            try:
+                thumbnail = get_thumbnailer(instance.image).get_thumbnail({
+                    'box': instance.cropping,
+                    'crop': True,
+                    'size': (700, 450),
+                    'detail': True, 
+                })
+                return self.context['request'].build_absolute_uri(thumbnail.url)
+            except Exception:
+                pass
+        return None
+    
     class Meta:
         model = Event
         fields = ('url', 'name', 'abstract', 'limit_proposal_date',

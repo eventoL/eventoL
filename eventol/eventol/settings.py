@@ -4,7 +4,6 @@
 # pylint: disable=W0611
 
 import os
-import socket
 
 import raven
 from configurations import Configuration
@@ -87,6 +86,8 @@ class Base(Configuration):
     THUMBNAIL_PROCESSORS = (
         'image_cropping.thumbnail_processors.crop_corners',
     ) + thumbnail_settings.THUMBNAIL_PROCESSORS
+    IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
+    IMAGE_CROPPING_BACKEND_PARAMS = {}
 
     # Internationalization
     # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -110,14 +111,15 @@ class Base(Configuration):
     USE_TZ = True
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/static/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = BASE_DIR + 'media/'
+    MEDIA_URL = '/media/'
 
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
             'DIRS': [
-                MEDIA_ROOT
+                os.path.join(BASE_DIR, 'templates')
             ],
             'APP_DIRS': True,
             'OPTIONS': {
@@ -377,7 +379,7 @@ class Staging(Base):
     SECRET_KEY = os.getenv(
         'SECRET_KEY',
         '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
-    ALLOWED_HOSTS = [os.getenv('APP_DNS'), socket.gethostname()]
+    ALLOWED_HOSTS = [os.getenv('APP_DNS')]
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
@@ -461,10 +463,6 @@ class Staging(Base):
             }
         }
     }
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATIC_URL = '/static/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
 
     INSTALLED_APPS = Base.INSTALLED_APPS + (
         'raven.contrib.django.raven_compat',
