@@ -15,7 +15,7 @@ from ckeditor.fields import RichTextField
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.contrib.gis.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
@@ -159,6 +159,7 @@ class Event(models.Model):
     use_talks = models.BooleanField(_('Use Talks'), default=True)
     is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
     use_schedule = models.BooleanField(_('Use Schedule'), default=True)
+    geom = models.PointField(_('Geom'), null=True, blank=True)
     place = models.TextField(_('Place'), null=True, blank=True)
     image = ImageCropField(upload_to='images_thumbnails',
                            verbose_name=_('Image'), blank=True, null=True)

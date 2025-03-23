@@ -44,6 +44,7 @@ class Base(Configuration):
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
+        'django.contrib.gis',
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
@@ -67,6 +68,7 @@ class Base(Configuration):
         'django_extensions',
         'vote',
         'tempus_dominus',
+        'mapwidgets',
     )
 
     MIDDLEWARE = (
@@ -478,7 +480,7 @@ class Staging(Base):
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
             'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
             'USER': os.getenv('PSQL_USER', 'eventol'),
             'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
@@ -514,7 +516,7 @@ class Dev(Base):
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
+            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
             'NAME': 'eventol_dev_db',
         }
     }
