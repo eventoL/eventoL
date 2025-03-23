@@ -69,6 +69,9 @@ Gracias a estas personas maravillosas ([emojis](https://allcontributors.org/docs
     </tr>
     <tr>
       <td align="center" valign="top" width="20%"><a href="http://www.camba.coop"><img src="https://avatars.githubusercontent.com/u/791137?v=4?s=100" width="100px;" alt="José Luis Di Biase"/><br /><sub><b>José Luis Di Biase</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=josx" title="Code">💻</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/GEscandar"><img src="https://avatars.githubusercontent.com/u/66099900?v=4?s=100" width="100px;" alt="GEscandar"/><br /><sub><b>GEscandar</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=GEscandar" title="Code">💻</a></td>
+      <td align="center" valign="top" width="20%"><a href="http://www.nestorgodoy.com"><img src="https://avatars.githubusercontent.com/u/2965269?v=4?s=100" width="100px;" alt="Nestor Luis Godoy Carmona"/><br /><sub><b>Nestor Luis Godoy Carmona</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=ngodoy" title="Code">💻</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/cacrespo"><img src="https://avatars.githubusercontent.com/u/10950697?v=4?s=100" width="100px;" alt="Carlos A. Crespo"/><br /><sub><b>Carlos A. Crespo</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=cacrespo" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
