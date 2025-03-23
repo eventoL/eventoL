@@ -11,7 +11,7 @@ from uuid import uuid4
 from random import SystemRandom
 from string import digits, ascii_lowercase, ascii_uppercase
 
-from ckeditor.fields import RichTextField
+from django_prose_editor.sanitized import SanitizedProseEditorField
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -149,7 +149,7 @@ class Event(models.Model):
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
-    event_information = RichTextField(verbose_name=_('Event Info'),
+    event_information = SanitizedProseEditorField(verbose_name=_('Event Info'),
                                       help_text=_('Event Info HTML'),
                                       blank=True, null=True)
     schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
@@ -166,7 +166,7 @@ class Event(models.Model):
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
-    activities_proposal_form_text = RichTextField(
+    activities_proposal_form_text = SanitizedProseEditorField(
         verbose_name=_('Activity proposal form text'),
         help_text=_("A message to show in the activities proposal form"),
         blank=True, null=True
@@ -647,7 +647,7 @@ class AttendeeAttendanceDate(models.Model):
 
 class InstallationMessage(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), on_delete=models.CASCADE)
-    message = RichTextField(verbose_name=_('Message Body'), help_text=_(
+    message = SanitizedProseEditorField(verbose_name=_('Message Body'), help_text=_(
         'Email message HTML Body'), blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('Contact Email'))
 
