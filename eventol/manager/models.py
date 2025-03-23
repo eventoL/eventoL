@@ -22,6 +22,7 @@ from django.utils.formats import date_format
 from django.utils.translation import gettext as _, gettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 from django.db.models import JSONField
+from easy_thumbnails.files import get_thumbnailer
 
 from vote.models import VoteModel
 from manager.utils.report import count_by
@@ -236,6 +237,19 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_cropping_image(self, generate=False):
+        thumbnail = get_thumbnailer(self.image).get_thumbnail({
+            'box': self.cropping,
+            'crop': True,
+            'size': (700, 450),
+            'detail': False, 
+        }, generate=generate)
+        return thumbnail
+
+    @property
+    def cropping_image(self):
+        return self.get_cropping_image()
 
     class Meta:
         ordering = ['name']
@@ -250,6 +264,8 @@ class Event(models.Model):
         """
         if not self.event_slug:
             self.event_slug = get_unique_slug(self, 'name', 'slug')
+        if self.image and self.cropping:
+            self.get_cropping_image(generate=True)
         super().save(*args, **kwargs)
 
 
@@ -410,10 +426,11 @@ class EventUser(models.Model):
                 'nickname': self.user.username,
                 'email': self.user.email, 'event': self.event,
                 'event_date': date, 'ticket': self.ticket}
-
+    @property
     def attended(self):
         return EventUserAttendanceDate.objects.filter(event_user=self).exists()
 
+    @property
     def attended_today(self):
         return EventUserAttendanceDate.objects.filter(
             event_user=self, date__date=timezone.localdate()).exists()
@@ -592,9 +609,15 @@ class Attendee(models.Model):
                 'nickname': self.nickname, 'email': self.email,
                 'event': self.event, 'event_date': date, 'ticket': self.ticket}
 
+    @property
+    def attendance_date(self):
+        return AttendeeAttendanceDate.objects.filter(attendee=self).first()
+
+    @property
     def attended(self):
         return AttendeeAttendanceDate.objects.filter(attendee=self).exists()
 
+    @property
     def attended_today(self):
         return AttendeeAttendanceDate.objects.filter(
             attendee=self, date__date=timezone.localdate()).exists()

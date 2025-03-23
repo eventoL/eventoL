@@ -18,7 +18,7 @@ from manager.admin.filters import (
 from manager.admin.generics import EventoLAdmin, EventoLEventUserAdmin, ThemeAdmin
 from manager.admin.inlines import EventDateAdminInline, EventTagInline
 from manager.admin.resources import (
-    ActivityResource, AttendeeResource, CollaboratorResource, EventUserAttendanceDateResource,
+    ActivityResource, AttendeeAttendanceDateResource, AttendeeResource, CollaboratorResource, EventUserAttendanceDateResource,
     EventUserResource, InstallationResource, InstallerResource, OrganizerResource,
     ReviewerResource, TicketResource
 )
@@ -83,7 +83,9 @@ class AttendeeAdmin(ExportMixin, EventoLAdmin):
     get_email.short_description = _('Email')
 
 
-class AttendeeAttendanceDateAdmin(EventoLAdmin):
+class AttendeeAttendanceDateAdmin(ExportMixin, EventoLAdmin):
+    resource_class = AttendeeAttendanceDateResource
+
     list_display = ('attendee', 'mode', 'date',)
     list_filter = (EventFromAttendeeFilter, 'mode', 'date',)
     search_fields = (

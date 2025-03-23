@@ -17,7 +17,6 @@ from dal import autocomplete
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator, validate_email
-from django.db import OperationalError
 from django.db.models.query_utils import Q
 from django.forms import Form
 from django.forms.models import BaseModelFormSet, ModelForm
