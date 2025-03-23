@@ -113,8 +113,18 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "tinolin",
+      "name": "Tinolin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9253592?v=4",
+      "profile": "https://github.com/tinolin",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 5,
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
