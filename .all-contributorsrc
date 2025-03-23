@@ -113,8 +113,74 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "tinolin",
+      "name": "Tinolin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9253592?v=4",
+      "profile": "https://github.com/tinolin",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "cuococarlos",
+      "name": "Charlie",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5522872?v=4",
+      "profile": "https://github.com/cuococarlos",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "josx",
+      "name": "José Luis Di Biase",
+      "avatar_url": "https://avatars.githubusercontent.com/u/791137?v=4",
+      "profile": "http://www.camba.coop",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "GEscandar",
+      "name": "GEscandar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/66099900?v=4",
+      "profile": "https://github.com/GEscandar",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ngodoy",
+      "name": "Nestor Luis Godoy Carmona",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2965269?v=4",
+      "profile": "http://www.nestorgodoy.com",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "cacrespo",
+      "name": "Carlos A. Crespo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10950697?v=4",
+      "profile": "https://github.com/cacrespo",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "osiris",
+      "name": "OSiUX",
+      "avatar_url": "https://avatars.githubusercontent.com/u/360084?v=4",
+      "profile": "https://osiux.com/",
+      "contributions": [
+        "code",
+        "bug",
+        "tool"
+      ]
     }
   ],
   "contributorsPerLine": 5,
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
