@@ -28,6 +28,9 @@ from vote.models import VoteModel
 from manager.utils.report import count_by
 from manager.utils.slug import get_unique_slug
 
+from allauth.account.models import EmailAddress
+from django.db.models.signals import post_save
+
 logger = logging.getLogger('eventol')
 
 
@@ -999,3 +1002,18 @@ class EventolSetting(models.Model):
     class Meta:
         verbose_name = _('eventoL setting')
         verbose_name_plural = _('eventoL settings')
+
+
+def userprofile_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        if sender is User and instance.is_superuser:
+            user_object = User.objects.get(email=instance.email)
+            email_addres = EmailAddress()
+            email_addres.user = user_object
+            email_addres.email = user_object.email
+            email_addres.verified = True
+            email_addres.primary = False
+            email_addres.save()
+            return
+
+post_save.connect(userprofile_receiver, sender=User)
