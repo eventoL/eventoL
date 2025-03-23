@@ -9,7 +9,6 @@ from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 from django_filters import BooleanFilter, FilterSet, IsoDateTimeFilter
-from easy_thumbnails.files import get_thumbnailer
 
 from manager.models import (Activity, Attendee, Collaborator, Event, EventUser,
                             Hardware, Installation, Installer, Organizer, Room,
@@ -39,16 +38,10 @@ class EventSerializer(EventolSerializer):
     def get_cropped_image(self, instance):
         if instance.image and instance.cropping:
             try:
-                thumbnail = get_thumbnailer(instance.image).get_thumbnail({
-                    'box': instance.cropping,
-                    'crop': True,
-                    'size': (700, 450),
-                    'detail': True, 
-                })
-                return self.context['request'].build_absolute_uri(thumbnail.url)
+                return self.context['request'].build_absolute_uri(instance.cropping_image.url)
             except Exception:
                 pass
-        return None
+        return self.context['request'].build_absolute_uri('/static/manager/img/event_background.png')
     
     class Meta:
         model = Event
