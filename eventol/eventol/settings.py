@@ -134,6 +134,8 @@ class Base(Configuration):
     THUMBNAIL_PROCESSORS = (
         'image_cropping.thumbnail_processors.crop_corners',
     ) + thumbnail_settings.THUMBNAIL_PROCESSORS
+    IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
+    IMAGE_CROPPING_BACKEND_PARAMS = {}
 
     # Internationalization
     # https://docs.djangoproject.com/en/1.11/topics/i18n/
