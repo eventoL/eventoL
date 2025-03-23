@@ -4,6 +4,8 @@
 # pylint: disable=W0611
 
 import os
+import socket
+import environ
 
 import raven
 from configurations import Configuration
@@ -12,12 +14,58 @@ from django.contrib.admin import ModelAdmin
 from easy_thumbnails.conf import Settings as thumbnail_settings
 from easy_thumbnails.optimize.conf import OptimizeSettings
 
+env = environ.Env(
+    DEBUG=(bool, os.getenv('DEBUG', True)),
+    LANGUAGE_CODE=(str, os.getenv('LANGUAGE_CODE', 'en-US')),
+    TIME_ZONE=(str, os.getenv('TIME_ZONE', 'UTC')),
+    DONT_SET_FILE_UPLOAD_PERMISSIONS=(bool, os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', False)),
+    IS_ALPINE=(str, os.getenv('IS_ALPINE', 'not found')),
+    REDIS_HOST=(str, os.getenv('REDIS_HOST', 'redis')),
+    REDIS_PORT=(int, os.getenv('REDIS_PORT', 6379)),
+    EMAIL_BACKEND=(str, os.getenv('EMAIL_BACKEND',
+                   'django.core.mail.backends.console.EmailBackend')),
+    EMAIL_HOST=(str, os.getenv('EMAIL_HOST', 'smtp.unset')),
+    EMAIL_PORT=(int, os.getenv('EMAIL_PORT', 587)),
+    EMAIL_HOST_USER=(str, os.getenv('EMAIL_HOST_USER', None)),
+    EMAIL_HOST_PASSWORD=(str, os.getenv('EMAIL_HOST_PASSWORD', None)),
+    EMAIL_TIMEOUT=(int, os.getenv('EMAIL_TIMEOUT', 10)),
+    EMAIL_USE_TLS=(bool, os.getenv('EMAIL_USE_TLS', True)),
+    EMAIL_FROM=(str, os.getenv('EMAIL_FROM', 'change_unset@mail.com')),
+    DEFAULT_FROM_EMAIL=(str, os.getenv('EMAIL_FROM', 'change_unset@mail.com')),
+    ADMIN_TITLE=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
+    PRIVATE_ACTIVITIES=(bool, os.getenv('PRIVATE_ACTIVITIES', True)),
+    PROTOCOL=(str, os.getenv('PROTOCOL', 'ws')),
+    LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', 25)),
+    SECRET_KEY=(str, os.getenv('SECRET_KEY',
+                               '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
+    APP_DNS=(str, os.getenv('APP_DNS', socket.gethostname())),
+    LOG_FILE=(str, os.getenv('LOG_FILE', '/var/log/eventol/eventol.log')),
+    SENTRY_DSN=(str, os.getenv("SENTRY_DSN", "NOT_CONFIGURED")),
+    PSQL_DBNAME=(str, os.getenv('PSQL_DBNAME', 'eventol')),
+    PSQL_USER=(str, os.getenv('PSQL_USER', 'eventol')),
+    PSQL_PASSWORD=(str, os.getenv('PSQL_PASSWORD', 'secret')),
+    PSQL_HOST=(str, os.getenv('PSQL_HOST', 'localhost')),
+    PSQL_PORT=(int, os.getenv('PSQL_PORT', 5432)),
+    PSQL_OPTIONS_SSL=(str, os.getenv('PSQL_OPTIONS_SSL', "prefer")),
+    JAZZMIN_SITE_TITLE=(str, os.getenv('JAZZMIN_SITE_TITLE', 'EventoL Admin')),
+    JAZZMIN_SITE_HEADER=(str, os.getenv('JAZZMIN_SITE_HEADER', 'EventoL')),
+    JAZZMIN_SITE_BRAND=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
+    JAZZMIN_WELCOME_SIGN=(str, os.getenv('JAZZMIN_WELCOME_SIGN',
+                          'Administration panel of EventoL')),
+    JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True))
+)
+
+# import ipdb;ipdb.set_trace()
+
 
 def str_to_bool(str_bool):
     return str_bool.lower() == 'true'
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+# first try to load .env, second try lo load os.getenv and three use Defaults values
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=True)
 
 
 class Base(Configuration):
@@ -86,13 +134,11 @@ class Base(Configuration):
     THUMBNAIL_PROCESSORS = (
         'image_cropping.thumbnail_processors.crop_corners',
     ) + thumbnail_settings.THUMBNAIL_PROCESSORS
-    IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
-    IMAGE_CROPPING_BACKEND_PARAMS = {}
 
     # Internationalization
     # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-    LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en-US')
+    LANGUAGE_CODE = env('LANGUAGE_CODE')
     LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
     LANGUAGES = (
         ('da', _('Danish')),
@@ -105,21 +151,20 @@ class Base(Configuration):
         # ('zh', _('Chinese')),
     )
 
-    TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
+    TIME_ZONE = env('TIME_ZONE')
     USE_I18N = True
     USE_L10N = True
     USE_TZ = True
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATIC_URL = '/static/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
+    MEDIA_URL = BASE_DIR + 'media/'
 
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
             'DIRS': [
-                os.path.join(BASE_DIR, 'templates')
+                MEDIA_ROOT
             ],
             'APP_DIRS': True,
             'OPTIONS': {
@@ -162,9 +207,7 @@ class Base(Configuration):
     }
 
     CKEDITOR_UPLOAD_PATH = 'uploads/'
-    DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(
-        os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False')
-    )
+    DONT_SET_FILE_UPLOAD_PERMISSIONS = env('DONT_SET_FILE_UPLOAD_PERMISSIONS')
     FILE_UPLOAD_PERMISSIONS = None if DONT_SET_FILE_UPLOAD_PERMISSIONS else 0o644
 
     AUTHENTICATION_BACKENDS = (
@@ -253,32 +296,32 @@ class Base(Configuration):
         },
     }
 
-    IS_ALPINE = os.getenv('IS_ALPINE', "not found") != "not found"
+    IS_ALPINE = env('IS_ALPINE') != "not found"
     if IS_ALPINE:
         CHANNEL_LAYERS['default'] = {
             'BACKEND': 'asgi_redis.RedisChannelLayer',
             'CONFIG': {
                 'hosts': [(
-                    os.getenv('REDIS_HOST', 'redis'),
-                    int(os.getenv('REDIS_PORT', '6379')),
+                    env('REDIS_HOST'),
+                    env('REDIS_PORT'),
                 )],
             },
             'ROUTING': 'eventol.routing.channel_routing',
         }
 
-    EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
-    EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.unset')
-    EMAIL_PORT = os.getenv('EMAIL_PORT', '587')
-    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', None)
-    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', None)
-    EMAIL_TIMEOUT = int(os.getenv('EMAIL_TIMEOUT', '10'))
-    EMAIL_USE_TLS = str_to_bool(os.getenv('EMAIL_USE_TLS', 'True'))
-    EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
-    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_FROM)
+    EMAIL_BACKEND = env('EMAIL_BACKEND')
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_PORT = env('EMAIL_PORT')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_TIMEOUT = env('EMAIL_TIMEOUT')
+    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+    EMAIL_FROM = env('EMAIL_FROM')
+    DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
-    ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
-    WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
-    PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
+    ADMIN_TITLE = env('ADMIN_TITLE')
+    WS_PROTOCOL = env('PROTOCOL')
+    PRIVATE_ACTIVITIES = env('PRIVATE_ACTIVITIES')
     TEMPUS_DOMINUS_LOCALIZE = True
     TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 
@@ -287,15 +330,15 @@ class Base(Configuration):
     # Jazzmin settings
     # https://django-jazzmin.readthedocs.io/
     JAZZMIN_SETTINGS = {
-        'site_title': 'EventoL Admin',
-        'site_header': 'EventoL',
-        'site_brand': 'EventoL',
-        'welcome_sign': 'Administration panel of EventoL',
-        'copyright': 'EventoL',
+        'site_title': env('JAZZMIN_SITE_TITLE'),
+        'site_header': env('JAZZMIN_SITE_HEADER'),
+        'site_brand': env('JAZZMIN_SITE_BRAND'),
+        'welcome_sign': env('AZZMIN_WELCOME_SIGN'),
+        'copyright': env('JAZZMIN_SITE_BRAND'),
         'site_logo': 'manager/img/logo_e.png',
         'login_logo': 'manager/img/logo.png',
         'custom_css': 'manager/css/admin.css',
-        'language_chooser': True,
+        'language_chooser': env('JAZZMIN_LANGUAGE_CHOOSER'),
         'order_with_respect_to': [
             'auth',
             'auth.Group',
@@ -370,16 +413,15 @@ class Base(Configuration):
     JAZZMIN_UI_TWEAKS = {
         'theme': 'flatly',
     }
-    LIST_PER_PAGE = int(os.getenv('LIST_PER_PAGE', 25))
+    LIST_PER_PAGE = int(env('LIST_PER_PAGE'))
+    # LIST_PER_PAGE = 25
     ModelAdmin.list_per_page = LIST_PER_PAGE
 
 
 class Staging(Base):
-    DEBUG = str_to_bool(os.getenv('DEBUG', 'True'))
-    SECRET_KEY = os.getenv(
-        'SECRET_KEY',
-        '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
-    ALLOWED_HOSTS = [os.getenv('APP_DNS')]
+    DEBUG = env('DEBUG')
+    SECRET_KEY = env('SECRET_KEY')
+    ALLOWED_HOSTS = [env('APP_DNS')]
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
@@ -404,8 +446,8 @@ class Staging(Base):
             'BACKEND': 'asgi_redis.RedisChannelLayer',
             'CONFIG': {
                 'hosts': [(
-                    os.getenv('REDIS_HOST', 'redis'),
-                    int(os.getenv('REDIS_PORT', '6379')),
+                    env('REDIS_HOST'),
+                    env('REDIS_PORT'),
                 )],
             },
             'ROUTING': 'eventol.routing.channel_routing',
@@ -431,11 +473,8 @@ class Staging(Base):
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.handlers.RotatingFileHandler',
-                'filename': os.getenv(
-                    'LOG_FILE',
-                    '/var/log/eventol/eventol.log'
-                ),
-                'maxBytes': 1024*1024*10,
+                'filename': env('LOG_FILE'),
+                'maxBytes': 1024 * 1024 * 10,
                 'backupCount': 10,
                 'formatter': 'logservices'
             }
@@ -463,13 +502,17 @@ class Staging(Base):
             }
         }
     }
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/static/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
 
     INSTALLED_APPS = Base.INSTALLED_APPS + (
         'raven.contrib.django.raven_compat',
     )
 
     RAVEN_CONFIG = {
-        'dsn': os.environ.get("SENTRY_DSN", "NOT_CONFIGURED")
+        'dsn': env('SENTRY_DSN')
     }
 
     # Database
@@ -477,26 +520,27 @@ class Staging(Base):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
-            'USER': os.getenv('PSQL_USER', 'eventol'),
-            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
-            'HOST': os.getenv('PSQL_HOST', 'localhost'),
-            'PORT': os.getenv('PSQL_PORT', '5432'),
+            'NAME': env('PSQL_DBNAME'),
+            'USER': env('PSQL_USER'),
+            'PASSWORD': env('PSQL_PASSWORD'),
+            'HOST': env('PSQL_HOST'),
+            'PORT': env('PSQL_PORT'),
             'OPTIONS': {
-                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
+                'sslmode': env('PSQL_OPTIONS_SSL'),
             },
         }
     }
 
     # CSRF
     CSRF_TRUSTED_ORIGINS = [
-        f"http://{os.getenv('APP_DNS')}",
-        f"https://{os.getenv('APP_DNS')}"
+        f"http://{env('APP_DNS')}",
+        f"https://{env('APP_DNS')}"
     ]
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 class Prod(Staging):
     DEBUG = False
