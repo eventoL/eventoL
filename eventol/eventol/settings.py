@@ -4,7 +4,6 @@
 # pylint: disable=W0611
 
 import os
-import socket
 import environ
 
 import raven
@@ -38,7 +37,7 @@ env = environ.Env(
     LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', 25)),
     SECRET_KEY=(str, os.getenv('SECRET_KEY',
                                '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
-    APP_DNS=(str, os.getenv('APP_DNS', socket.gethostname())),
+    APP_DNS=(str, os.getenv('APP_DNS'), 'localhost'),
     LOG_FILE=(str, os.getenv('LOG_FILE', '/var/log/eventol/eventol.log')),
     SENTRY_DSN=(str, os.getenv("SENTRY_DSN", "NOT_CONFIGURED")),
     PSQL_DBNAME=(str, os.getenv('PSQL_DBNAME', 'eventol')),
@@ -159,14 +158,15 @@ class Base(Configuration):
     USE_TZ = True
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/static/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = BASE_DIR + 'media/'
+    MEDIA_URL = '/media/'
 
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
             'DIRS': [
-                MEDIA_ROOT
+                os.path.join(BASE_DIR, 'templates')
             ],
             'APP_DIRS': True,
             'OPTIONS': {
@@ -416,7 +416,6 @@ class Base(Configuration):
         'theme': 'flatly',
     }
     LIST_PER_PAGE = int(env('LIST_PER_PAGE'))
-    # LIST_PER_PAGE = 25
     ModelAdmin.list_per_page = LIST_PER_PAGE
 
 
@@ -504,10 +503,6 @@ class Staging(Base):
             }
         }
     }
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATIC_URL = '/static/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
 
     INSTALLED_APPS = Base.INSTALLED_APPS + (
         'raven.contrib.django.raven_compat',
