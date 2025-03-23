@@ -186,24 +186,15 @@ def is_speaker(user, event_slug):
 
 
 def can_register_as_collaborator(user, event):
-    if event.use_collaborators:
-        if not user.is_authenticated or not is_collaborator(user, event.event_slug):
-            return True
-    return False
+    return bool(event.use_collaborators and (not user.is_authenticated or not is_collaborator(user, event.event_slug)))
 
 
 def can_register_as_installer(user, event):
-    if event.use_installers:
-        if not user.is_authenticated or not is_installer(user, event.event_slug):
-            return True
-    return False
+    return bool(event.use_installers and (not user.is_authenticated or not is_installer(user, event.event_slug)))
 
 
 def can_register_installations(user, event):
-    if user.is_authenticated:
-        if event.use_installations and is_installer(user, event.event_slug):
-            return True
-    return False
+    return bool(user.is_authenticated and event.use_installations and is_installer(user, event.event_slug))
 
 
 @register.filter(name="show_collaborators_tab")

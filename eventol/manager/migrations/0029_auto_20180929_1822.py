@@ -224,6 +224,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name="customfield",
-            unique_together=set([("form", "order")]),
+            unique_together={("form", "order")},
         ),
     ]

@@ -32,7 +32,7 @@ def get_or_create_attendance_permission():
     attendance_permission, _ = Permission.objects.get_or_create(
         codename=CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME,
         content_type=content_type,
-        defaults=dict(name=CAN_TAKE_ATTENDANCE_PERMISSION_NAME),
+        defaults={"name": CAN_TAKE_ATTENDANCE_PERMISSION_NAME},
     )
     return attendance_permission
 
@@ -43,13 +43,13 @@ def add_attendance_permission(user):
     add_attendee_permission, _ = Permission.objects.get_or_create(
         codename=ADD_ATTENDEE_PERMISSION_CODE_NAME,
         content_type=content_type,
-        defaults=dict(name=ADD_ATTENDEE_PERMISSION_NAME),
+        defaults={"name": ADD_ATTENDEE_PERMISSION_NAME},
     )
 
     change_attendee_permission, _ = Permission.objects.get_or_create(
         codename=CHANGE_ATTENDEE_PERMISSION_CODE_NAME,
         content_type=content_type,
-        defaults=dict(name=CHANGE_ATTENDEE_PERMISSION_NAME),
+        defaults={"name": CHANGE_ATTENDEE_PERMISSION_NAME},
     )
 
     user.user_permissions.add(add_attendee_permission)

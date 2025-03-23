@@ -85,7 +85,7 @@ class EventManager(models.Manager):
         events = []
         for event in Event.objects.all():
             organizers = Organizer.objects.filter(event_user__event=event)
-            users = map(lambda organizer: organizer.event_user.user, organizers)
+            users = (organizer.event_user.user for organizer in organizers)
             full_names = [user.get_full_name() for user in users]
             events.append({"organizers": ",".join(full_names), "email": event.email, "id": event.id})
         return events
@@ -226,7 +226,7 @@ class Event(models.Model):
             place = json.loads(self.place)
             components = place["address_components"]
             components = filter(lambda componet: "political" in componet["types"], components)
-            components = map(lambda componet: componet["long_name"], components)
+            components = (componet["long_name"] for componet in components)
             return components
         except json.JSONDecodeError as error:
             logger.error(error)

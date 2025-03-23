@@ -17,8 +17,7 @@ def set_activity_type(apps, schema_editor):
     qs = Activity.objects.filter(activity_type=None)
 
     for activity_type in activity_type_choices.values():
-        at = ActivityType.objects.create(name=activity_type)
-        print(f"new activity_type created {at.name}")
+        ActivityType.objects.create(name=activity_type)
 
     for activity in qs:
         activity.activity_type = ActivityType.objects.get(

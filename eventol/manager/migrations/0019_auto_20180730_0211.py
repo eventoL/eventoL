@@ -23,9 +23,8 @@ def set_owner_defaults(apps, schema_editor):
         try:
             user, created = User.objects.get_or_create(email=email, defaults=defaults)
             if created:
-                print(f"new user created: {user.email}, (activity: {activity.title})")
+                pass
         except MultipleObjectsReturned:
-            print(f"Multiple EventUser returned: {user}, (activity: {activity.title})")
             user = User.objects.filter(email=email).first()
         # get a EventUser
         try:
@@ -33,9 +32,8 @@ def set_owner_defaults(apps, schema_editor):
                 user=user, defaults={"event": activity.event}
             )
             if created:
-                print(f"new EventUser created: {event_user}, (activity: {activity.title})")
+                pass
         except MultipleObjectsReturned:
-            print(f"Multiple EventUser returned: {user}, (activity: {activity.title})")
             event_user = EventUser.objects.filter(user=user).first()
         activity.owner = event_user
         activity.save()

@@ -933,10 +933,10 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name="eventuser",
-            unique_together=set([("event", "user")]),
+            unique_together={("event", "user")},
         ),
         migrations.AlterUniqueTogether(
             name="attendee",
-            unique_together=set([("event", "email")]),
+            unique_together={("event", "email")},
         ),
     ]

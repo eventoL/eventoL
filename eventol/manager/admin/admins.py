@@ -277,7 +277,7 @@ class EventAdmin(ImageCroppingMixin, EventoLAdmin):
     def url(self, obj):
         if obj.external_url is not None and obj.external_url != "":
             return obj.external_url
-        return reverse("index", kwargs=dict(event_slug=obj.event_slug))
+        return reverse("index", kwargs={"event_slug": obj.event_slug})
 
     def filter_event(self, events, queryset):
         return queryset.filter(pk__in=[event.pk for event in events])

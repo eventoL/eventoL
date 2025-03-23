@@ -11,6 +11,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterUniqueTogether(
             name="customfield",
-            unique_together=set([("form", "slug")]),
+            unique_together={("form", "slug")},
         ),
     ]

@@ -1757,5 +1757,5 @@ def instance_details(request):
     return render(
         request,
         "instance_details.html",
-        context=dict(events=events, users=users, versions=versions),
+        context={"events": events, "users": users, "versions": versions},
     )
