@@ -70,6 +70,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="20%"><a href="http://www.nestorgodoy.com"><img src="https://avatars.githubusercontent.com/u/2965269?v=4?s=100" width="100px;" alt="Nestor Luis Godoy Carmona"/><br /><sub><b>Nestor Luis Godoy Carmona</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=ngodoy" title="Code">💻</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/cacrespo"><img src="https://avatars.githubusercontent.com/u/10950697?v=4?s=100" width="100px;" alt="Carlos A. Crespo"/><br /><sub><b>Carlos A. Crespo</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=cacrespo" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
