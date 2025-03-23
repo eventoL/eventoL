@@ -51,10 +51,10 @@ env = environ.Env(
     JAZZMIN_SITE_BRAND=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
     JAZZMIN_WELCOME_SIGN=(str, os.getenv('JAZZMIN_WELCOME_SIGN',
                           'Administration panel of EventoL')),
-    JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True))
+    JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
 )
 
-# import ipdb;ipdb.set_trace()
+#import ipdb;ipdb.set_trace()
 
 
 def str_to_bool(str_bool):
@@ -64,7 +64,7 @@ def str_to_bool(str_bool):
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # first try to load .env, second try lo load os.getenv and three use Defaults values
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=True)
+environ.Env.read_env(os.path.join(BASE_DIR, '../.env'), overwrite=True)
 
 
 class Base(Configuration):
@@ -84,8 +84,6 @@ class Base(Configuration):
     INSTALLED_APPS = (
         'dal',
         'dal_select2',
-        'ckeditor',
-        'ckeditor_uploader',
         'jazzmin',
         'django.contrib.admin',
         'django.contrib.auth',
@@ -93,6 +91,7 @@ class Base(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django_prose_editor',
         'easy_thumbnails',
         'easy_thumbnails.optimize',
         'image_cropping',
@@ -201,15 +200,9 @@ class Base(Configuration):
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     )
 
-    CKEDITOR_CONFIGS = {
-        'default': {
-            'toolbar': 'full',
-            'width': 'unset',
-        },
-    }
-
-    CKEDITOR_UPLOAD_PATH = 'uploads/'
-    DONT_SET_FILE_UPLOAD_PERMISSIONS = env('DONT_SET_FILE_UPLOAD_PERMISSIONS')
+    DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(
+        os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False')
+    )
     FILE_UPLOAD_PERMISSIONS = None if DONT_SET_FILE_UPLOAD_PERMISSIONS else 0o644
 
     AUTHENTICATION_BACKENDS = (
