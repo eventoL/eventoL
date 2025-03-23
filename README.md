@@ -19,7 +19,7 @@ Status
 ------
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
 [![pipeline status](https://gitlab.com/eventol/eventoL/badges/master/pipeline.svg)](https://gitlab.com/eventol/eventoL/commits/master)
@@ -67,6 +67,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="20%"><a href="https://github.com/lizzyd710"><img src="https://avatars2.githubusercontent.com/u/12602768?v=4?s=100" width="100px;" alt="Elizabeth Sherrock"/><br /><sub><b>Elizabeth Sherrock</b></sub></a><br /><a href="#translation-lizzyd710" title="Translation">🌍</a></td>
       <td align="center" valign="top" width="20%"><a href="https://nathanbonnemains.squill.fr"><img src="https://avatars.githubusercontent.com/u/45366162?v=4?s=100" width="100px;" alt="Nathan Bonnemains"/><br /><sub><b>Nathan Bonnemains</b></sub></a><br /><a href="#translation-NathanBnm" title="Translation">🌍</a></td>
       <td align="center" valign="top" width="20%"><a href="https://github.com/tinolin"><img src="https://avatars.githubusercontent.com/u/9253592?v=4?s=100" width="100px;" alt="Tinolin"/><br /><sub><b>Tinolin</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=tinolin" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="20%"><a href="https://github.com/GEscandar"><img src="https://avatars.githubusercontent.com/u/66099900?v=4?s=100" width="100px;" alt="GEscandar"/><br /><sub><b>GEscandar</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=GEscandar" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
