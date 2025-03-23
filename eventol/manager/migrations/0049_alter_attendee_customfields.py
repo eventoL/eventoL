@@ -2,18 +2,17 @@
 
 from django.db import migrations
 from django.db.models.fields.json import JSONField
-import django
+
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('manager', '0048_auto_20240622_0351'),
+        ("manager", "0048_auto_20240622_0351"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='attendee',
-            name='customFields',
+            model_name="attendee",
+            name="customFields",
             field=JSONField(default=dict),
         ),
     ]

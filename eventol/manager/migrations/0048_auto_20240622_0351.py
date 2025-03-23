@@ -4,24 +4,23 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('manager', '0047_remove_place_from_required_fields'),
+        ("manager", "0047_remove_place_from_required_fields"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='customform',
-            name='sites',
+            model_name="customform",
+            name="sites",
         ),
         migrations.RemoveField(
-            model_name='event',
-            name='customForm',
+            model_name="event",
+            name="customForm",
         ),
         migrations.DeleteModel(
-            name='CustomField',
+            name="CustomField",
         ),
         migrations.DeleteModel(
-            name='CustomForm',
+            name="CustomForm",
         ),
     ]
