@@ -1,17 +1,20 @@
 from channels.binding.websockets import WebsocketBinding
 
-from .models import (Activity, AttendeeAttendanceDate, Event,
-                     EventUserAttendanceDate, Installation)
+from .models import Activity
+from .models import AttendeeAttendanceDate
+from .models import Event
+from .models import EventUserAttendanceDate
+from .models import Installation
 
 
 class ActivityBinding(WebsocketBinding):
     model = Activity
-    stream = 'activities'
-    fields = ['id']
+    stream = "activities"
+    fields = ["id"]
 
     @classmethod
     def group_names(cls, instance):
-        return ['activities-updates']
+        return ["activities-updates"]
 
     def has_permission(self, user, action, pk):
         return True
@@ -19,12 +22,12 @@ class ActivityBinding(WebsocketBinding):
 
 class AttendeeAttendanceDateBinding(WebsocketBinding):
     model = AttendeeAttendanceDate
-    stream = 'attendeeattendancedates'
-    fields = ['id']
+    stream = "attendeeattendancedates"
+    fields = ["id"]
 
     @classmethod
     def group_names(cls, instance):
-        return ['attendeeattendancedates-updates']
+        return ["attendeeattendancedates-updates"]
 
     def has_permission(self, user, action, pk):
         return True
@@ -32,12 +35,12 @@ class AttendeeAttendanceDateBinding(WebsocketBinding):
 
 class EventBinding(WebsocketBinding):
     model = Event
-    stream = 'events'
-    fields = ['id']
+    stream = "events"
+    fields = ["id"]
 
     @classmethod
     def group_names(cls, instance):
-        return ['events-updates']
+        return ["events-updates"]
 
     def has_permission(self, user, action, pk):
         return True
@@ -45,12 +48,12 @@ class EventBinding(WebsocketBinding):
 
 class EventUserAttendanceDateBinding(WebsocketBinding):
     model = EventUserAttendanceDate
-    stream = 'eventuserattendancedates'
-    fields = ['id']
+    stream = "eventuserattendancedates"
+    fields = ["id"]
 
     @classmethod
     def group_names(cls, instance):
-        return ['eventuserattendancedates-updates']
+        return ["eventuserattendancedates-updates"]
 
     def has_permission(self, user, action, pk):
         return True
@@ -58,12 +61,12 @@ class EventUserAttendanceDateBinding(WebsocketBinding):
 
 class InstallationBinding(WebsocketBinding):
     model = Installation
-    stream = 'installations'
-    fields = ['id']
+    stream = "installations"
+    fields = ["id"]
 
     @classmethod
     def group_names(cls, instance):
-        return ['installations-updates']
+        return ["installations-updates"]
 
     def has_permission(self, user, action, pk):
         return True

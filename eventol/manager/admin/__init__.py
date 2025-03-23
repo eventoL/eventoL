@@ -3,7 +3,6 @@ from django.contrib import admin
 from manager import models
 from manager.admin import admins
 
-
 admin.site.register(models.Activity, admins.ActivityAdmin)
 admin.site.register(models.ActivityType, admins.ActivityTypeAdmin)
 admin.site.register(models.Attendee, admins.AttendeeAdmin)

@@ -1,28 +1,38 @@
 from functools import wraps
 
 from django.conf import settings
-from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
-from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
-from manager.constants import (
-    ADD_ATTENDEE_PERMISSION_CODE_NAME, ADD_ATTENDEE_PERMISSION_NAME,
-    CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME, CAN_TAKE_ATTENDANCE_PERMISSION_NAME,
-    CHANGE_ATTENDEE_PERMISSION_CODE_NAME, CHANGE_ATTENDEE_PERMISSION_NAME,
-    ORGANIZER_GROUP_NAME, ORGANIZER_PERMISSION_CODE_NAMES, REPORTER_GROUP_NAME,
-    REPORTER_PERMISSION_CODE_NAMES
-)
-from manager.models import Activity, Attendee, Collaborator, Installer, Organizer, Reviewer
+from manager.constants import ADD_ATTENDEE_PERMISSION_CODE_NAME
+from manager.constants import ADD_ATTENDEE_PERMISSION_NAME
+from manager.constants import CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME
+from manager.constants import CAN_TAKE_ATTENDANCE_PERMISSION_NAME
+from manager.constants import CHANGE_ATTENDEE_PERMISSION_CODE_NAME
+from manager.constants import CHANGE_ATTENDEE_PERMISSION_NAME
+from manager.constants import ORGANIZER_GROUP_NAME
+from manager.constants import ORGANIZER_PERMISSION_CODE_NAMES
+from manager.constants import REPORTER_GROUP_NAME
+from manager.constants import REPORTER_PERMISSION_CODE_NAMES
+from manager.models import Activity
+from manager.models import Attendee
+from manager.models import Collaborator
+from manager.models import Installer
+from manager.models import Organizer
+from manager.models import Reviewer
 
 
 def get_or_create_attendance_permission():
     content_type = ContentType.objects.get_for_model(Attendee)
     attendance_permission, _ = Permission.objects.get_or_create(
-        codename=CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME, content_type=content_type,
-        defaults=dict(name=CAN_TAKE_ATTENDANCE_PERMISSION_NAME)
+        codename=CAN_TAKE_ATTENDANCE_PERMISSION_CODE_NAME,
+        content_type=content_type,
+        defaults=dict(name=CAN_TAKE_ATTENDANCE_PERMISSION_NAME),
     )
     return attendance_permission
 
@@ -31,13 +41,15 @@ def add_attendance_permission(user):
     content_type = ContentType.objects.get_for_model(Attendee)
 
     add_attendee_permission, _ = Permission.objects.get_or_create(
-        codename=ADD_ATTENDEE_PERMISSION_CODE_NAME, content_type=content_type,
-        defaults=dict(name=ADD_ATTENDEE_PERMISSION_NAME)
+        codename=ADD_ATTENDEE_PERMISSION_CODE_NAME,
+        content_type=content_type,
+        defaults=dict(name=ADD_ATTENDEE_PERMISSION_NAME),
     )
 
     change_attendee_permission, _ = Permission.objects.get_or_create(
-        codename=CHANGE_ATTENDEE_PERMISSION_CODE_NAME, content_type=content_type,
-        defaults=dict(name=CHANGE_ATTENDEE_PERMISSION_NAME)
+        codename=CHANGE_ATTENDEE_PERMISSION_CODE_NAME,
+        content_type=content_type,
+        defaults=dict(name=CHANGE_ATTENDEE_PERMISSION_NAME),
     )
 
     user.user_permissions.add(add_attendee_permission)
@@ -51,9 +63,7 @@ def create_permission_group(name, code_names):
     if group is None:
         group = Group.objects.create(name=name)
         for permission_codename in code_names:
-            permissions = Permission.objects.filter(
-                codename=permission_codename, content_type__app_label='manager'
-            )
+            permissions = Permission.objects.filter(codename=permission_codename, content_type__app_label="manager")
             for permission in permissions.iterator():
                 group.permissions.add(permission)
         group.save()
@@ -87,9 +97,7 @@ def user_has_role(user, role, event_slug=None, check_is_organizer=True):
     if event_slug is None:
         return False
 
-    if role.objects.filter(
-            event_user__user=user, event_user__event__event_slug=event_slug
-    ).exists():
+    if role.objects.filter(event_user__user=user, event_user__event__event_slug=event_slug).exists():
         return True
 
     if check_is_organizer:
@@ -130,9 +138,7 @@ def are_activities_public(user, event_slug=None):
     if user.is_authenticated:
         return is_reviewer(user, event_slug=event_slug)
 
-    raise PermissionDenied(
-        "Only organizers and collaborators are authorized to access the activities list."
-    )
+    raise PermissionDenied("Only organizers and collaborators are authorized to access the activities list.")
 
 
 def is_activity_public():
@@ -141,26 +147,26 @@ def is_activity_public():
 
     If activities are private only will return true for collaborator users or activity owner
     """
+
     def decorator(view_func):
         @wraps(view_func)
-
         def _wrapped_view(request, *args, **kwargs):
-            activity_id = kwargs['activity_id']
+            activity_id = kwargs["activity_id"]
             user = request.user
             activity = get_object_or_404(Activity, pk=activity_id)
-            event_slug = kwargs['event_slug']
+            event_slug = kwargs["event_slug"]
 
-            if any([
+            if any(
+                [
                     activity.status == "2",  # Accepted
                     not settings.PRIVATE_ACTIVITIES,
                     activity.owner.user == user,
-                    user.is_authenticated and is_reviewer(user, event_slug=event_slug)
-            ]):
+                    user.is_authenticated and is_reviewer(user, event_slug=event_slug),
+                ]
+            ):
                 return view_func(request, *args, **kwargs)
-            raise PermissionDenied(
-                "Only organizers and collaborators are authorized "
-                "to access the activities list."
-            )
+            raise PermissionDenied("Only organizers and collaborators are authorized " "to access the activities list.")
+
         return _wrapped_view
 
     return decorator
@@ -176,18 +182,10 @@ def user_passes_test(test_func, name_redirect):
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
-            if 'event_slug' in kwargs.keys():
-                event_slug = kwargs['event_slug']
-            else:
-                event_slug = args[0]
+            event_slug = kwargs["event_slug"] if "event_slug" in kwargs else args[0]
             if test_func(request.user, event_slug=event_slug):
                 return view_func(request, *args, **kwargs)
-            return HttpResponseRedirect(
-                reverse(
-                    name_redirect,
-                    args=[event_slug]
-                )
-            )
+            return HttpResponseRedirect(reverse(name_redirect, args=[event_slug]))
 
         return _wrapped_view
 

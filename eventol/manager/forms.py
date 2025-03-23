@@ -16,34 +16,35 @@ from captcha.fields import CaptchaField
 from dal import autocomplete
 from django import forms
 from django.core.exceptions import ValidationError
-from django.core.validators import URLValidator, validate_email
+from django.core.validators import URLValidator
+from django.core.validators import validate_email
 from django.db.models.query_utils import Q
 from django.forms import Form
-from django.forms.models import BaseModelFormSet, ModelForm
 from django.forms.formsets import DELETION_FIELD_NAME
+from django.forms.models import BaseModelFormSet
+from django.forms.models import ModelForm
 from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from image_cropping import ImageCropWidget
-from tempus_dominus.widgets import DatePicker, TimePicker
+from tempus_dominus.widgets import DatePicker
+from tempus_dominus.widgets import TimePicker
 
-from manager.models import (
-    Activity,
-    Attendee,
-    AttendeeAttendanceDate,
-    Collaborator,
-    Contact,
-    ContactMessage,
-    Event,
-    EventDate,
-    EventUser,
-    EventUserAttendanceDate,
-    Hardware,
-    Installation,
-    Installer,
-    Room,
-    Software,
-)
+from manager.models import Activity
+from manager.models import Attendee
+from manager.models import AttendeeAttendanceDate
+from manager.models import Collaborator
+from manager.models import Contact
+from manager.models import ContactMessage
+from manager.models import Event
+from manager.models import EventDate
+from manager.models import EventUser
+from manager.models import EventUserAttendanceDate
+from manager.models import Hardware
+from manager.models import Installation
+from manager.models import Installer
+from manager.models import Room
+from manager.models import Software
 from manager.utils.forms import USE_POSTGRES
 
 logger = logging.getLogger("eventol")
@@ -54,11 +55,7 @@ class SoftwareAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated:
             return Software.objects.none()
         softwares = Software.objects.all()
-        if self.q:
-            if USE_POSTGRES:
-                softwares = softwares.filter(name__unaccent__icontains=self.q)
-            else:
-                softwares = softwares.filter(name__icontains=self.q.lower())
+        softwares = softwares.filter(name__unaccent__icontains=self.q) if USE_POSTGRES else softwares.filter(name__icontains=self.q.lower())
         return softwares[:5]
 
 
@@ -67,20 +64,14 @@ class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated:
             return Attendee.objects.none()
         event_slug = self.forwarded.get("event_slug", None)
-        event_user = EventUser.objects.filter(
-            user=self.request.user, event__event_slug=event_slug
-        ).first()
+        event_user = EventUser.objects.filter(user=self.request.user, event__event_slug=event_slug).first()
 
         attended = [
             attendance_date.attendee.pk
-            for attendance_date in AttendeeAttendanceDate.objects.filter(
-                attendee__event__event_slug=event_slug, date__date=datetime.date.today()
-            )
+            for attendance_date in AttendeeAttendanceDate.objects.filter(attendee__event__event_slug=event_slug, date__date=datetime.date.today())
         ]
 
-        attendees = Attendee.objects.filter(event__event_slug=event_slug).exclude(
-            pk__in=attended
-        )
+        attendees = Attendee.objects.filter(event__event_slug=event_slug).exclude(pk__in=attended)
 
         if event_user and self.q:
             if USE_POSTGRES:
@@ -105,9 +96,7 @@ class AllAttendeeAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated:
             return Attendee.objects.none()
         event_slug = self.forwarded.get("event_slug", None)
-        event_user = EventUser.objects.filter(
-            user=self.request.user, event__event_slug=event_slug
-        ).first()
+        event_user = EventUser.objects.filter(user=self.request.user, event__event_slug=event_slug).first()
         attendees = Attendee.objects.filter(event__event_slug=event_slug)
         if event_user and self.q:
             if USE_POSTGRES:
@@ -133,9 +122,7 @@ class EventUserAutocomplete(autocomplete.Select2QuerySetView):
             return EventUser.objects.none()
 
         event_slug = self.forwarded.get("event_slug", None)
-        event_user = EventUser.objects.filter(
-            user=self.request.user, event__event_slug=event_slug
-        ).first()
+        event_user = EventUser.objects.filter(user=self.request.user, event__event_slug=event_slug).first()
 
         attended = [
             attendance_date.event_user.pk
@@ -145,9 +132,7 @@ class EventUserAutocomplete(autocomplete.Select2QuerySetView):
             )
         ]
 
-        event_users = EventUser.objects.filter(event=event_user.event).exclude(
-            pk__in=attended
-        )
+        event_users = EventUser.objects.filter(event=event_user.event).exclude(pk__in=attended)
 
         if event_user and self.q:
             if USE_POSTGRES:
@@ -181,9 +166,7 @@ class AttendeeSearchForm(forms.Form):
     event_slug = forms.CharField()
     attendee = forms.ModelChoiceField(
         queryset=Attendee.objects.all(),
-        widget=autocomplete.ModelSelect2(
-            url="attendee-autocomplete", forward=["event_slug"]
-        ),
+        widget=autocomplete.ModelSelect2(url="attendee-autocomplete", forward=["event_slug"]),
         required=False,
         label=_("Attendee"),
     )
@@ -202,9 +185,7 @@ class EventUserSearchForm(forms.Form):
     event_slug = forms.CharField()
     event_user = forms.ModelChoiceField(
         queryset=EventUser.objects.all(),
-        widget=autocomplete.ModelSelect2(
-            url="eventuser-autocomplete", forward=["event_slug"]
-        ),
+        widget=autocomplete.ModelSelect2(url="eventuser-autocomplete", forward=["event_slug"]),
         required=False,
         label=_("Collaborator/Installer"),
     )
@@ -248,9 +229,7 @@ class InstallationForm(forms.ModelForm):
         fields = ("attendee", "notes", "software")
         widgets = {
             "notes": forms.Textarea(attrs={"rows": 3}),
-            "attendee": autocomplete.ModelSelect2(
-                url="all-attendee-autocomplete", forward=["event_slug"]
-            ),
+            "attendee": autocomplete.ModelSelect2(url="all-attendee-autocomplete", forward=["event_slug"]),
             "software": autocomplete.ModelSelect2(url="software-autocomplete"),
         }
 
@@ -277,26 +256,18 @@ class ActivityForm(ModelForm):
             choices = []
             event_dates = EventDate.objects.filter(event__event_slug=event_slug)
             for event_date in event_dates:
-                date_value = date_format(
-                    event_date.date, format="SHORT_DATE_FORMAT", use_l10n=True
-                )
+                date_value = date_format(event_date.date, format="SHORT_DATE_FORMAT", use_l10n=True)
                 choices.append(
                     (
                         event_date.id,
                         date_value,
                     )
                 )
-            self.fields["room"].queryset = Room.objects.filter(
-                event__event_slug=event_slug
-            )
+            self.fields["room"].queryset = Room.objects.filter(event__event_slug=event_slug)
             self.fields["date"] = forms.ChoiceField(choices=choices)
 
-            self.fields["start_date"].widget.attrs.update(
-                {"id": uuid.uuid4().hex.lower()}
-            )
-            self.fields["end_date"].widget.attrs.update(
-                {"id": uuid.uuid4().hex.lower()}
-            )
+            self.fields["start_date"].widget.attrs.update({"id": uuid.uuid4().hex.lower()})
+            self.fields["end_date"].widget.attrs.update({"id": uuid.uuid4().hex.lower()})
 
 
 class CollaboratorRegistrationForm(ModelForm):
@@ -391,14 +362,13 @@ class AttendeeRegistrationForm(ModelForm):
         email = cleaned_data.get("email")
         repeat_email = cleaned_data.get("repeat_email")
 
-        if email and repeat_email:
-            if email != repeat_email:
-                raise forms.ValidationError(
-                    {
-                        "email": _("Emails do not match."),
-                        "repeat_email": _("Emails do not match."),
-                    }
-                )
+        if email and email != repeat_email:
+            raise forms.ValidationError(
+                {
+                    "email": _("Emails do not match."),
+                    "repeat_email": _("Emails do not match."),
+                }
+            )
 
         return cleaned_data
 
@@ -408,9 +378,7 @@ class InstallerRegistrationForm(ModelForm):
     url = "wiki.antifa-glug.org/books/flisol-caba/page/guía-del-buen-instalador"
     target = "_blank"
     link_text = "Sagrada Guía del Buen Instalador"
-    text = 'Afirmo que he leido la "<a href="{0}{1}" target="{2}">{3}</a>"'.format(
-        protocol, url, target, link_text
-    )
+    text = f'Afirmo que he leido la "<a href="{protocol}{url}" target="{target}">{link_text}</a>"'
     read_guidelines = forms.BooleanField(label=mark_safe(text), required=True)
 
     class Meta:
@@ -588,7 +556,7 @@ class SignUpForm(AllAuthSignUpForm):
             if field:
                 new_fields[field_name] = field
 
-        for field in self.fields.keys():
+        for field in self.fields:
             if field not in self.ordered_field_names:
                 new_fields[field] = original_fields.get(field)
 
@@ -647,7 +615,7 @@ class SocialSignUpForm(AllAuthSocialSignUpForm):
             if field:
                 new_fields[field_name] = field
 
-        for field in self.fields.keys():
+        for field in self.fields:
             if field not in self.ordered_field_names:
                 new_fields[field] = original_fields.get(field)
 
@@ -717,9 +685,7 @@ class ActivityDummyForm(ModelForm):
 
 
 class RejectForm(Form):
-    justification = forms.CharField(
-        required=False, label=_("Why do you reject this proposal?")
-    )
+    justification = forms.CharField(required=False, label=_("Why do you reject this proposal?"))
 
 
 class RoomForm(forms.ModelForm):

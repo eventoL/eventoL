@@ -1,6 +1,6 @@
 import logging
 
-logger = logging.getLogger('eventol')
+logger = logging.getLogger("eventol")
 
 
 def count_by(elements, getter, increment=None):

@@ -40,30 +40,35 @@ class EventoLAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-        kwargs['queryset'] = filter_model_queryset_by_user(
-            request.user, db_field.remote_field.model
-        )
+        kwargs["queryset"] = filter_model_queryset_by_user(request.user, db_field.remote_field.model)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
-    list_display = ('get_user', 'get_event',)
+    list_display = (
+        "get_user",
+        "get_event",
+    )
     list_filter = (EventFromEventUserFilter,)
     search_fields = (
-        'event_user__event__name', 'event_user__user__username',
-        'event_user__user__first_name', 'event_user__user__last_name',
-        'event_user__user__email',
+        "event_user__event__name",
+        "event_user__user__username",
+        "event_user__user__first_name",
+        "event_user__user__last_name",
+        "event_user__user__email",
     )
 
     def get_user(self, obj):
         return obj.event_user.user
-    get_user.short_description = _('User')
-    get_user.admin_order_field = 'event_user__user__username'
+
+    get_user.short_description = _("User")
+    get_user.admin_order_field = "event_user__user__username"
 
     def get_event(self, obj):
         return obj.event_user.event
-    get_event.short_description = _('Event')
-    get_event.admin_order_field = 'event_user__event__name'
+
+    get_event.short_description = _("Event")
+    get_event.admin_order_field = "event_user__event__name"
 
     def filter_event(self, events, queryset):
         return queryset.filter(event_user__event__in=events)
@@ -71,19 +76,27 @@ class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
 
 class ThemeAdmin(admin.ModelAdmin):
     list_per_page = settings.LIST_PER_PAGE
-    list_display = ('id', 'has_background', 'has_logo_header', 'has_logo_landing',)
+    list_display = (
+        "id",
+        "has_background",
+        "has_logo_header",
+        "has_logo_landing",
+    )
 
     def has_background(self, obj):
         return bool(obj.background is not None and obj.background)
+
     has_background.boolean = True
-    has_background.short_description = _('Has background')
+    has_background.short_description = _("Has background")
 
     def has_logo_header(self, obj):
         return bool(obj.logo_header is not None and obj.logo_header)
+
     has_logo_header.boolean = True
-    has_logo_header.short_description = _('Has logo header')
+    has_logo_header.short_description = _("Has logo header")
 
     def has_logo_landing(self, obj):
         return bool(obj.logo_landing is not None and obj.logo_landing)
+
     has_logo_landing.boolean = True
-    has_logo_landing.short_description = _('Has logo landing')
+    has_logo_landing.short_description = _("Has logo landing")
