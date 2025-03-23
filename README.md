@@ -19,7 +19,7 @@ Status
 ------
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
 [![pipeline status](https://gitlab.com/eventol/eventoL/badges/master/pipeline.svg)](https://gitlab.com/eventol/eventoL/commits/master)
@@ -74,6 +74,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="20%"><a href="https://github.com/GEscandar"><img src="https://avatars.githubusercontent.com/u/66099900?v=4?s=100" width="100px;" alt="GEscandar"/><br /><sub><b>GEscandar</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=GEscandar" title="Code">💻</a></td>
       <td align="center" valign="top" width="20%"><a href="http://www.nestorgodoy.com"><img src="https://avatars.githubusercontent.com/u/2965269?v=4?s=100" width="100px;" alt="Nestor Luis Godoy Carmona"/><br /><sub><b>Nestor Luis Godoy Carmona</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=ngodoy" title="Code">💻</a></td>
       <td align="center" valign="top" width="20%"><a href="https://github.com/cacrespo"><img src="https://avatars.githubusercontent.com/u/10950697?v=4?s=100" width="100px;" alt="Carlos A. Crespo"/><br /><sub><b>Carlos A. Crespo</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=cacrespo" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="20%"><a href="https://osiux.com/"><img src="https://avatars.githubusercontent.com/u/360084?v=4?s=100" width="100px;" alt="OSiUX"/><br /><sub><b>OSiUX</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=osiris" title="Code">💻</a> <a href="https://github.com/eventoL/eventoL/issues?q=author%3Aosiris" title="Bug reports">🐛</a> <a href="#tool-osiris" title="Tools">🔧</a></td>
     </tr>
   </tbody>
 </table>
