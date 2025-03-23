@@ -373,6 +373,15 @@ class Base(Configuration):
     LIST_PER_PAGE = int(os.getenv('LIST_PER_PAGE', 25))
     ModelAdmin.list_per_page = LIST_PER_PAGE
 
+    MAP_WIDGETS = {
+        "Leaflet": {
+            "PointField": {
+                "mapOptions": {"scrollWheelZoom": True},
+                "showZoomNavigation": True,
+            }
+        }
+    }
+
 
 class Staging(Base):
     DEBUG = str_to_bool(os.getenv('DEBUG', 'True'))
