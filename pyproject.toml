@@ -16,7 +16,7 @@ lint.select = [
 
 lint.ignore = []                 # Example of ignoring specific rules
 target-version = "py311"         # Target Python version
-line-length = 100               # Line length for formatting
+line-length = 150              # Line length for formatting
 lint.fixable = ["ALL"]           # Allow automatic fixes for all fixable issues
 
 [tool.ruff.lint.isort]
