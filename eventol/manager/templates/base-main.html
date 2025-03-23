@@ -90,7 +90,7 @@
                     {% endif %}
                     {% if user.is_authenticated and user|is_registered:event_slug %}
                         <li>
-                            <a href="{% url "view_ticket" event_slug %}">{% trans "View my Ticket" %}</a>
+                            <a href="{% url "view_ticket" event_slug %}" target="_blank">{% trans "View my Ticket" %}</a>
                         </li>
                     {% endif %}
                     <div class="dropdown">
