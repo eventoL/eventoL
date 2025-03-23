@@ -1,24 +1,40 @@
 
 [tool.ruff]
-lint.select = [
- # pycodestyle
- "E",
- # Pyflakes
- "F",
- # pyupgrade
- "UP",
- # flake8-bugbear
- "B",
- # flake8-simplify
- "SIM",
- # isort
- "I",]  # Rules to apply
 
-lint.ignore = []                 # Example of ignoring specific rules
-target-version = "py311"         # Target Python version
-line-length = 150              # Line length for formatting
-lint.fixable = ["ALL"]           # Allow automatic fixes for all fixable issues
+lint.select = [
+    "E",
+    "F",
+    "UP",
+    "T201",
+    "I",
+    "N",
+    "B",
+    "W",
+    "C",
+    "DJ",
+    "SIM",
+    "PL",
+]
+
+lint.ignore = []         # Example of ignoring specific rules
+target-version = "py311" # Target Python version
+line-length = 120        # Line length for formatting
+lint.fixable = ["ALL"]   # Allow automatic fixes for all fixable issues
+
+[tool.isort]
+
+profile = "black"
+line_length = 120
+use-parentheses = true
 
 [tool.ruff.lint.isort]
-force-single-line = true         # One import per line
 
+force-single-line = true
+known-first-party = ["manager"]
+
+[tool.ruff.format]
+
+quote-style = "single"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
