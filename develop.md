@@ -25,15 +25,16 @@ source .venv/bin/activate
 ## Instalar las dependencias
 
 ```bash
-pip install pre-commit
 pip install --upgrade pip
-pip install "setuptools<58.0.0" wheel
-pip install -r requirements-pycamp.txt
+pip install -r requirements-dev.txt
+pre-commit install
 ```
 
 ### Errores posibles
-- **import _tkinter # If this fails your Python may not be configured for Tk	**: solución `sudo apt install python3-tk tk-dev`
 
+- **import _tkinter # If this fails your Python may not be configured for Tk**: solución `sudo apt install python3-tk tk-dev`
+- **./manage.py migrate: Error al intentar correr las migraciones.**Solucion:Es necesario ejecutar: `sudo  apt-get install -y gdal-bin`
+- **Error de dependencias de xmlsec**: `sudo apt-get install libxmlsec1 libxmlsec1-dev`
 
 ## Correr el proyecto
 
@@ -42,7 +43,6 @@ cd eventol
 ./manage.py migrate
 
 ### Errores posibles
-- **./manage.py migrate: Error al intentar correr las migraciones.**Solucion:Es necesario ejecutar: `sudo  apt-get install -y gdal-bin`
 
 mkdir -p ../eventol/static
 mkdir -p ../eventol/front/eventol/static
@@ -53,5 +53,6 @@ mkdir -p ../eventol/front/eventol/static
 ```
 
 ## Precommit con linter y formatter
+
 En el proyecto se utiliza [ruff](https://docs.astral.sh/ruff/) con [pre-commit](https://pre-commit.com/) para poder chequear formato antes de commitear. Los errores que peudan se corrigiran solos y los que no, se informaran y se sugieren posibles soluciones.
 Para profundizar se puede chequear los archivos de configuracion `.pre-commit-config.yaml` y `pyproject.toml`
