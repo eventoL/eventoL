@@ -52,7 +52,7 @@ env = environ.Env(
     JAZZMIN_SITE_BRAND=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
     JAZZMIN_WELCOME_SIGN=(str, os.getenv('JAZZMIN_WELCOME_SIGN',
                           'Administration panel of EventoL')),
-    JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True))
+    JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
 )
 
 # import ipdb;ipdb.set_trace()
@@ -65,7 +65,7 @@ def str_to_bool(str_bool):
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # first try to load .env, second try lo load os.getenv and three use Defaults values
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=True)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'), overwrite=False)
 
 
 class Base(Configuration):
