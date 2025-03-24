@@ -146,6 +146,7 @@ class EventAdmin(ImageCroppingMixin, EventoLAdmin):
         'name', 'event_slug', 'external_url', 'email', 'abstract', 'cname',
         'event_information'
     )
+    readonly_fields = ('event_slug', 'created_at', 'updated_at', 'image', 'cropping',)
 
     def url(self, obj):
         if obj.external_url is not None and obj.external_url != '':

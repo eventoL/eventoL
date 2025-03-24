@@ -3,7 +3,6 @@
 
 import datetime
 import itertools
-import json
 import logging
 import re
 
@@ -15,13 +14,13 @@ from django_prose_editor.sanitized import SanitizedProseEditorField
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.contrib.gis.db import models
+from django.contrib.gis.db.models import PointField
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import gettext as _, gettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
-from django.db.models import JSONField
+from django.db import models
 from easy_thumbnails.files import get_thumbnailer
 
 from vote.models import VoteModel
@@ -163,7 +162,7 @@ class Event(models.Model):
     use_talks = models.BooleanField(_('Use Talks'), default=True)
     is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
     use_schedule = models.BooleanField(_('Use Schedule'), default=True)
-    geom = models.PointField(_('Geom'), null=True, blank=True)
+    geom = PointField(_('Geom'), null=True, blank=True)
     place = models.TextField(_('Place'), null=True, blank=True)
     image = ImageCropField(upload_to='images_thumbnails',
                            verbose_name=_('Image'), blank=True, null=True)
@@ -223,13 +222,17 @@ class Event(models.Model):
         return self.name
     
     def get_cropping_image(self, generate=False):
-        thumbnail = get_thumbnailer(self.image).get_thumbnail({
-            'box': self.cropping,
-            'crop': True,
-            'size': (700, 450),
-            'detail': False, 
-        }, generate=generate)
-        return thumbnail
+        try:
+            thumbnail = get_thumbnailer(self.image).get_thumbnail({
+                'box': self.cropping,
+                'crop': True,
+                'size': (700, 450),
+                'detail': False, 
+            }, generate=generate)
+            return thumbnail
+        except Exception:
+            pass
+        return None
 
     @property
     def cropping_image(self):
@@ -587,7 +590,7 @@ class Attendee(models.Model):
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
     event_user = models.ForeignKey(
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True, on_delete=models.CASCADE)
-    customFields = JSONField(default=dict)
+    customFields = models.JSONField(default=dict)
 
     class Meta:
         verbose_name = _('Attendee')
