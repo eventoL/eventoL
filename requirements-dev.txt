@@ -3,8 +3,9 @@
 django-autofixture @ git+https://github.com/josx/django-autofixture@2c431f3dd0ea35b040ff170b10ddc920f3b0378b
 
 django-debug-toolbar==4.3.0
-ipdb==0.13.13
-ipython==9.0.2
+ipdb
+ipython
+pre_commit==4.2.0
 pylint-django==2.6.1
 pylint==3.3.6
 pytest-cov==6.0.0
@@ -16,3 +17,4 @@ pytest-sugar==1.0.0
 pytest-watch==4.2.0
 pytest-xdist==3.6.1
 pytest==8.3.5
+ruff==0.11.2

@@ -1,0 +1,31 @@
+repos:
+ # Ruff for Python formatting and linting
+ - repo: https://github.com/astral-sh/ruff-pre-commit
+   rev: v0.7.0
+   hooks:
+     - id: ruff
+       name: Ruff Linter (backend)
+       args: ["--fix"] # Automatically fix issues
+       files:  ^(eventol|manager) # Only backend folder
+       exclude: |
+                (?x)(
+                ^eventol/manager/static/|
+                ^eventol/static/|
+                ^eventol/conf/locale|
+                ^eventol/manager/template|
+                ^eventol/manager/migrations
+                )
+       stages: [pre-commit]
+     - id: ruff-format
+       name: Ruff Formatter (backend)
+       files: ^(eventol|manager) # Only backend folder
+       exclude: |
+                (?x)(
+                ^eventol/manager/static/|
+                ^eventol/static/|
+                ^eventol/conf/locale|
+                ^eventol/manager/template|
+                ^eventol/manager/migrations
+                )
+       stages: [pre-commit]
+
