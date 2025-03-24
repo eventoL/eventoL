@@ -7,6 +7,8 @@
     <script src="{% static "admin/js/jquery.init.js" %}"></script>
     <script type="text/javascript" src="{% static "build/form.js" %}" alt="form"></script>
 
+    {{ form.media }}
+
     <style type="text/css">
         .map_canvas {
             width: 100%;
@@ -278,12 +280,6 @@
 
 
 {% block other-script %}
-    {% comment %}
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDqBK3undYHvG5pWYBkESlkkX_c2GSLOw&libraries=places"></script>
-    {% endcomment %}
-
-    {{ form.media }}
-
     <script>
         $(document).ready(function() {
             window.libs.form('{{ form.place.id_for_label }}');

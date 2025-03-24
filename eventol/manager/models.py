@@ -22,6 +22,7 @@ from django.utils.formats import date_format
 from django.utils.translation import gettext as _, gettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 from django.db.models import JSONField
+from django.contrib.gis.geos import Point
 
 from vote.models import VoteModel
 from manager.utils.report import count_by
@@ -187,26 +188,6 @@ class Event(models.Model):
         }
 
     @property
-    def location(self):
-        try:
-            place = json.loads(self.place)
-            components = place['address_components']
-            components = filter(
-                lambda componet: 'political' in componet['types'],
-                components
-            )
-            components = map(
-                lambda componet: componet['long_name'],
-                components
-            )
-            return components
-        except json.JSONDecodeError as error:
-            logger.error(error)
-        except:
-            pass
-        return []
-
-    @property
     def report(self):
         event_user = EventUser.objects.get_counts_by_event(self)
         collaborator = Collaborator.objects.get_counts_by_event(self)
@@ -237,6 +218,25 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def coords(self):
+        if self.geom:
+            (lng, lat) = self.geom.coords
+ 
+            return {
+                'geometry': {
+                    'location': {
+                        'lat': lat,
+                        'lng': lng,
+                    }
+                }
+            }
+        return None
+    
+    @property
+    def location(self):
+        return self.place
 
     class Meta:
         ordering = ['name']

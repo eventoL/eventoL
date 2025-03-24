@@ -519,7 +519,6 @@ class EventForm(ModelForm):
             "limit_proposal_date",
             "registration_closed",
             "email",
-            "place",
             "external_url",
             "abstract",
             "event_information",
@@ -534,7 +533,7 @@ class EventForm(ModelForm):
             "tags",
             "geom",
         )
-        widgets = {"place": forms.HiddenInput(), "limit_proposal_date": DatePicker(), "geom": LeafletPointFieldWidget,}
+        widgets = {"limit_proposal_date": DatePicker(), "geom": LeafletPointFieldWidget,}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
