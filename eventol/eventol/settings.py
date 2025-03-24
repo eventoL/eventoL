@@ -15,6 +15,8 @@ from easy_thumbnails.optimize.conf import OptimizeSettings
 
 env = environ.Env(
     DEBUG=(bool, os.getenv('DEBUG', True)),
+    DJANGO_SETTINGS_MODULE=(str, os.getenv('DJANGO_SETTINGS_MODULE', 'eventol.settings')),
+    DJANGO_CONFIGURATION=(str, os.getenv('DJANGO_CONFIGURATION', 'Dev')),
     LANGUAGE_CODE=(str, os.getenv('LANGUAGE_CODE', 'en-US')),
     TIME_ZONE=(str, os.getenv('TIME_ZONE', 'UTC')),
     DONT_SET_FILE_UPLOAD_PERMISSIONS=(bool, os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', False)),
@@ -54,9 +56,6 @@ env = environ.Env(
     JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
 )
 
-#import ipdb;ipdb.set_trace()
-
-
 def str_to_bool(str_bool):
     return str_bool.lower() == 'true'
 
@@ -88,6 +87,7 @@ class Base(Configuration):
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
+        'django.contrib.gis',
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
@@ -112,6 +112,7 @@ class Base(Configuration):
         'django_extensions',
         'vote',
         'tempus_dominus',
+        'mapwidgets',
     )
 
     MIDDLEWARE = (
@@ -411,6 +412,15 @@ class Base(Configuration):
     LIST_PER_PAGE = int(env('LIST_PER_PAGE'))
     ModelAdmin.list_per_page = LIST_PER_PAGE
 
+    MAP_WIDGETS = {
+        "Leaflet": {
+            "PointField": {
+                "mapOptions": {"scrollWheelZoom": True},
+                "showZoomNavigation": True,
+            }
+        }
+    }
+
 
 class Staging(Base):
     DEBUG = env('DEBUG')
@@ -509,7 +519,7 @@ class Staging(Base):
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
             'NAME': env('PSQL_DBNAME'),
             'USER': env('PSQL_USER'),
             'PASSWORD': env('PSQL_PASSWORD'),
@@ -546,7 +556,7 @@ class Dev(Base):
     # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
+            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
             'NAME': 'eventol_dev_db',
         }
     }

@@ -3,7 +3,11 @@
 {% load i18n %}
 {% load filters %}
 {% block other-head %}
+    <script src="{% static "admin/js/vendor/jquery/jquery.min.js" %}"></script>
+    <script src="{% static "admin/js/jquery.init.js" %}"></script>
     <script type="text/javascript" src="{% static "build/form.js" %}" alt="form"></script>
+
+    {{ form.media }}
 
     <style type="text/css">
         .map_canvas {
@@ -14,6 +18,7 @@
             min-height: 30vh;
         }
     </style>
+
 {% endblock %}
 {% block page-header %}
     {% trans 'Create an event' %}
@@ -143,15 +148,6 @@
                     <br>
 
                     <h4>{% trans 'Where will your event be?' %}</h4>
-                    {% if form.place.errors|length > 0 %}
-                        <div class="alert alert-dismissable alert-danger">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            <ul>
-                                <li>{{ form.place.errors.as_text }}</li>
-                            </ul>
-                        </div>
-                    {% endif %}
-                    {% comment %}
                     <div class="row">
                         <div class="col-md-10 offset-md-1 col-12">
                             <div class="form-group">
@@ -160,24 +156,14 @@
                                 </label>
 
                                 <div class="offset-md-1 col-md-10 col-12">
-                                    <div class="input-group">
-                                        <input id="geocomplete" class="form-control" type="text">
-                                    </div>
+                                    {% include "form_field.html" with field=form.geom only %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-10 offset-md-1 col-12">
-                            <div class="map_canvas"></div>
-                        </div>
-                    </div>
-
-                    {{ form.place }}
 
                     <br>
                     <br>
-                    {% endcomment %}
                     <div class='event-limit_proposal_date'>
                         <h4>{% trans 'When is the last day to submit talk proposals?' %}</h4>
                         {% if form.limit_proposal_date.errors|length > 0 %}
@@ -293,12 +279,6 @@
 
 
 {% block other-script %}
-    {% comment %}
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDqBK3undYHvG5pWYBkESlkkX_c2GSLOw&libraries=places"></script>
-    {% endcomment %}
-
-    {{ form.media }}
-
     <script>
         $(document).ready(function() {
             window.libs.form('{{ form.place.id_for_label }}');

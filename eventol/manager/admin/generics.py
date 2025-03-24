@@ -10,8 +10,14 @@ from manager.admin.utils import filter_model_queryset_by_user
 from manager.models import Organizer
 from manager.security import create_reporters_group
 
+from django.contrib.gis.db.models import PointField
+import mapwidgets
 
 class EventoLAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        PointField: {"widget": mapwidgets.LeafletPointFieldWidget}
+    }
+
     list_per_page = settings.LIST_PER_PAGE
 
     @staticmethod

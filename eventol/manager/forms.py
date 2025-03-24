@@ -45,6 +45,7 @@ from manager.models import (
     Software,
 )
 from manager.utils.forms import USE_POSTGRES
+from mapwidgets import LeafletPointFieldWidget
 
 logger = logging.getLogger("eventol")
 
@@ -517,7 +518,6 @@ class EventForm(ModelForm):
             "limit_proposal_date",
             "registration_closed",
             "email",
-            "place",
             "external_url",
             "abstract",
             "event_information",
@@ -530,8 +530,9 @@ class EventForm(ModelForm):
             "use_schedule",
             "activities_proposal_form_text",
             "tags",
+            "geom",
         )
-        widgets = {"place": forms.HiddenInput(), "limit_proposal_date": DatePicker()}
+        widgets = {"limit_proposal_date": DatePicker(), "geom": LeafletPointFieldWidget,}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -1,5 +1,11 @@
 # Instalación de desarrollo
 
+## Requirements
+
+```
+sudo apt intsall libsqlite3-mod-spatialite
+```
+
 ## Instalar pyenv
 
 - URL: (pyenv/pyenv)[https://github.com/pyenv/pyenv]
@@ -9,8 +15,12 @@ curl https://pyenv.run | bash
 ```
 
 ## python 3.9.6
+> To use geodjango and support spatialite on python sqlite with need to compile python in this way
 
 ```bash
+PYTHON_CONFIGURE_OPTS="--enable-loadable-sqlite-extensions --enable-optimizations" \
+LDFLAGS="-L/usr/local/opt/sqlite/lib" \
+CPPFLAGS="-I/usr/local/opt/sqlite/include" \
 pyenv install 3.9.6
 pyenv shell 3.9.6
 ```

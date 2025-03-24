@@ -88,18 +88,8 @@ def generate_ticket(user):
             settings.STATIC_ROOT, 'manager/img/ticket_template_p.svg'))
     ticket_template.set_text('event_name', ticket_data['event'].name[:24])
     ticket_template.set_text('event_date', localize(ticket_data['event_date']))
-    try:
-        place = json.loads(ticket_data['event'].place)
-    except:
-        place = {}
-    if place.get("name"):
-        ticket_template.set_text('event_place_name', place.get("name", ""))
-        ticket_template.set_text(
-            'event_place_address', place.get("formatted_address", "")[:50])
-    else:
-        ticket_template.set_text(
-            'event_place_name', place.get("formatted_address", "")[:50])
-        ticket_template.set_text('event_place_address', '')
+    ticket_template.set_text('event_place_name', '')
+    ticket_template.set_text('event_place_address', '')
 
     ticket_template.set_text('ticket_type', str(_("General Ticket")))
     qr_code = pyqrcode.create(str(ticket_data['ticket']))
