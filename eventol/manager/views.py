@@ -25,6 +25,7 @@ from django.contrib.auth.models import Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
+from django.db import transaction
 from django.urls import reverse
 from django.core.validators import validate_email
 from django.forms import HiddenInput, modelformset_factory
@@ -214,7 +215,7 @@ def installation(request, event_slug):
     errors = []
     if request.POST:
         if hardware_form.is_valid() and installation_form.is_valid():
-            try:
+            with transaction.atomic():
                 hardware = hardware_form.save()
                 install = installation_form.save()
                 install.hardware = hardware
@@ -233,7 +234,7 @@ def installation(request, event_slug):
                     except SMTPException as error:
                         logger.error(error)
                         messages.error(request, _("The email couldn't sent successfully, \
-                                                  please retry later or contact a organizer"))
+                                                    please retry later or contact a organizer"))
                 messages.success(
                     request,
                     _(
@@ -246,12 +247,6 @@ def installation(request, event_slug):
                     args=[event_slug]
                 )
                 return redirect(event_index_url)
-            except Exception as error_message:
-                logger.error(error_message)
-                if hardware is not None:
-                    Hardware.delete(hardware)
-                if install is not None:
-                    Installation.delete(install)
         messages.error(
             request,
             _("The installation couldn't be registered (check form errors)")
@@ -286,7 +281,7 @@ def manage_attendance(request, event_slug):
         if attendee_form.is_valid():
             attendee = attendee_form.cleaned_data['attendee']
             if attendee:
-                if attendee.attended_today():
+                if attendee.attended_today:
                     messages.success(
                         request,
                         _(
@@ -315,7 +310,7 @@ def manage_attendance(request, event_slug):
         if collaborator_form.is_valid():
             event_user = collaborator_form.cleaned_data['event_user']
             if event_user:
-                if event_user.attended_today():
+                if event_user.attended_today:
                     messages.success(
                         request,
                         _(
@@ -372,7 +367,7 @@ def attendance_by_ticket(request, event_slug, ticket_code):
 
     if attendee:
         attendee = attendee.get()
-        if attendee.attended_today():
+        if attendee.attended_today:
             messages.success(
                 request,
                 _('The attendee has already been registered correctly.'))
@@ -578,7 +573,7 @@ def process_attendee_registration(request, event, return_url, render_template):
                         )
                     )
                     return redirect(return_url)
-                try:
+                with transaction.atomic():
                     attendee = form.save()
                     attendance_date = AttendeeAttendanceDate.objects.create(
                         attendee=attendee,
@@ -592,15 +587,6 @@ def process_attendee_registration(request, event, return_url, render_template):
                         )
                     )
                     return redirect(return_url)
-                except Exception as error_message:
-                    logger.error(error_message)
-                    try:
-                        if attendee is not None:
-                            Attendee.objects.delete(attendee)
-                        if attendance_date is not None:
-                            AttendeeAttendanceDate.objects.delete(attendance_date)
-                    except Exception:
-                        pass
             messages.error(
                 request,
                 _(
@@ -713,10 +699,10 @@ def attendee_registration_by_self(request, event_slug, event_registration_code):
             mode = '1'
             attendee = form.save()
         if attendee:
-            if attendee.attended_today():
+            if attendee.attended_today:
                 messages.info(request, 'You are already registered and present! Go have fun')
                 return redirect(event_index_url)
-            try:
+            with transaction.atomic():
                 attendance_date = AttendeeAttendanceDate()
                 attendance_date.mode = mode
                 attendance_date.attendee = attendee
@@ -728,15 +714,6 @@ def attendee_registration_by_self(request, event_slug, event_registration_code):
                     )
                 )
                 return redirect(event_index_url)
-            except Exception as error_message:
-                logger.error(error_message)
-                try:
-                    if attendee is not None:
-                        Attendee.objects.delete(attendee)
-                    if attendance_date is not None:
-                        AttendeeAttendanceDate.objects.delete(attendance_date)
-                except Exception:
-                    pass
         messages.error(
             request,
             _(
@@ -1065,7 +1042,7 @@ def attendee_registration(request, event_slug):
 
     if request.POST:
         if attendee_form.is_valid():
-            try:
+            with transaction.atomic():
                 attendee = attendee_form.save(commit=False)
                 attendee.event = event
                 attendee.registration_date = timezone.now()
@@ -1139,10 +1116,6 @@ def attendee_registration(request, event_slug):
                         args=[event_slug]
                     )
                 )
-            except Exception as error_message:
-                logger.error(error_message)
-                if attendee is not None:
-                    attendee.delete()
 
         messages.error(request, _('There is a problem with the registration (check form errors)'))
 
@@ -1259,7 +1232,7 @@ def create_event(request):
             the_event = None
             contacts = None
             event_dates = None
-            try:
+            with transaction.atomic():
                 the_event = event_form.save()
                 event_user = EventUser.objects.create(user=request.user, event=the_event)
                 organizer = create_organizer(event_user)
@@ -1275,23 +1248,6 @@ def create_event(request):
                     event_date.save()
 
                 return redirect(reverse('event_add_image', args=[the_event.event_slug]))
-            except Exception as error_message:
-                logger.exception(error_message)
-                try:
-                    if organizer is not None:
-                        Organizer.delete(organizer)
-                    if event_user is not None:
-                        EventUser.delete(event_user)
-                    if the_event is not None:
-                        Event.delete(the_event)
-                    if contacts is not None:
-                        for a_contact in list(contacts):
-                            Contact.objects.delete(a_contact)
-                    if event_dates is not None:
-                        for event_date in list(event_dates):
-                            EventDate.objects.delete(event_date)
-                except Exception:
-                    logger.exception("error creating event")
 
 
         messages.error(
@@ -1947,7 +1903,7 @@ def add_or_edit_room(request, event_slug, room_id=None):
     errors = []
     if request.POST:
         if room_form.is_valid():
-            try:
+            with transaction.atomic():
                 room = room_form.save()
                 room.event = event
                 room.save()
@@ -1965,10 +1921,6 @@ def add_or_edit_room(request, event_slug, room_id=None):
                     'rooms_list',
                     args=[event_slug]
                 ))
-            except Exception as error_message:
-                logger.error(error_message)
-                if room is not None:
-                    Room.delete(room)
         if is_edit:
             messages.error(
                 request,

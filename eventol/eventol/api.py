@@ -33,7 +33,16 @@ class EventSerializer(EventolSerializer):
     activity_proposal_is_open = serializers.BooleanField(read_only=True)
     registration_is_open = serializers.BooleanField(read_only=True)
     tags = EventTagFromEventSerializer(many=True, read_only=True)
+    image = serializers.SerializerMethodField('get_cropped_image')
 
+    def get_cropped_image(self, instance):
+        if instance.image and instance.cropping:
+            try:
+                return self.context['request'].build_absolute_uri(instance.cropping_image.url)
+            except Exception:
+                pass
+        return self.context['request'].build_absolute_uri('/static/manager/img/event_background.png')
+    
     class Meta:
         model = Event
         fields = ('url', 'name', 'abstract', 'limit_proposal_date',

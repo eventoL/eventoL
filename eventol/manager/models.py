@@ -11,7 +11,7 @@ from uuid import uuid4
 from random import SystemRandom
 from string import digits, ascii_lowercase, ascii_uppercase
 
-from ckeditor.fields import RichTextField
+from django_prose_editor.sanitized import SanitizedProseEditorField
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -22,11 +22,14 @@ from django.utils.formats import date_format
 from django.utils.translation import gettext as _, gettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
 from django.db.models import JSONField
-from django.contrib.gis.geos import Point
+from easy_thumbnails.files import get_thumbnailer
 
 from vote.models import VoteModel
 from manager.utils.report import count_by
 from manager.utils.slug import get_unique_slug
+
+from allauth.account.models import EmailAddress
+from django.db.models.signals import post_save
 
 logger = logging.getLogger('eventol')
 
@@ -149,7 +152,7 @@ class Event(models.Model):
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
-    event_information = RichTextField(verbose_name=_('Event Info'),
+    event_information = SanitizedProseEditorField(verbose_name=_('Event Info'),
                                       help_text=_('Event Info HTML'),
                                       blank=True, null=True)
     schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
@@ -167,7 +170,7 @@ class Event(models.Model):
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
-    activities_proposal_form_text = RichTextField(
+    activities_proposal_form_text = SanitizedProseEditorField(
         verbose_name=_('Activity proposal form text'),
         help_text=_("A message to show in the activities proposal form"),
         blank=True, null=True
@@ -218,6 +221,19 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_cropping_image(self, generate=False):
+        thumbnail = get_thumbnailer(self.image).get_thumbnail({
+            'box': self.cropping,
+            'crop': True,
+            'size': (700, 450),
+            'detail': False, 
+        }, generate=generate)
+        return thumbnail
+
+    @property
+    def cropping_image(self):
+        return self.get_cropping_image()
 
     @property
     def coords(self):
@@ -251,6 +267,8 @@ class Event(models.Model):
         """
         if not self.event_slug:
             self.event_slug = get_unique_slug(self, 'name', 'slug')
+        if self.image and self.cropping:
+            self.get_cropping_image(generate=True)
         super().save(*args, **kwargs)
 
 
@@ -411,10 +429,11 @@ class EventUser(models.Model):
                 'nickname': self.user.username,
                 'email': self.user.email, 'event': self.event,
                 'event_date': date, 'ticket': self.ticket}
-
+    @property
     def attended(self):
         return EventUserAttendanceDate.objects.filter(event_user=self).exists()
 
+    @property
     def attended_today(self):
         return EventUserAttendanceDate.objects.filter(
             event_user=self, date__date=timezone.localdate()).exists()
@@ -593,9 +612,15 @@ class Attendee(models.Model):
                 'nickname': self.nickname, 'email': self.email,
                 'event': self.event, 'event_date': date, 'ticket': self.ticket}
 
+    @property
+    def attendance_date(self):
+        return AttendeeAttendanceDate.objects.filter(attendee=self).first()
+
+    @property
     def attended(self):
         return AttendeeAttendanceDate.objects.filter(attendee=self).exists()
 
+    @property
     def attended_today(self):
         return AttendeeAttendanceDate.objects.filter(
             attendee=self, date__date=timezone.localdate()).exists()
@@ -625,7 +650,7 @@ class AttendeeAttendanceDate(models.Model):
 
 class InstallationMessage(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), on_delete=models.CASCADE)
-    message = RichTextField(verbose_name=_('Message Body'), help_text=_(
+    message = SanitizedProseEditorField(verbose_name=_('Message Body'), help_text=_(
         'Email message HTML Body'), blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('Contact Email'))
 
@@ -977,3 +1002,18 @@ class EventolSetting(models.Model):
     class Meta:
         verbose_name = _('eventoL setting')
         verbose_name_plural = _('eventoL settings')
+
+
+def userprofile_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        if sender is User and instance.is_superuser:
+            user_object = User.objects.get(email=instance.email)
+            email_addres = EmailAddress()
+            email_addres.user = user_object
+            email_addres.email = user_object.email
+            email_addres.verified = True
+            email_addres.primary = False
+            email_addres.save()
+            return
+
+post_save.connect(userprofile_receiver, sender=User)
