@@ -131,6 +131,7 @@ class EventAdmin(ImageCroppingMixin, EventoLAdmin):
         'name', 'url', 'registration_closed', 'schedule_confirmed',
         'use_installations', 'use_installers', 'use_collaborators',
         'use_proposals', 'use_talks', 'is_flisol', 'use_schedule',
+        'tz_event'
     )
     list_filter = (
         'registration_closed', 'schedule_confirmed', 'use_installations',
