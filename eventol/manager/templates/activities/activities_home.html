@@ -158,6 +158,11 @@
                                             <div id='talk-info-{{ forloop.counter }}'>
                                                 {% if talk.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ talk.abstract }}</p>{% endif %}
                                                 {% if talk.speakers_names %}<p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>{% endif %}
+                                                {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                                    {% if talk.owner.user %}
+                                                        <p><strong>{% trans "Speaker email" %}:</strong> {{ talk.owner.user.email }}</p>
+                                                    {% endif %}
+                                                {% endif %}
                                                 {% if talk.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ talk.speaker_bio }}</p>{% endif %}
                                                 {% if talk.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                   {% for label in talk.labels %}
@@ -279,6 +284,11 @@
                                                 <div id="proposal-info-{{ forloop.counter }}">
                                                     {% if proposal.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ proposal.abstract }}</p>{% endif %}
                                                     {% if proposal.speakers_names %}<p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>{% endif %}
+                                                    {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                                        {% if proposal.owner.user %}
+                                                            <p><strong>{% trans "Speaker email" %}:</strong> {{ proposal.owner.user.email }}</p>
+                                                        {% endif %}
+                                                    {% endif %}
                                                     {% if proposal.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ proposal.speaker_bio }}</p>{% endif %}
                                                     {% if proposal.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                       {% for label in proposal.labels %}
@@ -373,6 +383,11 @@
                                               {% if activity.justification %}<p><strong>{% trans "Justification" %}:</strong> {{ activity.justification }}</p>{% endif %}
                                               {% if activity.abstract %}<p><strong>{% trans "Abstract" %}:</strong> {{ activity.abstract }}</p>{% endif %}
                                               {% if activity.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names|title }}</p>{% endif %}
+                                              {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                                {% if activity.owner.user %}
+                                                  <p><strong>{% trans "Speaker email" %}:</strong> {{ activity.owner.user.email }}</p>
+                                                {% endif %}
+                                              {% endif %}
                                               {% if activity.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ activity.speaker_bio }}</p>{% endif %}
                                               {% if activity.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                 {% for label in activity.labels %}
