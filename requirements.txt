@@ -23,7 +23,7 @@ django-forms-builder==0.14.0
 asgi-ipc==1.4.2
 PyQRCode==1.2.1
 svglue==0.3.0
-CairoSVG==2.1.1
+CairoSVG==2.5.1
 pypng==0.0.18
 django-tempus-dominus==5.1.2.8
 tablib==0.13.0
