@@ -1,5 +1,5 @@
 asgi-redis==1.4.3
-Django==1.11.29
+Django==2.2.27
 django-configurations==2.0
 easy-thumbnails==2.5
 django-autocomplete-light==3.2.10
