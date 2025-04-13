@@ -30,6 +30,7 @@ env = environ.Env(
     EMAIL_TIMEOUT=(int, os.getenv('EMAIL_TIMEOUT', 10)),
     EMAIL_USE_TLS=(bool, os.getenv('EMAIL_USE_TLS', True)),
     EMAIL_FROM=(str, os.getenv('EMAIL_FROM', 'change_unset@mail.com')),
+    EMAIL_FAIL_SILENTY=(bool, os.getenv('EMAIL_FAIL_SILENTY', False)),
     DEFAULT_FROM_EMAIL=(str, os.getenv('EMAIL_FROM', 'change_unset@mail.com')),
     ADMIN_TITLE=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
     PRIVATE_ACTIVITIES=(bool, os.getenv('PRIVATE_ACTIVITIES', True)),
@@ -37,7 +38,11 @@ env = environ.Env(
     LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', 25)),
     SECRET_KEY=(str, os.getenv('SECRET_KEY',
                                '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
+<<<<<<< HEAD
     APP_DNS=(str, os.getenv('APP_DNS'), 'localhost'),
+=======
+    APP_DNS=(list, [os.getenv('APP_DNS', socket.gethostname())]),
+>>>>>>> 2c2eae21 (En este commit se agrega la posibilidad de correr Celery para el envío)
     LOG_FILE=(str, os.getenv('LOG_FILE', '/var/log/eventol/eventol.log')),
     SENTRY_DSN=(str, os.getenv("SENTRY_DSN", "NOT_CONFIGURED")),
     PSQL_DBNAME=(str, os.getenv('PSQL_DBNAME', 'eventol')),
@@ -52,6 +57,7 @@ env = environ.Env(
     JAZZMIN_WELCOME_SIGN=(str, os.getenv('JAZZMIN_WELCOME_SIGN',
                           'Administration panel of EventoL')),
     JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
+    CELERY_ENABLED=(bool, os.getenv('CELERY_ENABLED', False)),
 )
 
 #import ipdb;ipdb.set_trace()
@@ -312,8 +318,8 @@ class Base(Configuration):
     EMAIL_TIMEOUT = env('EMAIL_TIMEOUT')
     EMAIL_USE_TLS = env('EMAIL_USE_TLS')
     EMAIL_FROM = env('EMAIL_FROM')
+    EMAIL_FAIL_SILENTY = env('EMAIL_FAIL_SILENTY')
     DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
-
     ADMIN_TITLE = env('ADMIN_TITLE')
     WS_PROTOCOL = env('PROTOCOL')
     PRIVATE_ACTIVITIES = env('PRIVATE_ACTIVITIES')
@@ -410,6 +416,7 @@ class Base(Configuration):
     }
     LIST_PER_PAGE = int(env('LIST_PER_PAGE'))
     ModelAdmin.list_per_page = LIST_PER_PAGE
+    CELERY_ENABLED=env('CELERY_ENABLED')
 
 
 class Staging(Base):

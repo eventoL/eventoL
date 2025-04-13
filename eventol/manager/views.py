@@ -239,7 +239,8 @@ def installation(request, event_slug):
                     .filter(event=event).first()
                 if postinstall_email:
                     try:
-                        utils_email.send_installation_email(
+                        utils_email.send_email(
+                        utils_email.send_installation_email,
                             event.name, postinstall_email, install.attendee)
                     except SMTPException as error:
                         logger.error(error)
@@ -1571,7 +1572,13 @@ def change_activity_status(request, event_slug, activity_id, status, justificati
     activity.justification = justification
     activity.save()
     try:
-        utils_email.send_activity_email(event, activity, justification)
+        utils_email.send_email(
+        utils_email.send_activity_email,
+            event.name, 
+            activity.title, 
+            activity.activity.status_choices[int(activity.status) -1][1],
+            activity.owner.user.email,
+            justification)
     except SMTPException as error:
         logger.error(error)
         messages.error(request, _("The email couldn't sent successfully, \
@@ -1718,7 +1725,12 @@ def talk_registration(request, event_slug, proposal_id):
                         room = get_object_or_404(Room, pk=request.POST.get('room'))
                         proposal.room = room
                         proposal.save()
-                        utils_email.send_activity_email(event, proposal)
+                        utils_email.send_email(
+                            utils_email.send_activity_email,
+                            event.name, 
+                            proposal.title, 
+                            proposal.activity.status_choices[int(proposal.status) -1][1],
+                            proposal.owner.user.email)
                         messages.success(request, _("The talk was registered successfully!"))
                         safe_continue = reverse(
                             "activity_detail", args=[event_slug, proposal.pk])
