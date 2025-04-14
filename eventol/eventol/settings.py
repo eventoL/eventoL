@@ -38,11 +38,7 @@ env = environ.Env(
     LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', 25)),
     SECRET_KEY=(str, os.getenv('SECRET_KEY',
                                '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
-<<<<<<< HEAD
     APP_DNS=(str, os.getenv('APP_DNS'), 'localhost'),
-=======
-    APP_DNS=(list, [os.getenv('APP_DNS', socket.gethostname())]),
->>>>>>> 2c2eae21 (En este commit se agrega la posibilidad de correr Celery para el envío)
     LOG_FILE=(str, os.getenv('LOG_FILE', '/var/log/eventol/eventol.log')),
     SENTRY_DSN=(str, os.getenv("SENTRY_DSN", "NOT_CONFIGURED")),
     PSQL_DBNAME=(str, os.getenv('PSQL_DBNAME', 'eventol')),
@@ -59,8 +55,6 @@ env = environ.Env(
     JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
     CELERY_ENABLED=(bool, os.getenv('CELERY_ENABLED', False)),
 )
-
-#import ipdb;ipdb.set_trace()
 
 
 def str_to_bool(str_bool):

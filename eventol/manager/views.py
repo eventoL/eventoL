@@ -240,8 +240,11 @@ def installation(request, event_slug):
                 if postinstall_email:
                     try:
                         utils_email.send_email(
-                        utils_email.send_installation_email,
-                            event.name, postinstall_email, install.attendee)
+                            utils_email.send_installation_email,
+                            event.name,
+                            postinstall_email,
+                            install.attendee,
+                        )
                     except SMTPException as error:
                         logger.error(error)
                         messages.error(request, _("The email couldn't sent successfully, \
@@ -1573,12 +1576,13 @@ def change_activity_status(request, event_slug, activity_id, status, justificati
     activity.save()
     try:
         utils_email.send_email(
-        utils_email.send_activity_email,
-            event.name, 
-            activity.title, 
+            utils_email.send_activity_email,
+            event.name,
+            activity.title,
             activity.activity.status_choices[int(activity.status) -1][1],
             activity.owner.user.email,
-            justification)
+            justification
+        )
     except SMTPException as error:
         logger.error(error)
         messages.error(request, _("The email couldn't sent successfully, \
@@ -1727,10 +1731,11 @@ def talk_registration(request, event_slug, proposal_id):
                         proposal.save()
                         utils_email.send_email(
                             utils_email.send_activity_email,
-                            event.name, 
-                            proposal.title, 
+                            event.name,
+                            proposal.title,
                             proposal.activity.status_choices[int(proposal.status) -1][1],
-                            proposal.owner.user.email)
+                            proposal.owner.user.email
+                        )
                         messages.success(request, _("The talk was registered successfully!"))
                         safe_continue = reverse(
                             "activity_detail", args=[event_slug, proposal.pk])
