@@ -1,11 +1,10 @@
 #########################################
 # build image
 #########################################
-FROM python:3.9.21-bookworm
+FROM python:3.12-slim-bookworm
 
 # Set environment variables
-ENV APP_ROOT /usr/src/app/
-ENV DJANGO_CONFIGURATION=Prod
+ENV APP_ROOT=/usr/src/app/
 
 # Install system dependencies using apt-get
 RUN apt-get update && \
@@ -48,7 +47,6 @@ COPY ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
 
 # Collect statics
 RUN mkdir -p ${APP_ROOT}/eventol/static
-RUN cd ${APP_ROOT}/eventol && python manage.py collectstatic --noinput
 
 # Create media folder
 RUN mkdir -p ${APP_ROOT}/eventol/media
@@ -58,7 +56,6 @@ RUN touch /var/log/eventol/eventol.log
 
 # Compile .po files
 RUN sed -i 's@#~ @@g' ${APP_ROOT}/eventol/conf/locale/*/LC_MESSAGES/djangojs.po
-RUN cd ${APP_ROOT}/eventol && python manage.py compilemessages
 
 EXPOSE 8000
 

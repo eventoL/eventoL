@@ -178,6 +178,15 @@
         "bug",
         "tool"
       ]
+    },
+    {
+      "login": "marian-vignau",
+      "name": "María Andrea Vignau",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11053901?v=4",
+      "profile": "https://mavignau.gitlab.io/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 5,

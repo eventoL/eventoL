@@ -116,7 +116,7 @@
         {% endif %}
     </div>
 
-    {% if event.place %}
+    {% if event.coords %}
         <div class="card">
             <div id="map" class="map"></div>
             <div style="text-align:center">
@@ -264,8 +264,8 @@
         $(document).ready(function () {
             window.libs.slick('slick_charlas');
 
-            {% if event.place %}
-                window.libs.map({{ event.place|safe }});
+            {% if event.coords %}
+                window.libs.map({{ event.coords|safe }});
             {% endif %}
         });
     </script>

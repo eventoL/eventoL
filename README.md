@@ -19,7 +19,7 @@ Status
 ------
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-17-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Translation status](https://hosted.weblate.org/widgets/eventol/-/svg-badge.svg)](https://hosted.weblate.org/engage/eventol/?utm_source=widget)
 [![pipeline status](https://gitlab.com/eventol/eventoL/badges/master/pipeline.svg)](https://gitlab.com/eventol/eventoL/commits/master)
@@ -77,6 +77,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="20%"><a href="https://osiux.com/"><img src="https://avatars.githubusercontent.com/u/360084?v=4?s=100" width="100px;" alt="OSiUX"/><br /><sub><b>OSiUX</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=osiris" title="Code">💻</a> <a href="https://github.com/eventoL/eventoL/issues?q=author%3Aosiris" title="Bug reports">🐛</a> <a href="#tool-osiris" title="Tools">🔧</a></td>
+      <td align="center" valign="top" width="20%"><a href="https://mavignau.gitlab.io/"><img src="https://avatars.githubusercontent.com/u/11053901?v=4?s=100" width="100px;" alt="María Andrea Vignau"/><br /><sub><b>María Andrea Vignau</b></sub></a><br /><a href="https://github.com/eventoL/eventoL/commits?author=marian-vignau" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

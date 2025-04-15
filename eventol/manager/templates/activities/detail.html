@@ -49,7 +49,7 @@
                           {% endif %}
                           <div class='row col-12' id='activity-detail'>
                               <div class="col-md-6 col-12">
-                                  {% if user.is_authenticated and user|is_organizer:event_uid %}
+                                  {% if user.is_authenticated and user|is_organizer:event_slug %}
                                     <p>
                                       <span style="margin-right: 5px;"><strong>{% trans "Votes" %}: </strong></span>
                                       {% if user|exists_vote:activity %}
@@ -75,6 +75,11 @@
                                   {% endif %}
                                   {% if activity.speakers_names %}
                                       <p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names }}</p>
+                                  {% endif %}
+                                  {% if user.is_authenticated and user|is_organizer:event_slug %}
+                                    {% if activity.owner.user %}
+                                        <p><strong>{% trans "Speaker email" %}:</strong> {{ activity.owner.user.email }}</p>
+                                    {% endif %}
                                   {% endif %}
                                   {% if activity.speaker_bio %}
                                       <p><strong>{% trans "Speakers Bio" %}:</strong> {{ activity.speaker_bio }}</p>
