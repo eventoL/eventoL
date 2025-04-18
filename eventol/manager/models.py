@@ -419,6 +419,11 @@ class EventUser(models.Model):
     event = models.ForeignKey(Event, verbose_name=_('Event'),on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'),
                                blank=True, null=True,on_delete=models.CASCADE)
+    allow_contact_or_subscription = models.BooleanField(
+        _('Allow Contact or Subscription'),
+        default=False,
+        help_text=_('Allow the use of contact data for event updates or subscriptions')
+    )
 
     def __str__(self):
         if self.user:
@@ -596,6 +601,11 @@ class Attendee(models.Model):
     event_user = models.ForeignKey(
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True, on_delete=models.CASCADE)
     customFields = models.JSONField(default=dict)
+    allow_contact_or_subscription = models.BooleanField(
+        _('Allow Contact or Subscription'),
+        default=False,
+        help_text=_('Allow the use of contact data for event updates or subscriptions')
+    )
 
     class Meta:
         verbose_name = _('Attendee')

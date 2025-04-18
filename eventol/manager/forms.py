@@ -240,6 +240,7 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
             "is_installing",
             "event",
             "registration_date",
+            "allow_contact_or_subscription",
         ]
         widgets = {
             "event": forms.HiddenInput(),
@@ -330,11 +331,12 @@ class AttendeeRegistrationFromUserForm(ModelForm):
         "last_name",
         "nickname",
         "additional_info",
-        "is_installing",
         "email",
         "event",
         "event_user",
         "registration_date",
+        "is_installing",
+        "allow_contact_or_subscription",
     ]
 
     class Meta:
@@ -349,6 +351,7 @@ class AttendeeRegistrationFromUserForm(ModelForm):
             "event",
             "registration_date",
             "event_user",
+            "allow_contact_or_subscription",
         ]
         widgets = {
             "first_name": forms.HiddenInput(),
@@ -378,12 +381,13 @@ class AttendeeRegistrationForm(ModelForm):
         "last_name",
         "nickname",
         "additional_info",
-        "is_installing",
         "email",
         "repeat_email",
-        "captcha",
         "event",
         "registration_date",
+        "is_installing",
+        "allow_contact_or_subscription",
+        "captcha",
     ]
 
     class Meta:
@@ -397,6 +401,7 @@ class AttendeeRegistrationForm(ModelForm):
             "is_installing",
             "event",
             "registration_date",
+            "allow_contact_or_subscription",
         ]
         widgets = {
             "event": forms.HiddenInput(),
