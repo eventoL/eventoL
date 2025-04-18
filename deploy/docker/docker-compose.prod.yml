@@ -53,12 +53,12 @@ services:
 
   postgres:
     restart: always
-    image: postgres:14
+    image: postgis/postgis:14
     env_file:
       - ../../.env
     volumes:
       - type: bind
-        source: /srv/deploys/eventoldata/postgres14
+        source: /srv/deploys/eventoldata/postgres
         target: /var/lib/postgresql/data
 
   nginx-proxy:

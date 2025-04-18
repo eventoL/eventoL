@@ -41,9 +41,10 @@ RUN mkdir -p ${APP_ROOT}/eventol/manager/static
 # Copy git files
 COPY ./.git ${APP_ROOT}/.git
 
-# Copy script for docker-compose wait and start-eventol
+# Copy script for docker-compose wait, start-eventol and start-celery
 COPY ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
 COPY ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
+COPY ./deploy/docker/scripts/start_celery.sh ${APP_ROOT}/start_celery.sh
 
 # Collect statics
 RUN mkdir -p ${APP_ROOT}/eventol/static
