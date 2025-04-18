@@ -21,6 +21,19 @@ services:
       - DJANGO_CONFIGURATION=Prod
     command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
 
+  celery_worker:
+    restart: always
+    build:
+      context: ../../.
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    environment:
+      - DJANGO_CONFIGURATION=Prod
+    command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_celery.sh
+
   nginx:
     restart: always
     build: ./nginx/

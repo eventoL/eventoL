@@ -31,7 +31,7 @@ WORKDIR ${APP_ROOT}
 # Install python requirements
 COPY ./requirements.txt ./requirements-dev.txt ${APP_ROOT}
 RUN pip3 install --no-cache-dir -r requirements-dev.txt
-RUN pip3 install psycopg2-binary gunicorn
+RUN pip3 install psycopg2-binary gunicorn celery
 
 # Copy python code
 COPY ./Makefile ${APP_ROOT}/Makefile

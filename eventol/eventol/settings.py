@@ -70,7 +70,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '../.env'), overwrite=True)
 
 class Base(Configuration):
     # Quick-start development settings - unsuitable for production
-    # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+    # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
     STATIC_URL = '/static/'
 
     # SECURITY WARNING: keep the secret key used in production secret!
@@ -137,9 +137,11 @@ class Base(Configuration):
     ) + thumbnail_settings.THUMBNAIL_PROCESSORS
     IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
     IMAGE_CROPPING_BACKEND_PARAMS = {}
+    IMAGE_CROPPING_JQUERY_URL = None
+    IMAGE_CROPPING_THUMB_SIZE = (700, 450)
 
     # Internationalization
-    # https://docs.djangoproject.com/en/1.11/topics/i18n/
+    # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
     LANGUAGE_CODE = env('LANGUAGE_CODE')
     LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
@@ -519,7 +521,7 @@ class Staging(Base):
     }
 
     # Database
-    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+    # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -556,7 +558,7 @@ class Dev(Base):
     )
 
     # Database
-    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+    # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.spatialite',
