@@ -166,7 +166,7 @@
                                                 {% if talk.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ talk.speaker_bio }}</p>{% endif %}
                                                 {% if talk.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                   {% for label in talk.labels %}
-                                                      <span class="badge">{{ label|lower }}</span>
+                                                      <span class="badge badge-primary">{{ label|lower }}</span>
                                                   {% endfor %}
                                                 </p>{% endif %}
                                                 {% if talk.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.activity_type.name }}</p>{% endif %}
@@ -292,7 +292,7 @@
                                                     {% if proposal.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ proposal.speaker_bio }}</p>{% endif %}
                                                     {% if proposal.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                       {% for label in proposal.labels %}
-                                                          <span class="badge">{{ label|lower }}</span>
+                                                          <span class="badge badge-primary">{{ label|lower }}</span>
                                                       {% endfor %}
                                                     </p>{% endif %}
                                                     {% if proposal.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ proposal.activity_type.name }}</p>{% endif %}
@@ -391,7 +391,7 @@
                                               {% if activity.speaker_bio %}<p><strong>{% trans "Speakers Bio" %}:</strong> {{ activity.speaker_bio }}</p>{% endif %}
                                               {% if activity.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                                 {% for label in activity.labels %}
-                                                    <span class="badge">{{ label|lower }}</span>
+                                                    <span class="badge badge-primary">{{ label|lower }}</span>
                                                 {% endfor %}
                                               </p>{% endif %}
                                               {% if activity.activity_type %}<p><strong>{% trans "Type" %}:</strong> {{ activity.activity_type.name }}</p>{% endif %}

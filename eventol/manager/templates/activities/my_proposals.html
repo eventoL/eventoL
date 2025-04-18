@@ -51,7 +51,7 @@
                                                 {% if talk.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ talk.speakers_names|title }}</p>{% endif %}
                                                 {% if talk.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
                                                   {% for label in talk.labels %}
-                                                      <span class="badge">{{ label|lower }}</span>
+                                                      <span class="badge badge-primary">{{ label|lower }}</span>
                                                   {% endfor %}
                                                 </p>{% endif %}
                                                 {% if talk.type %}<p><strong>{% trans "Type" %}:</strong> {{ talk.get_type_display }}</p>{% endif %}
@@ -122,7 +122,7 @@
                                                     {% if proposal.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ proposal.speakers_names|title }}</p>{% endif %}
                                                     {% if proposal.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
                                                       {% for label in proposal.labels %}
-                                                          <span class="badge">{{ label|lower }}</span>
+                                                          <span class="badge badge-primary">{{ label|lower }}</span>
                                                       {% endfor %}
                                                     </p>{% endif %}
                                                     {% if proposal.type %}<p><strong>{% trans "Type" %}:</strong> {{ proposal.get_type_display }}</p>{% endif %}
@@ -188,7 +188,7 @@
                                               {% if activity.speakers_names|title %}<p><strong>{% trans "Speakers" %}:</strong> {{ activity.speakers_names|title }}</p>{% endif %}
                                               {% if activity.labels|lower %}<p><strong>{% trans "Labels" %}:</strong>
                                                 {% for label in activity.labels %}
-                                                    <span class="badge">{{ label|lower }}</span>
+                                                    <span class="badge badge-primary">{{ label|lower }}</span>
                                                 {% endfor %}
                                               </p>{% endif %}
                                               {% if activity.type %}<p><strong>{% trans "Type" %}:</strong> {{ activity.get_type_display }}</p>{% endif %}
