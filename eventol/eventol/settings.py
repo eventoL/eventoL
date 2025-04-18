@@ -20,7 +20,6 @@ env = environ.Env(
     LANGUAGE_CODE=(str, os.getenv('LANGUAGE_CODE', 'en-US')),
     TIME_ZONE=(str, os.getenv('TIME_ZONE', 'UTC')),
     DONT_SET_FILE_UPLOAD_PERMISSIONS=(bool, os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', False)),
-    IS_ALPINE=(str, os.getenv('IS_ALPINE', 'not found')),
     REDIS_HOST=(str, os.getenv('REDIS_HOST', 'redis')),
     REDIS_PORT=(int, os.getenv('REDIS_PORT', 6379)),
     EMAIL_BACKEND=(str, os.getenv('EMAIL_BACKEND',
@@ -296,19 +295,6 @@ class Base(Configuration):
         },
     }
 
-    IS_ALPINE = env('IS_ALPINE') != "not found"
-    if IS_ALPINE:
-        CHANNEL_LAYERS['default'] = {
-            'BACKEND': 'asgi_redis.RedisChannelLayer',
-            'CONFIG': {
-                'hosts': [(
-                    env('REDIS_HOST'),
-                    env('REDIS_PORT'),
-                )],
-            },
-            'ROUTING': 'eventol.routing.channel_routing',
-        }
-
     EMAIL_BACKEND = env('EMAIL_BACKEND')
     EMAIL_HOST = env('EMAIL_HOST')
     EMAIL_PORT = env('EMAIL_PORT')
@@ -333,7 +319,7 @@ class Base(Configuration):
         'site_title': env('JAZZMIN_SITE_TITLE'),
         'site_header': env('JAZZMIN_SITE_HEADER'),
         'site_brand': env('JAZZMIN_SITE_BRAND'),
-        'welcome_sign': env('AZZMIN_WELCOME_SIGN'),
+        'welcome_sign': env('JAZZMIN_WELCOME_SIGN'),
         'copyright': env('JAZZMIN_SITE_BRAND'),
         'site_logo': 'manager/img/logo_e.png',
         'login_logo': 'manager/img/logo.png',
@@ -431,6 +417,7 @@ class Staging(Base):
     DEBUG = env('DEBUG')
     SECRET_KEY = env('SECRET_KEY')
     ALLOWED_HOSTS = [env('APP_DNS')]
+
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
@@ -450,6 +437,7 @@ class Staging(Base):
             'rest_framework.renderers.JSONRenderer',
         )
     }
+
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'asgi_redis.RedisChannelLayer',
@@ -462,6 +450,7 @@ class Staging(Base):
             'ROUTING': 'eventol.routing.channel_routing',
         }
     }
+
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
