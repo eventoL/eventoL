@@ -100,6 +100,12 @@ class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
                 )
         return attendees[:5]
 
+    def get_result_label(self, result):
+        user = result
+        if result.event_user:
+            user = result.event_user.user
+            user.nickname = user.username
+        return f'{user.first_name} {user.last_name} ({user.nickname}) - {user.email}'
 
 class AllAttendeeAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -127,6 +133,12 @@ class AllAttendeeAutocomplete(autocomplete.Select2QuerySetView):
                 )
         return attendees[:5]
 
+    def get_result_label(self, result):
+        user = result
+        if result.event_user:
+            user = result.event_user.user
+            user.nickname = user.username
+        return f'{user.first_name} {user.last_name} ({user.nickname}) - {user.email}'
 
 class EventUserAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -165,7 +177,12 @@ class EventUserAutocomplete(autocomplete.Select2QuerySetView):
                     | Q(user__username__icontains=self.q.lower())
                     | Q(user__email__icontains=self.q.lower())
                 )
+
         return event_users[:5]
+
+    def get_result_label(self, result):
+        user = result.user
+        return f'{user.first_name} {user.last_name} ({user.username}) - {user.email}'
 
 
 class AttendeeSearchForm(forms.Form):
