@@ -528,6 +528,7 @@ class EventForm(ModelForm):
             "use_collaborators",
             "use_proposals",
             "use_schedule",
+            "show_contact_by_email",
             "activities_proposal_form_text",
             "tags",
             "geom",

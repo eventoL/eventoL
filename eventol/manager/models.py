@@ -160,6 +160,11 @@ class Event(models.Model):
     use_collaborators = models.BooleanField(_('Use Collaborators'), default=True)
     use_proposals = models.BooleanField(_('Use Proposals'), default=True)
     use_talks = models.BooleanField(_('Use Talks'), default=True)
+    show_contact_by_email = models.BooleanField(
+        _('Show contact email'),
+        help_text=_('Show the contact email to the organization in the navigation bar'),
+        default=True
+    )
     is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
     use_schedule = models.BooleanField(_('Use Schedule'), default=True)
     geom = PointField(_('Geom'), null=True, blank=True)
