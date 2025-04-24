@@ -39,7 +39,7 @@ env = environ.Env(
     LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', 25)),
     SECRET_KEY=(str, os.getenv('SECRET_KEY',
                                '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
-    APP_DNS=(str, os.getenv('APP_DNS'), 'localhost'),
+    APP_DNS=(str, os.getenv('APP_DNS', 'localhost')),
     LOG_FILE=(str, os.getenv('LOG_FILE', '/var/log/eventol/eventol.log')),
     SENTRY_DSN=(str, os.getenv("SENTRY_DSN", "NOT_CONFIGURED")),
     PSQL_DBNAME=(str, os.getenv('PSQL_DBNAME', 'eventol')),
@@ -169,7 +169,8 @@ class Base(Configuration):
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
             'DIRS': [
-                os.path.join(BASE_DIR, 'templates')
+                os.path.join(BASE_DIR, 'templates'),
+                MEDIA_ROOT,
             ],
             'APP_DIRS': True,
             'OPTIONS': {
