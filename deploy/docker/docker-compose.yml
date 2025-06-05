@@ -48,9 +48,18 @@ services:
         source: /srv/deploys/eventoldata/media
         target: /usr/src/app/eventol/media
         read_only: true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.puntocoop.rule=Host(`punto.coop.ar`)"
+      - "traefik.http.routers.puntocoop.tls=true"
+      - "traefik.http.routers.puntocoop.tls.certresolver=letsencrypt"
+      - "traefik.http.services.puntocoop.loadbalancer.server.port=80"
+      - "traefik.docker.network=proxy"
     environment:
-      - VIRTUAL_HOST=${HOST}
-
+      - VIRTUAL_HOST=punto.coop.ar
+    networks:
+      - proxy
+      - default
   postgres:
     restart: always
     image: postgis/postgis:14-3.5
@@ -61,23 +70,10 @@ services:
         source: /srv/deploys/eventoldata/postgres
         target: /var/lib/postgresql/data
 
-  nginx-proxy:
-    restart: always
-    image: jwilder/nginx-proxy
-    depends_on:
-      - nginx
-    ports:
-      - '${EXTERNAL_PORT}:80'
-    volumes:
-      - type: bind
-        source: /var/run/docker.sock
-        target: /tmp/docker.sock
-        read_only: true
-      - type: bind
-        source: ./nginx_proxy_settings.conf
-        target: /etc/nginx/conf.d/eventol_settings.conf
-        read_only: true
-
   redis:
     image: redis:6
     restart: always
+
+networks:
+  proxy:
+    external: true
