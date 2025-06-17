@@ -1,0 +1,429 @@
+/* background */
+
+.main {
+    background-color: #191919;
+    color: white;
+    width: 100%;
+    height: 100%;
+    margin-top: -32px;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* navbar */
+
+header {
+    background-color: #327FF6;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 40px;
+    height: 80px;
+}
+
+header img {
+    height: 60px;
+    width: auto;
+    margin: auto 0px;
+}
+
+header a {
+    font-weight: 700;
+    font-size: 24px;
+    font-family: 'Space Grotesk', sans-serif;
+    color: white;
+    margin: auto 0px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* first section carrousel */
+.carousel-background {
+    position: absolute;
+    height: 85vh;
+    width: auto;
+
+}
+
+/* Contenedor principal */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    overflow: hidden;
+    border-radius: 15px;
+    height: 85vh;
+    -webkit-mask-image: linear-gradient(90deg,
+            transparent 0%,
+            #000 15%,
+            #000 85%,
+            transparent 100%);
+    mask-image: linear-gradient(90deg,
+            transparent 0%,
+            #000 1%,
+            #000 99%,
+            transparent 100%);
+}
+
+/* Contenedor de slides */
+.carousel-slide {
+    display: flex;
+    width: 100%;
+    height: 800px;
+    transition: transform 0.5s ease-in-out;
+    padding: 0px 20px;
+}
+
+/* Slides individuales */
+.slide-content {
+    min-width: 100%;
+    flex-shrink: 0;
+    height: 85vh;
+    position: relative;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    margin-top: 50px;
+    padding: 0px 20px;
+}
+
+/* Botones de navegación */
+.flecha-estilizada {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    padding: 10px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.flecha-estilizada:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Efecto hover con sombra */
+.flecha-estilizada:hover path {
+    stroke: white;
+    filter: drop-shadow(0 0 3px rgba(65, 183, 122, 0.7));
+}
+
+#prevBtn {
+    left: 30px;
+}
+
+#nextBtn {
+    right: 30px;
+}
+
+/* Indicadores */
+.carousel-indicators {
+    opacity: 0;
+}
+
+.indicator {
+    opacity: 0;
+}
+
+.indicator.active {
+    opacity: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .carousel-slide {
+        height: 500px;
+    }
+
+    .slide-text h2 {
+        font-size: 2rem;
+    }
+
+    .slide-text p {
+        font-size: 1rem;
+        max-width: 100%;
+    }
+
+    #prevBtn,
+    #nextBtn {
+        width: 40px;
+        height: 40px;
+        font-size: 2rem;
+    }
+}
+
+.slide-content h2 {
+    color: #EBEBEB;
+    font-size: 32px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.slide-content h3 {
+    font-size: 64px;
+    font-weight: 700;
+    color: #E7D04A;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-top: 0px;
+}
+
+.slide-content p {
+    color: #41C87A;
+    font-size: 32px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+
+.slide-content .title-second-slide {
+    color: #FF9812;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+    width: 1220px;
+    margin-top: 100px;
+}
+
+.slide-content .tag-slide {
+    color: #EBEBEB;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    padding: 8px 16px 8px 32px;
+    background: linear-gradient(to right,
+            transparent 0%,
+            #399B66 100%);
+    width: 400px;
+    text-align: right;
+    margin-left: auto;
+    margin-right: 100px;
+}
+
+.slide-content .title-third-slide {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: #FF4D4D;
+    width: 1220px;
+    margin: 20vh 0px 70px 0px;
+}
+
+.carousel-container .second-image {
+    height: 109px;
+    width: auto;
+    margin-top: 30px;
+}
+
+.carousel-container .vector {
+    position: absolute;
+    right: 10%;
+    bottom: 10%;
+}
+
+/* About us */
+
+.about-us .barra-amarilla {
+    background-color: #D5BE4A;
+    width: 800px;
+    height: 6px;
+    border-radius: 6px;
+    margin: 0 auto;
+}
+
+.about-us .paratexto {
+    width: 915px;
+    text-align: center;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+.about-us .paratexto div {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #EBEBEB;
+    font-size: 24px;
+    margin-top: 80px;
+    line-height: 100%;
+}
+
+.about-us .flechas {
+    flex-direction: column;
+    display: flex;
+    margin-left: 5%;
+    position: absolute;
+    z-index: 1;
+}
+
+.about-us .flechas img {
+    width: 131px;
+    height: auto;
+}
+
+/* Quienes somos */
+
+.quienes-somos {
+    width: 915px;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+.quienes-somos h2 {
+    color: #964DF1;
+    font-size: 32px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-bottom: 20px;
+    line-height: 100%;
+    margin-top: 150px;
+}
+
+.quienes-somos p {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #EBEBEB;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 100%;
+}
+
+.quienes-somos .slider-container {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    overflow: hidden;
+    width: 100%;
+    height: 139px;
+}
+
+.quienes-somos .slider-container .slider-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 20s linear infinite;
+}
+
+.quienes-somos .slider-container img {
+    width: auto;
+    height: 139px;
+    margin-right: 40px;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Sumate */
+
+.sumate {
+    width: 915px;
+    margin: 0 auto;
+    margin-top: 120px;
+}
+
+.sumate .titulo {
+    flex-direction: row;
+    display: flex;
+}
+
+.sumate .titulo h2 {
+    color: #327FF6;
+    font-size: 48px;
+    font-weight: 700;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.sumate .titulo img {
+    width: 441px;
+    height: 111px;
+    margin: auto 0px auto auto;
+}
+
+.sumate .texto div {
+    font-family: 'Inter', sans-serif;
+    color: #EBEBEB;
+    font-size: 24px;
+    font-weight: 400;
+    margin-top: 40px;
+    line-height: 100%;
+}
+
+.sumate .formulario {
+    margin-top: 50px;
+    flex-direction: row;
+    display: none;
+    margin-bottom: 200px;
+}
+
+.sumate .formulario input {
+    padding: 8px;
+    border-radius: 4px;
+    background: #EBEBEB;
+    color: #8A8A8A;
+    font-size: 16px;
+    width: 250px;
+    height: 40px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.sumate .formulario button {
+    color: #EBEBEB;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: right;
+    width: 200px;
+    padding: 20px;
+    border-radius: 30px;
+    font-family: 'Space Grotesk', sans-serif;
+    background: linear-gradient(to right,
+            transparent 10%,
+            #327FF6 90%);
+    margin-left: 20px;
+}
+
+/* Footer */
+
+.main footer {
+    width: 915px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 200px;
+}
+
+.main footer p {
+    color: #EBEBEB;
+    font-size: 24px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+.main footer .rectangulos {
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    margin-right: -100px;
+    align-items: center;
+}
+
+.main footer .rectangulo-gris {
+    width: auto;
+    height: 20px;
+    margin-left: 30px;
+}

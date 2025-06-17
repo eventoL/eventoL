@@ -1,272 +1,142 @@
-{% extends "base.html" %}
-{% load static %}
+<!doctype html>
+{% load staticfiles %}
 {% load i18n %}
-{% load l10n %}
-{% load cropping %}
-{% load filters %}
-{% block other-head %}
-    
-    {% if event is not None and event.css_custom %}
-        <link rel="stylesheet" type="text/css" media="all" href="{{ event.css_custom.url }}"/>
-    {% endif %}
+<html lang="en">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk&family=Inter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "assets/css/styles.css" %}"/>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
+    <meta name="description" content="Event Management Software">
+    <title>EventoL</title>
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+  </head>
+  <body>
+    <header>
+      <img src="{% static "assets/img/iso-blanco.png" %}"/ />
+      <a href="#sumate">Sumate</a>
+    </header>
+    <div id="root"></div>
+    <div class="main">
+      <script src="{% static "assets/js/carrousel.js" %}"/></script>
 
-    <style>
-        .map {
-            height: 300px;
-            width: 100%;
-        }
-    </style>
-
-    <script type="text/javascript" src="{% static "build/slick.js" %}" alt="slick"></script>
-    <script type="text/javascript" src="{% static "build/map.js" %}" alt="map"></script>
-{% endblock %}
-{% block content %}
-    <div class="card">
-        <div class="row" style="justify-content: center;text-align: center;">
-            <div class="col-sm-12">
-                <h1>{{ event.name }}</h1>
-                {# show informative tags regarding user inscription to the event #}
-                {% if user.is_authenticated and user|is_registered:event_slug %}
-                <p>
-                    <span class="badge badge-secondary">{% trans 'I am' %}</span>
-                    {% if user|is_organizer:event_slug %}<span class="badge badge-warning">{% trans 'Organizer' %}</span>{% endif %}
-                    {% if user|is_attendee:event_slug %}<span class="badge badge-info">{% trans 'Attendee' %}</span>{% endif %}
-                    {% if event.use_collaborators and user|is_collaborator:event_slug %}<span class="badge badge-info">{% trans 'Collaborator' %}</span>{% endif %}
-                    {% if event.use_installers and user|is_installer:event_slug %}<span class="badge badge-success">{% trans 'Installer' %}</span>{% endif %}
-                </p>
-                {% endif %}
-                <p>
-                {% for tag in tags %}
-                  <a href="{% url "tag_index" tag.slug %}" style='text-decoration: none;'>
-                    <span class="badge badge-info">{{ tag.name }}</span>
-                  </a>
-                {% endfor %}
-                </p>
-            </div>
-        </div>
-        <div class="row" style="justify-content: center;text-align: center;">
-            <div class="col-sm-12">
-                {% regroup dates by date|date:"F"|localize as dates_by_month %}
-                {% if event.registration_is_open %}
-                    <h3><i class="fa fa-calendar"></i>
-                        {% for month in dates_by_month %}
-                            {% blocktrans with days=month.list|sorted_days|join:", " the_month=month.grouper %}
-                                {{ the_month }} {{ days }}
-                            {% endblocktrans %}
-                            {% if not forloop.last %}
-                                -
-                            {% endif %}
-                        {% endfor %}
-                        {% blocktrans with year=dates.first.date|date:"Y" %}
-                            - {{ year }}
-                        {% endblocktrans %}
-                    </h3>
-                    <h4>
-                        {% blocktrans with until=dates.first.date|timeuntil %}
-                            In {{ until }}
-                        {% endblocktrans %}
-                    </h4>
-                {% else %}
-                    <h3><i class="fa fa-calendar"></i>
-                        {% for month in dates_by_month %}
-                            {% blocktrans with days=month.list|sorted_days|join:", " the_month=month.grouper %}
-                                {{ the_month }} {{ days }}
-                            {% endblocktrans %}
-                            {% if not forloop.last %}
-                                -
-                            {% endif %}
-                        {% endfor %}
-                        {% blocktrans with year=dates.first.date|date:"Y" %}
-                            - {{ year }}
-                        {% endblocktrans %}
-                    </h3>
-                    <h4>
-                        {% blocktrans with since=dates.first.date|timesince %}
-                            This event was {{ since }} ago.
-                        {% endblocktrans %}
-                    </h4>
-                {% endif %}
-            </div>
-        </div>
-
-        {% if event.is_flisol %}
-          <div class="row">
-              <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-question-circle"></i> <a href="{% url "FAQ" event_slug %}">¿Qué es el
-                      FLISoL?</a>
-                  </h3>
-
-                  <p>¿Quién lo organiza? ¿A quién está dirigido? ¿Cuánto cuesta? ¿Qué beneficios obtengo? Quiero
-                      ayudar, ¿qué puedo hacer? Todas esas respuestas y muchas otras, acá.</p>
-              </div>
-              <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-usd"></i> <a href="{% url "index" event_slug %}">¿Cuánto cuesta?</a></h3>
-
-                  <p>La entrada al evento es totalmente <strong>¡libre y gratuita!</strong></p>
-              </div>
-              <div class="col-lg-4 col-md-4">
-                  <h3><i class="fa fa-pencil"></i> <a href="{% url "attendee_registration" event_slug %}">Anotate!</a>
-                  </h3>
-
-                  <p>La registración no es obligatoria, pero nos ayuda a prepararnos para recibirte mejor! Si vas a
-                      traer una máquina para instalar, también nos podés decir qué tipo de máquina es, así tenemos
-                      todo listo.</p>
-              </div>
-          </div>
-        {% endif %}
-    </div>
-
-    {% if event.coords %}
-        <div class="card">
-            <div id="map" class="map"></div>
-            <div style="text-align:center">
-                <h3 id="place_name"></h3>
-                <div id="address1" class="event-location-address"></div>
-                <div class="row">
-                    <div class="col-md-6 offset-md-3 col-10 offset-1">
-                        <hr>
-                    </div>
+      <div class="carousel-wrapper">
+      <img class="carousel-background" src="{% static "assets/img/fondo.png" %}" alt="Fondo">
+       <button id="prevBtn" class="flecha-estilizada">
+        <svg viewBox="0 0 50 50" width="40" height="40">
+          <path d="M30 5 L10 25 L30 45" 
+            stroke="#41B77A" 
+            stroke-width="2" 
+            stroke-linecap="round"
+            fill="none"/>
+        </svg>
+        </button>
+      <div class="carousel-container">
+        
+        <div class="carousel-slide">
+            <!-- Slide 1 -->
+            <div class="slide-content">
+                <div class="slide-text">
+                  <img class="first-image" src="{% static "assets/img/logo-color.png" %}" alt="Punto Coop">
+                    <h2>Conectando ideas, creando futuro</h2>
+                    <h3>PROXIMAMENTE</h3>
+                    <p>Charlas - talleres - experiencias culturales </p>
                 </div>
-                <div class="row" style="margin-bottom: 20px;">
-                    <div class="col-md-6 offset-md-3 event-directions">
-                        <a id="directions-car" target="_blank" href="#"><i class="material-icons">directions_car</i></a>
-
-                        <a id="directions-walk" target="_blank" href="#"><i
-                                class="material-icons">directions_walk</i></a>
-
-                        <a id="directions-bus" target="_blank" href="#"><i class="material-icons">directions_bus</i></a>
-
-                        <a id="directions-bike" target="_blank" href="#"><i
-                                class="material-icons">directions_bike</i></a>
-                    </div>
+                <img class="vector" src="{% static "assets/img/vector.png" %}" alt="Vector">
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="slide-content">
+                <div class="slide-text">
+                    <div class="title-second-slide">Ideas que se cruzan y nuevas preguntas que se abren.</div>
+                    <img class="second-image" src="{% static "assets/img/logo-color.png" %}"/ alt="Punto Coop">
+                    <div class="tag-slide">EVENTO GRATUITO</div>
+                </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="slide-content">
+                <div class="slide-text">
+                    <div class="title-third-slide">Porque otra forma de innovar es posible y empieza en Punto Coop.</div>
+                    <div class="tag-slide">EVENTO GRATUITO</div>
                 </div>
             </div>
         </div>
-    {% endif %}
-
-    <div class="card">
-        <div class="row" style="justify-content: center;">
-            <h2>{% trans 'About the event' %}</h2>
-        </div>
-        <div class="row">
-            <div class="col-sm-10 offset-sm-1 col-12">
-                {{ event.event_information | safe }}
-            </div>
-        </div>
+        
+        <!-- Indicadores -->
+        <div class="carousel-indicators"></div>
+    </div>
+    <button id="nextBtn" class="flecha-estilizada">
+      <svg viewBox="0 0 50 50" width="40" height="40">
+        <path d="M20 5 L40 25 L20 45" 
+          stroke="#41B77A" 
+          stroke-width="2" 
+          stroke-linecap="round"
+          fill="none"/>
+      </svg>
+    </button>
     </div>
 
-    {% if event.use_talks %}
-        <div class="card">
-            <div class="row" style="justify-content: center;">
-                <h2>{% trans 'Talks and Workshops' %}</h2>
-            </div>
-            <div id="slick_charlas">
-                {% if activities %}
-                    {% for activity in activities %}
-                        <div class="row">
-                            <div class="col-sm-6" style="padding-top: 30px;">
-                            <a href='{% url "activity_detail" event.event_slug activity.id %}'>
-                                {% if activity.image and activity.cropping %}
-                                    <img src="{% cropped_thumbnail activity "cropping" %}" alt="{{ activity.title }}" width="100%" heigth="100%">
-                                {% else %}
-                                    <img src="{% static "manager/img/no-image.png" %}" width="100%" heigth="100%">
-                                {% endif %}
-                            </a>
-                            </div>
-                            <div class="col-sm-6">
-                                <a style='text-decoration: none;' href='{% url "activity_detail" event.event_slug activity.id %}'>
-                                    <h2>{{ activity.title }}</h2>
-                                </a>
-                                <p><strong>{{ activity.abstract|truncatewords:100 }}</strong></p>
-                                <p>{{ activity.long_description|truncatewords:500 }}</p>
-                                <p><strong>{% trans 'Speakers' %}:</strong> {{ activity.speakers_names|title }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6 col-lg-6" style="padding-top: 30px;">
-                            <img src="{% static "manager/img/charlas.png" %}" width="100%" alt="Charlas y Talleres">
-                        </div>
-                        <div class="col-sm-6 col-md-6 col-lg-6" style="padding-top: 30px;">
-                            {% if event.is_flisol %}
-                                    <h2>Charlas y Talleres</h2>
-
-                                    <p><strong>Durante todo el día, para que puedas aprender y descubrir más sobre el Software
-                                        Libre</strong></p>
-
-                                    <p>A lo largo de la jornada, se llevarán a cabo diversas charlas y talleres para todo tipo
-                                        de público. No es necesario que sepas algo de informática para asistir al FLISoL. Hay
-                                        charlas tanto para principiantes como para entusiastas y expertos.</p>
-
-                                    <p>Algunos de los temas propuestos son: Introducción a GNU/Linux, Filosofía del Software
-                                        Libre, Recomendaciones para Migrar, Comunidades, Presentación y utilización de algunas
-                                        de las principales aplicaciones (paquete de ofimática, navegador web, editor de
-                                        imágenes, etc.), Experiencias con Software Libre en Educación, Conocimiento Libre,
-                                        Licencias, Construcción Colaborativa de Conocimiento, Software Libre y Trabajo, Hardware
-                                        Libre, Investigación, Edición Multimedia con aplicaciones libres, Imagen y Sonido.</p>
-
-                                    <p>Además, si tenés algo que contar y querés dar una charla, vos también podés formar parte.
-                                        <a href="{% url "activity_proposal" event_slug %}">Envianos tu propuesta!</a></p>
-                            {% else %}
-                                    <p>{% trans "We haven't published the activites" %}</p>
-                                    <p>{% trans "It means you can still send yours" %}</p>
-                                    <a href="{% url "activity_proposal" event_slug %}">{% trans 'Send your proposal!' %}</a></p>
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    {% endif %}
-
-    {% if event.use_installations %}
-      <div class="card">
-          <div class="row" style="justify-content: center;">
-              <h2>{% trans 'Installations' %}</h2>
-          </div>
-          <div class="row">
-              <div class="col-sm-6">
-                  <p style="padding-top: 15px">Durante toda la jornada entusiastas voluntarios del software libre,
-                      celebrarán charlas, conferencias, encuentros, talleres, <b>te ayudarán a instalar software libre
-                          en tu PC o notebook</b> para que puedas probarlo y además <b>te orientarán en cómo
-                          usarlo</b>. Podés acercarte de manera libre y gratuita y elegir la distribución o software
-                      que quieras para llevártelo instalado, hacer consultas o aprender!
-                  </p>
-              </div>
-              <div class="col-sm-6">
-                  <img src="{% static "manager/img/installations.png" %}" width="100%">
-              </div>
-          </div>
+    <div class="about-us">
+      <div class="barra-amarilla"></div>
+      <div class="paratexto">
+        <div class="primer-parrafo">Un evento donde la tecnología y la cooperación se encuentran para crear, compartir y aprender en comunidad.</div>
+        <div class="segundo-parrafo">Durante 2 días, personas de distintos recorridos nos juntamos a pensar la tecnología con valores: desde la colaboración, el juego y el compromiso social.</div>
       </div>
-    {% endif %}
 
-    {% if event.contacts.all|length > 0 %}
-        <div class="card">
-            <h3 style="text-align: center">{% trans 'Follow' %} {{ event.name }}!</h3>
-            <div class="event-contacts">
-                <div class="row" style="padding-top:20px;">
-                    <div class="col-md-10 offset-md-1">
-                        {% for contact in event.contacts.all %}
-                            <a class="contact-link" href="{{ contact|get_contact_url }}">
-                                <i class="fa fa-3x {{ contact.type.icon_class }}"></i>
-                            </a>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
+      <div class="flechas">
+        <img src="{% static "assets/img/flecha-amarilla.png" %}" />
+        <img src="{% static "assets/img/flecha-amarilla.png" %}" />
+      </div>
+
+      <div class="quienes-somos">
+        <h2>¿Quiénes lo hacen posible? </h2>
+        <p><strong>Punto Coop es una iniciativa de FACTTIC</strong>, la Federación Argentina de Cooperativas de Tecnología, que reúne a cooperativas de todo el país. <strong>Equipos que trabajan desde la autogestión, la colaboración y el compromiso con sus comunidades.</strong></p>
+        <div class="slider-container">
+          <div class="slider-track">
+            <img src="{% static "assets/img/logo-municipio-avellaneda.png" %}" />
+            <img src="{% static "assets/img/logo-factic-negativo.png" %}" />
+            <img src="{% static "assets/img/logo-farox.png" %}" />
+            <img src="{% static "assets/img/logo-gcoop.svg" %}" />
+            <img src="{% static "assets/img/logo-ipac.png" %}" />
+            <img src="{% static "assets/img/logo-nayra.svg" %}" />
+            <img src="{% static "assets/img/logo-tecso.png" %}" />
+            <img src="{% static "assets/img/logo-devcoop.png" %}" />
+            <img src="{% static "assets/img/logo-coodesoft.svg" %}" />
+          </div>
         </div>
-    {% endif %}
-{% endblock %}
+      </div>
+    </div>
 
-{% block other-script %}
-    <script>
-        $(document).ready(function () {
-            window.libs.slick('slick_charlas');
+    <div id="sumate" class="sumate">
+      <div class="titulo">
+        <h2>¡Sumate!</h2>
+        <img src="{% static "assets/img/vector-amarillo.png" %}" />
+      </div>
+      <div class="texto">
+        <div class="primer-parrafo">Si te mueve la idea de conectar tecnología, cooperación y transformación social, sumate como sponsor. <strong>Escribinos a info@punto.coop.ar</strong></div>
+        <div class="segundo-parrafo">¿Querés enterarte de todo lo que se viene? Te mandamos las novedades del evento directo al mail.</div>
+      </div>
+      <div class="formulario">
+        <input type="text" placeholder="Ingresá tu correo electrónico">
+        <button class="button">Enviar</button>
+      </div>
 
-            {% if event.coords %}
-                window.libs.map({{ event.coords|safe }});
-            {% endif %}
-        });
-    </script>
-{% endblock %}
+    </div>
+
+    <footer>
+      <p>Organizado por FACTTIC . 2025</p>
+      <div class="rectangulos">
+        <img class="rectangulo-gris" src="{% static "assets/img/logo-factic-negativo.png" %}" />
+        <img class="rectangulo-gris" src="{% static "assets/img/alt.png" %}" />
+      </div>
+    </footer>
+    
+    </div>
+ </body>
+</html>
