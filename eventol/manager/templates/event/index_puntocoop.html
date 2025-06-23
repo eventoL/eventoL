@@ -99,15 +99,24 @@
         <p><strong>Punto Coop es una iniciativa de FACTTIC</strong>, la Federación Argentina de Cooperativas de Tecnología, que reúne a cooperativas de todo el país. <strong>Equipos que trabajan desde la autogestión, la colaboración y el compromiso con sus comunidades.</strong></p>
         <div class="slider-container">
           <div class="slider-track">
-            <img src="{% static "assets/img/logo-municipio-avellaneda.png" %}" />
-            <img src="{% static "assets/img/logo-factic-negativo.png" %}" />
-            <img src="{% static "assets/img/logo-farox.png" %}" />
-            <img src="{% static "assets/img/logo-gcoop.svg" %}" />
-            <img src="{% static "assets/img/logo-ipac.png" %}" />
-            <img src="{% static "assets/img/logo-nayra.svg" %}" />
-            <img src="{% static "assets/img/logo-tecso.png" %}" />
-            <img src="{% static "assets/img/logo-devcoop.png" %}" />
-            <img src="{% static "assets/img/logo-coodesoft.svg" %}" />
+            <img src="{% static "assets/img/logo-tecso.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-municipio-avellaneda.png" %}" style="height: 80px;" />
+            <img src="{% static "assets/img/logo-devcoop.png" %}" style="height: 48px;" />
+            <img src="{% static "assets/img/logo-nayra.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-factic-negativo.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-codesoft.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-gcoop.png" %}" style="height: 80px;" />
+            <img src="{% static "assets/img/logo-farox.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-ipac.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-tecso.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-municipio-avellaneda.png" %}" style="height: 80px;" />
+            <img src="{% static "assets/img/logo-devcoop.png" %}" style="height: 48px;" />
+            <img src="{% static "assets/img/logo-nayra.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-factic-negativo.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-codesoft.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-gcoop.png" %}" style="height: 80px;" />
+            <img src="{% static "assets/img/logo-farox.png" %}" style="height: 35px;" />
+            <img src="{% static "assets/img/logo-ipac.png" %}" style="height: 35px;" />
           </div>
         </div>
       </div>
@@ -116,15 +125,30 @@
     <div id="sumate" class="sumate">
       <div class="titulo">
         <h2>¡Sumate!</h2>
-        <img src="{% static "assets/img/vector-amarillo.png" %}" />
+        <img src="{% static "assets/img/vector-amarillo.png" />
       </div>
       <div class="texto">
-        <div class="primer-parrafo">Si te mueve la idea de conectar tecnología, cooperación y transformación social, sumate como sponsor. <strong>Escribinos a info@punto.coop.ar</strong></div>
-        <div class="segundo-parrafo">¿Querés enterarte de todo lo que se viene? Te mandamos las novedades del evento directo al mail.</div>
+        <div class="primer-parrafo">Si te mueve la idea de conectar tecnología, cooperación y transformación social,
+          sumate como sponsor. <strong>Escribinos a info@punto.coop.ar</strong></div>
+        <div class="segundo-parrafo">¿Querés enterarte de todo lo que se viene? Te mandamos las novedades del evento
+          directo al mail.</div>
       </div>
       <div class="formulario">
-        <input type="text" placeholder="Ingresá tu correo electrónico">
-        <button class="button">Enviar</button>
+        <form id="emailForm" action="https://formsubmit.co/redes.puntocoop@gmail.com" method="POST">
+
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="#" onsubmit="return false">
+          <input type="hidden" name="_template" value="box">
+
+          <input type="text" id="userEmail" name="email" placeholder="Ingresá tu correo electrónico" required>
+          <p id="error-message" %}"/ style="color: red; display: none;">¡Formato de correo inválido!</p>
+
+          <button type="submit" class="button">Enviar</button>
+        </form>
+      </div>
+
+      <div id="success-message" %}"/ style="display: none; color: green;">
+        ✔ Correo electrónico enviado exitosamente
       </div>
 
     </div>
@@ -132,8 +156,10 @@
     <footer>
       <p>Organizado por FACTTIC . 2025</p>
       <div class="rectangulos">
-        <img class="rectangulo-gris" src="{% static "assets/img/logo-factic-negativo.png" %}" />
-        <img class="rectangulo-gris" src="{% static "assets/img/alt.png" %}" />
+        <p class="paratexto-footer">Seguinos</p>
+        <a href="https://www.instagram.com/punto.coop/" target="_blank">
+          <img class="rectangulo-gris" src="{% static "assets/img/instagram-icon.png" %}" />
+        </a>
       </div>
     </footer>
     

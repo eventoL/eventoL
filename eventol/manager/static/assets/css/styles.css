@@ -303,25 +303,32 @@ header a {
     overflow: hidden;
     width: 100%;
     height: 139px;
+    -webkit-mask-image: linear-gradient(90deg,
+            transparent 0%,
+            #000 15%,
+            #000 85%,
+            transparent 100%);
+    mask-image: linear-gradient(90deg,
+            transparent 0%,
+            #000 1%,
+            #000 99%,
+            transparent 100%);
 }
 
 .quienes-somos .slider-container .slider-track {
     display: flex;
-    width: max-content;
-    animation: scroll 20s linear infinite;
+    animation: scroll 30s linear infinite;
 }
 
 .quienes-somos .slider-container img {
     width: auto;
-    height: 139px;
-    margin-right: 40px;
+    margin: auto 40px auto 0px;
 }
 
 @keyframes scroll {
     0% {
         transform: translateX(0);
     }
-
     100% {
         transform: translateX(-50%);
     }
@@ -365,7 +372,6 @@ header a {
 .sumate .formulario {
     margin-top: 50px;
     flex-direction: row;
-    display: none;
     margin-bottom: 200px;
 }
 
@@ -421,10 +427,22 @@ header a {
     align-items: center;
 }
 
+.main footer .rectangulos .paratexto-footer {
+    color: #E7D04A !important;
+    font-size: 24px;
+    font-weight: 400;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
 .main footer .rectangulo-gris {
     width: auto;
-    height: 20px;
+    height: 38px;
     margin-left: 30px;
+    transition: all 0.5s ease-in-out;
+}
+
+.main footer .rectangulo-gris:hover {
+    scale: 1.1;
 }
 
 /* mobile */
@@ -508,5 +526,10 @@ header a {
 
     .about-us .flechas img {
         width: 50px !important;
+    }
+
+    .sumate .formulario button {
+        margin-top: 20px;
+        margin-left: 0px !important;
     }
 }
