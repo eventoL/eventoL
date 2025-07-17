@@ -481,7 +481,7 @@ class Staging(Base):
     }
 
     # CSRF
-    CSRF_TRUSTED_ORIGINS = [f"http://{env('APP_DNS')}", f"https://{env('APP_DNS')}"]
+    CSRF_TRUSTED_ORIGINS = [f'http://{env("APP_DNS")}', f'https://{env("APP_DNS")}']
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
@@ -502,8 +502,15 @@ class Dev(Base):
     # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
     DATABASES = {
         'default': {
-            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-            'NAME': 'eventol_dev_db',
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': env('PSQL_DBNAME'),
+            'USER': env('PSQL_USER'),
+            'PASSWORD': env('PSQL_PASSWORD'),
+            'HOST': env('PSQL_HOST'),
+            'PORT': env('PSQL_PORT'),
+            'OPTIONS': {
+                'sslmode': env('PSQL_OPTIONS_SSL'),
+            },
         }
     }
 
