@@ -1,0 +1,84 @@
+version: '3.4'
+
+services:
+  worker:
+    restart: always
+    build:
+      context: ../../.
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ../../.env
+    volumes:
+      - type: bind
+        source: /srv/deploys/eventoldata/static
+        target: /usr/src/app/eventol/static
+      - type: bind
+        source: /srv/deploys/eventoldata/media
+        target: /usr/src/app/eventol/media
+    environment:
+      - DJANGO_CONFIGURATION=Prod
+    command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
+    ports:
+      - 8000:8000
+
+  celery_worker:
+    restart: always
+    build:
+      context: ../../.
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - ../../.env
+    environment:
+      - DJANGO_CONFIGURATION=Prod
+    command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_celery.sh
+
+  nginx:
+    restart: always
+    build: ./nginx/
+    depends_on:
+      - worker
+    volumes:
+      - type: bind
+        source: /srv/deploys/eventoldata/static
+        target: /usr/src/app/eventol/static
+        read_only: true
+      - type: bind
+        source: /srv/deploys/eventoldata/media
+        target: /usr/src/app/eventol/media
+        read_only: true
+    ports:
+      - 80:80
+
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.puntocoop.rule=Host(`punto.coop.ar`)"
+#      - "traefik.http.routers.puntocoop.tls=true"
+#      - "traefik.http.routers.puntocoop.tls.certresolver=letsencrypt"
+#      - "traefik.http.services.puntocoop.loadbalancer.server.port=80"
+#      - "traefik.docker.network=proxy"
+#    environment:
+#      - VIRTUAL_HOST=punto.coop.ar
+    networks:
+#      - proxy
+      - default
+  postgres:
+    restart: always
+    image: postgis/postgis:14-3.5
+    env_file:
+      - ../../.env
+    volumes:
+      - type: bind
+        source: /srv/deploys/eventoldata/postgres
+        target: /var/lib/postgresql/data
+
+  redis:
+    image: redis:6
+    restart: always
+
+#networks:
+#  proxy:
+#    external: true
