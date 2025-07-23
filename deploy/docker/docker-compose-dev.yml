@@ -1,4 +1,4 @@
-version: '3.4'
+#version: '3.4'
 
 services:
   worker:
@@ -12,14 +12,17 @@ services:
       - ../../.env
     volumes:
       - type: bind
-        source: /srv/deploys/eventoldata/static
+        source: ./static
         target: /usr/src/app/eventol/static
       - type: bind
-        source: /srv/deploys/eventoldata/media
+        source: ./media
         target: /usr/src/app/eventol/media
+      - type: bind
+        source: ../../
+        target: /usr/src/app/
     environment:
-      - DJANGO_CONFIGURATION=Prod
-    command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
+      - DJANGO_CONFIGURATION=Dev
+    #command: ./wait-for-it.sh -p 5432 -h postgres -t 40 -- ./start_eventol.sh
     ports:
       - 8000:8000
 
@@ -43,11 +46,11 @@ services:
       - worker
     volumes:
       - type: bind
-        source: /srv/deploys/eventoldata/static
+        source: ./static
         target: /usr/src/app/eventol/static
         read_only: true
       - type: bind
-        source: /srv/deploys/eventoldata/media
+        source: ./media
         target: /usr/src/app/eventol/media
         read_only: true
     ports:
@@ -62,9 +65,9 @@ services:
 #      - "traefik.docker.network=proxy"
 #    environment:
 #      - VIRTUAL_HOST=punto.coop.ar
-    networks:
+#    networks:
 #      - proxy
-      - default
+#      - default
   postgres:
     restart: always
     image: postgis/postgis:14-3.5
@@ -72,7 +75,7 @@ services:
       - ../../.env
     volumes:
       - type: bind
-        source: /srv/deploys/eventoldata/postgres
+        source: ./postgresdb
         target: /var/lib/postgresql/data
 
   redis:

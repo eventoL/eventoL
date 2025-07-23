@@ -21,7 +21,7 @@ html {
 /* navbar */
 
 header {
-    background-color: #327FF6;
+    background-color: red;
     flex-direction: row;
     display: flex;
     justify-content: space-between;
@@ -243,7 +243,7 @@ header a {
 
 .about-us .paratexto {
     width: 915px;
-    text-align: center;
+    text-align: left;
     margin: 0 auto;
     z-index: 2;
 }
