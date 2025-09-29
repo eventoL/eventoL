@@ -55,19 +55,6 @@ services:
         read_only: true
     ports:
       - 80:80
-
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.puntocoop.rule=Host(`punto.coop.ar`)"
-#      - "traefik.http.routers.puntocoop.tls=true"
-#      - "traefik.http.routers.puntocoop.tls.certresolver=letsencrypt"
-#      - "traefik.http.services.puntocoop.loadbalancer.server.port=80"
-#      - "traefik.docker.network=proxy"
-#    environment:
-#      - VIRTUAL_HOST=punto.coop.ar
-#    networks:
-#      - proxy
-#      - default
   postgres:
     restart: always
     image: postgis/postgis:14-3.5
@@ -81,7 +68,3 @@ services:
   redis:
     image: redis:6
     restart: always
-
-#networks:
-#  proxy:
-#    external: true
