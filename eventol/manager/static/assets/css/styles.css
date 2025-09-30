@@ -21,7 +21,7 @@ html {
 /* navbar */
 
 header {
-    background-color: red;
+    background-color: #ff4d4d;
     flex-direction: row;
     display: flex;
     justify-content: space-between;
@@ -177,6 +177,13 @@ header a {
     font-family: 'Space Grotesk', sans-serif;
     margin-top: 0px;
 }
+.slide-content h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff4d4d;
+    font-family: 'Space Grotesk', sans-serif;
+    margin-top: 0px;
+}
 
 .slide-content p {
     color: #41C87A;
@@ -228,7 +235,7 @@ header a {
 .carousel-container .vector {
     position: absolute;
     right: 10%;
-    bottom: 10%;
+    bottom: 30%;
 }
 
 /* About us */

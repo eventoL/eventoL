@@ -1,6 +1,12 @@
 <!doctype html>
 {% load staticfiles %}
 {% load i18n %}
+{% load static %}
+{% load i18n %}
+{% load l10n %}
+{% load cropping %}
+{% load filters %}
+
 <html lang="en">
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +25,10 @@
   <body>
     <header>
       <img src="{% static "assets/img/iso-blanco.png" %}"/ />
-      <a href="#sumate">Sumate</a>
+      <!--
+      <a href="/events/punto-coop-2025/registration">REGISTRATE AL EVENTO</a>
+      <a href="/events/punto-coop-2025/activity/proposal/">ENVIA TU CHARLA</a>
+  -->
     </header>
     <div id="root"></div>
     <div class="main">
@@ -43,19 +52,20 @@
             <div class="slide-content">
                 <div class="slide-text">
                   <img class="first-image" src="{% static "assets/img/logo-color.png" %}" alt="Punto Coop">
-                    <h2>Conectando ideas, creando futuro</h2>
-                    <h3>PROXIMAMENTE</h3>
-                    <p>Charlas - talleres - experiencias culturales </p>
+                    <h2>Compartimos ideas. Creamos futuro</h2>
+                    <h3>13 de Noviembre 2025</h3>
+                    <h4>Espacio experimental Leonidas Barletta - Diagonal Norte 943, CABA</h4>
+                    <p>Charlamos sobre tecnología, cooperación y transformación social</p>
                 </div>
-                <img class="vector" src="{% static "assets/img/vector.png" %}" alt="Vector">
             </div>
             
+                <img class="vector" src="{% static "assets/img/vector.png" %}" alt="Vector">
             <!-- Slide 2 -->
             <div class="slide-content">
                 <div class="slide-text">
                     <div class="title-second-slide">Ideas que se cruzan y nuevas preguntas que se abren.</div>
                     <img class="second-image" src="{% static "assets/img/logo-color.png" %}"/ alt="Punto Coop">
-                    <div class="tag-slide">EVENTO GRATUITO</div>
+                    <div class="tag-slide">Envía tu charla!</div>
                 </div>
             </div>
             
@@ -63,7 +73,7 @@
             <div class="slide-content">
                 <div class="slide-text">
                     <div class="title-third-slide">Porque otra forma de innovar es posible y empieza en Punto Coop.</div>
-                    <div class="tag-slide">EVENTO GRATUITO</div>
+                    <div class="tag-slide">Registrate gratis!</div>
                 </div>
             </div>
         </div>
@@ -85,14 +95,19 @@
     <div class="about-us">
       <div class="barra-amarilla"></div>
       <div class="paratexto">
-        <div class="primer-parrafo">Un evento donde la tecnología y la cooperación se encuentran para crear, compartir y aprender en comunidad.</div>
-        <div class="segundo-parrafo">Durante 2 días, personas de distintos recorridos nos juntamos a pensar la tecnología con valores: desde la colaboración, el juego y el compromiso social.</div>
+        <div class="primer-parrafo">Un espacio donde la tecnología y la cooperación se encuentran para crear, compartir y aprender en comunidad.</div>
+        <div class="segundo-parrafo">Nos juntamos a pensar la tecnología con valores: desde la colaboración, el juego y el compromiso social.</div>
       </div>
 
       <div class="flechas">
         <img src="{% static "assets/img/flecha-amarilla.png" %}" />
         <img src="{% static "assets/img/flecha-amarilla.png" %}" />
       </div>
+
+
+
+
+
 
       <div class="quienes-somos">
         <h2>¿Quiénes lo hacen posible? </h2>
@@ -121,7 +136,7 @@
         </div>
       </div>
     </div>
-
+    <!--
     <div id="sumate" class="sumate">
       <div class="titulo">
         <h2>¡Sumate!</h2>
@@ -152,7 +167,7 @@
       </div>
 
     </div>
-
+  -->
     <footer>
       <p>Organizado por FACTTIC . 2025</p>
       <div class="rectangulos">

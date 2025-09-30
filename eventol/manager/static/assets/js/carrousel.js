@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-desplazamiento
     let slideInterval;
     function startAutoSlide() {
-        slideInterval = setInterval(nextSlide, 5000);
+        slideInterval = setInterval(nextSlide, 10000);
     }
     
     function resetAutoSlide() {
