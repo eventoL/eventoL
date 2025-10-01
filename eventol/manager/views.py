@@ -218,8 +218,8 @@ def home(request):
         role = request.session.pop('registration_role')
         event_index = reverse('{}_registration'.format(role), args=[event_slug])
         return redirect(event_index)
-    # return redirect(reverse('index', args=['punto-coop-2025']))
-    return render(request, 'index.html')
+    return redirect(reverse('index', args=['punto-coop-2025']))
+    # return render(request, 'index.html')
 
 
 @login_required
