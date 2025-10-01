@@ -12,18 +12,24 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% if event is not None %}
-            <meta name="description" content="EventoL - {{ event.name }}. Event Management Software">
-            <title>EventoL - {{ event.name }}</title>
+            <meta name="description" content="{{ event.name }}.">
+            <title>{{ event.name }}</title>
         {% else %}
             <meta name="description" content="Event Management Software">
-            <title>EventoL</title>
+            <title>PuntoCoop</title>
         {% endif %}
 
         <link rel="shortcut icon" type="image/png" href="{% static "favicon.ico" %}"/>
         <script type="text/javascript" src="{% static "build/base.js" %}" alt="base"></script>
 
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
-
+        <style>
+           .navbar, .navbar.navbar-light {
+            background-color: #ff4d4d;
+            color: rgba(255,255,255,0.84);
+            padding: 0 1rem;
+          }
+        </style>
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
         {% block other-head %}{% endblock %}
         {% block other-head-extra %}{% endblock %}
