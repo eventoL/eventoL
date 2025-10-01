@@ -286,9 +286,9 @@ class Base(Configuration):
     EMAIL_PORT = env('EMAIL_PORT')
     EMAIL_HOST_USER = env('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-    EMAIL_TIMEOUT = env('EMAIL_TIMEOUT')
-    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
-    EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+    EMAIL_TIMEOUT = int(env('EMAIL_TIMEOUT'))
+    EMAIL_USE_TLS = True if os.getenv('EMAIL_USE_TLS') == 'True' else False
+    EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
     EMAIL_FROM = env('EMAIL_FROM')
     EMAIL_FAIL_SILENTY = env('EMAIL_FAIL_SILENTY')
     DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
