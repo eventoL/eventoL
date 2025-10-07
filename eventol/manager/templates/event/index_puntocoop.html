@@ -1,4 +1,5 @@
 <!doctype html>
+{% extends "base.html" %}
 {% load staticfiles %}
 {% load i18n %}
 {% load static %}
@@ -6,7 +7,7 @@
 {% load l10n %}
 {% load cropping %}
 {% load filters %}
-
+{% block content %}
 <html lang="en">
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,13 +24,6 @@
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
   </head>
   <body>
-    <header>
-      <img src="{% static "assets/img/iso-blanco.png" %}"/ />
-      <!--
-      <a href="/events/punto-coop-2025/registration">REGISTRATE AL EVENTO</a>
-      <a href="/events/punto-coop-2025/activity/proposal/">ENVIA TU CHARLA</a>
-  -->
-    </header>
     <div id="root"></div>
     <div class="main">
       <script src="{% static "assets/js/carrousel.js" %}"/></script>
@@ -65,7 +59,7 @@
                 <div class="slide-text">
                     <div class="title-second-slide">Ideas que se cruzan y nuevas preguntas que se abren.</div>
                     <img class="second-image" src="{% static "assets/img/logo-color.png" %}"/ alt="Punto Coop">
-                    <div class="tag-slide">Envía tu charla!</div>
+                    <div class="tag-slide"></div>
                 </div>
             </div>
             
@@ -73,7 +67,7 @@
             <div class="slide-content">
                 <div class="slide-text">
                     <div class="title-third-slide">Porque otra forma de innovar es posible y empieza en Punto Coop.</div>
-                    <div class="tag-slide">Registrate gratis!</div>
+                    <div class="tag-slide"></div>
                 </div>
             </div>
         </div>
@@ -181,3 +175,4 @@
     </div>
  </body>
 </html>
+{% endblock content %}

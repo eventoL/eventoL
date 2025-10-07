@@ -12,6 +12,11 @@ body {
     width: 100%;
     height: 100%;
     margin: 0px;
+    background-color: #000;
+}
+
+.navbar, .navbar.navbar-light {
+  background-color: #ff4d4d;
 }
 
 html {

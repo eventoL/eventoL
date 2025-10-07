@@ -194,11 +194,11 @@ def index(request, event_slug):
 
     render_dict = {'activities': activities_list, 'dates': dates, 'tags': event.tags.all()}
 
-    # template_path = 'event/index.html'
+    template_path = 'event/index.html'
     # PuntoCoop: para que cargue el template de puntocoop por default
     template_path = 'event/index_puntocoop.html'
-    if event.template:
-        template_path = event.template.name
+    # if event.template:
+    #    template_path = event.template.name
 
     return render(request, template_path, update_event_info(event_slug, render_dict, event))
 
@@ -258,7 +258,7 @@ def installation(request, event_slug):
                                                     please retry later or contact a organizer"
                             ),
                         )
-                messages.success(request, _('The installation has been registered successfully. ' 'Happy Hacking!'))
+                messages.success(request, _('The installation has been registered successfully. Happy Hacking!'))
                 event_index_url = reverse('index', args=[event_slug])
                 return redirect(event_index_url)
         messages.error(request, _("The installation couldn't be registered (check form errors)"))
@@ -284,28 +284,28 @@ def manage_attendance(request, event_slug):
             attendee = attendee_form.cleaned_data['attendee']
             if attendee:
                 if attendee.attended_today:
-                    messages.success(request, _('The attendee has already been registered ' 'correctly.'))
+                    messages.success(request, _('The attendee has already been registered correctly.'))
                 else:
                     attendance_date = AttendeeAttendanceDate()
                     attendance_date.attendee = attendee
                     attendance_date.mode = '3'
                     attendance_date.save()
-                    messages.success(request, _('The attendee has been successfully registered. ' 'Happy Hacking!'))
+                    messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
                     return redirect(reverse('manage_attendance', args=[event_slug]))
         if collaborator_form.is_valid():
             event_user = collaborator_form.cleaned_data['event_user']
             if event_user:
                 if event_user.attended_today:
-                    messages.success(request, _('The collaborator has already been registered ' 'correctly.'))
+                    messages.success(request, _('The collaborator has already been registered correctly.'))
                 else:
                     attendance_date = EventUserAttendanceDate()
                     attendance_date.event_user = event_user
                     attendance_date.mode = '3'
                     attendance_date.save()
-                    messages.success(request, _('The collaborator has been successfully ' 'registered. Happy Hacking!'))
+                    messages.success(request, _('The collaborator has been successfully registered. Happy Hacking!'))
                 return redirect(reverse('manage_attendance', args=[event_slug]))
 
-        messages.error(request, _('There was a problem registering the attendee. ' 'Please try again.'))
+        messages.error(request, _('There was a problem registering the attendee. Please try again.'))
 
         errors = get_forms_errors(forms)
 
@@ -337,7 +337,7 @@ def attendance_by_ticket(request, event_slug, ticket_code):
                 attendance_date.attendee = attendee
             attendance_date.mode = '2'
             attendance_date.save()
-            messages.success(request, _('The attendee has been successfully registered. ' 'Happy Hacking!'))
+            messages.success(request, _('The attendee has been successfully registered. Happy Hacking!'))
     else:
         messages.error(request, _("The user isn't registered for this event."))
 
@@ -454,12 +454,12 @@ def process_attendee_registration(request, event, return_url, render_template):
             if form.is_valid():
                 email = form.cleaned_data['email']
                 if Attendee.objects.filter(event=event, email__iexact=email).exists():
-                    messages.error(request, _('The attendee is already registered for this event, ' 'use correct form'))
+                    messages.error(request, _('The attendee is already registered for this event, use correct form'))
                     return redirect(return_url)
                 with transaction.atomic():
                     attendee = form.save()
                     attendance_date = AttendeeAttendanceDate.objects.create(attendee=attendee, mode='4')
-                    messages.success(request, _('The attendee was successfully registered. ' 'Happy Hacking!'))
+                    messages.success(request, _('The attendee was successfully registered. Happy Hacking!'))
                     return redirect(return_url)
             messages.error(request, _("The attendee couldn't be registered (check form errors)"))
     else:
@@ -665,9 +665,9 @@ def contact(request, event_slug):
             event = get_object_or_404(Event, event_slug=event_slug)
             contact_message.event = event
             contact_message.save()
-            messages.success(request, _('The message has been sent. You will receive a reply by ' 'email'))
+            messages.success(request, _('The message has been sent. You will receive a reply by email'))
             return redirect(reverse('index', args=[event_slug]))
-        messages.error(request, _('There was a problem sending your message. ' 'Please try again in a few minutes.'))
+        messages.error(request, _('There was a problem sending your message. Please try again in a few minutes.'))
 
     return render(request, 'contact-message.html', update_event_info(event_slug, {'form': form}, event))
 
