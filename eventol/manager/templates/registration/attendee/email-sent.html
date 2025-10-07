@@ -1,17 +1,14 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block page-header %}{% trans "Please confirm your email" %}{% endblock %}
+{% block page-header %}Por favor confirmá tu correo{% endblock %}
 {% block content %}
     <div class="card">
-        <p>{% blocktrans %}We've sent you an email to the address you provided. Please
-            confirm your email by following the instructions on it so we can send you your ticket for the event.
-        {% endblocktrans %}</p>
-        <p>{% blocktrans %}If you don't receive the email within a few minutes, please check your spam folder. If it
-            isn't there, you can contact us at eventol@flisol.org.ar so we can help you.
-        {% endblocktrans %}</p>
-
+        <p>Te hemos enviado un correo electrónico a la dirección que nos has proporcionado. Por favor, revisá
+        tu correo y sigue las instrucciones para que podamos encviarte el ticket para el evento.</p>
+        Si no recibís el correo en un par de minutos, revisa tu bandeja de spam. Si no está ahí, podes mandarnos un correo a 
+        info@punto.coop.ar y te ayudaremos.
         <a href="{% url "index"  event_slug %}" class="btn btn-raised btn-primary">
-            <i class="fa fa-arrow-left"></i> {% trans "Return to the event" %}
+            <i class="fa fa-arrow-left"></i>Volver al evento
         </a>
     </div>
 {% endblock %}
