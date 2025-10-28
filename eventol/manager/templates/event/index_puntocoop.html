@@ -20,7 +20,61 @@
             color: #555;
             line-height: 1.6;
             margin-bottom: 20px;
-            min-height: 100px;
+            min-height: 160px;
+        }
+        .charla-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 400px;
+            align-items: flex-start;
+        }
+        .charla-card a {
+            align-self: flex-end;
+        }
+        .charla-content {
+            flex: 1;
+        }
+        .charla-time {
+            background: #4E435C;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .btn-ver-detalles {
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn-ver-detalles:hover {
+            opacity: 0.8;
+        }
+        .acreditacion-banner {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #ff4d4d;
+            color: white;
+            border-radius: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .cronograma-title {
+            text-align: center;
+            color: #ff4d4d;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            margin-bottom: 40px;
         }
     </style>
     <meta charset="utf-8">
@@ -52,18 +106,19 @@
         <div class="carousel-slide">
              <!-- Slide 1 -->
              <div class="slide-content">
-                 <div class="slide-text">
+                     <div class="slide-text">
                    <img class="first-image" src="{% static "assets/img/logo-color.png" %}" alt="Punto Coop">
                      <h2>Compartimos ideas. Creamos futuro</h2>
                      <h3>13 de Noviembre 2025</h3>
                      <h4>Espacio experimental Leonidas Barletta - Diagonal Norte 943, CABA</h4>
                      <p>Charlamos sobre tecnología, cooperación y transformación social</p>
-                     <button class="registration-button" style="
-                       background-color: #41B77A;
+                     <a href="/events/punto-coop-2025/registration" style="
+                       background-color: #FF9812;
                        color: white;
-                       border: none;
+                       text-decoration: none;
+                       display: inline-block;
                        padding: 12px 24px;
-                       font-size: 16px;
+                       font-size: 24px;
                        font-weight: bold;
                        border-radius: 6px;
                        cursor: pointer;
@@ -71,10 +126,10 @@
                        font-family: 'Space Grotesk', sans-serif;
                        margin-top: 20px;
                      "
-                     onmouseover="this.style.backgroundColor='#369a6a'"
-                     onmouseout="this.style.backgroundColor='#41B77A'">
+                     onmouseover="this.style.backgroundColor='#e6860a'"
+                     onmouseout="this.style.backgroundColor='#FF9812'">
                        ¡Registrate!
-                     </button>
+                     </a>
                  </div>
              </div>
             
@@ -85,12 +140,13 @@
                      <div class="title-second-slide">Ideas que se cruzan y nuevas preguntas que se abren.</div>
                      <img class="second-image" src="{% static "assets/img/logo-color.png" %}"/ alt="Punto Coop">
                      <div class="tag-slide"></div>
-                     <button class="registration-button" style="
-                       background-color: #41B77A;
+                     <a href="/events/punto-coop-2025/registration" style="
+                       background-color: #FF9812;
                        color: white;
-                       border: none;
+                       text-decoration: none;
+                       display: inline-block;
                        padding: 12px 24px;
-                       font-size: 16px;
+                       font-size: 24px;
                        font-weight: bold;
                        border-radius: 6px;
                        cursor: pointer;
@@ -98,10 +154,10 @@
                        font-family: 'Space Grotesk', sans-serif;
                        margin-top: 20px;
                      "
-                     onmouseover="this.style.backgroundColor='#369a6a'"
-                     onmouseout="this.style.backgroundColor='#41B77A'">
+                     onmouseover="this.style.backgroundColor='#e6860a'"
+                     onmouseout="this.style.backgroundColor='#FF9812'">
                        ¡Registrate!
-                     </button>
+                     </a>
                  </div>
              </div>
             
@@ -110,12 +166,13 @@
                  <div class="slide-text">
                      <div class="title-third-slide">Porque otra forma de innovar es posible y empieza en Punto Coop.</div>
                      <div class="tag-slide"></div>
-                     <button class="registration-button" style="
-                       background-color: #41B77A;
+                     <a href="/events/punto-coop-2025/registration" style="
+                       background-color: #FF9812;
                        color: white;
-                       border: none;
+                       text-decoration: none;
+                       display: inline-block;
                        padding: 12px 24px;
-                       font-size: 16px;
+                       font-size: 24px;
                        font-weight: bold;
                        border-radius: 6px;
                        cursor: pointer;
@@ -123,10 +180,10 @@
                        font-family: 'Space Grotesk', sans-serif;
                        margin-top: 20px;
                      "
-                     onmouseover="this.style.backgroundColor='#369a6a'"
-                     onmouseout="this.style.backgroundColor='#41B77A'">
+                     onmouseover="this.style.backgroundColor='#e6860a'"
+                     onmouseout="this.style.backgroundColor='#FF9812'">
                        ¡Registrate!
-                     </button>
+                     </a>
                  </div>
              </div>
         </div>
@@ -146,91 +203,112 @@
      </div>
 
      <!-- Cronograma Section -->
-     <div class="cronograma-section" style="padding: 60px 20px;">
+     <div class="cronograma-section" style="margin-bottom:30px">
        <div style="max-width: 1200px; margin: 0 auto;">
-         <h2 style="text-align: center; color: #ff4d4d; font-family: 'Space Grotesk', sans-serif; font-size: 32px; margin-bottom: 40px;">Cronograma del Evento</h2>
+         <div class="acreditacion-banner">
+           📋 Acreditación: 14:30 hs
+         </div>
+         <h2 class="cronograma-title">Cronograma del Evento</h2>
 
          <div class="cronograma-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
 
            <!-- Charla 1 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">15:10 - 15:35</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Electrónica para mortales: De prender un LED a domar robots (baratito)</h3>
-             <p class="charla-description">Esta charla muestra que la electrónica es accesible para todos, incluso con bajo presupuesto. Los participantes aprenderán a encender un LED con una app mobile, controlar un brazo mecánico con ESP32 y montar un sistema de riego automático. Todo con piezas fáciles de conseguir, código abierto y recursos descargables para seguir creando.</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Lucma (Gianfranco Luca Mariani)</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/6/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: rgb(231, 208, 74); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">15:10 - 15:35</div>
+               <h3 class="charla-title" style="color: #555; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Electrónica para mortales: De prender un LED a domar robots (baratito)</h3>
+               <p class="charla-description" style="color: #555;">Esta charla muestra que la electrónica es accesible para todos, incluso con bajo presupuesto. Los participantes aprenderán a encender un LED con una app mobile, controlar un brazo mecánico con ESP32 y montar un sistema de riego automático. Todo con piezas fáciles de conseguir, código abierto y recursos descargables para seguir creando.</p>
+               <p class="charla-speaker" style="color: #555; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Lucma (Gianfranco Luca Mariani)</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/6/" target="_blank" class="btn-ver-detalles" style="color: #555;">Ver Detalles</a>
            </div>
 
            <!-- Charla 2 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">15:40 - 16:05</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Es solo software</h3>
-             <p class="charla-description">La inteligencia artificial se presenta frecuentemente como algo mágico e incomprensible, pero en esencia es solo software: código que procesa datos mediante algoritmos. Esta charla propone aplicar a los sistemas de IA los mismos principios éticos que defendemos para el software "tradicional", especialmente las cuatro libertades del software libre y la transparencia en el uso de los datos.</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Leandro Monk</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/3/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: rgb(255, 77, 77); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">15:40 - 16:05</div>
+               <h3 class="charla-title" style="color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Es solo software</h3>
+               <p class="charla-description" style="color: #ffffff;">La inteligencia artificial se presenta frecuentemente como algo mágico e incomprensible, pero en esencia es solo software: código que procesa datos mediante algoritmos. Esta charla propone aplicar a los sistemas de IA los mismos principios éticos que defendemos para el software "tradicional", especialmente las cuatro libertades del software libre y la transparencia en el uso de los datos.</p>
+               <p class="charla-speaker" style="color: #ffffff; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Leandro Monk</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/3/" target="_blank" class="btn-ver-detalles">Ver Detalles</a>
            </div>
 
            <!-- Charla 3 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">16:10 - 16:35</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Automatizar Migración MongoDB con Ansible</h3>
-             <p class="charla-description">Presentación del caso de éxito de la automatización de la migración de más de 15 mil millones de registros en MongoDB de un sistema de gestión de consulta de datos monetarios en Banco Credicoop utilizando Ansible, dondé además se desarrollaron un nuevo Backend y Frontend en FastAPI y HTMX.</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: OSiUX</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/2/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: #964DF1; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">16:10 - 16:35</div>
+               <h3 class="charla-title" style="color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Matar a React</h3>
+               <p class="charla-description" style="color: #ffffff;">Las aplicaciones SPA ganaron mucha popularidad en los últimos 15 años y se transformaron en un estandar en la industria. En esta charla veremos como podemos prescindir de herramientas complejas de frontend para la mayoría de los casos y usar la web tradicional con HTMX.</p>
+               <p class="charla-speaker" style="color: #ffffff; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Juan Manuel Schillaci</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/1/" target="_blank" class="btn-ver-detalles">Ver Detalles</a>
            </div>
 
            <!-- Charla 4 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">16:40 - 17:05</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Las artes y la bestIA</h3>
-             <p class="charla-description">Durante el último año en Cambá (Cooperativa de trabajo tecnológica donde trabajamos y somos asociados), empezamos un proceso de investigación sobre Inteligencia Artificial. Para comprender, empezamos desde el más bajo nivel: Comprando, instalando y configurando nuestra propia maquina con múltiples servicios y herramientas, a la que denominamos "La bestIA".</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: José Luis Di Biase, Nicolás Doallo</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/5/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: #41C87A; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">16:40 - 17:05</div>
+               <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Las artes y la bestIA</h3>
+               <p class="charla-description">Durante el último año en Cambá (Cooperativa de trabajo tecnológica donde trabajamos y somos asociados), empezamos un proceso de investigación sobre Inteligencia Artificial. Para comprender, empezamos desde el más bajo nivel: Comprando, instalando y configurando nuestra propia maquina con múltiples servicios y herramientas, a la que denominamos "La bestIA".</p>
+               <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: José Luis Di Biase, Nicolás Doallo</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/5/" target="_blank" class="btn-ver-detalles">Ver Detalles</a>
            </div>
 
            <!-- Charla 5 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">17:10 - 17:35</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Who the F*ck is Plataformas Cooperativas?</h3>
-             <p class="charla-description">Las plataformas digitales son esenciales en nuestras vidas. La información que concentran les permite influir y manipular nuestras prácticas y opiniones. Las plataformas cooperativas son tecnologías digitales que se organizan de acuerdo a la propiedad colectiva y la gestión democrática. Son una realidad efectiva aunque emergente, atravesada por grandes desafíos y tensiones.</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Cecilia Muñoz Cancela, Julieta Grasas y Denise Kasparian</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/9/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: rgb(231, 208, 74); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">17:10 - 17:35</div>
+               <h3 class="charla-title" style="color: #555; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Who the F\*ck is Plataformas Cooperativas?</h3>
+               <p class="charla-description" style="color: #555;">Las plataformas digitales son esenciales en nuestras vidas. La información que concentran les permite influir y manipular nuestras prácticas y opiniones. Las plataformas cooperativas son tecnologías digitales que se organizan de acuerdo a la propiedad colectiva y la gestión democrática. Son una realidad efectiva aunque emergente, atravesada por grandes desafíos y tensiones.</p>
+               <p class="charla-speaker" style="color: #555; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Cecilia Muñoz Cancela, Julieta Grasas y Denise Kasparian</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/9/" target="_blank" class="btn-ver-detalles" style="color: #555;">Ver Detalles</a>
            </div>
 
            <!-- Charla 6 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">17:40 - 18:05</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Matar a React</h3>
-             <p class="charla-description">Las aplicaciones SPA ganaron mucha popularidad en los últimos 15 años y se transformaron en un estandar en la industria. En esta charla veremos como podemos prescindir de herramientas complejas de frontend para la mayoría de los casos.</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Juan Manuel Schillaci</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/1/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: rgb(255, 77, 77); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">17:40 - 18:05</div>
+               <h3 class="charla-title" style="color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Automatizar Migración MongoDB con Ansible</h3>
+               <p class="charla-description" style="color: #ffffff;">Presentación del caso de éxito de la automatización de la migración de más de 15 mil millones de registros en MongoDB de un sistema de gestión de consulta de datos monetarios en Banco Credicoop utilizando Ansible, dondé además se desarrollaron un nuevo Backend y Frontend en FastAPI y HTMX.</p>
+               <p class="charla-speaker" style="color: #ffffff; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: OSiUX</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/2/" target="_blank" class="btn-ver-detalles">Ver Detalles</a>
            </div>
 
            <!-- Charla 7 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">18:10 - 18:35</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Gobernanza de socios (sociocracia)</h3>
-             <p class="charla-description">Las cooperativas tienen un marco de valores y legales muy claro, pero no dicen cómo se lleva a cabo. Por otro lado, la sociocracia (el gobierno de les asociades) viene desarrollándose desde hace más de 150 años y es totalmente complementaria con el cooperativismo, compartiendo valores y formas en procesos, herramientas y prácticas muy eficaces y eficientes.</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Eduardo Mercovich</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/8/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: #964DF1; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">18:10 - 18:35</div>
+               <h3 class="charla-title" style="color: #ffffff; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Gobernanza de socios (sociocracia)</h3>
+               <p class="charla-description" style="color: #ffffff;">Las cooperativas tienen un marco de valores y legales muy claro, pero no dicen cómo se lleva a cabo. Por otro lado, la sociocracia (el gobierno de les asociades) viene desarrollándose desde hace más de 150 años y es totalmente complementaria con el cooperativismo, compartiendo valores y formas en procesos, herramientas y prácticas muy eficaces y eficientes.</p>
+               <p class="charla-speaker" style="color: #ffffff; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Eduardo Mercovich</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/8/" target="_blank" class="btn-ver-detalles">Ver Detalles</a>
            </div>
 
            <!-- Charla 8 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">18:40 - 19:05</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Automatizando tareas y workflows</h3>
-             <p class="charla-description">En esta charla exploraremos cómo automatizar tareas y procesos con herramientas open source y componentes de inteligencia artificial. Usando Activepieces, una plataforma libre y visual para construir flujos de trabajo, veremos cómo es posible integrar APIs, modelos de IA y servicios sin necesidad de desarrollar todo desde cero.</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Agustin Manuel Recouso</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/10/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: #41C87A; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">18:40 - 19:05</div>
+               <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Automatizando tareas y workflows</h3>
+               <p class="charla-description">En esta charla exploraremos cómo automatizar tareas y procesos con herramientas open source y componentes de inteligencia artificial. Usando Activepieces, una plataforma libre y visual para construir flujos de trabajo, veremos cómo es posible integrar APIs, modelos de IA y servicios sin necesidad de desarrollar todo desde cero.</p>
+               <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Agustin Manuel Recouso</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/10/" target="_blank" class="btn-ver-detalles">Ver Detalles</a>
            </div>
 
            <!-- Charla 9 -->
-           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
-             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">19:10 - 19:35</div>
-             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Procesamiento Paralelo de Vectores</h3>
-             <p class="charla-description">La charla muestra los intentos (con código y mediciones) de encontrar la mejor manera de paralelizar la suma de dos vectores de números, con la idea de entender los procesos subyacentes y poder discernir qué detalles tenemos que considerar en las distintas situaciones.</p>
-             <p class="charla-speaker" style="color: #666; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Facundo Batista</p>
-             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/11/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           <div class="charla-card" style="background: rgb(231, 208, 74); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-content">
+               <div class="charla-time">19:10 - 19:35</div>
+               <h3 class="charla-title" style="color: #555; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Procesamiento Paralelo de Vectores</h3>
+               <p class="charla-description" style="color: #555;">La charla muestra los intentos (con código y mediciones) de encontrar la mejor manera de paralelizar la suma de dos vectores de números, con la idea de entender los procesos subyacentes y poder discernir qué detalles tenemos que considerar en las distintas situaciones.</p>
+               <p class="charla-speaker" style="color: #555; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Facundo Batista</p>
+             </div>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/11/" target="_blank" class="btn-ver-detalles" style="color: #555;">Ver Detalles</a>
            </div>
 
          </div>
