@@ -42,34 +42,85 @@
       <div class="carousel-container">
         
         <div class="carousel-slide">
-            <!-- Slide 1 -->
-            <div class="slide-content">
-                <div class="slide-text">
-                  <img class="first-image" src="{% static "assets/img/logo-color.png" %}" alt="Punto Coop">
-                    <h2>Compartimos ideas. Creamos futuro</h2>
-                    <h3>13 de Noviembre 2025</h3>
-                    <h4>Espacio experimental Leonidas Barletta - Diagonal Norte 943, CABA</h4>
-                    <p>Charlamos sobre tecnología, cooperación y transformación social</p>
-                </div>
-            </div>
+             <!-- Slide 1 -->
+             <div class="slide-content">
+                 <div class="slide-text">
+                   <img class="first-image" src="{% static "assets/img/logo-color.png" %}" alt="Punto Coop">
+                     <h2>Compartimos ideas. Creamos futuro</h2>
+                     <h3>13 de Noviembre 2025</h3>
+                     <h4>Espacio experimental Leonidas Barletta - Diagonal Norte 943, CABA</h4>
+                     <p>Charlamos sobre tecnología, cooperación y transformación social</p>
+                     <button class="registration-button" style="
+                       background-color: #41B77A;
+                       color: white;
+                       border: none;
+                       padding: 12px 24px;
+                       font-size: 16px;
+                       font-weight: bold;
+                       border-radius: 6px;
+                       cursor: pointer;
+                       transition: background-color 0.3s ease;
+                       font-family: 'Space Grotesk', sans-serif;
+                       margin-top: 20px;
+                     "
+                     onmouseover="this.style.backgroundColor='#369a6a'"
+                     onmouseout="this.style.backgroundColor='#41B77A'">
+                       ¡Registrate!
+                     </button>
+                 </div>
+             </div>
             
                 <img class="vector" src="{% static "assets/img/vector.png" %}" alt="Vector">
-            <!-- Slide 2 -->
-            <div class="slide-content">
-                <div class="slide-text">
-                    <div class="title-second-slide">Ideas que se cruzan y nuevas preguntas que se abren.</div>
-                    <img class="second-image" src="{% static "assets/img/logo-color.png" %}"/ alt="Punto Coop">
-                    <div class="tag-slide"></div>
-                </div>
-            </div>
+             <!-- Slide 2 -->
+             <div class="slide-content">
+                 <div class="slide-text">
+                     <div class="title-second-slide">Ideas que se cruzan y nuevas preguntas que se abren.</div>
+                     <img class="second-image" src="{% static "assets/img/logo-color.png" %}"/ alt="Punto Coop">
+                     <div class="tag-slide"></div>
+                     <button class="registration-button" style="
+                       background-color: #41B77A;
+                       color: white;
+                       border: none;
+                       padding: 12px 24px;
+                       font-size: 16px;
+                       font-weight: bold;
+                       border-radius: 6px;
+                       cursor: pointer;
+                       transition: background-color 0.3s ease;
+                       font-family: 'Space Grotesk', sans-serif;
+                       margin-top: 20px;
+                     "
+                     onmouseover="this.style.backgroundColor='#369a6a'"
+                     onmouseout="this.style.backgroundColor='#41B77A'">
+                       ¡Registrate!
+                     </button>
+                 </div>
+             </div>
             
-            <!-- Slide 3 -->
-            <div class="slide-content">
-                <div class="slide-text">
-                    <div class="title-third-slide">Porque otra forma de innovar es posible y empieza en Punto Coop.</div>
-                    <div class="tag-slide"></div>
-                </div>
-            </div>
+             <!-- Slide 3 -->
+             <div class="slide-content">
+                 <div class="slide-text">
+                     <div class="title-third-slide">Porque otra forma de innovar es posible y empieza en Punto Coop.</div>
+                     <div class="tag-slide"></div>
+                     <button class="registration-button" style="
+                       background-color: #41B77A;
+                       color: white;
+                       border: none;
+                       padding: 12px 24px;
+                       font-size: 16px;
+                       font-weight: bold;
+                       border-radius: 6px;
+                       cursor: pointer;
+                       transition: background-color 0.3s ease;
+                       font-family: 'Space Grotesk', sans-serif;
+                       margin-top: 20px;
+                     "
+                     onmouseover="this.style.backgroundColor='#369a6a'"
+                     onmouseout="this.style.backgroundColor='#41B77A'">
+                       ¡Registrate!
+                     </button>
+                 </div>
+             </div>
         </div>
         
         <!-- Indicadores -->
@@ -84,9 +135,92 @@
           fill="none"/>
       </svg>
     </button>
-    </div>
+     </div>
 
-    <div class="about-us">
+     <!-- Cronograma Section -->
+     <div class="cronograma-section" style="padding: 60px 20px;">
+       <div style="max-width: 1200px; margin: 0 auto;">
+         <h2 style="text-align: center; color: #ff4d4d; font-family: 'Space Grotesk', sans-serif; font-size: 32px; margin-bottom: 40px;">Cronograma del Evento</h2>
+
+         <div class="cronograma-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
+
+           <!-- Charla 1 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">15:10 - 15:35</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Electrónica para mortales: De prender un LED a domar robots (baratito)</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">Introducción práctica a la electrónica básica y robótica accesible.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/6/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+           <!-- Charla 2 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">15:40 - 16:05</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Es solo software</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">Explorando la esencia del desarrollo de software.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/3/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+           <!-- Charla 3 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">16:10 - 16:35</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Automatizar Migración MongoDB con Ansible</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">Automatización de procesos de migración de bases de datos usando Ansible.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/2/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+           <!-- Charla 4 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">16:40 - 17:05</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Las artes y la bestIA</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">La intersección entre arte y inteligencia artificial.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/5/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+           <!-- Charla 5 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">17:10 - 17:35</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Who the F*ck is Plataformas Cooperativas?</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">¿Por qué las plataformas tienen que ser nuestras? Explorando plataformas cooperativas.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/9/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+           <!-- Charla 6 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">17:40 - 18:05</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Matar a React</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">Alternativas y críticas al framework React.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/1/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+           <!-- Charla 7 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">18:10 - 18:35</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Gobernanza de socios (sociocracia)</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">Sistema de organización ideal para cooperativas basado en sociocracia.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/8/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+           <!-- Charla 8 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">18:40 - 19:05</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Automatizando tareas y workflows</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">Introducción práctica a la automatización con Activepieces.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/10/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+           <!-- Charla 9 -->
+           <div class="charla-card" style="background: #f8f9fa; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+             <div class="charla-time" style="background: #41B77A; color: white; padding: 8px 12px; border-radius: 6px; display: inline-block; font-weight: bold; margin-bottom: 15px;">19:10 - 19:35</div>
+             <h3 class="charla-title" style="color: #333; font-family: 'Space Grotesk', sans-serif; font-size: 20px; margin-bottom: 10px;">Procesamiento Paralelo de Vectores</h3>
+             <p class="charla-description" style="color: #555; line-height: 1.6; margin-bottom: 20px;">Técnicas avanzadas de procesamiento de datos vectoriales.</p>
+             <a href="https://punto.coop.ar/events/punto-coop-2025/activity/11/" target="_blank" style="background: #41B77A; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; display: inline-block; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#369a6a'" onmouseout="this.style.backgroundColor='#41B77A'">Ver Detalles</a>
+           </div>
+
+         </div>
+       </div>
+     </div>
+
+     <div class="about-us">
       <div class="barra-amarilla"></div>
       <div class="paratexto">
         <div class="primer-parrafo">Un espacio donde la tecnología y la cooperación se encuentran para crear, compartir y aprender en comunidad.</div>
@@ -129,9 +263,10 @@
           </div>
         </div>
       </div>
-    </div>
-    <!--
-    <div id="sumate" class="sumate">
+     </div>
+
+     <!--
+     <div id="sumate" class="sumate">
       <div class="titulo">
         <h2>¡Sumate!</h2>
         <img src="{% static "assets/img/vector-amarillo.png" %}" />
