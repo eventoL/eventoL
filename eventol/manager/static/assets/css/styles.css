@@ -461,7 +461,7 @@ header a {
 
 @media (max-width: 1025px) {
     .carousel-background {
-        width: 100vw !important;
+        width: 95vw !important;
     }
 
     .about-us .barra-amarilla {
@@ -506,7 +506,6 @@ header a {
 
     .slide-text {
         width: 80vw !important;
-        ;
     }
 
     .slide-text .first-image {
@@ -515,13 +514,22 @@ header a {
     }
 
     .slide-content h3 {
-        font-size: 40px !important;
+        font-size: 30px !important;
     }
+    .slide-content h4 {
+        font-size: 20px !important;
+    }
+    .slide-content h2 {
+        font-size: 20px !important;
+    }
+
+
 
     .slide-content .title-second-slide {
         width: 100% !important;
         margin-top: 0px !important;
         line-height: 1 !important;
+        font-size: 40px;
     }
 
     .slide-content .tag-slide {
@@ -532,8 +540,8 @@ header a {
     .slide-content .title-third-slide {
         width: 100% !important;
         line-height: 1 !important;
-        margin: 20vh 0px 70px 0px !important;
-        font-size: 50px !important;
+        margin: 10vh 0px 30px 0px !important;
+        font-size: 35px !important;
     }
 
     .about-us .flechas img {
@@ -543,5 +551,8 @@ header a {
     .sumate .formulario button {
         margin-top: 20px;
         margin-left: 0px !important;
+    }
+    .charlamos{
+      display: none;
     }
 }
