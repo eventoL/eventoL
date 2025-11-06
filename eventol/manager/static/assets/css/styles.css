@@ -244,6 +244,12 @@ header a {
     width: 1220px;
     margin: 20vh 0px 70px 0px;
 }
+.charlas-relampago {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff9812;
+}
 
 .carousel-container .second-image {
     height: 109px;
