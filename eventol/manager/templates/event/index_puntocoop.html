@@ -44,11 +44,11 @@
 {% block content %}
   <body>
     <div id="root"></div>
-    <div class="main">
+    <main>
       <script src="{% static "assets/js/carrousel.js" %}"/></script>
 
       <div class="carousel-wrapper">
-      <img class="carousel-background" src="{% static "assets/img/fondo.png" %}" alt="Fondo">
+       <div class="carousel-background"></div>
        <button id="prevBtn" class="flecha-estilizada">
         <svg viewBox="0 0 50 50" width="40" height="40">
           <path d="M30 5 L10 25 L30 45" 
@@ -65,8 +65,8 @@
               <div class="slide-content">
                       <div class="slide-text">
                     <img class="first-image" src="{% static "assets/img/logo-color.png" %}" alt="Punto Coop">
-                    <div style="background: linear-gradient(to right, #41B77A, #1e3227); color: white; padding: 20px 20px; border-radius: 50px; font-weight: bold; font-family: 'Space Grotesk', sans-serif; font-size: 18px; display: inline-block; margin-top: 10px; margin-bottom: 10px;">Entrada Libre y Gratuita</div>
-                      <h2>Compartimos ideas. Creamos futuro</h2>
+                    <div style="background: linear-gradient(to right, #41B77A, #000000); color: white; padding: 20px 20px; border-radius: 50px; font-weight: bold; font-family: 'Space Grotesk', sans-serif; font-size: 18px; display: inline-block; margin-bottom: 10px;">Entrada Libre y Gratuita</div>
+                      <h1>Compartimos ideas. Creamos futuro</h1>
                      <h3>13 de Noviembre 2025</h3>
                      <h4>Espacio experimental Leonidas Barletta - Diagonal Norte 943, CABA</h4>
                       <p class="charlamos">Charlamos sobre tecnología, cooperación y transformación social</p>
@@ -161,7 +161,7 @@
      </div>
 
      <!-- Cronograma Section -->
-     <div class="cronograma-section" style="margin-bottom:30px">
+      <section class="cronograma-section" style="margin-bottom:30px">
        <div style="max-width: 1200px; margin: 0 auto;">
          <div class="acreditacion-banner">
            📋 Acreditación: 14:30 hs
@@ -267,13 +267,13 @@
                <p class="charla-speaker" style="color: #555; font-style: italic; margin-bottom: 15px; font-size: 14px;">Por: Facundo Batista</p>
              </div>
              <a href="https://punto.coop.ar/events/punto-coop-2025/activity/11/" target="_blank" class="btn-ver-detalles" style="color: #555;">Ver Detalles</a>
-           </div>
+      </section>
 
-         </div>
+     </main>
        </div>
-     </div>
+      </section>
 
-     <div class="about-us">
+      <section class="about-us">
       <div class="barra-amarilla"></div>
       <div class="paratexto">
         <div class="primer-parrafo">Un espacio donde la tecnología y la cooperación se encuentran para crear, compartir y aprender en comunidad.</div>
@@ -350,15 +350,16 @@
 
     </div>
   -->
-    <footer>
+    <div class="footer-puntocoop">
       <p>Organizado por FACTTIC . 2025</p>
       <div class="rectangulos">
-        <p class="paratexto-footer">Seguinos</p>
-        <a href="https://www.instagram.com/punto.coop/" target="_blank">
-          <img class="rectangulo-gris" src="{% static "assets/img/instagram-icon.png" %}" />
-        </a>
+        <p class="paratexto-footer">Seguinos
+          <a href="https://www.instagram.com/punto.coop/" target="_blank">
+            <img class="rectangulo-gris" src="{% static "assets/img/instagram-icon.png" %}" />
+          </a>
+        </p>
       </div>
-    </footer>
+    </div>
     
     </div>
  </body>

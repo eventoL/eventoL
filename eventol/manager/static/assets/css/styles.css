@@ -12,7 +12,7 @@ body {
     width: 100%;
     height: 100%;
     margin: 0px;
-    background-color: #000;
+    background-color: #191919;
 }
 
 .navbar, .navbar.navbar-light {
@@ -51,10 +51,17 @@ header a {
 }
 
 /* first section carrousel */
+.carousel-wrapper {
+    position: relative;
+    height: 70vh;
+}
+
 .carousel-background {
     position: absolute;
-    height: 70vh;
-    width: auto;
+    height: 500px;
+    width: 100%;
+    background: radial-gradient(circle at 10px 10px, #41B77A 1px, transparent 1px);
+    background-size: 20px 20px;
 }
 
 /* Contenedor principal */
@@ -65,7 +72,7 @@ header a {
     margin: 2rem auto;
     overflow: hidden;
     border-radius: 15px;
-    height: 70vh;
+    height: 100%;
     -webkit-mask-image: linear-gradient(90deg,
             transparent 0%,
             #000 15%,
@@ -190,6 +197,10 @@ header a {
     margin-top: 0px;
 }
 
+.slide-text {
+    text-align: center;
+}
+
 .slide-content p {
     color: #41C87A;
     font-size: 32px;
@@ -238,10 +249,7 @@ header a {
 }
 
 .carousel-container .vector {
-    position: absolute;
-    right: 10%;
-    bottom: 30%;
-    transform: scaleY(-1);
+    display: none;
 }
 
 @media (max-width: 768px) {
@@ -422,23 +430,23 @@ header a {
 
 /* Footer */
 
-.main footer {
+    .footer-puntocoop {
     width: 915px;
     margin: 0 auto;
     padding-bottom: 50px;
     flex-direction: row;
     display: flex;
     justify-content: space-between;
-    margin-top: 200px;
+    margin-top: 50px;
 }
 
-.main footer p {
+    .footer-puntocoop p {
     color: #EBEBEB;
     font-size: 24px;
     font-family: 'Space Grotesk', sans-serif;
 }
 
-.main footer .rectangulos {
+    main footer .rectangulos {
     flex-direction: row;
     display: flex;
     justify-content: space-between;
@@ -446,27 +454,31 @@ header a {
     align-items: center;
 }
 
-.main footer .rectangulos .paratexto-footer {
+.footer-puntocoop .rectangulos .paratexto-footer {
     color: #E7D04A !important;
     font-size: 24px;
     font-weight: 400;
     font-family: 'Space Grotesk', sans-serif;
 }
 
-.main footer .rectangulo-gris {
+main footer .rectangulo-gris {
     width: auto;
     height: 38px;
     margin-left: 30px;
     transition: all 0.5s ease-in-out;
 }
 
-.main footer .rectangulo-gris:hover {
+main footer .rectangulo-gris:hover {
     scale: 1.1;
 }
 
 /* mobile */
 
 @media (max-width: 1025px) {
+    .carousel-wrapper {
+        height: 70vh !important;
+    }
+
     .carousel-background {
         width: 95vw !important;
     }
@@ -491,18 +503,18 @@ header a {
         width: 80vw !important;
     }
 
-    .main footer .rectangulos {
+main footer .rectangulos {
         flex-direction: row !important;
         display: flex !important;
         justify-content: center !important;
         margin-right: 0px !important;
     }
 
-    .main footer p {
+.footer-puntocoop p {
         text-align: center !important;
     }
 
-    .main footer {
+.footer-puntocoop {
         width: 100% !important;
         flex-direction: column !important;
     }
@@ -513,6 +525,7 @@ header a {
 
     .slide-text {
         width: 80vw !important;
+        text-align: center !important;
     }
 
     .slide-text .first-image {
