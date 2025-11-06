@@ -58,10 +58,12 @@ header a {
 
 .carousel-background {
     position: absolute;
-    height: 500px;
+    height: 70vh;
     width: 100%;
-    background: radial-gradient(circle at 10px 10px, #41B77A 1px, transparent 1px);
-    background-size: 20px 20px;
+    background: radial-gradient(circle at 10px 10px, #41B77A 3px, transparent 3px);
+    background-size: 46.875px 20px;
+    mask-image: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
 }
 
 /* Contenedor principal */
