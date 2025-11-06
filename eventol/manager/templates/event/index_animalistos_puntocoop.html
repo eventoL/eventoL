@@ -1,0 +1,126 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Empareja la Fauna Libre 🐧</title>
+    <link rel="stylesheet" href="{% static 'assets/animalistos/styles.css' %}"/>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="coop-logo">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80'%3E%3Ccircle cx='20' cy='40' r='15' fill='%23FF9933'/%3E%3Cpath d='M 35 10 Q 70 10 70 40 Q 70 70 35 70 Z' fill='%23FF6B6B'/%3E%3Ccircle cx='90' cy='40' r='30' fill='%23F7DC6F'/%3E%3Ccircle cx='130' cy='40' r='30' fill='%2358D68D'/%3E%3Cpath d='M 160 10 L 160 70 M 160 10 Q 190 10 190 40 Q 190 70 160 70' stroke='%234A90E2' stroke-width='8' fill='none'/%3E%3Ctext x='55' y='50' font-family='Arial, sans-serif' font-size='24' font-weight='bold' fill='%238E44AD'%3Epunto%3C/text%3E%3Ctext x='125' y='50' font-family='Arial, sans-serif' font-size='24' font-weight='bold' fill='%23E67E22'%3Ecoop%3C/text%3E%3C/svg%3E" alt="Punto Coop" class="coop-logo-img">
+            </div>
+            <h1>🌱 Empareja la Fauna Libre</h1>
+            <p class="subtitle">Arrastrá cada logo al animalito correcto</p>
+            <div class="score">
+                <span class="score-label">Parejas:</span>
+                <span class="score-value" id="scoreValue">0/7</span>
+            </div>
+        </header>
+
+        <!-- Game Board -->
+        <main class="game-board">
+            <!-- Columna de Logos -->
+            <div class="column logos-column">
+                <h2 class="column-title">📦 Proyectos</h2>
+                <div class="items-container" id="logosContainer">
+                    <div class="logo-item" draggable="true" data-project="linux">
+                        <span>Linux</span>
+                    </div>
+                    <div class="logo-item" draggable="true" data-project="firefox">
+                        <span>Firefox</span>
+                    </div>
+                    <div class="logo-item" draggable="true" data-project="gnu">
+                        <span>GNU</span>
+                    </div>
+                    <div class="logo-item" draggable="true" data-project="python">
+                        <span>Python</span>
+                    </div>
+                    <div class="logo-item" draggable="true" data-project="debian">
+                        <span>Debian</span>
+                    </div>
+                    <div class="logo-item" draggable="true" data-project="php">
+                        <span>PHP</span>
+                    </div>
+                    <div class="logo-item" draggable="true" data-project="openssh">
+                        <span>OpenSSH</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna de Animales -->
+            <div class="column animals-column">
+                <h2 class="column-title">🐾 Fauna</h2>
+                <div class="items-container" id="animalsContainer">
+                    <div class="animal-zone" data-animal="linux">
+                        <div class="animal-icon">🐧</div>
+                        <span class="animal-name">Pingüino</span>
+                    </div>
+                    <div class="animal-zone" data-animal="firefox">
+                        <div class="animal-icon">🦊</div>
+                        <span class="animal-name">Panda Rojo</span>
+                    </div>
+                    <div class="animal-zone" data-animal="gnu">
+                        <div class="animal-icon">🦬</div>
+                        <span class="animal-name">Ñu</span>
+                    </div>
+                    <div class="animal-zone" data-animal="python">
+                        <div class="animal-icon">🐍</div>
+                        <span class="animal-name">Serpiente</span>
+                    </div>
+                    <div class="animal-zone" data-animal="debian">
+                        <div class="animal-icon debian-spiral">🌀</div>
+                        <span class="animal-name">Espiral</span>
+                    </div>
+                    <div class="animal-zone" data-animal="php">
+                        <div class="animal-icon">🐘</div>
+                        <span class="animal-name">Elefante</span>
+                    </div>
+                    <div class="animal-zone" data-animal="openssh">
+                        <div class="animal-icon">🐡</div>
+                        <span class="animal-name">Pez Globo</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal de Curiosidad -->
+        <div class="modal" id="curiosityModal">
+            <div class="modal-content">
+                <div class="modal-icon" id="modalIcon">🐧</div>
+                <h3 id="modalTitle">¡Correcto!</h3>
+                <p id="modalCuriosity"></p>
+                <button class="btn-continue" id="btnContinue">¡Seguir jugando! 🎮</button>
+            </div>
+        </div>
+
+        <!-- Modal de Victoria -->
+        <div class="modal" id="victoryModal">
+            <div class="modal-content victory-content">
+                <div class="victory-icon">🎉</div>
+                <h2>¡Sos un experto en software libre!</h2>
+                <p>Completaste todas las parejas correctamente</p>
+                <div class="victory-emoji">🐧🦊🦬🐍🌀🐘🐡</div>
+                <button class="btn-restart" id="btnRestart">🔄 Jugar de nuevo</button>
+                <div class="share-message">
+                    <p>Compartí este juego y difundí el software libre 💚</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="game-footer">
+            <p>🤝 Hecho con amor cooperativo</p>
+            <p class="footer-small">Inspirado en <a href="https://punto.coop.ar" target="_blank">Punto Coop 2025</a></p>
+        </footer>
+    </div>
+
+    <script src="{% static 'assets/animalistos/script.js' %}"></script>
+</body>
+</html>

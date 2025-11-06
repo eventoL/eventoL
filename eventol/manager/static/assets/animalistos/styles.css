@@ -1,0 +1,451 @@
+/* Reset y variables */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Paleta inspirada en Punto Coop - colores cálidos y cooperativos */
+    --color-primary: #FF6B35;
+    --color-secondary: #F7931E;
+    --color-accent: #FFC857;
+    --color-success: #4ECDC4;
+    --color-background: #FFF8F0;
+    --color-card: #FFFFFF;
+    --color-text: #2D3142;
+    --color-text-light: #6B7280;
+    --color-border: #FFD1B3;
+    --color-shadow: rgba(255, 107, 53, 0.1);
+    --color-drag-over: rgba(78, 205, 196, 0.2);
+    --color-debian-red: #D70A53;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--color-background) 0%, #FFE8D6 100%);
+    color: var(--color-text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-y;
+}
+
+.game-container {
+    max-width: 480px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, 
+        rgba(255, 200, 87, 0.1) 0%, 
+        rgba(255, 107, 53, 0.05) 50%,
+        rgba(78, 205, 196, 0.1) 100%);
+}
+
+/* Header */
+.game-header {
+    text-align: center;
+    margin-bottom: 20px;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+/* Logo Punto Coop */
+.coop-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.coop-logo-img {
+    width: 180px;
+    height: auto;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.game-header h1 {
+    font-size: 1.8rem;
+    color: var(--color-primary);
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 4px var(--color-shadow);
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    margin-bottom: 15px;
+}
+
+.score {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-card);
+    padding: 10px 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    border: 2px solid var(--color-border);
+}
+
+.score-label {
+    font-weight: 600;
+    color: var(--color-text-light);
+}
+
+.score-value {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--color-primary);
+}
+
+/* Game Board */
+.game-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.column-title {
+    font-size: 1.1rem;
+    text-align: center;
+    color: var(--color-secondary);
+    background: var(--color-card);
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px var(--color-shadow);
+    border: 2px solid var(--color-border);
+}
+
+.items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+/* Logo Items - SIN ÍCONO */
+.logo-item {
+    background: var(--color-card);
+    border: 3px solid var(--color-primary);
+    border-radius: 15px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: grab;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    touch-action: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
+}
+
+.logo-item:active {
+    cursor: grabbing;
+}
+
+.logo-item.dragging {
+    opacity: 0.5;
+    transform: scale(0.95) rotate(5deg);
+}
+
+.logo-item.matched {
+    opacity: 0.3;
+    transform: scale(0.8);
+    pointer-events: none;
+    border-color: var(--color-success);
+}
+
+.logo-item span {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: 0.3px;
+}
+
+/* Animal Zones */
+.animal-zone {
+    background: var(--color-card);
+    border: 3px dashed var(--color-border);
+    border-radius: 15px;
+    padding: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.animal-zone.drag-over {
+    background: var(--color-drag-over);
+    border-color: var(--color-success);
+    border-style: solid;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--color-success);
+}
+
+.animal-zone.matched {
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.2), rgba(255, 200, 87, 0.2));
+    border-color: var(--color-success);
+    border-style: solid;
+    animation: matchSuccess 0.6s ease;
+}
+
+.animal-icon {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+}
+
+/* ESPIRAL DE DEBIAN EN ROJO */
+.debian-spiral {
+    color: var(--color-debian-red);
+    filter: drop-shadow(2px 2px 6px rgba(215, 10, 83, 0.3));
+    font-weight: bold;
+}
+
+.animal-name {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    font-weight: 500;
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(45, 49, 66, 0.8);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--color-card);
+    border-radius: 20px;
+    padding: 30px 25px;
+    max-width: 90%;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.4s ease;
+    border: 4px solid var(--color-success);
+}
+
+.modal-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    animation: bounce 0.6s ease;
+}
+
+.modal-content h3 {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.btn-continue,
+.btn-restart {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-continue:active,
+.btn-restart:active {
+    transform: scale(0.95);
+}
+
+/* Victory Modal */
+.victory-content {
+    border-color: var(--color-accent);
+}
+
+.victory-icon {
+    font-size: 5rem;
+    animation: rotate 0.8s ease;
+}
+
+.victory-content h2 {
+    color: var(--color-primary);
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+.victory-emoji {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    letter-spacing: 5px;
+}
+
+.share-message {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dashed var(--color-border);
+}
+
+.share-message p {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    margin-bottom: 0;
+}
+
+/* Footer */
+.game-footer {
+    text-align: center;
+    padding: 15px 0;
+    color: var(--color-text-light);
+    font-size: 0.85rem;
+}
+
+.footer-small {
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
+
+.game-footer a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes matchSuccess {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 380px) {
+    .game-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .coop-logo-img {
+        width: 150px;
+    }
+    
+    .animal-icon {
+        font-size: 2rem;
+    }
+    
+    .items-container {
+        gap: 8px;
+    }
+}
+
+/* Touch improvements */
+@media (hover: none) and (pointer: coarse) {
+    .logo-item:active {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+    }
+}
