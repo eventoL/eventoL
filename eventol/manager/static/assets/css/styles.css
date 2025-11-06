@@ -17,6 +17,7 @@ body {
 
 .navbar, .navbar.navbar-light {
   background-color: #ff4d4d;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 html {
@@ -623,14 +624,17 @@ main footer .rectangulos {
 }
 .acreditacion-banner {
     text-align: center;
-    margin-bottom: 30px;
+    margin: 30px auto;
     padding: 20px;
     background: #ff4d4d;
     color: white;
     border-radius: 8px;
+    width: 960px;
+    max-width: 100%;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 18px;
     font-weight: bold;
+    grid-column: span 3;
 }
 .cronograma-title {
     text-align: center;
