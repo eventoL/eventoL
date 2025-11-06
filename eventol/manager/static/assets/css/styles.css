@@ -240,7 +240,7 @@ header a {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 64px;
     font-weight: 700;
-    color: #FF4D4D;
+    color: #ff9812;
     width: 1220px;
     margin: 20vh 0px 70px 0px;
 }
@@ -638,7 +638,7 @@ main footer .rectangulos {
 }
 .cronograma-title {
     text-align: center;
-    color: #ff4d4d;
+    color: white;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 32px;
     margin-bottom: 40px;
