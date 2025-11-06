@@ -556,3 +556,67 @@ header a {
       display: none;
     }
 }
+
+.charla-description {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    min-height: 160px;
+}
+.charla-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 400px;
+    align-items: flex-start;
+}
+.charla-card a {
+    align-self: flex-end;
+}
+.charla-content {
+    flex: 1;
+}
+.charla-time {
+    background: #4E435C;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.btn-ver-detalles {
+    background: transparent;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+.btn-ver-detalles:hover {
+    opacity: 0.8;
+}
+.acreditacion-banner {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #ff4d4d;
+    color: white;
+    border-radius: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+.cronograma-title {
+    text-align: center;
+    color: #ff4d4d;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    margin-bottom: 40px;
+}
+
+
+

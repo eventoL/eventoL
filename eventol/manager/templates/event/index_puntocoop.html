@@ -7,84 +7,41 @@
 {% load l10n %}
 {% load cropping %}
 {% load filters %}
-{% block content %}
-<html lang="en">
-  <head>
+{% block other-head %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk&family=Inter&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static "assets/css/styles.css" %}"/>
-    <style>
-        .charla-description {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            min-height: 160px;
-        }
-        .charla-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 400px;
-            align-items: flex-start;
-        }
-        .charla-card a {
-            align-self: flex-end;
-        }
-        .charla-content {
-            flex: 1;
-        }
-        .charla-time {
-            background: #4E435C;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            display: inline-block;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .btn-ver-detalles {
-            background: transparent;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-        .btn-ver-detalles:hover {
-            opacity: 0.8;
-        }
-        .acreditacion-banner {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #ff4d4d;
-            color: white;
-            border-radius: 8px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .cronograma-title {
-            text-align: center;
-            color: #ff4d4d;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
-            margin-bottom: 40px;
-        }
-    </style>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="{% static "favicon_puntocoop.ico" %}"/>
-    <meta name="description" content="Event Management Software">
-    <title>Punto Coop</title>
+    <!-- HTML Meta Tags -->
+    <title>PuntoCoop</title>
+    <meta name="description" content="Compartimos ideas. Creamos futuro. Charlamos sobre tecnología, cooperación y transformación social.">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://punto.coop.ar">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PuntoCoop">
+    <meta property="og:author" content="FACTTIC">
+    <meta property="og:description" content="Compartimos ideas. Creamos futuro. Charlamos sobre tecnología, cooperación y transformación social.">
+    <meta property="og:image" content="https://punto.coop.ar/static/assets/img/logo-color.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:domain" content="punto.coop.ar">
+    <meta property="twitter:url" content="https://punto.coop.ar">
+    <meta name="twitter:title" content="PuntoCoop">
+    <meta name="twitter:description" content="Compartimos ideas. Creamos futuro. Charlamos sobre tecnología, cooperación y transformación social.">
+    <meta name="twitter:image" content="https://punto.coop.ar/static/assets/img/logo-color.png">
+
+    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
+
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
-  </head>
+{% endblock other-head %}
+{% block content %}
   <body>
     <div id="root"></div>
     <div class="main">
