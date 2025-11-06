@@ -241,6 +241,13 @@ header a {
     position: absolute;
     right: 10%;
     bottom: 30%;
+    transform: scaleY(-1);
+}
+
+@media (max-width: 768px) {
+    .carousel-container .vector {
+        display: none;
+    }
 }
 
 /* About us */
@@ -514,7 +521,7 @@ header a {
     }
 
     .slide-content h3 {
-        font-size: 30px !important;
+        font-size: 24px !important;
     }
     .slide-content h4 {
         font-size: 20px !important;
