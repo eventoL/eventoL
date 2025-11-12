@@ -5,6 +5,7 @@ from itertools import islice
 from django.core.management.base import BaseCommand, CommandError
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+from manager.models import Attendee
 
 # Constantes para la estrategia de envío
 BATCH_SIZE = 10
@@ -17,11 +18,16 @@ class Command(BaseCommand):
     # ... (El método add_arguments se mantiene igual) ...
     def add_arguments(self, parser):
         parser.add_argument('--subject', type=str, required=True, help='Asunto del correo electrónico.')
-        parser.add_argument('--recipients', type=str, required=True, help='Lista de destinatarios separados por comas.')
+        parser.add_argument(
+            '--recipients', type=str, required=False, help='Lista de destinatarios separados por comas.'
+        )
         parser.add_argument(
             '--filepath-text', type=str, required=True, help='Ruta al archivo con contenido de texto plano.'
         )
         parser.add_argument('--filepath-html', type=str, required=True, help='Ruta al archivo con contenido HTML.')
+        parser.add_argument(
+            '--event-id', type=int, required=False, help='ID del evento para enviar a los asistentes registrados.'
+        )
 
     def _get_file_content(self, filepath, content_type):
         """Función auxiliar para leer el contenido de los archivos."""
@@ -86,9 +92,16 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # 1. Preparación de datos
         subject = options['subject']
-        # Usamos la lógica robusta para limpiar la lista de destinatarios
-        recipient_list_str = options['recipients']
-        full_recipient_list = [r.strip() for r in recipient_list_str.split(',') if r.strip()]
+        event_id = options.get('event_id')
+
+        if event_id:
+            full_recipient_list = [attendee.email for attendee in Attendee.objects.filter(event_id=event_id)]
+        elif options.get('recipients'):
+            # Usamos la lógica robusta para limpiar la lista de destinatarios
+            recipient_list_str = options['recipients']
+            full_recipient_list = [r.strip() for r in recipient_list_str.split(',') if r.strip()]
+        else:
+            raise CommandError('Debe proporcionar --event-id o --recipients.')
 
         filepath_text = options['filepath_text']
         filepath_html = options['filepath_html']
