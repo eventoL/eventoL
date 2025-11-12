@@ -1,0 +1,37 @@
+Hola,
+
+Estás recibiendo este correo porque te anotaste para ir a PuntoCoop 2025.
+
+¡Solo falta un día! Queremos recordarte que el encuentro es mañana, jueves 13 de noviembre, en Av. Pres. Roque Sáenz Peña 943.
+
+---
+¿Qué te espera mañana?
+---
+
+Te esperamos para la acreditación a partir de las 14:30 hs., y un día completo de charlas técnicas con perspectiva cooperativa. 
+
+Tendremos charlas clave sobre:
+
+* Inteligencia Artificial Ética y Software Libre (Leandro Monk)
+* Matar a React: La alternativa con Django + HTMX (Juan Manuel Schillaci)
+* Automatización de migraciones MongoDB con Ansible (Osiux)
+* Electrónica para mortales (Lucma)
+* Gobernanza de Socios con Sociocracia (Eduardo Mercovich)
+* Plataformas Cooperativas y la resistencia al extractivismo de datos.
+* Procesamiento Paralelo de vectores con mediciones reales (Facundo Batista)
+
+El evento arranca a las 15:10 hs. y se extiende hasta las 19:35 hs. Te invitamos a llegar con tiempo para la acreditación.
+
+Si llegás fuera del horario de acreditación, no te preocupes, podés entrar igual, tocá el timbre y te esperamos en la sala.
+
+¡Nos vemos mañana para cooperar y transformar!
+
+---
+📍 Lugar: Av. Pres. Roque Sáenz Peña 943
+📅 Día y Hora: Jueves 13 de noviembre, a partir de las 15:00 hs.
+🌐 Toda la Agenda: punto.coop.ar
+Event ID: {{ event_id }}
+---
+
+FACTTIC - Federación Argentina de Cooperativas de Tecnología
+#PuntoCoop2025 #CooperarEsTransformar
