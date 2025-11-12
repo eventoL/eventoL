@@ -28,7 +28,7 @@ Si llegás fuera del horario de acreditación, no te preocupes, podés entrar ig
 
 ---
 📍 Lugar: Av. Pres. Roque Sáenz Peña 943
-📅 Día y Hora: Jueves 13 de noviembre, a partir de las 15:00 hs.
+📅 Día y Hora: Jueves 13 de noviembre, a partir de las 14:30 hs.
 🌐 Toda la Agenda: punto.coop.ar
 Event ID: {{ event_id }}
 ---
