@@ -1,0 +1,39 @@
+Hola,
+
+¡HOY ES PUNTOCOOP 2025!
+
+El evento es el día de hoy, jueves 13 de noviembre, con charlas de 15:00 a 20:00 hs.
+
+---
+ACREDITACIÓN Y LUGAR
+---
+Te esperamos para la acreditación a partir de las 14:30 hs. en Av. Pres. Roque Sáenz Peña 943.
+
+👉 Nota importante: Si llegás tarde, no te preocupes ni te quedes afuera. Tocá el timbre y te abrimos. ¡Acá te esperamos!
+
+---
+📺 STREAMING: Sigue el evento en vivo
+---
+Si no podés asistir, puedes seguir todas las charlas por streaming:
+🔗 youtube.com/live/z7sqelPWs3U
+
+---
+AGENDA DE CHARLAS
+---
+* 14:30 - Acreditación
+* 15:10 - Electrónica para mortales (Lucma)
+* 15:40 - Es solo software: IA y Software Libre (Leandro Monk)
+* 16:10 - Matar a React: Django + HTMX (Juan Manuel Schillaci)
+* 16:40 - Las artes y la bestIA (Cambá)
+* 17:10 - Plataformas cooperativas (Código Libre + UBA)
+* 17:40 - Automatizar MongoDB con Ansible (Osiux)
+* 18:10 - Gobernanza y sociocracia (Eduardo Mercovich)
+* 18:40 - Automatización con Activepieces (Agustín Recouso)
+* 19:10 - Procesamiento paralelo (Facundo Batista)
+* 19:35 - Charlas Relámpago y Cierre del Evento 🎉
+
+¡Nos vemos hoy para cooperar y transformar!
+
+---
+FACTTIC - Federación Argentina de Cooperativas de Tecnología
+#PuntoCoop2025 #CooperarEsTransformar
