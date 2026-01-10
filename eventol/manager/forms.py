@@ -100,6 +100,12 @@ class AttendeeAutocomplete(autocomplete.Select2QuerySetView):
                 )
         return attendees[:5]
 
+    def get_result_label(self, result):
+        user = result
+        if result.event_user:
+            user = result.event_user.user
+            user.nickname = user.username
+        return f'{user.first_name} {user.last_name} ({user.nickname}) - {user.email}'
 
 class AllAttendeeAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -127,6 +133,12 @@ class AllAttendeeAutocomplete(autocomplete.Select2QuerySetView):
                 )
         return attendees[:5]
 
+    def get_result_label(self, result):
+        user = result
+        if result.event_user:
+            user = result.event_user.user
+            user.nickname = user.username
+        return f'{user.first_name} {user.last_name} ({user.nickname}) - {user.email}'
 
 class EventUserAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -165,7 +177,12 @@ class EventUserAutocomplete(autocomplete.Select2QuerySetView):
                     | Q(user__username__icontains=self.q.lower())
                     | Q(user__email__icontains=self.q.lower())
                 )
+
         return event_users[:5]
+
+    def get_result_label(self, result):
+        user = result.user
+        return f'{user.first_name} {user.last_name} ({user.username}) - {user.email}'
 
 
 class AttendeeSearchForm(forms.Form):
@@ -223,6 +240,7 @@ class AttendeeRegistrationByCollaboratorForm(forms.ModelForm):
             "is_installing",
             "event",
             "registration_date",
+            "allow_contact_or_subscription",
         ]
         widgets = {
             "event": forms.HiddenInput(),
@@ -313,11 +331,12 @@ class AttendeeRegistrationFromUserForm(ModelForm):
         "last_name",
         "nickname",
         "additional_info",
-        "is_installing",
         "email",
         "event",
         "event_user",
         "registration_date",
+        "is_installing",
+        "allow_contact_or_subscription",
     ]
 
     class Meta:
@@ -332,6 +351,7 @@ class AttendeeRegistrationFromUserForm(ModelForm):
             "event",
             "registration_date",
             "event_user",
+            "allow_contact_or_subscription",
         ]
         widgets = {
             "first_name": forms.HiddenInput(),
@@ -361,12 +381,13 @@ class AttendeeRegistrationForm(ModelForm):
         "last_name",
         "nickname",
         "additional_info",
-        "is_installing",
         "email",
         "repeat_email",
-        "captcha",
         "event",
         "registration_date",
+        "is_installing",
+        "allow_contact_or_subscription",
+        "captcha",
     ]
 
     class Meta:
@@ -380,6 +401,7 @@ class AttendeeRegistrationForm(ModelForm):
             "is_installing",
             "event",
             "registration_date",
+            "allow_contact_or_subscription",
         ]
         widgets = {
             "event": forms.HiddenInput(),
@@ -528,6 +550,7 @@ class EventForm(ModelForm):
             "use_collaborators",
             "use_proposals",
             "use_schedule",
+            "show_contact_by_email",
             "activities_proposal_form_text",
             "tags",
             "geom",

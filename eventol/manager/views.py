@@ -1567,7 +1567,7 @@ def change_activity_status(request, event_slug, activity_id, status, justificati
             utils_email.send_activity_email,
             event.name,
             activity.title,
-            activity.activity.status_choices[int(activity.status) -1][1],
+            activity.status_choices[int(activity.status) -1][1],
             activity.owner.user.email,
             justification
         )
@@ -1721,7 +1721,7 @@ def talk_registration(request, event_slug, proposal_id):
                             utils_email.send_activity_email,
                             event.name,
                             proposal.title,
-                            proposal.activity.status_choices[int(proposal.status) -1][1],
+                            proposal.status_choices[int(proposal.status) -1][1],
                             proposal.owner.user.email
                         )
                         messages.success(request, _("The talk was registered successfully!"))

@@ -177,8 +177,8 @@
                                 <a style='text-decoration: none;' href='{% url "activity_detail" event.event_slug activity.id %}'>
                                     <h2>{{ activity.title }}</h2>
                                 </a>
-                                <p><strong>{{ activity.abstract }}</strong></p>
-                                <p>{{ activity.long_description }}</p>
+                                <p><strong>{{ activity.abstract|truncatewords:100 }}</strong></p>
+                                <p>{{ activity.long_description|truncatewords:500 }}</p>
                                 <p><strong>{% trans 'Speakers' %}:</strong> {{ activity.speakers_names|title }}</p>
                             </div>
                         </div>

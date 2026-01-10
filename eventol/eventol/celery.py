@@ -1,7 +1,12 @@
 import os
 
+import configurations
 import environ
 from celery import Celery
+from django.conf import settings
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "eventol.settings")
+os.environ.setdefault('DJANGO_CONFIGURATION', 'Prod')
 
 env = environ.Env(
     CELERY_BROKER_URL=(str, os.getenv("CELERY_BROKER_URL", "redis://127.0.0.1:6379")),
@@ -12,6 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 environ.Env.read_env(os.path.join(BASE_DIR, "../.env"), overwrite=True)
 
+configurations.setup()
 app = Celery(
     "manager",
     broker=env("CELERY_BROKER_URL"),
@@ -23,3 +29,5 @@ app = Celery(
     task_always_eager=False,
     include=["manager.tasks", "manager.utils.email"],
 )
+app.config_from_object('django.conf:settings')
+app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)

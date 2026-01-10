@@ -51,6 +51,8 @@ pre-commit install
 
 ```bash
 cd eventol
+
+python ./manage.py shell -c "import django;django.db.connection.cursor().execute('SELECT InitSpatialMetaData(1);')";
 ./manage.py migrate
 
 mkdir -p ../eventol/static

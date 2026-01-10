@@ -160,6 +160,11 @@ class Event(models.Model):
     use_collaborators = models.BooleanField(_('Use Collaborators'), default=True)
     use_proposals = models.BooleanField(_('Use Proposals'), default=True)
     use_talks = models.BooleanField(_('Use Talks'), default=True)
+    show_contact_by_email = models.BooleanField(
+        _('Show contact email'),
+        help_text=_('Show the contact email to the organization in the navigation bar'),
+        default=True
+    )
     is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
     use_schedule = models.BooleanField(_('Use Schedule'), default=True)
     geom = PointField(_('Geom'), null=True, blank=True)
@@ -414,6 +419,11 @@ class EventUser(models.Model):
     event = models.ForeignKey(Event, verbose_name=_('Event'),on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'),
                                blank=True, null=True,on_delete=models.CASCADE)
+    allow_contact_or_subscription = models.BooleanField(
+        _('Allow Contact or Subscription'),
+        default=False,
+        help_text=_('Allow the use of contact data for event updates or subscriptions')
+    )
 
     def __str__(self):
         if self.user:
@@ -591,6 +601,11 @@ class Attendee(models.Model):
     event_user = models.ForeignKey(
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True, on_delete=models.CASCADE)
     customFields = models.JSONField(default=dict)
+    allow_contact_or_subscription = models.BooleanField(
+        _('Allow Contact or Subscription'),
+        default=False,
+        help_text=_('Allow the use of contact data for event updates or subscriptions')
+    )
 
     class Meta:
         verbose_name = _('Attendee')
@@ -835,7 +850,8 @@ class Activity(VoteModel, models.Model):
                               help_text=_('Activity proposal status'))
 
     image = ImageCropField(upload_to='images_thumbnails',
-                           verbose_name=_('Image'), blank=True, null=True)
+                           verbose_name=_('Image'), blank=True, null=True,
+                           help_text=_('This image will represent the activity and will be displayed for represent it'))
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))

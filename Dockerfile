@@ -31,7 +31,7 @@ WORKDIR ${APP_ROOT}
 # Install python requirements
 COPY ./requirements.txt ./requirements-dev.txt ${APP_ROOT}
 RUN pip3 install --no-cache-dir -r requirements-dev.txt
-RUN pip3 install psycopg2-binary gunicorn
+RUN pip3 install psycopg2-binary gunicorn celery
 
 # Copy python code
 COPY ./Makefile ${APP_ROOT}/Makefile
@@ -41,9 +41,10 @@ RUN mkdir -p ${APP_ROOT}/eventol/manager/static
 # Copy git files
 COPY ./.git ${APP_ROOT}/.git
 
-# Copy script for docker-compose wait and start-eventol
+# Copy script for docker-compose wait, start-eventol and start-celery
 COPY ./deploy/docker/scripts/wait-for-it.sh ${APP_ROOT}/wait-for-it.sh
 COPY ./deploy/docker/scripts/start_eventol.sh ${APP_ROOT}/start_eventol.sh
+COPY ./deploy/docker/scripts/start_celery.sh ${APP_ROOT}/start_celery.sh
 
 # Collect statics
 RUN mkdir -p ${APP_ROOT}/eventol/static

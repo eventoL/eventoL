@@ -97,7 +97,7 @@
                                   {% endif %}
                                   {% if activity.labels %}<p><strong>{% trans "Labels" %}:</strong>
                                     {% for label in activity.labels %}
-                                        <span class="badge">{{ label|lower }}</span>
+                                        <span class="badge badge-primary">{{ label|lower }}</span>
                                     {% endfor %}
                                   </p>{% endif %}
                                   {% if user.is_authenticated and user|is_organizer:event_slug %}
