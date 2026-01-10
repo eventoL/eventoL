@@ -3,7 +3,7 @@
 ## Requirements
 
 ```bash
-sudo apt intsall libsqlite3-mod-spatialite
+sudo apt install libsqlite3-mod-spatialite
 ```
 
 ## Instalar pyenv
