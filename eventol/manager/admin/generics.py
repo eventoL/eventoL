@@ -1,5 +1,6 @@
 # pylint: disable=no-self-use
 
+from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext as _
 from import_export.admin import ExportMixin
@@ -9,8 +10,16 @@ from manager.admin.utils import filter_model_queryset_by_user
 from manager.models import Organizer
 from manager.security import create_reporters_group
 
+from django.contrib.gis.db.models import PointField
+import mapwidgets
 
 class EventoLAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        PointField: {"widget": mapwidgets.LeafletPointFieldWidget}
+    }
+
+    list_per_page = settings.LIST_PER_PAGE
+
     @staticmethod
     def filter_event(events, queryset):
         return queryset.filter(event__in=events)
@@ -67,6 +76,7 @@ class EventoLEventUserAdmin(ExportMixin, EventoLAdmin):
 
 
 class ThemeAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('id', 'has_background', 'has_logo_header', 'has_logo_landing',)
 
     def has_background(self, obj):

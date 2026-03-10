@@ -1,6 +1,5 @@
 {% extends "generic-bootstrap-model-form.html" %}
 
-{% load forms_builder_tags %}
 {% load static %}
 {% load i18n %}
 
@@ -12,11 +11,7 @@
 
 {% block form-name %}{% trans "Attendee Registration" %}{% endblock %}
 
-{% block extra-fields %}
-  {% if event.customForm %}
-    {% render_built_form event.customForm %}
-  {% endif %}
-{% endblock %}
+{% block extra-fields %}{% endblock %}
 
 {% block more-button %}
   {% if event.use_collaborators %}

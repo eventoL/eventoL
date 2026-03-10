@@ -41,7 +41,6 @@ urlpatterns = [
     re_path(r'^events/', include('manager.urls.events'), name='events'),
     re_path(r'^tags/', include('manager.urls.event_tags'), name='event_tags'),
     re_path(r'^admin/', admin.site.urls, name='admin'),
-    re_path(r'^ckeditor/', include('ckeditor_uploader.urls'), name='ckeditor'),
     re_path(r'^accounts/profile/',
         TemplateView.as_view(template_name='account/profile.html'),
         name="user_profile"),

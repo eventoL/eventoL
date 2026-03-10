@@ -4,14 +4,58 @@
 # pylint: disable=W0611
 
 import os
-import socket
+import environ
 
 import raven
 from configurations import Configuration
 from django.utils.translation import gettext_lazy as _
+from django.contrib.admin import ModelAdmin
 from easy_thumbnails.conf import Settings as thumbnail_settings
 from easy_thumbnails.optimize.conf import OptimizeSettings
 
+env = environ.Env(
+    DEBUG=(bool, os.getenv('DEBUG', True)),
+    DJANGO_SETTINGS_MODULE=(str, os.getenv('DJANGO_SETTINGS_MODULE', 'eventol.settings')),
+    DJANGO_CONFIGURATION=(str, os.getenv('DJANGO_CONFIGURATION', 'Dev')),
+    LANGUAGE_CODE=(str, os.getenv('LANGUAGE_CODE', 'en-US')),
+    TIME_ZONE=(str, os.getenv('TIME_ZONE', 'UTC')),
+    DONT_SET_FILE_UPLOAD_PERMISSIONS=(bool, os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', False)),
+    REDIS_HOST=(str, os.getenv('REDIS_HOST', 'redis')),
+    REDIS_PORT=(int, os.getenv('REDIS_PORT', 6379)),
+    EMAIL_BACKEND=(str, os.getenv('EMAIL_BACKEND',
+                   'django.core.mail.backends.console.EmailBackend')),
+    EMAIL_HOST=(str, os.getenv('EMAIL_HOST', 'smtp.unset')),
+    EMAIL_PORT=(int, os.getenv('EMAIL_PORT', 587)),
+    EMAIL_HOST_USER=(str, os.getenv('EMAIL_HOST_USER', None)),
+    EMAIL_HOST_PASSWORD=(str, os.getenv('EMAIL_HOST_PASSWORD', None)),
+    EMAIL_TIMEOUT=(int, os.getenv('EMAIL_TIMEOUT', 10)),
+    EMAIL_USE_TLS=(bool, os.getenv('EMAIL_USE_TLS', True)),
+    EMAIL_FROM=(str, os.getenv('EMAIL_FROM', 'change_unset@mail.com')),
+    EMAIL_FAIL_SILENTY=(bool, os.getenv('EMAIL_FAIL_SILENTY', False)),
+    DEFAULT_FROM_EMAIL=(str, os.getenv('EMAIL_FROM', 'change_unset@mail.com')),
+    ADMIN_TITLE=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
+    PRIVATE_ACTIVITIES=(bool, os.getenv('PRIVATE_ACTIVITIES', True)),
+    PROTOCOL=(str, os.getenv('PROTOCOL', 'ws')),
+    LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', 25)),
+    SECRET_KEY=(str, os.getenv('SECRET_KEY',
+                               '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
+    APP_DNS=(str, os.getenv('APP_DNS', 'localhost')),
+    LOG_FILE=(str, os.getenv('LOG_FILE', '/var/log/eventol/eventol.log')),
+    SENTRY_DSN=(str, os.getenv("SENTRY_DSN", "NOT_CONFIGURED")),
+    PSQL_DBNAME=(str, os.getenv('PSQL_DBNAME', 'eventol')),
+    PSQL_USER=(str, os.getenv('PSQL_USER', 'eventol')),
+    PSQL_PASSWORD=(str, os.getenv('PSQL_PASSWORD', 'secret')),
+    PSQL_HOST=(str, os.getenv('PSQL_HOST', 'localhost')),
+    PSQL_PORT=(int, os.getenv('PSQL_PORT', 5432)),
+    PSQL_OPTIONS_SSL=(str, os.getenv('PSQL_OPTIONS_SSL', "prefer")),
+    JAZZMIN_SITE_TITLE=(str, os.getenv('JAZZMIN_SITE_TITLE', 'EventoL Admin')),
+    JAZZMIN_SITE_HEADER=(str, os.getenv('JAZZMIN_SITE_HEADER', 'EventoL')),
+    JAZZMIN_SITE_BRAND=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
+    JAZZMIN_WELCOME_SIGN=(str, os.getenv('JAZZMIN_WELCOME_SIGN',
+                          'Administration panel of EventoL')),
+    JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
+    CELERY_ENABLED=(bool, os.getenv('CELERY_ENABLED', False)),
+)
 
 def str_to_bool(str_bool):
     return str_bool.lower() == 'true'
@@ -19,10 +63,13 @@ def str_to_bool(str_bool):
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+# first try to load .env, second try lo load os.getenv and three use Defaults values
+environ.Env.read_env(os.path.join(BASE_DIR, '../.env'), overwrite=True)
+
 
 class Base(Configuration):
     # Quick-start development settings - unsuitable for production
-    # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+    # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
     STATIC_URL = '/static/'
 
     # SECURITY WARNING: keep the secret key used in production secret!
@@ -37,14 +84,15 @@ class Base(Configuration):
     INSTALLED_APPS = (
         'dal',
         'dal_select2',
-        'ckeditor',
-        'ckeditor_uploader',
+        'jazzmin',
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
+        'django.contrib.gis',
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'django_prose_editor',
         'easy_thumbnails',
         'easy_thumbnails.optimize',
         'image_cropping',
@@ -65,6 +113,7 @@ class Base(Configuration):
         'django_extensions',
         'vote',
         'tempus_dominus',
+        'mapwidgets',
     )
 
     MIDDLEWARE = (
@@ -85,11 +134,15 @@ class Base(Configuration):
     THUMBNAIL_PROCESSORS = (
         'image_cropping.thumbnail_processors.crop_corners',
     ) + thumbnail_settings.THUMBNAIL_PROCESSORS
+    IMAGE_CROPPING_BACKEND = 'image_cropping.backends.easy_thumbs.EasyThumbnailsBackend'
+    IMAGE_CROPPING_BACKEND_PARAMS = {}
+    IMAGE_CROPPING_JQUERY_URL = None
+    IMAGE_CROPPING_THUMB_SIZE = (700, 450)
 
     # Internationalization
-    # https://docs.djangoproject.com/en/1.11/topics/i18n/
+    # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-    LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', 'en-US')
+    LANGUAGE_CODE = env('LANGUAGE_CODE')
     LOCALE_PATHS = (os.path.join(BASE_DIR, 'conf/locale'),)
     LANGUAGES = (
         ('da', _('Danish')),
@@ -99,23 +152,25 @@ class Base(Configuration):
         ('nb', _('Norwegian Bokmal')),
         ('nl', _('Dutch')),
         ('sv', _('Swedish')),
-        ('zh', _('Chinese')),
+        # ('zh', _('Chinese')),
     )
 
-    TIME_ZONE = os.getenv('TIME_ZONE', 'UTC')
+    TIME_ZONE = env('TIME_ZONE')
     USE_I18N = True
     USE_L10N = True
     USE_TZ = True
 
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = '/static/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = BASE_DIR + 'media/'
+    MEDIA_URL = '/media/'
 
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
             'DIRS': [
-                MEDIA_ROOT
+                os.path.join(BASE_DIR, 'templates'),
+                MEDIA_ROOT,
             ],
             'APP_DIRS': True,
             'OPTIONS': {
@@ -150,14 +205,6 @@ class Base(Configuration):
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     )
 
-    CKEDITOR_CONFIGS = {
-        'default': {
-            'toolbar': 'full',
-            'width': 'unset',
-        },
-    }
-
-    CKEDITOR_UPLOAD_PATH = 'uploads/'
     DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(
         os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False')
     )
@@ -249,44 +296,129 @@ class Base(Configuration):
         },
     }
 
-    IS_ALPINE = os.getenv('IS_ALPINE', "not found") != "not found"
-    if IS_ALPINE:
-        CHANNEL_LAYERS['default'] = {
-            'BACKEND': 'asgi_redis.RedisChannelLayer',
-            'CONFIG': {
-                'hosts': [(
-                    os.getenv('REDIS_HOST', 'redis'),
-                    int(os.getenv('REDIS_PORT', '6379')),
-                )],
-            },
-            'ROUTING': 'eventol.routing.channel_routing',
-        }
-
-    EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
-    EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.unset')
-    EMAIL_PORT = os.getenv('EMAIL_PORT', '587')
-    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', None)
-    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', None)
-    EMAIL_TIMEOUT = int(os.getenv('EMAIL_TIMEOUT', '10'))
-    EMAIL_USE_TLS = str_to_bool(os.getenv('EMAIL_USE_TLS', 'True'))
-    EMAIL_FROM = os.getenv('EMAIL_FROM', 'change_unset@mail.com')
-    DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_FROM)
-
-    ADMIN_TITLE = os.getenv('ADMIN_TITLE', 'EventoL')
-    WS_PROTOCOL = os.getenv('PROTOCOL', 'ws')
-    PRIVATE_ACTIVITIES = os.environ.get("PRIVATE_ACTIVITIES", True)
+    EMAIL_BACKEND = env('EMAIL_BACKEND')
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_PORT = env('EMAIL_PORT')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_TIMEOUT = env('EMAIL_TIMEOUT')
+    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+    EMAIL_FROM = env('EMAIL_FROM')
+    EMAIL_FAIL_SILENTY = env('EMAIL_FAIL_SILENTY')
+    DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+    ADMIN_TITLE = env('ADMIN_TITLE')
+    WS_PROTOCOL = env('PROTOCOL')
+    PRIVATE_ACTIVITIES = env('PRIVATE_ACTIVITIES')
     TEMPUS_DOMINUS_LOCALIZE = True
     TEMPUS_DOMINUS_INCLUDE_ASSETS = True
 
     DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
+    # Jazzmin settings
+    # https://django-jazzmin.readthedocs.io/
+    JAZZMIN_SETTINGS = {
+        'site_title': env('JAZZMIN_SITE_TITLE'),
+        'site_header': env('JAZZMIN_SITE_HEADER'),
+        'site_brand': env('JAZZMIN_SITE_BRAND'),
+        'welcome_sign': env('JAZZMIN_WELCOME_SIGN'),
+        'copyright': env('JAZZMIN_SITE_BRAND'),
+        'site_logo': 'manager/img/logo_e.png',
+        'login_logo': 'manager/img/logo.png',
+        'custom_css': 'manager/css/admin.css',
+        'language_chooser': env('JAZZMIN_LANGUAGE_CHOOSER'),
+        'order_with_respect_to': [
+            'auth',
+            'auth.Group',
+            'auth.User',
+            'account',
+            'account.EmailAddress',
+            'socialaccount',
+            'socialaccount.SocialApp',
+            'socialaccount.SocialAccount',
+            'socialaccount.SocialToken',
+            'manager',
+            'manager.EventolSetting',
+            'manager.Event',
+            'manager.EventTag',
+            'manager.EventDate',
+            'manager.Organizer',
+            'manager.EventUser',
+            'manager.EventUserAttendanceDate',
+            'manager.Activity',
+            'manager.ActivityType',
+            'manager.Reviewer',
+            'manager.Room',
+            'manager.Ticket',
+            'manager.Attendee',
+            'manager.AttendeeAttendanceDate',
+            'manager.Collaborator',
+            'manager.Contact',
+            'manager.ContactType',
+            'manager.ContactMessage',
+            'manager.Installer',
+            'manager.Installation',
+            'manager.Hardware',
+            'manager.Software',
+            'manager.InstallationMessage',
+            'sites',
+            'sites.Site',
+        ],
+        'icons': {
+            'auth.Group': 'fas fa-users',
+            'auth.User': 'fas fa-user',
+            'auth': 'fas fa-users-cog',
+            'account.EmailAddress': 'fas fa-envelope',
+            'socialaccount.SocialApp': 'fab fa-app-store',
+            'socialaccount.SocialAccount': 'fas fa-user-circle',
+            'socialaccount.SocialToken': 'fas fa-key',
+            'manager.Activity': 'fas fa-calendar-check',
+            'manager.ActivityType': 'fas fa-list-alt',
+            'manager.AttendeeAttendanceDate': 'fas fa-calendar-day',
+            'manager.Attendee': 'fas fa-user-friends',
+            'manager.Collaborator': 'fas fa-handshake',
+            'manager.ContactMessage': 'fas fa-envelope-open-text',
+            'manager.ContactType': 'fas fa-address-book',
+            'manager.Contact': 'fas fa-id-card',
+            'manager.EventDate': 'fas fa-calendar-alt',
+            'manager.EventUser': 'fas fa-user-tag',
+            'manager.EventTag': 'fas fa-tags',
+            'manager.EventUserAttendanceDate': 'fas fa-calendar-day',
+            'manager.EventolSetting': 'fas fa-cogs',
+            'manager.Event': 'fas fa-calendar',
+            'manager.Hardware': 'fas fa-desktop',
+            'manager.Installation': 'fas fa-tools',
+            'manager.Installer': 'fas fa-wrench',
+            'manager.Organizer': 'fas fa-user-tie',
+            'manager.InstallationMessage': 'fas fa-comment-dots',
+            'manager.Reviewer': 'fas fa-user-check',
+            'manager.Room': 'fas fa-door-open',
+            'manager.Software': 'fas fa-code',
+            'manager.Ticket': 'fas fa-ticket-alt',
+            'sites.Site': 'fas fa-globe',
+        },
+    }
+    JAZZMIN_UI_TWEAKS = {
+        'theme': 'flatly',
+    }
+    LIST_PER_PAGE = int(env('LIST_PER_PAGE'))
+    ModelAdmin.list_per_page = LIST_PER_PAGE
+    CELERY_ENABLED=env('CELERY_ENABLED')
+
+    MAP_WIDGETS = {
+        "Leaflet": {
+            "PointField": {
+                "mapOptions": {"scrollWheelZoom": True},
+                "showZoomNavigation": True,
+            }
+        }
+    }
+
 
 class Staging(Base):
-    DEBUG = str_to_bool(os.getenv('DEBUG', 'True'))
-    SECRET_KEY = os.getenv(
-        'SECRET_KEY',
-        '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')
-    ALLOWED_HOSTS = [os.getenv('APP_DNS'), socket.gethostname()]
+    DEBUG = env('DEBUG')
+    SECRET_KEY = env('SECRET_KEY')
+    ALLOWED_HOSTS = [env('APP_DNS')]
+
     os.environ.setdefault('DEBUG', 'False')
     os.environ.setdefault('TEMPLATE_DEBUG', 'False')
     os.environ.setdefault('RECAPTCHA_USE_SSL', 'True')
@@ -306,18 +438,20 @@ class Staging(Base):
             'rest_framework.renderers.JSONRenderer',
         )
     }
+
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'asgi_redis.RedisChannelLayer',
             'CONFIG': {
                 'hosts': [(
-                    os.getenv('REDIS_HOST', 'redis'),
-                    int(os.getenv('REDIS_PORT', '6379')),
+                    env('REDIS_HOST'),
+                    env('REDIS_PORT'),
                 )],
             },
             'ROUTING': 'eventol.routing.channel_routing',
         }
     }
+
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
@@ -338,11 +472,8 @@ class Staging(Base):
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.handlers.RotatingFileHandler',
-                'filename': os.getenv(
-                    'LOG_FILE',
-                    '/var/log/eventol/eventol.log'
-                ),
-                'maxBytes': 1024*1024*10,
+                'filename': env('LOG_FILE'),
+                'maxBytes': 1024 * 1024 * 10,
                 'backupCount': 10,
                 'formatter': 'logservices'
             }
@@ -370,44 +501,41 @@ class Staging(Base):
             }
         }
     }
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATIC_URL = '/static/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = '/media/'
 
     INSTALLED_APPS = Base.INSTALLED_APPS + (
         'raven.contrib.django.raven_compat',
     )
 
     RAVEN_CONFIG = {
-        'dsn': os.environ.get("SENTRY_DSN", "NOT_CONFIGURED")
+        'dsn': env('SENTRY_DSN')
     }
 
     # Database
-    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+    # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.getenv('PSQL_DBNAME', 'eventol'),
-            'USER': os.getenv('PSQL_USER', 'eventol'),
-            'PASSWORD': os.getenv('PSQL_PASSWORD', 'secret'),
-            'HOST': os.getenv('PSQL_HOST', 'localhost'),
-            'PORT': os.getenv('PSQL_PORT', '5432'),
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': env('PSQL_DBNAME'),
+            'USER': env('PSQL_USER'),
+            'PASSWORD': env('PSQL_PASSWORD'),
+            'HOST': env('PSQL_HOST'),
+            'PORT': env('PSQL_PORT'),
             'OPTIONS': {
-                'sslmode': os.environ.get("PSQL_OPTIONS_SSL", "prefer"),
+                'sslmode': env('PSQL_OPTIONS_SSL'),
             },
         }
     }
 
     # CSRF
     CSRF_TRUSTED_ORIGINS = [
-        f"http://{os.getenv('APP_DNS')}",
-        f"https://{os.getenv('APP_DNS')}"
+        f"http://{env('APP_DNS')}",
+        f"https://{env('APP_DNS')}"
     ]
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 class Prod(Staging):
     DEBUG = False
@@ -420,10 +548,10 @@ class Dev(Base):
     )
 
     # Database
-    # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+    # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
+            'ENGINE': 'django.contrib.gis.db.backends.spatialite',
             'NAME': 'eventol_dev_db',
         }
     }

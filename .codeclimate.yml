@@ -1,11 +1,6 @@
 plugins:
   bandit:
     enabled: true
-  eslint:
-    enabled: true
-    channel: "eslint-5"
-    config:
-      config: eventol/front/.eslintrc.yaml
   fixme:
     enabled: true
   config:
@@ -25,18 +20,12 @@ plugins:
         enabled: false
       MD033:
         enabled: false
-  nodesecurity:
-    enabled: true
   pylint:
     enabled: true
   radon: 
     enabled: true
     config: 
       python_version: 3
-  sass-lint:
-    enabled: true
-    config:
-      file: eventol/front/.sass-lint.yml
   sonar-python:
     enabled: true  
     config:
@@ -49,17 +38,9 @@ exclude_patterns:
   - "deploy/"
   - "docs/"
   - "eventol/conf/"
-  - "eventol/front/src/assets/"
   - "eventol/manager/media/"
   - "eventol/manager/migrations/"
   - "eventol/manager/static/"
   - "eventol/manager/templates/"
   - "db.*"
-  - "**/__snapshots__/"
-  - "**/node_modules/"
-  - "**/*.test.js"
-  - "**/*.test.jsx"
-  - "**/*.spec.js"
-  - "**/*.spec.jsx"
-  - "**/*.story.js"
   - "**/test_*.py"

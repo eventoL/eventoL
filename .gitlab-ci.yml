@@ -73,55 +73,12 @@ python-testing:
     paths:
       - eventol/htmlcov
 
-react-testing:
-  image: node:16
-  stage: testing
-  script:
-    - make gitlab-react-testing
-  artifacts:
-    paths:
-      - eventol/front/coverage
-
 python-lint:
   image: python:3.9.6
   stage: styling
   allow_failure: true
   script:
     - make gitlab-python-lint
-
-react-lint-report:
-  image: node:16
-  stage: styling
-  allow_failure: true
-  script:
-    - make gitlab-react-lint-with-report
-  artifacts:
-    paths:
-      - eventol/front/report.html
-
-react-lint:
-  image: node:16
-  stage: styling
-  allow_failure: true
-  script:
-    - make gitlab-react-lint
-
-sass-lint-report:
-  image: node:16
-  stage: styling
-  allow_failure: true
-  script:
-    - make gitlab-react-sasslint-with-report
-  artifacts:
-    paths:
-      - eventol/front/scss-lint-report.html
-
-sass-lint:
-  image: node:16
-  stage: styling
-  allow_failure: true
-  script:
-    - make gitlab-react-sasslint
 
 deploy:
   stage: deploy

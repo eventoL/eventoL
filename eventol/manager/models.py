@@ -3,6 +3,7 @@
 
 import datetime
 import itertools
+
 import json
 import zoneinfo
 import logging
@@ -12,21 +13,25 @@ from uuid import uuid4
 from random import SystemRandom
 from string import digits, ascii_lowercase, ascii_uppercase
 
-from ckeditor.fields import RichTextField
+from django_prose_editor.sanitized import SanitizedProseEditorField
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.contrib.gis.db.models import PointField
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import date_format
 from django.utils.translation import gettext as _, gettext_noop as _noop
 from image_cropping import ImageCropField, ImageRatioField
-from django.db.models import JSONField
+from django.db import models
+from easy_thumbnails.files import get_thumbnailer
 
 from vote.models import VoteModel
 from manager.utils.report import count_by
 from manager.utils.slug import get_unique_slug
+
+from allauth.account.models import EmailAddress
+from django.db.models.signals import post_save
 
 logger = logging.getLogger('eventol')
 TIMEZONE_CHOICES = ((x, x) for x in sorted(zoneinfo.available_timezones(), key=str.lower))
@@ -149,7 +154,7 @@ class Event(models.Model):
     external_url = models.URLField(_('External URL'), blank=True, null=True, default=None,
                                    help_text=_('http://www.my-awesome-event.com'))
     email = models.EmailField(verbose_name=_('Email'))
-    event_information = RichTextField(verbose_name=_('Event Info'),
+    event_information = SanitizedProseEditorField(verbose_name=_('Event Info'),
                                       help_text=_('Event Info HTML'),
                                       blank=True, null=True)
     schedule_confirmed = models.BooleanField(_('Schedule Confirmed'), default=False)
@@ -158,15 +163,21 @@ class Event(models.Model):
     use_collaborators = models.BooleanField(_('Use Collaborators'), default=True)
     use_proposals = models.BooleanField(_('Use Proposals'), default=True)
     use_talks = models.BooleanField(_('Use Talks'), default=True)
+    show_contact_by_email = models.BooleanField(
+        _('Show contact email'),
+        help_text=_('Show the contact email to the organization in the navigation bar'),
+        default=True
+    )
     is_flisol = models.BooleanField(_('Is FLISoL'), default=False)
     use_schedule = models.BooleanField(_('Use Schedule'), default=True)
+    geom = PointField(_('Geom'), null=True, blank=True)
     place = models.TextField(_('Place'), null=True, blank=True)
     image = ImageCropField(upload_to='images_thumbnails',
                            verbose_name=_('Image'), blank=True, null=True)
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
-    activities_proposal_form_text = RichTextField(
+    activities_proposal_form_text = SanitizedProseEditorField(
         verbose_name=_('Activity proposal form text'),
         help_text=_("A message to show in the activities proposal form"),
         blank=True, null=True
@@ -187,26 +198,6 @@ class Event(models.Model):
             'use_talks': ['use_proposals'],
             'use_installations': ['use_installers']
         }
-
-    @property
-    def location(self):
-        try:
-            place = json.loads(self.place)
-            components = place['address_components']
-            components = filter(
-                lambda componet: 'political' in componet['types'],
-                components
-            )
-            components = map(
-                lambda componet: componet['long_name'],
-                components
-            )
-            return components
-        except json.JSONDecodeError as error:
-            logger.error(error)
-        except:
-            pass
-        return []
 
     @property
     def report(self):
@@ -239,6 +230,42 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_cropping_image(self, generate=False):
+        try:
+            thumbnail = get_thumbnailer(self.image).get_thumbnail({
+                'box': self.cropping,
+                'crop': True,
+                'size': (700, 450),
+                'detail': False, 
+            }, generate=generate)
+            return thumbnail
+        except Exception:
+            pass
+        return None
+
+    @property
+    def cropping_image(self):
+        return self.get_cropping_image()
+
+    @property
+    def coords(self):
+        if self.geom:
+            (lng, lat) = self.geom.coords
+ 
+            return {
+                'geometry': {
+                    'location': {
+                        'lat': lat,
+                        'lng': lng,
+                    }
+                }
+            }
+        return None
+    
+    @property
+    def location(self):
+        return self.place
 
     class Meta:
         ordering = ['name']
@@ -253,6 +280,8 @@ class Event(models.Model):
         """
         if not self.event_slug:
             self.event_slug = get_unique_slug(self, 'name', 'slug')
+        if self.image and self.cropping:
+            self.get_cropping_image(generate=True)
         super().save(*args, **kwargs)
 
 
@@ -395,6 +424,11 @@ class EventUser(models.Model):
     event = models.ForeignKey(Event, verbose_name=_('Event'),on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, verbose_name=_('Ticket'),
                                blank=True, null=True,on_delete=models.CASCADE)
+    allow_contact_or_subscription = models.BooleanField(
+        _('Allow Contact or Subscription'),
+        default=False,
+        help_text=_('Allow the use of contact data for event updates or subscriptions')
+    )
 
     def __str__(self):
         if self.user:
@@ -413,10 +447,11 @@ class EventUser(models.Model):
                 'nickname': self.user.username,
                 'email': self.user.email, 'event': self.event,
                 'event_date': date, 'ticket': self.ticket}
-
+    @property
     def attended(self):
         return EventUserAttendanceDate.objects.filter(event_user=self).exists()
 
+    @property
     def attended_today(self):
         return EventUserAttendanceDate.objects.filter(
             event_user=self, date__date=timezone.localdate()).exists()
@@ -570,7 +605,12 @@ class Attendee(models.Model):
     registration_date = models.DateTimeField(_('Registration Date'), blank=True, null=True)
     event_user = models.ForeignKey(
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True, on_delete=models.CASCADE)
-    customFields = JSONField(default=dict)
+    customFields = models.JSONField(default=dict)
+    allow_contact_or_subscription = models.BooleanField(
+        _('Allow Contact or Subscription'),
+        default=False,
+        help_text=_('Allow the use of contact data for event updates or subscriptions')
+    )
 
     class Meta:
         verbose_name = _('Attendee')
@@ -595,9 +635,15 @@ class Attendee(models.Model):
                 'nickname': self.nickname, 'email': self.email,
                 'event': self.event, 'event_date': date, 'ticket': self.ticket}
 
+    @property
+    def attendance_date(self):
+        return AttendeeAttendanceDate.objects.filter(attendee=self).first()
+
+    @property
     def attended(self):
         return AttendeeAttendanceDate.objects.filter(attendee=self).exists()
 
+    @property
     def attended_today(self):
         return AttendeeAttendanceDate.objects.filter(
             attendee=self, date__date=timezone.localdate()).exists()
@@ -627,7 +673,7 @@ class AttendeeAttendanceDate(models.Model):
 
 class InstallationMessage(models.Model):
     event = models.ForeignKey(Event, verbose_name=_noop('Event'), on_delete=models.CASCADE)
-    message = RichTextField(verbose_name=_('Message Body'), help_text=_(
+    message = SanitizedProseEditorField(verbose_name=_('Message Body'), help_text=_(
         'Email message HTML Body'), blank=True, null=True)
     contact_email = models.EmailField(verbose_name=_('Contact Email'))
 
@@ -809,7 +855,8 @@ class Activity(VoteModel, models.Model):
                               help_text=_('Activity proposal status'))
 
     image = ImageCropField(upload_to='images_thumbnails',
-                           verbose_name=_('Image'), blank=True, null=True)
+                           verbose_name=_('Image'), blank=True, null=True,
+                           help_text=_('This image will represent the activity and will be displayed for represent it'))
     cropping = ImageRatioField('image', '700x450', size_warning=True,
                                verbose_name=_('Cropping'), free_crop=True,
                                help_text=_('The image must be 700x450 px. You can crop it here.'))
@@ -979,3 +1026,18 @@ class EventolSetting(models.Model):
     class Meta:
         verbose_name = _('eventoL setting')
         verbose_name_plural = _('eventoL settings')
+
+
+def userprofile_receiver(sender, instance, created, *args, **kwargs):
+    if created:
+        if sender is User and instance.is_superuser:
+            user_object = User.objects.get(email=instance.email)
+            email_addres = EmailAddress()
+            email_addres.user = user_object
+            email_addres.email = user_object.email
+            email_addres.verified = True
+            email_addres.primary = False
+            email_addres.save()
+            return
+
+post_save.connect(userprofile_receiver, sender=User)

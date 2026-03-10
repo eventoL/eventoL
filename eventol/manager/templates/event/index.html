@@ -116,7 +116,7 @@
         {% endif %}
     </div>
 
-    {% if event.place %}
+    {% if event.coords %}
         <div class="card">
             <div id="map" class="map"></div>
             <div style="text-align:center">
@@ -177,8 +177,8 @@
                                 <a style='text-decoration: none;' href='{% url "activity_detail" event.event_slug activity.id %}'>
                                     <h2>{{ activity.title }}</h2>
                                 </a>
-                                <p><strong>{{ activity.abstract }}</strong></p>
-                                <p>{{ activity.long_description }}</p>
+                                <p><strong>{{ activity.abstract|truncatewords:100 }}</strong></p>
+                                <p>{{ activity.long_description|truncatewords:500 }}</p>
                                 <p><strong>{% trans 'Speakers' %}:</strong> {{ activity.speakers_names|title }}</p>
                             </div>
                         </div>
@@ -264,8 +264,8 @@
         $(document).ready(function () {
             window.libs.slick('slick_charlas');
 
-            {% if event.place %}
-                window.libs.map({{ event.place|safe }});
+            {% if event.coords %}
+                window.libs.map({{ event.coords|safe }});
             {% endif %}
         });
     </script>

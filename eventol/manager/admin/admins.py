@@ -2,6 +2,7 @@
 # pylint: disable=too-few-public-methods
 # pylint: disable=no-self-use
 
+from django.conf import settings
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -17,7 +18,7 @@ from manager.admin.filters import (
 from manager.admin.generics import EventoLAdmin, EventoLEventUserAdmin, ThemeAdmin
 from manager.admin.inlines import EventDateAdminInline, EventTagInline
 from manager.admin.resources import (
-    ActivityResource, AttendeeResource, CollaboratorResource, EventUserAttendanceDateResource,
+    ActivityResource, AttendeeAttendanceDateResource, AttendeeResource, CollaboratorResource, EventUserAttendanceDateResource,
     EventUserResource, InstallationResource, InstallerResource, OrganizerResource,
     ReviewerResource, TicketResource
 )
@@ -45,6 +46,7 @@ class ActivityAdmin(ImageCroppingMixin, ExportMixin, EventoLAdmin):
 
 
 class ActivityTypeAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('name',)
     search_fields = ('name',)
 
@@ -81,7 +83,9 @@ class AttendeeAdmin(ExportMixin, EventoLAdmin):
     get_email.short_description = _('Email')
 
 
-class AttendeeAttendanceDateAdmin(EventoLAdmin):
+class AttendeeAttendanceDateAdmin(ExportMixin, EventoLAdmin):
+    resource_class = AttendeeAttendanceDateResource
+
     list_display = ('attendee', 'mode', 'date',)
     list_filter = (EventFromAttendeeFilter, 'mode', 'date',)
     search_fields = (
@@ -119,6 +123,7 @@ class ContactMessageAdmin(EventoLAdmin):
 
 
 class ContactTypeAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('name', 'icon_class', 'validate',)
     list_filter = ('icon_class', 'validate',)
     search_fields = ('name', 'icon_class', 'validate',)
@@ -142,6 +147,7 @@ class EventAdmin(ImageCroppingMixin, EventoLAdmin):
         'name', 'event_slug', 'external_url', 'email', 'abstract', 'cname',
         'event_information'
     )
+    readonly_fields = ('event_slug', 'created_at', 'updated_at', 'image', 'cropping',)
 
     def url(self, obj):
         if obj.external_url is not None and obj.external_url != '':
@@ -185,6 +191,7 @@ class EventUserAttendanceDateAdmin(EventoLEventUserAdmin):
 
 
 class HardwareAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('model', 'type', 'manufacturer',)
     list_filter = ('type', 'manufacturer',)
     search_fields = ('model', 'type', 'manufacturer',)
@@ -239,6 +246,7 @@ class RoomAdmin(EventoLAdmin):
 
 
 class SoftwareAdmin(admin.ModelAdmin):
+    list_per_page = settings.LIST_PER_PAGE
     list_display = ('name', 'type',)
     list_filter = ('type',)
     search_fields = ('name', 'type',)
