@@ -2,14 +2,15 @@
 # pylint: disable=W0232
 # pylint: disable=C0103
 # pylint: disable=W0611
+# ruff: noqa: PLW1508
+# ruff: noqa: N813
 
 import os
-import environ
 
-import raven
+import environ
 from configurations import Configuration
-from django.utils.translation import gettext_lazy as _
 from django.contrib.admin import ModelAdmin
+from django.utils.translation import gettext_lazy as _
 from easy_thumbnails.conf import Settings as thumbnail_settings
 from easy_thumbnails.optimize.conf import OptimizeSettings
 
@@ -22,8 +23,7 @@ env = environ.Env(
     DONT_SET_FILE_UPLOAD_PERMISSIONS=(bool, os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', False)),
     REDIS_HOST=(str, os.getenv('REDIS_HOST', 'redis')),
     REDIS_PORT=(int, os.getenv('REDIS_PORT', 6379)),
-    EMAIL_BACKEND=(str, os.getenv('EMAIL_BACKEND',
-                   'django.core.mail.backends.console.EmailBackend')),
+    EMAIL_BACKEND=(str, os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')),
     EMAIL_HOST=(str, os.getenv('EMAIL_HOST', 'smtp.unset')),
     EMAIL_PORT=(int, os.getenv('EMAIL_PORT', 587)),
     EMAIL_HOST_USER=(str, os.getenv('EMAIL_HOST_USER', None)),
@@ -37,25 +37,24 @@ env = environ.Env(
     PRIVATE_ACTIVITIES=(bool, os.getenv('PRIVATE_ACTIVITIES', True)),
     PROTOCOL=(str, os.getenv('PROTOCOL', 'ws')),
     LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', 25)),
-    SECRET_KEY=(str, os.getenv('SECRET_KEY',
-                               '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
+    SECRET_KEY=(str, os.getenv('SECRET_KEY', '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
     APP_DNS=(str, os.getenv('APP_DNS', 'localhost')),
     LOG_FILE=(str, os.getenv('LOG_FILE', '/var/log/eventol/eventol.log')),
-    SENTRY_DSN=(str, os.getenv("SENTRY_DSN", "NOT_CONFIGURED")),
+    SENTRY_DSN=(str, os.getenv('SENTRY_DSN', 'NOT_CONFIGURED')),
     PSQL_DBNAME=(str, os.getenv('PSQL_DBNAME', 'eventol')),
     PSQL_USER=(str, os.getenv('PSQL_USER', 'eventol')),
     PSQL_PASSWORD=(str, os.getenv('PSQL_PASSWORD', 'secret')),
     PSQL_HOST=(str, os.getenv('PSQL_HOST', 'localhost')),
     PSQL_PORT=(int, os.getenv('PSQL_PORT', 5432)),
-    PSQL_OPTIONS_SSL=(str, os.getenv('PSQL_OPTIONS_SSL', "prefer")),
+    PSQL_OPTIONS_SSL=(str, os.getenv('PSQL_OPTIONS_SSL', 'prefer')),
     JAZZMIN_SITE_TITLE=(str, os.getenv('JAZZMIN_SITE_TITLE', 'EventoL Admin')),
     JAZZMIN_SITE_HEADER=(str, os.getenv('JAZZMIN_SITE_HEADER', 'EventoL')),
     JAZZMIN_SITE_BRAND=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
-    JAZZMIN_WELCOME_SIGN=(str, os.getenv('JAZZMIN_WELCOME_SIGN',
-                          'Administration panel of EventoL')),
+    JAZZMIN_WELCOME_SIGN=(str, os.getenv('JAZZMIN_WELCOME_SIGN', 'Administration panel of EventoL')),
     JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
     CELERY_ENABLED=(bool, os.getenv('CELERY_ENABLED', False)),
 )
+
 
 def str_to_bool(str_bool):
     return str_bool.lower() == 'true'
@@ -197,7 +196,7 @@ class Base(Configuration):
     OptimizeSettings.THUMBNAIL_OPTIMIZE_COMMAND = {
         'png': '/usr/bin/optipng {filename}',
         'jpeg': '/usr/bin/jpegoptim {filename}',
-        'jpg': '/usr/bin/jpegoptim {filename}'
+        'jpg': '/usr/bin/jpegoptim {filename}',
     }
 
     STATICFILES_FINDERS = (
@@ -205,31 +204,22 @@ class Base(Configuration):
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     )
 
-    DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(
-        os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False')
-    )
+    DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False'))
     FILE_UPLOAD_PERMISSIONS = None if DONT_SET_FILE_UPLOAD_PERMISSIONS else 0o644
 
     AUTHENTICATION_BACKENDS = (
         # Needed to login by username in Django admin, regardless of `allauth`
         'django.contrib.auth.backends.ModelBackend',
-
         # `allauth` specific authentication methods, such as login by e-mail
         'allauth.account.auth_backends.AuthenticationBackend',
     )
 
     SITE_ID = 1
 
-    SOCIALACCOUNT_PROVIDERS = \
-        {
-            'google': {
-                'SCOPE': ['profile', 'email'],
-                'AUTH_PARAMS': {'access_type': 'online'}
-            },
-            'github': {
-                'SCOPE': ['user:email']
-            }
-        }
+    SOCIALACCOUNT_PROVIDERS = {
+        'google': {'SCOPE': ['profile', 'email'], 'AUTH_PARAMS': {'access_type': 'online'}},
+        'github': {'SCOPE': ['user:email']},
+    }
 
     ACCOUNT_EMAIL_REQUIRED = True
     ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
@@ -242,7 +232,7 @@ class Base(Configuration):
         'reset_password': 'manager.forms.ResetPasswordForm',
         'reset_password_from_key': 'manager.forms.ResetPasswordKeyForm',
         'change_password': 'manager.forms.ChangePasswordForm',
-        'set_password': 'manager.forms.SetPasswordForm'
+        'set_password': 'manager.forms.SetPasswordForm',
     }
 
     SOCIALACCOUNT_EMAIL_REQUIRED = True
@@ -257,10 +247,7 @@ class Base(Configuration):
         {
             'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
         },
-        {
-            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-            'OPTIONS': {'min_length': 8}
-        },
+        {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 8}},
         {
             'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
         },
@@ -284,9 +271,7 @@ class Base(Configuration):
             'rest_framework.filters.OrderingFilter',
             'django_filters.rest_framework.DjangoFilterBackend',
         ),
-        'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-        ]
+        'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
     }
 
     CHANNEL_LAYERS = {
@@ -402,13 +387,13 @@ class Base(Configuration):
     }
     LIST_PER_PAGE = int(env('LIST_PER_PAGE'))
     ModelAdmin.list_per_page = LIST_PER_PAGE
-    CELERY_ENABLED=env('CELERY_ENABLED')
+    CELERY_ENABLED = env('CELERY_ENABLED')
 
     MAP_WIDGETS = {
-        "Leaflet": {
-            "PointField": {
-                "mapOptions": {"scrollWheelZoom": True},
-                "showZoomNavigation": True,
+        'Leaflet': {
+            'PointField': {
+                'mapOptions': {'scrollWheelZoom': True},
+                'showZoomNavigation': True,
             }
         }
     }
@@ -431,22 +416,20 @@ class Staging(Base):
             'rest_framework.filters.OrderingFilter',
             'django_filters.rest_framework.DjangoFilterBackend',
         ),
-        'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-        ],
-        'DEFAULT_RENDERER_CLASSES': (
-            'rest_framework.renderers.JSONRenderer',
-        )
+        'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticatedOrReadOnly'],
+        'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer',),
     }
 
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'asgi_redis.RedisChannelLayer',
             'CONFIG': {
-                'hosts': [(
-                    env('REDIS_HOST'),
-                    env('REDIS_PORT'),
-                )],
+                'hosts': [
+                    (
+                        env('REDIS_HOST'),
+                        env('REDIS_PORT'),
+                    )
+                ],
             },
             'ROUTING': 'eventol.routing.channel_routing',
         }
@@ -456,59 +439,31 @@ class Staging(Base):
         'version': 1,
         'disable_existing_loggers': False,
         'formatters': {
-            'simple': {
-                'format': '%(levelname)s %(message)s'
-            },
-            'logservices': {
-                'format': '[%(asctime)s] [%(levelname)s] %(message)s'
-            }
+            'simple': {'format': '%(levelname)s %(message)s'},
+            'logservices': {'format': '[%(asctime)s] [%(levelname)s] %(message)s'},
         },
         'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                'formatter': 'simple'
-            },
+            'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler', 'formatter': 'simple'},
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.handlers.RotatingFileHandler',
                 'filename': env('LOG_FILE'),
                 'maxBytes': 1024 * 1024 * 10,
                 'backupCount': 10,
-                'formatter': 'logservices'
-            }
+                'formatter': 'logservices',
+            },
         },
         'loggers': {
-            'eventol': {
-                'handlers': ['file'],
-                'level': 'DEBUG',
-                'propagate': True
-            },
-            'django.channels': {
-                'handlers': ['file'],
-                'level': 'WARNING',
-                'propagate': True
-            },
-            'django.request': {
-                'handlers': ['file'],
-                'level': 'WARNING',
-                'propagate': True
-            },
-            'django': {
-                'handlers': ['console'],
-                'level': 'WARNING',
-                'propagate': True
-            }
-        }
+            'eventol': {'handlers': ['file'], 'level': 'DEBUG', 'propagate': True},
+            'django.channels': {'handlers': ['file'], 'level': 'WARNING', 'propagate': True},
+            'django.request': {'handlers': ['file'], 'level': 'WARNING', 'propagate': True},
+            'django': {'handlers': ['console'], 'level': 'WARNING', 'propagate': True},
+        },
     }
 
-    INSTALLED_APPS = Base.INSTALLED_APPS + (
-        'raven.contrib.django.raven_compat',
-    )
+    INSTALLED_APPS = Base.INSTALLED_APPS + ('raven.contrib.django.raven_compat',)
 
-    RAVEN_CONFIG = {
-        'dsn': env('SENTRY_DSN')
-    }
+    RAVEN_CONFIG = {'dsn': env('SENTRY_DSN')}
 
     # Database
     # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -527,10 +482,7 @@ class Staging(Base):
     }
 
     # CSRF
-    CSRF_TRUSTED_ORIGINS = [
-        f"http://{env('APP_DNS')}",
-        f"https://{env('APP_DNS')}"
-    ]
+    CSRF_TRUSTED_ORIGINS = [f"http://{env('APP_DNS')}", f"https://{env('APP_DNS')}"]
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
@@ -552,7 +504,7 @@ class Dev(Base):
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-            'NAME': 'eventol_dev_db',
+            'NAME': os.path.join(BASE_DIR, 'eventol_dev_db'),
         }
     }
 
@@ -560,33 +512,13 @@ class Dev(Base):
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
-        'formatters': {
-            'simple': {
-                'format': '%(levelname)s %(message)s'
-            }
-        },
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-                'formatter': 'simple'
-            }
-        },
+        'formatters': {'simple': {'format': '%(levelname)s %(message)s'}},
+        'handlers': {'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler', 'formatter': 'simple'}},
         'loggers': {
-            'eventol': {
-                'handlers': ['console'],
-                'level': 'DEBUG'
-            },
-            'django.request': {
-                'handlers': ['console'],
-                'level': 'ERROR'
-            },
-            'django': {
-                'handlers': ['console'],
-                'level': 'ERROR',
-                'propagate': True
-            }
-        }
+            'eventol': {'handlers': ['console'], 'level': 'DEBUG'},
+            'django.request': {'handlers': ['console'], 'level': 'ERROR'},
+            'django': {'handlers': ['console'], 'level': 'ERROR', 'propagate': True},
+        },
     }
 
 

@@ -18,7 +18,7 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 DOCKER_COMPOSE := cd deploy/docker && docker compose
-DOCKER_COMPOSE_PROD := $(DOCKER_COMPOSE) -f docker-compose.prod.yml
+DOCKER_COMPOSE_PROD := $(DOCKER_COMPOSE) -f docker-compose.yml
 
 ## Install dependencies
 install-node-in-python-image: ## Install node in python image
