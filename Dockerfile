@@ -23,15 +23,19 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libcairo2-dev && \
     rm -rf /var/lib/apt/lists/*
 
+# Install uv
+RUN pip3 install uv
+
 # Create folders for deploy
 RUN mkdir -p ${APP_ROOT}
 RUN mkdir -p /var/log/eventol
 WORKDIR ${APP_ROOT}
 
-# Install python requirements
-COPY ./requirements.txt ./requirements-dev.txt ${APP_ROOT}
-RUN pip3 install --no-cache-dir -r requirements-dev.txt
-RUN pip3 install psycopg2-binary gunicorn celery
+# Copy pyproject.toml and uv.lock
+COPY ./pyproject.toml ./uv.lock ${APP_ROOT}/
+
+# Install dependencies with uv
+RUN uv sync --frozen --no-dev
 
 # Copy python code
 COPY ./Makefile ${APP_ROOT}/Makefile

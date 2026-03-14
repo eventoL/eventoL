@@ -2,4 +2,4 @@
 
 cd eventol
 
-celery -A eventol.celery worker -l INFO
+uv run celery -A eventol.celery worker -l INFO
