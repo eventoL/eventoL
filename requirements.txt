@@ -1,5 +1,6 @@
 autobahn==24.4.2
 backports.csv==1.0.7
+celery==5.4.0
 CairoSVG==2.7.1
 Django==4.2
 django-allauth==65.1.0
