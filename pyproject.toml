@@ -1,6 +1,86 @@
+[project]
+name = "eventol"
+version = "0.0.0"
+description = "Event management platform"
+requires-python = ">=3.11"
+dependencies = [
+    "autobahn==24.4.2",
+    "celery==5.4.0",
+    "CairoSVG==2.7.1",
+    "Django==4.2",
+    "django-allauth==65.1.0",
+    "django-autocomplete-light==3.12.1",
+    "django-configurations==2.5.1",
+    "django-email-extras==0.3.4",
+    "django-environ==0.12.0",
+    "django-extensions==3.2.3",
+    "django-filter==25.1",
+    "django-formset-js==0.5.0",
+    "django-image-cropping==1.7",
+    "django-import-export==4.3.7",
+    "django-jazzmin==3.0.1",
+    "django-map-widgets==0.5.1",
+    "django-prose-editor==0.10.4",
+    "django-queryset-csv==1.1.0",
+    "django-simple-captcha==0.6.2",
+    "django-tempus-dominus==5.1.2.17",
+    "django-utils-six==2.0",
+    "django-vote==2.4.0",
+    "django-webpack-loader==3.1.1",
+    "djangorestframework==3.15.2",
+    "djangorestframework-queryfields==1.1.0",
+    "easy-thumbnails==2.10",
+    "executing==2.2.0",
+    "future==1.0.0",
+    "more-itertools==10.6.0",
+    "msgpack==1.0.8",
+    "nh3==0.2.21",
+    "odfpy==1.4.1",
+    "openpyxl==3.1.5",
+    "pillow==11.1.0",
+    "posix-ipc==1.1.1",
+    "psycopg2-binary==2.9.10",
+    "PyJWT==2.10.1",
+    "pypng==0.20220715.0",
+    "PyQRCode==1.2.1",
+    "python3-openid==3.2.0",
+    "python3-saml==1.16.0",
+    "pytz==2025.1",
+    "PyYAML==6.0.2",
+    "raven==6.10.0",
+    "redis==5.2.1",
+    "requests-oauthlib==2.0.0",
+    "six==1.17.0",
+    "sphinx-me==0.3",
+    "svglue==0.3.0",
+    "tablib==3.8.0",
+    "Twisted==24.11.0",
+    "Unidecode==1.3.8",
+    "xlrd==2.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "django-autofixture @ git+https://github.com/josx/django-autofixture@2c431f3dd0ea35b040ff170b10ddc920f3b0378b",
+    "django-debug-toolbar==4.3.0",
+    "ipdb",
+    "ipython",
+    "pre_commit==4.2.0",
+    "pylint-django==2.6.1",
+    "pylint==3.3.6",
+    "pytest-cov==6.0.0",
+    "pytest-django==4.10.0",
+    "pytest-gitignore==1.3",
+    "pytest-lazy-fixture==0.6.3",
+    "pytest-mock==3.14.0",
+    "pytest-sugar==1.0.0",
+    "pytest-watch==4.2.0",
+    "pytest-xdist==3.6.1",
+    "pytest==8.3.5",
+    "ruff==0.11.2",
+]
 
 [tool.ruff]
-
 lint.select = [
     "E",
     "F",
@@ -15,27 +95,26 @@ lint.select = [
     "SIM",
     "PL",
 ]
-
-lint.ignore = []         # Example of ignoring specific rules
-target-version = "py311" # Target Python version
-line-length = 120        # Line length for formatting
-lint.fixable = ["ALL"]   # Allow automatic fixes for all fixable issues
+lint.ignore = []
+target-version = "py311"
+line-length = 120
+lint.fixable = ["ALL"]
 
 [tool.isort]
-
 profile = "black"
-line_length = 120
+line-length = 120
 use-parentheses = true
 
 [tool.ruff.lint.isort]
-
 force-single-line = true
 known-first-party = ["manager"]
 
 [tool.ruff.format]
-
 quote-style = "single"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
 
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "manager.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
