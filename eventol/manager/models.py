@@ -3,6 +3,9 @@
 
 import datetime
 import itertools
+
+import json
+import zoneinfo
 import logging
 import re
 
@@ -31,7 +34,7 @@ from allauth.account.models import EmailAddress
 from django.db.models.signals import post_save
 
 logger = logging.getLogger('eventol')
-
+TIMEZONE_CHOICES = ((x, x) for x in sorted(zoneinfo.available_timezones(), key=str.lower))
 
 def validate_url(url):
     if not re.match('^[a-zA-Z0-9-_]+$', url):
@@ -185,6 +188,8 @@ class Event(models.Model):
     css_custom = models.FileField(_('Custom CSS'),
                                   upload_to='custom_css', blank=True, null=True,
                                   help_text=_('Custom CSS file for event page'))
+
+    tz_event = models.CharField("Timezone", choices=TIMEZONE_CHOICES, max_length=250, default='UTC')
 
     @classmethod
     def get_fields_dependencies(cls):
