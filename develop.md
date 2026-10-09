@@ -52,6 +52,8 @@ pre-commit install
 ```bash
 cd eventol
 
+cp .env.template .env
+
 python ./manage.py shell -c "import django;django.db.connection.cursor().execute('SELECT InitSpatialMetaData(1);')";
 ./manage.py migrate
 

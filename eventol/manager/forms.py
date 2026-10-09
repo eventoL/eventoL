@@ -537,6 +537,7 @@ class EventForm(ModelForm):
         fields = (
             "name",
             "event_slug",
+            "tz_event",
             "limit_proposal_date",
             "registration_closed",
             "email",
