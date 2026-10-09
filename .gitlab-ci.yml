@@ -57,11 +57,11 @@ docker image:
 
 python-testing:
   services:
-    - postgis:14
+    - postgis/postgis:14-3.5
   variables:
     PSQL_USER: eventol
     PSQL_DBNAME: eventol
-    PSQL_HOST: postgres
+    PSQL_HOST: postgis-postgis
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
