@@ -65,7 +65,7 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
-  image: python:3.12-slim-bookworm
+  image: python:3.12-bookworm
   stage: testing
   before_script:
     - apt-get update -y
@@ -76,7 +76,7 @@ python-testing:
       - eventol/htmlcov
 
 python-lint:
-  image: python:3.12-slim-bookworm
+  image: python:3.12-bookworm
   stage: styling
   allow_failure: true
   before_script:
