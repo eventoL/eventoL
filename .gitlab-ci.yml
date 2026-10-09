@@ -57,7 +57,7 @@ docker image:
 
 python-testing:
   services:
-    - postgres:9.6
+    - postgis:14
   variables:
     PSQL_USER: eventol
     PSQL_DBNAME: eventol
@@ -65,8 +65,10 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
-  image: python:3.9.6
+  image: python:3.12-slim-bookworm
   stage: testing
+  before_script:
+    - apt-get update -y
   script:
     - make gitlab-python-testing
   artifacts:
@@ -74,9 +76,11 @@ python-testing:
       - eventol/htmlcov
 
 python-lint:
-  image: python:3.9.6
+  image: python:3.12-slim-bookworm
   stage: styling
   allow_failure: true
+  before_script:
+    - apt-get update -y
   script:
     - make gitlab-python-lint
 
