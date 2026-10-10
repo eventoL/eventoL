@@ -94,7 +94,7 @@ def test_event_api_my_events(api_request_factory, api_client, event1, event2, or
 
 
 @pytest.mark.django_db(transaction=True)
-def test_event_api_tags(api_request_factory, api_client, event1, event2, event_tag_1):
+def test_event_api_tags(api_request_factory, api_client, event1, event_tag_1):
     endpoint = reverse('event-list')
     url = f'{endpoint}?tags__slug={event_tag_1.slug}'
     request = api_request_factory.get(url, format='json')
@@ -149,6 +149,8 @@ def test_event_api_ordering_descending(api_request_factory, api_client, event1, 
 
 @pytest.mark.django_db(transaction=True)
 def test_event_api_filter_schedule_confirmed(api_request_factory, api_client, event1, event2):
+    event1.schedule_confirmed = False
+    event1.save()
     event2.schedule_confirmed = True
     event2.save()
     endpoint = reverse('event-list')

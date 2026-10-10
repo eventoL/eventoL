@@ -71,7 +71,7 @@ python-testing:
   image: python:3.12-bookworm
   stage: testing
   before_script:
-    - apt-get update -qq && apt-get install -y --no-install-recommends libsqlite3-mod-spatialite python3-tk tk-dev gdal-bin libxmlsec1 libxmlsec1-dev
+    - apt-get update -qq && apt-get install -y --no-install-recommends optipng libsqlite3-mod-spatialite python3-tk tk-dev gdal-bin libxmlsec1 libxmlsec1-dev
   script:
     - make gitlab-python-testing
   artifacts:
