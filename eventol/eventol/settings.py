@@ -537,3 +537,19 @@ class Dev(Base):
 
 class Test(Dev):
     REST_FRAMEWORK = Prod.REST_FRAMEWORK
+
+
+class CI(Test):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': env('PSQL_DBNAME'),
+            'USER': env('PSQL_USER'),
+            'PASSWORD': env('PSQL_PASSWORD'),
+            'HOST': env('PSQL_HOST'),
+            'PORT': env('PSQL_PORT'),
+            'OPTIONS': {
+                'sslmode': env('PSQL_OPTIONS_SSL'),
+            },
+        }
+    }
