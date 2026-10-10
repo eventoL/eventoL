@@ -6,6 +6,7 @@ from datetime import datetime
 import autofixture
 import pytest
 from django.test import Client
+from PIL import ImageFont
 from rest_framework.test import APIClient, APIRequestFactory
 
 from ..models import generate_ticket_code
@@ -382,3 +383,13 @@ def api_request_factory():
 @pytest.fixture
 def web_client():
     yield Client()
+
+
+# FIXME: Monkey patch para compatibilidad de autofixture con Pillow 10+
+if not hasattr(ImageFont.FreeTypeFont, 'getsize'):
+    def getsize(self, text):
+        left, top, right, bottom = self.getbbox(text)
+        return (right - left, bottom - top)
+    
+    ImageFont.FreeTypeFont.getsize = getsize
+    ImageFont.ImageFont.getsize = getsize

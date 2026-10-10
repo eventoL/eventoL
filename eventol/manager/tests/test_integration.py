@@ -3,7 +3,7 @@ import pytest
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    'url, expectedCode',
+    'url, expected_code',
     [
         ('/', 200),
         ('/api/', 200),
