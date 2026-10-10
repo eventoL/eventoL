@@ -1,6 +1,6 @@
 import pytest
 from django.urls import reverse
-from pytest_lazy_fixtures import lazy_fixture
+from pytest_lazy_fixtures import lf as lazy_fixture
 
 from eventol.api import EventSerializer
 
