@@ -11,7 +11,7 @@ pytest-cov==7.1.0
 pytest-django==4.14.0
 pytest-forked==1.7.5
 pytest-gitignore==1.3
-pytest-lazy-fixture==0.6.3
+pytest-lazy-fixtures==1.4.1
 pytest-mock==3.16.0
 pytest-sugar==1.1.1
 pytest-watch==4.2.0

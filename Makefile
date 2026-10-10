@@ -5,35 +5,18 @@ SHELL := /bin/bash
 .DEFAULT: help
 
 .EXPORT_ALL_VARIABLES:
-NODE_VERSION = 16.x
-YARN_VERSION = 1.13.0
 PSQL_DBNAME = eventol
 PSQL_PASSWORD = secret
 PSQL_USER = eventol
 PSQL_VERSION = 9.6
 EXTERNAL_PORT = 80
-PATH = $(shell printenv PATH):~/.yarn/bin:$(HOME)/.yarn/bin:$(HOME)/.config/yarn/global/node_modules/.bin
+PATH = $(shell printenv PATH)
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 DOCKER_COMPOSE := cd deploy/docker && docker compose
 DOCKER_COMPOSE_PROD := $(DOCKER_COMPOSE) -f docker-compose.yml
-
-## Install dependencies
-install-node-in-python-image: ## Install node in python image
-	curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -
-	apt install -y nodejs
-
-install-yarn-in-python-image: ## Install yarn and node in python image if node is not installed
-	if which node > /dev/null; then \
-		node -v; \
-		echo "node is installed, skipping..."; \
-	else \
-		curl -sL https://deb.nodesource.com/setup_$$NODE_VERSION | bash -; \
-		apt install -y nodejs; \
-	fi
-	curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $$YARN_VERSION
 
 ## Backend tasks
 backend-install: ## Install python production dependencies
