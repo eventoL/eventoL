@@ -29,7 +29,6 @@ use-parentheses = true
 
 [tool.ruff.lint.isort]
 
-force-single-line = true
 known-first-party = ["manager"]
 
 [tool.ruff.format]
