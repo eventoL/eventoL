@@ -252,7 +252,7 @@ class ActivityFilter(FilterSet):
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    filter_class = EventFilter
+    filterset_class = EventFilter
     ordering_fields = (
         'name',
         'limit_proposal_date',
@@ -282,7 +282,7 @@ class EventViewSet(viewsets.ModelViewSet):
 class EventTagSet(viewsets.ModelViewSet):
     queryset = EventTag.objects.all()
     serializer_class = EventTagSerializer
-    filter_fields = (
+    filterset_fields = (
         'slug',
         'name',
     )
@@ -299,7 +299,7 @@ class EventTagSet(viewsets.ModelViewSet):
 
 
 class EventUserModelViewSet(viewsets.ModelViewSet):
-    filter_fields = ('event_user__event__event_slug',)
+    filterset_fields = ('event_user__event__event_slug',)
     ordering_fields = ('created_at', 'updated_at')
     search_fields = None
 
@@ -319,7 +319,7 @@ class EventUserModelViewSet(viewsets.ModelViewSet):
 class EventUserViewSet(EventUserModelViewSet):
     queryset = EventUser.objects.all()
     serializer_class = EventUserSerializer
-    filter_fields = ('event__event_slug',)
+    filterset_fields = ('event__event_slug',)
 
 
 class InstallerViewSet(EventUserModelViewSet):
@@ -340,7 +340,7 @@ class OrganizerViewSet(EventUserModelViewSet):
 class AttendeeViewSet(EventUserModelViewSet):
     queryset = Attendee.objects.all()
     serializer_class = AttendeeSerializer
-    filter_fields = (
+    filterset_fields = (
         'event_user__event__event_slug',
         'is_installing',
         'email_confirmed',
@@ -356,7 +356,7 @@ class AttendeeViewSet(EventUserModelViewSet):
 class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-    filter_fields = (
+    filterset_fields = (
         'event__event_slug',
         'name',
     )
@@ -368,7 +368,7 @@ class ActivityViewSet(EventUserModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
     search_fields = ('title', 'labels', 'additional_info', 'speakers_names', 'long_description')
-    filter_class = ActivityFilter
+    filterset_class = ActivityFilter
     ordering_fields = ('created_at', 'updated_at', 'start_date', 'end_date')
 
     def get_counts(self):
@@ -379,7 +379,7 @@ class ActivityViewSet(EventUserModelViewSet):
 class ActivityTypeViewSet(viewsets.ModelViewSet):
     queryset = ActivityType.objects.all()
     serializer_class = ActivityTypeSerializer
-    filter_fields = ('name',)
+    filterset_fields = ('name',)
     search_fields = ('name',)
     ordering_fields = None
 
@@ -387,7 +387,7 @@ class ActivityTypeViewSet(viewsets.ModelViewSet):
 class SoftwareViewSet(viewsets.ModelViewSet):
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
-    filter_fields = (
+    filterset_fields = (
         'type',
         'name',
     )
@@ -401,7 +401,7 @@ class SoftwareViewSet(viewsets.ModelViewSet):
 class HardwareViewSet(viewsets.ModelViewSet):
     queryset = Hardware.objects.all()
     serializer_class = HardwareSerializer
-    filter_fields = (
+    filterset_fields = (
         'type',
         'model',
         'manufacturer',
@@ -418,7 +418,7 @@ class InstallationViewSet(EventUserModelViewSet):
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
     search_fields = 'notes'
-    filter_fields = (
+    filterset_fields = (
         'attendee__event__event_slug',
         'attendee__event_user__event__event_slug',
         'software',
