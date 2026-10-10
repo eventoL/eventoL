@@ -1,6 +1,5 @@
-from django.urls import reverse, resolve
-
 import pytest
+from django.urls import resolve, reverse
 
 from .constants import ALL_URLS_DATA
 
@@ -22,7 +21,7 @@ def get_reverse_params(required_params, *args, **kwargs):
         'token': attendee.email_token,
         'event_slug': event.event_slug,
         'ticket_code': event_user.ticket.code,
-        'event_registration_code': event.registration_code
+        'event_registration_code': event.registration_code,
     }
     params = {}
     for param in required_params:
@@ -36,7 +35,7 @@ def full_view_name(response):
     if hasattr(response.func, 'view_class'):
         module_name = response.func.view_class.__module__
         function_name = response.func.view_class.__name__
-    return '{}.{}'.format(module_name, function_name)
+    return f'{module_name}.{function_name}'
 
 
 @pytest.mark.django_db(transaction=True)

@@ -5,6 +5,7 @@ from manager.views import count_by
 def test_count_by_with_getter_function_with_error_should_return_empty_dict():
     def getter(element):
         raise Exception(element)
+
     array = [{'b': False}] * 4
     assert count_by(array, getter) == {}
 
@@ -12,6 +13,7 @@ def test_count_by_with_getter_function_with_error_should_return_empty_dict():
 def test_count_by_if_increment_function_has_error_should_return_empty_dict():
     def increment(element):
         raise Exception(element)
+
     array = [{'b': False}] * 4
     assert count_by(array, lambda n: n, increment=increment) == {}
 

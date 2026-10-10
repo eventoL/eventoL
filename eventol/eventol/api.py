@@ -1,23 +1,34 @@
 """
-    Api module with serializers and viewsets for models
+Api module with serializers and viewsets for models
 """
 # pylint: disable=too-many-ancestors
 # pylint: disable=missing-docstring
 # pylint: disable=no-member
 
+from django_filters import BooleanFilter, FilterSet, IsoDateTimeFilter
 from drf_queryfields import QueryFieldsMixin
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
-from django_filters import BooleanFilter, FilterSet, IsoDateTimeFilter
 
-from manager.models import (Activity, Attendee, Collaborator, Event, EventUser,
-                            Hardware, Installation, Installer, Organizer, Room,
-                            Software, EventTag, ActivityType)
+from manager.models import (
+    Activity,
+    ActivityType,
+    Attendee,
+    Collaborator,
+    Event,
+    EventTag,
+    EventUser,
+    Hardware,
+    Installation,
+    Installer,
+    Organizer,
+    Room,
+    Software,
+)
 
 
 # Serializers define the API representation.
-class EventolSerializer(QueryFieldsMixin,
-                        serializers.HyperlinkedModelSerializer):
+class EventolSerializer(QueryFieldsMixin, serializers.HyperlinkedModelSerializer):
     pass
 
 
@@ -41,23 +52,50 @@ class EventSerializer(EventolSerializer):
                 return self.context['request'].build_absolute_uri(instance.cropping_image.url)
             except Exception:
                 pass
-        return self.context['request'].build_absolute_uri('/static/manager/img/event_background.png')
-    
+        return self.context['request'].build_absolute_uri(
+            '/static/manager/img/event_background.png'
+        )
+
     class Meta:
         model = Event
-        fields = ('url', 'name', 'abstract', 'limit_proposal_date',
-                  'tags', 'external_url', 'report', 'event_information',
-                  'updated_at', 'schedule_confirmed', 'place', 'image',
-                  'cropping', 'event_slug', 'activity_proposal_is_open',
-                  'registration_is_open', 'id', 'attendees_count',
-                  'last_date', 'created_at', 'location')
+        fields = (
+            'url',
+            'name',
+            'abstract',
+            'limit_proposal_date',
+            'tags',
+            'external_url',
+            'report',
+            'event_information',
+            'updated_at',
+            'schedule_confirmed',
+            'place',
+            'image',
+            'cropping',
+            'event_slug',
+            'activity_proposal_is_open',
+            'registration_is_open',
+            'id',
+            'attendees_count',
+            'last_date',
+            'created_at',
+            'location',
+        )
 
 
 class EventTagSerializer(EventolSerializer):
     class Meta:
         model = EventTag
-        fields = ('url', 'created_at', 'updated_at', 'background',
-                  'logo_header', 'logo_landing', 'message', 'slug')
+        fields = (
+            'url',
+            'created_at',
+            'updated_at',
+            'background',
+            'logo_header',
+            'logo_landing',
+            'message',
+            'slug',
+        )
 
 
 class EventUserSerializer(EventolSerializer):
@@ -87,9 +125,24 @@ class OrganizerSerializer(EventolSerializer):
 class ActivitySerializer(EventolSerializer):
     class Meta:
         model = Activity
-        fields = ('url', 'id', 'created_at', 'updated_at', 'event', 'title', 'room',
-                  'start_date', 'end_date', 'activity_type', 'labels', 'level',
-                  'status', 'is_dummy', 'long_description', 'abstract')
+        fields = (
+            'url',
+            'id',
+            'created_at',
+            'updated_at',
+            'event',
+            'title',
+            'room',
+            'start_date',
+            'end_date',
+            'activity_type',
+            'labels',
+            'level',
+            'status',
+            'is_dummy',
+            'long_description',
+            'abstract',
+        )
 
 
 class ActivityTypeSerializer(EventolSerializer):
@@ -101,15 +154,31 @@ class ActivityTypeSerializer(EventolSerializer):
 class AttendeeSerializer(EventolSerializer):
     class Meta:
         model = Attendee
-        fields = ('url', 'created_at', 'updated_at', 'event', 'event_user',
-                  'is_installing', 'email_confirmed', 'registration_date')
+        fields = (
+            'url',
+            'created_at',
+            'updated_at',
+            'event',
+            'event_user',
+            'is_installing',
+            'email_confirmed',
+            'registration_date',
+        )
 
 
 class InstallationSerializer(EventolSerializer):
     class Meta:
         model = Installation
-        fields = ('url', 'created_at', 'updated_at', 'installer',
-                  'hardware', 'software', 'attendee', 'notes')
+        fields = (
+            'url',
+            'created_at',
+            'updated_at',
+            'installer',
+            'hardware',
+            'software',
+            'attendee',
+            'notes',
+        )
 
 
 class RoomSerializer(EventolSerializer):
@@ -121,13 +190,20 @@ class RoomSerializer(EventolSerializer):
 class HardwareSerializer(EventolSerializer):
     class Meta:
         model = Hardware
-        fields = ('type', 'model', 'manufacturer',)
+        fields = (
+            'type',
+            'model',
+            'manufacturer',
+        )
 
 
 class SoftwareSerializer(EventolSerializer):
     class Meta:
         model = Software
-        fields = ('type', 'name',)
+        fields = (
+            'type',
+            'name',
+        )
 
 
 # Filters
@@ -137,24 +213,39 @@ class EventFilter(FilterSet):
 
     class Meta:
         model = Event
-        fields = ('name', 'event_slug', 'schedule_confirmed', 'tags__slug',
-                  'tags__name', 'activity_proposal_is_open',
-                  'registration_is_open')
+        fields = (
+            'name',
+            'event_slug',
+            'schedule_confirmed',
+            'tags__slug',
+            'tags__name',
+            'activity_proposal_is_open',
+            'registration_is_open',
+        )
 
 
 class ActivityFilter(FilterSet):
-    start_date_gte = IsoDateTimeFilter(field_name="start_date", lookup_expr='gte')
-    start_date_lte = IsoDateTimeFilter(field_name="start_date", lookup_expr='lte')
-    end_date_gte = IsoDateTimeFilter(field_name="end_date", lookup_expr='gte')
-    end_date_lte = IsoDateTimeFilter(field_name="end_date", lookup_expr='lte')
+    start_date_gte = IsoDateTimeFilter(field_name='start_date', lookup_expr='gte')
+    start_date_lte = IsoDateTimeFilter(field_name='start_date', lookup_expr='lte')
+    end_date_gte = IsoDateTimeFilter(field_name='end_date', lookup_expr='gte')
+    end_date_lte = IsoDateTimeFilter(field_name='end_date', lookup_expr='lte')
 
     class Meta:
         model = Activity
-        fields = ['id', 'event__event_slug', 'room',
-                  'activity_type', 'status', 'title',
-                  'start_date_gte', 'start_date_lte',
-                  'end_date_gte', 'end_date_lte',
-                  'level', 'is_dummy']
+        fields = [
+            'id',
+            'event__event_slug',
+            'room',
+            'activity_type',
+            'status',
+            'title',
+            'start_date_gte',
+            'start_date_lte',
+            'end_date_gte',
+            'end_date_lte',
+            'level',
+            'is_dummy',
+        ]
 
 
 # ViewSets define the view behavior.
@@ -162,10 +253,21 @@ class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     filter_class = EventFilter
-    ordering_fields = ('name', 'limit_proposal_date', 'updated_at',
-                       'attendees_count', 'last_date', 'created_at')
-    search_fields = ('name', 'event_slug', 'abstract',
-                     'tags__slug', 'tags__name',)
+    ordering_fields = (
+        'name',
+        'limit_proposal_date',
+        'updated_at',
+        'attendees_count',
+        'last_date',
+        'created_at',
+    )
+    search_fields = (
+        'name',
+        'event_slug',
+        'abstract',
+        'tags__slug',
+        'tags__name',
+    )
 
     def list(self, request, *args, **kwargs):
         my_events = request.GET.get('my_events', None)
@@ -180,9 +282,20 @@ class EventViewSet(viewsets.ModelViewSet):
 class EventTagSet(viewsets.ModelViewSet):
     queryset = EventTag.objects.all()
     serializer_class = EventTagSerializer
-    filter_fields = ('slug', 'name',)
-    ordering_fields = ('created_at', 'updated_at', 'name', 'slug',)
-    search_fields = ('slug', 'name',)
+    filter_fields = (
+        'slug',
+        'name',
+    )
+    ordering_fields = (
+        'created_at',
+        'updated_at',
+        'name',
+        'slug',
+    )
+    search_fields = (
+        'slug',
+        'name',
+    )
 
 
 class EventUserModelViewSet(viewsets.ModelViewSet):
@@ -227,8 +340,12 @@ class OrganizerViewSet(EventUserModelViewSet):
 class AttendeeViewSet(EventUserModelViewSet):
     queryset = Attendee.objects.all()
     serializer_class = AttendeeSerializer
-    filter_fields = ('event_user__event__event_slug', 'is_installing',
-                     'email_confirmed', 'event__event_slug')
+    filter_fields = (
+        'event_user__event__event_slug',
+        'is_installing',
+        'email_confirmed',
+        'event__event_slug',
+    )
     ordering_fields = ('created_at', 'updated_at', 'registration_date')
 
     def get_counts(self):
@@ -239,7 +356,10 @@ class AttendeeViewSet(EventUserModelViewSet):
 class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
-    filter_fields = ('event__event_slug', 'name',)
+    filter_fields = (
+        'event__event_slug',
+        'name',
+    )
     ordering_fields = ('name',)
     search_fields = ('name',)
 
@@ -247,14 +367,14 @@ class RoomViewSet(viewsets.ModelViewSet):
 class ActivityViewSet(EventUserModelViewSet):
     queryset = Activity.objects.all()
     serializer_class = ActivitySerializer
-    search_fields = ('title', 'labels', 'additional_info',
-                     'speakers_names', 'long_description')
+    search_fields = ('title', 'labels', 'additional_info', 'speakers_names', 'long_description')
     filter_class = ActivityFilter
     ordering_fields = ('created_at', 'updated_at', 'start_date', 'end_date')
 
     def get_counts(self):
         queryset = self.filter_queryset(self.get_queryset())
         return Activity.objects.get_counts(queryset)
+
 
 class ActivityTypeViewSet(viewsets.ModelViewSet):
     queryset = ActivityType.objects.all()
@@ -267,27 +387,48 @@ class ActivityTypeViewSet(viewsets.ModelViewSet):
 class SoftwareViewSet(viewsets.ModelViewSet):
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
-    filter_fields = ('type', 'name',)
-    search_fields = ('type', 'name',)
+    filter_fields = (
+        'type',
+        'name',
+    )
+    search_fields = (
+        'type',
+        'name',
+    )
     ordering_fields = None
 
 
 class HardwareViewSet(viewsets.ModelViewSet):
     queryset = Hardware.objects.all()
     serializer_class = HardwareSerializer
-    filter_fields = ('type', 'model', 'manufacturer',)
-    search_fields = ('type', 'model', 'manufacturer',)
+    filter_fields = (
+        'type',
+        'model',
+        'manufacturer',
+    )
+    search_fields = (
+        'type',
+        'model',
+        'manufacturer',
+    )
     ordering_fields = None
 
 
 class InstallationViewSet(EventUserModelViewSet):
     queryset = Installation.objects.all()
     serializer_class = InstallationSerializer
-    search_fields = ('notes')
-    filter_fields = ('attendee__event__event_slug',
-                     'attendee__event_user__event__event_slug',
-                     'software', 'hardware', 'attendee')
-    ordering_fields = ('created_at', 'updated_at',)
+    search_fields = 'notes'
+    filter_fields = (
+        'attendee__event__event_slug',
+        'attendee__event_user__event__event_slug',
+        'software',
+        'hardware',
+        'attendee',
+    )
+    ordering_fields = (
+        'created_at',
+        'updated_at',
+    )
 
     def get_counts(self):
         queryset = self.filter_queryset(self.get_queryset())

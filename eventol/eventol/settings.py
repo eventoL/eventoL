@@ -23,7 +23,10 @@ env = environ.Env(
     DONT_SET_FILE_UPLOAD_PERMISSIONS=(bool, os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', False)),
     REDIS_HOST=(str, os.getenv('REDIS_HOST', 'redis')),
     REDIS_PORT=(int, os.getenv('REDIS_PORT', 6379)),
-    EMAIL_BACKEND=(str, os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')),
+    EMAIL_BACKEND=(
+        str,
+        os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend'),
+    ),
     EMAIL_HOST=(str, os.getenv('EMAIL_HOST', 'smtp.unset')),
     EMAIL_PORT=(int, os.getenv('EMAIL_PORT', 587)),
     EMAIL_HOST_USER=(str, os.getenv('EMAIL_HOST_USER', None)),
@@ -50,7 +53,10 @@ env = environ.Env(
     JAZZMIN_SITE_TITLE=(str, os.getenv('JAZZMIN_SITE_TITLE', 'EventoL Admin')),
     JAZZMIN_SITE_HEADER=(str, os.getenv('JAZZMIN_SITE_HEADER', 'EventoL')),
     JAZZMIN_SITE_BRAND=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
-    JAZZMIN_WELCOME_SIGN=(str, os.getenv('JAZZMIN_WELCOME_SIGN', 'Administration panel of EventoL')),
+    JAZZMIN_WELCOME_SIGN=(
+        str,
+        os.getenv('JAZZMIN_WELCOME_SIGN', 'Administration panel of EventoL'),
+    ),
     JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
     CELERY_ENABLED=(bool, os.getenv('CELERY_ENABLED', False)),
 )
@@ -204,7 +210,9 @@ class Base(Configuration):
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     )
 
-    DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False'))
+    DONT_SET_FILE_UPLOAD_PERMISSIONS = str_to_bool(
+        os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False')
+    )
     FILE_UPLOAD_PERMISSIONS = None if DONT_SET_FILE_UPLOAD_PERMISSIONS else 0o644
 
     AUTHENTICATION_BACKENDS = (
@@ -247,7 +255,10 @@ class Base(Configuration):
         {
             'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
         },
-        {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 8}},
+        {
+            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+            'OPTIONS': {'min_length': 8},
+        },
         {
             'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
         },
@@ -482,7 +493,7 @@ class Staging(Base):
     }
 
     # CSRF
-    CSRF_TRUSTED_ORIGINS = [f"http://{env('APP_DNS')}", f"https://{env('APP_DNS')}"]
+    CSRF_TRUSTED_ORIGINS = [f'http://{env("APP_DNS")}', f'https://{env("APP_DNS")}']
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
@@ -513,7 +524,9 @@ class Dev(Base):
         'version': 1,
         'disable_existing_loggers': False,
         'formatters': {'simple': {'format': '%(levelname)s %(message)s'}},
-        'handlers': {'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler', 'formatter': 'simple'}},
+        'handlers': {
+            'console': {'level': 'DEBUG', 'class': 'logging.StreamHandler', 'formatter': 'simple'}
+        },
         'loggers': {
             'eventol': {'handlers': ['console'], 'level': 'DEBUG'},
             'django.request': {'handlers': ['console'], 'level': 'ERROR'},

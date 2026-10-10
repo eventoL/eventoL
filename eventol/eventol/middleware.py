@@ -1,4 +1,5 @@
 from django.utils.cache import patch_vary_headers
+
 from manager.models import Event
 
 

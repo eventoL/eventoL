@@ -2,34 +2,43 @@
 # pylint: disable=too-many-arguments
 
 from datetime import datetime
-from django.db import connection
-from django.test import Client
-from rest_framework.test import APIClient, APIRequestFactory
 
 import autofixture
 import pytest
+from django.test import Client
+from rest_framework.test import APIClient, APIRequestFactory
 
-from .constants import (
-    ADMIN_USERNAME, ADMIN_PASSWORD,
-    EVENT_TAG_NAME_1, EVENT_TAG_NAME_2,
-    EVENT_TAG_SLUG_1, EVENT_TAG_SLUG_2,
-    EVENT_NAME_1, EVENT_NAME_2,
-    EVENT_SLUG_1, EVENT_SLUG_2,
-    USER_USERNAME_1, USER_USERNAME_2,
-    USER_PASSWORD_1, USER_PASSWORD_2
-)
 from ..models import generate_ticket_code
+from .constants import (
+    ADMIN_PASSWORD,
+    ADMIN_USERNAME,
+    EVENT_NAME_1,
+    EVENT_NAME_2,
+    EVENT_SLUG_1,
+    EVENT_SLUG_2,
+    EVENT_TAG_NAME_1,
+    EVENT_TAG_NAME_2,
+    EVENT_TAG_SLUG_1,
+    EVENT_TAG_SLUG_2,
+    USER_PASSWORD_1,
+    USER_PASSWORD_2,
+    USER_USERNAME_1,
+    USER_USERNAME_2,
+)
 
 
 @pytest.fixture
 @pytest.mark.django_db
 def admin():
-    yield autofixture.create_one('auth.User', {
-        'username': ADMIN_USERNAME,
-        'password': ADMIN_PASSWORD,
-        'is_superuser': True,
-        'is_staff': True
-    })
+    yield autofixture.create_one(
+        'auth.User',
+        {
+            'username': ADMIN_USERNAME,
+            'password': ADMIN_PASSWORD,
+            'is_superuser': True,
+            'is_staff': True,
+        },
+    )
 
 
 # EventTag
@@ -37,8 +46,7 @@ def admin():
 @pytest.mark.django_db
 def event_tag_1():
     yield autofixture.create_one(
-        'manager.EventTag',
-        {'name': EVENT_TAG_NAME_1, 'slug': EVENT_TAG_SLUG_1}
+        'manager.EventTag', {'name': EVENT_TAG_NAME_1, 'slug': EVENT_TAG_SLUG_1}
     )
 
 
@@ -46,8 +54,7 @@ def event_tag_1():
 @pytest.mark.django_db
 def event_tag_2():
     yield autofixture.create_one(
-        'manager.EventTag',
-        {'name': EVENT_TAG_NAME_2, 'slug': EVENT_TAG_SLUG_2}
+        'manager.EventTag', {'name': EVENT_TAG_NAME_2, 'slug': EVENT_TAG_SLUG_2}
     )
 
 
@@ -56,8 +63,7 @@ def event_tag_2():
 @pytest.mark.django_db
 def event1(event_tag_1):
     yield autofixture.create_one(
-        'manager.Event',
-        {'name': EVENT_NAME_1, 'slug': EVENT_SLUG_1, 'tags': [event_tag_1]}
+        'manager.Event', {'name': EVENT_NAME_1, 'slug': EVENT_SLUG_1, 'tags': [event_tag_1]}
     )
 
 
@@ -65,8 +71,7 @@ def event1(event_tag_1):
 @pytest.mark.django_db
 def event2(event_tag_2):
     yield autofixture.create_one(
-        'manager.Event',
-        {'name': EVENT_NAME_2, 'slug': EVENT_SLUG_2, 'tags': [event_tag_2]}
+        'manager.Event', {'name': EVENT_NAME_2, 'slug': EVENT_SLUG_2, 'tags': [event_tag_2]}
     )
 
 
@@ -74,23 +79,29 @@ def event2(event_tag_2):
 @pytest.fixture
 @pytest.mark.django_db
 def user1():
-    yield autofixture.create_one('auth.User', {
-        'username': USER_USERNAME_1,
-        'password': USER_PASSWORD_1,
-        'is_superuser': False,
-        'is_staff': False
-    })
+    yield autofixture.create_one(
+        'auth.User',
+        {
+            'username': USER_USERNAME_1,
+            'password': USER_PASSWORD_1,
+            'is_superuser': False,
+            'is_staff': False,
+        },
+    )
 
 
 @pytest.fixture
 @pytest.mark.django_db
 def user2():
-    yield autofixture.create_one('auth.User', {
-        'username': USER_USERNAME_2,
-        'password': USER_PASSWORD_2,
-        'is_superuser': False,
-        'is_staff': False
-    })
+    yield autofixture.create_one(
+        'auth.User',
+        {
+            'username': USER_USERNAME_2,
+            'password': USER_PASSWORD_2,
+            'is_superuser': False,
+            'is_staff': False,
+        },
+    )
 
 
 # EventUsers
@@ -128,11 +139,8 @@ def attendee_without_user2(event2):
 @pytest.mark.django_db
 def attendee_from_event_user1(event_user1, event1):
     yield autofixture.create_one(
-        'manager.Attendee', {
-            'event_user': event_user1,
-            'event': event1,
-            'email_token': generate_ticket_code()
-        }
+        'manager.Attendee',
+        {'event_user': event_user1, 'event': event1, 'email_token': generate_ticket_code()},
     )
 
 
@@ -140,11 +148,8 @@ def attendee_from_event_user1(event_user1, event1):
 @pytest.mark.django_db
 def attendee_from_event_user2(event_user2, event2):
     yield autofixture.create_one(
-        'manager.Attendee', {
-            'event_user': event_user2,
-            'event': event2,
-            'email_token': generate_ticket_code()
-        }
+        'manager.Attendee',
+        {'event_user': event_user2, 'event': event2, 'email_token': generate_ticket_code()},
     )
 
 
@@ -232,7 +237,7 @@ def room2(event2):
 def installation1(attendee_from_event_user1, installer1):
     yield autofixture.create_one(
         'manager.Installation',
-        {'attendee': attendee_from_event_user1, 'installer': installer1.event_user}
+        {'attendee': attendee_from_event_user1, 'installer': installer1.event_user},
     )
 
 
@@ -241,14 +246,14 @@ def installation1(attendee_from_event_user1, installer1):
 def installation2(attendee_from_event_user2, installer2):
     yield autofixture.create_one(
         'manager.Installation',
-        {'attendee': attendee_from_event_user2, 'installer': installer2.event_user}
+        {'attendee': attendee_from_event_user2, 'installer': installer2.event_user},
     )
 
 
 # EventDate
 @pytest.mark.django_db
 def get_event_date(datestring):
-    date = datetime.strptime(datestring, "%d/%m/%Y")
+    date = datetime.strptime(datestring, '%d/%m/%Y')
     return autofixture.create_one('manager.EventDate', {'date': date.date()})
 
 
@@ -298,11 +303,20 @@ def softwares():
 @pytest.fixture
 @pytest.mark.django_db
 def event_data1(
-        event_tag_1, event1, user1,
-        event_user1, attendee_without_user1,
-        attendee_from_event_user1, organizer1,
-        collaborator1, installer1, reviewer1,
-        activity1, room1, installation1):
+    event_tag_1,
+    event1,
+    user1,
+    event_user1,
+    attendee_without_user1,
+    attendee_from_event_user1,
+    organizer1,
+    collaborator1,
+    installer1,
+    reviewer1,
+    activity1,
+    room1,
+    installation1,
+):
     yield {
         'event': event1,
         'event_tag': event_tag_1,
@@ -316,18 +330,27 @@ def event_data1(
         'installation': installation1,
         'reviewer': reviewer1,
         'activity': activity1,
-        'room': room1
+        'room': room1,
     }
 
 
 @pytest.fixture
 @pytest.mark.django_db
 def event_data2(
-        event_tag_2, event2, user2,
-        event_user2, attendee_without_user2,
-        attendee_from_event_user2, organizer2,
-        collaborator2, installer2, reviewer2,
-        activity2, room2, installation2):
+    event_tag_2,
+    event2,
+    user2,
+    event_user2,
+    attendee_without_user2,
+    attendee_from_event_user2,
+    organizer2,
+    collaborator2,
+    installer2,
+    reviewer2,
+    activity2,
+    room2,
+    installation2,
+):
     yield {
         'event': event2,
         'event_tag': event_tag_2,
@@ -341,7 +364,7 @@ def event_data2(
         'installation': installation2,
         'reviewer': reviewer2,
         'activity': activity2,
-        'room': room2
+        'room': room2,
     }
 
 

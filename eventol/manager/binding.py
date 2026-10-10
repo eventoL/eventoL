@@ -1,7 +1,6 @@
 from channels.binding.websockets import WebsocketBinding
 
-from .models import (Activity, AttendeeAttendanceDate, Event,
-                     EventUserAttendanceDate, Installation)
+from .models import Activity, AttendeeAttendanceDate, Event, EventUserAttendanceDate, Installation
 
 
 class ActivityBinding(WebsocketBinding):

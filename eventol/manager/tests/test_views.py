@@ -1,7 +1,6 @@
+import pytest
 from django.test import RequestFactory
 from django.urls import reverse
-
-import pytest
 
 from manager import views
 
