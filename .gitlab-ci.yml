@@ -65,6 +65,7 @@ python-testing:
     POSTGRES_DB: eventol
     POSTGRES_USER: eventol
     POSTGRES_PASSWORD: secret
+    TIME_ZONE: UTC
   image: python:3.12-bookworm
   stage: testing
   before_script:
