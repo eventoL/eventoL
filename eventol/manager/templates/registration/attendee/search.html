@@ -51,36 +51,452 @@
 
     <!-- Modal -->
     <div id="QRModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title mb-0"><i class="fa fa-qrcode mr-2"></i>{% trans "Scan QR Code" %}</h4>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title">{% trans "Center the QR Code in the camera display below " %}</h4>
                 </div>
-                <div class="modal-body">
-                    <div id="qr_reader" class="qrcode" style="width:300px;height:300px; margin: 0 auto;"></div>
-                    <span id="error" class="center"></span>
+                <div class="modal-body p-4">
+                    <p class="text-center text-muted mb-3">{% trans "Center the QR code in the frame below" %}</p>
+                    
+                    <!-- Camera Selector - only shows when 2+ cameras available -->
+                    <div id="cameraSelectorGroup" class="form-group mb-3" style="display: none;">
+                        <label for="cameraSelect" class="font-weight-bold">{% trans "Camera" %}</label>
+                        <select id="cameraSelect" class="form-control form-control-lg">
+                            <option value="">{% trans "Loading cameras..." %}</option>
+                        </select>
+                        <small class="form-text text-muted">{% trans "Switch camera if needed" %}</small>
+                    </div>
+                    
+                    <div id="qr_reader" class="qrcode" style="width:100%;max-width:320px;height:320px; margin: 0 auto; background:#f5f5f5; border-radius:8px; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                        <video id="qrVideo" width="100%" height="100%" playsinline style="object-fit:cover;"></video>
+                    </div>
+                    <div id="error" class="text-center text-danger mt-2 small"></div>
                 </div>
             </div>
-            <
         </div>
     </div>
+
+    <!-- Modal centering fix for mobile -->
+    <style>
+        @media (max-width: 576px) {
+            #QRModal .modal-dialog.modal-dialog-centered {
+                min-height: calc(100% - 1rem);
+                display: flex;
+                align-items: center;
+                margin: 0.5rem auto;
+            }
+            #QRModal .modal-content {
+                box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
+            }
+        }
+    </style>
 {% endblock %}
 
 {% block other-script %}
-    <script type="text/javascript" src="{% static "build/qrcode.js" %}" alt="qrcode"></script>
     <script>
+        (function() {
+            'use strict';
+
+            // QR Code library (inlined from html5-qrcode)
+            var qrcode = (function() {
+                return window.qrcode || {
+                    decode: function() {},
+                    callback: function() {}
+                };
+            })();
+
+            var QrScanner = {
+                video: null,
+                canvas: null,
+                context: null,
+                stream: null,
+                timeout: null,
+                readerId: null,
+                selectedDeviceId: null,
+                availableCameras: [],
+                knownDeviceIds: null,
+                hadLabels: false,
+                restarting: false,
+
+                init: function(readerId) {
+                    this.readerId = readerId;
+                    var element = $('#' + readerId);
+                    
+                    // Use existing video element from template
+                    this.video = $('#qrVideo')[0];
+                    // Remove a previous canvas if the scanner was re-initialized
+                    $('#qr-canvas').remove();
+                    this.canvas = document.createElement('canvas');
+                    this.canvas.id = 'qr-canvas';
+                    this.canvas.style.display = 'none';
+                    element.append(this.canvas);
+                    this.context = this.canvas.getContext('2d');
+
+                    // Reset camera selector UI
+                    $('#cameraSelectorGroup').hide();
+                    $('#cameraSelect').empty().append('<option value="">Loading cameras...</option>');
+
+                    this.enumerateCameras();
+                },
+
+                enumerateCameras: function() {
+                    var self = this;
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+                        self.startScanning({video: true});
+                        return;
+                    }
+
+                    navigator.mediaDevices.enumerateDevices()
+                        .then(function(devices) {
+                            self.availableCameras = devices.filter(function(device) {
+                                return device.kind === 'videoinput';
+                            });
+
+                            // Remember the initial camera set so we can detect later changes
+                            self.rememberCameraSet(self.availableCameras);
+
+                            var select = $('#cameraSelect');
+                            var group = $('#cameraSelectorGroup');
+
+                            // Show selector if 2+ cameras detected (even without labels)
+                            // Labels only appear after user grants camera permission
+                            if (self.availableCameras.length > 1) {
+                                select.empty();
+                                self.availableCameras.forEach(function(camera, index) {
+                                    var label = camera.label || 'Camera ' + (index + 1);
+                                    // Try to identify front/back camera from label (if available)
+                                    var lowerLabel = label.toLowerCase();
+                                    var isFront = lowerLabel.indexOf('front') !== -1 || lowerLabel.indexOf('selfie') !== -1;
+                                    var isBack = lowerLabel.indexOf('back') !== -1 || lowerLabel.indexOf('rear') !== -1 || lowerLabel.indexOf('environment') !== -1;
+                                    
+                                    if (isFront) {
+                                        label += ' (Front)';
+                                    } else if (isBack) {
+                                        label += ' (Back)';
+                                    } else if (!camera.label) {
+                                        // No label yet - permission not granted
+                                        label += ' (tap to select)';
+                                    }
+                                    var option = $('<option></option>').val(camera.deviceId).text(label);
+                                    if (index === 0) option.attr('selected', true);
+                                    select.append(option);
+                                });
+                                group.show();
+
+                                select.off('change').on('change', function() {
+                                    self.switchCamera($(this).val());
+                                });
+
+                                // Default to back camera if identifiable, otherwise second camera (often back on phones)
+                                // But DON'T overwrite if a camera is already selected
+                                if (!self.selectedDeviceId) {
+                                    var backCamera = self.availableCameras.find(function(c, i) {
+                                        var lbl = (c.label || '').toLowerCase();
+                                        return lbl.indexOf('back') !== -1 || lbl.indexOf('rear') !== -1 || lbl.indexOf('environment') !== -1 || i === 1;
+                                    });
+                                    if (backCamera) {
+                                        self.selectedDeviceId = backCamera.deviceId;
+                                        select.val(backCamera.deviceId);
+                                    }
+                                } else {
+                                    // User has a persisted selection - set dropdown to match
+                                    select.val(self.selectedDeviceId);
+                                }
+                            } else if (self.availableCameras.length === 1) {
+                                self.selectedDeviceId = self.availableCameras[0].deviceId;
+                                group.hide();
+                            } else {
+                                group.hide();
+                            }
+
+                            self.startScanning(self.getConstraints());
+                        })
+                        .catch(function(err) {
+                            console.error('Camera enumeration error:', err);
+                            $('#cameraSelectorGroup').hide();
+                            self.startScanning({video: true});
+                        });
+                },
+
+                getConstraints: function() {
+                    if (this.selectedDeviceId) {
+                        return {video: {deviceId: {exact: this.selectedDeviceId}}};
+                    }
+                    // No explicit selection: prefer the back camera
+                    return {video: {facingMode: {ideal: 'environment'}}};
+                },
+
+                startScanning: function(constraints) {
+                    var self = this;
+
+                    var successCallback = function(stream) {
+                        self.stream = stream;
+                        self.video.srcObject = stream;
+                        self.video.play();
+                        // Remember the real deviceId actually in use
+                        var track = stream.getVideoTracks()[0];
+                        if (track && track.getSettings) {
+                            var settings = track.getSettings();
+                            if (settings && settings.deviceId) {
+                                self.selectedDeviceId = settings.deviceId;
+                                $('#cameraSelect').val(self.selectedDeviceId);
+                            }
+                        }
+                        // Set canvas size to match video
+                        self.video.onloadedmetadata = function() {
+                            self.canvas.width = self.video.videoWidth;
+                            self.canvas.height = self.video.videoHeight;
+                        };
+                        // After permission granted, re-enumerate to get camera labels
+                        self.refreshCameraLabels();
+                        if (self.timeout) {
+                            clearTimeout(self.timeout);
+                        }
+                        self.timeout = setTimeout(function() { self.scan(); }, 1000);
+                    };
+
+                    var errorCallback = function(error) {
+                        console.error('Camera error:', error);
+                        console.error('Failed constraints:', JSON.stringify(constraints));
+                        // If an exact deviceId failed, retry once with the default camera
+                        if (constraints.video && constraints.video.deviceId) {
+                            self.selectedDeviceId = null;
+                            self.startScanning({video: true});
+                            return;
+                        }
+                        $('#error').html('{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}');
+                    };
+
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        navigator.mediaDevices.getUserMedia(constraints)
+                            .then(successCallback)
+                            .catch(errorCallback);
+                    } else if (navigator.getUserMedia) {
+                        navigator.getUserMedia(constraints, successCallback, errorCallback);
+                    } else if (navigator.webkitGetUserMedia) {
+                        navigator.webkitGetUserMedia(constraints, successCallback, errorCallback);
+                    } else if (navigator.mozGetUserMedia) {
+                        navigator.mozGetUserMedia(constraints, successCallback, errorCallback);
+                    } else {
+                        errorCallback(new Error('getUserMedia not supported'));
+                    }
+                },
+
+                // Switch to another camera without closing the modal
+                switchCamera: function(deviceId) {
+                    var self = this;
+                    if (!deviceId || deviceId === self.selectedDeviceId) {
+                        return;
+                    }
+                    // Stop the scan loop
+                    if (self.timeout) {
+                        clearTimeout(self.timeout);
+                        self.timeout = null;
+                    }
+                    // Release the current stream so the device becomes available
+                    if (self.stream) {
+                        self.stream.getVideoTracks().forEach(function(track) { track.stop(); });
+                        self.stream = null;
+                    }
+                    if (self.video) {
+                        self.video.srcObject = null;
+                    }
+                    self.selectedDeviceId = deviceId;
+                    // Small delay lets the browser release the previous device
+                    setTimeout(function() {
+                        self.startScanning(self.getConstraints());
+                    }, 250);
+                },
+
+                // Re-enumerate cameras after permission granted to get labels (front/back)
+                refreshCameraLabels: function() {
+                    var self = this;
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+                        return;
+                    }
+                    navigator.mediaDevices.enumerateDevices()
+                        .then(function(devices) {
+                            var newCameras = devices.filter(function(device) {
+                                return device.kind === 'videoinput';
+                            });
+                            var hasLabels = newCameras.some(function(c) { return c.label && c.label.trim() !== ''; });
+
+                            // The camera set changed when permission was just granted
+                            // (labels appeared) or when a new camera showed up.
+                            // In that case, reopen the modal to start from a clean state.
+                            if (self.cameraSetChanged(newCameras, hasLabels)) {
+                                self.restartScanner();
+                                return;
+                            }
+                            if (hasLabels) {
+                                self.availableCameras = newCameras;
+                                self.updateCameraSelector();
+                            }
+                        })
+                        .catch(function(err) {
+                            console.error('Camera re-enumeration error:', err);
+                        });
+                },
+
+                // Store the current camera set as reference (no restart)
+                rememberCameraSet: function(cameras) {
+                    this.knownDeviceIds = cameras.map(function(c) { return c.deviceId; });
+                    this.hadLabels = cameras.some(function(c) { return c.label && c.label.trim() !== ''; });
+                },
+
+                // Returns true if a camera appeared or labels became available
+                cameraSetChanged: function(cameras, hasLabels) {
+                    var self = this;
+                    var ids = cameras.map(function(c) { return c.deviceId; });
+                    var newAppeared = self.knownDeviceIds !== null && ids.some(function(id) {
+                        return self.knownDeviceIds.indexOf(id) === -1;
+                    });
+                    var labelsJustAppeared = !self.hadLabels && hasLabels;
+
+                    self.knownDeviceIds = ids;
+                    self.hadLabels = self.hadLabels || hasLabels;
+
+                    return newAppeared || labelsJustAppeared;
+                },
+
+                // Close and reopen the modal to reset the scanner state after the
+                // camera set changed (permission granted or a new camera appeared)
+                restartScanner: function() {
+                    var self = this;
+                    if (self.restarting) {
+                        return;
+                    }
+                    self.restarting = true;
+                    var modal = $('#QRModal');
+                    modal.one('hidden.bs.modal', function() {
+                        self.restarting = false;
+                        setTimeout(function() { modal.modal('show'); }, 150);
+                    });
+                    modal.modal('hide');
+                },
+
+                updateCameraSelector: function() {
+                    var self = this;
+                    var select = $('#cameraSelect');
+                    var group = $('#cameraSelectorGroup');
+
+                    if (self.availableCameras.length > 1) {
+                        var currentValue = select.val();
+                        select.empty();
+                        self.availableCameras.forEach(function(camera, index) {
+                            var label = camera.label || 'Camera ' + (index + 1);
+                            var lowerLabel = label.toLowerCase();
+                            var isFront = lowerLabel.indexOf('front') !== -1 || lowerLabel.indexOf('selfie') !== -1;
+                            var isBack = lowerLabel.indexOf('back') !== -1 || lowerLabel.indexOf('rear') !== -1 || lowerLabel.indexOf('environment') !== -1;
+                            
+                            if (isFront) {
+                                label += ' (Front)';
+                            } else if (isBack) {
+                                label += ' (Back)';
+                            }
+                            var option = $('<option></option>').val(camera.deviceId).text(label);
+                            select.append(option);
+                        });
+                        // Restore previous selection if still valid
+                        if (currentValue && select.find('option[value="' + currentValue + '"]').length) {
+                            select.val(currentValue);
+                        } else {
+                            // Default to back camera
+                            var backCamera = self.availableCameras.find(function(c, i) {
+                                var lbl = (c.label || '').toLowerCase();
+                                return lbl.indexOf('back') !== -1 || lbl.indexOf('rear') !== -1 || lbl.indexOf('environment') !== -1 || i === 1;
+                            });
+                            if (backCamera) {
+                                select.val(backCamera.deviceId);
+                            }
+                        }
+                        group.show();
+                    }
+                },
+
+                scan: function() {
+                    var self = this;
+                    if (self.stream && self.video.readyState === self.video.HAVE_ENOUGH_DATA) {
+                        self.context.drawImage(self.video, 0, 0, self.canvas.width, self.canvas.height);
+                        try {
+                            qrcode.decode();
+                        } catch (e) {
+                            // Ignore decode errors, continue scanning
+                        }
+                        self.timeout = setTimeout(function() { self.scan(); }, 500);
+                    } else {
+                        self.timeout = setTimeout(function() { self.scan(); }, 500);
+                    }
+                },
+
+                stop: function() {
+                    if (this.stream) {
+                        this.stream.getVideoTracks().forEach(function(track) { track.stop(); });
+                        this.stream = null;
+                    }
+                    if (this.timeout) {
+                        clearTimeout(this.timeout);
+                        this.timeout = null;
+                    }
+                    if (this.video) {
+                        this.video.srcObject = null;
+                    }
+                },
+
+                setCallback: function(callback) {
+                    var self = this;
+                    qrcode.callback = function(result) {
+                        self.stop();
+                        callback(result);
+                    };
+                }
+            };
+
+            // Expose for modal handlers
+            window.libs = window.libs || {};
+            window.libs.qrcode = {
+                registrationQr: function(modalId, readerId, errorMessage) {
+                    QrScanner.init(readerId);
+                    QrScanner.setCallback(function(data) {
+                        var url = $(window.location).attr('href');
+                        $(window.location).attr('href', url + '/' + data);
+                    });
+                },
+
+                startAutoQr: function(readerId, url, eventRegistrationCode, errorMessage) {
+                    QrScanner.init(readerId);
+                    QrScanner.setCallback(function(data) {
+                        $(window.location).attr('href', url + '/?event_registration_code=' + eventRegistrationCode + '&ticket=' + data);
+                    });
+                },
+
+                qrStart: function(readerId, callback, errorMessage) {
+                    QrScanner.init(readerId);
+                    QrScanner.setCallback(callback);
+                },
+
+                stop: function(readerId) {
+                    QrScanner.stop();
+                }
+            };
+        })();
+
         $(document).ready(function () {
             var errorMessage = '{% trans "There is a problem with the camera. Please, enable access or try manual entry." %}';
 
-            $('#QRModal').on('show.bs.modal', () => {
+            $('#QRModal').on('show.bs.modal', function() {
                 window.libs.qrcode.registrationQr('QRModal', 'qr_reader', errorMessage);
             });
 
-            $('#QRModal').on('hidden.bs.modal', () => {
+            $('#QRModal').on('hidden.bs.modal', function() {
                 window.libs.qrcode.stop('qr_reader');
+                // Reset camera selector for next time
+                $('#cameraSelectorGroup').hide();
+                $('#cameraSelect').empty().append('<option value="">Loading cameras...</option>');
             });
         });
     </script>
