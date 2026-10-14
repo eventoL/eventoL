@@ -107,7 +107,7 @@ class AttendeeAdmin(ExportMixin, EventoLAdmin):
     )
     search_fields = (
         'additional_info',
-        'customFields',
+        'custom_fields',
         'email',
         'first_name',
         'last_name',
