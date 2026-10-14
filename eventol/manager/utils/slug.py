@@ -10,9 +10,9 @@ def get_unique_slug(model_instance, slugable_field_name, slug_field_name):
     slug = slugify(getattr(model_instance, slugable_field_name))
     unique_slug = slug
     extension = 1
-    ModelClass = model_instance.__class__
+    model_class = model_instance.__class__
 
-    while ModelClass._default_manager.filter(**{slug_field_name: unique_slug}).exists():
+    while model_class._default_manager.filter(**{slug_field_name: unique_slug}).exists():
         unique_slug = f'{slug}-{extension}'
         extension += 1
 

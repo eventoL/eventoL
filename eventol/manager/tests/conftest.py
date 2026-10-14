@@ -387,9 +387,10 @@ def web_client():
 
 # FIXME: Monkey patch para compatibilidad de autofixture con Pillow 10+
 if not hasattr(ImageFont.FreeTypeFont, 'getsize'):
+
     def getsize(self, text):
         left, top, right, bottom = self.getbbox(text)
         return (right - left, bottom - top)
-    
+
     ImageFont.FreeTypeFont.getsize = getsize
     ImageFont.ImageFont.getsize = getsize

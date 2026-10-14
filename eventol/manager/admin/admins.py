@@ -1,6 +1,4 @@
-# pylint: disable=no-init
 # pylint: disable=too-few-public-methods
-# pylint: disable=no-self-use
 
 from django.conf import settings
 from django.contrib import admin

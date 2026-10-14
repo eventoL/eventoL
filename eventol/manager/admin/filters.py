@@ -1,7 +1,5 @@
-# pylint: disable=no-self-use
-
 from django.contrib import admin
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext as _
 
 from manager.admin.utils import filter_model_queryset_by_user
@@ -20,7 +18,11 @@ class OwnerFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return get_lookups_tuple(
-            request.user, model_admin.model, User, 'owner__user__username', 'owner__user'
+            request.user,
+            model_admin.model,
+            get_user_model(),
+            'owner__user__username',
+            'owner__user',
         )
 
     def queryset(self, request, queryset):
@@ -36,7 +38,11 @@ class UserFromEventUserFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return get_lookups_tuple(
-            request.user, model_admin.model, User, 'event_user__user__username', 'event_user__user'
+            request.user,
+            model_admin.model,
+            get_user_model(),
+            'event_user__user__username',
+            'event_user__user',
         )
 
     def queryset(self, request, queryset):
@@ -49,7 +55,11 @@ class UserFromEventUserFilter(admin.SimpleListFilter):
 class UserFromEventUserSetFilter(UserFromEventUserFilter):
     def lookups(self, request, model_admin):
         return get_lookups_tuple(
-            request.user, model_admin.model, User, 'eventuser__user__username', 'eventuser__user'
+            request.user,
+            model_admin.model,
+            get_user_model(),
+            'eventuser__user__username',
+            'eventuser__user',
         )
 
     def queryset(self, request, queryset):
@@ -157,7 +167,11 @@ class InstallerFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return get_lookups_tuple(
-            request.user, model_admin.model, User, 'installer__user__username', 'installer__user'
+            request.user,
+            model_admin.model,
+            get_user_model(),
+            'installer__user__username',
+            'installer__user',
         )
 
     def queryset(self, request, queryset):
@@ -173,7 +187,11 @@ class AttendeeFilter(admin.SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return get_lookups_tuple(
-            request.user, model_admin.model, User, 'attendee__user__username', 'attendee__user'
+            request.user,
+            model_admin.model,
+            get_user_model(),
+            'attendee__user__username',
+            'attendee__user',
         )
 
     def queryset(self, request, queryset):

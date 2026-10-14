@@ -11,8 +11,8 @@ from string import ascii_lowercase, ascii_uppercase, digits
 from uuid import uuid4
 
 from allauth.account.models import EmailAddress
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.gis.db.models import PointField
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -304,7 +304,8 @@ class Event(models.Model):
     @property
     def coords(self):
         if self.geom:
-            (lng, lat) = self.geom.coords
+            lng = self.geom.x  # pylint: disable=no-member
+            lat = self.geom.y  # pylint: disable=no-member
 
             return {
                 'geometry': {
@@ -475,7 +476,11 @@ class EventUser(models.Model):
     created_at = models.DateTimeField(_('Created At'), auto_now_add=True)
     updated_at = models.DateTimeField(_('Updated At'), auto_now=True)
     user = models.ForeignKey(
-        User, verbose_name=_('User'), blank=True, null=True, on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        verbose_name=_('User'),
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
     )
     event = models.ForeignKey(Event, verbose_name=_('Event'), on_delete=models.CASCADE)
     ticket = models.ForeignKey(
@@ -708,7 +713,7 @@ class Attendee(models.Model):
     event_user = models.ForeignKey(
         EventUser, verbose_name=_noop('Event User'), blank=True, null=True, on_delete=models.CASCADE
     )
-    customFields = models.JSONField(default=dict)
+    custom_fields = models.JSONField(default=dict)
     allow_contact_or_subscription = models.BooleanField(
         _('Allow Contact or Subscription'),
         default=False,
@@ -1068,9 +1073,9 @@ class Activity(VoteModel, models.Model):
     def schedule(self):
         if self.start_date and self.end_date:
             date = date_format(self.start_date, format='SHORT_DATE_FORMAT', use_l10n=True)
-            return '{} - {} - {}'.format(
-                self.start_date.strftime('%H:%M'), self.end_date.strftime('%H:%M'), date
-            )
+            start_str = self.start_date.strftime('%H:%M')
+            end_str = self.end_date.strftime('%H:%M')
+            return f'{start_str} - {end_str} - {date}'
         return _('Schedule not confirmed yet')
 
     @classmethod
@@ -1236,15 +1241,14 @@ class EventolSetting(models.Model):
 
 
 def userprofile_receiver(sender, instance, created, *args, **kwargs):
-    if created and sender is User and instance.is_superuser:
-        user_object = User.objects.get(email=instance.email)
+    if created and sender is settings.AUTH_USER_MODEL and instance.is_superuser:
+        user_object = settings.AUTH_USER_MODEL.objects.get(email=instance.email)
         email_addres = EmailAddress()
         email_addres.user = user_object
         email_addres.email = user_object.email
         email_addres.verified = True
         email_addres.primary = False
         email_addres.save()
-        return
 
 
-post_save.connect(userprofile_receiver, sender=User)
+post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)

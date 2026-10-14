@@ -1,5 +1,3 @@
-# pylint: disable=no-self-use
-
 import mapwidgets
 from django.conf import settings
 from django.contrib import admin

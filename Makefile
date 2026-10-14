@@ -44,9 +44,13 @@ backend-createsuperuser: ## Run backend create super user
 	cd eventol && python manage.py createsuperuser
 
 backend-lint: ## Run backend linter
+	ruff check eventol/eventol eventol/manager
+	ruff format --check eventol/eventol eventol/manager
 	pylint --output-format=colorized eventol/eventol eventol/manager
 
 backend-lint-with-report: ## Run backend linter and generate report
+	ruff check eventol/eventol eventol/manager
+	ruff format --check eventol/eventol eventol/manager
 	pylint --output-format=colorized --reports yes eventol/eventol eventol/manager
 
 backend-make-translations: ## Update translations files (update .po files)

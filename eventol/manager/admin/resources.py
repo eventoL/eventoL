@@ -1,6 +1,4 @@
-# pylint: disable=no-init
 # pylint: disable=too-few-public-methods
-# pylint: disable=no-self-use
 
 from import_export.fields import Field
 from import_export.resources import ModelResource

@@ -20,8 +20,9 @@ from allauth.utils import build_absolute_uri
 from cairosvg import svg2pdf  # pylint: disable=no-member,no-name-in-module
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import Permission, User
+from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMultiAlternatives
@@ -34,7 +35,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.dateparse import parse_time
 from django.utils.formats import date_format, localize
-from django.utils.translation import gettext
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop as _noop
 from django.utils.version import get_version
@@ -139,18 +139,17 @@ def generate_ticket(user):
 
     exists_first_name = ticket_data['first_name'] is not None
     exists_last_name = ticket_data['last_name'] is not None
+    user_name_l1 = ''
+    user_name_l2 = ''
     if exists_first_name or exists_last_name:
-        user_name_l1 = '{} {}'.format(ticket_data['first_name'], ticket_data['last_name'])
-        user_name_l2 = ''
+        user_name_l1 = f'{ticket_data["first_name"]} {ticket_data["last_name"]}'
         if len(user_name_l1) > 30:
             user_name_l1 = ticket_data['first_name'][:30]
             user_name_l2 = ticket_data['last_name'][:30]
-    elif ticket_data.nickname is not None:
+    elif ticket_data.get('nickname') is not None:
         user_name_l1 = ticket_data['nickname'][:30]
-        user_name_l2 = ''
     elif ticket_data['email'] is not None:
         user_name_l1 = ticket_data['email'][:30]
-        user_name_l2 = ''
 
     ticket_template.set_text('eventUser_name_l1', user_name_l1)
     ticket_template.set_text('eventUser_name_l2', user_name_l2)
@@ -370,13 +369,10 @@ def add_organizer(request, event_slug):
             event_user = form.cleaned_data['event_user']
             if event_user:
                 organizer = create_organizer(event_user)
+                username = organizer.event_user.user.username
                 messages.success(
                     request,
-                    _(
-                        '{} has been successfully added as an Organizer.'.format(
-                            organizer.event_user.user.username
-                        )
-                    ),
+                    _(f'{username} has been successfully added as an Organizer.'),
                 )
             return redirect(reverse('add_organizer', args=[event_slug]))
 
@@ -400,13 +396,10 @@ def add_registration_people(request, event_slug):
             if event_user:
                 Collaborator.objects.get_or_create(event_user=event_user)
                 add_attendance_permission(event_user.user)
+                username = event_user.user.username
                 messages.success(
                     request,
-                    _(
-                        '{} has been successfully added to manage attendance.'.format(
-                            event_user.user.username
-                        )
-                    ),
+                    _(f'{username} has been successfully added to manage attendance.'),
                 )
             return redirect(reverse('add_registration_people', args=[event_slug]))
 
@@ -442,11 +435,7 @@ def add_reviewer(request, event_slug):
                 Reviewer.objects.get_or_create(event_user=event_user)
                 messages.success(
                     request,
-                    _(
-                        '{} has been successfully added as reviewer.'.format(
-                            event_user.user.username
-                        )
-                    ),
+                    _(f'{event_user.user.username} has been successfully added as reviewer.'),
                 )
             return redirect(reverse('add_reviewer', args=[event_slug]))
         messages.error(request, _('Something went wrong (please check form errors)'))
@@ -532,8 +521,8 @@ def attendee_registration_print_code(request, event_slug):
     data = {
         'event_name': event.name,
         'qr_code': code.getvalue(),
-        'self_registration_title': gettext('Self-registration'),
-        'self_registration_text': gettext('Scan this QR code to register yourself'),
+        'self_registration_title': _('Self-registration'),
+        'self_registration_text': _('Scan this QR code to register yourself'),
     }
     template = {
         'text': {
@@ -646,12 +635,8 @@ def attendance_by_autoreadqr(request, event_slug):
             or is_organizer(user, event_slug=event_slug)
         )
     ):
-        return redirect(
-            '{url}/?event_registration_code={event_registration_code}'.format(
-                url=reverse('attendance_by_autoreadqr', args=[event_slug]),
-                event_registration_code=event.registration_code,
-            )
-        )
+        url = reverse('attendance_by_autoreadqr', args=[event_slug])
+        return redirect(f'{url}/?event_registration_code={event.registration_code}')
 
     # Check if reg code is valid
     if (
@@ -1694,7 +1679,8 @@ def event_add_image(request, event_slug):
             messages.success(
                 request,
                 _(
-                    "The event has been updated successfully! We'll contact you at the provided email"
+                    'The event has been updated successfully! '
+                    "We'll contact you at the provided email"
                 ),
             )
             return redirect(reverse('index', args=[event_slug]))
@@ -1909,7 +1895,8 @@ def instance_details(request):
         'python': version,
     }
     events = Event.objects.all().count()
-    users = User.objects.all().count()
+    user_model = get_user_model()
+    users = user_model.objects.all().count()
     return render(
         request,
         'instance_details.html',

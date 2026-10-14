@@ -1,5 +1,4 @@
 # pylint: disable=missing-docstring
-# pylint: disable=W0232
 # pylint: disable=C0103
 # pylint: disable=W0611
 # ruff: noqa: PLW1508
@@ -15,31 +14,31 @@ from easy_thumbnails.conf import Settings as thumbnail_settings
 from easy_thumbnails.optimize.conf import OptimizeSettings
 
 env = environ.Env(
-    DEBUG=(bool, os.getenv('DEBUG', True)),
+    DEBUG=(bool, os.getenv('DEBUG', 'True')),
     DJANGO_SETTINGS_MODULE=(str, os.getenv('DJANGO_SETTINGS_MODULE', 'eventol.settings')),
     DJANGO_CONFIGURATION=(str, os.getenv('DJANGO_CONFIGURATION', 'Dev')),
     LANGUAGE_CODE=(str, os.getenv('LANGUAGE_CODE', 'en-US')),
     TIME_ZONE=(str, os.getenv('TIME_ZONE', 'UTC')),
-    DONT_SET_FILE_UPLOAD_PERMISSIONS=(bool, os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', False)),
+    DONT_SET_FILE_UPLOAD_PERMISSIONS=(bool, os.getenv('DONT_SET_FILE_UPLOAD_PERMISSIONS', 'False')),
     REDIS_HOST=(str, os.getenv('REDIS_HOST', 'redis')),
-    REDIS_PORT=(int, os.getenv('REDIS_PORT', 6379)),
+    REDIS_PORT=(int, os.getenv('REDIS_PORT', '6379')),
     EMAIL_BACKEND=(
         str,
         os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend'),
     ),
     EMAIL_HOST=(str, os.getenv('EMAIL_HOST', 'smtp.unset')),
-    EMAIL_PORT=(int, os.getenv('EMAIL_PORT', 587)),
+    EMAIL_PORT=(int, os.getenv('EMAIL_PORT', '587')),
     EMAIL_HOST_USER=(str, os.getenv('EMAIL_HOST_USER', None)),
     EMAIL_HOST_PASSWORD=(str, os.getenv('EMAIL_HOST_PASSWORD', None)),
-    EMAIL_TIMEOUT=(int, os.getenv('EMAIL_TIMEOUT', 10)),
-    EMAIL_USE_TLS=(bool, os.getenv('EMAIL_USE_TLS', True)),
+    EMAIL_TIMEOUT=(int, os.getenv('EMAIL_TIMEOUT', '10')),
+    EMAIL_USE_TLS=(bool, os.getenv('EMAIL_USE_TLS', 'True')),
     EMAIL_FROM=(str, os.getenv('EMAIL_FROM', 'change_unset@mail.com')),
-    EMAIL_FAIL_SILENTY=(bool, os.getenv('EMAIL_FAIL_SILENTY', False)),
+    EMAIL_FAIL_SILENTY=(bool, os.getenv('EMAIL_FAIL_SILENTY', 'False')),
     DEFAULT_FROM_EMAIL=(str, os.getenv('EMAIL_FROM', 'change_unset@mail.com')),
     ADMIN_TITLE=(str, os.getenv('ADMIN_TITLE', 'EventoL')),
-    PRIVATE_ACTIVITIES=(bool, os.getenv('PRIVATE_ACTIVITIES', True)),
+    PRIVATE_ACTIVITIES=(bool, os.getenv('PRIVATE_ACTIVITIES', 'True')),
     PROTOCOL=(str, os.getenv('PROTOCOL', 'ws')),
-    LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', 25)),
+    LIST_PER_PAGE=(int, os.getenv('LIST_PER_PAGE', '25')),
     SECRET_KEY=(str, os.getenv('SECRET_KEY', '!a44%)(r2!1wp89@ds(tqzpo#f0qgfxomik)a$16v5v@b%)ecu')),
     APP_DNS=(str, os.getenv('APP_DNS', 'localhost')),
     LOG_FILE=(str, os.getenv('LOG_FILE', '/var/log/eventol/eventol.log')),
@@ -48,7 +47,7 @@ env = environ.Env(
     PSQL_USER=(str, os.getenv('PSQL_USER', 'eventol')),
     PSQL_PASSWORD=(str, os.getenv('PSQL_PASSWORD', 'secret')),
     PSQL_HOST=(str, os.getenv('PSQL_HOST', 'localhost')),
-    PSQL_PORT=(int, os.getenv('PSQL_PORT', 5432)),
+    PSQL_PORT=(int, os.getenv('PSQL_PORT', '5432')),
     PSQL_OPTIONS_SSL=(str, os.getenv('PSQL_OPTIONS_SSL', 'prefer')),
     JAZZMIN_SITE_TITLE=(str, os.getenv('JAZZMIN_SITE_TITLE', 'EventoL Admin')),
     JAZZMIN_SITE_HEADER=(str, os.getenv('JAZZMIN_SITE_HEADER', 'EventoL')),
@@ -57,8 +56,8 @@ env = environ.Env(
         str,
         os.getenv('JAZZMIN_WELCOME_SIGN', 'Administration panel of EventoL'),
     ),
-    JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', True)),
-    CELERY_ENABLED=(bool, os.getenv('CELERY_ENABLED', False)),
+    JAZZMIN_LANGUAGE_CHOOSER=(bool, os.getenv('JAZZMIN_LANGUAGE_CHOOSER', 'True')),
+    CELERY_ENABLED=(bool, os.getenv('CELERY_ENABLED', 'False')),
 )
 
 
